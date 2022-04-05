@@ -13,7 +13,7 @@
 
 \usepackage{natbib}
 
-\newenvironment {proof}{{\noindent\bf Proof.}}{\hfill $\Box$ \medskip}
+\newenvironment {proof}{{\noindent\bf Proof }}{\hfill $\Box$ \medskip}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -39,12 +39,24 @@
 \newcommand{\IT}{\mathbb T}
 \newcommand{\IC}{\mathbb C}
 \newcommand{\ind}{\mathbf{1}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\grad}{\nabla}
+
+%%%%%%% notation
+\newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
+\newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
+\newcommand{\covq}{\Sigma}     % covariance matrix of dispersal, times theta
+\newcommand{\kernel}{\varrho}  % interaction kernels
+\newcommand{\smooth}[1]{\kernel_{#1} \! * \!}  % convolution by the interaction kernel
+\newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
+\newcommand{\Lgen}{\mathcal{L}}    % generator of a lineage
+\newcommand{\Pgen}{\mathcal{P}}    % generator of the population process
+
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
 \newcommand{\comment}[1]{{\color{blue} \it #1}}
 
 \begin{document}
-\pagenumbering{arabic} 
 
 \title{\large{\bf
 Looking forwards and backwards through locally regulated populations
@@ -122,6 +134,8 @@ reaction-diffusion equation, travelling waves, genealogies,
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+
+\plr{I have not edited the introduction yet! It's just a pile of words. Skip to the next section.}
 
 \todo[inline]{
 From Terence: Personally, I think the long discussion on porous medium equations distract readers from the main message of our paper - we demonstrated a way to trace genealogy and derive dynamics of ancestral lineage through lookdown construction. I would suggest trimming most of the discussion there and only leaving discussions relevant to ancestries and lineages.}
@@ -229,22 +243,6 @@ e.g.~\cite{feng/iscoe/seppalainen:1997, oelschlaeger:1990}; ours
 is specifically motivated by biological considerations.
 
 
-The porous medium equation with logistic growth is an example of a
-reaction-diffusion equation with a nonlinear diffusion term.
-Such equations are widely used in a number of contexts in biology in which
-it is clear that motility within a population varies with population density.
-For example, density dependent dispersal is a common feature in spatial
-models in ecology, eukaryotic cell biology, and avascular tumour growth;
-see e.g.~\cite{sherratt:2010} and references therein for further discussion. 
-We shall pay particular attention to the case in which the equation can be 
-thought of as modelling the density of an expanding population. 
-The specific equation that we use to illustrate the implications of
-our results is one of a class used to study pattern formation in 
-bacterial colonies. In particular, it has been suggested as a model for
-the expansion of bacteria of the type {\em Paenbacillus dendritiformis} on
-a thin layer of agar in a petri dish, 
-\cite{cohen/golding/kozlovsky/benjacob/ron:1999}. 
-
 
 
 Another novelty of our models stems from the use of lookdown construction to retain the dynamics of lines of descent in our population while passing to a scaling limit. The lookdown construction is first introduced in \cite{donnelly/kurtz:1996} to provide a mechanism to trace lineages while passing through a scaling limit for the Moran model. In more recent works, see~\cite{kurtz/rodrigues:2011, etheridge/kurtz:2018}, lookdown constructions are further applied into models of branching populations with spatial structures. In \S \ref{Sec: Lookdown Constructions}, we follow closely the techniques presented in these papers to impose lookdown constructions for our models which allow us to retain information about ancestry of individuals in the population as we pass to a large population limit. This in turn allows us to write down an explicit expression for the generator of the position of ancestral lineages with respect to the travelling wave fronts for populations modelled by a huge class of semi-linear partial differential equations, see Theorem \ref{teo:ancestral lineages}.
@@ -330,92 +328,294 @@ our superprocess models with nonlinear diffusion
 can be very different from those under 
 the classical Fisher-KPP equation. 
 
+% % % % % % % % % % % % % %
+\subsection{Structure of the paper}
+
+In the paper we study scaling limits of spatial popultaions,
+obtaining convergence of both the population process
+(i.e., the population density as a function of time,
+although strictly speaking it is a measure that may not have a density)
+as well as of lineages traced back through such a population.
+We retain linages through the rescaling process
+by means of a lookdown construction, which adds technical difficulty
+to an already difficult topic.
+Furthermore, convergence results for the lookdown process
+require convergence of the population process.
+So, we do not introduce the lookdown process until Section X.
+
+First, in section X, we describe the model and the main theorems (Theorems X and Y).
+Next, in section X, we discuss a few striking consequences of these results,
+namely, X Y and Z.
+In section X, we provide heuristic explanations
+of why the theorems ought to be true,
+and some key ideas behind them.
+In Section X we define and discuss the lookdown process that retains the levels.
+This is followed by the technical proofs in section X.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notes to ourselves}
+
+\plr{For recording/discussing notation decisions.}
+
+$X$ is the original, unscaled process,
+and $\eta(t) = X(t\theta)/N$.
+
+When the process has a density, it is $\varphi(t, x) = d \eta_t(dx)/dx$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and main results}
 
-\plr{Description of the model:}
+The model we work with is a fairly general model
+of individuals living in continuous space.
+We shall suppose that we start with a population of
+$\bigO(N)$ individuals per unit area distributed in $\mathbb{R}^d$.
+For applications, $d=1$ or $d=2$, but our results apply more generally.
+The population will be distributed over a bounded region,
+so the total number of individuals will also be $\bigO(N)$.
+We describe the state of the population at time $t$
+with a counting measure $X(t)$,
+which assigns one unit of mass to the location of each individual.
+Locations need not be unique, so some locations may have a mass of greater than 1.
 
-\plr{Main results (theorems without lookdowns):}
+It will be simplest to think of the population as evolving in continuous time
+and giving birth to one offspring at a time.
+Population dynamics are controlled by three quantities,
+birth, establishment, and death,
+each of which can depend on spatial location and local population density.
+Each individual gives birth at rate $\gamma$ to a single offspring,
+and the offspring
+then disperses according to a kernel $q(\cdot)$ away from the location of the parent.
+We assume that $q$ is the density of a multivariate Gaussian,
+allowing a nonzero mean and inhomogeneous variance.
+The offspring does not necessarily survive to be counted in the population:
+it ``establishes'' with probability $r$,
+or else it dies immediately.
+Independently, each individual dies with rate $\mu$.
+
+We aim to obtain universal behavior by taking the density, $N$, to infinity,
+and also scaling time by a factor of $\theta$,
+so that defining $\eta(t) = X(\theta t) / N$,
+the process $\{\eta(t)\}_{t \ge 0}$
+will converge to a suitable measure-valued process
+as $N$ and $\theta$ tend to infinity,
+with the nature of the limit depending on how they tend to infinity together.
+Demographic rates in our model
+will be determined by local population density relative to $N$,
+so that population dynamics depend more naturally on $\eta$ (rather than $X$).
+However, to avoid confusion arising from the time scaling,
+we describe the model in terms of $X$ next.
+See Figure~\ref{fig:model_setup} for a conceptual depiction.
+
+\begin{figure}
+    \begin{center}
+        FIGURE
+    \end{center}
+    \caption{
+        Conceptual figure of the model.
+        Left: (cartoon) plot of $\gamma$, $r$, $\mu$, and $F$ against density,
+        showing the equilibrium point.
+        Right: cartoon of interaction and dispersal distances.
+        \label{fig:model_setup}
+    }
+\end{figure}
+
+Birth, establishment, and death can depend on the location of the individual
+and the local population density.
+Since we would like the population density to scale with $N$,
+these are functions of $X/N$, i.e.,
+the counting measure with mass $1/N$ placed at the location of each individual.
+To measure local population density, we convolve the population measure with
+an ``interaction kernel'' -- for simplicity, we take these to be Gaussian
+with various scales, and write
+$$
+    p_{\sigma^2}(x) = \frac{1}{(2 \pi \sigma^2)^{d/2}} e^{-\|x\|^2 / 2 \sigma^2} .
+$$
+Given a nonnegative function $\gamma(x, m) : \IR^d \times \IR_{\ge 0} \to \IR_{\ge 0}$,
+the birth rate of an individual at location $x$ when the state of the population is $X$
+is $\gamma(x, \smooth{\gamma} X(x) / N)$,
+where $\smooth{\gamma} X$ is the convolution of $X$
+with $p_{\epsilon_\gamma^2}$.
+Similarly, the establishment probability of an offspring at location $x$ is
+is $r(x, \smooth{r} X(x) / N)$,
+where $r(x, m) : \IR^d \times \IR_{\ge 0} \to [0, 1]$
+and again $\smooth{r} p_{\epsilon_r^2}$.
+Rather than defining a function $\mu(x, m)$ for the death rate,
+it turns out to be more convenient to parameterize in terms of the net reproductive rate,
+which we denote by $F(x, m)$,
+scaled by $1/\theta$
+so that the population density changes over a time scale of $\theta$,
+i.e., we have ``near-critical branching''.
+Informally, we would like that
+$$
+    F = \theta (r \gamma - \mu) ,
+$$
+and to arrange this we define
+the death rate of an individual at $x$ to be
+\begin{align} \label{eqn:mu_defn}
+    \mu
+    =
+    \max\left\{0, 
+        r(x, \smooth{r} X(x) / N) \gamma(x, \smooth{\gamma} X(x) / N)
+        - \frac{1}{\theta} F(x, \smooth{F} X(x) / N)
+    \right\} ,
+\end{align}
+where again $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR_{\ge 0}$
+and $\kernel_F = p_{\epsilon_F^2}$.
+
+In summary, demographic parameters depend on local density measured
+for birth over a scale of $\epsilon_\gamma$,
+for establishment over a scale of $\epsilon_r$,
+and for net reproductive rate over a scale of $\epsilon_F$.
+Note that death rates depend in principle on population densities at three different scales,
+so that we could write $\mu = \mu(x, \smooth{\gamma} X(x) / N, \smooth{r} X(x) / N, \smooth{F} X(x) / N)$.
+It might seem like
+we have introduced unnecessary complexity
+with these three different spatial scales on which interactions occur.
+However,
+it will turn out to be useful in the proofs to have $\epsilon_r < \epsilon_\gamma$,
+although in the limit they can be taken equal to each other,
+so informally we think of local density as being determined on a scale of $\epsilon$.
+The value of $\epsilon_F$ is unconstrained.
+
+\begin{remark}
+Although this model allows fairly general birth and death mechanisms,
+there are a number of limitations.
+Perhaps most obviously, to simplify the notation
+individuals give birth to only one offspring at a time,
+although this restriction could be easily lifted
+\citep[as in][]{etheridge/kurtz:2018}.
+Furthermore, individuals do not move during their lifetime,
+and the age of an individual does not affect their fecundity or death rates.
+Finally, there is no notion of mating,
+so availability of mates will not restrict the spread of a population,
+and the lineages we follow will be uniparental.
+For these reasons, the model is most obviously applicable to bacterial populations,
+although we do not anticipate that incorporation of these complications
+will change the general picture.
+\end{remark}
+
+We next summarize the dynamics of the rescaled model $\eta(t) = X(\theta t)/N$,
+and state some assumptions on the parameters.
+
+\begin{definition}[Model parameterization and assumptions]
+    \label{def:model_setup}
+    For each $\theta \ge 0$,
+    let $\left(\eta^\theta(t)\right)_{t \ge 0}$
+    be the continuous-time measure-valued Markov process described above
+    with birth rates, establishment probabilities, and death rates
+    determined as follows.
+    Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
+    are bounded, uniformly continuous functions
+    from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
+    Furthermore, suppose $r_\theta$ takes values in $[0, 1]$
+    and has uniformly bounded second derivatives,
+    and that $(x, m) \mapsto m^2 \gamma(x, m)$ is unformly bounded.
+    Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
+    with $\epsilon_r < \epsilon_\gamma - 1/\theta$.
+    Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continous
+    and define
+    \begin{align}
+        \mu(x, \eta)
+        =
+        r(x, \smooth{r} \eta(x))
+        \gamma(\smooth{\gamma} \eta(x))
+        - \frac{1}{\theta}
+        F(x, \smooth{F} \eta(x)) .
+    \end{align}
+    Let $N$ be a positive number determined by $\theta$.
+    When the state of the process is $\eta$,
+    offspring of mass $1/N$ are produced at location $x$
+    with rate $\theta \gamma(x, \smooth{\gamma} \eta(x)) N \eta(dx)$
+    and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta(dx)$,
+    (i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
+    Offspring disperse to a location offset from the parent's location
+    by an independent Gaussian with mean $\meanq/\theta$
+    and covariance matrix $\covq / \theta$;
+    an offspring at $x$ establishes instantaneously
+    with probability $r(x, \smooth{r} \eta(x))$, or else dies.
+\end{definition}
+
+Since we are taking a diffusion limit,
+we will have use for the following notation:
+
+\begin{definition}[Dispersal generator]
+    \label{def:dispersal_generator}
+    Recall that we have defined the dispersal kernel,
+    $q_\theta(x, dy)$,
+    to be the density of a multivariate Normal
+    with mean $\meanq/\theta$ and covariance matrix $\covq/\theta$.
+    This implies that if we define, for $f : \IR^d \to \IR$,
+    \begin{align}
+    \DG f(x) = \sum_i \meanq_i \partial_{x_i} f(x)
+        + \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
+    \end{align}
+    then
+    \begin{align}
+        \theta \int \left(
+            f(y) - f(x)
+        \right) q_\theta(x, dy)
+    \to \DG f(x) 
+        \qquad \text{as } \theta \to \infty .
+    \end{align}
+\end{definition}
+
+\paragraph{Remark:}
+An equivalent way to describe the model
+would be to say that an individual at $x$ gives birth at rate
+$$
+    \gamma(x, \smooth{\gamma} \eta(x))
+    \int r(x, \smooth{r} \eta(y)) q(x, dy) ,
+$$
+and that offspring disperse according to the kernel
+$$
+    q_\theta^\mathfrak{m}(x, dy)
+    :=
+    \frac{
+        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
+    }{
+        \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
+    } .
+$$
+Clearly, the random walk driven by this dispersal kernel
+should be biased towards regions of higher establishment probability.
+For comparison to future results,
+it is interesting to write down the limiting generator:
+\begin{align*}
+    \lim_{\theta \to \infty}
+    \theta \int (f(y) - f(x)) q_\theta^\mathfrak{m}(x, dy)
+    &=
+    \frac{
+        \DG\left[ f(\cdot) r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
+        - 
+        f(\cdot) \DG\left[ r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
+    }{
+        r(x, \smooth{r} \eta(x))
+    } .
+\end{align*}
+In the simplest case of unbiased, isotropic dispersal,
+$\meanq = 0$ and $\covq = I$, so $\DG = \Delta$,
+and this is equal to
+\begin{align*}
+    \Delta f(x) + 2 \grad f(x) \cdot \grad \log r(\cdot, \smooth{r} \eta(\cdot))(x) .
+\end{align*}
+However, we will see that following a lineage back through the population
+has a different behavior yet again.
+
+
+% % % % % % % % % % % % % % %
+\subsection{Main results on population processes}
 
 \comment{
-There are two dichotomies:
+Set-up: there are two dichotomies:
 is the limiting process deterministic or a generalized superprocess?
 See Figure \ref{fig:super_vs_det_2d} for simulations.
 And, are interactions local in the limit or not?
 Below we have results for three of these cases;
-as for the remaining one (local, superprocess)
-TODO: write a note about what happens there (should be possible in 1D, not in higher dimensions).
+as for the remaining one (local, superprocess),
+it should be possible in 1D, not in higher dimensions (brief note).
 }
-
-We shall suppose that we start with a population of
-$\mathcal{O}(N)$ individuals per unit area distributed in $\mathbb{R}^d$.
-In applications we would typically take $\mathbb{R}^2$ or a subset thereof,
-although our mathematical results apply in any spatial dimension.
-We shall denote the state of the population at time $t$ by $\mathcal{S}_t$
-and we shall abuse notation by treating $(\mathcal{S}_t)_{t \geq 0}$
-as both the set of locations of the individuals
-and a counting measure in which each individual has mass $1$, 
-with the understanding that multiple 
-points are treated as distinct individuals.  
-The parameter $N$ will tend to infinity in our scaling limits, and the 
-measure $(\overline{\eta}_t)_{t \geq 0} := (N^{-1} \mathcal{S}_t)_{t \geq 0} $ will converge (weakly) in the space of 
-$\sigma$-finite measures on $\mathbb{R}^d$.
-
-It will be simplest to think of the population as evolving in continuous time
-and giving birth to one offspring at a time.
-The rate at which a juvenile offspring is produced by an individual
-will depend on the local population density.
-We will write $\gamma(x,\overline{\eta})$ for the rate at which an
-individual at location $x$ produces a juvenile offspring
-when the state of the population is $\overline{\eta}$,
-and $q(x,dy)$ for the distribution of the location of the juvenile 
-when the parent is at $x$.
-These offspring do not necessarily survive to be counted in the population:
-we write $r(y, \overline{\eta})$ for the 
-probability of successful establishment (survival to maturity)
-of a juvenile at $y$.
-It is assumed that maturity is achieved instantaneously,
-and we shall only track mature individuals.
-Finally, each mature individual located at the point $x$ dies at 
-instantaneous rate $\mu(x,\overline{\eta})$.
-
-\plr{I moved up the description of the interaction kernel here,
-    so that the whole description of the model is in one place.
-    I think this is good, but: some of our results don't depend on this assumption,
-    which we should make more clear here. And: do we always use the heat kernel
-    for $\varrho$? If so, we should just say so here.  }
-Since we are interested in models where interactions are \emph{local},
-i.e., reproduction, establishment, and death depend only
-on the geographically local environment.
-To this end,
-we suppose that the birth rate of an individual at $x$
-depends on the state of the population only through
-a locally averaged density.
-Concretely,
-given an \emph{interaction distance} $\varepsilon$,
-and a probability density $\varrho$ (the \emph{interaction kernel})
-we will suppose that
-$\gamma(x, \overline{\eta})$, $r(x, \overline{\eta})$, and $\mu(x, \overline{\eta})$
-are functions only of $x$ and
-\begin{align*}
-    \varrho_\varepsilon * \overline{\eta}(x)
-    := \int \varepsilon^{-d} \varrho(x/\varepsilon)(x-y) \overline \eta(dy)
-    .
-\end{align*}
-To make the notation less complex, however,
-we'll not formalize this until later (\S~\ref{sec: Main Theorems on Convergence}).
-
-\begin{remark}
-This model can be easily generalised into one
-in which the number of offspring is drawn from a distribution,
-\parencite[as in][]{etheridge/kurtz:2018}
-and the main statements in our paper will still hold.
-We have adopted this simple birth model
-so we may demonstrate our proof in a more palatable manner.
-\end{remark}
 
 
 \begin{figure}
@@ -430,101 +630,399 @@ so we may demonstrate our proof in a more palatable manner.
     }
 \end{figure}
 
+\begin{theorem} \label{thm:nonlocal_convergence}
+    Let $(\eta^\theta_t)_{t \geq 0}$
+    be as defined in Definition \ref{def:model_setup}
+    and assume that as $\theta \to \infty$, $N \to \infty$
+    in such a way that $\theta/N \to \delta$.
+    (However, interaction distances $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$
+    remain constant.)
 
-\plr{Main theorem 1:}
-
-\begin{theorem}\label{teo: Main Convergence Theorem - non-linear superprocess}
- Let $(\overline{\eta}^{\varepsilon, \theta,N}(t))_{t \geq 0}$ be the re-scaled model defined in Definition \ref{Def: Rescaled Models} and assume that as $\theta \to \infty$, $N \to \infty$, $\varepsilon(\theta)$ remains constant and $\theta/N \to \ell$.\\~\\
-    The sequence of stochastic processes $(\overline{\eta}^{\varepsilon,\theta,N}_t)_{t \geq 0}$ converges weakly (analytically) in distribution as $\theta \to \infty$ to a measure-valued process $(\Xi^\varepsilon_t)_{t \geq 0}$ which satisfies that, for every $f:\mathbb{R}^d \rightarrow \mathbb{R}$,
-\begin{align*} M_t &:= \langle f(x), \Xi^\varepsilon_t(dx) \rangle - \langle f(x), \Xi^\varepsilon_0(dx) \rangle \\ &- \int_0^t \big\langle \gamma(x,\varrho_{\varepsilon}*\Xi^{\epsilon}_{s}(x)) \mathcal{B}(f(\cdot)r(\cdot,\varrho_{\varepsilon}*\Xi^{\epsilon}_{s}(\cdot))(x) + f(x)  F(x,\varrho_{\varepsilon}*\Xi^{\epsilon}_{s}(x)), \Xi^\varepsilon_s(dx) \big\rangle ds, \end{align*}
-is a martingale. The quadratic variation of $M_t$ is given by 
-\begin{align*}
-[ M ]_t = \int_0^t \ell\big\langle\gamma\big(x,\varrho_{\varepsilon}*\Xi^{\epsilon}_{s}(x)\big) r\big(x,\varrho_{\varepsilon}*\Xi^{\epsilon}_{s}(x)\big) f^2(x), \Xi^\varepsilon_s (dx) \big\rangle ds. 
-\end{align*}
-In other words, the limit $(\Xi^\varepsilon_t)_{t \geq 0}$ is a measure-valued process with non-local interactions.
-Furthermore, if $\ell=0$ the limit is deterministic. In that case, if $\overline{\eta}^{\varepsilon,\theta}_0$ possesses a density in $L^2(\mathbb{R}^d)$, and the functions $\gamma$, $F$ are Lipschitz, then $(\overline{\eta}^{\varepsilon,\theta}_t)_{t \geq 0}$ possesses a density in $L^2(\mathbb{R}^d)$ and  $(\overline{\eta}^{\varepsilon,\theta}_t)_{t \geq 0}$ converges to a unique limit $(\Xi^\varepsilon(t))_{t \geq 0}$ with density $\varphi^\varepsilon(t,x)$ that solves (weakly) the mollified PDE of the form
-\begin{equation}\label{Eq: non-local density PDE equation}
-\partial_t \varphi(t,x) = r\big(x,\varrho_{\varepsilon}*\varphi(t,x)\big) \mathcal{B} \Big(\varphi(t,\cdot)\gamma\big(x,\varrho_{\varepsilon}*\varphi(t,\cdot)\big)\Big)(x) + \varphi(t,x) F\big(x,\varrho_{\varepsilon}*\varphi(t,x)\big)    
-\end{equation}
-\end{theorem}
-
-
-\plr{Main theorem 2:}
-
-\begin{theorem}\label{teo: Main Convergence Theorem - local pde limit}
- Assume that $\theta/ N \to 0 $ and assume that $\varepsilon(\theta) \to 0$. The sequence of mollifiers $\varrho_{\varepsilon}$ thus converges weakly to the Dirac delta mass, i.e. 
-$\int_{\mathbb{R}^d} f(x)\varrho_{\varepsilon}(y-x)dx \to f(y)$. Assume furthermore that the following two conditions holds:
-\begin{enumerate}
-    \item The rate at which the local interaction strength $\varepsilon:=\varepsilon(\theta)$, speed $\theta$ and mass $\frac{1}{N(\theta)}$ scale satisfy the Equation 
-\begin{equation} \label{condepsilon}
-\frac{\theta}{N(\theta) \varepsilon(\theta)^{\frac{3 d p}{2}}} + \frac{1}{\theta \varepsilon(\theta)^{\frac{d p}{2}}} \xrightarrow[\theta \rightarrow \infty]{} 0,
-\end{equation}
-
-and $\overline{\eta}^{\varepsilon,\theta,N}_0$ is given by a Poisson point process with mean measure $\varphi_0(x)$.
-    \item As $\varepsilon \to 0$, the sequence of functions $\{\varphi^\varepsilon(t,x): \varepsilon > 0 \}$ defined in Definition \ref{def: Weak solution formulation, mollified version} converges uniformly in space for any fixed time $t > 0$ to the function $\{\varphi(t,x): x \in \mathbb{R}^d, t >0\}$  which solves the partial differential equation 
-    \begin{equation}\label{eq: local PDE limit generalised}
-    \partial_t \varphi(t,x)=r(x,\varphi(t,x))\mathcal{B}\left(\varphi(t,\cdot) \gamma\big(\cdot,\varphi(t,\cdot)\big)\right)(x)+ \varphi(t,x)F\big(x,\varphi(t,x)\big)    
-    \end{equation}
-    with intial condition $\varphi(0,x)=\varphi_0(x)$.
-\end{enumerate}
-Then the sequence of stochastic processes $\{(\overline{\eta}^{\varepsilon, \theta,N}(t))_{t \geq 0}: \varepsilon > 0\}$ converges weakly (analytically) on finite dimensional distributions (in probability) to the deterministic process $\{\varphi(t,x): x \in \mathbb{R}^d, t >0\}$ defined in Equation \eqref{eq: local PDE limit generalised}.
-\end{theorem}
-
-
-\comment{Set-up and motivation for theorem on lineages.}
-In \S \ref{Sec: Lookdown Constructions}, we will introduce a lookdown construction for the model described in \S \ref{sec: individual based model}. A lookdown construction assigns each particle a unique level which enables us to do a richer analysis. The main interest in using a lookdown construction for our
-population processes is that it allows us to retain information 
-about relatedness between individuals as we pass to the infinite
-density limit. In particular, we are able to rigorously establish an equation for the motion of ancestral lineages in our limiting partial differential equation.
- 
-
-Consider a population evolving according to one of our deterministic
-limiting models. We shall restrict ourselves
-to the setting in which the population is expanding as a travelling wave
-through $\IR$, with fixed profile $w(x)$ at rate $\mathfrak{c}$. That is 
-$$\Xi_t(x)=w(x-\mathfrak{c}t),$$
-for some fixed function $w$, and some $\mathfrak{c}\geq0$.  The profile $w$, if it exists, will satisfy
-\begin{equation}
-\label{profile}
-r\Delta(\gamma w)+F(w)+\mathfrak{c}\nabla w=0.
-\end{equation} 
-It is convenient to work in a moving frame so that the wavefront is fixed. In this setting we want to investigate the ancestry line of an individual.\\
-Note that in our model each individual has one parent only. As a result, as we go backwards in time, each individual has one unique ancestor at any time $t$.
-\begin{definition}\label{def: Ancestry Line}
-Let $w$ denote the wavefront of an evolving population that solves (\ref{profile}) and let $y \in supp(\Xi_t)$. We define $(L_s(y))_{s \geq 0}$, the ancestry line of an individual sampled at $y$, to be the position of the unique ancestor of $y$ at unit $s$ backwards in time.\\
-We define $(\hat{T}_s)_{s \geq 0}$ to be the semi-group satisfying
-$$\hat{T}_sf(y):=\mathbb{E}_{y}[f(L_s)]$$ and 
-$\hat{\mathcal{L}}$ to be its corresponding generator. 
-\end{definition}
-The mathematical formulation for $L_s(y)$ will be made explicit once we introduce lookdown construction in \S \ref{Sec: Lookdown Constructions} as it allows us to trace lineages through stochastic differential equations, see \S \ref{sec: stochastic equations for lineages}.
-
-\plr{Main Theorem 3}
-
-\comment{TODO: clarify that this applies to either local or nonlocal population limits}
-
-\begin{theorem} \label{teo:ancestral lineages}
-    Let $w$ denote the wavefront of an evolving population that solves (\ref{profile}).
-    Then the generator $\hat{\mathcal{L}}$ of the motion of an ancestral line of individuals in this population is given by
-    \begin{equation}
-    \label{eq: generator of lineage motions}
-        \hat{\mathcal{L}} \phi
+    The sequence of stochastic processes
+    $(\eta^\theta_t)_{t \geq 0}$
+    converges along subsequences in distribution as $\theta \to \infty$
+    to a measure-valued process $(\eta_t)_{t \geq 0}$
+    which satisfies that, for every $f:\mathbb{R}^d \rightarrow \mathbb{R}$,
+    \begin{align} \label{eqn:mgale_problem}
+        M_t
+        &:=
+        \langle f(x), \eta_t(dx) \rangle
+        -
+        \langle f(x), \eta_0(dx) \rangle
+        \\ & \qquad
+        -
+        \int_0^t \big\langle
+            \gamma(x, \smooth{\gamma} \eta_s(x))
+            \mathcal{B}\left(
+                f(\cdot) r(\cdot, \smooth{r} \eta_s(\cdot))
+            \right)(x)
+            +
+            f(x)
+            F(x, \smooth{F} \eta_s(x)),
+            \eta_s(dx)
+        \big\rangle ds,
+    \end{align}
+    is a martingale.
+    The quadratic variation of $M_t$ is given by 
+    \begin{align} \label{eqn:mgale_variation}
+        [ M ]_t
         =
-        r\gamma\left(\Delta\phi+2\frac{\nabla(\gamma w)}{\gamma w}\nabla\phi\right)
-        +\mathfrak{c} \nabla\phi.
-    \end{equation}
+        \delta
+        \int_0^t
+        \big\langle
+            \gamma\left( x, \smooth{\gamma} \eta_s(x) \right)
+            r\left(x, \smooth{r} \eta_s(x) \right)
+            f^2(x),
+            \eta_s (dx)
+        \big\rangle ds. 
+    \end{align}
+    In other words, the limit is a measure-valued process with non-local interactions.
+    Furthermore, if $\delta = 0$ the limit is deterministic.
 \end{theorem}
 
-\comment{TODO: short note on why it doesn't make sense to do this for a superprocess
-         (it'd be Markov backwards in time given the population history probably,
-         but it would be like a diffusion on a singular, evolving space or something)
+Theorem \ref{thm:nonlocal_convergence} provided convergence along subsequences;
+i.e., for any sequence of values of $\theta$
+there is a subsequence that converges.
+However, if the limiting process is unique then the convergence is unqualified.
+In the deterministic case, we have convergence to a nonlocal PDE.
+\comment{Maybe the following two corollaries should be combined?}
+
+\comment{
+    \textbf{Question:}
+    In our outline
+    we said this corollary would be about uniqueness,
+    but is it also about continuity of the limit (i.e., existence of a density)?
+    A lot of my uncertainty in how to phrase these results
+    comes from being unsure what exactly we can say about densities.
 }
+
+\begin{corollary}[Deterministic limits]
+    \label{cor:nonlocal_pde_limits}
+    In the context of Theorem~\ref{thm:nonlocal_convergence},
+    if the limit is deterministic (i.e., $\theta / N \to \delta = 0$), $\eta_0$ has a density,
+    and \comment{additional conditions? can we say something like this??}
+    then any limit $\eta_t(dx)$ has a density $\varphi(t, x)$,
+    which is a weak solution to the nonlocal partial differential equation
+    \begin{equation} \label{eqn:nonlocal_pde}
+        \partial_t \varphi(t, x)
+        =
+        r\left(x, \smooth{r} \varphi(t,x) \right)
+        \mathcal{B} \left[
+            \varphi(t, \cdot)
+            \gamma\big( x, \smooth{\gamma} \varphi(t, \cdot) \big)
+        \right](x)
+        +
+        \varphi(t, x)
+        F\left(x, \smooth{F} \varphi(t,x) \right)
+        .
+    \end{equation}
+    If equation \eqref{eqn:nonlocal_pde} has a unique solution,
+    then $(\eta^\theta_t)_{t \ge 0}$ converges to that solution.
+
+    In particular, if
+    \comment{TODO: find some conditions under which this is true?}
+    then we have convergence to a unique solution.
+\end{corollary}
+
+Informally, equation \eqref{eqn:nonlocal_pde} is the PDE
+\begin{align} \label{eqn:pde}
+    \dot \varphi = r \DG\left( \gamma \varphi \right) + \varphi F ,
+\end{align}
+where $\DG$ is an elliptic second order differential operator,
+and the coefficients $r$, $\gamma$, and $F$
+at $x$ depend nonlocally on $\varphi$
+(i.e., through a smoothed version of $\varphi$).
+
+\begin{corollary}[Superprocess limits] \label{cor:superprocess_uniqueness}
+    In the context of Theorem~\ref{thm:nonlocal_convergence},
+    if the martingale problem
+    defined by equations \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}
+    has a unique solution,
+    then $(\eta^\theta(t))_{t \ge 0}$ converges to that solution
+    as $\theta \to \infty$.
+    \comment{
+        Is this what we want to say here? Could be said better.
+        TODO: see what Dawson \& Li say about uniqueness
+        so we have at least some conditions under which this happens.
+    }
+\end{corollary}
+
+Theorem~\ref{thm:nonlocal_convergence} shows convergence to the solution to a nonlocal PDE
+of the form \eqref{eqn:nonlocal_pde}.
+Since the coefficients at $x$ in \eqref{eqn:nonlocal_pde}
+depend only on the region nearby to $x$,
+we would often expect solutions of the nonlocal PDE to be close to the corresponding local PDE
+as the interaction distances $\epsilon_r$, $\epsilon_\gamma$ and $\epsilon_F$
+go to zero.
+The following propositions give two concrete situations in which that is true.
+
+\comment{I've not got straight exactly how we're framing this
+    (namely, does $\eta$ have a density?).
+    Also, is this one or two propositions --
+    we said initially this would be two,
+    one for FKPP and one for PME,
+    but then maybe the argument was more general?
+}
+
+\begin{proposition}
+    \label{prop:nonlocal_to_local}
+    Suppose that $\eta_\epsilon(t,dx)$ is a solution to equation \eqref{eqn:nonlocal_pde}
+    with $r(x, m) = 1$ for all $x$ and $m$
+    and some $\epsilon_r < \epsilon_\gamma = \epsilon_F = \epsilon$
+    \comment{and assumptions on $\gamma$? and $F$?}.
+    Then $\eta_\epsilon(t, dx)$ converges \comment{in what sense?} as $\epsilon \to 0$
+    to $u(t, x) dx$, which solves
+    \begin{align} \label{eqn:PDE}
+        \partial_t u(t, x)
+        =
+        \DG \left( \gamma(\cdot, u(t, \cdot) u(t, \cdot)  \right)(x)
+        + F(x, u(t, x)) u(t, x) .
+    \end{align}
+\end{proposition}
+
+Theorem \ref{thm:nonlocal_convergence} combined with Proposition \ref{prop:nonlocal_to_local}
+imply that we can take the $\theta \to \infty$ limit
+followed by $\epsilon \to 0$
+to obtain solutions to the PDE \eqref{eqn:PDE}.
+However, it is of substantial interest to know whether
+we can take those two limit simultaneously.
+The general case seems difficult,
+but we can prove such ``diagonal'' convergence in the following situation.
+
+\begin{theorem}[Convergence to a PDE]
+    \label{thm:local_convergence}
+    Let $(\eta^\theta_t)_{t \geq 0}$
+    be as defined in Definition \ref{def:model_setup}
+    and assume that as $\theta \to \infty$, $N \to \infty$
+    and $\epsilon_r < \epsilon_\gamma = \epsilon_F = \epsilon \to 0$
+    in such a way that $\theta/N \to 0$
+    and
+    \comment{TODO: some conditions on $\epsilon$ and $r$ and $\gamma$ and $F$}.
+    Then the sequence of stochastic processes $(\eta^\theta_t)_{t \ge 0}$
+    converges \comment{in some sense}
+    to a measure-valued process with a density $\varphi(t, x)$
+    that solves
+    \begin{align}
+        \partial_t \varphi(t, x)
+        &=
+        \text{whatever the final form is here} .
+    \end{align}
+\end{theorem}
+
+
+% % % % % % % % % % % %
+\subsection{Main results on lineages}
+
+Now that we have established what we can say about how population density changes with time,
+we turn to results on ancestral lineages,
+i.e., how genealogical ancestry moves across the landscape.
+Informally,
+a \emph{lineage} $(L_t)_{t \ge 0}$
+begun at spatial location $L_0 = x$
+can be obtained by picking a focal individual uniformly at $x$,
+and then for each amount of time $t$ in the past,
+setting $L_t$ to the spatial location of the individual from whom
+the focal individual inherits.
+Since in our model individuals have only one parent, this is unambiguous.
+Although we did not explicitly retain such information,
+it is clear that
+for finite $\theta$ (and hence, finite $N$),
+one could construct the distribution of a lineage $(L_t)_{t=0}^T$
+given the history of the population $(\eta^\theta_t)_{t = 0}^T$,
+for each starting location to which $\eta^\theta_T$ assigns positive mass.
+It is less clear, however, how to formally retain such information in the limit.
+The \emph{lookdown construction} in Section~\ref{sec:lookdown}
+provides just such a construction,
+where lineages are retained in the $N \to \infty$ limit.
+Roughly speaking,
+this works by assigning to each particle a unique ``level''
+that functions as a label and thus allows reconstruction of lineages,
+but also (in some sense) orders individuals by eventual reproductive output,
+allowing a formal limit.
+See~\ref{etheridge/kurtz:2018} for an introduction to these ideas.
+
+A lineage is, in general, a well-defined stochastic process,
+but there are two important questions
+that affect its tractability.
+First, when is it a Markov process given the population process?
+(I.e., given $(\eta_t)_{t=0^T}$ that records numbers of individuals
+but not their ancestry.)
+We expect the answer here to be that a lineage is Markov
+only in the $N \to \infty$ limit.
+\comment{(or, do we know this? we can cite Barton, Depaulis and Etheridge at least for discussion.)}
+Second, does the process have a tractable description?
+If the population process has a density,
+then it turns out that a lineage is a diffusion driven by the density.
+The remaining case is the superprocess limit ($\theta/N \to \delta > 0$);
+in this case, we expect that a lineage could still be described as a generalized diffusion,
+but moving within a stochastic landscape that is singular in $d \ge 2$.
+We focus on the more tractable situation where the population process is deterministic.
+However, the results here apply to either the local or nonlocal case
+(i.e., where the density solves a local or nonlocal PDE).
+
+\comment{
+    \textbf{Note:} the previous write-up motivated things only in the time-stationary case
+    (so, a stationary traveling wave, possibly with wave speed zero;
+    see the corollary below).
+    It'd be very nice to give this more general result,
+    but the proof has to be checked to make sure it still applies,
+    and the notation is time-inhomogeneous and so more annoying
+}
+
+
+\begin{definition}[Generator of a lineage] \label{def:lineage_generator}
+    Let $(\varphi(x, t))_{0 \le t \le T}$
+    denote the density of a population that solves \eqref{eqn:nonlocal_pde},
+    and let $y$ be a point with $\varphi(y, T) > 0$.
+    We define $(L_s(y))_{s=0}^T$,
+    the ancestral lineage of an individual sampled at $y$ at time $T$,
+    to be the position of the unique ancestor of $y$ alive at time $T - s$.
+    We define
+    $(Q_s)_{s \geq 0}$
+    to be the time inhomogeneous semi-group satisfying
+    \begin{align*}
+        Q_s f(y) := \IE_y[ f(L_s) ] ,
+    \end{align*}
+    and $\Lgen_s$ to be the generator of this semi-group.
+\end{definition}
+
+Our main result identifies a lineage as a diffusion
+by characterizing its generator.
+To avoid complexity,
+we do this in the case where dispersal is $N(\meanq/\theta, \sigma^2 I/\theta)$,
+in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
+
+\comment{
+    Allowing a more general dispersal mechanism won't just entail replacing $\Delta$ with $\DG$,
+    it will also change at least one of the $\grad$s to something else (I think).
+}
+
+\begin{theorem} \label{thm:lineages}
+    In the context of Definition~\ref{def:lineage_generator},
+    if the dispersal process is isotropic (i.e., $\covq = \sigma^2 I$),
+    then
+    \begin{equation}
+        \label{eqn:lineage_generator}
+        \Lgen_s f
+        =
+        \sigma^2 r \gamma
+        \left(
+            \Delta f
+            +
+            \left(
+                2 \grad \log(\gamma \varphi)
+                - \meanq
+            \right)
+            \cdot \grad f
+        \right) .
+    \end{equation}
+    In other words, 
+    a lineage behaves as a diffusion
+    that is driven by a Brownian motion 
+    run at speed $\sigma^2$ multiplied by the local per-capita production of offspring ($r \gamma$)
+    in a potential equal to the local birth output tilted by migraiton bias
+    ($\varphi \gamma \exp(-\meanq \cdot x / 2 \sigma^2)$).
+\end{theorem}
+
+To make the generator readable, we've written it in concise notation,
+omitting the dependencies on location and population density,
+which itself changes with time.
+When interpreting this,
+remember that everything depends on location and density at that location and time --
+for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
+
+\comment{This corollary was the previous theorem in the previous draft.
+    Besides this proposed set-up, we have the additional options of
+    (a) renaming the corollary a theorem and only proving it,
+    or (b) presenting only the corollary here (as a theorem)
+    and presenting the more general theorem later on.
+}
+
+\begin{corollary} \label{cor:wavefront}
+    In addition to the assumptions of Theorem~\ref{thm:lineages},
+    suppose that the population process is described by a traveling wave with speed $\wavespeed$,
+    i.e., the population has density
+    $\varphi(t, x) = w(x - t \wavespeed)$
+    where $w$ solves
+    \begin{align*}
+        r \Delta (\gamma w) + w F(w) + \wavespeed \cdot \grad w = 0 .
+    \end{align*}
+    Then the generator $\Lgen$
+    of the motion of a linages in this population is
+    \begin{align}
+        \Lgen f
+        &=
+        r \gamma
+        \left(
+            \Delta f
+            +
+            2 \grad \log (\gamma w)
+            \cdot \grad f
+        \right)
+        + \wavespeed \cdot \grad f .
+    \end{align}
+\end{corollary}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Examples and applications}
 
+Next,
+we cover some illustrative examples
+and interesting applications.
+
 % % % % % % % % % % % %
-\subsection{A nonlinear diffusive population: the Porous medium equation}
+\subsection{A nonlinear diffusive population: the Porous Medium Equation}
+
+\comment{
+    This section:
+    model set-up including the limit;
+    comparison of the simulation profile to deterministic solution.
+    See Figure \ref{fig:pme_waves}.
+}
+
+Consider the porous medium equation (PME) with logistic growth,
+\begin{equation}
+    \label{eqn:pme}
+    \partial_t v = \partial_x^2 (v^2) + v (1 - v) ,
+\end{equation}
+an example of a reaction-diffusion equation with a nonlinear diffusion term.
+Such equations are widely used in a number of contexts in biology in which
+it is clear that motility within a population varies with population density.
+For example, density dependent dispersal is a common feature in spatial
+models in ecology, eukaryotic cell biology, and avascular tumour growth;
+see e.g.~\cite{sherratt:2010} and references therein for further discussion. 
+We shall pay particular attention to the case in which the equation can be 
+thought of as modelling the density of an expanding population. 
+The specific equation that we use to illustrate the implications of
+our results is one of a class used to study pattern formation in 
+bacterial colonies. In particular, it has been suggested as a model for
+the expansion of bacteria of the type {\em Paenbacillus dendritiformis} on
+a thin layer of agar in a petri dish, 
+\cite{cohen/golding/kozlovsky/benjacob/ron:1999}. 
+
+Comparing \eqref{eqn:pme} to \eqref{eqn:pde},
+we see that to set up a limit in which the population density $\varphi$ follows the PME,
+we need $r=1$,
+$\gamma = \varphi$, and $F = 1 - \varphi$.
+Consulting equation~\eqref{eqn:mu_defn},
+we then need death rate to be $\mu = (1 + 1/\theta) \varphi - 1/\varphi$.
+In other words,
+establishment is certain
+and birth rates to increase linearly with population density,
+but to compensate, death rates increase slightly faster (also linearly),
+as shown in Figure~\ref{fig:pme_waves}.
+Alert readers will notice that this violates our boundedness assumptions;
+\comment{(perhaps this is too much detail here)}
+in practice we choose a suitably small value for $\beta$ and define
+\begin{align*}
+    \gamma(x, m) &= (1 - \exp(- \beta m)) / \beta \\
+    F(x, m) &= \exp(- \beta m) / \beta ,
+\end{align*}
+which in turn implies that death rate when local density is $m$
+is roughly $(1 + 1/\theta) (1 - \exp(-\beta m)) / \beta - 1/(\theta \beta)$.
+Birth and death rates are equal at density $m = 1$,
+corresponding to an unscaled density of $N$ individuals per unit area.
 
 \begin{figure}
     \begin{center}
@@ -539,21 +1037,36 @@ The mathematical formulation for $L_s(y)$ will be made explicit once we introduc
     }
 \end{figure}
 
-\comment{
-    Model set-up including the limit;
-    comparison of the simulation profile to deterministic solution.
-    See Figure \ref{fig:pme_waves}.
-}
+This equation has an explicit travelling wave solution
+\begin{align} \label{eqn:pme_wave}
+    w^P(t, x)
+    :=
+    \left( 1 - e^{ \frac{1}{2} (x - x_0 - t) } \right)_+ .
+\end{align}
+Notice that the wave profile has a sharp boundary at $x = x_0 + t$.
+There are also travelling wave solutions with $c>1$ \citep{gilding/kersner:2005},
+which lack this property.
+However, for initial conditions that decay sufficiently rapidly at infinity,
+such as one might use in modelling a population invading new territory,
+the solution converges to \eqref{eqn:pme_wave} \citep{kamin/rosenau:2004}.
+
+Indeed, simulations of this process
+shown in Figure~\ref{fig:pme_waves}
+display traveling wave solutions
+similar to numerical solutions of the PME,
+with increasingly good agreement for larger $\theta$ and $N$.
+As expected, noise slows down the wave.
+
 
 % % % % % % % % % % % %
-\subsection{Traveling waves: FKPP versus PME}
+\subsection{Traveling waves}
 
 \begin{figure}
     \begin{center}
         FIGURE
     \end{center}
     \caption{
-        Four panels: left pair for FKPP, right for PME.
+        Six panels: one pair for FKPP, one for PME, and one for Allen-Cahn.
         Each pair shows (top) lineage traced back in wavefront,
         and (bottom) stationary distribution of lineage location,
         compared to analytical solution for PME.
@@ -562,94 +1075,136 @@ The mathematical formulation for $L_s(y)$ will be made explicit once we introduc
 \end{figure}
 
 \comment{
-    Explain generator in stationary frame;
+    This section:
+    explain generator in stationary frame;
     derive stationary distribution;
     introduce FKPP;
     compute for PME and FKPP.
     (Also: Allen-Cahn example?)
     The two cases are very different, as shown in Figure \ref{fig:pme_vs_fkpp}.
 }
-\plr{Merge the following examples, moving introduction of PME to previous section}
 
-Let us investigate the motion of an ancestral lineage in special
-cases in which we have an explicit expression for the travelling
+It is interesting to investigate the motion of an ancestral lineage
+in special cases in which we have an explicit expression for the travelling
 wave profile $w$. 
 
-\plr{PME:}
-Consider the porous medium equation with logistic
-growth,
-\begin{equation}
-\label{travelling wave}
-v_t=(v^2)_{xx}+v(1-v).
-\end{equation}
-This equation has an explicit travelling wave solution
-$$w^P(t,x)=\left(1-e^{\frac{1}{2}(x-x_0-t)}\right)_+.$$
-Notice that this profile has a sharp boundary at $x=x_0+t$.
-There are also travelling wave solutions with $c>1$,
-\cite{gilding/kersner:2005}, which lack this property. However, for 
-initial conditions that decay sufficiently rapidly at infinity,
-such as one might use in modelling a population invading new territory,
-the solution converges to~(\ref{travelling wave}), 
-\cite{kamin/rosenau:2004}.
+%%%%%%%%%%
+\paragraph{Porous Media:}
+Setting $x_0=0$ (for definiteness) and substituting
+the form of $w^P$ from equation \eqref{eqn:pme_wave}
+into Corollary~\ref{cor:wavefront},
+with $c=1$,
+$\gamma(x, m) = m$,
+$r(x,w) = 1$,
+and $F(x, m) = (1 - m)$,
+the lineage's generator is, for $x < 0$,
+\comment{(need to decide whether to use $f_x$ or $\delta_x f$)}
+\begin{align*}
+    \Lgen f
+    &=
+        w(x)
+        \left(
+         f_{xx}
+         +
+         2 \frac{(w^2)_x}{w^2} f_x
+        \right)
+        + f_x \\
+    &=
+        \left(1 - e^{\frac{1}{2} x} \right)
+        f_{xx}
+        -
+        2 e^{\frac{1}{2} x} f_x
+        +
+        f_x .
+\end{align*}
+The speed measure corresponding to this diffusion is,
+again for $x < 0$,
+\begin{align*}
+    m(d\xi)
+    &\propto
+        \frac{ 1 }{ 2 (1 - \exp{\xi/2}) }
+        \exp\left(
+            \int_\eta^\xi \left\{
+                1 - \frac{e^{x/2}}{1 - e^{x/2}}
+            \right\} dx
+        \right) \\
+    &\propto
+        e^\xi\left(1-e^{\xi/2}\right),
+        \quad
+        \text{for } \xi < 0 ,
+\end{align*}
+which is integrable and so when suitably normalised gives the unique stationary distribution.
+Notice that at stationarity
+the lineage will typically be significantly behind the front. 
 
-Setting $x_0=0$ (for definiteness) and substituting 
-$w(x)=(1-e^{x/2})_+$ in our equation for the generator of the
-motion of an ancestral
-lineage relative to the wavefront, we find that since
-in this setting $c=1$,
-$\gamma(x,w)=w(x)$, $r(x,w)=1$, and $F(w)=w(1-w)$,
-the lineage follows the diffusion with generator
-$$\hat{\mathcal L}\phi=w(x)\left(\phi_{xx}+2\frac{(w^2)_x}{w^2}\phi_x\right)
-+\phi_x
-=\left(1-e^{\frac{1}{2}x}\right)\phi_{xx}-2e^{\frac{1}{2}x}\phi_x+
-\phi_x\qquad\mbox{on }x<0.$$
-The speed measure corresponding to this diffusion is 
-$$m(d\xi)\propto\frac{1}{2(1-\exp{\xi/2})}
-\exp\left(\int_\eta^\xi\left\{1-\frac{e^{x/2}}{1-e^{x/2}}\right\}dx\right)
-\propto e^\xi\left(1-e^{\xi/2}\right),
-\quad\mbox{$\xi<0$},$$
-which is integrable and so when suitably normalised gives the unique
-stationary distribution. Notice that at stationarity
-the lineage will typically be 
-significantly behind the front. 
-
-\plr{FKPP:}
-This behaviour of all this ancestral lineages can be compared to the classical
-Fisher-KPP equation.
-Under the classical Fisher-KPP equation, the generator of the motion
-of ancestral lineages can be deduced from 
-exactly the same arguments. 
-The equation
-$$v_t=v_{xx}+v(1-v),$$
-has non-negative travelling wave solutions for all $c\geq 2$, 
+%%%%%%%%%%
+\paragraph{Fisher--KPP:}
+A great deal more attention has been paid to the classical Fisher-KPP equation,
+\begin{align} \label{eqn:fkpp}
+    v_t = v_{xx} + v (1-v) .
+\end{align}
+In this case,
+even though we do not have an explicit formula for the wave shape,
+these methods give us information about ancestral lineages.
+The equation has non-negative travelling wave solutions of speed $c$ for all $c \geq 2$, 
 but started from any compact perturbation of a Heaviside function, the 
-solution will converge to the one with the minimal wavespeed, $c=2$,
-\cite{kolmogorov/petrovsky/piscounov:1937, bramson:1983}.
-No matter what the initial condition, for any $t>0$ the support of the 
-solution will be the whole real line.  In the front the wave profile 
-$w^F(x)\sim e^{-x}$.
-The generator of the motion of an ancestral lineage is
-$$\hat{\mathcal L}\phi=\phi_{xx}+2\frac{w_x}{w}\phi_x+2\phi_x,\qquad
-\mbox{on }(-\infty,\infty).$$
-Near the tip of the wave ($x$ very big) we have $w^F(x) \sim e^{-x}$ and $w_x^F(x) \sim -e^{-x}$, so
-the motion of the lineage
-is close to Brownian motion. Whereas in 
-the bulk (where $w^F_x\approx 0$) it is approximately Brownian motion 
-with drift at rate two to the right. Ancestral lineages are pushed into
-the tip of the wave. 
-We remark that, even though we do not have an explicit formula for the wave of the travelling front in this case, we can still analyse and get information of the ancestral lineages.
+solution will converge to the profile $w^F$ with the minimal wavespeed, $c=2$,
+\cite{kolmogorov/petrovsky/piscounov:1937,bramson:1983}.
+No matter what the initial condition,
+for any $t>0$ the support of the 
+solution will be the whole real line. 
+Since in ths case, $r = \gamma = 1$,
+the generator of the motion of an ancestral lineage is
+$$
+    \Lgen \phi
+    =
+    \phi_{xx} + 2 \frac{w_x}{w} \phi_x + 2 \phi_x .
+$$
+Near the tip of the wave (for $x$ large), $w^F(x) \sim e^{-x}$,
+so the motion of the lineage is close to Brownian motion.
+On the other hand, for $x < 0$ the lineage behaves approximately as
+Brownian motion with drift at rate two to the right.
+This implies that
+ancestral lineages are pushed into the tip of the wave,
+and there is no stationary distribution.
+These results agree with those of \comment{XXX}.
 
 
-\plr{Include the following as a third comparison?}
-We can extend this type of analysis to other equations that are biologically relevant. For example, we now take the following Allen-Cahn equation
-\[ v_t = v_{xx} + v(1-v)(2v-1+s), \]
-for some $s \in (0,2)$, which is used to model population evolving under selection \cite{Sarah}. This equation have an explicit travelling wave solutions $\Xi_t(x) = w^A(x-st)$, where $w$ is given by
+%%%%%%%%%%
+\paragraph{Allen-Cahn:}
+Finally, we take the Allen-Cahn equation
+\begin{align} \label{eqn:allen_cahn}
+    v_t = v_{xx} + v(1-v)(2v-1+s),
+\end{align}
+for a given $s \in (0,2)$,
+which is used to model populations evolving under selection \cite{Sarah}.
+This equation also has an explicit travelling wave solution
+of shape
 \[ w^A(x) = (1+e^{x})^{-1}. \]
-By Theorem \ref{teo:ancestral lineages} the ancestral lineage under this moving frame has generator
-\[ \hat{\mathcal{L}}\phi = \phi_{xx}+2 \frac{w_x}{w} \phi_x + s \nabla \phi =  \phi_{xx}-2 \frac{e^x}{1+e^x} \phi_x + s \nabla \phi, \]
-lineages in the tip are pushed into the bulk of the wave by the drift $-2(e^{-x}+1)^{-1}$, but that drift gets weaker the deeper we go into the wave. This diffusion has speed measure
-\[ m(d\xi) \propto e^{sx}(1+e^x)^{-2}  \] 
-which is concentrated around $\log(s/(2-s))$ and decay like $e^{x(s-2)}$ away from that. We note the result above the for the Allen-Cahn are not new, we have just recovered what can be found in \cite{etheridge/penington:2020}.
+The generator for ancestral lineages is, in this case,
+\begin{align*}
+    \hat{\mathcal{L}}\phi
+    &=
+    \phi_{xx}
+    + 
+    2 \frac{w_x}{w} \phi_x
+    +
+    s \nabla \phi \\
+    \qquad &=
+    \phi_{xx}
+    -
+    2 \frac{e^x}{1+e^x} \phi_x 
+    + 
+    s \nabla \phi,
+\end{align*}
+so lineages in the tip are pushed into the bulk of the wave by the drift $-2(e^{-x}+1)^{-1}$,
+but that drift gets weaker further to the left.
+This diffusion has speed measure
+$$
+    m(d\xi) \propto e^{sx}(1+e^x)^{-2},
+$$
+which is concentrated around $\log(s/(2-s))$ and decays like $e^{x(s-2)}$ away from this point.
+These results agree with those of \cite{etheridge/penington:2020}.
 
 
 % % % % % % % % % % % % % % % %
@@ -695,294 +1250,256 @@ because there death rate is higher, but also is the establishment of new individ
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Heuristics}
+    \label{sec:heuristics}
 
 % % % % % % % % % % % % % % % % % %
 \subsection{Population processes}
+    \label{sec:population_heuristics}
 
-Here we present a formal generator calculation which identifies the scaling
-limits that appear in our main results and may be more accessible than our 
-calculations with the lookdown construction.
-For this purpose, we consider two scaling parameters, $N$ and $\theta$;
-we shall start with ${\mathcal O}(N)$ individuals per unit area,
-each of mass $1/N$,
-and we measure time in units of $\theta$ generations,
-so that each individual reproduces at rate $\theta$
-and disperses juveniles a distance of order $1/\sqrt{\theta}$.
-Both $N$ and $\theta$ will tend to infinity in our scaling limits
-and we retain different notations in our
-heuristic arguments to disentangle their effects.
-The functions of $q, r, \gamma, \mu$
-can all depend upon the time scaling $\theta$.
-Indeed, by analogy with the classical superprocess,
-in order to obtain a nontrivial limit, 
-we expect to need to assume that the branching is close to critical, with the
-difference between birth and death rates proportional to $1/\theta$.
+\comment{TODO: short lead-in}
 
-We write ${\cal L}_{(\theta, N)}$ for the generator of the scaled 
-population process acting
+We write $\Pgen^\theta$
+for the generator of the scaled population process $\eta$ acting
 on test functions of the form 
 $$
-    \mathcal{F}(\langle f,\overline{\eta}\rangle)
-    :=
-    \mathcal{F}\left(\int f(x)\overline{\eta}(dx)\right),
+    F( \langle f, \eta\rangle )
+    =
+    F \left( \int f(x)\eta(dx) \right),
 $$
-where $f\geq 0$ is smooth and compactly supported on $\mathbb{R}^d$ and 
-$ \mathcal{F} \in C^\infty ([0,\infty))$.
+where $f \geq 0$ is smooth and compactly supported on $\IR^d$ and 
+$F \in C^\infty ([0,\infty))$.
+Recall that $N \to \infty$ along with $\theta$,
+although we don't remind the reader with extra superscripts.
+
 
 A Taylor expansion allows us to write
-\begin{align}
-    {\cal L}_{(\theta, N)} \mathcal{F}(\langle f,\overline{\eta}\rangle)
-    &=
-     \mathcal{F}'(\langle f,\overline{\eta}\rangle)
-    \lim_{\delta t\downarrow 0}\frac{1}{\delta t}
-    \mathbb{E}\left[ \left.
-            \langle f, \overline{\eta}_{\delta t} \rangle -
-            \langle f, \overline{\eta} \rangle
-            \right|
-            \overline{\eta}_0 = \overline{\eta}
-        \right] \nonumber \\
-    & {}
+\begin{multline*}
+    \Pgen^\theta
+    F(\langle f,\eta \rangle)
+    =
+    F'(\langle f, \eta \rangle)
+    \lim_{\delta t\downarrow 0} \frac{1}{\delta t}
+    \IE\left[
+        \left. \langle f, \eta_{\delta t} \rangle
+        -
+        \langle f, \eta \rangle
+        \right| \eta_0=\eta
+    \right]
+    \\
+    \qquad {}
     + \frac{1}{2}
-        \mathcal{F}''(\langle f,\overline{\eta}\rangle)
-        \lim_{\delta t\downarrow 0}\frac{1}{\delta t}
-        \mathbb{E}\left[\left.
-            \big(\langle f,\overline{\eta}_{\delta t}\rangle -
-            \langle f, \overline{\eta}\rangle\big)^2 \right|\overline{\eta}_0=\overline{\eta}
-        \right]
-    + \varepsilon_{\theta, N}(f, F, \overline{\eta}) ,
-    \label{eq:expanmeanvar}
-\end{align}
+        F''(\langle f,\eta\rangle)
+    \lim_{\delta t\downarrow 0}\frac{1}{\delta t}
+    \IE\left[
+        \left.\big(\langle f,\eta_{\delta t}\rangle
+        -
+        \langle f, \eta\rangle\big)^2 \right|\eta_0=\eta
+    \right]
+    +
+    \varepsilon_{\theta}(f, F, \eta),
+\end{multline*}
 where the terms that make up 
-$\varepsilon_{\theta, N}(f, F, \overline{\eta})$
+$\varepsilon_{\theta, N}(f, F, \eta)$
 will be negligible in our scaling limit. 
 
-
-% % % % % % % % % % % % % % % %
-\subsubsection*{Mean Measure}
+\subsubsection*{Mean measure}
 
 Consider first the mean measure. For a suitable 
 (smooth, compactly supported) test function $f$, we find
-\begin{multline} \label{mean measure}
-    {\cal L}_{(\theta, N)}\langle f, \overline{\eta} \rangle
-    =
-    \lim_{\delta t\downarrow 0}\frac{1}{\delta t}
-        \mathbb{E}\left[\left.
-            \langle f,\overline{\eta}_{\delta t}\rangle -
-            \langle f, \overline{\eta}\rangle
-            \right| \overline{\eta}_0=\overline{\eta}
-        \right]\\
-    =
-    \theta\int\int
-            f(z) r_\theta(z,\overline{\eta}) q_\theta(x,dz)
-        \gamma_\theta(x,\overline{\eta})
-    \overline{\eta}(dx)
-    -
-    \theta\int
-        f(x)\mu_\theta(x,\overline{\eta})
-    \overline{\eta}(dx).
+\begin{multline}
+\label{mean measure}
+{\cal L}^{(\theta, N)}\langle f,\eta\rangle=
+\lim_{\delta t\downarrow 0}\frac{1}{\delta t}
+\IE\left[\left.\langle f,\eta_{\delta t}\rangle -
+\langle f, \eta\rangle \right|\eta_0=\eta
+\right]\\
+=\theta\int\int f(z)r_\theta(z,\eta)q_\theta(x,dz)
+\gamma_\theta(x,\eta)
+\eta(dx)-\theta\int f(x)\mu_\theta(x,\eta)
+\eta(dx).
 \end{multline}
-The first term is the increment in $\langle f,\overline{\eta}\rangle$
-resulting from a birth event
-integrated against the rate of such events,
+The first term is the increment in $\langle f,\eta\rangle$
+resulting from a birth event (recalling that
+we don't kill the parent) integrated against the rate of such events,
 and the second reflects death events.
-Note that there is a slight mismatch between the locations at which we are 
-measuring birth and death rates, because
-the establishment probability is measured at $x$
-rather than at the point where juveniles fall (see \eqref{near critical}).
-In both terms,
-the rate of events has a factor of $N$
-(because events happen at a rate proportional to the number of individuals,
-whereas $\overline{\eta}$ is the total number divided by $N$)
-which is offset by the fact that  
+In both terms, the 
+rate of events has a factor of $N$ (because events happen at a rate 
+proportional to the number of individuals, whereas $\eta$ is
+the scaled population mass) which is offset by the fact that  
 the birth or loss of a single 
-individual at the point $y$, say, changes $\langle f,\overline{\eta}\rangle$
+individual at the point $y$, say, changes $\langle f,\eta\rangle$
 by $f(y)/N$.
 
 We use the fact that $\int q_\theta(x,dz)=1$ to rewrite~(\ref{mean measure})
 as 
 \begin{multline}
 \label{rewritten mean measure}
-    \int\left(
-          \int \theta \left(
-            f(z)r_\theta(z,\overline{\eta})
-            -
-            f(x)r_\theta(x,\overline{\eta})\right)
-          q_\theta(x,dz)
-        \right)
-        \gamma_\theta(x,\overline{\eta})
-    \overline{\eta}(dx) \\
-    + 
-    \theta\int f(x)
-        \Big(
-            r_\theta(x,\overline{\eta})
-            \gamma_\theta(x,\overline{\eta})
-            -
-            \mu_\theta(x,\overline{\eta})
-        \Big)
-    \overline{\eta}(dx) .
+\int\left(\int \theta \left(
+f(z)r_\theta(z,\eta)- f(x)r_\theta(x,\eta)\right)
+q_\theta(x,dz)\right)
+\gamma_\theta(x,\eta)
+\eta(dx)
+\\
++\int\theta\int f(x)\Big(r_\theta(x,\eta)
+\gamma_\theta(x,\eta)
+-\mu_\theta(x,\eta)\Big)
+\eta(dx).
 \end{multline}
-Suppose as we take $\theta \to \infty$ that
-$\overline{\eta}$ converges to a measure $\Xi$ on $\mathbb{R}^d$.
-Then we can take this limit in~(\ref{rewritten mean measure})
+Suppose that $\eta\to\Xi$, a measure on $\IR^d$,
+in the scaling limit, then we see that we can 
+let $\theta\rightarrow\infty$ in~(\ref{rewritten mean measure})
 under the assumptions that
-\begin{eqnarray} \label{near critical}
-\left.
-\begin{split}
-    r_\theta(x,\overline{\eta})
-        &\;  \stackrel{\theta\to\infty}{\longrightarrow} \;
-        r(x,\Xi)
-    \\
-    \gamma_\theta(x,\overline{\eta})
-        &\;  \stackrel{\theta\to\infty}{\longrightarrow} \;
-        \gamma(x,\Xi)
-    \\
-    \int\theta \Big(
-            r(z,\overline{\eta})f(z)
-            -
-            r(x,\overline{\eta})f(x)
-        \Big)q_\theta(x,dz) 
-        &\; \stackrel{\theta\to\infty}{\longrightarrow}  \;
-        \Delta \big(r(\cdot,\Xi)f(\cdot)\big)(x)
-    \\
-    \theta \Big(
-            r_\theta(x,\overline{\eta})
-            \gamma_\theta (x,\overline{\eta})
-            -
-            \mu_\theta (x,\overline{\eta})
-        \Big)
-         &\; \stackrel{\theta\to\infty}{\longrightarrow}  \;
-        F(x,\Xi),
-\end{split}
-\right\}
+\begin{eqnarray}
+r_\theta(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
+r(x,\Xi)\\
+\gamma_\theta(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
+\gamma(x,\Xi)\\
+\int\theta \Big(r(z,\eta)f(z)-
+r(x,\eta)f(x)\Big)q_\theta(x,dz) 
+&\stackrel{\theta\to\infty}{\longrightarrow}& 
+\Delta \big(r(\cdot,\Xi)f(\cdot)\big)(x);\\
+\theta \Big(r_\theta(x,\eta)\gamma_\theta (x,\eta)
+-\mu_\theta (x,\eta)\Big)
+ &\stackrel{\theta\to\infty}{\longrightarrow}& 
+F(x,\Xi),
+\label{near critical}
 \end{eqnarray}
 where $\Delta$ denotes the Laplacian.
-The last condition reflects the `near-critical' branching,
-and implies that $\mu_\theta(x, \overline{\eta}) \to \gamma(x, \Xi) / r(x, \Xi)$.
+The last condition reflects the `near-critical' branching. Note that
+there is a slight mismatch between the locations at which we are 
+measuring birth and death rates, because in~(\ref{near critical})
+the establishment probability is 
+measured at $x$ rather than at the point where juveniles fall. 
+This condition also differs from the assumption that
+we use in~\S\ref{scalings with levels} to guarantee convergence of the 
+processes with levels in our lookdown 
+constructions, see~(\ref{lookdown blambda}). 
+Under mild
+regularity conditions on $r$ (which we certainly need to have sensible 
+limiting models) the conditions are equivalent.  
 
-Referring back to the original (unscaled) process,
-this amounts to assuming that
-there are of order $N$ individuals per unit area,
-and per-capita birth and death rates
-are sufficiently close that population density takes of order $\theta$ time to change.
-However, note that although the difference
-between the number of births and deaths per unit area
-across $\theta$ units of time is of order $N$,
-the total number of such events is larger (of order $\theta N$).
-As we will see next, the variance of population density per unit of (unscaled) time
-is therefore of order $1/N$,
-so we will obtain a deterministic limit if $\theta$ is of smaller order than $N$.
-
-Then the mean rate of change of $\langle f, \overline{\eta}\rangle$,
-\eqref{rewritten mean measure} converges to
-\begin{equation} \label{limit of mean measure equation}
-    \int \gamma(x,\Xi)
-        \Delta \big(f(\cdot)r(\cdot,\Xi)\big)(x)
-    \Xi(dx)
-    + \int f(x)
-        F(x,\Xi)
-    \Xi(dx) .
+Equation~(\ref{rewritten mean measure}) converges to
+\begin{equation}%\begin{multline}
+\label{limit of mean measure equation}
+\int \gamma(x,\Xi)
+\Delta
+\big(f(\cdot)r(\cdot,\Xi)\big)(x)
+\Xi(dx)
++\int f(x)
+F(x,\Xi)
+\Xi(dx)
+.
 \end{equation}
-As we will see below,
-if the limit is deterministic and $\Xi_t$ possesses a density
-with respect to the Lesbegue measure,
-this means that the density satisfies
-\begin{equation}
-\label{eq: limit of mean measure equation 2}
-    \int f(x) \partial_t \Xi(dx)
-    =
-    \int \gamma(x,\Xi)
-        \Delta \big(f(\cdot)r(\cdot,\Xi)\big)(x)
-    \Xi(dx)
-    + \int f(x)
-        F(x,\Xi)
-    \Xi(dx),
-\end{equation}
-i.e., $\Xi$ is a \textit{weak solution} to the integro-differential equation:
-\begin{equation}\label{eq:PDE}
-    \partial_t \Xi
-    = r \Delta \gamma \Xi + F \Xi .
-\end{equation}
-(Although this looks like a partial differential equation,
-recall that $r$, $\gamma$, and $F$ at $x$ depend on $\Xi$
-through a convolution.)
 
-
-% % % % % % % % % % % % % % % %
-\subsubsection*{Quadratic Variation}
+\subsubsection*{Quadratic variation}
 
 We now look at the second order term.
-Thinning the birth process to only consider offspring
-who successfully mature,
-an individual at the point $x$ gives birth to an offspring
-who moves to $y$ and successfully matures there
-at rate
+We spell out
+this calculation in detail so that it is evident at which points we are 
+exploiting the choice of the Poisson distribution for the number
+of juvenile offspring.
+In the general case one can expect somewhat messier calculations, but
+the same conclusion (up to constants).
+
+When an individual at the point $x$ gives birth, the total number of
+mature offspring is Poisson with parameter
+$$\gamma_\theta(x,\eta)\int 
+r_{\theta}(y,\eta) q_{\theta}(x, dy)
+=\gamma_\theta(x,\eta)p_\theta(x,\eta).$$
+Offspring that survive to maturity are distributed about the parent
+according to 
+$$\overline{q}_\theta(x,\eta,dy):=
+\frac{r_{\theta}(y,\eta)q_\theta(x,dy)} 
+{\int r_{\theta}(z,\eta)q_\theta(x,dz)}. 
 $$
-    \gamma_\theta(x,\overline{\eta}) r_{\theta}(y,\overline{\eta}) q_{\theta}(x, dy) .
-$$
-The increment to $\langle f, \overline{\eta}\rangle^2$ due to this event is $f(y)^2/N^2$,
-so the contribution to the quadratic variation from birth events, which
-occur at rate $\theta$ per individual is
-$$
-    \langle N\theta
-        \gamma_\theta(x,\overline{\eta})
-        \int
-            \frac{1}{N^2} f^2(y) r_{\theta}(y,\overline{\eta})
-        q_\theta(x,dy)
-        ,
-        \overline{\eta}(dx)
-    \rangle .
-$$
-The increment in $\langle f, \overline{\eta}\rangle^2$ resulting from 
-the death of an individual at $x$ is $f^2(x)/N^2$, and so combining with the 
+Writing $X(x)$ for the increment to $\langle f, \eta\rangle$
+due to a single mature offspring of an individual at $x$, 
+and $P(x)$ for the (Poisson) number of mature
+offspring in such an event, the variance of the increment to 
+$\langle f, \eta\rangle$
+resulting from a birth event at $x$ is $\IE[P(x)]\mathtt{var}(X(x))
++\mathtt{var}(P(x))\IE[X(x)]^2=\IE[P]\IE[X(x)^2]$. 
+Since, in this notation, conditional on the value of $\eta$
+immediately before the event,
+$$\IE[X(x)^2]=\int
+\frac{1}{N^2}f^2(y) \overline{q}_\theta(x,\eta,dy),$$
+and
+$$\IE[P(x)]=
+\gamma_\theta (x,\eta) \int 
+r_{\theta}(z,\eta)q_\theta(x,dz),$$ 
+the contribution to the quadratic variation from birth events, which
+occur at rate $\theta$ per individual 
+(so $N\theta |\eta|$ overall), is
+$$\langle N\theta \gamma_\theta(x,\eta)
+\int \frac{1}{N^2}f^2(y)r_{\theta}(y,\eta)
+q_\theta(x,dy) 
+,\eta(dx)\rangle.$$
+The increment in $\langle f, \eta\rangle$ resulting from 
+the death of an individual at $x$ is $f(x)/N^2$, and so combining with the 
 above, the second order term in the generator takes the form
+$$F''(\langle f,\eta\rangle)
+\frac{1}{2}N\theta \left\{
+\langle \gamma_\theta(x,\eta)
+\int \frac{1}{N^2}f^2(y)r_\theta(y,\eta)q_\theta(x,dy) 
+,\eta(dx)\rangle
++\langle \mu_\theta(x,\eta)\frac{1}{N^2}f^2(x) 
+,\eta(dx)\rangle\right\}.
 $$
-    \mathcal{F}''(\langle f, \overline{\eta}\rangle)
-    \frac{1}{2}N\theta \left\{
-        \langle
-            \gamma_\theta(x,\overline{\eta})
-            \int \frac{1}{N^2} f^2(y) r_\theta(y,\overline{\eta}) q_\theta(x,dy) 
-            ,
-            \overline{\eta}(dx)
-        \rangle
-        +
-        \langle
-            \mu_\theta(x,\overline{\eta})\frac{1}{N^2}f^2(x) 
-            ,
-            \overline{\eta}(dx)
-        \rangle
-    \right\} .
-$$
-The term $\varepsilon_{\theta,N}(f, F, \overline{\eta})$ in \eqref{eq:expanmeanvar}
-is ${\mathcal O}(\theta/N^2)$,
-as it depends on higher order moments of $\langle f ,\overline{\eta} \rangle$.
-It follows that the quadratic variation of the semi-martingale $\langle f, \overline{\eta} \rangle$
-is given by
-\begin{equation} \label{quadratic variation}
-    \frac{\theta}{N}
-    \left\{
-        \langle
-            \gamma_\theta(x,\overline{\eta})
-            \int f^2(y)r_\theta(y,\overline{\eta})q_\theta(x,dy) 
-            ,
-            \overline{\eta}(dx)
-        \rangle
-        +
-        \langle
-            \mu_\theta(x,\overline{\eta})f^2(x) 
-            ,
-            \overline{\eta}(dx)
-        \rangle
-    \right\} .
+The term $\varepsilon_{\theta,N}(f, F, \eta)$ will be 
+${\mathcal O}(\theta/N^2)$.
+
+\subsubsection*{Limit I: deterministic case}
+
+By choosing $\theta/N\rightarrow 0$, the second order term in the generator 
+will vanish and we expect a deterministic limit. 
+Let us suppose that the limit has a smooth density with respect to
+Lebesgue measure, and abuse notation by using $\Xi_t(x)$
+to denote the corresponding density, then integrating the first term in~(\ref{limit of mean measure equation})
+by parts, we find that in the limit as $N\to\infty$,
+\begin{equation}
+\nonumber
+\frac{d}{dt}\int f(x)\Xi_t(x)dx
+=\int f(x)\left\{r(x,\Xi_t)\Delta\big(\gamma(\cdot,\Xi_t)
+\Xi_t(\cdot)\big)(x)+F(x,\Xi_t)
+\Xi_t(x)
+\right\}dx.
+\end{equation}
+In other words, we can expect the limit to be a weak solution to the 
+deterministic equation
+\begin{equation}
+\label{deterministic limit}
+\frac{d\Xi}{dt}
+=r(x,\Xi)\Delta\big(\gamma(\cdot,\Xi)
+\Xi(\cdot)\big)(x)+F(x,\Xi)
+\Xi(x).
 \end{equation}
 
-Let $\ell$ be defined by
-\begin{equation}
- \frac{\theta}{N} \rightarrow \ell \in [0,\infty).
- \label{defn:rho}
- \end{equation}
-If $\ell=0$ then the quadratic variation of $\overline{\eta}$ goes to $0$, and so we expect a deterministic limit. This limit should be described as the solution to (\ref{eq: limit of mean measure equation 2}). If $\ell$ is positive then the limit is stochastic, and should be understood as the solution of a martingale problem. 
 
-One can build many different examples in which our assumptions hold. Our main result establishes that a broad range of models, under which these heuristics can be justified, can be further enriched by a structure called the \textit{lookdown construction} that preserve ancestral relationships under passage to the limit.
+\subsubsection*{Limit II: stochastic case}
+
+If $N=\rho\theta$, for some constant $\rho$,
+the second order term in the generator remains order
+one as $\theta\to\infty$, and  
+we expect a `generalised
+superprocess'
+limit. Assuming some regularity of the coefficients (in particular 
+of $r$), 
+the second order term in the generator will  
+take the form
+$$\frac{1}{\rho}F''(\langle f,\Xi\rangle)
+\langle f^2(x), \gamma(x,\Xi)
+r(x,\Xi)\Xi(dx)\rangle.
+$$
+That is
+$$\langle f(x), \Xi_t(dx)\rangle-\langle f(x), \Xi_0(dx)\rangle
+-\int_0^t\langle\gamma(x,\Xi_s)\Delta\big(r(\cdot,\Xi_s)f(\cdot)\big)(x),
+\Xi_s(dx)\rangle ds$$
+is a martingale with quadratic variation
+$$\frac{2}{\rho}\int_0^t\langle f^2(x) 
+\gamma(x,\Xi_s)r(x,\Xi_s),\Xi_s(dx)\rangle ds.$$
+
+
+
 
 \plr{TODO: heuristics of conditions to get a local (PDE) limit?}
 
@@ -997,8 +1514,9 @@ One can build many different examples in which our assumptions hold. Our main re
 
 %%%%%%%%%%%%%%%%%%%
 \section{The lookdown process}
+    \label{sec:lookdown}
 
-\plr{Motivation for and definition of the lookdown process}
+\plr{Motivation for and definition of the lookdown process; statement of main convergence theorem.}
 
 Now we
 will present a lookdown construction for $(\overline{\eta}^{\epsilon,\theta,N}(t))_{t \geq 0}$ stated in Definition \ref{Def: Rescaled Models}
@@ -1225,30 +1743,216 @@ For further discussion refer to \S \ref{sec: Ulam-Harris Labels characterisation
 \end{remark}
 
 
+%% %% %% %% %% %% %% %% %% %% %% %%
+\subsection{Stochastic equations for movement of lines of descent}
+    \label{sec:lines_of_descent}
+
+    \plr{This section needs to follow from the previous section better (and maybe be merged with it).}
+
+The main interest in using a lookdown construction for our 
+population processes is that it allows us to retain information 
+about relatedness between individuals as we pass to the infinite
+density limit. In order to exploit this, we generalise the construction of 
+stochastic equations presented in \S \ref{sec: Evolution of an Individual Particle} to the infinite density limit.\\
+In the scaling limit $A^{\text{nl}}_{\varepsilon}$, the spatial movement of particles can be characterised with the map $$h \mapsto \gamma\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)r\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)\mathcal{B}^{m}_{\varepsilon}(\Xi)h(x) ,$$
+and as individual particles travel as a random walk in the pre-limit model, we should expect a diffusion limit for individual trajectories.
+\todo[inline]{From Terence: we should try explain in detail why this is the generator of an individual line of descent forward-in-time. The main question here is whether we should have a factor of $r$ in the above notation. For the proof to work in \S \ref{sec: motion of ancestral lineages} we will need a factor of $r$ but I have been finding it slightly unintuitive particularly since the effect of $r$ has been accounted into $\mathcal{B}^{\mathfrak{m}}$ through the limit.}
+To simply notation, we let the above map be the generator of a process 
+satisfying 
+\[X(t)=X(0)+\int_0^t\sigma (X(s),\Xi (s))dW(s)+\int\beta (X(s),\Xi 
+(s))ds.\]
+\begin{remark}
+In particular recall that as in Remark \ref{Remark: Product Rule on Laplacian}, if $\mathcal{B}$ is the Laplacian operator, then the generator above is merely 
+$$\gamma\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)\left(\Delta h(x) +2 \nabla h(x) \cdot \nabla \log r( \cdot, (\varrho_{\varepsilon}*\Xi)(\cdot))(x)\right),$$
+and applying Ito's formula we have 
+\begin{equation}\label{eq: Individual lineage generator description}
+\begin{aligned}
+\beta(X(s),\Xi(s))=& 2\gamma\big(X(s),(\varrho_{\varepsilon}*\Xi)(X(s))\big) \nabla \log r (\cdot, (\varrho_{\varepsilon}*\Xi)(\cdot))(X(s))\\
+\sigma(X(s),\Xi(s))=& \sqrt{2\gamma\big(X(s),(\varrho_{\varepsilon}*\Xi)(X(s))\big)}.
+\end{aligned}
+\end{equation}
+\end{remark}
+Furthermore, recall that in our scaling limit, 
+\begin{equation}
+\begin{aligned}
+\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s), \overline{\eta}(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
+b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\overline{\eta}(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))\\
+&+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s)).
+\end{aligned}    
+\end{equation}
+
+We now have the required results to establish the individual lineage dynamics in the scaling limit. Our approach should be compared to Perkins stochastic calculus,
+\cite{perkins:1995}. First we label the individuals alive at time $0$
+by $\{(0,i), i\in\IN\}$. 
+
+When an individual is born, it is endowed with an
+independent Poisson random measure $\xi$ on $[0,\infty)^2$ with Lebesgue
+mean measure. The first coordinate encodes {\em potential} birth times of 
+offspring of the individual. We say potential, since the parent may have
+died before the potential birth time. 
+Since, after time $0$, no two particles will have the same birth
+time, we index the particles born after time $0$ by 
+their birth times.  
+For example, if a parent has index $\tau$ and $(s,v)\in \xi_\tau$, then 
+$\tau +s$ gives a potential birth time for an offspring which, if
+it is in fact born, will carry
+the label $\tau+s$. 
+The second 
+coordinate of $\xi$ will be used to determine, after scaling, 
+the level of offspring relative to the 
+level of the parent (offspring are always born to levels above that of
+the parent). 
+
+Starting with an initial particle 
+$(0,i)$, we can identify a potential line of descent by 
+taking $(s_1,u_1)\in\xi_{(0,i)}$, setting $\tau_1=s_1$, and then recursively 
+taking $(s_{k+1},u_{k+1})\in\xi_{\tau_k}$ and defining $\tau_{k+1}
+=\tau_k+s_{k+1}$.
+
+With each particle, we will 
+associate an independent Brownian motion, $W_\tau$. For times 
+$t>\tau$, the spatial location and level of the particle with
+label $\tau$ are then determined by
+\begin{equation}\label{Eq: Expression for dynamics in scaling limit}
+\begin{aligned}
+X_{\tau}(t)=&X_{\mbox{\rm $\tau$}}(\tau )+\int_{\tau}^t\sigma (X_{
+\tau}(s),\Xi (s))dW_{\tau}(s)+\int_{\tau}^t\beta (X_{\tau}(s),\Xi (
+s))ds\\
+U_{\tau}(t)=&U_{\tau}(\tau )+\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
+& -\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
+\end{aligned}
+\end{equation}
+If $(X_{\tau'},U_{\tau'})$ is the parent of $(X_{\tau},U_{\tau})$, 
+then there is $(s,v)\in\xi_{\tau'}$ 
+such that $\tau =\tau'+s$,
+$X_{\tau}(\tau'+s)=X_{\tau'}(\tau'+s)$ and 
+\begin{equation}
+\label{Eq: expression for offspring level in limit}
+U_{\tau}(\tau )=U_{\tau}(\tau'+s)=U_{\tau'}(\tau'+s)+\frac v{2\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s))U_{\tau}^2(s)},
+\end{equation} 
+recognizing 
+that $U_{\tau'}(\tau'+s)$ may be infinite, which means 
+that $(X_{\tau}, U_{\tau})$ doesn't exist.
+To see why we scale $v$ in this way, 
+we observe that
+in order for $U_{\tau}(\tau'+s)$ to be below some fixed level $u_g$,
+we require 
+$v<2\ell \gamma(X_{\tau'}(\tau'+s),\varrho_\varepsilon*\Xi(X_{\tau'}(\tau'+s))U_{\tau}^2(\tau'+s)\big(u_g-U_{\tau'}(\tau'+s)\big)$.
+Recalling
+that $\xi_{\tau'}$ is Poisson on $[0,\infty)^2$ with Lebesgue mean 
+measure, the instantaneous rate at which we see such a $v$ will be
+$2\gamma(X_{\tau'}(\tau'+s), \Xi(\tau'+s))\big(u_g-U_{\tau'}(\tau'+s)\big)$.
+Comparing  this
+with Equation
+\eqref{Eq: Non-local Scaling limit Lookdown Generator}, this is exactly
+the rate of births that we require.
+\begin{remark}
+Note in particular that $\ell=0$ in the deterministic limit , so the increment in Equation \eqref{Eq: expression for offspring level in limit} is always infinite, meaning that no new offspring is born in the deterministic model. 
+\end{remark}
+In order to write $X_\tau(t)$ and $U_\tau(t)$ as an integral along
+the whole ancestral path linking individual $\tau$ to its ancestor at 
+time $0$, we associate a counting process $N_{\tau}$ with the indivdual
+$\tau$    
+such that $N_{\tau}(t)$ gives the generation of the ancestor of $\tau$ 
+that is alive at time $t$,
+and a process $A_{\tau}$ such that 
+$A_{\tau}(t)$ is 
+the index of the ancestor of $\tau$ that is alive at time $t$. 
+Finally, let $V_{\tau}(t)=\sum_{k=1}^{N_{\tau}(t)}v_k^{\tau}$ be the sum of the second 
+coordinate of the Poisson points along the ancestral line 
+leading to $\tau$.  Then we can write 
+\begin{eqnarray*}
+X_{\tau}(t)&=&X_{\mbox{\rm $A_{\tau}(0)$}}(0)+\int_0^t\sigma 
+(X_{\tau}(s),\Xi (s))dW_{A_{\tau}(s)}(s)+\int_0^t\beta (X_{\tau}
+(s),\Xi (s))ds,\\
+U_{\tau}(t)&=&U_{A_{\tau}(0)}(0)+\int_0^t\frac 1{2\ell \gamma(X_{\tau}(s-),\varrho_\varepsilon*\Xi(X_{\tau}(s-))}dV_{\tau}(s)\\
+&&\qquad\qquad +\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
+&&-\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
+where
+\[\langle\Xi (t),\varphi\rangle =\lim_{\epsilon\rightarrow 0}
+\epsilon\sum_{
+\tau\leq t}e^{-\epsilon U_{\tau}(t)}\varphi (X_{\tau}(t)).\]
+
+This representation of individuals allows us to identify all 
+of the individuals in the current population that are descendants of a
+given ancestor at time zero. In theory at least, this allows us to
+recover all the information about genealogies relating individuals 
+sampled from the present day population. This idea draws on the notion
+of `tracers', popular in statistical physics and used in population
+genetics by a number of authors including 
+\cite{biswas/etheridge/klimek:2018, durrett/fan:2016, hallatschek/nelson:2008}.
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Proofs}
 
 \comment{
+    TODO: write overview.
     To prove convergence, we'll be proving
     (a) tightness
     (b) convergence of generators, and
     (c) uniqueness of the limit.
+
+    Then, to get convergence of the lookdown
+    we use the population process (somehow).
 }
+
+\begin{proof}[Proof of Theorem~\ref{thm:nonlocal_convergence}.]
+
+\comment{INSERT HERE
+    narrative of tightness,
+    proved in Section \ref{sec:population_tightness_proofs},
+    and convergence of generators,
+    proved in Section \ref{sec:population_generators_proofs}.
+}
+
+\end{proof}
 
 
 % % % % % % % % % % % % %
 \subsection{Tightness of empirical measures}
+    \label{sec:population_tightness_proofs}
+
+\begin{lemma}[Tightness for the population process]
+    Something like:
+    for all suitable $f$
+    and initial states $\eta^\theta_0 \to \eta_0$,
+    \begin{align}
+        \IE\left[
+            \sup_{0 \le t \le T}
+            \langle f, \eta^\theta_t \rangle
+        \right]
+        \le C ,
+    \end{align}
+    uniformly in $\theta$.
+\end{lemma}
 
 \comment{In which we Gronwall $\langle 1, \eta_t\rangle$ and the like.}
 
+
+
 % % % % % % % % % % % % %
 \subsection{Convergence of generators}
+    \label{sec:population_generators_proofs}
 
+    \begin{lemma}[Convergence of generators for the population process]
+        As $\theta \to \infty$,
+        \comment{(the generator for the prelimit)}
+        converges to
+        \comment{(the generator for the limit)}.
+    \end{lemma}
 
 % % % % % % % % % % % % %
 \subsection{Uniqueness of the limit}
+    \label{sec:uniqueness_proofs}
 
-\comment{... for the cases in which we can prove that}
+Here are the proofs of Corollaries~\ref{cor:nonlocal_pde_limits}
+and \ref{cor:superprocess_uniqueness},
+giving conditions in which the limiting process is unique
+(in which case we have convergence, not just on subsequences).
 
 
 % % % % % % % % % % % % %
@@ -1259,6 +1963,9 @@ This then shows that we can take the local, deterministic limit
 by taking $\theta, N \to \infty$ first, and then $\epsilon \to 0$ after.
 }
 
+In this section we prove Proposition~\ref{prop:nonlocal_pde_limits}.
+
+
 % % % % % % % % % % % % %
 \subsection{Simultaneous scaling with interaction distance}
 
@@ -1268,8 +1975,22 @@ by taking $\theta, N \to \infty$ first, and then $\epsilon \to 0$ after.
     (We won't prove tightness here.)
 }
 
+In this section we prove Theorem~\ref{them:nonlocal_pde_limits}.
+
+
+
+% % % % % % % % % % % % %
+\subsection{Proof of convergence for the lookdown process}
+
+The proof of the main result in Section~\ref{sec:lookdown}.
+
+This will depend on Sections~\ref{sec:lookdown_tightness_proofs}
+and \ref{sec:lookdown_generator_proofs}.
+
+
 % % % % % % % % % % % % %
 \subsection{Tightness of the lookdown process}
+    \label{sec:lookdown_tightness_proofs}
 
 \comment{
     This comes later because it uses convergence of the population process itself.
@@ -1277,11 +1998,93 @@ by taking $\theta, N \to \infty$ first, and then $\epsilon \to 0$ after.
 
 
 % % % % % % % % % % % % %
+\subsection{Convergence of generators for the lookdown process}
+    \label{sec:lookdown_generator_proofs}
+
+
+
+% % % % % % % % % % % % %
 \subsection{Motion of ancestral lineages}
 
-\comment{
-    The proof of the theorem on lineages using the lookdown representation.
-}
+In this section we prove Theorem~\ref{thm:lineages}.
+The argument follows directly from the discussion in Section \ref{sec:lines_of_descent}
+(and so maybe actually that content should be down here).
+
+\begin{proof}[of Theorem~\ref{thm:lineages}]
+    \comment{
+        This is actually copied over the proof of Corollary~\ref{cor:wavefront};
+        TODO is to generalize it to time-varying density.
+    }
+
+Let $Y$ denote the diffusion followed by following a single descendent line in this frame; 
+i.e.~the diffusion with generator ${\cal L}^Y\phi=\gamma\Delta(r\phi)-\gamma\phi\Delta r -\mathfrak{c}\nabla\phi $. Note in particular here we take $\mathcal{B}=\Delta$. We start by expressing the evolution of a singles ancestry line in terms of the descendent line $Y$.
+
+Formally, the intensity of levels at $y$ at time $t$ that are descended from 
+individuals that were at $x$ at time $0$ is
+\begin{equation}
+\label{formal intensity}
+w(x)\IE_x\left[\exp\left(\int_0^t (F+\gamma \Delta r)(Y_s)ds\right)\ind_{Y_t=y}\right]dy,
+\end{equation}
+where the subscript $x$ in the expectation indicates that $Y_0=x$.
+To see why this should be true, 
+suppose that an ancestor has level $u$. Conditional on its 
+spatial motion $\{Y_s\}_{0\leq s\leq t}$, its level at time $t$ will
+be $u\exp(-\int_0^t(F+\gamma\Delta r)(Y_s)ds)$. This will be less than a given level 
+$\lambda$ if $u<\lambda \exp(\int_0^t(F+\gamma\Delta r)(Y_s)ds)$. 
+The intensity of levels at $y$ that are descended from individuals at
+$x$ can therefore be obtained as the limit as $\lambda\to\infty$ of 
+$1/\lambda$ times the number of levels at $x$ at time zero with
+$u<\lambda \exp(\int_0^t(F+\gamma\Delta r)(Y_s)ds)$ and for which
+the corresponding individual is at $y$ at time $t$, which is 
+precisely the quantity in~(\ref{formal intensity}). 
+
+It is easy to check that when we integrate~(\ref{formal intensity})
+with respect to $x$ we recover $w(y)dy$. 
+As a consequence of~(\ref{formal intensity}), writing $p(t,y,x)$ for
+the probability density that the ancestor $t$ units in 
+the past of an individual sampled 
+at $y$ was at $x$, then, still formally,
+\begin{equation}
+\label{ptyx}
+p(t,y,x)=\frac{w(x)}{w(y)}\IE_x\left[\exp\left(\int_0^t (F+\gamma\Delta r)(Y_s)ds\right)
+\ind_{Y_t=y}\right].
+\end{equation}
+
+To make~(\ref{ptyx}) meaningful, we multiply by suitable test functions and 
+integrate.
+$$\int\int \psi(y)w(y)p(t,y,x)\phi(x)dydx=\int\phi(x)w(x)
+\IE_x\left[\exp\left(\int_0^t(F+\gamma\Delta r)(Y_s)ds\right)\psi(Y_t)\right]dydx.$$
+
+Writing $\hat{T}_t$ for the semigroup corresponding to the motion of 
+ancestral lineages backwards in time (that is the semigroup corresponding
+to $p(t,x,y)$), we can write this as 
+$$\int \psi(y)w(y)\hat{T}_t\phi(y)dy=\int\phi(x)w(x)
+\IE_x\left[\exp\left(\int_0^t(F+\gamma\Delta r)(Y_s)ds\right)\psi(Y_t)\right]dx.$$
+Differentiating with respect to $t$ at $t=0$, and writing 
+$\hat{\mathcal L}$ for the generator of $\hat{T}_t$, we find
+\begin{eqnarray*}
+\int \psi(y)w(y)\widehat{\mathcal L}\phi(y)dy&=&
+\int\phi(x)w(x)\left({\mathcal L}^Y\psi(x)+\psi(x)(F+\gamma\Delta r)\psi(x)\right)dx\\
+&=&\int\phi(x)w(x)\left(\gamma\Delta(r\psi)-\gamma\psi\Delta r -\mathfrak{c}\nabla\psi 
++(F+\gamma\Delta r)(\psi)\right)dx\\
+&=&\int\phi(x)w(x)\left(\gamma\Delta(r\psi)-\mathfrak{c}\nabla\psi+F(\psi)\right)dx\\
+&=&
+\int\psi(x)\left[r\Delta(\gamma \phi w)+F\phi w+\mathfrak{c}\nabla(\phi w)\right]dx.
+\end{eqnarray*}
+Since $\psi$ was arbitrary,
+\begin{eqnarray*}
+\hat{\mathcal L}\phi&=&\frac{1}{w}\left[ r\Delta (\gamma\phi w)+F\phi w
++\mathfrak{c}\nabla(\phi w)\right]\\
+&=&\frac{\phi}{w}\left[r\Delta(\gamma w)+Fw+\mathfrak{c}\nabla w\right]
++\frac{1}{w}\left[r\gamma w\Delta \phi +2\nabla (\gamma w)
+\nabla\phi+\mathfrak{c}w\nabla\phi\right]\\
+&=&r\gamma\left(\Delta\phi+2\frac{\nabla(\gamma w)}{\gamma w}\nabla\phi\right)
++\mathfrak{c}\nabla\phi,
+\end{eqnarray*}
+where we have used that $w$ solves~(\ref{profile}).
+
+\end{proof}
+
 
 
 \bibliographystyle{plainnat}
