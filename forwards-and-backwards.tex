@@ -24,6 +24,7 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{notation}[theorem]{Notation}
 
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
 \def \non{{\nonumber}}
@@ -41,6 +42,7 @@
 \newcommand{\ind}{\mathbf{1}}
 \newcommand{\bigO}{\mathcal{O}}
 \newcommand{\grad}{\nabla}
+\newcommand{\dif}{\mathrm{d}\,}
 
 %%%%%%% notation
 \newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
@@ -549,25 +551,29 @@ such that for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$,
 \begin{equation}
     \label{eq: Pre-limit Martingale Characterisation}
 \begin{aligned}
-&     M^{\theta}_t(f)\\
-:=&  \langle f,\eta^{\theta}_t \rangle
-        -\langle f,\eta^{\theta}_0 \rangle\\
- &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
- \left(
+M^{\theta}_t(f)
+&:=  \langle f,\eta^{\theta}_t \rangle
+        -\langle f,\eta^{\theta}_0 \rangle
+ \\ &\qquad {}
+ -  \int_{0}^{t}\bigg\{
+        \int\left(   \int \theta
+     \left(
         f(z)r\big(z,\varrho_{r}*\eta^{\theta}_{s}(z)\big)
             -f(x)r\big(x,\varrho_{r}*\eta^{\theta}_{s}(x)\big)
             \right)
                     q_\theta(x,dz)\right)
+        \\ & \qquad \qquad \qquad \qquad {} \times
                             \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-                            \eta^{\theta}_{s}(dx)\\
-& \qquad +\int 
-f(x)F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
-\eta^{\theta}_{s}(dx)\bigg\} ds
+                            \eta^{\theta}_{s}(dx)
+     \\ & \qquad {} +\int 
+     f(x)F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
+     \eta^{\theta}_{s}(dx)
+    \bigg\} ds
 \end{aligned}    
 \end{equation}
 is a martingale with quadratic variation
 \begin{equation}
-\begin{aligned}
+\begin{aligned} \relax
 [ M^{\theta}_t(f)] =& 
 \frac{\theta}{N} \int_{0}^{t}\bigg\{
 \langle \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
@@ -1584,7 +1590,7 @@ when we pass to the limit.
 Our notation will follow a standard pattern.
 
 % % % % % % % % % % % % % % % %
-\subsection*{Lookdown Representation and Notation}
+\subsection{Lookdown Representation and Notation}
 \label{sec: Lookdown Representation and Notation}
 
 In the prelimiting models,
@@ -1765,7 +1771,7 @@ $$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)
 :=~\theta\gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy);$$
 the local branching mechanism $b(x,\eta)$ is 
 $$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
-and the dispersal kernel $q^{\mathfrak{m}}(x,dy)$ is 
+and the dispersal kernel $q^{\mathfrak{m}}(x,\eta, dy)$ is 
 $$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) 
 :=~ \frac{r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
 
@@ -1810,8 +1816,7 @@ has the same distribution (as stochastic processes)
 as $(\eta^{\theta}_t)_{t \geq 0}$
 in Definition \ref{Def: Rescaled Models}.
 As a result, we use the same notation $\eta$
-to denote these two identically distributed processes
-which take values in the space of empirical measures.
+to denote these two identically distributed processes.
 On the other hand,
 we reserve the notation $\xi$
 strictly for the spatial-level process.
@@ -1825,10 +1830,10 @@ states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$
 to a conditionally Poisson system $(\xi_t)_{t \geq 0}$
 with Cox measure $\Xi_t \times N$
 is equivalent to convergence of
-$(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$.
+$(\eta^{\theta}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$.
 As a result, it suffices for us to focus on
 tightness of $(\eta^{\theta}_t)_{t \geq 0}$
-and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$
+and spatial convergence of $(\eta^{\theta}_t)_{t \geq 0}$
 as $\theta \to \infty$.
 
 
@@ -1840,13 +1845,23 @@ as $\theta \to \infty$.
 \subsection{Evolution of an Individual Particle}
 \label{sec: Evolution of an Individual Particle}
 
-Here we give a general framework of tracking evolution of individual particles in the population described above. We will provide the right scaling of the coefficients introduced in \S \ref{sec: Convergence of Spatial-Level Models}.\\
-Particles alive at time zero will be indexed by
-$(0, i)$, or more precisely, we index the levels of the particles alive at time $0$ by $(0, i)$ keeping
-in mind that at each birth event, the parent particle will, with probability $1/2$ change levels.
-Since no two particles born after time $0$ will be born at the same time, we index the rest of
-the levels by their birth times. With each level, we can associate a Poisson random measure
-$\xi$ on $[0, \infty)^2\times [0,1]\times \{0,1\}$ (eventually, $\lambda \to \infty$) with mean measure $l^3 \times \{\frac{1}{2}\delta_0,\frac{1}{2}\delta_1\}$ which
+Here we give a general framework of tracking evolution
+of individual particles in the spatial-level population $\xi(t)_{t \geq 0}$ defined in \S \ref{sec: Lookdown Representation and Notation}.
+
+Particles alive at time zero will be indexed by $(0, i)$,
+or more precisely,
+we index the levels of the particles
+alive at time $0$ by $(0, i)$,
+keeping in mind that at each birth event,
+the parent particle will,
+with probability $1/2$, change levels.
+Since no two particles born after time $0$
+will be born at the same time,
+we index the rest of the levels by their birth times.
+
+With each level,
+we can associate a Poisson random measure
+$\Tilde{\Pi}$ on $[0, \infty)^2\times [0,1]\times \{0,1\}$ (eventually, $\lambda \to \infty$) with mean measure $l^3 \times \{\frac{1}{2}\delta_0,\frac{1}{2}\delta_1\}$ which
 determines the birth times of the offspring of the particle at that level, the location of the
 offspring, and whether the offspring or the parent is placed at the new level. Let $U_{\tau}(t)$ be
 the level at time $t \geq \tau$ if the level first appeared at time $\tau$ , and let $X_{\tau}(t), t \geq \tau$ be the
@@ -2109,7 +2124,7 @@ we first prove a technical lemma that involves a bound on the Gaussian kernels.
     for some constant $C_{\gamma,f}$ independent of $\eta$ and $\theta$. 
 \end{lemma}
 \begin{proof}
-See Appendix.    
+See Appendix \ref{sec: Proof to gamma-r radius comparison}.    
 \end{proof}
 \begin{lemma}[Compact Containment for the population process]
 Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
@@ -2298,6 +2313,294 @@ by taking $\theta, N \to \infty$ first, and then $\epsilon \to 0$ after.
 }
 
 In this section we prove Proposition~\ref{prop:nonlocal_pde_limits}.
+
+\subsubsection{Porous Media Equation}
+
+\plr{This is from pme.tex.}
+
+We are concerned with non-negative solutions to the equation
+\begin{equation}
+\label{mollified equation}
+\frac{\partial u^\epsilon}{\partial t}=
+%\frac{\partial^2}{\partial x^2}
+\Delta\left(u^\epsilon \cdot u^\epsilon *\zeta_\epsilon\right)
++u^\epsilon\left(1-u^\epsilon*\zeta_\epsilon\right);
+\end{equation}
+where $*$ denotes convolution and we define
+a (non-negative) mollifier by
+$\zeta_\epsilon=\frac{1}{\epsilon}\zeta(\cdot/\epsilon)$, where $\zeta$
+satisfies
+$\zeta\in\cal{S}(\IR)$, $\int\zeta(x)dx=1$. Indeed, for convenience, in
+what follows we shall suppose that $\zeta =\rho*\check{\rho}$ where
+$\check{\rho}(z)=\rho(-z)$ and $\rho$ has
+compact support, although that
+is certainly stronger than we need.
+In particular, we should like to prove that as $\epsilon\to 0$ we have
+convergence to the solution to the porous medium equation with
+logistic growth:
+\begin{equation}
+\label{PME}
+\frac{\partial u}{\partial t}=
+%\frac{\partial^2}{\partial x^2}
+\Delta\left(u^2\right)
++u\left(1-u\right).
+\end{equation}
+
+We work on $[0,T]\times \IT_K$ where $\IT_K$ is the one-dimensional
+torus of size $K$, and $T,K>0$ are fixed but arbitrary.
+
+\begin{remark}
+By taking a sequence $K_n\to\infty$, and doing a bit of work,
+we can presumably then recover the result
+we need for, e.g., a population expanding its range from a compact
+set containing the origin (for which we know the solution to the PME
+converges to two travelling waves, travelling in opposite directions
+\cite{kamin/rosenau:2004}). Such waves have bounded support, even when
+we consider the equation on
+the whole real line, and travel at a fixed speed, so don't feel the boundedness
+of the torus,
+so this should be straightforward. The challenge will be to control the
+mass of the approximating functions that falls beyond that wavefront,
+since they themselves will have full support and so arguably `feel' that they
+are on the torus.
+It is not clear that it is worth doing the details for this paper - this is
+meant as an example.
+\end{remark}
+
+\begin{notation}
+
+Whenever we integrate with respect to $x$, this is implicitly over the
+whole torus $\IT_K$.
+
+We use $\rightharpoonup$ to denote weak convergence in the sense of analysts;
+that is, $u^\epsilon\rightharpoonup u$ in $L^1$ means $\int u^\epsilon v \dif x
+\rightarrow\int uv\dif x$ for all $v\in L^\infty$.
+
+We write $L_t^2(H^1)$ for functions for which the $H^1$ norm in
+space is in $L^2$ with respect to time, i.e.
+$$\int_0^T\int \left\{u(t,x)^2+\left(\frac{d}{dx} u(t,x)\right)^2\right\} \dif x \dif t <\infty,$$
+and $C_t(L^1)$
+will denote functions for which the $L^1$ norm in space is continuous in time.
+\end{notation}
+
+\begin{proposition}
+Suppose that $u_0^\epsilon\in L^1(\IT_K)$, $u_0^\epsilon\geq 0$, and
+$\sup_\epsilon\int u_0^\epsilon|\log u_0^\epsilon|dx<\infty$ with
+$u_0^\epsilon\rightharpoonup u_0^\epsilon$ as $\epsilon\to 0$. Then
+writing $u^\epsilon$ for the solution to~(\ref{mollified equation})
+on $[0,T]\times \IT_K$ with
+initial condition $u_0^\epsilon$,
+$u^\epsilon\rightharpoonup u$ as $\epsilon\to 0$ where
+$u\in L_t^2(H^1)\cap C_t(L^1)$, $\int u|\log u| dx<\infty$, and
+$u$ solves~(\ref{PME}) on $[0,T]\times \IT_K$. Moreover, strong convergence
+of the initial conditions implies strong convergence of the solutions.
+\end{proposition}
+%\noindent
+%{\bf Proof}
+\begin{proof}
+
+Our proof owes a lot to~\cite{lions/mas-gallic:2001}.
+First observe that
+\begin{multline*}
+\int u^\epsilon\cdot u^\epsilon*\zeta_\epsilon\dif x
+= \int\int\int u^\epsilon(x)u^\epsilon(x-y)\rho_\epsilon(y-z)
+\check{\rho}_\epsilon(z)\dif z\dif y\dif x
+\\
+=
+\int\int\int u^\epsilon(\tilde{x}-\tilde{z})
+u^\epsilon(\tilde{x}-\tilde{y})
+\rho_\epsilon(\tilde{y})
+\rho_\epsilon(\tilde{z})\dif \tilde{z}\dif \tilde{y}\dif \tilde{x}
+=\int\left(u^\epsilon*\rho_\epsilon\right(x))^2\dif x,
+\end{multline*}
+where we have set $\tilde{x}=x-z$, $\tilde{y}=y-z$, $\tilde{z}=-z$.
+
+Now note that
+$$\frac{d}{dt}\int u^\epsilon (t,x) \dif x=\int \Delta (u^\epsilon*\zeta_\epsilon)\dif x
++\int u^\epsilon(1-u^\epsilon*\zeta_\epsilon)\dif x= \int u^\epsilon \dif x
+-\int (u^\epsilon*\rho)^2 \dif x.$$
+Thus $\int u^\epsilon(t,x)\dif x$ is uniformly bounded above in $t$
+and $\epsilon$ on $[0,T]$. Note that this also then gives a uniform
+bound on the rate of change of $\int u^\epsilon (t,x) \dif x$, and since
+we are working on $[0,T]$ this will be enough to give continuity in time of the
+$L^1$ norm of the limit
+when we pass to a convergent subsequence.
+
+Now consider
+\begin{eqnarray*}
+\frac{d}{dt}\int u^\epsilon\log u^\epsilon \dif x &=&
+\int (1+\log u^\epsilon)\left[\Delta (u^\epsilon\cdot
+u^\epsilon*\zeta_\epsilon)+u^\epsilon(1-u^\epsilon*\zeta_\epsilon)\right]
+\dif x
+\\
+&=&
+\int (1+\log u^\epsilon)\left[\nabla\left(u^\epsilon\cdot
+\nabla(u^\epsilon*\zeta_\epsilon)+
+\nabla u^\epsilon\cdot u^\epsilon*\zeta_\epsilon\right)
++u^\epsilon(1-u^\epsilon*\zeta_\epsilon)\right] \dif x
+\\
+&=&
+\int \left[-\frac{\nabla u^\epsilon}{u^\epsilon}
+\left(u^\epsilon\cdot \nabla(u^\epsilon*\zeta_\epsilon)
++\nabla u^\epsilon\cdot u^\epsilon*\zeta_\epsilon\right)+
+(1+\log u^\epsilon)u^\epsilon(1-u^\epsilon*\zeta_\epsilon)\right]\dif x
+\\
+&=&
+-\int \left(\nabla (u^\epsilon*\rho_\epsilon)\right)^2 \dif x
+-\int (\nabla u^\epsilon)^2\frac{u^\epsilon*\zeta_\epsilon}{u^\epsilon} \dif x
+\\
+&&+\int
+\left[u^\epsilon+u^\epsilon\log u^\epsilon(1-u^\epsilon*\zeta_\epsilon)
+-u^\epsilon\cdot u^\epsilon*\zeta_\epsilon\right]\dif x\\
+&=&
+-\int \left(\nabla (u^\epsilon*\rho_\epsilon)\right)^2 \dif x
+-\int (\nabla u^\epsilon)^2\frac{u^\epsilon*\zeta_\epsilon}{u^\epsilon} \dif x
+-\int (u^\epsilon*\rho_\epsilon)^2\dif x
+\\
+&&+\int
+\left[u^\epsilon+u^\epsilon\log u^\epsilon(1-u^\epsilon*\zeta_\epsilon)
+%-u^\epsilon\cdot u^\epsilon*\zeta_\epsilon
+\right]\dif x .
+\end{eqnarray*}
+The first three terms are negative; and we already
+saw that the $L^1$ norm
+of $u^\epsilon$ is uniformly bounded.
+Moreover, since $u^\epsilon\log u^\epsilon$ is uniformly bounded below,
+$$-\int u^\epsilon \log u^\epsilon \cdot u^\epsilon*\zeta_\epsilon \dif x
+\leq C\int u^\epsilon*\zeta_\epsilon \dif x=\int u^\epsilon \dif x.$$
+From this we see immediately that $\int u^\epsilon \log u^\epsilon \dif x$
+is uniformly bounded
+above in $\epsilon$ and $t\in [0,T]$. Moreover,
+since we are working on the bounded space $\IT_K$, the lower bound
+on $u^\epsilon\log u^\epsilon$ also allows us to
+bound $\int u^\epsilon\log u^\epsilon \dif x$ uniformly
+below, from which we deduce that
+we have a uniform bound on $\int u^\epsilon|\log u^\epsilon| \dif x$.
+This in turn means that both
+$\int_0^t (u^\epsilon*\rho_\epsilon)^2 \dif x$ and
+$\int_0^t \big(\nabla (u^\epsilon*\rho_\epsilon)\big)^2 \dif x$
+are uniformly bounded in
+$\epsilon$ and $t\in [0,T]$.
+Now observe that
+\begin{equation}
+\label{total equation}
+\int\Delta\left((u^\epsilon*\zeta_\epsilon)u^\epsilon\right)\phi \dif x =
+\int \nabla(u^\epsilon*\zeta_\epsilon)\cdot
+u^\epsilon\cdot\nabla\phi \dif x +\int u^\epsilon*\zeta_\epsilon
+\cdot\nabla u^\epsilon
+\cdot \nabla\phi \dif x.
+\end{equation}
+For the first term
+\begin{eqnarray}
+\nonumber
+\int \nabla(u^\epsilon*\zeta_\epsilon)\cdot u^\epsilon\cdot\nabla\phi \dif x
+&=&
+\int\int\int\nabla u^\epsilon(x-y)\rho_\epsilon(y-z)\check{\rho}_\epsilon(z)
+u^\epsilon(x)\nabla\phi(x)\dif z \dif y \dif x
+\\
+\nonumber
+&=&
+\int\int\int\nabla u^\epsilon(\tilde{x}-\tilde{y})\rho_\epsilon(\tilde{y})
+\rho_\epsilon(\tilde{z})u^\epsilon(\tilde{x}-\tilde{z})
+\nabla\phi(\tilde{x}-\tilde{z})\dif \tilde{z}\dif \tilde{y} \dif \tilde{x}
+\\
+\nonumber
+&=&\int(\nabla u^\epsilon*\rho_\epsilon)\cdot
+\left((u^\epsilon\nabla\phi)*\rho_\epsilon\right)
+\dif x\\
+\nonumber
+&=&
+\frac{1}{2}\int\nabla ((u^\epsilon*\rho_\epsilon)^2)\cdot\nabla\phi \dif x
+\\
+\label{error 1}
+&&+
+\int\nabla(u^\epsilon*\rho_\epsilon)
+\left[(u^\epsilon\cdot\nabla\phi)*\rho_\epsilon-
+\nabla\phi\cdot((u^\epsilon*\rho_\epsilon)\right]\dif x,
+\end{eqnarray}
+where, as before, we have substituted $\tilde{x}=x-z$, $\tilde{y}=y-z$,
+$\tilde{z}=-z$.
+
+To control the term~(\ref{error 1})
+we use the Intermediate Value Theorem to see that
+\begin{multline*}
+\left|\int\left[u^\epsilon(x-y)\nabla\phi(x-y)\rho_\epsilon(y)-
+\nabla\phi(x)u^\epsilon(x-y)\rho_\epsilon(y)
+\right]\dif y\right|
+\\
+\leq C\|\Delta\phi\|_\infty\int u^\epsilon (x-y)\rho_\epsilon(y)y\dif y.
+\end{multline*}
+Since we chose $\rho$ to have compact support,
+$y\rho_\epsilon(y)\leq C\epsilon\rho_\epsilon(y)$
+in the last integral and so the expression~(\ref{error 1}) is
+$\mathcal{O}(\epsilon)$.
+
+Similarly, for the second term in~(\ref{total equation}),
+\begin{eqnarray}
+\nonumber
+\int (u^\epsilon*\zeta_\epsilon)\cdot \nabla u^\epsilon\cdot\nabla\phi \dif x
+&=&
+\int\int\int u^\epsilon(x-y)\rho_\epsilon(y-z)
+\check{\rho}_\epsilon(z)\nabla u^\epsilon(x)\nabla\phi(x)\dif z \dif y \dif x
+\\
+\nonumber
+&=&
+\int\int\int u^\epsilon(\tilde{x}-\tilde{y})\rho_\epsilon(\tilde{y})
+\rho_\epsilon(\tilde{z})\nabla u^\epsilon(\tilde{x}-\tilde{z})
+\nabla\phi(\tilde{x}-\tilde{z})\dif \tilde{z}\dif \tilde{y} \dif\tilde{x}
+\\
+\nonumber
+&=&\int(u^\epsilon*\rho_\epsilon)\cdot
+\left((\nabla u^\epsilon\nabla\phi)*\rho_\epsilon\right) \dif x\\
+\nonumber
+&=&
+\frac{1}{2}\int\nabla ((u^\epsilon*\rho_\epsilon)^2)\cdot\nabla\phi \dif x
+\\
+\label{error 2}
+&&+
+\int (u^\epsilon*\rho_\epsilon)
+\left[(\nabla u^\epsilon\cdot\nabla\phi)*\rho_\epsilon-
+\nabla\phi\cdot((\nabla u^\epsilon*\rho_\epsilon)\right]\dif x,
+\end{eqnarray}
+and~(\ref{error 2}) is controlled in the same way as~(\ref{error 1})
+using the Intermediate Value Theorem:
+\begin{multline*}
+\left|\int\left[\nabla u^\epsilon(x-y)\nabla\phi(x-y)\rho_\epsilon(y)
+-\nabla\phi(x)\nabla u^\epsilon(x-y)\rho_\epsilon(y)
+\right]\dif y\right|
+\\
+\leq C\|\Delta\phi\|_\infty\left|\int \nabla u^\epsilon(x-y)\rho_\epsilon(y)y
+\dif y\right|\\
+\leq C'\|\Delta\phi\|_\infty\epsilon \int\left|
+\nabla u^\epsilon(x-y)\rho_\epsilon(y)
+\right|\dif y.
+\end{multline*}
+
+We now have the ingredients that we need.
+The calculations above yield both a uniform (in $\epsilon$) bound on
+$u^\epsilon*\rho_\epsilon$ in
+$L^1\cap L^2\big([0,T]\times \IT_K\big)$, and
+\begin{multline}
+\int u^\epsilon(t,x)\phi(x)\dif x-\int u^\epsilon (0,x)\phi(x)\dif x
+=\int_0^t\int (u^\epsilon*\rho_\epsilon)^2\Delta\phi(x)\dif x
+\\
++\int_0^t \int u^\epsilon*\rho_\epsilon\left(1- u^\epsilon*\rho_\epsilon\right)
+\phi(x)\dif x
++\mathcal{O}(\epsilon)
+\end{multline}
+(for sufficiently regular $\phi$). Since
+$\int u^\epsilon(t,x)\phi(x)\dif x-
+\int (u^\epsilon*\rho_\epsilon)(t,x)\phi(x)\dif x$ is order $\epsilon$, we see
+that $u^\epsilon*\rho_\epsilon$ converges weakly in $L^1$ to the (unique)
+solution
+to equation~(\ref{PME})
+and, so, therefore, does $u^\epsilon$. Strong convergence, that is
+$\int |u^\epsilon -u|\phi\dif x \to 0$, follows from the
+uniform integrability of $u^\epsilon$ that we
+deduce from the uniform control of
+$\int u^\epsilon|\log u^\epsilon|\dif x$ that we proved above.
+\end{proof}
+
 
 
 % % % % % % % % % % % % %
@@ -2498,45 +2801,45 @@ Therefore we only need to solve Martingale Problem \eqref{Markov Mapping Theorem
 
 The procedure to solve the Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified} is rather standard and set out in \cite{kurtz/rodrigues:2011}, albeit we will face more technicalities for this setting. Recall that the lookdown generator of our spatial-level process satisfies
 \begin{align}\label{Lookdown generator N lambda theta prelimit}
-A^{\theta}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+A^{\theta}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
 \lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy) \nonumber \\
 & \qquad \qquad \qquad \qquad +\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1 \nonumber\\
-&+f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+&+f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
 \end{align}
 where $f(\xi) =\prod_{(x,u) \in \xi}g(x,u)$. 
 For easier computation we break the generator into three parts, 
 \begin{equation}
 \begin{aligned}
-A^{\varepsilon, \theta, \lambda,1}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+A^{\theta,1}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
 \lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1,\\
-A^{\varepsilon, \theta, \lambda,2}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+A^{\theta,2}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
 \lambda}\Bigg(\frac{1}{2}\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1,\\
-A^{\varepsilon, \theta, \lambda,3}f(\xi)=&f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+A^{\theta,3}f(\xi)=&f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
 \end{aligned}
 \end{equation}
 such that 
-$$A^{\theta}f(\xi)=A^{\varepsilon, \theta, \lambda,1}f(\xi)+A^{\varepsilon, \theta, \lambda,2}f(\xi)+A^{\varepsilon, \theta, \lambda,3}f(\xi).$$
+$$A^{\theta}f(\xi)=A^{\theta,1}f(\xi)+A^{\theta,2}f(\xi)+A^{\theta,3}f(\xi).$$
 We now calculate each generator evaluated under our probability kernel $\Gamma$.
 \footnotesize 
 \begin{align*}
-&\int A^{\varepsilon, \theta, \lambda,1}f(\xi) \Gamma(d\mathbf{u})\\ &=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)
+&\int A^{\theta,1}f(\xi) \Gamma(d\mathbf{u})\\ &=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
 \int_u^{
 \lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
-&=\sum_{(x,u)\in\xi} \int \Bigg\{\frac{f(\xi)}{g(x,u)}2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)
+&=\sum_{(x,u)\in\xi} \int \Bigg\{\frac{f(\xi)}{g(x,u)}2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
 \int_u^{
 \lambda}\Bigg(\frac 12 g(x,v_1)\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
-&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}\left\{
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}\left\{
 \int_u^{
 \lambda} g(x,v_1)dv_1\times \int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy)\right\}du\\
-&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{\mathbb{R}^d} \left\{\int_{0}^{\lambda}
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{\mathbb{R}^d} \left\{\int_{0}^{\lambda}
 \int_u^{
 \lambda} g(x,v_1) (g(y,u)-g(x,u))dv_1du\right\}q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \xi },dy)
@@ -2545,24 +2848,24 @@ We now calculate each generator evaluated under our probability kernel $\Gamma$.
 For the second generator, we have
 \footnotesize
 \begin{align*}
-&\int A^{\varepsilon, \theta, \lambda,2}f(\xi) \Gamma(d\mathbf{u})\\&=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+&\int A^{\theta,2}f(\xi) \Gamma(d\mathbf{u})\\&=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
 \lambda}\Bigg(\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
-&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\int \Bigg\{f(\xi)\times
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\int \Bigg\{f(\xi)\times
 \int_u^{
 \lambda}\Bigg(\int_{\mathbb{R}^d}\left(g(y,v_1)+g(x,v_1)-2\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
-&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i) \frac{1}{\lambda}\int_{\mathbb{R}^d}\Bigg\{\int_{0}^{\lambda}
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i) \frac{1}{\lambda}\int_{\mathbb{R}^d}\Bigg\{\int_{0}^{\lambda}
 \int_u^{
 \lambda}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du\Bigg\} q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy).
 \end{align*}  
 \normalsize
 For the third generator we have that 
 \begin{align*}
- &\int A^{\varepsilon, \theta, \lambda,3}f(\xi)\Gamma(d\mathbf{u})\\&=\int f(\xi )\,\left(\lambda^{-1} \sum_{(x,u)\in\xi}\theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\Gamma(d\mathbf{u}) \\
- &=\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\partial_u g(x,u)du \\
- &=-\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(2u\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) -b_{\theta}(x,\Xi)\right)\left(g(x,u)-1\right)du \\
- &=-\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}   2ug(x,u)du \\
- &+\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\times \lambda^2+\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)b_{\theta}(x,\Xi)(\hat{g}(x)-1) \\
+ &\int A^{\theta,3}f(\xi)\Gamma(d\mathbf{u})\\&=\int f(\xi )\,\left(\lambda^{-1} \sum_{(x,u)\in\xi}\theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\Gamma(d\mathbf{u}) \\
+ &=\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\partial_u g(x,u)du \\
+ &=-\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(2u\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) -b_{\theta}(x,\Xi)\right)\left(g(x,u)-1\right)du \\
+ &=-\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}   2ug(x,u)du \\
+ &+\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\times \lambda^2+\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)b_{\theta}(x,\Xi)(\hat{g}(x)-1) \\
 \end{align*}
 Using the symmetry we have
 \begin{align*}
@@ -2580,13 +2883,13 @@ Using the symmetry we have
 Combining the last equations we have 
 \begin{align*}
 &\int \Bigg(A^{1}_{\theta}f(\xi)+A^{2}_{\theta}f(\xi)+A^{3}_{\theta}f(\xi)\Bigg)\Gamma(d\mathbf{u})\\
-&=  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
-&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right)+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
-&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right) -\hat{f}(\xi)\sum_{(x,u) \in \xi } \theta \mu_{\varepsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right),
+&=  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right)+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\theta}(x,\xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right) -\hat{f}(\xi)\sum_{(x,u) \in \xi } \theta \mu_{\varepsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right),
 \end{align*}
-which corresponds to a spatial-branching process that branches at rate $\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)$ leaving offspring around with kernel $ q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)$ and each particle having death rate given by $\theta \mu_{\varepsilon,\theta}(x,\Xi)$. This is precisely the martingale problem in Definition \ref{def: Martingale Problem Characterisation - Product Form}.
+which corresponds to a spatial-branching process that branches at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)$ leaving offspring around with kernel $ q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)$ and each particle having death rate given by $\theta \mu_{\varepsilon,\theta}(x,\Xi)$. This is precisely the martingale problem in Definition \ref{def: Martingale Problem Characterisation - Product Form}.
 \newpage
-\subsubsection{Markov Mapping Theorem Application on Generator $A^{\text{nl}}_{\varepsilon}$}\label{sec: Markov Mapping Theorem application - limit}
+\subsection{Markov Mapping Theorem Application on Generator $A^{\text{nl}}_{\varepsilon}$}\label{sec: Markov Mapping Theorem application - limit}
 In this section we consider a general generator limit for the lookdown representation of our spatial model. 
 We define
 \begin{equation}
@@ -2713,7 +3016,7 @@ where $\mathcal{L}^{nl}_{\varepsilon}$ is the generator of a non-linear superpro
 \newpage
 \section{Technical Lemmas}
 \subsection{Proof to Lemma \ref{lem: gamma - r radius comparison}}
-
+    \label{sec: Proof to gamma-r radius comparison}
 Suppose that the birth rate at $x$ is
 $\gamma(\rho_\gamma * \eta(x))$
 and the establishment probability is
@@ -2730,7 +3033,7 @@ $$
 $$
 for some bounded function $F$ and kernel $\rho_R$ (that is probably either $\rho_r$ or $\rho_\gamma$).
 
-To bound $\E\left[\langle 1, \eta_t \rangle\right]$
+To bound $\IE\left[\langle 1, \eta_t \rangle\right]$
 by Gronwall,
 we would like to find a bound of the form
 \begin{align} \label{eqn:goal}
@@ -2952,7 +3255,7 @@ using the fact that
 \right)^{d/2}
 \exp\left( \frac{ a^2 }{ 2 (\theta + b) } \right) ,
 \end{align}
-(since $Z \sim \text{Normal}(0, \sigma^2)$ then $\E[e^{tZ}] = \exp(\sigma^2 t^2 / 2)$).
+(since $Z \sim \text{Normal}(0, \sigma^2)$ then $\IE[e^{tZ}] = \exp(\sigma^2 t^2 / 2)$).
 
 Let $z = y - x$ and note that the polynomial in the exponent inside the definition of $H$ is
 \begin{align}
