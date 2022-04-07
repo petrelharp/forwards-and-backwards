@@ -1590,7 +1590,8 @@ Conditional on the spatial population $\eta$,
 the levels of individuals in the population
 will be independently and uniformly distributed
 on $[0,\lambda]$.
-Similar lookdown constructions can be found in \cite{etheridge/kurtz:2018},\cite{kurtz/rodrigues:2011}.
+Similar lookdown constructions can be found 
+in \cite{etheridge/kurtz:2018},\cite{kurtz/rodrigues:2011}.
 Test functions for this enriched process take the form
 \begin{equation}
 \label{test functions}
@@ -1747,11 +1748,13 @@ Explicitly, in the $\theta$-th stage of re-scaling,
 an individual has mass $\frac{1}{\lambda} := \frac{1}{N}$
 and a level between $[0,N]$;
 the established birth rate $\gamma(x,\eta)$ is
-$$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta):=~\theta\gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy);$$
+$$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)
+:=~\theta\gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy);$$
 the local branching mechanism $b(x,\eta)$ is 
 $$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
 and the dispersal kernel $q^{\mathfrak{m}}(x,dy)$ is 
-$$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) :=~ \frac{r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
+$$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) 
+:=~ \frac{r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
 
 We can now define our pre-limit explicitly as a solution to a Martingale Problem.
 \begin{definition}[Martingale Problem Characterisation]
@@ -1772,27 +1775,53 @@ and generator $A^{\theta}$ that satisfies
 
 \begin{eqnarray}\label{Eq: Prelimit Lookdown Generator}
 &&A^{\theta}f(\xi ) \\
-&&\quad =f(\xi )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\Bigg\{ \frac 12 \lambda^{-1}\int_u^{
-\lambda}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\eta,dy) }{g(x,u)}\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\lambda^{-1}\theta\int_u^{
-\lambda}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
+&&\quad =f(\xi )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\Bigg\{ \frac 12 N^{-1}\int_u^{
+N}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\eta,dy) }{g(x,u)}\non\\
+&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +N^{-1}\theta\int_u^{
+N}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
 &&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
++f(\eta )\sum_{(x,u)\in\xi}\,\left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
 \end{eqnarray}
 for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$. 
 \end{definition}
 
 
 
-
-In \S \ref{sec: Markov Mapping Theorem Application},
+\begin{remark}
+In Appendix \ref{sec: Markov Mapping Theorem Application},
 applying Markov Mapping Theorem,
-we will show that the spatial projection of $(\eta^{\theta}_t)_{t \geq 0}$ has the same distribution as $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ if we take $\lambda = N$. Specifically, we mean that when $\lambda=N$, 
-$$(\eta^{\theta}(t))_{t \geq 0}:=\left(\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta^{\theta}(t) \\ U(t) < \lambda}} \delta_{X(t)}\right)_{t \geq 0}$$
-has the same distribution (as stochastic processes) as $(\eta^{\theta}_t)_{t \geq 0}$ in Definition \ref{Def: Rescaled Models}. As a result, we use the same notation $\eta$ to denote these two essentially identical processes which take values in the space of empirical measures. On the other hand, we reserve the notation $\eta$ strictly for the spatial-level process.\\~\\ Furthermore, the application of Markov Mapping Theorem implies that particle levels are, conditional on $\eta$, i.i.d and uniformly distributed between $[0, \lambda]$.  Theorem A.10 in \cite{kurtz/rodrigues:2011} states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$ to a conditionally Poisson system $(\xi_t)_{t \geq 0}$ with Cox measure $\Xi_t \times \Lambda$ is equivalent to convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$. As a result, it suffices for us to focus on tightness of $(\eta^{\theta}_t)_{t \geq 0}$ and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ as $\theta \to \infty$.
+we will show that the spatial projection of $(\xi^{\theta}_t)_{t \geq 0}$ defined as 
+$$(\eta^{\theta}(t))_{t \geq 0}
+:=\left(\frac{1}{N}\sum\limits_{(X(t),U(t))\in \xi^{\theta}(t)} \delta_{X(t)}\right)_{t \geq 0}$$
+has the same distribution (as stochastic processes)
+as $(\eta^{\theta}_t)_{t \geq 0}$
+in Definition \ref{Def: Rescaled Models}.
+As a result, we use the same notation $\eta$
+to denote these two identically distributed processes
+which take values in the space of empirical measures.
+On the other hand,
+we reserve the notation $\xi$
+strictly for the spatial-level process.
+
+Furthermore, the application of Markov Mapping Theorem implies that 
+particle levels are, conditional on $\eta$,
+i.i.d and uniformly distributed between $[0, N]$.
+
+Theorem A.10 in \cite{kurtz/rodrigues:2011}
+states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$
+to a conditionally Poisson system $(\xi_t)_{t \geq 0}$
+with Cox measure $\Xi_t \times N$
+is equivalent to convergence of
+$(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$.
+As a result, it suffices for us to focus on
+tightness of $(\eta^{\theta}_t)_{t \geq 0}$
+and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$
+as $\theta \to \infty$.
 
 
 
+
+\end{remark}
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Evolution of an Individual Particle}
@@ -2381,7 +2410,7 @@ where we have used that $w$ solves~(\ref{profile}).
 \appendix
 \section{Markov Mapping Theorem Applications}
     \label{sec: Markov Mapping Theorem Application}
-\subsection{Markov Mapping Theorem Application on Generator $A_{\theta}$}\label{sec: Markov Mapping Theorem Application - Prelimit}
+\subsection{Markov Mapping Theorem Application on Generator $A^{\theta}$}\label{sec: Markov Mapping Theorem Application - Prelimit}
 
 We now introduce some notations to simply our calculations. For $\xi=\sum \delta_{(x_i,u_i)}$, we write $\textbf{x}=(x_1,x_2,...), \textbf{u}=(u_1,u_2,...)$ to be the collections of particles locations and levels respectively. With this notation we will write $f(\xi), f(\textbf{x},\textbf{u})$ interchangeably. We write $\Gamma (d\textbf{u})$ as the probability kernel that corresponds to assigning each particle an i.i.d. uniform $[0,\lambda]$-level, i.e.
 $$\int f(\textbf{x},\textbf{u})\Gamma (d\textbf{u})=\frac{1}{\lambda^{|\xi|}}\int_{[0,\lambda]^{|\xi|}}f(\textbf{x},\textbf{u})d\textbf{u},$$
@@ -2661,7 +2690,427 @@ Combining all results we have that
 \normalsize
 where $\mathcal{L}^{nl}_{\varepsilon}$ is the generator of a non-linear superprocess of the form characterised in Equation \eqref{eq: Empirical Measure Martingale characterisation - product form}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Technical Lemmas}
+\subsection{Proof to Lemma \ref{lem: gamma - r radius comparison}}
 
+Suppose that the birth rate at $x$ is
+$\gamma(\rho_\gamma * \eta(x))$
+and the establishment probability is
+$r(\rho_r * \eta(x))$,
+for some functions $\gamma$ and $r$,
+and where $\rho_\gamma$ and $\rho_r$ are some kernels,
+and that the death rate at $x$ is
+$$
+    \mu(x, \eta) = 
+        \gamma(\rho_\gamma * \eta(x))
+        r(\rho_r * \eta(x))
+        +
+        \frac{1}{\theta} F(\rho_R * \eta(x))
+$$
+for some bounded function $F$ and kernel $\rho_R$ (that is probably either $\rho_r$ or $\rho_\gamma$).
+
+To bound $\E\left[\langle 1, \eta_t \rangle\right]$
+by Gronwall,
+we would like to find a bound of the form
+\begin{align} \label{eqn:goal}
+    \theta \int \left[
+        r(\rho_r * \eta(y))
+        -
+        r(\rho_r * \eta(x))
+    \right] q_\theta(x, dy)
+    \le
+    G( \rho_\gamma * \eta(x) ),
+\end{align}
+for some polynomial function $G$.
+
+To do this, first we expand $r(\rho_r * \eta(x))$ to second order.
+Given $y$, with $x < \tilde y < y$,
+\begin{align}
+    r(\rho_r * \eta(y)) - r(\rho_r * \eta(x))
+    &=
+    r'(\rho_r * \eta(x))
+    \left\{
+        \rho_r * \eta(y)
+        -
+        \rho_r * \eta(x)
+    \right\}
+    +
+    \frac{1}{2}
+    r''(\rho_r * \eta(\tilde y))
+    \left\{
+        \rho_r * \eta(y)
+        -
+        \rho_r * \eta(x)
+    \right\}^2 .
+\end{align}
+
+Putting this in Equation \eqref{eqn:goal}, the second term is then
+\begin{align}
+&\theta \int
+    \frac{1}{2}
+    r''(\rho_r * \eta(\tilde y))
+    \left\{
+        \rho_r * \eta(y)
+        -
+        \rho_r * \eta(x)
+    \right\}^2 
+    q_\theta(x, dy)  \\
+&\qquad
+\le \theta \frac{\|r''\|_\infty}{2}
+    \int
+    \left\{
+        \rho_r * \eta(y)
+        -
+        \rho_r * \eta(x)
+    \right\}^2 
+    q_\theta(x, dy)  .
+\end{align}
+
+We will first show that this is bounded by a function of $\rho_\gamma * \eta(x)$,
+i.e., that for any $x < \tilde y < y$ and $\theta$ sufficiently large,
+there is a $C$ with
+\begin{align} \label{eqn:goal2}
+    \theta \int
+    \left\{
+        \rho_r * \eta(y)
+        -
+        \rho_r * \eta(x)
+    \right\}^2 
+    q_\theta(x, dy)  
+\le
+C \rho_\gamma * \eta(x) .
+\end{align}
+
+Leaving aside the $\frac{\|r''\|_\infty}{2}$ constant,
+let's rewrite this so we can use Fubini.
+First note that,
+since $\rho_r *\eta(x) = \int \rho_r(x - w) \eta(dw)$
+is the normalizing constant for the measure proportional to $\rho_r(x - w) \eta(dw)$,
+then applying Jensen's inequality,
+\begin{align}
+&\left\{
+            \rho_r * \eta(y)
+            -
+            \rho_r * \eta(x)
+\right\}^2  \\
+&\qquad
+=
+\left\{
+\int
+    \left(
+        \rho_r(y-w)
+        -
+        \rho_r(x-w)
+    \right)
+\eta(dw)
+\right\}^2  \\
+&\qquad
+=
+\left\{
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)
+    \rho_r(x-w)
+\eta(dw)
+\right\}^2  \\
+&\qquad
+=
+\left(\rho_r * \eta(x)\right)^2 \left\{
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)
+    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
+\eta(dw)
+\right\}^2  \\
+&\qquad
+\le
+\left(\rho_r * \eta(x)\right)^2 
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
+\eta(dw) \\
+&\qquad
+=
+\rho_r * \eta(x)
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+    \rho_r(x-w)
+\eta(dw) .
+\end{align}
+
+Now, we don't mind having the $\rho_r * \eta(x)$ term,
+so we'd like to bound the remaining bit by $\rho_\gamma * \eta(x)$.
+We'll now bring in the integral over $y$ and use Fubini, so that
+\begin{align}
+&\int \theta
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+    \rho_r(x-w)
+\eta(dw)
+q_\theta(x, dy) \\
+&\qquad
+=
+\int \theta H_\theta(x, w) \rho_r(x-w) \eta(dw) ,
+\end{align}
+if we define
+\begin{align}
+H_\theta(x, w)
+:=
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+q_\theta(x, dy) .
+\end{align}
+So, it only remains to bound $\theta H_\theta (w, x) \rho_r(x-w) $ by $\rho_\gamma(x - w)$.
+
+Now, let's assume that $\rho$ and $q$ are all Gaussian;
+to avoid difficulties with notation,
+define  $p_t(x) = \exp(-x^2 / 2t) / (2 \pi t)^{d/2}$
+to be the heat kernel,
+so that $\rho_r(x) = p_{\epsilon_r^2}(x)$
+and $q_\theta(x) = p_{1/\theta}(x)$.
+Writing out $H$,
+\begin{align}
+H_\theta(x, w)
+=
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                (y - w)^2 - (x - w)^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta(y - x)^2 / 2}
+    }{
+        (2 \pi / \theta)^{d/2}
+    }
+dy .
+\end{align}
+
+We'll just multiply this out and evaluate it directly,
+using the fact that
+\begin{align}
+&
+\int e^{-a z - b z^2 / 2} \frac{e^{-\theta z^2 / 2}}{(2 \pi / \theta)^{d/2}} dz
+\\ &\qquad
+=
+\left(
+    \frac{ \theta }{ \theta + b }
+\right)^{d/2}
+\int e^{-a z} \frac{e^{-(\theta + b) z^2 / 2}}{(2 \pi / (\theta + b))^{d/2}} dz
+\\ &\qquad
+= \label{eqn:mgf}
+\left(
+    \frac{ \theta }{ \theta + b }
+\right)^{d/2}
+\exp\left( \frac{ a^2 }{ 2 (\theta + b) } \right) ,
+\end{align}
+(since $Z \sim \text{Normal}(0, \sigma^2)$ then $\E[e^{tZ}] = \exp(\sigma^2 t^2 / 2)$).
+
+Let $z = y - x$ and note that the polynomial in the exponent inside the definition of $H$ is
+\begin{align}
+    (y-w)^2 - (x-w)^2
+    &=
+    (y - x)(y + x - 2w) \\
+    &=
+    z (z + 2x - 2w) ,
+\end{align}
+and so
+\begin{align}
+&
+\left(
+    \exp\left(
+        \frac{1}{2\epsilon_r^2}
+        \left\{
+            (y - w)^2 - (x - w)^2
+        \right\}
+    \right)
+    -
+    1
+\right)^2 \\
+&\qquad
+= \label{eqn:H_form}
+    \exp\left(
+        - \frac{1}{\epsilon_r^2}
+        \left\{
+            z^2 + z (2x - 2w)
+        \right\}
+    \right)
+    - 2 \exp\left(
+        - \frac{1}{2\epsilon_r^2}
+        \left\{
+            z^2 + z (2x - 2w)
+        \right\}
+    \right)
+    + 1 .
+\end{align}
+So, for the first term in $H$ we use \eqref{eqn:mgf} with
+$a = 2 (x-w) / \epsilon_r^2$ and $b = 2 / \epsilon_r^2$,
+while for the second these are each divided by 2.
+So,
+\begin{align}
+H_\theta(x, w)
+&=
+\left(
+    \frac{ \theta }{ \theta + 2/\epsilon_r^2 }
+\right)^{d/2}
+\exp\left( \frac{ 4 (x-w)^2 }{ 2 \epsilon_r^2 (\theta \epsilon_r^2 + 2) } \right)
+- 2
+\left(
+    \frac{ \theta }{ \theta + 1/\epsilon_r^2 }
+\right)^{d/2}
+\exp\left( \frac{ (x-w)^2 }{ 2 \epsilon_r^2 (\theta \epsilon_r^2 + 1) } \right)
++ 1 \\
+&=
+\left(
+    \frac{ 1 }{ 1 + 2/(\theta \epsilon_r^2) }
+\right)^{d/2}
+\exp\left( \frac{ 4 (x-w)^2 }{ 2 \epsilon_r^2 \theta (\epsilon_r^2 + 2/\theta) } \right)
+- 2
+\left(
+    \frac{ 1 }{ 1 + 1/(\theta \epsilon_r^2) }
+\right)^{d/2}
+\exp\left( \frac{ (x-w)^2 }{ 2 \epsilon_r^2 \theta (\epsilon_r^2 + 1/\theta) } \right)
++ 1 .
+\end{align}
+
+If we define $f(u)$ so that $f(1/\theta) = H_\theta(x, w)$,
+then notice since $f(0) = 0$,
+that $\theta f(1/\theta) = f'(u)$ for some $0 \le u \le 1/\theta$,
+by the intermediate value theorem.
+Let's work out what $f'(u)$ is.
+First note that if
+\begin{align}
+    g(u)
+    &=
+    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
+    \exp\left(
+    \frac{
+    b u
+    }{
+    1 + c u
+    }
+    \right)
+\end{align}
+then
+\begin{align}
+    g'(u)
+    &=
+\left\{
+    \frac{ - ad/2 }{ 1 + a u }
+    +
+    \frac{b}{1 + cu}
+    -
+    \frac{bcu}{(1+cu)^2}
+\right\}
+    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
+    \exp\left(
+    \frac{
+    b u
+    }{
+    1 + c u
+    }
+    \right) \\
+    &=
+\left\{
+    \frac{ - ad/2 }{ 1 + a u }
+    +
+    \frac{b}{(1 + cu)^2}
+\right\}
+    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
+    \exp\left(
+    \frac{
+    b u
+    }{
+    1 + c u
+    }
+    \right) .
+\end{align}
+If, as will be the case, all of $a$, $b$, $c$, and $u$ are nonnegative, then
+\begin{align}
+|g'(u)|
+&\le
+ (b + ad/2) \exp(bu) .   
+\end{align}
+Now, note that $f'(u) = g_1'(u) - 2 g_2'(u)$, where $g_1$ and $g_2$ are of this form
+with constants $a_1, b_1, c_1$ and $a_2, b_2, c_2$ respectively.
+
+
+Again, we'd like to show that for some $C$,
+\begin{align}
+    \theta H_\theta(x, w) \rho_r(x-w) \le C \rho_\gamma(x-w)  .
+\end{align}
+We will have $\rho_\gamma = p_{\epsilon_\gamma^2}$ with $\epsilon_\gamma > \epsilon_r$,
+so that $\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-A (x-w)^2 / 2)$
+with $A = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
+Putting this together,
+we will have shown \eqref{eqn:goal2}
+if we can show for some $\theta$ that
+for all $x$ and $w$ and all $u \le 1/\theta$,
+\begin{align} \label{eqn:goal3}
+    f'(u) \exp\left(-A (x-w)^2 \right) \le C .
+\end{align}
+Since $f'(u) = g_1'(u) - 2 g_2'(u)$ we need only prove this bound
+for both $g_1'(u)$ and $g_2'(u)$.
+Referring to \eqref{eqn:H_form}
+we see that $b_1 = 2(x-w)^2 / \epsilon_r^4$
+and that $a$ and $c$ only depend on $\epsilon_r$,
+\begin{align}
+|g_1'(u)|
+&\le
+\left\{
+    C_1 + C_2 (x-w)^2
+\right\}
+\exp\left(
+    \frac{ 2 (x - w)^2 }{ \epsilon_r^4 } u
+\right)  \\
+&\le
+\left\{
+    C_1 + C_2 (x-w)^2
+\right\}
+\exp\left(
+    \frac{ 2 (x - w)^2 }{ \epsilon_r^4 \theta }
+\right) 
+\end{align}
+where $C_1$ and $C_2$ are constants that just depend on $\epsilon_r$.
+Therefore, equation \eqref{eqn:goal3} is satisfied
+if the multiplier of $(x-w)^2$ in the last equation is less than $A$,
+i.e., if
+\begin{align}
+\theta 
+> 
+\frac{ 4 }{ A \epsilon_r^4 }
+=
+\frac{ 4 / \epsilon_r^2 }{1 - \epsilon_r^2 / \epsilon_\gamma^2 } .
+\end{align}
+This is possible if $\epsilon_r < \epsilon_\gamma$.
 
 \bibliographystyle{plainnat}
 \bibliography{refs.bib}
