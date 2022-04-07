@@ -366,6 +366,7 @@ When the process has a density, it is $\varphi(t, x) = d \eta_t(dx)/dx$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and main results}
+    \label{sec: Model and main results}
 
 The model we work with is a fairly general model
 of individuals living in continuous space.
@@ -509,7 +510,7 @@ and state some assumptions on the parameters.
     Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
     are bounded, uniformly continuous functions
     from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
-    Furthermore, suppose $r_\theta$ takes values in $[0, 1]$
+    Furthermore, suppose $r$ takes values in $[0, 1]$
     and has uniformly bounded second derivatives,
     and that $(x, m) \mapsto m^2 \gamma(x, m)$ is unformly bounded.
     Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
@@ -519,22 +520,65 @@ and state some assumptions on the parameters.
     \begin{align}
         \mu(x, \eta)
         =
-        r(x, \smooth{r} \eta(x))
-        \gamma(\smooth{\gamma} \eta(x))
+        r(x, \smooth{r} \eta^{\theta}(x))
+        \gamma(\smooth{\gamma} \eta^{\theta}(x))
         - \frac{1}{\theta}
-        F(x, \smooth{F} \eta(x)) .
+        F(x, \smooth{F} \eta^{\theta}(x)) .
     \end{align}
     Let $N$ be a positive number determined by $\theta$.
     When the state of the process is $\eta$,
     offspring of mass $1/N$ are produced at location $x$
-    with rate $\theta \gamma(x, \smooth{\gamma} \eta(x)) N \eta(dx)$
-    and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta(dx)$,
+    with rate $\theta \gamma(x, \smooth{\gamma} \eta^{\theta}(x)) N \eta^{\theta}_s(dx)$
+    and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta^{\theta}_s(dx)$,
     (i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
     Offspring disperse to a location offset from the parent's location
     by an independent Gaussian with mean $\meanq/\theta$
     and covariance matrix $\covq / \theta$;
     an offspring at $x$ establishes instantaneously
-    with probability $r(x, \smooth{r} \eta(x))$, or else dies.
+    with probability $r(x, \smooth{r} \eta^{\theta}(x))$, or else dies.
+\end{definition}
+
+We will now define $(\eta^{\theta}(t))_{t \geq 0}$
+explicitly as a solution to a Martingale problem.
+
+\begin{definition}[Martingale Problem Characterisation]
+    \label{Def: Rescaled Models}
+We define $(\eta^{\theta}_t)_{t \geq 0}$ to be the solution to the Martingale Problem,
+with initial condition $\eta^{\theta}_0$,
+such that for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$,
+\begin{equation}
+    \label{eq: Pre-limit Martingale Characterisation}
+\begin{aligned}
+&     M^{\theta}_t(f)\\
+:=&  \langle f,\eta^{\theta}_t \rangle
+        -\langle f,\eta^{\theta}_0 \rangle\\
+ &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
+ \left(
+        f(z)r\big(z,\varrho_{r}*\eta^{\theta}_{s}(z)\big)
+            -f(x)r\big(x,\varrho_{r}*\eta^{\theta}_{s}(x)\big)
+            \right)
+                    q_\theta(x,dz)\right)
+                            \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+                            \eta^{\theta}_{s}(dx)\\
+& \qquad +\int 
+f(x)F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
+\eta^{\theta}_{s}(dx)\bigg\} ds
+\end{aligned}    
+\end{equation}
+is a martingale with quadratic variation
+\begin{equation}
+\begin{aligned}
+[ M^{\theta}_t(f)] =& 
+\frac{\theta}{N} \int_{0}^{t}\bigg\{
+\langle \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+\int f^2(y)r\big(y,\varrho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
+,\eta^{\theta}_{s}(dx)\rangle\\
+& \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
+,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds. 
+\end{aligned}    
+\end{equation}
+
+
 \end{definition}
 
 Since we are taking a diffusion limit,
@@ -565,15 +609,15 @@ we will have use for the following notation:
 An equivalent way to describe the model
 would be to say that an individual at $x$ gives birth at rate
 $$
-    \gamma(x, \smooth{\gamma} \eta(x))
-    \int r(x, \smooth{r} \eta(y)) q(x, dy) ,
+    \gamma(x, \smooth{\gamma} \eta^{\theta}(x))
+    \int r(x, \smooth{r} \eta^{\theta}(y)) q(x, dy) ,
 $$
 and that offspring disperse according to the kernel
 $$
     q_\theta^\mathfrak{m}(x, dy)
     :=
     \frac{
-        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
+        r(y, \smooth{r} \eta^{\theta}(y)) q_\theta(x, dy)
     }{
         \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
     } .
@@ -591,7 +635,7 @@ it is interesting to write down the limiting generator:
         - 
         f(\cdot) \DG\left[ r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
     }{
-        r(x, \smooth{r} \eta(x))
+        r(x, \smooth{r} \eta^{\theta}(x))
     } .
 \end{align*}
 In the simplest case of unbiased, isotropic dispersal,
@@ -652,14 +696,14 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \\ & \qquad
         -
         \int_0^t \big\langle
-            \gamma(x, \smooth{\gamma} \eta_s(x))
+            \gamma(x, \smooth{\gamma} \eta^{\theta}_{s}(x))
             \mathcal{B}\left(
-                f(\cdot) r(\cdot, \smooth{r} \eta_s(\cdot))
+                f(\cdot) r(\cdot, \smooth{r} \eta^{\theta}_{s}(\cdot))
             \right)(x)
             +
             f(x)
-            F(x, \smooth{F} \eta_s(x)),
-            \eta_s(dx)
+            F(x, \smooth{F} \eta^{\theta}_{s}(x)),
+            \eta^{\theta}_{s}(dx)
         \big\rangle ds,
     \end{align}
     is a martingale.
@@ -670,10 +714,10 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \delta
         \int_0^t
         \big\langle
-            \gamma\left( x, \smooth{\gamma} \eta_s(x) \right)
-            r\left(x, \smooth{r} \eta_s(x) \right)
+            \gamma\left( x, \smooth{\gamma} \eta^{\theta}_{s}(x) \right)
+            r\left(x, \smooth{r} \eta^{\theta}_{s}(x) \right)
             f^2(x),
-            \eta_s (dx)
+            \eta^{\theta}_{s} (dx)
         \big\rangle ds. 
     \end{align}
     In other words, the limit is a measure-valued process with non-local interactions.
@@ -1264,7 +1308,7 @@ on test functions of the form
 $$
     F( \langle f, \eta\rangle )
     =
-    F \left( \int f(x)\eta(dx) \right),
+    F \left( \int f(x)\eta^{\theta}_s(dx) \right),
 $$
 where $f \geq 0$ is smooth and compactly supported on $\IR^d$ and 
 $F \in C^\infty ([0,\infty))$.
@@ -1313,10 +1357,10 @@ Consider first the mean measure. For a suitable
 \IE\left[\left.\langle f,\eta_{\delta t}\rangle -
 \langle f, \eta\rangle \right|\eta_0=\eta
 \right]\\
-=\theta\int\int f(z)r_\theta(z,\eta)q_\theta(x,dz)
-\gamma_\theta(x,\eta)
-\eta(dx)-\theta\int f(x)\mu_\theta(x,\eta)
-\eta(dx).
+=\theta\int\int f(z)r(z,\eta)q_\theta(x,dz)
+\gamma(x,\eta)
+\eta^{\theta}_s(dx)-\theta\int f(x)\mu(x,\eta)
+\eta^{\theta}_s(dx).
 \end{multline}
 The first term is the increment in $\langle f,\eta\rangle$
 resulting from a birth event (recalling that
@@ -1335,31 +1379,31 @@ as
 \begin{multline}
 \label{rewritten mean measure}
 \int\left(\int \theta \left(
-f(z)r_\theta(z,\eta)- f(x)r_\theta(x,\eta)\right)
+f(z)r(z,\eta)- f(x)r(x,\eta)\right)
 q_\theta(x,dz)\right)
-\gamma_\theta(x,\eta)
-\eta(dx)
+\gamma(x,\eta)
+\eta^{\theta}_s(dx)
 \\
-+\int\theta\int f(x)\Big(r_\theta(x,\eta)
-\gamma_\theta(x,\eta)
--\mu_\theta(x,\eta)\Big)
-\eta(dx).
++\int\theta\int f(x)\Big(r(x,\eta)
+\gamma(x,\eta)
+-\mu(x,\eta)\Big)
+\eta^{\theta}_s(dx).
 \end{multline}
 Suppose that $\eta\to\Xi$, a measure on $\IR^d$,
 in the scaling limit, then we see that we can 
 let $\theta\rightarrow\infty$ in~(\ref{rewritten mean measure})
 under the assumptions that
 \begin{eqnarray}
-r_\theta(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
+r(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
 r(x,\Xi)\\
-\gamma_\theta(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
+\gamma(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
 \gamma(x,\Xi)\\
 \int\theta \Big(r(z,\eta)f(z)-
 r(x,\eta)f(x)\Big)q_\theta(x,dz) 
 &\stackrel{\theta\to\infty}{\longrightarrow}& 
 \Delta \big(r(\cdot,\Xi)f(\cdot)\big)(x);\\
-\theta \Big(r_\theta(x,\eta)\gamma_\theta (x,\eta)
--\mu_\theta (x,\eta)\Big)
+\theta \Big(r(x,\eta)\gamma (x,\eta)
+-\mu (x,\eta)\Big)
  &\stackrel{\theta\to\infty}{\longrightarrow}& 
 F(x,\Xi),
 \label{near critical}
@@ -1403,14 +1447,14 @@ the same conclusion (up to constants).
 
 When an individual at the point $x$ gives birth, the total number of
 mature offspring is Poisson with parameter
-$$\gamma_\theta(x,\eta)\int 
-r_{\theta}(y,\eta) q_{\theta}(x, dy)
-=\gamma_\theta(x,\eta)p_\theta(x,\eta).$$
+$$\gamma(x,\eta)\int 
+r(y,\eta) q_{\theta}(x, dy)
+=\gamma(x,\eta)p_\theta(x,\eta).$$
 Offspring that survive to maturity are distributed about the parent
 according to 
 $$\overline{q}_\theta(x,\eta,dy):=
-\frac{r_{\theta}(y,\eta)q_\theta(x,dy)} 
-{\int r_{\theta}(z,\eta)q_\theta(x,dz)}. 
+\frac{r(y,\eta)q_\theta(x,dy)} 
+{\int r(z,\eta)q_\theta(x,dz)}. 
 $$
 Writing $X(x)$ for the increment to $\langle f, \eta\rangle$
 due to a single mature offspring of an individual at $x$, 
@@ -1425,25 +1469,25 @@ $$\IE[X(x)^2]=\int
 \frac{1}{N^2}f^2(y) \overline{q}_\theta(x,\eta,dy),$$
 and
 $$\IE[P(x)]=
-\gamma_\theta (x,\eta) \int 
-r_{\theta}(z,\eta)q_\theta(x,dz),$$ 
+\gamma (x,\eta) \int 
+r(z,\eta)q_\theta(x,dz),$$ 
 the contribution to the quadratic variation from birth events, which
 occur at rate $\theta$ per individual 
 (so $N\theta |\eta|$ overall), is
-$$\langle N\theta \gamma_\theta(x,\eta)
-\int \frac{1}{N^2}f^2(y)r_{\theta}(y,\eta)
+$$\langle N\theta \gamma(x,\eta)
+\int \frac{1}{N^2}f^2(y)r(y,\eta)
 q_\theta(x,dy) 
-,\eta(dx)\rangle.$$
+,\eta^{\theta}_s(dx)\rangle.$$
 The increment in $\langle f, \eta\rangle$ resulting from 
 the death of an individual at $x$ is $f(x)/N^2$, and so combining with the 
 above, the second order term in the generator takes the form
 $$F''(\langle f,\eta\rangle)
 \frac{1}{2}N\theta \left\{
-\langle \gamma_\theta(x,\eta)
-\int \frac{1}{N^2}f^2(y)r_\theta(y,\eta)q_\theta(x,dy) 
-,\eta(dx)\rangle
-+\langle \mu_\theta(x,\eta)\frac{1}{N^2}f^2(x) 
-,\eta(dx)\rangle\right\}.
+\langle \gamma(x,\eta)
+\int \frac{1}{N^2}f^2(y)r(y,\eta)q_\theta(x,dy) 
+,\eta^{\theta}_s(dx)\rangle
++\langle \mu(x,\eta)\frac{1}{N^2}f^2(x) 
+,\eta^{\theta}_s(dx)\rangle\right\}.
 $$
 The term $\varepsilon_{\theta,N}(f, F, \eta)$ will be 
 ${\mathcal O}(\theta/N^2)$.
@@ -1518,156 +1562,217 @@ $$\frac{2}{\rho}\int_0^t\langle f^2(x)
 
 \plr{Motivation for and definition of the lookdown process; statement of main convergence theorem.}
 
-Now we
-will present a lookdown construction for $(\overline{\eta}^{\epsilon,\theta,N}(t))_{t \geq 0}$ stated in Definition \ref{Def: Rescaled Models}
-in the spirit of~\cite{kurtz/rodrigues:2011}. 
+Now we will present a lookdown construction for $(\eta^{\theta}(t))_{t \geq 0}$
+stated in Definition \ref{Def: Rescaled Models} in the spirit of~\cite{kurtz/rodrigues:2011}. 
 The key benefit of working in such a framework is that
-we shall be able to preserve the notion of individuals, and in particular their genealogies, when we pass to the limit. Our notation will follow a standard pattern.
+we shall be able to preserve the notion of individuals,
+and in particular their genealogies,
+when we pass to the limit.
+Our notation will follow a standard pattern.
 
 % % % % % % % % % % % % % % % %
-\subsection*{Prelimit Models and Notation}\label{Prelimit Models and Notation Section}
+\subsection*{Lookdown Representation and Notation}
+\label{sec: Lookdown Representation and Notation}
 
-In the prelimiting models each individual in the population will be assigned a 
-`level' from $[0,\lambda]$. We also let $\lambda$ takes on the role of $N$ in \S \ref{sec: model and results}, i.e. each individual has mass $1/\lambda$ in the scaling limit. Speed is once again scaled by $\theta$ and local radius by $\varepsilon(\theta)$.\\
-A state of the discrete population model will be of the form $\eta=\sum\delta_{(x,u)}$, where $x$ denotes the  
-spatial location of an individual, and $u$ is its level. Just as we did in \S\ref{prelimiting spatial model}, we shall
-abuse notation and treat $\eta$ both as a set and as a counting
-measure. The population of \S\ref{prelimiting spatial model}
-is recovered as $\overline{\eta}=\frac{1}{\lambda}\sum_{(x,u)\in\eta}\delta_x$, i.e. $\overline{\eta}$ is the spatial projection of our spatial-level model $\eta$. 
-Conditional on $\overline{\eta}$, the levels of individuals in 
-the population will be independent, uniformly distributed random variables
-on $[0,\lambda]$. All of this can be found in \cite{etheridge/kurtz:2018},\cite{kurtz/rodrigues:2011}.
+In the prelimiting models,
+each individual in the population
+will be assigned a `level' from $[0,\lambda]$.
+
+
+A state of the discrete population model will be of the form $\xi=\sum\delta_{(x,u)}$,
+where $x$ denotes the spatial location
+of an individual, and $u$ is its level.
+We shall abuse notation and treat $\xi$ both as a set and as a counting measure.
+The spatial population described in \S \ref{sec: Model and main results} is recovered as
+$$\eta=\frac{1}{\lambda}\sum_{(x,u)\in\xi}\delta_x,$$
+i.e. $\eta$ is the re-scaled spatial projection of our spatial-level model $\xi$. 
+Conditional on the spatial population $\eta$,
+the levels of individuals in the population
+will be independently and uniformly distributed
+on $[0,\lambda]$.
+Similar lookdown constructions can be found in \cite{etheridge/kurtz:2018},\cite{kurtz/rodrigues:2011}.
 Test functions for this enriched process take the form
 \begin{equation}
 \label{test functions}
-f(\eta)=\prod_{(x,u)\in\eta}g(x,u)=\exp\left(\int\log g(x,u)\eta(dx, du)\right),
+f(\xi)=\prod_{(x,u)\in \xi}g(x,u)=\exp\left(\int \log g(x,u)\xi(dx, du)\right),
 \end{equation}
 where $g(x,u)$ is differentiable in $u$ and 
-smooth in $x$. Moreover, $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$, and 
-$g(x,u)\equiv 1$ for $u\geq \lambda$.
+smooth in $x$.
+Moreover, $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$,
+and $g(x,u)\equiv 1$ for $u\geq \lambda$.
 
-In the expressions that follow, we shall often see one or more factor of
-$1/g(x,u)$; 
-it should be understood that if $g(x,u)=0$, then it simply cancels 
+In the expressions that follow,
+we shall often see one or more factor of $1/g(x,u)$;
+it should be understood that if $g(x,u)=0$,
+then it simply cancels 
 the corresponding factor in $f(\eta)$.
 
 % % % % % % % % % % % % % % % %
-\subsection*{Generator of the Scaled Lookdown Model}
+\subsubsection*{Generator of the Lookdown Model}
 
-In the notation of \S\ref{heuristics}, we now write down the 
-generator of the scaled population model with levels where 
-$\lambda$ is the scaling factor of the mass of an individual, $\theta(\lambda)$ is the scaling factor for time and the level of an individual particle must be in $[0,\lambda]$.  
-Recall that we only track the adult population; maturity, if achieved, is 
-instantaneous. Furthermore, at rate $\theta\gamma_{\theta}(x, \overline{\eta})$ a parent gives birth to a single juvenile offspring.
+We now write down the generator of
+the scaled population model with levels where 
+$\lambda$ is the scaling factor of the mass of an individual,
+$\theta(\lambda)$ is the scaling factor for time,
+and the level of an individual particle must be in $[0,\lambda]$.
+Recall that we only track the adult population; maturity, if achieved, is instantaneous.
+Furthermore, at rate $\theta\gamma(x, \eta)$,
+a parent gives birth to a single juvenile offspring.
 
-We should consider an initial population of $O(\lambda)$ many particles with levels uniformly distributed between $[0, \lambda]$. We write $(\eta^{\theta, \lambda}(t))_{t \geq 0}$ for our population at the $\theta$th stage of rescaling. To recover the scaling of \S\ref{sec: model and results} we scale the empirical distribution of particles alive with a factor of $1/\lambda$, so we write $$\overline{\eta}^{\theta, \lambda}(t)=\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta \\ U(t) < \lambda}} \delta_{X(t)}.$$ 
-From here onwards we write $\eta$ to be the particle systems with levels while $\overline{\eta}$ is the normalised empirical distribution. An individual of the population with state $\eta$ living at spatial location $x$ produces
-one adult offspring at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta})$, where
-$$\gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta})=\gamma_\theta(x,\overline{\eta})
-\int r_\theta (y, \overline{\eta})q_\theta(x,dy).
-$$
+We should consider an initial population of $O(\lambda)$ many particles with levels
+uniformly distributed between $[0, \lambda]$.
+We write $(\xi^{\theta, \lambda}(t))_{t \geq 0}$
+for our population at the $\theta$-th stage of rescaling.
+To recover the scaling in \S\ref{sec: Model and main results},
+we scale the empirical distribution of particles with a factor of $1/\lambda$,
+so we write
+$$\eta^{\theta, \lambda}_t:=\frac{1}{\lambda}\xi^{\theta, \lambda}_t(dx \times [0,\lambda])=
+\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \xi \\ U(t) < \lambda}} \delta_{X(t)}.$$ 
+From here onwards,
+we write $\xi$ to be the particle systems with levels,
+while $\eta$ is the normalised empirical distribution.
+An individual in the spatial population $\eta$ living at spatial location $x$
+produces one adult offspring at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)$, where
+$$\gamma^{\mathfrak{m}}_{\theta}(x,\eta)=\gamma(x,\eta) \int r (y, \eta)q_\theta(x,dy).$$
+
 The location of this offspring is given by
 the distribution 
-\[ q^{\mathfrak{m}}_\theta(x,\overline{\eta},dy) = \frac{r(y,\overline{\eta}) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\overline{\eta}) q_{\theta}(x,dy)}. \] In the lookdown version of our model, the individual $(x,u)\in\eta^{\theta, \lambda}$ gives
-birth to an offspring at rate 
-$2(\lambda-u)\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta})$. 
-(Averaging
-over the distribution of the
-level $u$ we recover $\theta \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta})$.)
+\[ q^{\mathfrak{m}}_\theta(x,\eta,dy) = \frac{r(y,\eta) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\eta) q_{\theta}(x,dy)}. \]
+
+In the lookdown version of our model,
+the individual $(x,u)\in \xi^{\theta, \lambda}$
+gives birth to an offspring at rate 
+$2(\lambda-u)\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)$. 
+(Averaging over the distribution of the
+level $u$,
+we recover $\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)$.)
 
 A new level $u_1$ is sampled independently and
-uniformly from $[u,\lambda]$, and the parent and the offspring 
-are assigned in random order to the  levels $\{u, u_1\}$. This random assignment of levels to child and offspring ensures that conditional on $\overline{\eta}$, the levels assigned to individuals are i.i.d. uniform random variables. Otherwise, the levels of the initial population would be lower than those of the descendants.\\
-Evidently this mechanism increases the proportion of individuals with
-higher levels. To restore the property that,
-conditional
-on $\overline{\eta}$, the intensity of
-levels is conditionally uniform, we impose that 
-the level associated with
-$(x,u)\in\eta$ evolves
-according to the differential equation
-$$\dot{v}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta}) 
+uniformly from $[u,\lambda]$,
+and the parent and the offspring are assigned in random order to the  levels $\{u, u_1\}$.
+This random assignment of levels to parent
+and offspring ensures that conditional on $\eta$,
+the levels assigned to individuals are i.i.d.
+uniform random variables.
+Otherwise, the levels of the initial population would be lower than those of the descendants.
+
+Evidently this mechanism increases the proportion
+of individuals with higher levels.
+To restore the property that,
+conditional on $\eta$,
+the intensity of levels is conditionally uniform,
+we impose that 
+the level associated with $(x,u)\in\eta$
+evolves according to the differential equation
+$$\dot{v}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta) 
 \left\{\lambda^{-1}(\lambda -v)^{2}
 -(\lambda -v)\right\}.$$
 
 See~\cite{etheridge/kurtz:2018}, Section~3.4 for a detailed explanation.
-In order to incorporate death, the level of the individual $(x,u)\in \eta$ 
-moves upwards at an additional 
-rate $\theta \mu_\theta(x,\overline{\eta})$ (on reaching level $\lambda$ an
-individual is deemed to
-have died). Overall, we assume that the level associated with $(x,u)\in\eta$
+In order to incorporate death,
+the level of the individual $(x,u)\in \eta$ 
+moves upwards at an additional rate
+$\theta \mu(x,\eta)$
+(on reaching level $\lambda$
+an individual is deemed to have died).
+Overall, we assume that
+the level associated with $(x,u)\in\eta$
 evolves according to
-$$\dot{u}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta}) 
+$$\dot{u}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta) 
 \left\{\lambda^{-1}(\lambda -u)^{2}
--(\lambda -u)\right\}+\theta \mu_\theta(x,\overline{\eta})u.$$
+-(\lambda -u)\right\}+\theta \mu(x,\eta)u.$$
 We shall write 
-$$b_{\theta, \lambda}(x,\overline{\eta}):=\theta\big\{\gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta})
--\mu_\theta(x,\overline{\eta})\big\}.$$
-Note that this quantity captures the deviation from criticality in the branching
-mechanism. In this notation, the differential equation governing the level of the
-individual $(x,u)\in\eta$ is
+$$b_{\theta, \lambda}(x,\eta):=\theta\big\{\gamma^{\mathfrak{m}}_{\theta}(x,\eta)
+-\mu(x,\eta)\big\}.$$
+Note that this quantity captures
+the deviation from criticality
+in the branching mechanism.
+In this notation,
+the differential equation 
+governing the level of the individual $(x,u)\in\eta$ is
 \begin{align}
-\dot{u}&=\lambda \theta \gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta}) 
+\dot{u}&=\lambda \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) 
 \left\{\left(1-\frac{u}{\lambda}\right)^{2}
--1 +2\frac{u}{\lambda}\right\} -b_{\theta, \lambda}(x,\overline{\eta})u \nonumber \\
-&=\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta}) u^2 -b_{\theta, \lambda}(x,\overline{\eta})u. \label{differential equation for level}
+-1 +2\frac{u}{\lambda}\right\} -b_{\theta, \lambda}(x,\eta)u \nonumber \\
+&=\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u. \label{differential equation for level}
 \end{align}
-In this setting, the generator of our model acting on the test functions $f(\eta)=\prod_{(x,u) \in \eta}g(x,u)$ satisfies
+In this setting, the generator of our model
+acting on the test functions $f(\eta)=\prod_{(x,u) \in \eta}g(x,u)$
+satisfies
 %We assume that  locations in ${\mathbb{ R}}^d$.
+
 \begin{eqnarray}\label{Generator of prelimit simplest model}
 &&A_{\theta, \lambda}f(\eta ) \nonumber \\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta})
+&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)
 \int_u^{
-\lambda}\Bigg(\frac 12\frac {\int_{\mathbb{R}^d}g(y,u)q^{\mathfrak{m}}_\theta(x,\overline{\eta },d
+\lambda}\Bigg(\frac 12\frac {\int_{\mathbb{R}^d}g(y,u)q^{\mathfrak{m}}_\theta(x,\eta,d
 y)g(x,v_1)}{g(x,u)} \label{multgen3}\\
 &&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
-+\frac 12\int_{\mathbb{R}^d}g(y,v_1)q^{\mathfrak{m}}_\theta(x,\overline{\eta} ,dy)-
++\frac 12\int_{\mathbb{R}^d}g(y,v_1)q^{\mathfrak{m}}_\theta(x,\eta ,dy)-
 1\Bigg)dv_1\nonumber\\
-&&\quad \quad +f(\eta )\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta}) u^2 -b_{\theta, \lambda}(x,\overline{\eta})u\right)\frac {\partial_u g(x,u)}{g(x,u)}\nonumber\\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \overline{\eta})\lambda^{-1}\int_u^{
-\lambda}\Bigg(\frac 12\frac {\theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_\theta(x,\bar{
-\eta },dy)g(x,v_1)}{g(x,u)}\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\theta\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_\theta(x,\overline{\eta },dy)\Bigg)dv_1\nonumber\\
+&&\quad \quad +f(\eta )\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\nonumber\\
+&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\lambda^{-1}\int_u^{
+\lambda}\Bigg(\frac 12\frac {\theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_\theta(x,\eta,dy)g(x,v_1)}{g(x,u)}\non\\
+&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\theta\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_\theta(x,\eta,dy)\Bigg)dv_1\nonumber\\
 &&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\overline{\eta}) u^2 -b_{\theta, \lambda}(x,\overline{\eta})u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
++f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
 \end{eqnarray}
-The two terms under the integral
-correspond, respectively, to the parent being assigned 
-a level other than $u$, and being reallocated to the level $u$ during a
-birth event. In the first case, the parent at location $x$, which had level $u$ before the 
-event, moves to level $v_1$, and the child is inserted at level $u$ and location $y$; in 
-the second the parent retains its level, and offspring is inserted at
-level $v_1$.\\~\\
+The two terms under the integral correspond, respectively,
+to the parent being assigned a level other than $u$,
+and being reallocated to the level $u$
+during a birth event.
+In the first case, the parent at location $x$,
+which had level $u$ before the event,
+moves to level $v_1$,
+and the child is inserted at level $u$
+and location $y$;
+in the second the parent retains its level,
+and offspring is inserted at level $v_1$.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Scaling of the Pre-limit}
 
+We also let $\lambda$ takes on the role of $N$
+in \S \ref{sec: Model and main results},
+i.e. each individual has mass $1/\lambda$
+in the scaling limit.
+Time is once again scaled by $\theta$
+and local interaction radius by $\varepsilon_{\gamma}$ and $\varepsilon_{r}$.
 
-As in Definition \ref{Def: Rescaled Models}, the rates $\gamma_{\theta},r_\theta, \mu_{\theta}$ in our re-scaled lookdown models  depend on the local density of $\eta$ through a mollification with $\varrho_{\varepsilon}$. We will now make our re-scaled lookdown model explicit.
+As in Definition \ref{Def: Rescaled Models},
+the rates $\gamma,r, \mu_{\theta}$
+in our re-scaled lookdown models 
+depend on the local density of $\eta$
+through mollifications with 
+$\varrho_{\gamma}, \varrho_{r}$ and $\varrho_{F}$.
+We will now make our re-scaled lookdown model explicit.
 
-\begin{definition}\label{Def: Rescaled Lookdown Models}
-Let the coefficients $\tilde{\gamma}, \tilde{\mu}, \tilde{r}$ satisfy the conditions highlighted in Definition \ref{Def: Rescaled Models} and let $\varrho_{\varepsilon}$ be the kernel defined in Definition \ref{Defn: Kernel and Convolution}. We define the following terms:
+\begin{definition}[Martingale Problem Characterisation]
+\label{Def: Rescaled Lookdown Models}
+Let the coefficients $\gamma, \mu, r$ satisfy the conditions highlighted in Definition \ref{Def: Rescaled Models} and let $\varrho_{\varepsilon}$ be the kernel defined in Definition \ref{Defn: Kernel and Convolution}. We define the following terms:
 \begin{align*}
-\gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \overline{\eta}):=&~\tilde{\gamma}_{\theta}(x, \varrho_{\varepsilon}*\overline{\eta}(x)) \int \tilde{r}_{\theta}(y, \varrho_{\varepsilon}*\overline{\eta}(y))q_{\theta}(x,dy),\\
- q^{\mathfrak{m}}_{\varepsilon, \theta}(x,\overline{\eta},dy) :=&~ \frac{\tilde{r}_{\theta}(y,\varrho_{\epsilon}*\overline{\eta}(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} \tilde{r}_{\theta}(y,\varrho_{\epsilon}*\overline{\eta}(y)) q_{\theta}(x,dy)},\\
-b_{\varepsilon, \theta, \lambda}(x, \overline{\eta}):=&~ \theta \bigg\{ \tilde{\gamma}_{\theta}(x, \varrho_{\varepsilon}*\overline{\eta}(x)) \int \tilde{r}_{\theta}(y, \varrho_{\varepsilon}*\overline{\eta}(y))q_{\theta}(x,dy)-\tilde{\mu}_{\theta}(x, \varrho_{\varepsilon}*\overline{\eta}(x)) \bigg\}
+\gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta):=&~\gamma(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \int r(y, \varrho_{\varepsilon}*\eta^{\theta}(y))q_{\theta}(x,dy),\\
+ q^{\mathfrak{m}}_{\varepsilon, \theta}(x,\eta,dy) :=&~ \frac{r(y,\varrho_{\epsilon}*\eta^{\theta}(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{\epsilon}*\eta^{\theta}(y)) q_{\theta}(x,dy)},\\
+b_{\varepsilon, \theta, \lambda}(x, \eta):=&~ \theta \bigg\{ \gamma(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \int r(y, \varrho_{\varepsilon}*\eta^{\theta}(y))q_{\theta}(x,dy)-\mu_{\theta}(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \bigg\}
 \end{align*}
-At the $\lambda$-stage of re-scaling, our test measures $\eta$ takes value in $\mathcal{M}_F(\mathbb{R}^d \times [0,\lambda])$, the set of finite measures on $\mathbb{R}^d \times [0,\lambda]$, and we define $$\overline{\eta}= \frac{1}{\lambda}\sum_{(x,u) \in \eta}\delta_x.$$
+At the $\lambda$-stage of re-scaling, our test measures $\eta$ takes value in $\mathcal{M}_F(\mathbb{R}^d \times [0,\lambda])$, the set of finite measures on $\mathbb{R}^d \times [0,\lambda]$, and we define $$\eta= \frac{1}{\lambda}\sum_{(x,u) \in \eta}\delta_x.$$
 We define $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ to be the (unique?) solution to the Martingale Problem with initial condition $\eta_0$ and generator $A_{\varepsilon, \theta, \lambda}$ that satisfies
 \begin{eqnarray}\label{Eq: Prelimit Lookdown Generator}
 &&A_{\epsilon, \theta, \lambda}f(\eta ) \\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \overline{\eta})\Bigg\{ \frac 12 \lambda^{-1}\int_u^{
+&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta)\Bigg\{ \frac 12 \lambda^{-1}\int_u^{
 \lambda}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
 \eta },dy)}{g(x,u)}\non\\
 &&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\lambda^{-1}\theta\int_u^{
-\lambda}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\overline{\eta },dy)dv_1\nonumber\Bigg\}\\
+\lambda}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
 &&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x,\overline{\eta}) u^2 -b_{\varepsilon,\theta, \lambda}(x,\overline{\eta})u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
++f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x,\eta) u^2 -b_{\varepsilon,\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
 \end{eqnarray}
 for all smooth functions $f \in C(\mathbb{R}^d)$. 
 \end{definition}
-In \S \ref{sec: Markov Mapping Theorem application}, through an application of the Markov Mapping Theorem, we will show that the spatial projection of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ has the same distribution as $(\overline{\eta}^{\varepsilon, \theta, N}_t)_{t \geq 0}$ if we take $\lambda = N$. Specifically, we mean that when $\lambda=N$, 
-$$(\overline{\eta}^{\varepsilon,\theta, \lambda}(t))_{t \geq 0}:=\left(\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta^{\varepsilon,\theta, \lambda}(t) \\ U(t) < \lambda}} \delta_{X(t)}\right)_{t \geq 0}$$
-has the same distribution (as stochastic processes) as $(\overline{\eta}^{\varepsilon,\theta, N}_t)_{t \geq 0}$ in Definition \ref{Def: Rescaled Models}. As a result, we use the same notation $\overline{\eta}$ to denote these two essentially identical processes which take values in the space of empirical measures. On the other hand, we reserve the notation $\eta$ strictly for the spatial-level process.\\~\\ Furthermore, the application of Markov Mapping Theorem implies that particle levels are, conditional on $\overline{\eta}$, i.i.d and uniformly distributed between $[0, \lambda]$.  Theorem A.10 in \cite{kurtz/rodrigues:2011} states that convergence of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ to a conditionally Poisson system $(\xi_t)_{t \geq 0}$ with Cox measure $\Xi_t \times \Lambda$ is equivalent to convergence of $(\overline{\eta}^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$. As a result, it suffices for us to focus on tightness of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ and spatial convergence of $(\overline{\eta}^{\varepsilon, \theta, N}_t)_{t \geq 0}$ as $\theta \to \infty$.
+In \S \ref{sec: Markov Mapping Theorem application}, through an application of the Markov Mapping Theorem, we will show that the spatial projection of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ has the same distribution as $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ if we take $\lambda = N$. Specifically, we mean that when $\lambda=N$, 
+$$(\eta^{\varepsilon,\theta, \lambda}(t))_{t \geq 0}:=\left(\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta^{\varepsilon,\theta, \lambda}(t) \\ U(t) < \lambda}} \delta_{X(t)}\right)_{t \geq 0}$$
+has the same distribution (as stochastic processes) as $(\eta^{\theta}_t)_{t \geq 0}$ in Definition \ref{Def: Rescaled Models}. As a result, we use the same notation $\eta$ to denote these two essentially identical processes which take values in the space of empirical measures. On the other hand, we reserve the notation $\eta$ strictly for the spatial-level process.\\~\\ Furthermore, the application of Markov Mapping Theorem implies that particle levels are, conditional on $\eta$, i.i.d and uniformly distributed between $[0, \lambda]$.  Theorem A.10 in \cite{kurtz/rodrigues:2011} states that convergence of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ to a conditionally Poisson system $(\xi_t)_{t \geq 0}$ with Cox measure $\Xi_t \times \Lambda$ is equivalent to convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$. As a result, it suffices for us to focus on tightness of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ as $\theta \to \infty$.
 
 
 
@@ -1689,26 +1794,26 @@ the level at time $t \geq \tau$ if the level first appeared at time $\tau$ , and
 location of the particle with level $U_{\tau}(t)$. 
 Now $U_{\tau}$ satisfies
 \begin{equation}
-U_{\tau}(t)=U_{\tau}(\tau)+\int_{\tau}^{t}(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s),\overline{\eta}(s))U^2_{\tau}(s)-b_{\varepsilon,\theta,\lambda}(X_{\tau}(s),\overline{\eta}(s))U_{\tau}(s))ds, ~~~ t \geq \tau.    
+U_{\tau}(t)=U_{\tau}(\tau)+\int_{\tau}^{t}(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s),\eta(s))U^2_{\tau}(s)-b_{\varepsilon,\theta,\lambda}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds, ~~~ t \geq \tau.    
 \end{equation}
 If a level has index $\tau$ and $(s,v,w,\kappa)\in \xi_\tau$, then $\tau+s$ gives a potential birth time for an offspring of the particle at level $U_{\tau}$. We say `potential' since if $U_{\tau}(\tau+s)>\lambda$, the corresponding particle is dead. The (potential) new level is 
 \begin{equation}\label{New birth potential level}
-    U_{\tau+s}(\tau+s)=U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))}.
+    U_{\tau+s}(\tau+s)=U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}.
 \end{equation}
-If $U_{\tau+s}(\tau+s)< \lambda$, a new particle is produced with location $X_{\tau}(\tau+s-)+H(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-),w)$ where $H(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-),w)$ is a function such that if $w$ is a uniformly distribution on $[0,1]$, then 
+If $U_{\tau+s}(\tau+s)< \lambda$, a new particle is produced with location $X_{\tau}(\tau+s-)+H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ where $H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ is a function such that if $w$ is a uniformly distribution on $[0,1]$, then 
 \begin{equation}\label{eq: Individual Evolution Jump Kernel}
-P(H(x, \overline{\eta},w)\in C | \overline{\eta},x)=q^{\mathfrak{m}}(x, \overline{\eta},C).    
+P(H(x, \eta,w)\in C | \eta,x)=q^{\mathfrak{m}}(x, \eta,C).    
 \end{equation}
 Consequently, 
-$$X_{\tau}(\tau+s)=X_{\tau}(\tau+s-)+\kappa H(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s),w)$$
+$$X_{\tau}(\tau+s)=X_{\tau}(\tau+s-)+\kappa H(X_{\tau}(\tau+s-), \eta(\tau+s),w)$$
 and 
-$$X_{\tau+s}(\tau+s)=X_{\tau}(\tau+s-)+(1-\kappa) H(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s),w),$$
+$$X_{\tau+s}(\tau+s)=X_{\tau}(\tau+s-)+(1-\kappa) H(X_{\tau}(\tau+s-), \eta(\tau+s),w),$$
 that is if $\kappa=0$, the parent stays at its current level and the new particle is given the new
 level. If $\kappa = 1 $, the parent is given the new level and the new particle is given the original
 level. Consequently, for $t \geq \tau$
 \begin{align}\label{eq: Spatial evolution of individual lineage}
 X_{\tau}(\tau+t)=&X_{\tau}(t)\\
-&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s),\omega) \\
+&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
 &\qquad \times \xi_{\tau}(ds,dv,dw,d\kappa).
 \end{align}
 Starting with an initial particle at level $U_{(0,i)}$ , we can identify a potential line of descent by
@@ -1727,18 +1832,18 @@ and define $U_{\tau}(0)=U_{(0,i)}, X_{\tau}(0)=X_{(0,i)}(0)$, and $\zeta_{\tau}$
 where $\tau_{m+1}=\infty$. Then 
 
 \begin{align*}
-U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \overline{\eta}(s-))}dV_{\tau}(s)\\
-&+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \overline{\eta}(s-))U^2_{\tau}(s)-b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\overline{\eta}(s))U_{\tau}(s))ds,\\  
-X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))}<\lambda\}}\\
-&\qquad \times \kappa   H(X_{\tau}(s-), \overline{\eta}(s-),\omega)\zeta_{\tau}(ds,dv,dw,d\kappa)
+U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))}dV_{\tau}(s)\\
+&+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))U^2_{\tau}(s)-b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds,\\  
+X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
+&\qquad \times \kappa   H(X_{\tau}(s-), \eta(s-),\omega)\zeta_{\tau}(ds,dv,dw,d\kappa)
 \end{align*}
 gives the spatial and level dynamics of a lineage. Note that $\zeta^{0}_{\tau}(B)$ produces spatial jumps when $\kappa_k=1$, while the integral against $\xi_{\tau_k}$ in Equation \eqref{eq: integrand in spatial tracing} gives spatial jumps when $(s,v,w,\kappa) \in \xi_{\kappa_k}$, $\tau_k \leq s \leq \tau_{k+1}$, and $\kappa = 1$. This corresponds to the discussion given above.
 \begin{remark}
-The factor $\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \overline{\eta})}$ that scales the jump in levels give an average birth rate of $\theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \overline{\eta}(s-))$. This is because for the potential birth to be a true birth, we impose that $$U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))}< \lambda,$$ where $U_{\tau}(\tau+s)$ is uniformly distributed between $[0, \lambda]$. As a result, a true birth occurs between $[0,\delta t]$ if there exists $(s,v) \in [0,\delta t]\times [0, 2 (\lambda-U_{\tau}(\tau+s)) \lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))]$. Averaging this over levels give a Poisson process with rate $ \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \overline{\eta}(\tau+s-))$. 
+The factor $\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta)}$ that scales the jump in levels give an average birth rate of $\theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))$. This is because for the potential birth to be a true birth, we impose that $$U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}< \lambda,$$ where $U_{\tau}(\tau+s)$ is uniformly distributed between $[0, \lambda]$. As a result, a true birth occurs between $[0,\delta t]$ if there exists $(s,v) \in [0,\delta t]\times [0, 2 (\lambda-U_{\tau}(\tau+s)) \lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))]$. Averaging this over levels give a Poisson process with rate $ \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))$. 
 \end{remark}
 \begin{remark}
 Although the labelling presented here depends on random birth times, we can label each individual in the population deterministically with the Ulam-Harris label. We therefore have a countable particle system. In particular, we can now express our particle systems as
-$$\eta(t)=\frac{1}{\lambda}\sum_{U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t),U_{\tau}(t)}, ~~\overline{\eta}(t)=\frac{1}{\lambda}\sum_{ U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t)}.$$
+$$\eta(t)=\frac{1}{\lambda}\sum_{U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t),U_{\tau}(t)}, ~~\eta(t)=\frac{1}{\lambda}\sum_{ U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t)}.$$
 For further discussion refer to \S \ref{sec: Ulam-Harris Labels characterisation}.
 \end{remark}
 
@@ -1775,9 +1880,9 @@ and applying Ito's formula we have
 Furthermore, recall that in our scaling limit, 
 \begin{equation}
 \begin{aligned}
-\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s), \overline{\eta}(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
-b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\overline{\eta}(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))\\
-&+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s)).
+\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
+b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))\\
+&+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s)).
 \end{aligned}    
 \end{equation}
 
@@ -1819,7 +1924,7 @@ X_{\tau}(t)=&X_{\mbox{\rm $\tau$}}(\tau )+\int_{\tau}^t\sigma (X_{
 \tau}(s),\Xi (s))dW_{\tau}(s)+\int_{\tau}^t\beta (X_{\tau}(s),\Xi (
 s))ds\\
 U_{\tau}(t)=&U_{\tau}(\tau )+\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-& -\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
+& -\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
 \end{aligned}
 \end{equation}
 If $(X_{\tau'},U_{\tau'})$ is the parent of $(X_{\tau},U_{\tau})$, 
@@ -1867,7 +1972,7 @@ X_{\tau}(t)&=&X_{\mbox{\rm $A_{\tau}(0)$}}(0)+\int_0^t\sigma
 (s),\Xi (s))ds,\\
 U_{\tau}(t)&=&U_{A_{\tau}(0)}(0)+\int_0^t\frac 1{2\ell \gamma(X_{\tau}(s-),\varrho_\varepsilon*\Xi(X_{\tau}(s-))}dV_{\tau}(s)\\
 &&\qquad\qquad +\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-&&-\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\overline{\eta})(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\overline{\eta})(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
+&&-\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
 where
 \[\langle\Xi (t),\varphi\rangle =\lim_{\epsilon\rightarrow 0}
 \epsilon\sum_{
@@ -1915,23 +2020,193 @@ genetics by a number of authors including
 % % % % % % % % % % % % %
 \subsection{Tightness of empirical measures}
     \label{sec:population_tightness_proofs}
+To prove tightness of our population process, 
+we first show that the expected total mass of our population process at some fixed time $T>0$,
+is controlled uniformly across $\theta$.
+This is equivalent to the compact containment condition.
 
-\begin{lemma}[Tightness for the population process]
-    Something like:
-    for all suitable $f$
-    and initial states $\eta^\theta_0 \to \eta_0$,
+To establish this control,
+we first prove a technical lemma which controls spatial density of our population,
+and then we use the BDG inequality on a martingale
+to give us control over the running supremum of our total population mass.
+
+Once we have control over the total mass of the population, 
+we will also have control over local densities.
+This then allows us to prove that the particle system is tight
+by an application of the Aldous-Rebelleon Criterion.
+
+\subsubsection{Compact Containment Condition}
+Before proving compact containment condition,
+we first prove a technical lemma that involves a bound on the Gaussian kernels.
+\begin{lemma}
+    \label{lem: gamma - r radius comparison}
+    Assume that $\varepsilon_{r}^2 + \frac{1}{\theta} < \varepsilon_{\gamma}^2,$ then
+    for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$
+    and for all $\eta \in \mathcal{M}_{f}(\mathbb{R}^d)$, we have 
+    
+    \begin{equation}\label{eq: gamma - r radius comparison bound}
+    \gamma\big(x,\varrho_{\gamma}*\eta(x)\big) \left| \theta \int_{\mathbb{R}^n} \big\{f\big(\varrho_{r}*\eta(y)\big)-f\big(\varrho_{r}*\eta(x)\big)\big\}\varrho_{1/\theta}(x-y)dy\right| \leq C_{\gamma, f}    
+    \end{equation}
+    for some constant $C_{\gamma,f}$ independent of $\eta$ and $\theta$. 
+\end{lemma}
+\begin{proof}
+See Appendix.    
+\end{proof}
+\begin{lemma}[Compact Containment for the population process]
+Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
+then for all $T>0$, there exists some constant $C(T)$,
+such that
     \begin{align}
         \IE\left[
             \sup_{0 \le t \le T}
-            \langle f, \eta^\theta_t \rangle
+            \langle 1, \eta^\theta_t \rangle
         \right]
-        \le C ,
+        \le C(T) ,
     \end{align}
     uniformly in $\theta$.
 \end{lemma}
+\begin{proof}
+We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Characterisation}. We have that 
 
-\comment{In which we Gronwall $\langle 1, \eta_t\rangle$ and the like.}
+\begin{equation}
+    \label{eq: Total Mass Martingale Characterisation}
+\begin{aligned}
+     M^{\theta}_t(1):=&  \langle 1,\eta^{\theta}_t \rangle
+        -\langle 1,\eta^{\theta}_0 \rangle\\
+ &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
+ \left(
+        r\big(z,\varrho_{r}*\eta^{\theta}_{s}(z)\big)
+            -r\big(x,\varrho_{r}*\eta^{\theta}_{s}(x)\big)
+            \right)
+                    q_\theta(x,dz)\right)
+                            \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+                            \eta^{\theta}_{s}(dx)\\
+& \qquad +\int F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
+\eta^{\theta}_{s}(dx)\bigg\} ds
+\end{aligned}    
+\end{equation}
+is a martingale.
+Therefore, taking expectations, we have
+\begin{equation}\label{eq: Total mass control generalised}
+\begin{aligned}
+&\mathbb{E}[\langle 1 ,\eta^{\theta}_{t}\rangle] \\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
+&+ \int_{0}^{t}\mathbb{E}\bigg\langle
+        \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+            \left| \theta \int_{\mathbb{R}^n}
+                    \big\{r\big(\varrho_{r}*\eta^{\theta}_s(y)\big)-r\big(\varrho_{r}*\eta^{\theta}_s(x)\big)\big\}
+                    \varrho_{1/\theta}(x-y)dy\right| + C_F 
+                            ,\eta^{\theta}_s(dx)  \bigg\rangle ds\\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{\theta}_s(dx) \rangle ds,
+\end{aligned}
+\end{equation}
+where the last inequality holds by Lemma \ref{lem: gamma - r radius comparison}.
 
+Applying Gronwall's inequality, we have that 
+\begin{equation}
+ \mathbb{E}[\langle 1 ,\eta^{\theta}_{t}\rangle] \leq \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}.   
+\end{equation}
+
+To prove compact containment condition, we apply BDG inequality.
+We denote $M^{*}_t(\phi)=\sup_{s \in [0,t]}M_t(\phi)$
+and define $h(t):=\sup_{s \in [0,t]}\langle 1, \eta^{\theta}_{s} \rangle$.
+We have that
+\begin{equation}\label{eq: Control quadratic variation}
+\begin{aligned}
+\mathbb{E}\{M^{*}_t(1)\} \leq & C \mathbb{E}\{[M_t(1)]^{1/2}\}\\
+\leq& C (1+\mathbb{E}\{[M_t(1)]\})\\
+\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n}r(\varrho_{r}*\eta^{\theta}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{\theta}_{s}), \eta^{\theta}_{s}(dx) \right\rangle ds \\
+\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))r(\varrho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds \\
+& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\varrho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\\
+\leq & C+ \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
+\end{aligned}
+\end{equation}
+
+As a result, we have that 
+\begin{equation}\label{eq: Total mass control supremum control}
+\begin{aligned}
+&\mathbb{E}[h(t)]:=\mathbb{E}\left[\sup_{s \in [0,t]}\langle 1 ,\eta^{\theta}_{s}\rangle\right] \\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
+&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\varrho_{r}*\eta^{\theta}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\varrho_{r}*\eta^{\theta}_{s}(y)\big)-r\big(\varrho_{r}*\eta^{\theta}_{s}(x)\big)\big\}\varrho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{\theta}_{s}(dx)  \bigg\rangle dw\\
+&+ \mathbb{E}\{M^{*}_t(1)\}\\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ \sup_{\tau \in [0,s]} \langle 1  ,\eta^{\theta}_{s} \rangle \right]ds+\mathbb{E}\{M^{*}_t(1)\}\\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ h(s) \right]ds+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
+\end{aligned}
+\end{equation}
+Once again, with Gronwall's inequality we have 
+\begin{equation}
+\mathbb{E}[h(t)] 
+\leq   \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]
+            \left(1+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})e^{(C_{\gamma,r}+C_F)t}}{N}\right)e^{(C_{\gamma,r}+C_F)t}.  
+\end{equation}
+\end{proof}
+
+Note that as $\theta/N \to \ell$ and $N \to \infty$,
+the inequality on the right is bounded above by a constant $C(T)$
+independent of $\theta, N$.
+As a result 
+
+\begin{equation}
+\limsup_{\theta \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{\theta}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
+\end{equation}
+for any $K > 0$, giving us compact containment condition.    
+
+\subsubsection{Controlling Jumps}
+To apply Aldous-Rebolledo criterion,
+(or see Theorem 3.9.1 or Theorem 3.8.6 in \cite{EK})
+it suffices to show that for all $f \in \mathcal{C}^2_{c}(\mathbb{R}^d)$
+and $\tau \in [0,T]$, we have 
+\begin{equation}
+\begin{aligned}
+\limsup_{s \to 0}\limsup_{\theta \to \infty}\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right]& \to 0;\\
+\limsup_{s \to 0}\limsup_{\theta \to \infty}\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]& \to 0.
+\end{aligned}    
+\end{equation}
+Note that
+\begin{equation}
+\begin{aligned}
+ & \mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
+\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\varrho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy \\
+& \qquad + F(\varrho_{F}*\eta^{\theta}_{s}(x)) f(x),\eta^{\theta}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
+\end{aligned}
+\end{equation}
+In particular,
+\begin{multline}
+ \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\varrho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy \\
+ =  f(x)\theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy\\
+ + \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\varrho_{r}*\eta^{\theta}_{s}(y))\big\}\varrho_{1/\theta}(x-y)dy\\
+ \leq C_{\gamma,r}||f||_{\infty} + C_{\gamma}||\Delta f||_{\infty},
+\end{multline}
+since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{lem: gamma - r radius comparison}
+and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
+
+Finally,  $F(\varrho_{F}*\eta^{\theta}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
+\begin{multline}
+\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
+\leq (C_{\gamma,r}||f||_{\infty} + C_{\gamma,r}||\Delta f||_{\infty}+C_F||f||_{\infty}) \mathbb{E}\bigg\{\int_{\tau}^{\tau+s}\bigg\langle 1,\eta^{\theta}_{s}(dx)  \bigg\rangle  ds\bigg\} \\
+\leq (C_{\gamma,r}||f||_{\infty} + C_{\gamma,r}||\Delta f||_{\infty}+C_F||f||_{\infty}) \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^s-1)\to 0
+\end{multline}
+as $s \to \infty$. 
+This gives us bound on the first moment.
+
+
+Similarly, the control on the second moment is given by Equation \eqref{eq: Control quadratic variation}.
+\begin{equation}
+    \label{eq: Controlling Quadratic Jumps}
+\begin{aligned}
+& \mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
+\leq &\frac{\theta}{N} \mathbb{E} \Bigg\{ \int_{\tau}^{\tau+s}\bigg|
+\langle \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+\int f^2(y)r\big(y,\varrho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
+,\eta^{\theta}_{s}(dx)\rangle\\
+& \qquad \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
+,\eta^{\theta}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
+\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))r(\varrho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\} \\
+& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\varrho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\}\\
+\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^s-1)}{N} \to 0
+\end{aligned}
+\end{equation}
+as $s \to 0$.
 
 
 % % % % % % % % % % % % %
@@ -2084,6 +2359,7 @@ Since $\psi$ was arbitrary,
 where we have used that $w$ solves~(\ref{profile}).
 
 \end{proof}
+
 
 
 
