@@ -1296,11 +1296,11 @@ because there death rate is higher, but also is the establishment of new individ
 \section{Heuristics}
     \label{sec:heuristics}
 
+\comment{TODO: short lead-in}
+
 % % % % % % % % % % % % % % % % % %
 \subsection{Population processes}
     \label{sec:population_heuristics}
-
-\comment{TODO: short lead-in}
 
 We write $\Pgen^\theta$
 for the generator of the scaled population process $\eta$ acting
@@ -1308,7 +1308,7 @@ on test functions of the form
 $$
     F( \langle f, \eta\rangle )
     =
-    F \left( \int f(x)\eta^{\theta}_s(dx) \right),
+    F \left( \int f(x)\eta(dx) \right),
 $$
 where $f \geq 0$ is smooth and compactly supported on $\IR^d$ and 
 $F \in C^\infty ([0,\infty))$.
@@ -1346,74 +1346,96 @@ where the terms that make up
 $\varepsilon_{\theta, N}(f, F, \eta)$
 will be negligible in our scaling limit. 
 
+% % % % % % % 
 \subsubsection*{Mean measure}
 
-Consider first the mean measure. For a suitable 
-(smooth, compactly supported) test function $f$, we find
-\begin{multline}
-\label{mean measure}
-{\cal L}^{(\theta, N)}\langle f,\eta\rangle=
-\lim_{\delta t\downarrow 0}\frac{1}{\delta t}
-\IE\left[\left.\langle f,\eta_{\delta t}\rangle -
-\langle f, \eta\rangle \right|\eta_0=\eta
-\right]\\
-=\theta\int\int f(z)r(z,\eta)q_\theta(x,dz)
-\gamma(x,\eta)
-\eta^{\theta}_s(dx)-\theta\int f(x)\mu(x,\eta)
-\eta^{\theta}_s(dx).
-\end{multline}
+Consider first the mean measure.
+The birth rate at location $x$ when the state of the population is $\eta$
+is a function of the location and the measure $\eta$ through a specific form:
+$\gamma(x, \smooth{\gamma} \eta(x))$;
+however, for the moment we will write $\gamma(x, \eta)$ instead
+to make the exposition clearer
+(and similarly for establishment probability $r(x, \eta)$ and death rate $\mu(x, \eta)$).
+Recall that in our parameterization only $\mu$ and the dispersal kernel $q$ depend on $\theta$.
+For a suitable (smooth, compactly supported) test function $f$, we find
+\begin{equation} \label{mean measure}
+    \begin{split}
+    \Pgen^\theta \langle f, \eta \rangle
+    &=
+    \lim_{\delta t\downarrow 0} \frac{1}{\delta t}
+    \IE\left[ \left.
+        \langle f, \eta_{\delta t} \rangle
+        -
+        \langle f, \eta\rangle
+        \right| \eta_0 = \eta
+    \right]
+    \\
+    &=
+    \theta \int
+        \int f(z) r(z,\eta) q_\theta(x,dz)
+    \gamma(x, \eta) \eta(dx)
+    -
+    \theta \int f(x)\mu_\theta(x, \eta)
+    \eta(dx).
+    \end{split}
+\end{equation}
 The first term is the increment in $\langle f,\eta\rangle$
 resulting from a birth event (recalling that
 we don't kill the parent) integrated against the rate of such events,
 and the second reflects death events.
-In both terms, the 
-rate of events has a factor of $N$ (because events happen at a rate 
-proportional to the number of individuals, whereas $\eta$ is
-the scaled population mass) which is offset by the fact that  
+In both terms,
+the rate of events has a factor of $N$ (because events happen at a rate 
+proportional to the number of individuals,
+whereas $\eta$ has mass $1/N$ for each individual)
+which is offset by the fact that  
 the birth or loss of a single 
 individual at the point $y$, say, changes $\langle f,\eta\rangle$
 by $f(y)/N$.
 
 We use the fact that $\int q_\theta(x,dz)=1$ to rewrite~(\ref{mean measure})
 as 
-\begin{multline}
-\label{rewritten mean measure}
-\int\left(\int \theta \left(
-f(z)r(z,\eta)- f(x)r(x,\eta)\right)
-q_\theta(x,dz)\right)
-\gamma(x,\eta)
-\eta^{\theta}_s(dx)
-\\
-+\int\theta\int f(x)\Big(r(x,\eta)
-\gamma(x,\eta)
--\mu(x,\eta)\Big)
-\eta^{\theta}_s(dx).
-\end{multline}
-Suppose that $\eta\to\Xi$, a measure on $\IR^d$,
-in the scaling limit, then we see that we can 
-let $\theta\rightarrow\infty$ in~(\ref{rewritten mean measure})
-under the assumptions that
-\begin{eqnarray}
-r(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
-r(x,\Xi)\\
-\gamma(x,\eta)&\stackrel{\theta\to\infty}{\longrightarrow}&
-\gamma(x,\Xi)\\
-\int\theta \Big(r(z,\eta)f(z)-
-r(x,\eta)f(x)\Big)q_\theta(x,dz) 
-&\stackrel{\theta\to\infty}{\longrightarrow}& 
-\Delta \big(r(\cdot,\Xi)f(\cdot)\big)(x);\\
-\theta \Big(r(x,\eta)\gamma (x,\eta)
--\mu (x,\eta)\Big)
- &\stackrel{\theta\to\infty}{\longrightarrow}& 
-F(x,\Xi),
-\label{near critical}
-\end{eqnarray}
-where $\Delta$ denotes the Laplacian.
-The last condition reflects the `near-critical' branching. Note that
-there is a slight mismatch between the locations at which we are 
-measuring birth and death rates, because in~(\ref{near critical})
+\begin{equation}
+\label{eqn:rewritten mean measure}
+\begin{split}
+    \int\left(
+        \int \theta \left( f(z) r(z,\eta)- f(x) r(x,\eta) \right) q_\theta(x,dz)
+    \right)
+    \gamma(x,\eta)
+    \eta(dx)
+    \\
+    + \int \int f(x) \theta \Big(
+        r(x,\eta) \gamma(x,\eta)
+        - \mu_\theta(x,\eta)
+    \Big) \eta(dx).
+\end{split}
+\end{equation}
+We have defined $\mu_\theta$ so that the second term is simple:
+\begin{align*}
+    \theta \Big( r(x,\eta) \gamma(x,\eta) - \mu_\theta(x,\eta) \Big)
+    = F(x, \eta) .
+\end{align*}
+This definition --
+is really a `near-critical' assumption that birth and death rates
+differ by something of order $1/\theta$.
+Furthermore, since we've taken $q_\theta$ to be the density of a Normal
+with mean and variance proportional to $1/\theta$,
+\begin{align} \label{eqn:near_critical}
+    \int \theta \Big(
+        r(z,\eta) f(z)
+        -
+        r(x,\eta) f(x)
+    \Big) q_\theta(x,dz) 
+    \qquad \stackrel{\theta\to\infty}{\longrightarrow} \qquad  
+    \DG \big(r(\cdot,\Xi)f(\cdot)\big)(x),
+\end{align}
+where recall if dispersal is simply standard multivariate Gaussian
+with mean zero and covariance $\sigma^2 I / \theta$,
+then $\DG = \sigma^2 \Delta$, where $\Delta$ denotes the Laplacian.
+Note that there is a slight mismatch between the locations at which we are 
+measuring birth and death rates, because in~\eqref{eqn:near_critical}
 the establishment probability is 
 measured at $x$ rather than at the point where juveniles fall. 
+\comment{(IS THIS BIT STILL TRUE:)}
 This condition also differs from the assumption that
 we use in~\S\ref{scalings with levels} to guarantee convergence of the 
 processes with levels in our lookdown 
@@ -1422,77 +1444,69 @@ Under mild
 regularity conditions on $r$ (which we certainly need to have sensible 
 limiting models) the conditions are equivalent.  
 
-Equation~(\ref{rewritten mean measure}) converges to
-\begin{equation}%\begin{multline}
-\label{limit of mean measure equation}
-\int \gamma(x,\Xi)
-\Delta
-\big(f(\cdot)r(\cdot,\Xi)\big)(x)
-\Xi(dx)
-+\int f(x)
-F(x,\Xi)
-\Xi(dx)
-.
+Equation~\eqref{eqn:rewritten mean measure}) then converges to
+\begin{equation} \label{limit of mean measure equation}
+\int \gamma(x,\eta)
+\DG \big(f(\cdot)r(\cdot,\eta)\big)(x)
+\eta(dx)
++
+\int f(x)
+F(x,\eta)
+\eta(dx) .
 \end{equation}
+More generally, we expect everything to work
+if the remaining parameters ($r$, $\gamma$, and $F$)
+depended on $\theta$, but converged as $\theta \to \infty$.
 
+
+% % % % % % % 
 \subsubsection*{Quadratic variation}
 
-We now look at the second order term.
-We spell out
-this calculation in detail so that it is evident at which points we are 
-exploiting the choice of the Poisson distribution for the number
-of juvenile offspring.
-In the general case one can expect somewhat messier calculations, but
-the same conclusion (up to constants).
+% Note: this bit in firstversionplus.tex has things written out in detail for
+% the Poisson offspring number case.
 
-When an individual at the point $x$ gives birth, the total number of
-mature offspring is Poisson with parameter
-$$\gamma(x,\eta)\int 
-r(y,\eta) q_{\theta}(x, dy)
-=\gamma(x,\eta)p_\theta(x,\eta).$$
-Offspring that survive to maturity are distributed about the parent
-according to 
-$$\overline{q}_\theta(x,\eta,dy):=
-\frac{r(y,\eta)q_\theta(x,dy)} 
-{\int r(z,\eta)q_\theta(x,dz)}. 
+We now look at the second order term.
+An individual at location $x$ gives birth 
+to a surviving offspring at $y$ at rate
 $$
-Writing $X(x)$ for the increment to $\langle f, \eta\rangle$
-due to a single mature offspring of an individual at $x$, 
-and $P(x)$ for the (Poisson) number of mature
-offspring in such an event, the variance of the increment to 
-$\langle f, \eta\rangle$
-resulting from a birth event at $x$ is $\IE[P(x)]\mathtt{var}(X(x))
-+\mathtt{var}(P(x))\IE[X(x)]^2=\IE[P]\IE[X(x)^2]$. 
-Since, in this notation, conditional on the value of $\eta$
-immediately before the event,
-$$\IE[X(x)^2]=\int
-\frac{1}{N^2}f^2(y) \overline{q}_\theta(x,\eta,dy),$$
-and
-$$\IE[P(x)]=
-\gamma (x,\eta) \int 
-r(z,\eta)q_\theta(x,dz),$$ 
-the contribution to the quadratic variation from birth events, which
-occur at rate $\theta$ per individual 
-(so $N\theta |\eta|$ overall), is
-$$\langle N\theta \gamma(x,\eta)
-\int \frac{1}{N^2}f^2(y)r(y,\eta)
-q_\theta(x,dy) 
-,\eta^{\theta}_s(dx)\rangle.$$
-The increment in $\langle f, \eta\rangle$ resulting from 
-the death of an individual at $x$ is $f(x)/N^2$, and so combining with the 
+\gamma(x,\eta) r(y,\eta) q_{\theta}(x, dy) ,
+$$
+and since this increments $\langle f, \eta \rangle$ by $f(y) / N$,
+the contribution to the quadratic variation from birth events,
+which occur at rate $\theta$ per individual 
+(so, rate $N\theta |\eta|$ overall), is
+$$
+\langle
+    N \theta \gamma(x,\eta)
+    \int \frac{1}{N^2} f^2(y) r(y,\eta)
+    q_\theta(x,dy) 
+    , \eta(dx)
+\rangle .
+$$
+Similarly, the increment in $\langle f, \eta\rangle$ resulting from 
+the death of an individual at $x$ is $f(x)/N$, and so combining with the 
 above, the second order term in the generator takes the form
-$$F''(\langle f,\eta\rangle)
-\frac{1}{2}N\theta \left\{
-\langle \gamma(x,\eta)
-\int \frac{1}{N^2}f^2(y)r(y,\eta)q_\theta(x,dy) 
-,\eta^{\theta}_s(dx)\rangle
-+\langle \mu(x,\eta)\frac{1}{N^2}f^2(x) 
-,\eta^{\theta}_s(dx)\rangle\right\}.
+$$
+F''(\langle f,\eta\rangle)
+\frac{1}{2} N \theta
+\left\{
+    \langle
+        \gamma(x,\eta)
+        \int \frac{1}{N^2}f^2(y)r(y,\eta)q_\theta(x,dy) 
+    , \eta(dx)\rangle
+    +
+    \langle
+        \mu_\theta(x,\eta)\frac{1}{N^2}f^2(x) 
+    ,\eta(dx)\rangle
+\right\} .
 $$
 The term $\varepsilon_{\theta,N}(f, F, \eta)$ will be 
-${\mathcal O}(\theta/N^2)$.
+$\bigO(\theta/N^2)$.
 
+% % % % % % % %
 \subsubsection*{Limit I: deterministic case}
+
+\comment{Need to decide what to call the limit here (and above, I guess).}
 
 By choosing $\theta/N\rightarrow 0$, the second order term in the generator 
 will vanish and we expect a deterministic limit. 
@@ -1500,20 +1514,21 @@ Let us suppose that the limit has a smooth density with respect to
 Lebesgue measure, and abuse notation by using $\Xi_t(x)$
 to denote the corresponding density, then integrating the first term in~(\ref{limit of mean measure equation})
 by parts, we find that in the limit as $N\to\infty$,
-\begin{equation}
-\nonumber
+\begin{equation*}
 \frac{d}{dt}\int f(x)\Xi_t(x)dx
-=\int f(x)\left\{r(x,\Xi_t)\Delta\big(\gamma(\cdot,\Xi_t)
-\Xi_t(\cdot)\big)(x)+F(x,\Xi_t)
-\Xi_t(x)
-\right\}dx.
-\end{equation}
+=
+\int f(x)\left\{r(x,\Xi_t)\DG\big(\gamma(\cdot,\Xi_t)
+\Xi_t(\cdot)\big)(x)
++
+F(x,\Xi_t) \Xi_t(x)
+\right\} dx.
+\end{equation*}
 In other words, we can expect the limit to be a weak solution to the 
 deterministic equation
 \begin{equation}
 \label{deterministic limit}
 \frac{d\Xi}{dt}
-=r(x,\Xi)\Delta\big(\gamma(\cdot,\Xi)
+=r(x,\Xi)\DG\big(\gamma(\cdot,\Xi)
 \Xi(\cdot)\big)(x)+F(x,\Xi)
 \Xi(x).
 \end{equation}
@@ -1521,25 +1536,23 @@ deterministic equation
 
 \subsubsection*{Limit II: stochastic case}
 
-If $N=\rho\theta$, for some constant $\rho$,
+If $N=\delta\theta$, for some positive constant $\delta$,
 the second order term in the generator remains order
 one as $\theta\to\infty$, and  
-we expect a `generalised
-superprocess'
-limit. Assuming some regularity of the coefficients (in particular 
-of $r$), 
-the second order term in the generator will  
-take the form
-$$\frac{1}{\rho}F''(\langle f,\Xi\rangle)
+we expect a `generalised superprocess' limit.
+Assuming some regularity of the coefficients (in particular of $r$), 
+the second order term in the generator will take the form
+$$
+\frac{1}{\delta}F''(\langle f,\Xi\rangle)
 \langle f^2(x), \gamma(x,\Xi)
 r(x,\Xi)\Xi(dx)\rangle.
 $$
 That is
 $$\langle f(x), \Xi_t(dx)\rangle-\langle f(x), \Xi_0(dx)\rangle
--\int_0^t\langle\gamma(x,\Xi_s)\Delta\big(r(\cdot,\Xi_s)f(\cdot)\big)(x),
+-\int_0^t\langle\gamma(x,\Xi_s)\DG\big(r(\cdot,\Xi_s)f(\cdot)\big)(x),
 \Xi_s(dx)\rangle ds$$
 is a martingale with quadratic variation
-$$\frac{2}{\rho}\int_0^t\langle f^2(x) 
+$$\frac{2}{\delta}\int_0^t\langle f^2(x) 
 \gamma(x,\Xi_s)r(x,\Xi_s),\Xi_s(dx)\rangle ds.$$
 
 
