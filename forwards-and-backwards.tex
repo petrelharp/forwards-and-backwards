@@ -520,10 +520,10 @@ and state some assumptions on the parameters.
     \begin{align}
         \mu(x, \eta)
         =
-        r(x, \smooth{r} \eta^{\theta}(x))
-        \gamma(\smooth{\gamma} \eta^{\theta}(x))
+        r(x, \smooth{r} \eta(x))
+        \gamma(\smooth{\gamma} \eta(x))
         - \frac{1}{\theta}
-        F(x, \smooth{F} \eta^{\theta}(x)) .
+        F(x, \smooth{F} \eta(x)) .
     \end{align}
     Let $N$ be a positive number determined by $\theta$.
     When the state of the process is $\eta$,
@@ -609,15 +609,15 @@ we will have use for the following notation:
 An equivalent way to describe the model
 would be to say that an individual at $x$ gives birth at rate
 $$
-    \gamma(x, \smooth{\gamma} \eta^{\theta}(x))
-    \int r(x, \smooth{r} \eta^{\theta}(y)) q(x, dy) ,
+    \gamma(x, \smooth{\gamma} \eta(x))
+    \int r(x, \smooth{r} \eta(y)) q(x, dy) ,
 $$
 and that offspring disperse according to the kernel
 $$
     q_\theta^\mathfrak{m}(x, dy)
     :=
     \frac{
-        r(y, \smooth{r} \eta^{\theta}(y)) q_\theta(x, dy)
+        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
     }{
         \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
     } .
@@ -696,14 +696,14 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \\ & \qquad
         -
         \int_0^t \big\langle
-            \gamma(x, \smooth{\gamma} \eta^{\theta}_{s}(x))
+            \gamma(x, \smooth{\gamma} \eta_{s}(x))
             \mathcal{B}\left(
-                f(\cdot) r(\cdot, \smooth{r} \eta^{\theta}_{s}(\cdot))
+                f(\cdot) r(\cdot, \smooth{r} \eta_{s}(\cdot))
             \right)(x)
             +
             f(x)
-            F(x, \smooth{F} \eta^{\theta}_{s}(x)),
-            \eta^{\theta}_{s}(dx)
+            F(x, \smooth{F} \eta_{s}(x)),
+            \eta_{s}(dx)
         \big\rangle ds,
     \end{align}
     is a martingale.
@@ -714,10 +714,10 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \delta
         \int_0^t
         \big\langle
-            \gamma\left( x, \smooth{\gamma} \eta^{\theta}_{s}(x) \right)
-            r\left(x, \smooth{r} \eta^{\theta}_{s}(x) \right)
+            \gamma\left( x, \smooth{\gamma} \eta_{s}(x) \right)
+            r\left(x, \smooth{r} \eta_{s}(x) \right)
             f^2(x),
-            \eta^{\theta}_{s} (dx)
+            \eta_{s} (dx)
         \big\rangle ds. 
     \end{align}
     In other words, the limit is a measure-valued process with non-local interactions.
@@ -1611,41 +1611,38 @@ the corresponding factor in $f(\eta)$.
 \subsubsection*{Generator of the Lookdown Model}
 
 We now write down the generator of
-the scaled population model with levels where 
-$\lambda$ is the scaling factor of the mass of an individual,
-$\theta(\lambda)$ is the scaling factor for time,
-and the level of an individual particle must be in $[0,\lambda]$.
-Recall that we only track the adult population; maturity, if achieved, is instantaneous.
-Furthermore, at rate $\theta\gamma(x, \eta)$,
-a parent gives birth to a single juvenile offspring.
+the population model with levels between $[0, \lambda]$.
 
 We should consider an initial population of $O(\lambda)$ many particles with levels
 uniformly distributed between $[0, \lambda]$.
-We write $(\xi^{\theta, \lambda}(t))_{t \geq 0}$
-for our population at the $\theta$-th stage of rescaling.
-To recover the scaling in \S\ref{sec: Model and main results},
+We write $(\xi(t))_{t \geq 0}$
+for our population.
+To ensure we have bounded intensity, 
 we scale the empirical distribution of particles with a factor of $1/\lambda$,
 so we write
-$$\eta^{\theta, \lambda}_t:=\frac{1}{\lambda}\xi^{\theta, \lambda}_t(dx \times [0,\lambda])=
+$$\eta_t:=\frac{1}{\lambda}\xi_t(\cdot \times [0,\lambda])=
 \frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \xi \\ U(t) < \lambda}} \delta_{X(t)}.$$ 
+
 From here onwards,
 we write $\xi$ to be the particle systems with levels,
 while $\eta$ is the normalised empirical distribution.
 An individual in the spatial population $\eta$ living at spatial location $x$
-produces one adult offspring at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)$, where
-$$\gamma^{\mathfrak{m}}_{\theta}(x,\eta)=\gamma(x,\eta) \int r (y, \eta)q_\theta(x,dy).$$
+produces one adult offspring at rate $\gamma^{\mathfrak{m}}(x, \eta)$, where
+$$\gamma^{\mathfrak{m}}(x,\eta)=\gamma(x,\eta) \int r (y, \eta)q(x,dy),$$
+where $q(x,dy)$ is the dispersion kernel.
 
-The location of this offspring is given by
+Recall that we only track the adult population; maturity, if achieved, is instantaneous.
+The location of this adult offspring is given by
 the distribution 
-\[ q^{\mathfrak{m}}_\theta(x,\eta,dy) = \frac{r(y,\eta) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\eta) q_{\theta}(x,dy)}. \]
+\[ q^{\mathfrak{m}}(x,\eta,dy) = \frac{r(y,\eta) q(x,dy)}{\int_{\mathbb{R}^d} r(y,\eta) q(x,dy)}. \]
 
 In the lookdown version of our model,
-the individual $(x,u)\in \xi^{\theta, \lambda}$
+the individual $(x,u)\in \xi$
 gives birth to an offspring at rate 
-$2(\lambda-u)\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)$. 
+$2(\lambda-u)\lambda^{-1} \gamma^{\mathfrak{m}}(x, \eta)$. 
 (Averaging over the distribution of the
 level $u$,
-we recover $\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)$.)
+we recover $\gamma^{\mathfrak{m}}(x, \eta)$.)
 
 A new level $u_1$ is sampled independently and
 uniformly from $[u,\lambda]$,
@@ -1664,7 +1661,7 @@ the intensity of levels is conditionally uniform,
 we impose that 
 the level associated with $(x,u)\in\eta$
 evolves according to the differential equation
-$$\dot{v}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta) 
+$$\dot{v}=  \gamma^{\mathfrak{m}}(x, \eta) 
 \left\{\lambda^{-1}(\lambda -v)^{2}
 -(\lambda -v)\right\}.$$
 
@@ -1672,18 +1669,19 @@ See~\cite{etheridge/kurtz:2018}, Section~3.4 for a detailed explanation.
 In order to incorporate death,
 the level of the individual $(x,u)\in \eta$ 
 moves upwards at an additional rate
-$\theta \mu(x,\eta)$
+$ \mu(x,\eta)$
 (on reaching level $\lambda$
 an individual is deemed to have died).
 Overall, we assume that
 the level associated with $(x,u)\in\eta$
 evolves according to
-$$\dot{u}= \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta) 
+$$\dot{u}= \gamma^{\mathfrak{m}}(x, \eta) 
 \left\{\lambda^{-1}(\lambda -u)^{2}
--(\lambda -u)\right\}+\theta \mu(x,\eta)u.$$
+-(\lambda -u)\right\}+\mu(x,\eta)u.$$
 We shall write 
-$$b_{\theta, \lambda}(x,\eta):=\theta\big\{\gamma^{\mathfrak{m}}_{\theta}(x,\eta)
--\mu(x,\eta)\big\}.$$
+$$b(x,\eta):= \big\{\gamma^{\mathfrak{m}}(x,\eta)
+-\mu(x,\eta)\big\}$$
+to be the local branching rate.
 Note that this quantity captures
 the deviation from criticality
 in the branching mechanism.
@@ -1691,31 +1689,31 @@ In this notation,
 the differential equation 
 governing the level of the individual $(x,u)\in\eta$ is
 \begin{align}
-\dot{u}&=\lambda \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) 
+\dot{u}&=\lambda  \gamma^{\mathfrak{m}}(x,\eta) 
 \left\{\left(1-\frac{u}{\lambda}\right)^{2}
--1 +2\frac{u}{\lambda}\right\} -b_{\theta, \lambda}(x,\eta)u \nonumber \\
-&=\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u. \label{differential equation for level}
+-1 +2\frac{u}{\lambda}\right\} -b(x,\eta)u \nonumber \\
+&=\lambda^{-1}  \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u. \label{differential equation for level}
 \end{align}
 In this setting, the generator of our model
-acting on the test functions $f(\eta)=\prod_{(x,u) \in \eta}g(x,u)$
+acting on the test functions $f(\xi)=\prod_{(x,u) \in \xi}g(x,u)$
 satisfies
 %We assume that  locations in ${\mathbb{ R}}^d$.
 
 \begin{eqnarray}\label{Generator of prelimit simplest model}
-&&A_{\theta, \lambda}f(\eta ) \nonumber \\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)
+&&Af(\xi ) \nonumber \\
+&&\quad =f(\xi )\,\sum_{(x,u)\in\xi}\,2\lambda^{-1} \gamma^{\mathfrak{m}}(x, \eta)
 \int_u^{
-\lambda}\Bigg(\frac 12\frac {\int_{\mathbb{R}^d}g(y,u)q^{\mathfrak{m}}_\theta(x,\eta,d
+\lambda}\Bigg(\frac 12\frac {\int_{\mathbb{R}^d}g(y,u)q^{\mathfrak{m}}(x,\eta,d
 y)g(x,v_1)}{g(x,u)} \label{multgen3}\\
 &&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
-+\frac 12\int_{\mathbb{R}^d}g(y,v_1)q^{\mathfrak{m}}_\theta(x,\eta ,dy)-
++\frac 12\int_{\mathbb{R}^d}g(y,v_1)q^{\mathfrak{m}}(x,\eta ,dy)-
 1\Bigg)dv_1\nonumber\\
-&&\quad \quad +f(\eta )\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\nonumber\\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\lambda^{-1}\int_u^{
-\lambda}\Bigg(\frac 12\frac {\theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_\theta(x,\eta,dy)g(x,v_1)}{g(x,u)}\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\theta\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_\theta(x,\eta,dy)\Bigg)dv_1\nonumber\\
+&&\quad \quad +f(\eta )\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\nonumber\\
+&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}(x, \eta)\lambda^{-1}\int_u^{
+\lambda}\Bigg(\frac 12\frac {\theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}(x,\eta,dy)g(x,v_1)}{g(x,u)}\non\\
+&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\theta\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}(x,\eta,dy)\Bigg)dv_1\nonumber\\
 &&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
++f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
 \end{eqnarray}
 The two terms under the integral correspond, respectively,
 to the parent being assigned a level other than $u$,
@@ -1731,48 +1729,67 @@ and offspring is inserted at level $v_1$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection*{Scaling of the Pre-limit}
+\subsubsection*{Scaling of the Pre-limit Lookdown Model}
 
-We also let $\lambda$ takes on the role of $N$
+To scale our lookdown model to be consistent with
+the spatial model described in \S \ref{sec: Model and main results},
+we will let $\lambda$ takes on the role of $N$
 in \S \ref{sec: Model and main results},
 i.e. each individual has mass $1/\lambda$
 in the scaling limit.
-Time is once again scaled by $\theta$
-and local interaction radius by $\varepsilon_{\gamma}$ and $\varepsilon_{r}$.
+Time is once again scaled by $\theta$,
+and the birth, death and establishment rates 
+depend on local densities given by
+mollification over Gaussian kernels with radius
+$\varepsilon_{\gamma}$, $\varepsilon_{F}$ and $\varepsilon_{r}$.
 
-As in Definition \ref{Def: Rescaled Models},
-the rates $\gamma,r, \mu_{\theta}$
-in our re-scaled lookdown models 
-depend on the local density of $\eta$
-through mollifications with 
-$\varrho_{\gamma}, \varrho_{r}$ and $\varrho_{F}$.
-We will now make our re-scaled lookdown model explicit.
+Explicitly, in the $\theta$-th stage of re-scaling,
+an individual has mass $\frac{1}{\lambda} := \frac{1}{N}$
+and a level between $[0,N]$;
+the established birth rate $\gamma(x,\eta)$ is
+$$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta):=~\theta\gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy);$$
+the local branching mechanism $b(x,\eta)$ is 
+$$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
+and the dispersal kernel $q^{\mathfrak{m}}(x,dy)$ is 
+$$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) :=~ \frac{r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
 
+We can now define our pre-limit explicitly as a solution to a Martingale Problem.
 \begin{definition}[Martingale Problem Characterisation]
 \label{Def: Rescaled Lookdown Models}
-Let the coefficients $\gamma, \mu, r$ satisfy the conditions highlighted in Definition \ref{Def: Rescaled Models} and let $\varrho_{\varepsilon}$ be the kernel defined in Definition \ref{Defn: Kernel and Convolution}. We define the following terms:
-\begin{align*}
-\gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta):=&~\gamma(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \int r(y, \varrho_{\varepsilon}*\eta^{\theta}(y))q_{\theta}(x,dy),\\
- q^{\mathfrak{m}}_{\varepsilon, \theta}(x,\eta,dy) :=&~ \frac{r(y,\varrho_{\epsilon}*\eta^{\theta}(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{\epsilon}*\eta^{\theta}(y)) q_{\theta}(x,dy)},\\
-b_{\varepsilon, \theta, \lambda}(x, \eta):=&~ \theta \bigg\{ \gamma(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \int r(y, \varrho_{\varepsilon}*\eta^{\theta}(y))q_{\theta}(x,dy)-\mu_{\theta}(x, \varrho_{\varepsilon}*\eta^{\theta}(x)) \bigg\}
-\end{align*}
-At the $\lambda$-stage of re-scaling, our test measures $\eta$ takes value in $\mathcal{M}_F(\mathbb{R}^d \times [0,\lambda])$, the set of finite measures on $\mathbb{R}^d \times [0,\lambda]$, and we define $$\eta= \frac{1}{\lambda}\sum_{(x,u) \in \eta}\delta_x.$$
-We define $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ to be the (unique?) solution to the Martingale Problem with initial condition $\eta_0$ and generator $A_{\varepsilon, \theta, \lambda}$ that satisfies
+
+For test measures $\xi$ taking value in $\mathcal{M}_F(\mathbb{R}^d \times [0,N])$,
+the set of finite measures on $\mathbb{R}^d \times [0,N]$,
+we define
+$$\eta:= \frac{1}{N}\xi(\cdot  \times [0, N])=
+\frac{1}{N}\sum_{(x,u) \in \xi}\delta_x$$
+to be its re-scaled spatial projection.
+
+We define $(\xi^{\theta}_t)_{t \geq 0}$
+to be the (unique) solution
+to the Martingale Problem
+with initial condition $\xi_0$
+and generator $A^{\theta}$ that satisfies
+
 \begin{eqnarray}\label{Eq: Prelimit Lookdown Generator}
-&&A_{\epsilon, \theta, \lambda}f(\eta ) \\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta)\Bigg\{ \frac 12 \lambda^{-1}\int_u^{
-\lambda}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
-\eta },dy)}{g(x,u)}\non\\
+&&A^{\theta}f(\xi ) \\
+&&\quad =f(\xi )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\Bigg\{ \frac 12 \lambda^{-1}\int_u^{
+\lambda}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\eta,dy) }{g(x,u)}\non\\
 &&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\lambda^{-1}\theta\int_u^{
-\lambda}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
+\lambda}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
 &&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x,\eta) u^2 -b_{\varepsilon,\theta, \lambda}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
++f(\eta )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
 \end{eqnarray}
-for all smooth functions $f \in C(\mathbb{R}^d)$. 
+for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$. 
 \end{definition}
-In \S \ref{sec: Markov Mapping Theorem application}, through an application of the Markov Mapping Theorem, we will show that the spatial projection of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ has the same distribution as $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ if we take $\lambda = N$. Specifically, we mean that when $\lambda=N$, 
-$$(\eta^{\varepsilon,\theta, \lambda}(t))_{t \geq 0}:=\left(\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta^{\varepsilon,\theta, \lambda}(t) \\ U(t) < \lambda}} \delta_{X(t)}\right)_{t \geq 0}$$
-has the same distribution (as stochastic processes) as $(\eta^{\theta}_t)_{t \geq 0}$ in Definition \ref{Def: Rescaled Models}. As a result, we use the same notation $\eta$ to denote these two essentially identical processes which take values in the space of empirical measures. On the other hand, we reserve the notation $\eta$ strictly for the spatial-level process.\\~\\ Furthermore, the application of Markov Mapping Theorem implies that particle levels are, conditional on $\eta$, i.i.d and uniformly distributed between $[0, \lambda]$.  Theorem A.10 in \cite{kurtz/rodrigues:2011} states that convergence of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ to a conditionally Poisson system $(\xi_t)_{t \geq 0}$ with Cox measure $\Xi_t \times \Lambda$ is equivalent to convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$. As a result, it suffices for us to focus on tightness of $(\eta^{\varepsilon, \theta, \lambda}_t)_{t \geq 0}$ and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ as $\theta \to \infty$.
+
+
+
+
+In \S \ref{sec: Markov Mapping Theorem Application},
+applying Markov Mapping Theorem,
+we will show that the spatial projection of $(\eta^{\theta}_t)_{t \geq 0}$ has the same distribution as $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ if we take $\lambda = N$. Specifically, we mean that when $\lambda=N$, 
+$$(\eta^{\theta}(t))_{t \geq 0}:=\left(\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \eta^{\theta}(t) \\ U(t) < \lambda}} \delta_{X(t)}\right)_{t \geq 0}$$
+has the same distribution (as stochastic processes) as $(\eta^{\theta}_t)_{t \geq 0}$ in Definition \ref{Def: Rescaled Models}. As a result, we use the same notation $\eta$ to denote these two essentially identical processes which take values in the space of empirical measures. On the other hand, we reserve the notation $\eta$ strictly for the spatial-level process.\\~\\ Furthermore, the application of Markov Mapping Theorem implies that particle levels are, conditional on $\eta$, i.i.d and uniformly distributed between $[0, \lambda]$.  Theorem A.10 in \cite{kurtz/rodrigues:2011} states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$ to a conditionally Poisson system $(\xi_t)_{t \geq 0}$ with Cox measure $\Xi_t \times \Lambda$ is equivalent to convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$. As a result, it suffices for us to focus on tightness of $(\eta^{\theta}_t)_{t \geq 0}$ and spatial convergence of $(\eta^{\varepsilon, \theta, N}_t)_{t \geq 0}$ as $\theta \to \infty$.
 
 
 
@@ -1794,11 +1811,11 @@ the level at time $t \geq \tau$ if the level first appeared at time $\tau$ , and
 location of the particle with level $U_{\tau}(t)$. 
 Now $U_{\tau}$ satisfies
 \begin{equation}
-U_{\tau}(t)=U_{\tau}(\tau)+\int_{\tau}^{t}(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s),\eta(s))U^2_{\tau}(s)-b_{\varepsilon,\theta,\lambda}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds, ~~~ t \geq \tau.    
+U_{\tau}(t)=U_{\tau}(\tau)+\int_{\tau}^{t}(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s),\eta(s))U^2_{\tau}(s)-b_{\theta}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds, ~~~ t \geq \tau.    
 \end{equation}
 If a level has index $\tau$ and $(s,v,w,\kappa)\in \xi_\tau$, then $\tau+s$ gives a potential birth time for an offspring of the particle at level $U_{\tau}$. We say `potential' since if $U_{\tau}(\tau+s)>\lambda$, the corresponding particle is dead. The (potential) new level is 
 \begin{equation}\label{New birth potential level}
-    U_{\tau+s}(\tau+s)=U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}.
+    U_{\tau+s}(\tau+s)=U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}.
 \end{equation}
 If $U_{\tau+s}(\tau+s)< \lambda$, a new particle is produced with location $X_{\tau}(\tau+s-)+H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ where $H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ is a function such that if $w$ is a uniformly distribution on $[0,1]$, then 
 \begin{equation}\label{eq: Individual Evolution Jump Kernel}
@@ -1813,7 +1830,7 @@ level. If $\kappa = 1 $, the parent is given the new level and the new particle 
 level. Consequently, for $t \geq \tau$
 \begin{align}\label{eq: Spatial evolution of individual lineage}
 X_{\tau}(\tau+t)=&X_{\tau}(t)\\
-&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
+&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
 &\qquad \times \xi_{\tau}(ds,dv,dw,d\kappa).
 \end{align}
 Starting with an initial particle at level $U_{(0,i)}$ , we can identify a potential line of descent by
@@ -1832,14 +1849,14 @@ and define $U_{\tau}(0)=U_{(0,i)}, X_{\tau}(0)=X_{(0,i)}(0)$, and $\zeta_{\tau}$
 where $\tau_{m+1}=\infty$. Then 
 
 \begin{align*}
-U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))}dV_{\tau}(s)\\
-&+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))U^2_{\tau}(s)-b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds,\\  
-X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
+U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))}dV_{\tau}(s)\\
+&+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))U^2_{\tau}(s)-b_{\theta}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds,\\  
+X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
 &\qquad \times \kappa   H(X_{\tau}(s-), \eta(s-),\omega)\zeta_{\tau}(ds,dv,dw,d\kappa)
 \end{align*}
 gives the spatial and level dynamics of a lineage. Note that $\zeta^{0}_{\tau}(B)$ produces spatial jumps when $\kappa_k=1$, while the integral against $\xi_{\tau_k}$ in Equation \eqref{eq: integrand in spatial tracing} gives spatial jumps when $(s,v,w,\kappa) \in \xi_{\kappa_k}$, $\tau_k \leq s \leq \tau_{k+1}$, and $\kappa = 1$. This corresponds to the discussion given above.
 \begin{remark}
-The factor $\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \eta)}$ that scales the jump in levels give an average birth rate of $\theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s-), \eta(s-))$. This is because for the potential birth to be a true birth, we impose that $$U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}< \lambda,$$ where $U_{\tau}(\tau+s)$ is uniformly distributed between $[0, \lambda]$. As a result, a true birth occurs between $[0,\delta t]$ if there exists $(s,v) \in [0,\delta t]\times [0, 2 (\lambda-U_{\tau}(\tau+s)) \lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))]$. Averaging this over levels give a Poisson process with rate $ \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))$. 
+The factor $\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)}$ that scales the jump in levels give an average birth rate of $\theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))$. This is because for the potential birth to be a true birth, we impose that $$U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}< \lambda,$$ where $U_{\tau}(\tau+s)$ is uniformly distributed between $[0, \lambda]$. As a result, a true birth occurs between $[0,\delta t]$ if there exists $(s,v) \in [0,\delta t]\times [0, 2 (\lambda-U_{\tau}(\tau+s)) \lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))]$. Averaging this over levels give a Poisson process with rate $ \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))$. 
 \end{remark}
 \begin{remark}
 Although the labelling presented here depends on random birth times, we can label each individual in the population deterministically with the Ulam-Harris label. We therefore have a countable particle system. In particular, we can now express our particle systems as
@@ -1880,8 +1897,8 @@ and applying Ito's formula we have
 Furthermore, recall that in our scaling limit, 
 \begin{equation}
 \begin{aligned}
-\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon,\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
-b_{\varepsilon,\theta, \lambda}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))\\
+\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
+b_{\theta}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))\\
 &+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s)).
 \end{aligned}    
 \end{equation}
@@ -2359,7 +2376,290 @@ Since $\psi$ was arbitrary,
 where we have used that $w$ solves~(\ref{profile}).
 
 \end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\section{Markov Mapping Theorem Applications}
+    \label{sec: Markov Mapping Theorem Application}
+\subsection{Markov Mapping Theorem Application on Generator $A_{\theta}$}\label{sec: Markov Mapping Theorem Application - Prelimit}
 
+We now introduce some notations to simply our calculations. For $\xi=\sum \delta_{(x_i,u_i)}$, we write $\textbf{x}=(x_1,x_2,...), \textbf{u}=(u_1,u_2,...)$ to be the collections of particles locations and levels respectively. With this notation we will write $f(\xi), f(\textbf{x},\textbf{u})$ interchangeably. We write $\Gamma (d\textbf{u})$ as the probability kernel that corresponds to assigning each particle an i.i.d. uniform $[0,\lambda]$-level, i.e.
+$$\int f(\textbf{x},\textbf{u})\Gamma (d\textbf{u})=\frac{1}{\lambda^{|\xi|}}\int_{[0,\lambda]^{|\xi|}}f(\textbf{x},\textbf{u})d\textbf{u},$$
+and we denote
+$$\hat{g}(x):=\frac{1}{\lambda}\int_{0}^{\lambda}g(x,u)du, ~~\hat{f}(\xi)=\int f(\xi) \Gamma (d\textbf{u})$$ 
+to be the spatial test functions with averaged level. By independence of the levels of the particles we have that
+$$\hat{f}(\xi)=\int \prod_{(x,u) \in \xi}g(x,u) \Gamma(d\textbf{u})=\prod_{(x,u)\in \xi}\frac{1}{\lambda}\int_{0}^{\lambda} g(x,u) du=\prod_{x_i \in \Xi}\hat{g}(x_i).$$ 
+We will now apply Markov Mapping Theorem while keeping notations consistent to that introduced in Section A.5 in \cite{kurtz/rodrigues:2011} with the aid of Table \ref{Markov Mapping Theorem Notation Table}.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|c}
+    Notation in \cite{kurtz/rodrigues:2011} & Notation in this paper \\
+    \hline\\
+      $S$   &  $\mathcal{M}(\mathbb{R}^d \times [0, \lambda))$\\\\
+       $S_0$  &  $\mathcal{M}(\mathbb{R}^d)$\\\\
+       $A$ & $A^{\theta}$\\\\
+       $(X_t)_{t \geq 0}$ & $(\xi^{\theta}_t)_{t \geq 0}$\\\\
+       $\mu_0$ & $\Xi^{\theta}_0 \in \mathcal{M}(\mathbb{R}^d)$\\\\
+       $\nu_0$ & $\xi^{\theta}_0 \in \mathcal{M}(\mathbb{R}^d \times [0,\lambda])$\\\\
+       $f(\xi)$ & $\prod_{(x,u) \in \xi} g(x,u)$\\\\
+        $\gamma_M$ & $ \mathcal{M}(\mathbb{R}^d \times [0, \lambda)) \ni \xi \to \frac{1}{\lambda}\sum_{(x,u) \in \xi, u < \lambda} \delta_{x} \in \mathcal{M}(\mathbb{R}^d)$\\\\
+       $\alpha_M$ & $ \alpha_M(\Xi,d \nu) =     \begin{cases}
+      0 & \text{if } \sum_{(x,u) \in \nu, u < \lambda} \delta_x \neq \Xi\\
+       \prod_{(u_i,x_i) \in \nu} \frac{1}{\lambda} \mathbbm{1}_{[0,\lambda]}du_i & \text{if } \sum_{(x,u) \in \nu, u < \lambda} \delta_x = \Xi,\\
+    \end{cases} $\\
+&      where $du_i$ is the standard Lebesgue measure.
+    \end{tabular}
+    \caption{Markov Mapping Theorem Correspondence}
+    \label{Markov Mapping Theorem Notation Table}
+\end{table}
+\begin{remark}
+Note that $\gamma,\alpha$ in \cite{kurtz/rodrigues:2011} is replaced with $\gamma_M,\alpha_M$ to avoid confusion with the $\gamma, \alpha$ used in previous sections.
+\end{remark}
+First of all, note that $\gamma_M$ is Borel-measurable and $\alpha_M$ is a transition function from $\mathcal{M}(\mathbb{R}^d \times [0, \lambda))$ to $\mathcal{M}(\mathbb{R}^d)$. More importantly, we have the following simplified expression for an integral against $\alpha_M$:
+\begin{equation}
+\int_{\mathcal{M}(\mathbb{R}^d\times [0,\lambda])}A^{\theta}f(\nu)\alpha_M(\Xi,d\nu)= \int   A^{\theta}f(\textbf{x},\textbf{u})\Gamma(d\textbf{u}). 
+\end{equation}
+As a result, we can establish that
+\begin{equation}
+\begin{aligned}
+\alpha_M(\Xi,\gamma^{-1}(\Xi)) &= \int_{\nu \in \gamma^{-1}(y)}\alpha_M (\Xi,d\nu) \\
+&= \int_{\nu \in \prod_{x_i \in \Xi} \{x_i\}\times [0,\lambda]}\alpha_M (\Xi,d\nu)\\
+&= \prod_{x_i \in \Xi}\frac{1}{\lambda}\int_{0}^{\lambda} du_i =1
+\end{aligned}
+\end{equation}
+With the simplified integral, it now suffices to show that the Martingale Problem 
+\begin{equation}\label{Markov Mapping Theorem Martingale Condition Simplified}
+C = \left\{\left(\int   f(\textbf{x},\textbf{u})\Gamma(d\textbf{u}),\int   A^{\theta}f(\textbf{x},\textbf{u})\Gamma(d\textbf{u})\right)\right\}    
+\end{equation}
+has a solution, i.e. the process
+\begin{equation}
+\begin{aligned}
+M_t:=& \int   f(\textbf{x}_t,\textbf{u}_t)\Gamma(d\textbf{u})-\int   f(\textbf{x}_0,\textbf{u}_0)\Gamma(d\textbf{u})-\int_{0}^{t}\int   A^{\theta}f(\textbf{x}_s,\textbf{u}_s)\Gamma(d\textbf{u})ds\\
+=&\hat{f}(\xi_t)-\hat{f}(\xi_0)-\int_{0}^{t}\int   A^{\theta}f(\xi_s)\Gamma(d\textbf{u})ds
+\end{aligned}    
+\end{equation}
+is a martingale.\\
+Once we manage to solve the Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified}, the Markov Mapping Theorem guarantees the following fact:
+\begin{enumerate}
+    \item $N_t:=    f(\xi_t)-   f(\xi_0)-\int_{0}^{t}  A^{\theta}f(\xi_s)ds$ is a martingale for all $f\in D(A^{\theta})$,
+    \item The process $(\gamma_M \circ \xi^{\theta}_t)_{t \geq 0}:= \left(\frac{1}{\lambda}\sum_{(x,u)\in \xi^{\theta}_t, u < \lambda} \delta_x\right)_{t \geq 0}=(\Xi^{\theta}_t)_{t \geq 0}$ solves the Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified}.
+    \item $\mathbb{P}\{\xi^{\theta}_t \in B | \mathcal{F}^{\Xi^{\theta}}_t\}=\alpha_M(\Xi^{\theta}(t),B), ~~~B \in \mathcal{B}(\mathcal{M}(\mathbb{R}^d \times [0,\lambda])).$
+\end{enumerate}
+Note that in particular, the third statement is equivalent to the fact that conditioned on the spatial configuration $\Xi^{\theta}_t$, the levels of the particles must be i.i.d uniformly between $[0,\lambda]$. We may also express this condition through the following equation:
+\begin{equation}\label{Markov Mapping Theorem Cox Condition}
+\mathbb{E}\left[e^{-\int_{S \times [0,\lambda]} f(x,u) \xi^{\varepsilon,\theta,\lambda}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{\varepsilon,\theta, \lambda}}_t\right]=e^{-\int F^{\varepsilon,\theta,\lambda}_f(x) \Xi^{\varepsilon,\theta,\lambda}_t(dx)},
+\end{equation}
+where 
+$$F^{\varepsilon,\theta,\lambda}_f(x):=-\lambda\log \left(\frac{1}{\lambda}\int_{0}^{\lambda}e^{-f(x,u)}du\right)=-\lambda\log \left(1-\frac{1}{\lambda}\int_{0}^{\lambda}(1-e^{-f(x,u)})du\right).$$
+
+Therefore we only need to solve Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified}.\\
+
+The procedure to solve the Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified} is rather standard and set out in \cite{kurtz/rodrigues:2011}, albeit we will face more technicalities for this setting. Recall that the lookdown generator of our spatial-level process satisfies
+\begin{align}\label{Lookdown generator N lambda theta prelimit}
+A^{\theta}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+\int_u^{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy) \nonumber \\
+& \qquad \qquad \qquad \qquad +\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1 \nonumber\\
+&+f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+\end{align}
+where $f(\xi) =\prod_{(x,u) \in \xi}g(x,u)$. 
+For easier computation we break the generator into three parts, 
+\begin{equation}
+\begin{aligned}
+A^{\varepsilon, \theta, \lambda,1}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+\int_u^{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy)\Bigg)dv_1,\\
+A^{\varepsilon, \theta, \lambda,2}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+\int_u^{
+\lambda}\Bigg(\frac{1}{2}\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1,\\
+A^{\varepsilon, \theta, \lambda,3}f(\xi)=&f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+\end{aligned}
+\end{equation}
+such that 
+$$A^{\theta}f(\xi)=A^{\varepsilon, \theta, \lambda,1}f(\xi)+A^{\varepsilon, \theta, \lambda,2}f(\xi)+A^{\varepsilon, \theta, \lambda,3}f(\xi).$$
+We now calculate each generator evaluated under our probability kernel $\Gamma$.
+\footnotesize 
+\begin{align*}
+&\int A^{\varepsilon, \theta, \lambda,1}f(\xi) \Gamma(d\mathbf{u})\\ &=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)
+\int_u^{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi} \int \Bigg\{\frac{f(\xi)}{g(x,u)}2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)
+\int_u^{
+\lambda}\Bigg(\frac 12 g(x,v_1)\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}\left\{
+\int_u^{
+\lambda} g(x,v_1)dv_1\times \int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy)\right\}du\\
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{\mathbb{R}^d} \left\{\int_{0}^{\lambda}
+\int_u^{
+\lambda} g(x,v_1) (g(y,u)-g(x,u))dv_1du\right\}q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\xi },dy)
+\end{align*}
+\normalsize
+For the second generator, we have
+\footnotesize
+\begin{align*}
+&\int A^{\varepsilon, \theta, \lambda,2}f(\xi) \Gamma(d\mathbf{u})\\&=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\times
+\int_u^{
+\lambda}\Bigg(\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\int \Bigg\{f(\xi)\times
+\int_u^{
+\lambda}\Bigg(\int_{\mathbb{R}^d}\left(g(y,v_1)+g(x,v_1)-2\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i) \frac{1}{\lambda}\int_{\mathbb{R}^d}\Bigg\{\int_{0}^{\lambda}
+\int_u^{
+\lambda}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du\Bigg\} q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy).
+\end{align*}  
+\normalsize
+For the third generator we have that 
+\begin{align*}
+ &\int A^{\varepsilon, \theta, \lambda,3}f(\xi)\Gamma(d\mathbf{u})\\&=\int f(\xi )\,\left(\lambda^{-1} \sum_{(x,u)\in\xi}\theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\Gamma(d\mathbf{u}) \\
+ &=\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\partial_u g(x,u)du \\
+ &=-\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}  \left(2u\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) -b_{\theta}(x,\Xi)\right)\left(g(x,u)-1\right)du \\
+ &=-\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}   2ug(x,u)du \\
+ &+\sum_{(x,u)\in\xi}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\times \lambda^2+\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)b_{\theta}(x,\Xi)(\hat{g}(x)-1) \\
+\end{align*}
+Using the symmetry we have
+\begin{align*}
+&\int_{0}^{\lambda}
+\int_u^{
+\lambda} g(x,v_1) (g(y,u)-g(x,u))dv_1du+\int_{0}^{\lambda}
+\int_u^{
+\lambda}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du
+\\&= \int_{0}^{\lambda}
+\int_u^{
+\lambda}g(x,u)g(y,v_1)+g(y,u)g(x,v_1)-2g(x,u) dv_1 du\\
+&=\frac{1}{2}\int_{0}^{\lambda}\int_{0}^{\lambda}g(x,u)g(y,v_1)+g(y,u)g(x,v_1)dv_1 du - 2 \int_{0}^{\lambda}(\lambda-u)g(x,u)du\\
+&=\lambda^2 \hat{g}(x)\hat{g}(y) -2\lambda^2 \hat{g}(x)+2\int_{0}^{\lambda}ug(x,u)du.
+\end{align*}
+Combining the last equations we have 
+\begin{align*}
+&\int \Bigg(A^{1}_{\theta}f(\xi)+A^{2}_{\theta}f(\xi)+A^{3}_{\theta}f(\xi)\Bigg)\Gamma(d\mathbf{u})\\
+&=  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right)+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right) -\hat{f}(\xi)\sum_{(x,u) \in \xi } \theta \mu_{\varepsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right),
+\end{align*}
+which corresponds to a spatial-branching process that branches at rate $\theta\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(x,\Xi)$ leaving offspring around with kernel $ q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)$ and each particle having death rate given by $\theta \mu_{\varepsilon,\theta}(x,\Xi)$. This is precisely the martingale problem in Definition \ref{def: Martingale Problem Characterisation - Product Form}.
+\newpage
+\subsubsection{Markov Mapping Theorem Application on Generator $A^{\text{nl}}_{\varepsilon}$}\label{sec: Markov Mapping Theorem application - limit}
+In this section we consider a general generator limit for the lookdown representation of our spatial model. 
+We define
+\begin{equation}
+\begin{aligned}
+A^{\text{nl}}_{\varepsilon}f(\eta )  =&f(\eta )\sum_{(x,u)\in\eta}\Bigg\{
+ \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))
+ \frac{\mathcal{B}(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)\mathcal{B}r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)}\\
+ &
+  +2\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\infty}(g(x,v_1)-1)dv_1\\
+&
++\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2 \\
+&~~~~~~~-\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))\mathcal{B}r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg) \frac {\partial_u g(x,u)}{g(x,u)}\Bigg\},
+\end{aligned}    
+\end{equation}
+where our test measure $\eta$ takes value on $\mathcal{M}_F(\mathbb{R}\times [0,\infty))$ and $\Xi:=\lim_{u_0\rightarrow\infty}\frac 1{u_0}\sum_{(u,x)\in \eta:u\leq u_0}\delta_x$.
+
+If we take $\gamma =1, r=1, \mathcal{B}=\Delta,$ and $F(x, (\varrho_{\varepsilon}*\Xi)(x))=G( (\varrho_{\varepsilon}*\Xi)(x))-H( (\varrho_{\varepsilon}*\Xi)(x))$, then we recover $A^{\varepsilon, \infty}$ defined in Equation \eqref{Eq: Non-local Scaling limit Lookdown Generator}.
+
+
+Similar to the calculations above, we write $\alpha(\Xi,\cdot)$ for the distribution of a conditionally
+Poisson random measure $\eta^{\infty}$ on $\mathbb{R}^d\times [0,\infty)$ with mean measure
+$\Xi(dx)\times \Lambda$ and we calculate $\alpha A^{\text{nl}}_{\varepsilon}f(\eta)$. 
+
+Once again, we write
+$$\alpha A^{\text{nl}}_{\varepsilon}f(\eta)=\alpha A^{1}_{nl}f(\eta)+\alpha A^{2}_{nl}f(\eta)+\alpha A^{3}_{nl}f(\eta),$$
+where 
+\small
+\begin{equation}\label{Eq: Decomposition of the Non-local Scaling limit Lookdown Generator}
+\begin{aligned}
+A^{1}_{nl}f(\eta )  =&f(\eta )\sum_{(x,u)\in\eta}
+ \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))
+ \frac{B(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)},\\
+A^{2}_{nl}f(\eta )  = &
+  f(\eta )\sum_{(x,u)\in\eta}2\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\infty}(g(x,v_1)-1)dv_1,\\
+ A^{3}_{nl}f(\eta )  =&f(\eta )
+\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2\\
+&\qquad \qquad \qquad \qquad -\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg)\frac {\partial_u g(x,u)}{g(x,u)}\\
+\end{aligned}    
+\end{equation}
+\normalsize
+
+
+We define $h(x)=\int_{0}^{\infty} (1-g(x,u))du$. In this case, we have that $$\alpha f(\eta) = \exp \left(\int\int \big(g(x,u)-1\big) du \Xi(dx)\right)= \exp(\langle -h(x),\Xi(dx) \rangle ).$$  As a result we have that
+\begin{equation}\label{Eq: Averaging the Non-local Scaling limit Lookdown Generator Part 1}
+\footnotesize
+\begin{aligned}
+\alpha A^{1}_{nl}f(\eta )  =&
+ \alpha \left\{\sum_{(x,u)\in\eta}\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))\frac{B(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)}\prod_{(x_i,u_i)}g(x_i,u_i)\right\}\\
+ =&\int\int \bigg( \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B((g(\cdot,u)-1)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-(g(x,u)-1)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\bigg)du \Xi(dx)\\
+ &\times \exp \left(\int\int \big(g(x,u)-1\big) du \Xi(dx)\right),\\
+ =& \left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle e^{-\langle h(x),\Xi(dx)\rangle} \\
+ \alpha A^{2}_{nl}f(\eta )  = &
+   \alpha \left\{2\sum_{(x,u)\in\eta}\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\infty}(g(x,v_1)-1)dv_1\prod_{(x_i,u_i)}g(x_i,u_i)\right\}\\
+=& \int\int \bigg(g(x,u)\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\infty}(g(x,v_1)-1)dv_1\bigg)du \Xi(dx)e^{-\langle h(x),\Xi(dx)\rangle}\\
+=& 
+\left\langle \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int g(x,u)\int_u^{
+\infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\right\rangle e^{-\langle h(x),\Xi(dx)\rangle}\\
+ \alpha A^{3}_{nl}f(\eta )  =&
+\alpha \Bigg\{\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2 -\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg)\\
+&\times \frac {\partial_u g(x,u)}{g(x,u)}\prod_{(x_i,u_i)}g(x_i,u_i)\Bigg\}\\
+=& \bigg \langle \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int \partial_u g(x,u) u^2 du \\
+& ~~~ - \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) \int u \partial_u g(x,u) du ,\Xi(dx)\bigg\rangle \times e^{-\langle h(x),\Xi(dx)\rangle} .
+ \end{aligned}    
+\end{equation}
+\normalsize
+Now note that with integration by parts
+\begin{multline}
+ \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))  \int_{0}^{\infty}\partial_u g(x,u) u^2 du  \\=  2\ell\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du, 
+\end{multline}
+\begin{multline}
+ \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} u \partial_u g(x,u)du \\=\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} (g(x,u)-1) du\\
+ =-\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) h(x)
+\end{multline}
+and furthermore, we apply Fubini theorem to get that 
+\begin{multline}
+  2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty} u    (g(x,u)-1) du \\
+  =   2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty} \int_{0}^{u}    dv_1 (g(x,u)-1) du \\
+  =  2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1.
+\end{multline}
+Finally, note also that
+\begin{multline}
+\int 2\bigg(g(x,u)\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\infty}(g(x,v_1)-1)dv_1\bigg)du\\
+= 2\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int \bigg( g(x,u) \int_u^{
+\infty}(g(x,v_1)-1)dv_1\bigg)du.
+\end{multline}
+\normalsize
+Combining all results we have that
+\small
+\begin{equation}\label{eq: Non-local lookdown generator MMP calculation}
+\begin{aligned}
+\alpha A^{\text{nl}}_{\varepsilon}f(\eta)
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle\\
+&+\bigg \langle2\ell\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du \\
+ &+ \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) h(x) ,\Xi(dx)\bigg\rangle\\
+ & +\left\langle 2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int g(x,u)\int_u^{
+\infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\right\rangle \Bigg\}\\
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x),\Xi(dx) \right\rangle\\
+&+\bigg \langle 2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1 \\
+ & + 2\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_0^{\infty} g(x,u)\int_u^{
+\infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\bigg\rangle \Bigg\}\\
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\bigg\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x)\\
+& + \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))2 \int_0^{\infty} (g(x,u)-1)\int_u^{
+\infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\bigg\rangle \Bigg\}\\
+=&~ e^{-\langle h(x),\Xi(dx)\rangle} \times \Bigg\{\bigg\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x)\\
+& + \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))h(x)^2,\Xi(dx)\bigg\rangle \Bigg\}\\
+:=&~\mathcal{L}^{nl}_{\varepsilon}\alpha f(\eta),
+\end{aligned}
+\end{equation}
+\normalsize
+where $\mathcal{L}^{nl}_{\varepsilon}$ is the generator of a non-linear superprocess of the form characterised in Equation \eqref{eq: Empirical Measure Martingale characterisation - product form}.
 
 
 
