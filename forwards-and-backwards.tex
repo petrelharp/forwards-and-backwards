@@ -1562,9 +1562,110 @@ $$\frac{2}{\alpha}\int_0^t\langle f^2(x)
 % % % % % % % % % % % % % % % % % %
 \subsection{Lineages}
 
-\plr{
-    TODO: Heuristics for how lineages should move given the population process.
-}
+Although our proof of Theorem\ref{thm:lineages}
+uses the explicit representation in terms of the lookdown process,
+informal calculations agree with the main result.
+Suppose that we are tracking a lineage that is at location $y$ at time $t$.
+Looking back through time, the lineage will move at the time that individual was born,
+and will jump to the location of the parent of that individual.
+Now, the rate at which new individuals are born to parents at $x$ and establish at $y$
+is
+$$
+    \gamma(x, \eta_t) q(x, dy) r(y, \eta_t) .
+$$
+This implies that the probability a randomly chosen individual near $y$
+is a new offspring from a parent at $x$ in $[t, t+dt)$ is, informally,
+\begin{equation} \label{eqn:informal_rates}
+\frac{
+    \gamma(x, \eta_t) q_\theta(x, dy) r(y, \eta_t) \eta_t(dx)
+}{
+    \eta_t(dy)
+} dt .
+\end{equation}
+Leaving aside questions of whether a lineage can be treated as a randomly chosen individual,
+we might then proceed by defining a continuous-time jump process
+whose transition rates are given by \eqref{eqn:informal_rates} given $(\eta_t)_{t=0}^T$.
+Happily, we are interested in the case when $\eta$ has a density,
+say $\eta_t(dx) = \varphi(x) dx$,
+so interpreting these rates is not too difficult.
+Now recall that $q_\theta(x, dy)$ is a Gaussian kernel
+with mean $x + \meanq/\theta$ and covariance $\covq/\theta$.
+Write $\widetilde q_\theta(y, dx)$ for the ``reverse-time'' distribution,
+i.e., Gaussian with mean $x - \meanq/\theta$ and the same covariance.
+Then, rearranging infinitesimals,
+\eqref{eqn:informal_rates} implies a rate of
+\begin{equation} \label{eqn:informal_rates2}
+\frac{
+    \varphi(x) \gamma(x, \eta_t) r(y, \eta_t)
+}{
+    \varphi(y)
+} \widetilde q_\theta(y, dx) .
+\end{equation}
+Let $(L^\theta_s)_{s=0}^T$ be the location of a lineage that moves according to
+jump rates~\eqref{eqn:informal_rates2},
+back through time (i.e., with the substitution that $s = T-t$).
+Then
+\begin{align} \label{eqn:lineage_generator_Edt}
+    \begin{split}
+    &\IE[f(L^\theta_{s+ds}) \;|\; L_s = y] - f(y)
+    \\&\qquad 
+    =
+    ds \int \left(f(x) - f(y)\right)
+    \frac{
+        \varphi_{T-s}(x) \gamma(x, \eta_{T-s}) r(y, \eta_{T-s})
+    }{
+        \varphi_{T-s}(y)
+    }
+    \widetilde q_\theta(y, dx) .
+    \end{split}
+\end{align}
+Referring back to Definition~\ref{def:dispersal_generator},
+recall that as $\theta \to \infty$,
+$$
+    \theta \int (f(x) - f(y)) \widetilde q_\theta(y, dx)
+    \to
+    - \sum_i \meanq_i \partial_{x_i} f(y)
+    + \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y) ,
+$$
+which is just $\DG$ but with the first derivative terms multiplied by -1.
+\comment{The $\widetilde \DG$ and $\covq \grad$ notation here is terrible; suggestions?}
+Consequently,
+\begin{align*}
+    \theta \int (f(x) - f(y)) g(x) \widetilde q_\theta(y, dx)
+    &\approx
+    - g(y) \sum_i \meanq_i \partial_{x_i} f(y)
+    + g(y) \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y)
+    + \sum_{ij} \partial_{x_i} g(y) \covq_{ij} \partial_{x_j} f(y)  \\
+    &=
+    g(y) \widetilde \DG f(y)
+    + (\covq \grad g) \cdot \grad f ,
+\end{align*}
+if we define $\widetilde \DG$ to be the same as $\DG$ but with $-\meanq$ substituted for $\meanq$,
+and $(\covq \grad g(y))_i = \sum_j \covq_{ij} \partial_{x_j} g(y)$.
+Applying this to~\eqref{eqn:lineage_generator_Edt} with $g = \varphi_{T-s} \gamma$,
+this suggests that the generator of the limiting process is
+\begin{align*}
+    \Lgen_s f
+    &=
+    \frac{r}{\varphi_{T-s}}
+    \left\{
+        \varphi_{T-s} \gamma \widetilde \DG f
+        + \left(\covq \grad (\varphi_{T-s} \gamma) \right) \cdot \grad f 
+    \right\} \\
+    &=
+    r \gamma
+    \left\{
+        \widetilde \DG f
+        + \left(\covq \grad \log(\varphi_{T-s} \gamma) \right) \cdot \grad f 
+    \right\} .
+\end{align*}
+In other words, the lineage moves at speed equal to the local production of successful offspring,
+$r \gamma$,
+by a time-reversed version of the dispersal distribution,
+but with a drift in the direction of the gradient of the logarithm
+of the production of juveniles, $\grad \log(\phi_{T-s} \gamma)$
+(modified by the covariance of dispersal).
+This \comment{presumably?} agrees with \comment{the theorem}.
 
 
 %%%%%%%%%%%%%%%%%%%
