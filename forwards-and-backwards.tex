@@ -48,7 +48,7 @@
 \newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
 \newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
 \newcommand{\covq}{\Sigma}     % covariance matrix of dispersal, times theta
-\newcommand{\kernel}{\varrho}  % interaction kernels
+\newcommand{\kernel}{\rho}  % interaction kernels
 \newcommand{\smooth}[1]{\kernel_{#1} \! * \!}  % convolution by the interaction kernel
 \newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
 \newcommand{\Lgen}{\mathcal{L}}    % generator of a lineage
@@ -558,15 +558,15 @@ M^{\theta}_t(f)
  -  \int_{0}^{t}\bigg\{
         \int\left(   \int \theta
      \left(
-        f(z)r\big(z,\varrho_{r}*\eta^{\theta}_{s}(z)\big)
-            -f(x)r\big(x,\varrho_{r}*\eta^{\theta}_{s}(x)\big)
+        f(z)r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
+            -f(x)r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
             \right)
                     q_\theta(x,dz)\right)
         \\ & \qquad \qquad \qquad \qquad {} \times
-                            \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
                             \eta^{\theta}_{s}(dx)
      \\ & \qquad {} +\int 
-     f(x)F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
+     f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
      \eta^{\theta}_{s}(dx)
     \bigg\} ds
 \end{aligned}    
@@ -576,8 +576,8 @@ is a martingale with quadratic variation
 \begin{aligned} \relax
 [ M^{\theta}_t(f)] =& 
 \frac{\theta}{N} \int_{0}^{t}\bigg\{
-\langle \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-\int f^2(y)r\big(y,\varrho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
+\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
 ,\eta^{\theta}_{s}(dx)\rangle\\
 & \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
 ,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds. 
@@ -684,7 +684,7 @@ it should be possible in 1D, not in higher dimensions (brief note).
     Let $(\eta^\theta_t)_{t \geq 0}$
     be as defined in Definition \ref{def:model_setup}
     and assume that as $\theta \to \infty$, $N \to \infty$
-    in such a way that $\theta/N \to \delta$.
+    in such a way that $\theta/N \to \alpha$.
     (However, interaction distances $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$
     remain constant.)
 
@@ -713,11 +713,11 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \big\rangle ds,
     \end{align}
     is a martingale.
-    The quadratic variation of $M_t$ is given by 
+    The quadratic variation of $M_t$, denoted $\langle M \rangle_t$, is given by 
     \begin{align} \label{eqn:mgale_variation}
-        [ M ]_t
+        \langle M \rangle_t
         =
-        \delta
+        \alpha
         \int_0^t
         \big\langle
             \gamma\left( x, \smooth{\gamma} \eta_{s}(x) \right)
@@ -727,7 +727,7 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \big\rangle ds. 
     \end{align}
     In other words, the limit is a measure-valued process with non-local interactions.
-    Furthermore, if $\delta = 0$ the limit is deterministic.
+    Furthermore, if $\alpha = 0$ the limit is deterministic.
 \end{theorem}
 
 Theorem \ref{thm:nonlocal_convergence} provided convergence along subsequences;
@@ -738,18 +738,14 @@ In the deterministic case, we have convergence to a nonlocal PDE.
 \comment{Maybe the following two corollaries should be combined?}
 
 \comment{
-    \textbf{Question:}
-    In our outline
-    we said this corollary would be about uniqueness,
-    but is it also about continuity of the limit (i.e., existence of a density)?
-    A lot of my uncertainty in how to phrase these results
-    comes from being unsure what exactly we can say about densities.
+TODO: insert definition of "weak solution of the PDE \ref{eqn:nonlocal_pde}" heere.
 }
 
 \begin{corollary}[Deterministic limits]
     \label{cor:nonlocal_pde_limits}
+    \comment{(TODO: remove "has a density" and rephrase appropriately)}
     In the context of Theorem~\ref{thm:nonlocal_convergence},
-    if the limit is deterministic (i.e., $\theta / N \to \delta = 0$), $\eta_0$ has a density,
+    if the limit is deterministic (i.e., $\theta / N \to \alpha = 0$), $\eta_0$ has a density,
     and \comment{additional conditions? can we say something like this??}
     then any limit $\eta_t(dx)$ has a density $\varphi(t, x)$,
     which is a weak solution to the nonlocal partial differential equation
@@ -782,6 +778,10 @@ where $\DG$ is an elliptic second order differential operator,
 and the coefficients $r$, $\gamma$, and $F$
 at $x$ depend nonlocally on $\varphi$
 (i.e., through a smoothed version of $\varphi$).
+
+\comment{TODO: Tom has conditions (coefficient are Lipschitz?) under which
+    the solution to \eqref{eqn:nonlocal_pdf} has a density (Thm 2.1 in DDMOT);
+    should we insert those here (as a Corollary or Proposition, maybe?)}
 
 \begin{corollary}[Superprocess limits] \label{cor:superprocess_uniqueness}
     In the context of Theorem~\ref{thm:nonlocal_convergence},
@@ -903,7 +903,7 @@ only in the $N \to \infty$ limit.
 Second, does the process have a tractable description?
 If the population process has a density,
 then it turns out that a lineage is a diffusion driven by the density.
-The remaining case is the superprocess limit ($\theta/N \to \delta > 0$);
+The remaining case is the superprocess limit ($\theta/N \to \alpha > 0$);
 in this case, we expect that a lineage could still be described as a generalized diffusion,
 but moving within a stochastic landscape that is singular in $d \ge 2$.
 We focus on the more tractable situation where the population process is deterministic.
@@ -1346,10 +1346,10 @@ A Taylor expansion allows us to write
         \langle f, \eta\rangle\big)^2 \right|\eta_0=\eta
     \right]
     +
-    \varepsilon_{\theta}(f, F, \eta),
+    \epsilon_{\theta}(f, F, \eta),
 \end{multline*}
 where the terms that make up 
-$\varepsilon_{\theta, N}(f, F, \eta)$
+$\epsilon_{\theta, N}(f, F, \eta)$
 will be negligible in our scaling limit. 
 
 % % % % % % % 
@@ -1441,14 +1441,6 @@ Note that there is a slight mismatch between the locations at which we are
 measuring birth and death rates, because in~\eqref{eqn:near_critical}
 the establishment probability is 
 measured at $x$ rather than at the point where juveniles fall. 
-\comment{(IS THIS BIT STILL TRUE:)}
-This condition also differs from the assumption that
-we use in~\S\ref{scalings with levels} to guarantee convergence of the 
-processes with levels in our lookdown 
-constructions, see~(\ref{lookdown blambda}). 
-Under mild
-regularity conditions on $r$ (which we certainly need to have sensible 
-limiting models) the conditions are equivalent.  
 
 Equation~\eqref{eqn:rewritten mean measure}) then converges to
 \begin{equation} \label{limit of mean measure equation}
@@ -1506,7 +1498,7 @@ F''(\langle f,\eta\rangle)
     ,\eta(dx)\rangle
 \right\} .
 $$
-The term $\varepsilon_{\theta,N}(f, F, \eta)$ will be 
+The term $\epsilon_{\theta,N}(f, F, \eta)$ will be 
 $\bigO(\theta/N^2)$.
 
 % % % % % % % %
@@ -1542,14 +1534,14 @@ deterministic equation
 
 \subsubsection*{Limit II: stochastic case}
 
-If $N=\delta\theta$, for some positive constant $\delta$,
+If $N=\alpha\theta$, for some positive constant $\alpha$,
 the second order term in the generator remains order
 one as $\theta\to\infty$, and  
 we expect a `generalised superprocess' limit.
 Assuming some regularity of the coefficients (in particular of $r$), 
 the second order term in the generator will take the form
 $$
-\frac{1}{\delta}F''(\langle f,\Xi\rangle)
+\frac{1}{\alpha}F''(\langle f,\Xi\rangle)
 \langle f^2(x), \gamma(x,\Xi)
 r(x,\Xi)\Xi(dx)\rangle.
 $$
@@ -1558,7 +1550,7 @@ $$\langle f(x), \Xi_t(dx)\rangle-\langle f(x), \Xi_0(dx)\rangle
 -\int_0^t\langle\gamma(x,\Xi_s)\DG\big(r(\cdot,\Xi_s)f(\cdot)\big)(x),
 \Xi_s(dx)\rangle ds$$
 is a martingale with quadratic variation
-$$\frac{2}{\delta}\int_0^t\langle f^2(x) 
+$$\frac{2}{\alpha}\int_0^t\langle f^2(x) 
 \gamma(x,\Xi_s)r(x,\Xi_s),\Xi_s(dx)\rangle ds.$$
 
 
@@ -1761,19 +1753,19 @@ Time is once again scaled by $\theta$,
 and the birth, death and establishment rates 
 depend on local densities given by
 mollification over Gaussian kernels with radius
-$\varepsilon_{\gamma}$, $\varepsilon_{F}$ and $\varepsilon_{r}$.
+$\epsilon_{\gamma}$, $\epsilon_{F}$ and $\epsilon_{r}$.
 
 Explicitly, in the $\theta$-th stage of re-scaling,
 an individual has mass $\frac{1}{\lambda} := \frac{1}{N}$
 and a level between $[0,N]$;
 the established birth rate $\gamma(x,\eta)$ is
 $$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)
-:=~\theta\gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy);$$
+:=~\theta\gamma(x, \rho_{\gamma}*\eta(x)) \int r(y, \rho_{r}*\eta(y))q_{\theta}(x,dy);$$
 the local branching mechanism $b(x,\eta)$ is 
-$$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \varrho_{\gamma}*\eta(x)) \int r(y, \varrho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
+$$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \rho_{\gamma}*\eta(x)) \int r(y, \rho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
 and the dispersal kernel $q^{\mathfrak{m}}(x,\eta, dy)$ is 
 $$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) 
-:=~ \frac{r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\varrho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
+:=~ \frac{r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
 
 We can now define our pre-limit explicitly as a solution to a Martingale Problem.
 \begin{definition}[Martingale Problem Characterisation]
@@ -1933,7 +1925,7 @@ population processes is that it allows us to retain information
 about relatedness between individuals as we pass to the infinite
 density limit. In order to exploit this, we generalise the construction of 
 stochastic equations presented in \S \ref{sec: Evolution of an Individual Particle} to the infinite density limit.\\
-In the scaling limit $A^{\text{nl}}_{\varepsilon}$, the spatial movement of particles can be characterised with the map $$h \mapsto \gamma\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)r\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)\mathcal{B}^{m}_{\varepsilon}(\Xi)h(x) ,$$
+In the scaling limit $A^{\text{nl}}_{\epsilon}$, the spatial movement of particles can be characterised with the map $$h \mapsto \gamma\big(x,(\rho_{\epsilon}*\Xi)(x)\big)r\big(x,(\rho_{\epsilon}*\Xi)(x)\big)\mathcal{B}^{m}_{\epsilon}(\Xi)h(x) ,$$
 and as individual particles travel as a random walk in the pre-limit model, we should expect a diffusion limit for individual trajectories.
 \todo[inline]{From Terence: we should try explain in detail why this is the generator of an individual line of descent forward-in-time. The main question here is whether we should have a factor of $r$ in the above notation. For the proof to work in \S \ref{sec: motion of ancestral lineages} we will need a factor of $r$ but I have been finding it slightly unintuitive particularly since the effect of $r$ has been accounted into $\mathcal{B}^{\mathfrak{m}}$ through the limit.}
 To simply notation, we let the above map be the generator of a process 
@@ -1942,21 +1934,21 @@ satisfying
 (s))ds.\]
 \begin{remark}
 In particular recall that as in Remark \ref{Remark: Product Rule on Laplacian}, if $\mathcal{B}$ is the Laplacian operator, then the generator above is merely 
-$$\gamma\big(x,(\varrho_{\varepsilon}*\Xi)(x)\big)\left(\Delta h(x) +2 \nabla h(x) \cdot \nabla \log r( \cdot, (\varrho_{\varepsilon}*\Xi)(\cdot))(x)\right),$$
+$$\gamma\big(x,(\rho_{\epsilon}*\Xi)(x)\big)\left(\Delta h(x) +2 \nabla h(x) \cdot \nabla \log r( \cdot, (\rho_{\epsilon}*\Xi)(\cdot))(x)\right),$$
 and applying Ito's formula we have 
 \begin{equation}\label{eq: Individual lineage generator description}
 \begin{aligned}
-\beta(X(s),\Xi(s))=& 2\gamma\big(X(s),(\varrho_{\varepsilon}*\Xi)(X(s))\big) \nabla \log r (\cdot, (\varrho_{\varepsilon}*\Xi)(\cdot))(X(s))\\
-\sigma(X(s),\Xi(s))=& \sqrt{2\gamma\big(X(s),(\varrho_{\varepsilon}*\Xi)(X(s))\big)}.
+\beta(X(s),\Xi(s))=& 2\gamma\big(X(s),(\rho_{\epsilon}*\Xi)(X(s))\big) \nabla \log r (\cdot, (\rho_{\epsilon}*\Xi)(\cdot))(X(s))\\
+\sigma(X(s),\Xi(s))=& \sqrt{2\gamma\big(X(s),(\rho_{\epsilon}*\Xi)(X(s))\big)}.
 \end{aligned}
 \end{equation}
 \end{remark}
 Furthermore, recall that in our scaling limit, 
 \begin{equation}
 \begin{aligned}
-\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)),\\
-b_{\theta}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))\\
-&+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s)).
+\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)),\\
+b_{\theta}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))\\
+&+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s)).
 \end{aligned}    
 \end{equation}
 
@@ -1997,8 +1989,8 @@ label $\tau$ are then determined by
 X_{\tau}(t)=&X_{\mbox{\rm $\tau$}}(\tau )+\int_{\tau}^t\sigma (X_{
 \tau}(s),\Xi (s))dW_{\tau}(s)+\int_{\tau}^t\beta (X_{\tau}(s),\Xi (
 s))ds\\
-U_{\tau}(t)=&U_{\tau}(\tau )+\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-& -\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
+U_{\tau}(t)=&U_{\tau}(\tau )+\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
+& -\big(F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
 \end{aligned}
 \end{equation}
 If $(X_{\tau'},U_{\tau'})$ is the parent of $(X_{\tau},U_{\tau})$, 
@@ -2007,7 +1999,7 @@ such that $\tau =\tau'+s$,
 $X_{\tau}(\tau'+s)=X_{\tau'}(\tau'+s)$ and 
 \begin{equation}
 \label{Eq: expression for offspring level in limit}
-U_{\tau}(\tau )=U_{\tau}(\tau'+s)=U_{\tau'}(\tau'+s)+\frac v{2\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s))U_{\tau}^2(s)},
+U_{\tau}(\tau )=U_{\tau}(\tau'+s)=U_{\tau'}(\tau'+s)+\frac v{2\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s))U_{\tau}^2(s)},
 \end{equation} 
 recognizing 
 that $U_{\tau'}(\tau'+s)$ may be infinite, which means 
@@ -2016,7 +2008,7 @@ To see why we scale $v$ in this way,
 we observe that
 in order for $U_{\tau}(\tau'+s)$ to be below some fixed level $u_g$,
 we require 
-$v<2\ell \gamma(X_{\tau'}(\tau'+s),\varrho_\varepsilon*\Xi(X_{\tau'}(\tau'+s))U_{\tau}^2(\tau'+s)\big(u_g-U_{\tau'}(\tau'+s)\big)$.
+$v<2\ell \gamma(X_{\tau'}(\tau'+s),\rho_\epsilon*\Xi(X_{\tau'}(\tau'+s))U_{\tau}^2(\tau'+s)\big(u_g-U_{\tau'}(\tau'+s)\big)$.
 Recalling
 that $\xi_{\tau'}$ is Poisson on $[0,\infty)^2$ with Lebesgue mean 
 measure, the instantaneous rate at which we see such a $v$ will be
@@ -2044,9 +2036,9 @@ leading to $\tau$.  Then we can write
 X_{\tau}(t)&=&X_{\mbox{\rm $A_{\tau}(0)$}}(0)+\int_0^t\sigma 
 (X_{\tau}(s),\Xi (s))dW_{A_{\tau}(s)}(s)+\int_0^t\beta (X_{\tau}
 (s),\Xi (s))ds,\\
-U_{\tau}(t)&=&U_{A_{\tau}(0)}(0)+\int_0^t\frac 1{2\ell \gamma(X_{\tau}(s-),\varrho_\varepsilon*\Xi(X_{\tau}(s-))}dV_{\tau}(s)\\
-&&\qquad\qquad +\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\varrho_\varepsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-&&-\big(F(X_{\tau}(s), (\varrho_{\varepsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\varrho_{\varepsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\varrho_{\varepsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
+U_{\tau}(t)&=&U_{A_{\tau}(0)}(0)+\int_0^t\frac 1{2\ell \gamma(X_{\tau}(s-),\rho_\epsilon*\Xi(X_{\tau}(s-))}dV_{\tau}(s)\\
+&&\qquad\qquad +\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
+&&-\big(F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
 where
 \[\langle\Xi (t),\varphi\rangle =\lim_{\epsilon\rightarrow 0}
 \epsilon\sum_{
@@ -2114,17 +2106,305 @@ Before proving compact containment condition,
 we first prove a technical lemma that involves a bound on the Gaussian kernels.
 \begin{lemma}
     \label{lem: gamma - r radius comparison}
-    Assume that $\varepsilon_{r}^2 + \frac{1}{\theta} < \varepsilon_{\gamma}^2,$ then
-    for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$
+    Assume that $\epsilon_{r}^2 + \frac{1}{\theta} < \epsilon_{\gamma}^2,$ then
+    for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d \times \mathbb{R})$
+    with bounded first and second derivatives
     and for all $\eta \in \mathcal{M}_{f}(\mathbb{R}^d)$, we have 
     
     \begin{equation}\label{eq: gamma - r radius comparison bound}
-    \gamma\big(x,\varrho_{\gamma}*\eta(x)\big) \left| \theta \int_{\mathbb{R}^n} \big\{f\big(\varrho_{r}*\eta(y)\big)-f\big(\varrho_{r}*\eta(x)\big)\big\}\varrho_{1/\theta}(x-y)dy\right| \leq C_{\gamma, f}    
+    \gamma\big(x,\rho_{\gamma}*\eta(x)\big)
+    \left| \theta 
+        \int_{\mathbb{R}^n} 
+            \big\{
+                f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)
+            \big\}
+        q_{\theta}(x,dy)
+    \right|
+    \leq C_{\gamma, f}    
     \end{equation}
     for some constant $C_{\gamma,f}$ independent of $\eta$ and $\theta$. 
 \end{lemma}
 \begin{proof}
-See Appendix \ref{sec: Proof to gamma-r radius comparison}.    
+Since $f(x_1,...,x_d,w)$ is twice differentiable, we can Taylor expand $f$ around  $(x_1,...,x_d,\rho_{r}*\eta(x))$ up to second order and obtain that for $x=(x_1,..,x_d)$,
+\begin{equation}
+\begin{aligned}
+&~f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)\\
+=&~ \nabla_x f \big(x,\rho_{r}*\eta(x)\big)
+            \cdot (y-x)\\ 
+        &~ + \frac{\partial f}{\partial w}
+            \big(x,\rho_{r}*\eta(x)\big) \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)\\
+        &~ + \frac{1}{2}\sum_{1 \leq i,j \leq d }\frac{\partial^2 f}{\partial x_i x_j}
+            \big(z,\rho_{r}*\eta(z)\big) (y_i-x_i)(y_j-x_j)\\
+        &~ + \frac{1}{2}\sum_{1 \leq i \leq d}
+                \frac{\partial^2 f}{\partial w \partial x_i}
+                 \big(z,\rho_{r}*\eta(z)\big) (y_i-x_i)
+                    \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)\\
+        &~ + \frac{1}{2}\frac{\partial^2 f}{\partial^2 w}
+            \big(z,\rho_{r}*\eta(z)\big)
+            \left(
+            \rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)^2,
+\end{aligned}    
+\end{equation}
+where $z=ty+(1-t)x$ for some $t \in [0,1]$.
+
+With the assumptions on $f$, we can bound the magnitude
+of first and second derivatives with 
+some constants $||Df||_{\infty}$ and $||D^2f||_{\infty}$.
+
+Therefore, we have that 
+\begin{equation}
+\begin{aligned}
+&~\left| 
+        \theta \int_{\mathbb{R}^d}
+                f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)
+                q_{\theta}(x,dy)
+\right|\\
+\leq &~ ||Df||_{\infty} \left|
+                        \theta \int_{\mathbb{R}^d} \sum_{i=1,..,d}(y_i-x_i) q_{\theta}(x,dy)
+                        \right|\\ 
+        &~ + |Df||_{\infty} 
+            \left| \theta \int_{\mathbb{R}^d}
+               \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
+            q_{\theta}(x,dy) \right| \\
+        &~ + \frac{1}{2}|D^2f||_{\infty}\left|
+                        \theta \int_{\mathbb{R}^d} (y-x)(y-x)^{T} q_{\theta}(x,dy)
+                        \right|\\
+        &~ + \frac{1}{2}|D^2f||_{\infty}    
+                \sum_{1 \leq i \leq d}\left|
+                        \theta \int_{\mathbb{R}^d}
+                        \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
+                  (y_i-x_i)
+                        q_{\theta}(x,dy)
+                        \right|
+                    \\
+        &~ + \frac{1}{2}|D^2f||_{\infty} \left|
+            \theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)^2
+            q_\theta(x,dy) \right|
+\end{aligned}    
+\end{equation}
+Recall that $q_{\theta}(x,dy)$ is a Gaussian kernel
+with mean $\meanq/\theta$
+and Covariance matrix $\covq / \theta$.
+As a result, the first and third term
+is easily bounded above by 
+$$||Df||_{\infty} \left|
+                        \theta \int_{\mathbb{R}^d} \sum_{i=1,..,d}(y_i-x_i) q_{\theta}(x,dy)
+                        \right|
+                        \leq  ||Df||_{\infty}||\meanq||_{1},$$
+and 
+$$ \frac{1}{2}|D^2f||_{\infty}\left|
+                        \theta \int_{\mathbb{R}^d} (y-x)(y-x)^{T} q_{\theta}(x,dy)
+                        \right| \leq \frac{1}{2}|D^2f||_{\infty} ||\covq||_{1}.$$
+For the cross term, we apply Cauchy's inequality to obtain
+\begin{equation}
+\begin{aligned}
+&\frac{1}{2}|D^2f||_{\infty}\sum_{1 \leq i \leq d}    
+                \left|
+                        \theta \int_{\mathbb{R}^d}
+                        \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
+                  (y_i-x_i)
+                        q_{\theta}(x,dy)
+                        \right|\\
+\leq& \frac{1}{2}|D^2f||_{\infty} \sum_{1 \leq i \leq d} 
+        \sqrt{\theta \int_{\mathbb{R}^d}
+           (y_i-x_i)^2
+            q_\theta(x,dy)
+            }
+        \sqrt{
+            \theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)^2
+            q_\theta(x,dy) 
+            }    \\
+\leq& \frac{1}{2}|D^2f||_{\infty} ||\covq||_{1/2}
+        \sqrt{
+            \theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)^2
+            q_\theta(x,dy) 
+            }.    
+\end{aligned}
+\end{equation}
+We are given that $z\gamma(x,z)$ and $z^2 \gamma(x,z)$ is bounded above
+for all $z  \geq 0$.
+Therefore, it suffices to show that
+for all $\eta \in \mathcal{M}_{f}(\mathbb{R}^d)$,
+\begin{equation}
+    \label{eq: r-gamma first moment control}
+\left|\theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)
+            q_\theta(x,dy)\right|
+            \leq \rho_{\gamma}*\eta(x),    
+\end{equation}
+and
+\begin{equation}
+    \label{eq: r-gamma comparison square term}
+\theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)^2
+            q_\theta(x,dy)
+            \leq \rho_{\gamma}*\eta(x)^2.    
+\end{equation}
+We first prove Equation \eqref{eq: r-gamma first moment control}.
+Note that 
+$$ \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
+        = \left\langle p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w),             \eta(dw)\right \rangle,$$
+so applying Fubini's theorem, 
+\begin{equation}
+\left|\theta \int_{\mathbb{R}^d}
+            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
+            \right)
+            q_\theta(x,dy)\right|
+            = \left\langle \left| \theta \int_{\mathbb{R}^d} \left(p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w)\right)
+            q_\theta(x,dy) \right| , \eta(dw)\right \rangle.    
+\end{equation}
+It suffices therefore to show that for all $w \in \mathbb{R}^d$,
+\begin{equation}
+\left| \theta \int_{\mathbb{R}^d} \left(p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w)\right)
+            q_\theta(x,dy) \right| \leq p_{\epsilon^2_{\gamma}}(x-w).
+\end{equation}
+By the Chapman-Kolmogorov equality, we have
+\begin{align}
+&\left| \theta \int_{\mathbb{R}^d}
+                \left(p_{\epsilon^2_r}(y-w)
+                        -p_{\epsilon^2_r}(x-w)
+                \right)
+                q_\theta(x,dy)
+        \right|\\
+        =& \theta \left\{
+                    \frac{\epsilon^2_r }{\left|\covq / \theta +  \epsilon^2_r I \right|^{1/2}}
+                    \exp \left(
+                    \frac{(x-w-\meanq / \theta)^{T}
+                        (\covq /\theta +  \epsilon^2_r I)^{-1}
+                        (x-w-\meanq / \theta)}{2}
+                        -\frac{|x-w|^2}{2\epsilon^2}
+                    \right)
+                    -1\right\}\\
+         & \times p_{\epsilon^2_r}(x-w).
+\end{align}
+If we write 
+\begin{equation}
+F(s)=  \frac{\epsilon^2_r }
+        {\left|\covq s +  \epsilon^2_r I \right|^{1/2}}
+        \exp \left(
+                    \frac{(x-w-\meanq s)^{T}
+                        (\covq s +  \epsilon^2_r I)^{-1}
+                        (x-w-\meanq s)}{2}
+                        -\frac{|x-w|^2}{2\epsilon^2}
+            \right)
+        -1,   
+\end{equation}
+then 
+\begin{align}
+\left| \theta \int_{\mathbb{R}^d}
+                \left(p_{\epsilon^2_r}(y-w)
+                        -p_{\epsilon^2_r}(x-w)
+                \right)
+                q_\theta(x,dy)
+        \right|
+        \leq  \theta \left(F\left(1 / \theta \right)-1\right) 
+                \times \epsilon_\gamma^d \epsilon_r^{-d}
+                p_{\epsilon^2_\gamma}(x-w),
+\end{align}
+so we have our bound 
+as $F(x)$ has bounded derivative in a neighbourhood around $0$.
+
+We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
+\begin{align}
+&\left\{
+            \rho_r * \eta(y)
+            -
+            \rho_r * \eta(x)
+\right\}^2  \\
+&\qquad
+=
+\left\{
+\int
+    \left(
+        \rho_r(y-w)
+        -
+        \rho_r(x-w)
+    \right)
+\eta(dw)
+\right\}^2  \\
+&\qquad
+=
+\left\{
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)
+    \rho_r(x-w)
+\eta(dw)
+\right\}^2  \\
+&\qquad
+=
+\left(\rho_r * \eta(x)\right)^2 \left\{
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)
+    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
+\eta(dw)
+\right\}^2  \\
+&\qquad
+\le
+\left(\rho_r * \eta(x)\right)^2 
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
+\eta(dw) \\
+&\qquad
+=
+\rho_r * \eta(x)
+\int
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+    \rho_r(x-w)
+\eta(dw).
+\end{align}
+Note that since $\epsilon_{\gamma}>\epsilon_{r}$,
+\begin{equation}
+\begin{aligned}
+ \rho_r * \eta(x)=& \int p_{\epsilon^2_r}(x-w) \eta(dw)\\
+                 =&  \int \frac{p_{\epsilon^2_r}(x-w)}{p_{\epsilon^2_\gamma}(x-w)}
+                  p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
+            \leq & \int \epsilon_\gamma^d \epsilon_r^{-d}
+                   e^{-(x-w)^2(\frac{1}{\varepsilon^2_r}-\frac{1}{\varepsilon^2_\gamma})}
+                   p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
+            \leq & \epsilon_\gamma^d \epsilon_r^{-d}\rho_\gamma * \eta(x),
+\end{aligned}
+\end{equation}
+it suffices to show that 
+\begin{equation}
+ \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
+\end{equation}
+where
+$$H_{\theta}(x,w)=\int_{\mathbb{R}^d}
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+q_{\theta}(x,dy).$$
+
+
+
 \end{proof}
 \begin{lemma}[Compact Containment for the population process]
 Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
@@ -2149,13 +2429,13 @@ We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Character
         -\langle 1,\eta^{\theta}_0 \rangle\\
  &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
  \left(
-        r\big(z,\varrho_{r}*\eta^{\theta}_{s}(z)\big)
-            -r\big(x,\varrho_{r}*\eta^{\theta}_{s}(x)\big)
+        r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
+            -r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
             \right)
                     q_\theta(x,dz)\right)
-                            \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
                             \eta^{\theta}_{s}(dx)\\
-& \qquad +\int F\big(x,\varrho_{F}*\eta^{\theta}_{s}(x)\big)
+& \qquad +\int F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
 \eta^{\theta}_{s}(dx)\bigg\} ds
 \end{aligned}    
 \end{equation}
@@ -2166,10 +2446,10 @@ Therefore, taking expectations, we have
 &\mathbb{E}[\langle 1 ,\eta^{\theta}_{t}\rangle] \\
 \leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
 &+ \int_{0}^{t}\mathbb{E}\bigg\langle
-        \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+        \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
             \left| \theta \int_{\mathbb{R}^n}
-                    \big\{r\big(\varrho_{r}*\eta^{\theta}_s(y)\big)-r\big(\varrho_{r}*\eta^{\theta}_s(x)\big)\big\}
-                    \varrho_{1/\theta}(x-y)dy\right| + C_F 
+                    \big\{r\big(\rho_{r}*\eta^{\theta}_s(y)\big)-r\big(\rho_{r}*\eta^{\theta}_s(x)\big)\big\}
+                    \rho_{1/\theta}(x-y)dy\right| + C_F 
                             ,\eta^{\theta}_s(dx)  \bigg\rangle ds\\
 \leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{\theta}_s(dx) \rangle ds,
 \end{aligned}
@@ -2189,9 +2469,9 @@ We have that
 \begin{aligned}
 \mathbb{E}\{M^{*}_t(1)\} \leq & C \mathbb{E}\{[M_t(1)]^{1/2}\}\\
 \leq& C (1+\mathbb{E}\{[M_t(1)]\})\\
-\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n}r(\varrho_{r}*\eta^{\theta}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{\theta}_{s}), \eta^{\theta}_{s}(dx) \right\rangle ds \\
-\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))r(\varrho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds \\
-& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\varrho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\\
+\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n}r(\rho_{r}*\eta^{\theta}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{\theta}_{s}), \eta^{\theta}_{s}(dx) \right\rangle ds \\
+\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))r(\rho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds \\
+& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\rho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\\
 \leq & C+ \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
 \end{aligned}
 \end{equation}
@@ -2201,7 +2481,7 @@ As a result, we have that
 \begin{aligned}
 &\mathbb{E}[h(t)]:=\mathbb{E}\left[\sup_{s \in [0,t]}\langle 1 ,\eta^{\theta}_{s}\rangle\right] \\
 \leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
-&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\varrho_{r}*\eta^{\theta}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\varrho_{r}*\eta^{\theta}_{s}(y)\big)-r\big(\varrho_{r}*\eta^{\theta}_{s}(x)\big)\big\}\varrho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{\theta}_{s}(dx)  \bigg\rangle dw\\
+&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\rho_{r}*\eta^{\theta}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\rho_{r}*\eta^{\theta}_{s}(y)\big)-r\big(\rho_{r}*\eta^{\theta}_{s}(x)\big)\big\}\rho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{\theta}_{s}(dx)  \bigg\rangle dw\\
 &+ \mathbb{E}\{M^{*}_t(1)\}\\
 \leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ \sup_{\tau \in [0,s]} \langle 1  ,\eta^{\theta}_{s} \rangle \right]ds+\mathbb{E}\{M^{*}_t(1)\}\\
 \leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ h(s) \right]ds+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
@@ -2240,21 +2520,21 @@ Note that
 \begin{equation}
 \begin{aligned}
  & \mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
-\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\varrho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy \\
-& \qquad + F(\varrho_{F}*\eta^{\theta}_{s}(x)) f(x),\eta^{\theta}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
+\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
+& \qquad + F(\rho_{F}*\eta^{\theta}_{s}(x)) f(x),\eta^{\theta}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
 \end{aligned}
 \end{equation}
 In particular,
 \begin{multline}
- \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\varrho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy \\
- =  f(x)\theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\big\}\varrho_{1/\theta}(x-y)dy\\
- + \theta\gamma(\varrho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\varrho_{r}*\eta^{\theta}_{s}(y))\big\}\varrho_{1/\theta}(x-y)dy\\
+ \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
+ =  f(x)\theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy\\
+ + \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\rho_{r}*\eta^{\theta}_{s}(y))\big\}\rho_{1/\theta}(x-y)dy\\
  \leq C_{\gamma,r}||f||_{\infty} + C_{\gamma}||\Delta f||_{\infty},
 \end{multline}
 since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{lem: gamma - r radius comparison}
 and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
 
-Finally,  $F(\varrho_{F}*\eta^{\theta}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
+Finally,  $F(\rho_{F}*\eta^{\theta}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
 \begin{multline}
 \mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
 \leq (C_{\gamma,r}||f||_{\infty} + C_{\gamma,r}||\Delta f||_{\infty}+C_F||f||_{\infty}) \mathbb{E}\bigg\{\int_{\tau}^{\tau+s}\bigg\langle 1,\eta^{\theta}_{s}(dx)  \bigg\rangle  ds\bigg\} \\
@@ -2270,13 +2550,13 @@ Similarly, the control on the second moment is given by Equation \eqref{eq: Cont
 \begin{aligned}
 & \mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
 \leq &\frac{\theta}{N} \mathbb{E} \Bigg\{ \int_{\tau}^{\tau+s}\bigg|
-\langle \gamma\big(x,\varrho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-\int f^2(y)r\big(y,\varrho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
+\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
 ,\eta^{\theta}_{s}(dx)\rangle\\
 & \qquad \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
 ,\eta^{\theta}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
-\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\varrho_{\gamma}*\eta^{\theta}_{s}(x))r(\varrho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\} \\
-& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\varrho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\varrho_{r}*\eta^{\theta}_{s}(y))-r(\varrho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\}\\
+\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))r(\rho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\} \\
+& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\rho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\}\\
 \leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^s-1)}{N} \to 0
 \end{aligned}
 \end{equation}
@@ -2792,10 +3072,10 @@ Once we manage to solve the Martingale Problem \eqref{Markov Mapping Theorem Mar
 \end{enumerate}
 Note that in particular, the third statement is equivalent to the fact that conditioned on the spatial configuration $\Xi^{\theta}_t$, the levels of the particles must be i.i.d uniformly between $[0,\lambda]$. We may also express this condition through the following equation:
 \begin{equation}\label{Markov Mapping Theorem Cox Condition}
-\mathbb{E}\left[e^{-\int_{S \times [0,\lambda]} f(x,u) \xi^{\varepsilon,\theta,\lambda}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{\varepsilon,\theta, \lambda}}_t\right]=e^{-\int F^{\varepsilon,\theta,\lambda}_f(x) \Xi^{\varepsilon,\theta,\lambda}_t(dx)},
+\mathbb{E}\left[e^{-\int_{S \times [0,\lambda]} f(x,u) \xi^{\epsilon,\theta,\lambda}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{\epsilon,\theta, \lambda}}_t\right]=e^{-\int F^{\epsilon,\theta,\lambda}_f(x) \Xi^{\epsilon,\theta,\lambda}_t(dx)},
 \end{equation}
 where 
-$$F^{\varepsilon,\theta,\lambda}_f(x):=-\lambda\log \left(\frac{1}{\lambda}\int_{0}^{\lambda}e^{-f(x,u)}du\right)=-\lambda\log \left(1-\frac{1}{\lambda}\int_{0}^{\lambda}(1-e^{-f(x,u)})du\right).$$
+$$F^{\epsilon,\theta,\lambda}_f(x):=-\lambda\log \left(\frac{1}{\lambda}\int_{0}^{\lambda}e^{-f(x,u)}du\right)=-\lambda\log \left(1-\frac{1}{\lambda}\int_{0}^{\lambda}(1-e^{-f(x,u)})du\right).$$
 
 Therefore we only need to solve Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified}.\\
 
@@ -2803,9 +3083,9 @@ The procedure to solve the Martingale Problem \eqref{Markov Mapping Theorem Mart
 \begin{align}\label{Lookdown generator N lambda theta prelimit}
 A^{\theta}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
-\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy) \nonumber \\
-& \qquad \qquad \qquad \qquad +\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1 \nonumber\\
+& \qquad \qquad \qquad \qquad +\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy)\Bigg)dv_1 \nonumber\\
 &+f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
 \end{align}
 where $f(\xi) =\prod_{(x,u) \in \xi}g(x,u)$. 
@@ -2814,11 +3094,11 @@ For easier computation we break the generator into three parts,
 \begin{aligned}
 A^{\theta,1}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
-\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1,\\
 A^{\theta,2}f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
-\lambda}\Bigg(\frac{1}{2}\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1,\\
+\lambda}\Bigg(\frac{1}{2}\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy)\Bigg)dv_1,\\
 A^{\theta,3}f(\xi)=&f(\xi )\sum_{(x,u)\in\xi}\,\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
 \end{aligned}
 \end{equation}
@@ -2829,19 +3109,19 @@ We now calculate each generator evaluated under our probability kernel $\Gamma$.
 \begin{align*}
 &\int A^{\theta,1}f(\xi) \Gamma(d\mathbf{u})\\ &=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
 \int_u^{
-\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
 &=\sum_{(x,u)\in\xi} \int \Bigg\{\frac{f(\xi)}{g(x,u)}2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
 \int_u^{
-\lambda}\Bigg(\frac 12 g(x,v_1)\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda}\Bigg(\frac 12 g(x,v_1)\int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
 &=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{0}^{\lambda}\left\{
 \int_u^{
-\lambda} g(x,v_1)dv_1\times \int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda} g(x,v_1)dv_1\times \int_{\mathbb{R}^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy)\right\}du\\
 &=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{\lambda}\int_{\mathbb{R}^d} \left\{\int_{0}^{\lambda}
 \int_u^{
-\lambda} g(x,v_1) (g(y,u)-g(x,u))dv_1du\right\}q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\bar{
+\lambda} g(x,v_1) (g(y,u)-g(x,u))dv_1du\right\}q^{\mathfrak{m}}_{\epsilon,\theta}(x,\bar{
 \xi },dy)
 \end{align*}
 \normalsize
@@ -2850,13 +3130,13 @@ For the second generator, we have
 \begin{align*}
 &\int A^{\theta,2}f(\xi) \Gamma(d\mathbf{u})\\&=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
 \int_u^{
-\lambda}\Bigg(\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+\lambda}\Bigg(\int_{\mathbb{R}^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
 &=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\int \Bigg\{f(\xi)\times
 \int_u^{
-\lambda}\Bigg(\int_{\mathbb{R}^d}\left(g(y,v_1)+g(x,v_1)-2\right)q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+\lambda}\Bigg(\int_{\mathbb{R}^d}\left(g(y,v_1)+g(x,v_1)-2\right)q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
 &=\sum_{(x,u)\in\xi}\lambda^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i) \frac{1}{\lambda}\int_{\mathbb{R}^d}\Bigg\{\int_{0}^{\lambda}
 \int_u^{
-\lambda}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du\Bigg\} q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy).
+\lambda}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du\Bigg\} q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy).
 \end{align*}  
 \normalsize
 For the third generator we have that 
@@ -2883,52 +3163,52 @@ Using the symmetry we have
 Combining the last equations we have 
 \begin{align*}
 &\int \Bigg(A^{1}_{\theta}f(\xi)+A^{2}_{\theta}f(\xi)+A^{3}_{\theta}f(\xi)\Bigg)\Gamma(d\mathbf{u})\\
-&=  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
-&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right)+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\theta}(x,\xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
-&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy) -1\right) -\hat{f}(\xi)\sum_{(x,u) \in \xi } \theta \mu_{\varepsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right),
+&=  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy) -1\right)+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\theta}(x,\xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
+&=  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\mathbb{R}^n} \hat{g}(y) q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy) -1\right) -\hat{f}(\xi)\sum_{(x,u) \in \xi } \theta \mu_{\epsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right),
 \end{align*}
-which corresponds to a spatial-branching process that branches at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)$ leaving offspring around with kernel $ q^{\mathfrak{m}}_{\varepsilon,\theta}(x,\Xi,dy)$ and each particle having death rate given by $\theta \mu_{\varepsilon,\theta}(x,\Xi)$. This is precisely the martingale problem in Definition \ref{def: Martingale Problem Characterisation - Product Form}.
+which corresponds to a spatial-branching process that branches at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)$ leaving offspring around with kernel $ q^{\mathfrak{m}}_{\epsilon,\theta}(x,\Xi,dy)$ and each particle having death rate given by $\theta \mu_{\epsilon,\theta}(x,\Xi)$. This is precisely the martingale problem in Definition \ref{def: Martingale Problem Characterisation - Product Form}.
 \newpage
-\subsection{Markov Mapping Theorem Application on Generator $A^{\text{nl}}_{\varepsilon}$}\label{sec: Markov Mapping Theorem application - limit}
+\subsection{Markov Mapping Theorem Application on Generator $A^{\text{nl}}_{\epsilon}$}\label{sec: Markov Mapping Theorem application - limit}
 In this section we consider a general generator limit for the lookdown representation of our spatial model. 
 We define
 \begin{equation}
 \begin{aligned}
-A^{\text{nl}}_{\varepsilon}f(\eta )  =&f(\eta )\sum_{(x,u)\in\eta}\Bigg\{
- \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))
- \frac{\mathcal{B}(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)\mathcal{B}r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)}\\
+A^{\text{nl}}_{\epsilon}f(\eta )  =&f(\eta )\sum_{(x,u)\in\eta}\Bigg\{
+ \gamma(x, (\rho_{\epsilon}*\Xi)(x))
+ \frac{\mathcal{B}(g(\cdot,u)r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-g(x,u)\mathcal{B}r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)}{g(x,u)}\\
  &
-  +2\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+  +2\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\times \ell \int_u^{
 \infty}(g(x,v_1)-1)dv_1\\
 &
-+\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2 \\
-&~~~~~~~-\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))\mathcal{B}r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg) \frac {\partial_u g(x,u)}{g(x,u)}\Bigg\},
++\bigg(\ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) u^2 \\
+&~~~~~~~-\big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))\mathcal{B}r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big)u\bigg) \frac {\partial_u g(x,u)}{g(x,u)}\Bigg\},
 \end{aligned}    
 \end{equation}
 where our test measure $\eta$ takes value on $\mathcal{M}_F(\mathbb{R}\times [0,\infty))$ and $\Xi:=\lim_{u_0\rightarrow\infty}\frac 1{u_0}\sum_{(u,x)\in \eta:u\leq u_0}\delta_x$.
 
-If we take $\gamma =1, r=1, \mathcal{B}=\Delta,$ and $F(x, (\varrho_{\varepsilon}*\Xi)(x))=G( (\varrho_{\varepsilon}*\Xi)(x))-H( (\varrho_{\varepsilon}*\Xi)(x))$, then we recover $A^{\varepsilon, \infty}$ defined in Equation \eqref{Eq: Non-local Scaling limit Lookdown Generator}.
+If we take $\gamma =1, r=1, \mathcal{B}=\Delta,$ and $F(x, (\rho_{\epsilon}*\Xi)(x))=G( (\rho_{\epsilon}*\Xi)(x))-H( (\rho_{\epsilon}*\Xi)(x))$, then we recover $A^{\epsilon, \infty}$ defined in Equation \eqref{Eq: Non-local Scaling limit Lookdown Generator}.
 
 
 Similar to the calculations above, we write $\alpha(\Xi,\cdot)$ for the distribution of a conditionally
 Poisson random measure $\eta^{\infty}$ on $\mathbb{R}^d\times [0,\infty)$ with mean measure
-$\Xi(dx)\times \Lambda$ and we calculate $\alpha A^{\text{nl}}_{\varepsilon}f(\eta)$. 
+$\Xi(dx)\times \Lambda$ and we calculate $\alpha A^{\text{nl}}_{\epsilon}f(\eta)$. 
 
 Once again, we write
-$$\alpha A^{\text{nl}}_{\varepsilon}f(\eta)=\alpha A^{1}_{nl}f(\eta)+\alpha A^{2}_{nl}f(\eta)+\alpha A^{3}_{nl}f(\eta),$$
+$$\alpha A^{\text{nl}}_{\epsilon}f(\eta)=\alpha A^{1}_{nl}f(\eta)+\alpha A^{2}_{nl}f(\eta)+\alpha A^{3}_{nl}f(\eta),$$
 where 
 \small
 \begin{equation}\label{Eq: Decomposition of the Non-local Scaling limit Lookdown Generator}
 \begin{aligned}
 A^{1}_{nl}f(\eta )  =&f(\eta )\sum_{(x,u)\in\eta}
- \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))
- \frac{B(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)},\\
+ \gamma(x, (\rho_{\epsilon}*\Xi)(x))
+ \frac{B(g(\cdot,u)r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)}{g(x,u)},\\
 A^{2}_{nl}f(\eta )  = &
-  f(\eta )\sum_{(x,u)\in\eta}2\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+  f(\eta )\sum_{(x,u)\in\eta}2\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\times \ell \int_u^{
 \infty}(g(x,v_1)-1)dv_1,\\
  A^{3}_{nl}f(\eta )  =&f(\eta )
-\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2\\
-&\qquad \qquad \qquad \qquad -\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg)\frac {\partial_u g(x,u)}{g(x,u)}\\
+\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) u^2\\
+&\qquad \qquad \qquad \qquad -\big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big)u\bigg)\frac {\partial_u g(x,u)}{g(x,u)}\\
 \end{aligned}    
 \end{equation}
 \normalsize
@@ -2939,45 +3219,45 @@ We define $h(x)=\int_{0}^{\infty} (1-g(x,u))du$. In this case, we have that $$\a
 \footnotesize
 \begin{aligned}
 \alpha A^{1}_{nl}f(\eta )  =&
- \alpha \left\{\sum_{(x,u)\in\eta}\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))\frac{B(g(\cdot,u)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)}{g(x,u)}\prod_{(x_i,u_i)}g(x_i,u_i)\right\}\\
- =&\int\int \bigg( \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B((g(\cdot,u)-1)r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-(g(x,u)-1)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\bigg)du \Xi(dx)\\
+ \alpha \left\{\sum_{(x,u)\in\eta}\gamma(x, (\rho_{\epsilon}*\Xi)(x))\frac{B(g(\cdot,u)r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-g(x,u)Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)}{g(x,u)}\prod_{(x_i,u_i)}g(x_i,u_i)\right\}\\
+ =&\int\int \bigg( \gamma(x, (\rho_{\epsilon}*\Xi)(x))B((g(\cdot,u)-1)r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-(g(x,u)-1)Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\bigg)du \Xi(dx)\\
  &\times \exp \left(\int\int \big(g(x,u)-1\big) du \Xi(dx)\right),\\
- =& \left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle e^{-\langle h(x),\Xi(dx)\rangle} \\
+ =& \left\langle \gamma(x, (\rho_{\epsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle e^{-\langle h(x),\Xi(dx)\rangle} \\
  \alpha A^{2}_{nl}f(\eta )  = &
-   \alpha \left\{2\sum_{(x,u)\in\eta}\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+   \alpha \left\{2\sum_{(x,u)\in\eta}\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\times \ell \int_u^{
 \infty}(g(x,v_1)-1)dv_1\prod_{(x_i,u_i)}g(x_i,u_i)\right\}\\
-=& \int\int \bigg(g(x,u)\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+=& \int\int \bigg(g(x,u)\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\times \ell \int_u^{
 \infty}(g(x,v_1)-1)dv_1\bigg)du \Xi(dx)e^{-\langle h(x),\Xi(dx)\rangle}\\
 =& 
-\left\langle \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int g(x,u)\int_u^{
+\left\langle \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int g(x,u)\int_u^{
 \infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\right\rangle e^{-\langle h(x),\Xi(dx)\rangle}\\
  \alpha A^{3}_{nl}f(\eta )  =&
-\alpha \Bigg\{\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) u^2 -\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)u\bigg)\\
+\alpha \Bigg\{\sum_{(x,u)\in\eta}\bigg(\ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) u^2 -\big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big)u\bigg)\\
 &\times \frac {\partial_u g(x,u)}{g(x,u)}\prod_{(x_i,u_i)}g(x_i,u_i)\Bigg\}\\
-=& \bigg \langle \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int \partial_u g(x,u) u^2 du \\
-& ~~~ - \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) \int u \partial_u g(x,u) du ,\Xi(dx)\bigg\rangle \times e^{-\langle h(x),\Xi(dx)\rangle} .
+=& \bigg \langle \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int \partial_u g(x,u) u^2 du \\
+& ~~~ - \big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big) \int u \partial_u g(x,u) du ,\Xi(dx)\bigg\rangle \times e^{-\langle h(x),\Xi(dx)\rangle} .
  \end{aligned}    
 \end{equation}
 \normalsize
 Now note that with integration by parts
 \begin{multline}
- \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))  \int_{0}^{\infty}\partial_u g(x,u) u^2 du  \\=  2\ell\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du, 
+ \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))  \int_{0}^{\infty}\partial_u g(x,u) u^2 du  \\=  2\ell\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du, 
 \end{multline}
 \begin{multline}
- \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} u \partial_u g(x,u)du \\=\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} (g(x,u)-1) du\\
- =-\big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) h(x)
+ \big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} u \partial_u g(x,u)du \\=\big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big)\int_{0}^{\infty} (g(x,u)-1) du\\
+ =-\big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big) h(x)
 \end{multline}
 and furthermore, we apply Fubini theorem to get that 
 \begin{multline}
-  2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty} u    (g(x,u)-1) du \\
-  =   2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty} \int_{0}^{u}    dv_1 (g(x,u)-1) du \\
-  =  2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1.
+  2 \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) \int_{0}^{\infty} u    (g(x,u)-1) du \\
+  =   2 \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) \int_{0}^{\infty} \int_{0}^{u}    dv_1 (g(x,u)-1) du \\
+  =  2 \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1.
 \end{multline}
 Finally, note also that
 \begin{multline}
-\int 2\bigg(g(x,u)\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\times \ell \int_u^{
+\int 2\bigg(g(x,u)\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\times \ell \int_u^{
 \infty}(g(x,v_1)-1)dv_1\bigg)du\\
-= 2\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int \bigg( g(x,u) \int_u^{
+= 2\ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int \bigg( g(x,u) \int_u^{
 \infty}(g(x,v_1)-1)dv_1\bigg)du.
 \end{multline}
 \normalsize
@@ -2985,26 +3265,26 @@ Combining all results we have that
 \small
 \begin{equation}\label{eq: Non-local lookdown generator MMP calculation}
 \begin{aligned}
-\alpha A^{\text{nl}}_{\varepsilon}f(\eta)
-=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle\\
-&+\bigg \langle2\ell\gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du \\
- &+ \big(F(x, (\varrho_{\varepsilon}*\Xi)(x))+\gamma(x, (\varrho_{\varepsilon}*\Xi)(x))Br( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)\big) h(x) ,\Xi(dx)\bigg\rangle\\
- & +\left\langle 2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int g(x,u)\int_u^{
+\alpha A^{\text{nl}}_{\epsilon}f(\eta)
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\rho_{\epsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)-h(\cdot)Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x),\Xi(dx) \right\rangle\\
+&+\bigg \langle2\ell\gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int_{0}^{\infty} u (g(x,u)-1) du \\
+ &+ \big(F(x, (\rho_{\epsilon}*\Xi)(x))+\gamma(x, (\rho_{\epsilon}*\Xi)(x))Br( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)\big) h(x) ,\Xi(dx)\bigg\rangle\\
+ & +\left\langle 2 \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int g(x,u)\int_u^{
 \infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\right\rangle \Bigg\}\\
-=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x),\Xi(dx) \right\rangle\\
-&+\bigg \langle 2 \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1 \\
- & + 2\ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))\int_0^{\infty} g(x,u)\int_u^{
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\left\langle \gamma(x, (\rho_{\epsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)+ F(x, (\rho_{\epsilon}*\Xi)(x),\Xi(dx) \right\rangle\\
+&+\bigg \langle 2 \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x)) \int_{0}^{\infty}  \int_{v_1}^{\infty}    (g(x,u)-1) du dv_1 \\
+ & + 2\ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))\int_0^{\infty} g(x,u)\int_u^{
 \infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\bigg\rangle \Bigg\}\\
-=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\bigg\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x)\\
-& + \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))2 \int_0^{\infty} (g(x,u)-1)\int_u^{
+=&~ e^{-\langle h(x),\Xi(dx)\rangle}  \Bigg\{\bigg\langle \gamma(x, (\rho_{\epsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)+ F(x, (\rho_{\epsilon}*\Xi)(x)\\
+& + \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))2 \int_0^{\infty} (g(x,u)-1)\int_u^{
 \infty}(g(x,v_1)-1)dv_1 du,\Xi(dx)\bigg\rangle \Bigg\}\\
-=&~ e^{-\langle h(x),\Xi(dx)\rangle} \times \Bigg\{\bigg\langle \gamma(x, (\varrho_{\varepsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\varrho_{\varepsilon}* \Xi)(\cdot))(x)+ F(x, (\varrho_{\varepsilon}*\Xi)(x)\\
-& + \ell \gamma(x, (\varrho_{\varepsilon}*\Xi)(x)) r(x, (\varrho_{\varepsilon}*\Xi)(x))h(x)^2,\Xi(dx)\bigg\rangle \Bigg\}\\
-:=&~\mathcal{L}^{nl}_{\varepsilon}\alpha f(\eta),
+=&~ e^{-\langle h(x),\Xi(dx)\rangle} \times \Bigg\{\bigg\langle \gamma(x, (\rho_{\epsilon}*\Xi)(x))B(h(\cdot) r( \cdot, (\rho_{\epsilon}* \Xi)(\cdot))(x)+ F(x, (\rho_{\epsilon}*\Xi)(x)\\
+& + \ell \gamma(x, (\rho_{\epsilon}*\Xi)(x)) r(x, (\rho_{\epsilon}*\Xi)(x))h(x)^2,\Xi(dx)\bigg\rangle \Bigg\}\\
+:=&~\mathcal{L}^{nl}_{\epsilon}\alpha f(\eta),
 \end{aligned}
 \end{equation}
 \normalsize
-where $\mathcal{L}^{nl}_{\varepsilon}$ is the generator of a non-linear superprocess of the form characterised in Equation \eqref{eq: Empirical Measure Martingale characterisation - product form}.
+where $\mathcal{L}^{nl}_{\epsilon}$ is the generator of a non-linear superprocess of the form characterised in Equation \eqref{eq: Empirical Measure Martingale characterisation - product form}.
 
 
 
