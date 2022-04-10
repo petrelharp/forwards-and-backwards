@@ -1631,12 +1631,13 @@ which is just $\DG$ but with the first derivative terms multiplied by -1.
 \comment{The $\widetilde \DG$ and $\covq \grad$ notation here is terrible; suggestions?}
 Consequently,
 \begin{align*}
-    \theta \int (f(x) - f(y)) g(x) \widetilde q_\theta(y, dx)
-    &\approx
+    &
+    \theta \int (f(x) - f(y)) g(x) \widetilde q_\theta(y, dx) \\
+    &\qquad \to
     - g(y) \sum_i \meanq_i \partial_{x_i} f(y)
     + g(y) \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y)
     + \sum_{ij} \partial_{x_i} g(y) \covq_{ij} \partial_{x_j} f(y)  \\
-    &=
+    &\qquad =
     g(y) \widetilde \DG f(y)
     + (\covq \grad g) \cdot \grad f ,
 \end{align*}
