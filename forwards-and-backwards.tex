@@ -1203,7 +1203,7 @@ these methods give us information about ancestral lineages.
 The equation has non-negative travelling wave solutions of speed $c$ for all $c \geq 2$, 
 but started from any compact perturbation of a Heaviside function, the 
 solution will converge to the profile $w^F$ with the minimal wavespeed, $c=2$,
-\cite{kolmogorov/petrovsky/piscounov:1937,bramson:1983}.
+\cite{kolmogorov/petrovsky/piscounov:1937,\meanqramson:1983}.
 No matter what the initial condition,
 for any $t>0$ the support of the 
 solution will be the whole real line. 
@@ -1982,6 +1982,7 @@ and
 $$X_{\tau+s}(\tau+s)=X_{\tau}(\tau+s-)+(1-\kappa) H(X_{\tau}(\tau+s-), \eta(\tau+s),w),$$
 that is if $\kappa=0$, the parent stays at its current level and the new particle is given the new
 level. If $\kappa = 1 $, the parent is given the new level and the new particle is given the original
+
 level. Consequently, for $t \geq \tau$
 \begin{align}\label{eq: Spatial evolution of individual lineage}
 X_{\tau}(\tau+t)=&X_{\tau}(t)\\
@@ -2382,7 +2383,7 @@ By the Chapman-Kolmogorov equality, we have
                 q_\theta(x,dy)
         \right|\\
         =& \theta \left\{
-                    \frac{\epsilon^2_r }{\left|\covq / \theta +  \epsilon^2_r I \right|^{1/2}}
+                    \frac{\epsilon^d_r }{\left|\covq / \theta +  \epsilon^2_r I \right|^{1/2}}
                     \exp \left(
                     \frac{(x-w-\meanq / \theta)^{T}
                         (\covq /\theta +  \epsilon^2_r I)^{-1}
@@ -2394,7 +2395,7 @@ By the Chapman-Kolmogorov equality, we have
 \end{align}
 If we write 
 \begin{equation}
-F(s)=  \frac{\epsilon^2_r }
+F(s)=  \frac{\epsilon^d_r }
         {\left|\covq s +  \epsilon^2_r I \right|^{1/2}}
         \exp \left(
                     \frac{(x-w-\meanq s)^{T}
@@ -2404,7 +2405,36 @@ F(s)=  \frac{\epsilon^2_r }
             \right)
         -1,   
 \end{equation}
-then 
+then $F(0)=0$ and
+
+\begin{align}
+F'(s)=&  -\frac{\epsilon^d_r |\covq|}
+        {2\left|\covq s +  \epsilon^2_r I \right|^{3/2}}
+        \exp \left(
+                    \frac{(x-w-\meanq s)^{T}
+                        (\covq s +  \epsilon^2_r I)^{-1}
+                        (x-w-\meanq s)}{2}
+                        -\frac{|x-w|^2}{2\epsilon^2}
+            \right)\\
+    &+\frac{\epsilon^d_r }
+        {\left|\covq s +  \epsilon^2_r I \right|^{1/2}}
+        \exp \left(
+                    \frac{(x-w-\meanq s)^{T}
+                        (\covq s +  \epsilon^2_r I)^{-1}
+                        (x-w-\meanq s)}{2}
+                        -\frac{|x-w|^2}{2\epsilon^2}
+            \right) \\
+    & \qquad \times \frac{1}{2}
+                    \bigg\{
+                         -\meanq^{T}(\covq s + \epsilon^2_r I)^{-1}(x-w-\meanq s)\\
+    & \qquad \qquad     -(x-w-\meanq s)^{T}
+                        (\covq s +  \epsilon^2_r I)^{-1}\meanq\\
+    & \qquad \qquad     -(x-w-\meanq s)^{T}
+                        \covq(\covq s +  \epsilon^2_r I)^{-2}(x-w-\meanq s)                    
+                    \bigg\},
+\end{align}
+which is continuous and bounded near $s=0$.
+As a result,
 \begin{align}
 \left| \theta \int_{\mathbb{R}^d}
                 \left(p_{\epsilon^2_r}(y-w)
@@ -2412,12 +2442,14 @@ then
                 \right)
                 q_\theta(x,dy)
         \right|
-        \leq  \theta \left(F\left(1 / \theta \right)-1\right) 
+        \leq&  \theta \left(F\left(1 / \theta \right)-1\right) 
                 \times \epsilon_\gamma^d \epsilon_r^{-d}
-                p_{\epsilon^2_\gamma}(x-w),
+                p_{\epsilon^2_\gamma}(x-w)\\
+         =&  F'(u) 
+                \times \epsilon_\gamma^d \epsilon_r^{-d}
+                p_{\epsilon^2_\gamma}(x-w)        
 \end{align}
-so we have our bound 
-as $F(s)$ has bounded derivative in a neighbourhood around $0$.
+for some $u \in [0, 1/\theta]$ by Intermediate Value Theorem. We have therefore established our bound as $F(s)$ has bounded derivative in a neighbourhood around $0$.
 
 We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
 \begin{align}
@@ -2486,12 +2518,13 @@ We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jense
 \end{align}
 Note that since $\epsilon_{\gamma}>\epsilon_{r}$,
 \begin{equation}
+    \label{eq: gamma-r convolution comparison}
 \begin{aligned}
  \rho_r * \eta(x)=& \int p_{\epsilon^2_r}(x-w) \eta(dw)\\
                  =&  \int \frac{p_{\epsilon^2_r}(x-w)}{p_{\epsilon^2_\gamma}(x-w)}
                   p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
             \leq & \int \epsilon_\gamma^d \epsilon_r^{-d}
-                   e^{-(x-w)^2(\frac{1}{\varepsilon^2_r}-\frac{1}{\varepsilon^2_\gamma})}
+                   e^{-(x-w)^2(\frac{1}{\epsilon^2_r}-\frac{1}{\epsilon^2_\gamma})}
                    p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
             \leq & \epsilon_\gamma^d \epsilon_r^{-d}\rho_\gamma * \eta(x),
 \end{aligned}
@@ -2535,10 +2568,10 @@ Writing $z=y-x-\meanq$, we have that
 \begin{aligned}
 ||y - w||^2 - ||x - w||^2 
 =& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
-=&||x+z+b||^2-||x||^2-2 \langle z+b, w\rangle\\
-=&2\langle x, z+b \rangle + ||z+b||^2-2 \langle z+b, w\rangle \\
-=& 2 \langle x-w, z+b \rangle + ||z+b||^2\\
-=& 2\langle x-w+b, b \rangle + 2\langle x-w+b, z \rangle +||z||^2
+=&||x+z+ \meanq||^2-||x||^2-2 \langle z+ \meanq, w\rangle\\
+=&2\langle x, z+ \meanq \rangle + ||z+ \meanq||^2-2 \langle z+ \meanq, w\rangle \\
+=& 2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2\\
+=& 2\langle x-w+ \meanq,\meanq \rangle + 2\langle x-w+ \meanq, z \rangle +||z||^2
 \end{aligned}
 \end{equation}
 As a result, we have 
@@ -2550,7 +2583,7 @@ H_\theta(x, w)
         \exp\left(
             - \frac{1}{2\epsilon_r^2}
             \left\{
-                2 \langle x-w, z+b \rangle + ||z+b||^2
+                2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2
             \right\}
         \right)
         -
@@ -2562,44 +2595,163 @@ H_\theta(x, w)
         (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
     }
 dz\\
-=&\exp\left(-\frac{1}{\varepsilon_r^2}\langle x-w+b,b \rangle \right)\\
+=&\exp\left(-\frac{2}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
 & \times \int
         \frac{
         \exp\left(
-            - \frac{1}{\epsilon_r^2}
-            \left\{
-                2 \langle x-w+b, z \rangle + ||z||^2
-            \right\}
-            -\theta z^{T}\covq^{-1}z  / 2
-        \right)
+            - \frac{2}{\epsilon_r^2} \langle x-w+ \meanq, z \rangle
+            - \frac{1}{\epsilon_r^2} ||z||^2
+            \right)
+            e^{-\theta z^{T}\covq^{-1}z  / 2}
     }{
         (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
     }
-dz\\
-&-2\exp\left(-\frac{2}{\varepsilon_r^2}\langle x-w+b,b \rangle \right)\\
+dz\\ \label{eq: Second moment term matrix calculation}
+&-2\exp\left(-\frac{1}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
 & \qquad \qquad \times     \int
     \frac{ \exp\left(
-            - \frac{1}{2\epsilon_r^2}
-            \left\{
-                2 \langle x-w+b, z \rangle + ||z||^2
-            \right\} 
-            -\theta z^{T}\covq^{-1}z  / 2
-        \right)
+             -\frac{1}{\epsilon_r^2}\langle x-w+ \meanq, z \rangle
+              -\frac{1}{2\epsilon_r^2} ||z||^2
+            \right)e^{-\theta z^{T}\covq^{-1}z  / 2}
         }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2} \label{eq: first moment term matrix calculation}
     }
 dz\\
 &+1.
 \end{align}
 We now consider the integral of the form 
 \begin{equation}
-\int exp(-v^{T}z-C||z||^2) \frac{
+\int \exp(v^{T}z-C||z||^2) \frac{
         e^{-\theta z^{T}\covq^{-1}z  / 2}
     }{
         (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
     }
 dz   
 \end{equation}
+for $v \in \mathbb{R}^d$ and $C>0$. 
+We have 
+\begin{equation}
+\begin{aligned}
+&\int \exp(v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\frac{1}{|\covq|^{1/2}|  |\covq^{-1}(I+2C\covq/\theta )|^{1/2}  }\int \exp(v^{T}z) \frac{
+        e^{-\theta z^{T}\covq^{-1}(I+2C\covq/\theta )z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2}|\covq^{-1}(I+2C\covq/\theta )|^{-1/2} 
+    }
+dz\\
+=& \frac{1}{|I+2C\covq/\theta |^{1/2}} \mathbb{E}_{Z}[\exp (v^{T}Z)]\\
+=&\frac{1}{|I+2C\covq/\theta |^{1/2}}
+\exp 
+\left(
+\frac{1}{2}v^{T}\covq/\theta(I+2C\covq/\theta )^{-1}v
+\right),
+\end{aligned}
+\end{equation}
+where $Z \sim N(0, \covq/\theta \times (I+2C\covq/\theta )^{-1})$.
+
+Now writing $v=\frac{2}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: Second moment term matrix calculation} is 
+$$\frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+Similarly, writing $v=\frac{1}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{2\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: first moment term matrix calculation} is 
+$$\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq\left(I+\covq/\theta/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+As a result, we have 
+\begin{align*}
+&H_{\theta}(x,w)\\
+=& \frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1.
+\end{align*}
+If we write $F(1/\theta)=H_{\theta}(x,w)$, i.e.
+\begin{align*}
+&F(s)\\
+=& \frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1\\
+&=G_1(s)+2G_2(s)+1
+\end{align*}
+we can check that $F(0)=0$.
+As a result, 
+$$\theta H_{\theta}(x,w)\rho_r(x-w)= \theta F(1/\theta)\rho_r(x-w)=F'(s)\rho_r(x-w),$$
+for some $s \in [0, 1/\theta]$.
+
+In Equation \eqref{eq: gamma-r convolution comparison}, we have established that 
+$\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
+with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
+Therefore it suffices to show that for all $x,w \in \mathbb{R}^d$ and $s \in [0, 1/\theta]$, 
+\begin{align} \label{eqn:goal3}
+    F'(s) \exp\left(-A (x-w)^2 \right) \le C .
+\end{align}
+
+We consider how to differentiate function $G$ of the form 
+$$G(s):=\frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),$$
+where $A,B,C$ are matrices with non-negative entries and $I$ is the identity matrix.
+
+Since 
+\begin{equation}
+\begin{aligned}
+G'(s)=& - \frac{|A|}{2|I+As|^{3/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & + \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & \qquad \times \left\{ v^{T}B(I+Cs)^{-1}v
+                            - sv^{T}BC(I+Cs)^{-2}v
+                    \right\}\\
+      &=\left(- \frac{|A|}{2|I+As|}+v^{T}B(I+Cs)^{-2}v
+        \right)\\
+      & \qquad \times
+        \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),
+\end{aligned}
+\end{equation}
+using non-negativity of $A,B,C$ we have
+\begin{equation}
+\label{eq: bounds on G'}
+|G'(s)| \leq (|A|+||B||_{2}||v||_2^2)G(s).    
+\end{equation}
+As a result, we have that 
+\begin{equation}
+\label{eq: bounds on G}
+G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}.    
+\end{equation}
+
+Finally note that, 
+$$F'(s) \leq G_1'(s)+2G_2'(s),$$
+where 
+$$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
+and 
+$$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
+Substituting these quantities on Equation \eqref{eq: bounds on G'} and Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
 \end{proof}
 
 
@@ -2618,7 +2770,6 @@ such that
 \end{lemma}
 \begin{proof}
 We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Characterisation}. We have that 
-
 \begin{equation}
     \label{eq: Total Mass Martingale Characterisation}
 \begin{aligned}
@@ -3265,7 +3416,7 @@ Once we manage to solve the Martingale Problem \eqref{Markov Mapping Theorem Mar
 \begin{enumerate}
     \item $N_t:=    f(\xi_t)-   f(\xi_0)-\int_{0}^{t}  A^{\theta}f(\xi_s)ds$ is a martingale for all $f\in D(A^{\theta})$,
     \item The process $(\gamma_M \circ \xi^{\theta}_t)_{t \geq 0}:= \left(\frac{1}{\lambda}\sum_{(x,u)\in \xi^{\theta}_t, u < \lambda} \delta_x\right)_{t \geq 0}=(\Xi^{\theta}_t)_{t \geq 0}$ solves the Martingale Problem \eqref{Markov Mapping Theorem Martingale Condition Simplified}.
-    \item $\mathbb{P}\{\xi^{\theta}_t \in B | \mathcal{F}^{\Xi^{\theta}}_t\}=\alpha_M(\Xi^{\theta}(t),B), ~~~B \in \mathcal{B}(\mathcal{M}(\mathbb{R}^d \times [0,\lambda])).$
+    \item $\mathbb{P}\{\xi^{\theta}_t \in B | \mathcal{F}^{\Xi^{\theta}}_t\}=\alpha_M(\Xi^{\theta}(t),\meanq), ~~~B \in \mathcal{B}(\mathcal{M}(\mathbb{R}^d \times [0,\lambda])).$
 \end{enumerate}
 Note that in particular, the third statement is equivalent to the fact that conditioned on the spatial configuration $\Xi^{\theta}_t$, the levels of the particles must be i.i.d uniformly between $[0,\lambda]$. We may also express this condition through the following equation:
 \begin{equation}\label{Markov Mapping Theorem Cox Condition}
