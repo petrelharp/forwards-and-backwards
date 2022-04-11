@@ -2417,7 +2417,7 @@ then
                 p_{\epsilon^2_\gamma}(x-w),
 \end{align}
 so we have our bound 
-as $F(x)$ has bounded derivative in a neighbourhood around $0$.
+as $F(s)$ has bounded derivative in a neighbourhood around $0$.
 
 We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
 \begin{align}
@@ -2508,10 +2508,101 @@ $$H_{\theta}(x,w)=\int_{\mathbb{R}^d}
         1
     \right)^2
 q_{\theta}(x,dy).$$
-
-
-
+Writing out $H$,
+\begin{align}
+H_\theta(x, w)
+=
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                ||y - w||^2 - ||x - w||^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta (y - x-\meanq)^{T}\covq^{-1}(y - x-\meanq)  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dy.
+\end{align}
+Writing $z=y-x-\meanq$, we have that 
+\begin{equation}
+\begin{aligned}
+||y - w||^2 - ||x - w||^2 
+=& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
+=&||x+z+b||^2-||x||^2-2 \langle z+b, w\rangle\\
+=&2\langle x, z+b \rangle + ||z+b||^2-2 \langle z+b, w\rangle \\
+=& 2 \langle x-w, z+b \rangle + ||z+b||^2\\
+=& 2\langle x-w+b, b \rangle + 2\langle x-w+b, z \rangle +||z||^2
+\end{aligned}
+\end{equation}
+As a result, we have 
+\begin{align}
+H_\theta(x, w)
+=&
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                2 \langle x-w, z+b \rangle + ||z+b||^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\exp\left(-\frac{1}{\varepsilon_r^2}\langle x-w+b,b \rangle \right)\\
+& \times \int
+        \frac{
+        \exp\left(
+            - \frac{1}{\epsilon_r^2}
+            \left\{
+                2 \langle x-w+b, z \rangle + ||z||^2
+            \right\}
+            -\theta z^{T}\covq^{-1}z  / 2
+        \right)
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+&-2\exp\left(-\frac{2}{\varepsilon_r^2}\langle x-w+b,b \rangle \right)\\
+& \qquad \qquad \times     \int
+    \frac{ \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                2 \langle x-w+b, z \rangle + ||z||^2
+            \right\} 
+            -\theta z^{T}\covq^{-1}z  / 2
+        \right)
+        }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+&+1.
+\end{align}
+We now consider the integral of the form 
+\begin{equation}
+\int exp(-v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz   
+\end{equation}
 \end{proof}
+
+
 \begin{lemma}[Compact Containment for the population process]
 Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
 then for all $T>0$, there exists some constant $C(T)$,
