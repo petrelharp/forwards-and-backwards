@@ -3157,13 +3157,20 @@ We have
      f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
      \eta^{\theta}_{s}(dx)
     \bigg\} ds\\
-=+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
+&+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
 &\times \frac{\theta}{N} \int_{0}^{t}\bigg\{
 \langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
 \int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
 ,\eta^{\theta}_{s}(dx)\rangle\\
 & \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
-,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds.
+,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds\\
++\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
+                \left(
+                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                \right)^3
+                \bigg| \mathcal{F}_t
+        \right]\\
+:=&
 \end{aligned}
 \end{equation}
 \end{proof}
