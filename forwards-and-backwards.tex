@@ -569,7 +569,7 @@ M^{\theta}_t(f)
         \\ & \qquad \qquad \qquad \qquad {} \times
                             \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
                             \eta^{\theta}_{s}(dx)
-     \\ & \qquad {} +\int 
+     \\ & \qquad \qquad {} +\int 
      f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
      \eta^{\theta}_{s}(dx)
     \bigg\} ds
@@ -2742,7 +2742,7 @@ using non-negativity of $A,B,C$ we have
 As a result, we have that 
 \begin{equation}
 \label{eq: bounds on G}
-G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}.    
+G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}, ~~   G'(s)(|A|+||B||_{2}||v||_2^2)K e^{|A|+||B||_{2}||v||_2^2)s}.  
 \end{equation}
 
 Finally note that, 
@@ -2751,11 +2751,12 @@ where
 $$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
 and 
 $$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
-Substituting these quantities on Equation \eqref{eq: bounds on G'} and Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
+Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
 \end{proof}
 
 
 \begin{lemma}[Compact Containment for the population process]
+    \label{lem: Compact Containment}
 Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
 then for all $T>0$, there exists some constant $C(T)$,
 such that
@@ -2766,7 +2767,15 @@ such that
         \right]
         \le C(T) ,
     \end{align}
-    uniformly in $\theta$.
+uniformly in $\theta$.
+In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such that
+\begin{equation}
+\limsup_{\theta \to \infty}
+    \mathbb{P}\left[\sup_{s \in [0,T]}
+        \langle 1 ,\eta^{\theta}_{s}\rangle
+        > K_\epsilon \right]
+        \leq \frac{C(T)}{K_{\epsilon}} < \epsilon.    
+\end{equation}
 \end{lemma}
 \begin{proof}
 We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Characterisation}. We have that 
@@ -2853,15 +2862,31 @@ As a result
 \end{equation}
 for any $K > 0$, giving us compact containment condition.    
 
-\subsubsection{Controlling Jumps}
-To apply Aldous-Rebolledo criterion,
-(or see Theorem 3.9.1 or Theorem 3.8.6 in \cite{EK})
-it suffices to show that for all $f \in \mathcal{C}^2_{c}(\mathbb{R}^d)$
-and $\tau \in [0,T]$, we have 
+\subsubsection{Tightness of $(\langle f, \eta^{\theta}_t \rangle )_{t>0}$}
+\begin{theorem}[Tightness of $(\langle f, \eta^{\theta}_t \rangle )_{t>0}$]
+    \label{teo: Tightness of real-valued projections}
+For all $f \in C^{2}_{0}(\mathbb{R}^d)$, 
+the process
+$(\langle f, \eta^{\theta}_t \rangle)_{t \geq 0}$ is tight.
+\end{theorem}
+\begin{proof}
+We apply the Aldous-Rebolledo criterion \cite{rebolledo:1980}.
+It suffices to show that for all stopping time
+$\tau \in [0,T]$ and for each $\epsilon>0$, there exists $\delta>0$ and $\theta_0>0$ such that 
 \begin{equation}
 \begin{aligned}
-\limsup_{s \to 0}\limsup_{\theta \to \infty}\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right]& \to 0;\\
-\limsup_{s \to 0}\limsup_{\theta \to \infty}\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]& \to 0.
+\sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\mathbb{P}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
+                        - \langle f, \eta^{\theta}_{\tau}\rangle
+                \right|> \epsilon \right]
+                & < \epsilon;\\
+\sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\mathbb{P}\left[\big| [M^{\theta}_{\tau+s}(f)] 
+                        - [M^{\theta}_{\tau}(f)] \big|
+                        > \epsilon\right]
+                & < \epsilon.
 \end{aligned}    
 \end{equation}
 Note that
@@ -2884,19 +2909,57 @@ and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
 
 Finally,  $F(\rho_{F}*\eta^{\theta}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
 \begin{multline}
-\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
-\leq (C_{\gamma,r}||f||_{\infty} + C_{\gamma,r}||\Delta f||_{\infty}+C_F||f||_{\infty}) \mathbb{E}\bigg\{\int_{\tau}^{\tau+s}\bigg\langle 1,\eta^{\theta}_{s}(dx)  \bigg\rangle  ds\bigg\} \\
-\leq (C_{\gamma,r}||f||_{\infty} + C_{\gamma,r}||\Delta f||_{\infty}+C_F||f||_{\infty}) \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^s-1)\to 0
+\mathbb{E}\left[\left|
+                        \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle
+                \right|\right] \\
+\leq (C_{\gamma,r}||f||_{\infty}
+        + C_{\gamma,r}||\Delta f||_{\infty}
+            +C_F||f||_{\infty})
+    \mathbb{E}\bigg\{
+                        \int_{\tau}^{\tau+s}
+                        \bigg\langle 1,\eta^{\theta}_{s}(dx)  \bigg\rangle 
+                        ds
+                \bigg\} \\
+\leq (C_{\gamma,r}||f||_{\infty}
+            + C_{\gamma,r}||\Delta f||_{\infty}
+                    +C_F||f||_{\infty})
+                \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]
+                        e^{(C_{\gamma,r}+C_F)T}(e^\delta-1).
 \end{multline}
-as $s \to \infty$. 
-This gives us bound on the first moment.
-
-
+As $\eta^{\theta}_0$ converges weakly,
+we have that 
+$\sup_{\theta > \theta_0}\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] < K$
+for some $K>0$.
+Applying Markov's Inequality,
+we can pick small enough $\delta > 0$ such that 
+\begin{equation}
+\begin{aligned}
+\sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\mathbb{P}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
+                        - \langle f, \eta^{\theta}_{\tau}\rangle
+                \right|> \epsilon \right]
+& \leq \sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\frac{
+\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
+                        - \langle f, \eta^{\theta}_{\tau}\rangle
+                \right| \right]
+        }{\epsilon}\\
+& < \frac{(C_{\gamma,r}||f||_{\infty}
+            + C_{\gamma,r}||\Delta f||_{\infty}
+                    +C_F||f||_{\infty})
+                Ke^{(C_{\gamma,r}+C_F)T}(e^\delta-1)
+         }{\epsilon}\\
+& < \epsilon.
+\end{aligned}    
+\end{equation}
 Similarly, the control on the second moment is given by Equation \eqref{eq: Control quadratic variation}.
 \begin{equation}
     \label{eq: Controlling Quadratic Jumps}
 \begin{aligned}
-& \mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
+& \sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
 \leq &\frac{\theta}{N} \mathbb{E} \Bigg\{ \int_{\tau}^{\tau+s}\bigg|
 \langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
 \int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
@@ -2905,22 +2968,185 @@ Similarly, the control on the second moment is given by Equation \eqref{eq: Cont
 ,\eta^{\theta}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
 \leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))r(\rho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\} \\
 & + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\rho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\}\\
-\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^s-1)}{N} \to 0
+\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
 \end{aligned}
 \end{equation}
-as $s \to 0$.
+As $\theta / N \to \alpha$ as $\theta \to \infty$,
+there exists some $K'>0$ such that 
+$\sup_{\theta > \theta_0} \theta / N < K'$.
+An application of Markov's inequality proves that
+for small enough $\delta > 0,$
+\begin{equation}
+\begin{aligned}
+\sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\mathbb{P}\left[\big| [M^{\theta}_{\tau+s}(f)] 
+                        - [M^{\theta}_{\tau}(f)] \big|
+                        > \epsilon\right]
+&\leq  \sup_{\theta > \theta_0}
+\sup_{s \in [0, \delta]}
+\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] 
+                        - [M^{\theta}_{\tau}(f)] \big|
+                        \right]/\epsilon \\
+&< K'e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)/\epsilon < \epsilon.
+\end{aligned}    
+\end{equation}
+\end{proof}
 
+\subsubsection{Tightness of $(\eta^{\theta}_t)_{t \geq 0}$}
+\begin{theorem}
+The collection of measure-valued processes 
+$\{(\eta^{\theta}_t)_{t \geq 0}: \theta > 0\}$
+is tight in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_F(\overline{\mathbb{R}^d}))$.
+\end{theorem}
+\begin{proof}
+To prove relative compactness 
+of the processes $(\eta^{\theta}_t)_{t \geq 0}$,
+we apply Theorem 3.9.1. in \cite{EK}.
+
+First of all, the set of measures 
+$\{ \mu: \langle 1, \mu \rangle \leq K \} $
+is compact in $\mathcal{M}_F(\overline{\mathbb{R}^d})$.
+Therefore, by Lemma \ref{lem: Compact Containment},
+our processes satisfy the compact containment condition.
+
+Secondly, the set of functions $\mathcal{C}^{2}_{0}(\overline{\mathbb{R}^d})$ is a dense subset of all continuous functions on $\mathcal{M}_f(\overline{\mathbb{R}^d})$
+under the topology of uniform convergence in compact sets.
+
+Furthermore,
+since each measure $\eta^{\theta}_t$ is concentrated in $\mathbb{R}^d$,
+it suffices to show that the real-valued processes
+$\langle f, \eta^{\theta}_t \rangle$
+is tight for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$,
+which is proven in
+Theorem \ref{teo: Tightness of real-valued projections}.
+\end{proof}
 
 % % % % % % % % % % % % %
 \subsection{Convergence of generators}
     \label{sec:population_generators_proofs}
 
-    \begin{lemma}[Convergence of generators for the population process]
-        As $\theta \to \infty$,
-        \comment{(the generator for the prelimit)}
-        converges to
-        \comment{(the generator for the limit)}.
-    \end{lemma}
+Before we prove convergence, we define our limit $(\eta^{\infty}(t))_{t>0}$ as a solution to a Martingale Problem with generator $\Pgen$.
+
+\begin{definition}
+    \label{def: MP definition of limit}
+Let $F \in \mathcal{C}^{2}(\mathbb{R})$ and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$.
+We define $\Pgen$ to be a generator
+acting on test functions of the form
+$F_f(\eta):=F (\langle f, \eta \rangle)$
+such that 
+\begin{equation}
+\begin{aligned}
+\Pgen^{\infty} F_f(\eta):=& F'(\langle f, \eta \rangle)
+                   \times \left\{
+                   \big\langle
+                        \gamma(x, \smooth{\gamma} \eta(x))
+                            \mathcal{B}\left(
+                            f(\cdot) r(\cdot, \smooth{r} \eta(\cdot))
+                            \right)(x)
+                    +
+                    f(x)
+                        F(x, \smooth{F} \eta(x)),
+                        \eta(dx)
+                    \big\rangle
+                   \right\}\\
+                &+ \frac{1}{2}F''(\langle f, \eta \rangle)
+                  \times \left\{
+                  \alpha \big\langle
+                    \gamma\left( x, \smooth{\gamma} \eta(x) \right)
+                    r\left(x, \smooth{r} \eta(x) \right)
+                    f^2(x),
+                    \eta (dx)
+                    \big\rangle 
+                  \right\}.
+\end{aligned}    
+\end{equation}
+We define $(\eta^{\infty}(t))_{t \geq 0}$ to be the solution to the Martingale Problem $(\Pgen^{\infty}, \eta_0)$, i.e. 
+for all $F \in \mathcal{C}^{2}(\mathbb{R})$
+and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$,
+$$M_t:=F_f(\eta^{\infty}_t)-F_f(\eta_0)#
+-\int_{0}^{t}\Pgen^{\infty}F_f(\eta^{\infty}_s)ds$$
+is a martingale.
+\end{definition}
+\begin{remark}
+Taking $F(x)=x$ and $F(x)=x^2$, we can recover Equation \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}.
+\end{remark}
+\begin{lemma}[Convergence of generators for the population process]
+As $\theta \to \infty$,
+$(\eta^{\theta}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
+to $(\eta^{\infty}(t))_{t \geq 0}$.
+\end{lemma}
+\begin{proof}
+We use Theorem 4.8.10 in \cite{EK}.
+First of all, the set of functions
+$\{F_f(\eta):= F(\langle f, \eta \rangle ),~
+F \in \mathcal{C}^{2}(\mathbb{R}), ~
+f \in \mathcal{C}_{0}(\mathbb{R}^d)\}$
+is a dense and convergence-determining 
+subset of functions in $\mathcal{M}_f(\mathbb{R}^d)$.
+Therefore, it suffices to show that for any $t>0$,
+\begin{equation}
+    \label{eq: Convergence Condition}
+\lim_{\theta \to \infty}
+\mathbb{E}\left[
+\left(
+F_f(\eta^{\theta}_{t+s})-F_f(\eta^{\theta}_t)
+-\int_{t}^{t+s}\Pgen^{\infty}F_f(\eta^{\theta}_s)ds
+\right)
+\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\right]=0
+\end{equation}
+for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+s$,
+and $h_1,...,h_k \in \mathcal{C}_{0}(\mathbb{R}^d)$.
+
+To prove this,
+we apply Taylor's series expansion
+and make use of the Martingale Problem characterisation
+of $\eta^{\theta}_T$.
+We have
+\begin{equation}
+\begin{aligned}
+&\mathbb{E}\left[F_f(\eta^{\theta}_{t+s})-F_f(\eta^{\theta}_t)\bigg| \mathcal{F}_t \right]\\
+=& F'(\langle f, \eta^{\theta}_t \rangle )
+\mathbb{E}\left[
+                \langle f, \eta^{\theta}_{t+s}\rangle
+                    -\langle f, \eta^{\theta}_t\rangle 
+                    \bigg| \mathcal{F}_t
+         \right]
++\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )
+\mathbb{E}\left[
+                \left(
+                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                \right)^2
+                \bigg| \mathcal{F}_t
+        \right]\\
+&+\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
+                \left(
+                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                \right)^3
+                \bigg| \mathcal{F}_t
+        \right]\\
+=& F'(\langle f, \eta^{\theta}_t \rangle )\\
+& \times  \int_{0}^{t}\bigg\{
+        \int\left(   \int \theta
+     \left(
+        f(z)r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
+            -f(x)r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
+            \right)
+                    q_\theta(x,dz)\right)
+        \\ & \qquad \qquad \qquad \qquad {} \times
+                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+                            \eta^{\theta}_{s}(dx)
+     \\ & \qquad \qquad {} +\int 
+     f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
+     \eta^{\theta}_{s}(dx)
+    \bigg\} ds\\
+=+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
+&\times 
+\end{aligned}
+\end{equation}
+\end{proof}
+
 
 % % % % % % % % % % % % %
 \subsection{Uniqueness of the limit}
