@@ -1677,7 +1677,6 @@ This \comment{presumably?} agrees with \comment{the theorem}.
 \section{The lookdown process}
     \label{sec:lookdown}
 
-\plr{Motivation for and definition of the lookdown process; statement of main convergence theorem.}
 
 Now we will present a lookdown construction for $(\eta^{\theta}(t))_{t \geq 0}$
 stated in Definition \ref{Def: Rescaled Models} in the spirit of~\cite{kurtz/rodrigues:2011}. 
@@ -1686,6 +1685,8 @@ we shall be able to preserve the notion of individuals,
 and in particular their genealogies,
 when we pass to the limit.
 Our notation will follow a standard pattern.
+
+\comment{Below, we write $\lambda$ instead of $N$: change to $N$?}
 
 % % % % % % % % % % % % % % % %
 \subsection{Lookdown Representation and Notation}
@@ -1702,13 +1703,13 @@ of an individual, and $u$ is its level.
 We shall abuse notation and treat $\xi$ both as a set and as a counting measure.
 The spatial population described in \S \ref{sec: Model and main results} is recovered as
 $$\eta=\frac{1}{\lambda}\sum_{(x,u)\in\xi}\delta_x,$$
-i.e. $\eta$ is the re-scaled spatial projection of our spatial-level model $\xi$. 
+i.e., $\eta$ is the re-scaled spatial projection of our spatial-level model $\xi$. 
 Conditional on the spatial population $\eta$,
 the levels of individuals in the population
 will be independently and uniformly distributed
 on $[0,\lambda]$.
 Similar lookdown constructions can be found 
-in \cite{etheridge/kurtz:2018},\cite{kurtz/rodrigues:2011}.
+in \citet{etheridge/kurtz:2018} and \citet{kurtz/rodrigues:2011}.
 Test functions for this enriched process take the form
 \begin{equation}
 \label{test functions}
@@ -1716,7 +1717,7 @@ f(\xi)=\prod_{(x,u)\in \xi}g(x,u)=\exp\left(\int \log g(x,u)\xi(dx, du)\right),
 \end{equation}
 where $g(x,u)$ is differentiable in $u$ and 
 smooth in $x$.
-Moreover, $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$,
+We will also assume that $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$,
 and $g(x,u)\equiv 1$ for $u\geq \lambda$.
 
 In the expressions that follow,
@@ -1731,6 +1732,7 @@ the corresponding factor in $f(\eta)$.
 We now write down the generator of
 the population model with levels between $[0, \lambda]$.
 
+\comment{This repeats some stuff from above.}
 We should consider an initial population of $O(\lambda)$ many particles with levels
 uniformly distributed between $[0, \lambda]$.
 We write $(\xi(t))_{t \geq 0}$
@@ -1747,7 +1749,12 @@ while $\eta$ is the normalised empirical distribution.
 An individual in the spatial population $\eta$ living at spatial location $x$
 produces one adult offspring at rate $\gamma^{\mathfrak{m}}(x, \eta)$, where
 $$\gamma^{\mathfrak{m}}(x,\eta)=\gamma(x,\eta) \int r (y, \eta)q(x,dy),$$
-where $q(x,dy)$ is the dispersion kernel.
+where $q(x,dy)$ is the dispersal kernel.
+
+\comment{Note: in what happens below, $\gamma^\mathfrak{m}$ is useful in that it makes the
+equation for $\dot u$ nicer, but we could remove $q^\mathfrak{m}$ if we wanted
+(although then \eqref{Generator of prelimit simplest model}
+would then have both a $\gamma$ and a $\gamma^\mathfrak{m}$ in it).}
 
 Recall that we only track the adult population; maturity, if achieved, is instantaneous.
 The location of this adult offspring is given by
@@ -1803,9 +1810,11 @@ to be the local branching rate.
 Note that this quantity captures
 the deviation from criticality
 in the branching mechanism.
+\comment{TODO: explain the connection to $F$.}
 In this notation,
 the differential equation 
 governing the level of the individual $(x,u)\in\eta$ is
+\comment{TODO: check that $\theta$ is right here, and consistent with the discussion above.}
 \begin{align}
 \dot{u}&=\lambda  \gamma^{\mathfrak{m}}(x,\eta) 
 \left\{\left(1-\frac{u}{\lambda}\right)^{2}
@@ -1874,6 +1883,11 @@ $$q^{\mathfrak{m}}_{\theta}(x,\eta,dy)
 :=~ \frac{r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
 
 We can now define our pre-limit explicitly as a solution to a Martingale Problem.
+\comment{TODO: this is a bit redundant with the above.
+Instead, maybe (a) describe the process in words; (b) give this definition;
+then (c) explain why it's the generator, so we only write down the generator once?}
+
+% % % % % % % %
 \begin{definition}[Martingale Problem Characterisation]
 \label{Def: Rescaled Lookdown Models}
 
@@ -1903,6 +1917,8 @@ for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$.
 \end{definition}
 
 
+\comment{Remark on the Remark: this is more than one remark.
+I'm not sure it needs to be in a Remark block: how about just a few paragraphs?}
 
 \begin{remark}
 In Appendix \ref{sec: Markov Mapping Theorem Application},
