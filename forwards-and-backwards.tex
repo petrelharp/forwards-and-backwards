@@ -2728,7 +2728,7 @@ In Equation \eqref{eq: gamma-r convolution comparison}, we have established that
 $\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
 with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
 Therefore it suffices to show that for all $x,w \in \mathbb{R}^d$ and $s \in [0, 1/\theta]$, 
-\begin{align} \label{eqn:goal3}
+\begin{align} 
     F'(s) \exp\left(-A (x-w)^2 \right) \le C .
 \end{align}
 
@@ -3080,7 +3080,7 @@ such that
 We define $(\eta^{\infty}(t))_{t \geq 0}$ to be the solution to the Martingale Problem $(\Pgen^{\infty}, \eta_0)$, i.e. 
 for all $F \in \mathcal{C}^{2}(\mathbb{R})$
 and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$,
-$$M_t:=F_f(\eta^{\infty}_t)-F_f(\eta_0)#
+$$M_t:=F_f(\eta^{\infty}_t)-F_f(\eta_0)
 -\int_{0}^{t}\Pgen^{\infty}F_f(\eta^{\infty}_s)ds$$
 is a martingale.
 \end{definition}
@@ -3158,7 +3158,12 @@ We have
      \eta^{\theta}_{s}(dx)
     \bigg\} ds\\
 =+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
-&\times 
+&\times \frac{\theta}{N} \int_{0}^{t}\bigg\{
+\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
+,\eta^{\theta}_{s}(dx)\rangle\\
+& \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
+,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds.
 \end{aligned}
 \end{equation}
 \end{proof}
