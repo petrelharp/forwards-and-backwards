@@ -1920,29 +1920,48 @@ for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$.
 \comment{Remark on the Remark: this is more than one remark.
 I'm not sure it needs to be in a Remark block: how about just a few paragraphs?}
 
-\begin{remark}
-In Appendix \ref{sec: Markov Mapping Theorem Application},
-applying Markov Mapping Theorem,
-we will show that the spatial projection of $(\xi^{\theta}_t)_{t \geq 0}$ defined as 
-$$(\eta^{\theta}(t))_{t \geq 0}
-:=\left(\frac{1}{N}\sum\limits_{(X(t),U(t))\in \xi^{\theta}(t)} \delta_{X(t)}\right)_{t \geq 0}$$
-has the same distribution (as stochastic processes)
-as $(\eta^{\theta}_t)_{t \geq 0}$
-in Definition \ref{Def: Rescaled Models}.
-As a result, we use the same notation $\eta$
-to denote these two identically distributed processes.
-On the other hand,
-we reserve the notation $\xi$
-strictly for the spatial-level process.
 
-Furthermore, the application of Markov Mapping Theorem implies that 
-particle levels are, conditional on $\eta$,
-i.i.d and uniformly distributed between $[0, N]$.
+In Appendix \ref{sec: Markov Mapping Theorem Application},
+we will show that
+if we define $\Gamma (d\textbf{u})$
+as the probability kernel that corresponds to
+assigning each particle an i.i.d. uniform $[0,N]$-level,
+and for any $\xi \in \mathcal{N}_f(\mathbb{R}^d \times [0,\infty))$, we denote
+$$\hat{f}(\xi)=\int f(\xi) \Gamma (d\textbf{u})$$ 
+to be the spatial test functions with averaged level,
+then the process
+\begin{equation}
+\begin{aligned}
+M^{\theta}_t:=&\hat{f}(\xi_t)-\hat{f}(\xi_0)-\int_{0}^{t}\int   A^{\theta}f(\xi_s)\Gamma(d\textbf{u})ds\\
+:=&\hat{f}(\xi_t)-\hat{f}(\xi_0)-\int_{0}^{t}   \Pgen^{\theta}\hat{f}(\xi_s)ds
+\end{aligned}    
+\end{equation}
+is a martingale.
+
+By the Markov Mapping Theorem,
+there exists a solution $(\xi^{\theta}_t)_{t \geq 0}$
+to the Martingale Problem with generator $A^{\theta}$.
+Furthermore,
+the spatial projection of $(\xi^{\theta}_t)_{t \geq 0}$
+shares the same law of $(\eta^{\theta}(t))_{t \geq 0}$,
+i.e.
+$$(\eta^{\theta}(t))_{t \geq 0}
+\sim \left(\frac{1}{N}\sum\limits_{(X(t),U(t))\in \xi^{\theta}(t)} \delta_{X(t)}\right)_{t \geq 0},$$
+and conditional on 
+$(\eta^{\theta}(t))_{t \geq 0}$,
+the levels of particles in $(\xi^{\theta}_t)_{t \geq 0}$
+are i.i.d. uniformly distributed between $[0,N]$.
+
+Therefore, we use the same notation $\eta$
+in our spatial model
+to denote the spatial projection of $\xi$,
+and we reserve the notation $\xi$
+strictly for the spatial-level process.
 
 Theorem A.10 in \cite{kurtz/rodrigues:2011}
 states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$
 to a conditionally Poisson system $(\xi_t)_{t \geq 0}$
-with Cox measure $\Xi_t \times N$
+with Cox measure $\Xi_t \times \Lambda$
 is equivalent to convergence of
 $(\eta^{\theta}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$.
 As a result, it suffices for us to focus on
@@ -1950,10 +1969,6 @@ tightness of $(\eta^{\theta}_t)_{t \geq 0}$
 and spatial convergence of $(\eta^{\theta}_t)_{t \geq 0}$
 as $\theta \to \infty$.
 
-
-
-
-\end{remark}
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Evolution of an Individual Particle}
@@ -3158,21 +3173,21 @@ We have
      \eta^{\theta}_{s}(dx)
     \bigg\} ds\\
 &+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
-&\times \frac{\theta}{N} \int_{0}^{t}\bigg\{
+&\quad \times \frac{\theta}{N} \int_{0}^{t}\bigg\{
 \langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
 \int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
 ,\eta^{\theta}_{s}(dx)\rangle\\
 & \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
 ,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds\\
-+\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
+&+\frac{1}{6}F^{(3)}(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
                 \left(
                     \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
                 \right)^3
                 \bigg| \mathcal{F}_t
-        \right]\\
-:=& 
+        \right]
 \end{aligned}
 \end{equation}
+for some $s' \in [0,s]$.
 \end{proof}
 
 
