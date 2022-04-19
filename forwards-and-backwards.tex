@@ -1805,7 +1805,7 @@ evolves according to
 $$
 \dot{u}
 =
-    - \frac{v}{\lambda} \left(\lambda - v\right)
+    - \frac{u}{\lambda} \left(\lambda - u\right)
     \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) 
     +
     \mu(x,\eta) u .
@@ -1820,7 +1820,8 @@ $$
 $$
 which captures the local net difference between reproduction and death,
 i.e., the deviation from criticality of the branching mechanism.
-(This differs from $F = r\gamma - \mu$ defined above
+(This differs from $F = \theta(r\gamma - \mu)$ defined above
+both by the factor of $\theta$ and
 because $b$ contains the adjustment to fecundity obtained by
 averaging over establishment probabilities in the locations that offspring disperse to.)
 We can then rewrite the differential equation 
@@ -1828,11 +1829,10 @@ governing the how each individual's level evolves as
 \begin{align}
 \dot{u}
     &=
-    \lambda \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
+    \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
     \left\{
-        \left(1-\frac{u}{\lambda}\right)^{2}
-        - 1
-        + 2 \frac{u}{\lambda}
+        -\frac{u}{\lambda}\left(\lambda - u\right)
+        + u
     \right\}
     -
     b(x,\eta)u
@@ -1876,27 +1876,44 @@ and this new level is assigned to either the offspring or the parent.
 Since the probability of each is 1/2,
 the contribution of birth to the generator is
 \begin{align*}
-\begin{split}
-    f(\lp)
-    \mapsto
+f(\lp)
+&\mapsto
     f(\lp)
     \sum_{(x, u) \in \lp}
     2 \frac{\theta}{\lambda} \gamma(x, \eta)
     \int_u^\lambda
     \int_{\IR^d}
-    &
+    \left(
     \frac{1}{2}
     \bigg\{
-        \left(
             g(y, u_1)
-            -
-            1
-        \right)  \\
-    &\qquad {}
         + \frac{ g(y, u) g(x, u_1) }{ g(x, u) }
     \bigg\}
+        - 1
+    \right)
     r(y, \eta) q(x, dy)
-\end{split} .
+    \\ \begin{split}
+&=
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    2 \gamma(x, \eta)
+    \bigg\{
+        \frac{1}{2 \lambda}
+        \int_u^\lambda
+        g(x, u_1) du_1
+        \frac{
+            \theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy)
+        }{
+            g(x, u)
+        }
+    \\ & \qquad \qquad \qquad {}
+        + \frac{\theta}{\lambda}
+        \int_u^\lambda \int_{\IR^d}
+        \left( \frac{g(y, u_1) + g(x, v_1)}{2} - 1 \right)
+        r(y, \eta) q(x, dy)
+    \bigg\}
+    .
+    \end{split}
 \end{align*}
 Here, $u_1$ is the new level and $y$ is the offspring's location,
 and so the two terms in the integral correspond to the two situations:
@@ -1904,7 +1921,20 @@ in the first, we have added an individual at $(y, u)$,
 while in the second, we replace an individual at $(x, u)$
 by one at $(x, u_1)$ and another at $(y, u)$.
 
-\comment{PLR edited through to here.}
+The remaining term in the generator is due to the motion of particles' levels:
+\begin{align*}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \theta
+    \sum_{(x, u) \in \lp}
+    \left(
+        \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        b(x, \eta)u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)} .
+\end{align*}
 
 
 The generator of $\lp$ applied to functions of this form
