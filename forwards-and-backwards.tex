@@ -1814,16 +1814,18 @@ We shall write
 $$
     b(x, \eta)
     :=
+    \theta\left(
     \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
     -
-    \mu(x,\eta),
+    \mu(x,\eta)
+    \right) ,
 $$
 which captures the local net difference between reproduction and death,
 i.e., the deviation from criticality of the branching mechanism.
-(This differs from $F = \theta(r\gamma - \mu)$ defined above
-both by the factor of $\theta$ and
+(This differs from $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu(x,\eta))$ defined above
 because $b$ contains the adjustment to fecundity obtained by
 averaging over establishment probabilities in the locations that offspring disperse to.)
+\comment{TODO: make this explanation better.}
 We can then rewrite the differential equation 
 governing the how each individual's level evolves as
 \begin{align}
@@ -1840,7 +1842,7 @@ governing the how each individual's level evolves as
     &=
     \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
     -
-    b(x, \eta)u
+    b(x, \eta) u / \theta
     . \label{differential equation for level}
 \end{align}
 
@@ -1849,8 +1851,7 @@ the lookdown process.
 In what follows, we will write sums (and, products) over ``$(x, u) \in \xi$''
 to mean as a sum over the (location, level) pairs of each individual in the population.
 Test functions for $\lp$ then take the form
-\begin{equation}
-\label{test functions}
+\begin{equation} \label{eqn:test_functions}
 f(\lp)=\prod_{(x,u)\in \lp}g(x,u)=\exp\left(\int \log g(x,u)\lp(dx, du)\right),
 \end{equation}
 where
@@ -1875,8 +1876,8 @@ a new level is generated above the parent's level,
 and this new level is assigned to either the offspring or the parent.
 Since the probability of each is 1/2,
 the contribution of birth to the generator is
-\begin{align*}
-f(\lp)
+\begin{align}
+f(\lp) \nonumber
 &\mapsto
     f(\lp)
     \sum_{(x, u) \in \lp}
@@ -1892,7 +1893,8 @@ f(\lp)
         - 1
     \right)
     r(y, \eta) q(x, dy)
-    \\ \begin{split}
+    \\
+    \begin{split} \label{eqn:birth_generator}
 &=
     f(\lp)
     \sum_{(x, u) \in \lp}
@@ -1914,7 +1916,7 @@ f(\lp)
     \bigg\}
     .
     \end{split}
-\end{align*}
+\end{align}
 Here, $u_1$ is the new level and $y$ is the offspring's location,
 and so the two terms in the integral correspond to the two situations:
 in the first, we have added an individual at $(y, u)$,
@@ -1922,100 +1924,23 @@ while in the second, we replace an individual at $(x, u)$
 by one at $(x, u_1)$ and another at $(y, u)$.
 
 The remaining term in the generator is due to the motion of particles' levels:
-\begin{align*}
+\begin{align} \label{eqn:level_generator}
     f(\lp)
     \mapsto
     f(\lp)
-    \theta
     \sum_{(x, u) \in \lp}
     \left(
+    \theta
         \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
         -
         b(x, \eta)u
     \right)
     \frac{\partial_u g(x,u)}{g(x,u)} .
-\end{align*}
+\end{align}
 
 
-The generator of $\lp$ applied to functions of this form
-is therefore
-\begin{eqnarray}
-&&
-A f(\lp ) \nonumber \\
-&&\quad
-    = f(\lp) \,
-    \sum_{(x,u) \in \lp}\,
-        2 \lambda^{-1} \gamma(x, \eta)
-    \int_u^\lambda \Bigg(
-        \frac{1}{2} \frac{
-            \int_{\mathbb{R}^d} g(y,u) r(y,\eta) q(x, dy) g(x,v_1)
-        }{
-            g(x,u)
-        }
-\label{multgen3}\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad {}
-        + \frac{1}{2} \int_{\mathbb{R}^d} g(y,v_1) r(y,\eta) q(x,dy)
-        - 1
-    \Bigg) dv_1
-\nonumber\\
-&&\quad \quad
-    + f(\lp) \left(
-        \lambda^{-1} \theta
-        \gamma(x,\eta)
-        \int_{\IR^d} r(y, \eta q(x, dy)
-        u^2
-        -
-        b(x,\eta)u
-    \right)
-    \frac {\partial_u g(x,u)}{g(x,u)}
-\nonumber\\
-&&\quad
-    = f(\lp) \,
-    \sum_{(x,u)\in\lp}\,
-    2 \gamma(x, \eta) \frac{\theta}{\lambda}
-    \int_u^\lambda \Bigg(
-        \frac{1}{2} \frac{
-            \int_{\mathbb{R}^d}( g(y,u) - g(x,u) ) r(y, \eta) q(x,dy) g(x,v_1)
-        }{
-            g(x,u)
-        }
-\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad {}
-        + \int_{\mathbb{R}^d} \left(
-            \frac{ g(y,v_1) + g(x,v_1) }{ 2 }
-            -
-            1
-        \right)
-        r(y, \eta) q(x,dy)
-    \Bigg) dv_1
-\nonumber\\
-&&\qquad\qquad {}
-    +
-    f(\lp) \sum_{(x,u)\in\lp}\,
-    \left(
-        \lambda^{-1}
-        \gamma(x,\eta)
-        \int_{\IR^d} r(y, \eta) q(x, dy)
-        u^2
-        -
-        b(x,\eta) u
-    \right)
-    \frac{ \partial_u g(x,u) }{ g(x,u) }
-.\nonumber
-\end{eqnarray}
-The two terms under the integral correspond, respectively,
-to either the parent or child being reassigned the new level $v_1$
-during a birth event.
-In the first case, the parent at location $x$,
-which had level $u$ before the event, is reassigned to level $v_1$,
-and the child is inserted at level $u$ and location $y$;
-in the second the parent retains its level,
-and offspring is inserted at level $v_1$.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection*{Scaling of the Pre-limit Lookdown Model}
-
+\comment{TODO: consider whether this is where we stick in
+    these explicit definitions of $\gamma$ and set $\lambda=N$.}
 To scale our lookdown model to be consistent with
 the spatial model described in \S \ref{sec: Model and main results},
 we will let $\lambda$ takes on the role of $N$
@@ -2031,52 +1956,82 @@ $\epsilon_{\gamma}$, $\epsilon_{F}$ and $\epsilon_{r}$.
 Explicitly, in the $\theta$-th stage of re-scaling,
 an individual has mass $\frac{1}{\lambda} := \frac{1}{N}$
 and a level between $[0,N]$;
-the established birth rate $\gamma(x,\eta)$ is
-$$\theta\gamma^{\mathfrak{m}}_{\theta}(x, \eta)
-:=~\theta\gamma(x, \rho_{\gamma}*\eta(x)) \int r(y, \rho_{r}*\eta(y))q_{\theta}(x,dy);$$
+the birth rate is
+$$
+    \gamma(x, \eta)
+    :=
+    \gamma(x, \smooth{\gamma}\eta(x)),
+$$
+the establishment probability is
+$$
+    r(x, \eta)
+    :=
+    r(x, \smooth{r}\eta(x)),
+$$
 the local branching mechanism $b(x,\eta)$ is 
-$$b_{\theta}(x, \eta):=~ \theta \bigg\{ \gamma(x, \rho_{\gamma}*\eta(x)) \int r(y, \rho_{r}*\eta(y))q_{\theta}(x,dy)-\mu(x, \eta)\bigg\};$$
-and the dispersal kernel $q^{\mathfrak{m}}(x,\eta, dy)$ is 
-$$q^{\mathfrak{m}}_{\theta}(x,\eta,dy) 
-:=~ \frac{r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}{\int_{\mathbb{R}^d} r(y,\rho_{r}*\eta(y)) q_{\theta}(x,dy)}.$$
+$$
+    b_{\theta}(x, \eta)
+    :=
+    \theta \left(
+        \gamma(x, \smooth{\gamma}\eta(x))
+        \int r(y, \smooth{r}\eta(y)) q_{\theta}(x,dy)
+        -
+        \mu(x, \eta)
+    \right) .
+$$
+and the dispersal kernel is $q_\theta$.
 
-We can now define our pre-limit explicitly as a solution to a Martingale Problem.
-\comment{TODO: this is a bit redundant with the above.
-Instead, maybe (a) describe the process in words; (b) give this definition;
-then (c) explain why it's the generator, so we only write down the generator once?}
+We can now define the spatial-level process
+explicitly as a solution to a Martingale Problem,
+whose generator is just the sum of
+\eqref{eqn:birth_generator} and \eqref{eqn:level_generator}.
 
 % % % % % % % %
 \begin{definition}[Martingale Problem Characterisation]
-\label{Def: Rescaled Lookdown Models}
-
-For test measures $\xi$ taking value in $\mathcal{M}_F(\mathbb{R}^d \times [0,N])$,
-the set of finite measures on $\mathbb{R}^d \times [0,N]$,
-we define
-$$\eta:= \frac{1}{N}\xi(\cdot  \times [0, N])=
-\frac{1}{N}\sum_{(x,u) \in \xi}\delta_x$$
-to be its re-scaled spatial projection.
-
-We define $(\xi^{\theta}_t)_{t \geq 0}$
+    \label{Def: Rescaled Lookdown Models}
+We define $(\lp^{\theta}_t)_{t \geq 0}$
 to be the (unique) solution
+    \comment{(I'm not sure why unique is in parentheses here?)}
 to the Martingale Problem
-with initial condition $\xi_0$
+with initial condition $\lp_0 \in \mathcal{M}_F(\mathbb{R}^d \times [0,N])$
 and generator $A^{\theta}$ that satisfies
-
-\begin{eqnarray}\label{Eq: Prelimit Lookdown Generator}
-&&A^{\theta}f(\xi ) \\
-&&\quad =f(\xi )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}_{\theta}(x, \eta)\Bigg\{ \frac 12 N^{-1}\int_u^{
-N}g(x,v_1)dv_1\times \frac { \theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\eta,dy) }{g(x,u)}\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +N^{-1}\theta\int_u^{
-N}\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\eta,dy)dv_1\nonumber\Bigg\}\\
-&&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\xi}\,\left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\eta) u^2 -b_{\theta}(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
-\end{eqnarray}
-for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$. 
+\begin{equation*}
+\begin{split}
+& A^{\theta}f(\lp ) \\
+&\quad =
+    f(\lp)
+    \,\sum_{(x,u)\in \lp}\,
+    2 \gamma(x, \eta)
+    \Bigg\{ \frac 12 N^{-1}\int_u^N g(x,u_1) du_1
+            \times
+            \frac{
+                \theta \int_{\mathbb{R}^d}
+                (g(y,u) - g(x,u))
+                r(y, \eta) q_{\theta}(x,dy)
+            }{ g(x,u) }
+        \\
+    &\qquad\qquad\qquad\qquad\qquad\qquad\qquad {} +
+        N^{-1}\theta\int_u^N
+        \int_{\mathbb{R}^d}\left(
+            \frac{ g(y,u_1) + g(x,u_1) }{ 2 } - 1
+        \right)
+        r(y, \eta) q_{\theta}(x,dy)
+        du_1
+    \Bigg\}\\
+    &\qquad\qquad {} +
+    f(\lp) \sum_{(x,u)\in\lp}\,
+    \left(
+        \theta N^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) u^2 -b_{\theta}(x,\eta)u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)}
+    ,
+\end{split}
+\end{equation*}
+for all smooth functions $g \in C^{2}_{0}(\mathbb{R}^d)$,
+where $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$ as defined in \eqref{eqn:test_functions},
+and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$ is the spatial pushforward of $\lp$,
+as before.
 \end{definition}
-
-
-\comment{Remark on the Remark: this is more than one remark.
-I'm not sure it needs to be in a Remark block: how about just a few paragraphs?}
 
 
 In Appendix \ref{sec: Markov Mapping Theorem Application},
@@ -2084,14 +2039,14 @@ we will show that
 if we define $\Gamma (d\textbf{u})$
 as the probability kernel that corresponds to
 assigning each particle an i.i.d. uniform $[0,N]$-level,
-and for any $\xi \in \mathcal{N}_f(\mathbb{R}^d \times [0,\infty))$, we denote
-$$\hat{f}(\xi)=\int f(\xi) \Gamma (d\textbf{u})$$ 
+and for any $\lp \in \mathcal{M}_f(\mathbb{R}^d \times [0,\infty))$, we denote
+$$\hat{f}(\lp)=\int f(\lp) \Gamma (d\textbf{u})$$ 
 to be the spatial test functions with averaged level,
 then the process
 \begin{equation}
 \begin{aligned}
-M^{\theta}_t:=&\hat{f}(\xi_t)-\hat{f}(\xi_0)-\int_{0}^{t}\int   A^{\theta}f(\xi_s)\Gamma(d\textbf{u})ds\\
-:=&\hat{f}(\xi_t)-\hat{f}(\xi_0)-\int_{0}^{t}   \Pgen^{\theta}\hat{f}(\xi_s)ds
+M^{\theta}_t:=&\hat{f}(\lp_t)-\hat{f}(\lp_0)-\int_{0}^{t}\int   A^{\theta}f(\lp_s)\Gamma(d\textbf{u})ds\\
+:=&\hat{f}(\lp_t)-\hat{f}(\lp_0)-\int_{0}^{t}   \Pgen^{\theta}\hat{f}(\lp_s)ds
 \end{aligned}    
 \end{equation}
 is a martingale.
@@ -2109,12 +2064,6 @@ and conditional on
 $(\eta^{\theta}(t))_{t \geq 0}$,
 the levels of particles in $(\xi^{\theta}_t)_{t \geq 0}$
 are i.i.d. uniformly distributed between $[0,N]$.
-
-Therefore, we use the same notation $\eta$
-in our spatial model
-to denote the spatial projection of $\xi$,
-and we reserve the notation $\xi$
-strictly for the spatial-level process.
 
 Theorem A.10 in \cite{kurtz/rodrigues:2011}
 states that convergence of $(\eta^{\theta}_t)_{t \geq 0}$
