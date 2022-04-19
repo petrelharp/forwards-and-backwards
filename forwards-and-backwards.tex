@@ -53,6 +53,7 @@
 \newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
 \newcommand{\Lgen}{\mathcal{L}}    % generator of a lineage
 \newcommand{\Pgen}{\mathcal{P}}    % generator of the population process
+\newcommand{\lp}{\xi}              % process with levels
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -1678,179 +1679,306 @@ This \comment{presumably?} agrees with \comment{the theorem}.
     \label{sec:lookdown}
 
 
-Now we will present a lookdown construction for $(\eta^{\theta}(t))_{t \geq 0}$
-stated in Definition \ref{Def: Rescaled Models} in the spirit of~\cite{kurtz/rodrigues:2011}. 
-The key benefit of working in such a framework is that
+Now we will present a lookdown construction for the general process
+(i.e., of Definition \ref{Def: Rescaled Models}),
+in the spirit of~\cite{kurtz/rodrigues:2011}. 
+The key benefit of this construction is that
 we shall be able to preserve the notion of individuals,
 and in particular their genealogies,
 when we pass to the limit.
-Our notation will follow a standard pattern.
-
-\comment{Below, we write $\lambda$ instead of $N$: change to $N$?}
-
-% % % % % % % % % % % % % % % %
-\subsection{Lookdown Representation and Notation}
-\label{sec: Lookdown Representation and Notation}
-
-In the prelimiting models,
-each individual in the population
-will be assigned a `level' from $[0,\lambda]$.
 
 
-A state of the discrete population model will be of the form $\xi=\sum\delta_{(x,u)}$,
-where $x$ denotes the spatial location
-of an individual, and $u$ is its level.
-We shall abuse notation and treat $\xi$ both as a set and as a counting measure.
-The spatial population described in \S \ref{sec: Model and main results} is recovered as
-$$\eta=\frac{1}{\lambda}\sum_{(x,u)\in\xi}\delta_x,$$
-i.e., $\eta$ is the re-scaled spatial projection of our spatial-level model $\xi$. 
-Conditional on the spatial population $\eta$,
-the levels of individuals in the population
-will be independently and uniformly distributed
-on $[0,\lambda]$.
-Similar lookdown constructions can be found 
-in \citet{etheridge/kurtz:2018} and \citet{kurtz/rodrigues:2011}.
-Test functions for this enriched process take the form
-\begin{equation}
-\label{test functions}
-f(\xi)=\prod_{(x,u)\in \xi}g(x,u)=\exp\left(\int \log g(x,u)\xi(dx, du)\right),
-\end{equation}
-where $g(x,u)$ is differentiable in $u$ and 
-smooth in $x$.
-We will also assume that $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$,
-and $g(x,u)\equiv 1$ for $u\geq \lambda$.
+The gneral set-up is as follows.
+Each individual will be labeled with a ``level'',
+which will be a number in $[0, \lambda]$.
+When taking the limit, we will set $\lambda = N$.
+\comment{Should we just use $N$ instead of $\lambda$? Or vice-versa?}
+We will still encode the process embellished by these levels
+as a point measure:
+if the $i^\mathrm{th}$ individual's spatial location is $x_i$
+and level is $u_i$, then we will write:
+$$
+    \lp = \sum_i \delta_{x_i, u_i} ,
+$$
+which is a measure on $\IR^d \times [0, \lambda]$.
+Note that the each individual contributes mass 1 to the measure,
+not $1/N$ as above.
+In some sense, these levels do not affect the process:
+the pushforward of this measure-valued ``spatial-level process'',
+divided by $N$,
+will agree with the purely spatial process defined above.
+Furthermore, the levels of the individuals present at any spatial location
+conditionally uniform on $[0, \lambda]$.
+However, an individual's level in some sense encodes their future reproductive output:
+individuals with lower levels tend to live longer, and have more offspring.
+For more explanation of the set-up and how this is possible,
+see \citet{etheridge/kurtz:2018} and \citet{kurtz/rodrigues:2011}.
+Furthermore, the limiting spatial-level process will still be a point measure,
+and so we explicitly retain the notion of individuals and lineages through to the 
+large-population-density limit.
 
-In the expressions that follow,
-we shall often see one or more factor of $1/g(x,u)$;
-it should be understood that if $g(x,u)=0$,
-then it simply cancels 
-the corresponding factor in $f(\eta)$.
 
 % % % % % % % % % % % % % % % %
-\subsubsection*{Generator of the Lookdown Model}
+\subsection{Definition and generator of the lookdown process}
+\label{sec:lookdown_defn}
 
-We now write down the generator of
-the population model with levels between $[0, \lambda]$.
+In this section,
+we'll define the process $(\lp_t)_{t \ge 0}$ in terms of the dynamics of labeled particles,
+and write down it's generator.
+Since the dynamics depend on the spatial locations of particles,
+we \emph{define} $\eta_t$ to be the corresponding spatial measure,
+i.e.,
+$$
+    \eta_t(\cdot) = \frac{1}{\lambda} \lp_t(\cdot \times [0, \lambda])  .
+$$
+A nontrivial consequence of the way we define $\lp_t$ will be that
+this process has the same distribution as the process $(\eta_t)_{t \ge 0}$ defined above
+in Definition~\ref{Def: Rescaled Models},
+again, after setting $\lambda = N$.
+(This provides our justification for using the same notation for both.)
+Finally, note that we first describe the dynamics of individuals
+in the original time units -- i.e., before scaling by $\theta$,
+which will appear below.
 
-\comment{This repeats some stuff from above.}
-We should consider an initial population of $O(\lambda)$ many particles with levels
-uniformly distributed between $[0, \lambda]$.
-We write $(\xi(t))_{t \geq 0}$
-for our population.
-To ensure we have bounded intensity, 
-we scale the empirical distribution of particles with a factor of $1/\lambda$,
-so we write
-$$\eta_t:=\frac{1}{\lambda}\xi_t(\cdot \times [0,\lambda])=
-\frac{1}{\lambda}\sum\limits_{\substack{(X(t),U(t))\in \xi \\ U(t) < \lambda}} \delta_{X(t)}.$$ 
+\comment{
+    I've defined $\eta = \lp / N$ to agree with how we define the generator below,
+    for which birth/death add/remove something of mass 1, not $1/\lambda$.
+}
 
-From here onwards,
-we write $\xi$ to be the particle systems with levels,
-while $\eta$ is the normalised empirical distribution.
-An individual in the spatial population $\eta$ living at spatial location $x$
-produces one adult offspring at rate $\gamma^{\mathfrak{m}}(x, \eta)$, where
-$$\gamma^{\mathfrak{m}}(x,\eta)=\gamma(x,\eta) \int r (y, \eta)q(x,dy),$$
-where $q(x,dy)$ is the dispersal kernel.
+\comment{TODO: this uses the $\gamma(x, \eta)$ notation, which we haven't settled on.}
 
-\comment{Note: in what happens below, $\gamma^\mathfrak{m}$ is useful in that it makes the
-equation for $\dot u$ nicer, but we could remove $q^\mathfrak{m}$ if we wanted
-(although then \eqref{Generator of prelimit simplest model}
-would then have both a $\gamma$ and a $\gamma^\mathfrak{m}$ in it).}
+Suppose that the initial population is composed of $O(\lambda)$ many particles
+with levels uniformly distributed between $[0, \lambda]$.
+Suppose the current state of the population is $\lp$,
+with spatial projection $\eta$.
+Each individual at spatial location $x$ with level $u$
+produces one juvenile offspring at rate 
+$$
+2 \left(1 - \frac{u}{\lambda}\right) \gamma(x, \eta) ,
+$$
+which disperses to a location relative to $x$ drawn from the kernel $q(\cdot)$.
+(Averaging over the uniform distribution of the level $u$,
+we recover the birth rate $\gamma(x, \eta)$.)
+This juvenile -- suppose it's location is $y$ --
+either survives, with probability $r(y, \eta)$, or immediately dies.
+(As before, ``maturity'' is instantaneous.)
 
-Recall that we only track the adult population; maturity, if achieved, is instantaneous.
-The location of this adult offspring is given by
-the distribution 
-\[ q^{\mathfrak{m}}(x,\eta,dy) = \frac{r(y,\eta) q(x,dy)}{\int_{\mathbb{R}^d} r(y,\eta) q(x,dy)}. \]
-
-In the lookdown version of our model,
-the individual $(x,u)\in \xi$
-gives birth to an offspring at rate 
-$2(\lambda-u)\lambda^{-1} \gamma^{\mathfrak{m}}(x, \eta)$. 
-(Averaging over the distribution of the
-level $u$,
-we recover $\gamma^{\mathfrak{m}}(x, \eta)$.)
-
-A new level $u_1$ is sampled independently and
-uniformly from $[u,\lambda]$,
-and the parent and the offspring are assigned in random order to the  levels $\{u, u_1\}$.
+A new level $u_1$ is sampled independently and uniformly from $[u,\lambda]$,
+and the parent and the offspring are assigned in random order to the levels $\{u, u_1\}$.
 This random assignment of levels to parent
 and offspring ensures that conditional on $\eta$,
-the levels assigned to individuals are i.i.d.
-uniform random variables.
-Otherwise, the levels of the initial population would be lower than those of the descendants.
+the levels of each individual at any point in time are independent, uniform random variables.
 
 Evidently this mechanism increases the proportion
 of individuals with higher levels.
 To restore the property that,
 conditional on $\eta$,
-the intensity of levels is conditionally uniform,
+the distribution of levels is conditionally uniform,
 we impose that 
-the level associated with $(x,u)\in\eta$
+the level of an individual at location $x$
 evolves according to the differential equation
-$$\dot{v}=  \gamma^{\mathfrak{m}}(x, \eta) 
-\left\{\lambda^{-1}(\lambda -v)^{2}
--(\lambda -v)\right\}.$$
+$$
+    \dot{v}
+    =
+    % \gamma^{\mathfrak{m}}(x, \eta) \left\{\lambda^{-1}(\lambda -v)^{2} -(\lambda -v)\right\}.
+    - \frac{v}{\lambda} \left(\lambda - v\right)
+    \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) .
+$$
+Since $v \in [0, \lambda]$, this moves levels down;
+see~\cite{etheridge/kurtz:2018}, Section~3.4 for a detailed explanation.
 
-See~\cite{etheridge/kurtz:2018}, Section~3.4 for a detailed explanation.
-In order to incorporate death,
-the level of the individual $(x,u)\in \eta$ 
-moves upwards at an additional rate
-$ \mu(x,\eta)$
-(on reaching level $\lambda$
-an individual is deemed to have died).
-Overall, we assume that
-the level associated with $(x,u)\in\eta$
+In the lookdown model, levels never cross below 0,
+while particles whose levels move above $\lambda$ are regarded as dead
+(and do not affect to the population any more).
+Therefore, in order to incorporate death,
+the level of the individual at location $x$ with level $u$
+moves upwards at an additional rate $\mu(x,\eta) u$.
+Since levels are uniform,
+it is easy to check that if $\mu$ was constant,
+this would imply an exponential lifetime for each individual;
+see~\cite{etheridge/kurtz:2018}, Section \comment{XXX}
+for more general justification.
+
+Putting these together,
+the level $u$ of an individual at $x$
 evolves according to
-$$\dot{u}= \gamma^{\mathfrak{m}}(x, \eta) 
-\left\{\lambda^{-1}(\lambda -u)^{2}
--(\lambda -u)\right\}+\mu(x,\eta)u.$$
+$$
+\dot{u}
+=
+    - \frac{v}{\lambda} \left(\lambda - v\right)
+    \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) 
+    +
+    \mu(x,\eta) u .
+$$
 We shall write 
-$$b(x,\eta):= \big\{\gamma^{\mathfrak{m}}(x,\eta)
--\mu(x,\eta)\big\}$$
-to be the local branching rate.
-Note that this quantity captures
-the deviation from criticality
-in the branching mechanism.
-\comment{TODO: explain the connection to $F$.}
-In this notation,
-the differential equation 
-governing the level of the individual $(x,u)\in\eta$ is
-\comment{TODO: check that $\theta$ is right here, and consistent with the discussion above.}
+$$
+    b(x, \eta)
+    :=
+    \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
+    -
+    \mu(x,\eta),
+$$
+which captures the local net difference between reproduction and death,
+i.e., the deviation from criticality of the branching mechanism.
+(This differs from $F = r\gamma - \mu$ defined above
+because $b$ contains the adjustment to fecundity obtained by
+averaging over establishment probabilities in the locations that offspring disperse to.)
+We can then rewrite the differential equation 
+governing the how each individual's level evolves as
 \begin{align}
-\dot{u}&=\lambda  \gamma^{\mathfrak{m}}(x,\eta) 
-\left\{\left(1-\frac{u}{\lambda}\right)^{2}
--1 +2\frac{u}{\lambda}\right\} -b(x,\eta)u \nonumber \\
-&=\lambda^{-1}  \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u. \label{differential equation for level}
+\dot{u}
+    &=
+    \lambda \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
+    \left\{
+        \left(1-\frac{u}{\lambda}\right)^{2}
+        - 1
+        + 2 \frac{u}{\lambda}
+    \right\}
+    -
+    b(x,\eta)u
+    \nonumber \\
+    &=
+    \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+    -
+    b(x, \eta)u
+    . \label{differential equation for level}
 \end{align}
-In this setting, the generator of our model
-acting on the test functions $f(\xi)=\prod_{(x,u) \in \xi}g(x,u)$
-satisfies
-%We assume that  locations in ${\mathbb{ R}}^d$.
 
-\begin{eqnarray}\label{Generator of prelimit simplest model}
-&&Af(\xi ) \nonumber \\
-&&\quad =f(\xi )\,\sum_{(x,u)\in\xi}\,2\lambda^{-1} \gamma^{\mathfrak{m}}(x, \eta)
-\int_u^{
-\lambda}\Bigg(\frac 12\frac {\int_{\mathbb{R}^d}g(y,u)q^{\mathfrak{m}}(x,\eta,d
-y)g(x,v_1)}{g(x,u)} \label{multgen3}\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
-+\frac 12\int_{\mathbb{R}^d}g(y,v_1)q^{\mathfrak{m}}(x,\eta ,dy)-
-1\Bigg)dv_1\nonumber\\
-&&\quad \quad +f(\eta )\left(\lambda^{-1} \theta \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\nonumber\\
-&&\quad =f(\eta )\,\sum_{(x,u)\in\eta}\,2 \gamma^{\mathfrak{m}}(x, \eta)\lambda^{-1}\int_u^{
-\lambda}\Bigg(\frac 12\frac {\theta\int_{\mathbb{R}^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}(x,\eta,dy)g(x,v_1)}{g(x,u)}\non\\
-&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad +\theta\int_{\mathbb{R}^d}\left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}(x,\eta,dy)\Bigg)dv_1\nonumber\\
-&&\qquad\qquad
-+f(\eta )\sum_{(x,u)\in\eta}\,\left(\lambda^{-1} \gamma^{\mathfrak{m}}(x,\eta) u^2 -b(x,\eta)u\right)\frac {\partial_u g(x,u)}{g(x,u)}.\nonumber
+Now, we can write down the generator for $(\lp_t)_{t \ge 0}$,
+the lookdown process.
+In what follows, we will write sums (and, products) over ``$(x, u) \in \xi$''
+to mean as a sum over the (location, level) pairs of each individual in the population.
+Test functions for $\lp$ then take the form
+\begin{equation}
+\label{test functions}
+f(\lp)=\prod_{(x,u)\in \lp}g(x,u)=\exp\left(\int \log g(x,u)\lp(dx, du)\right),
+\end{equation}
+where
+$g(x,u)$ is differentiable in $u$ and 
+smooth in $x$.
+We will also assume that $0\leq g(x,u) \leq 1$ for all $u\in [0,\lambda]$,
+and $g(x,u)\equiv 1$ for $u\geq \lambda$.
+In the expressions that follow,
+we shall often see one or more factor of $1/g(x,u)$;
+it should be understood that if $g(x,u)=0$,
+then it simply cancels 
+the corresponding factor in $f(\lp)$.
+
+Recall also that in defining $\eta_t$
+we had not only rescaled mass, dividing each individual's mass by $N$,
+but also time, speeding up time by a factor of $\theta$.
+As a result, per-capita rates described above will have a factor of $\theta$ here.
+
+First consider the terms in the generator that come from birth events.
+Recall that when a birth successfully establishes,
+a new level is generated above the parent's level,
+and this new level is assigned to either the offspring or the parent.
+Since the probability of each is 1/2,
+the contribution of birth to the generator is
+\begin{align*}
+\begin{split}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    2 \frac{\theta}{\lambda} \gamma(x, \eta)
+    \int_u^\lambda
+    \int_{\IR^d}
+    &
+    \frac{1}{2}
+    \bigg\{
+        \left(
+            g(y, u_1)
+            -
+            1
+        \right)  \\
+    &\qquad {}
+        + \frac{ g(y, u) g(x, u_1) }{ g(x, u) }
+    \bigg\}
+    r(y, \eta) q(x, dy)
+\end{split} .
+\end{align*}
+Here, $u_1$ is the new level and $y$ is the offspring's location,
+and so the two terms in the integral correspond to the two situations:
+in the first, we have added an individual at $(y, u)$,
+while in the second, we replace an individual at $(x, u)$
+by one at $(x, u_1)$ and another at $(y, u)$.
+
+\comment{PLR edited through to here.}
+
+
+The generator of $\lp$ applied to functions of this form
+is therefore
+\begin{eqnarray}
+&&
+A f(\lp ) \nonumber \\
+&&\quad
+    = f(\lp) \,
+    \sum_{(x,u) \in \lp}\,
+        2 \lambda^{-1} \gamma(x, \eta)
+    \int_u^\lambda \Bigg(
+        \frac{1}{2} \frac{
+            \int_{\mathbb{R}^d} g(y,u) r(y,\eta) q(x, dy) g(x,v_1)
+        }{
+            g(x,u)
+        }
+\label{multgen3}\\
+&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad {}
+        + \frac{1}{2} \int_{\mathbb{R}^d} g(y,v_1) r(y,\eta) q(x,dy)
+        - 1
+    \Bigg) dv_1
+\nonumber\\
+&&\quad \quad
+    + f(\lp) \left(
+        \lambda^{-1} \theta
+        \gamma(x,\eta)
+        \int_{\IR^d} r(y, \eta q(x, dy)
+        u^2
+        -
+        b(x,\eta)u
+    \right)
+    \frac {\partial_u g(x,u)}{g(x,u)}
+\nonumber\\
+&&\quad
+    = f(\lp) \,
+    \sum_{(x,u)\in\lp}\,
+    2 \gamma(x, \eta) \frac{\theta}{\lambda}
+    \int_u^\lambda \Bigg(
+        \frac{1}{2} \frac{
+            \int_{\mathbb{R}^d}( g(y,u) - g(x,u) ) r(y, \eta) q(x,dy) g(x,v_1)
+        }{
+            g(x,u)
+        }
+\non\\
+&&\qquad\qquad\qquad\qquad\qquad\qquad\qquad {}
+        + \int_{\mathbb{R}^d} \left(
+            \frac{ g(y,v_1) + g(x,v_1) }{ 2 }
+            -
+            1
+        \right)
+        r(y, \eta) q(x,dy)
+    \Bigg) dv_1
+\nonumber\\
+&&\qquad\qquad {}
+    +
+    f(\lp) \sum_{(x,u)\in\lp}\,
+    \left(
+        \lambda^{-1}
+        \gamma(x,\eta)
+        \int_{\IR^d} r(y, \eta) q(x, dy)
+        u^2
+        -
+        b(x,\eta) u
+    \right)
+    \frac{ \partial_u g(x,u) }{ g(x,u) }
+.\nonumber
 \end{eqnarray}
 The two terms under the integral correspond, respectively,
-to the parent being assigned a level other than $u$,
-and being reallocated to the level $u$
+to either the parent or child being reassigned the new level $v_1$
 during a birth event.
 In the first case, the parent at location $x$,
-which had level $u$ before the event,
-moves to level $v_1$,
-and the child is inserted at level $u$
-and location $y$;
+which had level $u$ before the event, is reassigned to level $v_1$,
+and the child is inserted at level $u$ and location $y$;
 in the second the parent retains its level,
 and offspring is inserted at level $v_1$.
 
@@ -1975,7 +2103,7 @@ as $\theta \to \infty$.
 \label{sec: Evolution of an Individual Particle}
 
 Here we give a general framework of tracking evolution
-of individual particles in the spatial-level population $\xi(t)_{t \geq 0}$ defined in \S \ref{sec: Lookdown Representation and Notation}.
+of individual particles in the spatial-level population $\xi(t)_{t \geq 0}$ defined in \S \ref{sec:lookdown_defn}.
 
 Particles alive at time zero will be indexed by $(0, i)$,
 or more precisely,
