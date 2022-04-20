@@ -54,6 +54,7 @@
 \newcommand{\Lgen}{\mathcal{L}}    % generator of a lineage
 \newcommand{\Pgen}{\mathcal{P}}    % generator of the population process
 \newcommand{\lp}{\xi}              % process with levels
+\newcommand{\labelspace}{\mathcal{I}} % space of labels
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -2090,7 +2091,40 @@ as $\theta \to \infty$.
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{Evolution of an Individual Particle}
+\subsection{Construction of individual lineages}
+
+Although we will \comment{later} show convergece of the lookdown process
+defined by Definition~\ref{defn:lookdown_mgale}
+to a stochastic process in which individuals retain their identities,
+it is convenient to construct the lookdown process
+in a way that explicitly represents the motion of each individual and their offspring.
+This will then make obvious how linages move in the limit.
+
+To construct the process, each individual will have a label in $\labelspace = \bigcup_{k > 1} \IN^k$,
+in such a way that offspring's labels are formed by appending a unique integer
+onto their parent's label (i.e., a Ulam-Harris scheme).
+The behavior of each individual is driven by an associated Poisson process:
+for each label $\ell \in \labelspace$
+we associate a Poisson random measure $\Pi_\ell$
+on $[0, \infty)^2 \times \IR^d \times \{0, 1\}$.
+The mean measure is a product measure:
+on $[0, \infty)^2$ it is Lesbegue,
+on $\IR^d$ it is the dispersal distribution (i.e., $q(0, \cdot)$),
+and on $\{0, 1\}$ it is $\frac{1}{2} \delta_0 + \frac{1}{2} \delta_1$
+(i.e., a coin flip).
+If a point in $\Pi_\ell$ is $(s, v, y, \kappa)$, that will mean that
+$s$ is a potential birth time for individual $\ell$,
+$v$ is used to determine the new level,
+$y$ is the new location relative to that of $\ell$'s location,
+and $\kappa$ is used to determine whether the parent or child takes the new level.
+
+To begin,
+each individuals alive at time zero is indexed by a positive integer.
+Then
+
+
+%% %% %% %% %% %% %% %% %% %% %% %%
+\subsection{PREVIOUS VERSION OF Evolution of an Individual Particle}
 \label{sec: Evolution of an Individual Particle}
 
 Here we give a general framework of tracking evolution
