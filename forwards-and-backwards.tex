@@ -1825,14 +1825,14 @@ i.e., the deviation from criticality of the branching mechanism.
 Recall from equation \eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu(x,\eta))$,
 and so we will have that
-\begin{align*}
+\begin{align} \label{eqn:b_limit}
 b(x, \eta)
 &=
     \theta \gamma(x, \eta) \int_{\IR^d} \left( r(y, \eta) - r(x, \eta) \right) q(x, dy)
     + F(x, \eta) \\
 &\to
     \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) \qquad \text{as } \theta \to \infty .
-\end{align*}
+\end{align}
 
 We can then rewrite the differential equation 
 governing how the level of each individual
@@ -3656,8 +3656,12 @@ and \ref{sec:lookdown_generator_proofs}.
     \label{sec:lookdown_generator_proofs}
 
 
-\comment{Here's an informal writeup of this convergence;
-mostly I'm doing it to make sure I've got the right stuff above.}
+\comment{
+    I did this informal writeup of convergence of the lookdown generator
+    without looking at the previous version
+    mostly to double-check what we have there
+    (which is probably better).
+}
 
 In Definition~\ref{defn:lookdown_mgale} we saw that the generator
 of $(\lp_t)_{t \ge 0}$ is the sum of two parts,
@@ -3702,8 +3706,7 @@ Furthermore, by our assumption on $g$,
 $\int_u^\lambda g(x, u_1) du_1 / \lambda \to 1$ for all $x$ and $u$,
 so the first term here converges to
 \begin{align*}
-    2 \gamma(x, \eta)
-        \frac{1}{2}
+    \gamma(x, \eta)
         \frac{
             \DG\left( g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
         }{
@@ -3718,12 +3721,59 @@ since $\int g(y, u_1) q(x, dy) \to g(x, u_1)$
 and $\theta/\lambda \to \delta$,
 it converges to
 \begin{align*}
-    \delta
+    2 \delta
+    \gamma(x, \eta)
+    r(x, \eta) 
     \int_u^\infty
     \left( g(x, u_1) - 1 \right)
-    r(x, \eta) .
+    du_1
 \end{align*}
-This corresponds to births at higher levels at rate $\gamma r$.
+This corresponds to births at higher levels at rate $2 \delta \gamma r$.
+
+
+The remaining term is \eqref{eqn:level_generator}:
+\begin{align*}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    \left(
+    \theta
+        \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        b(x, \eta)u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)} .
+\end{align*}
+The first part only uses the fact that $\theta/\lambda \to \delta$,
+while as noted in \eqref{eqn:b_limit}, $b$ converges to $\gamma \DG r + F$,
+so in total this term converges to
+\begin{align*}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    \left(
+    \delta
+        \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        \left\{
+            \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
+        \right\} u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)} .
+\end{align*}
+In other words, the level of a particle at $x$ evolves according to
+\begin{align*}
+    \dot u
+    =
+    \delta
+        \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        \left\{
+            \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
+        \right\} u .
+\end{align*}
 
 
 
