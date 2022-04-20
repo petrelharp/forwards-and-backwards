@@ -524,7 +524,7 @@ and state some assumptions on the parameters.
     with $\epsilon_r < \epsilon_\gamma - 1/\theta$.
     Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continous
     and define
-    \begin{align}
+    \begin{align} \label{eqn:mu_defn}
         \mu(x, \eta)
         =
         r(x, \smooth{r} \eta(x))
@@ -1800,16 +1800,16 @@ see~\cite{etheridge/kurtz:2018}, Section \comment{XXX}
 for more general justification.
 
 Putting these together,
-the level $u$ of an individual at $x$
-evolves according to
+the level $u$ of an individual at $x$ in $\lp$ evolves according to:
 $$
-\dot{u}
-=
-    - \frac{u}{\lambda} \left(\lambda - u\right)
+    \dot u
+    =
+    - \frac{\theta}{\lambda} u \left(\lambda - u\right)
     \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) 
     +
-    \mu(x,\eta) u .
+    \theta \mu(x,\eta) u .
 $$
+The factor of $\theta$ appears here because we have rescaled time.
 We shall write 
 $$
     b(x, \eta)
@@ -1822,29 +1822,39 @@ $$
 $$
 which captures the local net difference between reproduction and death,
 i.e., the deviation from criticality of the branching mechanism.
-(This differs from $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu(x,\eta))$ defined above
-because $b$ contains the adjustment to fecundity obtained by
-averaging over establishment probabilities in the locations that offspring disperse to.)
-\comment{TODO: make this explanation better.}
+Recall from equation \eqref{eqn:mu_defn} that
+$F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu(x,\eta))$,
+and so we will have that
+\begin{align*}
+b(x, \eta)
+&=
+    \theta \gamma(x, \eta) \int_{\IR^d} \left( r(y, \eta) - r(x, \eta) \right) q(x, dy)
+    + F(x, \eta) \\
+&\to
+    \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) \qquad \text{as } \theta \to \infty .
+\end{align*}
+
 We can then rewrite the differential equation 
-governing the how each individual's level evolves as
+governing how the level of each individual
+in $\lp$ evolves as
 \begin{align}
 \dot{u}
     &=
-    \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
+    \theta \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy)
     \left\{
         -\frac{u}{\lambda}\left(\lambda - u\right)
         + u
     \right\}
     -
-    b(x,\eta)u
+    b(x,\eta) u
     \nonumber \\
     &=
-    \lambda^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+    \frac{\theta}{\lambda} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
     -
-    b(x, \eta) u / \theta
+    b(x, \eta) u
     . \label{differential equation for level}
 \end{align}
+(The factor of $\theta$ appears because of the rescaling of time for $\lp$.)
 
 Now, we can write down the generator for $(\lp_t)_{t \ge 0}$,
 the lookdown process.
@@ -1911,7 +1921,7 @@ f(\lp) \nonumber
     \\ & \qquad \qquad \qquad {}
         + \frac{\theta}{\lambda}
         \int_u^\lambda \int_{\IR^d}
-        \left( \frac{g(y, u_1) + g(x, v_1)}{2} - 1 \right)
+        \left( \frac{g(y, u_1) + g(x, u_1)}{2} - 1 \right)
         r(y, \eta) q(x, dy)
     \bigg\}
     .
@@ -1922,6 +1932,8 @@ and so the two terms in the integral correspond to the two situations:
 in the first, we have added an individual at $(y, u)$,
 while in the second, we replace an individual at $(x, u)$
 by one at $(x, u_1)$ and another at $(y, u)$.
+We've written it in this form because the two pieces
+each naturally converge to separate terns in the limit.
 
 The remaining term in the generator is due to the motion of particles' levels:
 \begin{align} \label{eqn:level_generator}
@@ -1988,7 +2000,7 @@ whose generator is just the sum of
 
 % % % % % % % %
 \begin{definition}[Martingale Problem Characterisation]
-    \label{Def: Rescaled Lookdown Models}
+    \label{defn:lookdown_mgale}
 We define $(\lp^{\theta}_t)_{t \geq 0}$
 to be the (unique) solution
     \comment{(I'm not sure why unique is in parentheses here?)}
@@ -3209,6 +3221,7 @@ is a martingale.
 \begin{remark}
 Taking $F(x)=x$ and $F(x)=x^2$, we can recover Equation \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}.
 \end{remark}
+
 \begin{lemma}[Convergence of generators for the population process]
 As $\theta \to \infty$,
 $(\eta^{\theta}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
@@ -3641,6 +3654,76 @@ and \ref{sec:lookdown_generator_proofs}.
 % % % % % % % % % % % % %
 \subsection{Convergence of generators for the lookdown process}
     \label{sec:lookdown_generator_proofs}
+
+
+\comment{Here's an informal writeup of this convergence;
+mostly I'm doing it to make sure I've got the right stuff above.}
+
+In Definition~\ref{defn:lookdown_mgale} we saw that the generator
+of $(\lp_t)_{t \ge 0}$ is the sum of two parts,
+equations \eqref{eqn:birth_generator} and \eqref{eqn:level_generator}.
+Assume that there is a $u_*$ such that $g(x, u) = 1$ for all $u \ge u_*$.
+We consider these two in turn.
+
+First, the contribution from births is
+\begin{align*}
+\begin{split}
+f(\lp)
+&\mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    2 \gamma(x, \eta)
+    \bigg\{
+        \frac{1}{2 \lambda}
+        \int_u^\lambda
+        g(x, u_1) du_1
+        \frac{
+            \theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy)
+        }{
+            g(x, u)
+        }
+    \\ & \qquad \qquad \qquad {}
+        + \frac{\theta}{\lambda}
+        \int_u^\lambda \int_{\IR^d}
+        \left( \frac{g(y, u_1) + g(x, u_1)}{2} - 1 \right)
+        r(y, \eta) q(x, dy)
+    \bigg\}
+    .
+    \end{split}
+\end{align*}
+We have that
+\begin{align*}
+    \theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy)
+    \to
+    \DG(gr)(x) \qquad \text{as }\theta \to \infty,
+\end{align*}
+i.e., to $\DG\left(g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)$.
+Furthermore, by our assumption on $g$,
+$\int_u^\lambda g(x, u_1) du_1 / \lambda \to 1$ for all $x$ and $u$,
+so the first term here converges to
+\begin{align*}
+    2 \gamma(x, \eta)
+        \frac{1}{2}
+        \frac{
+            \DG\left( g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+        }{
+            g(x, u)
+        } .
+\end{align*}
+This corresponds to each particle moving according to the motion induced by
+$g \mapsto \gamma \DG(gr)$.
+\comment{TODO: explain the $r$-tilted $\DG$ motion somewhere.}
+As for the second term,
+since $\int g(y, u_1) q(x, dy) \to g(x, u_1)$
+and $\theta/\lambda \to \delta$,
+it converges to
+\begin{align*}
+    \delta
+    \int_u^\infty
+    \left( g(x, u_1) - 1 \right)
+    r(x, \eta) .
+\end{align*}
+This corresponds to births at higher levels at rate $\gamma r$.
 
 
 
