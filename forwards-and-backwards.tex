@@ -1802,14 +1802,14 @@ for more general justification.
 
 Putting these together,
 the level $u$ of an individual at $x$ in $\lp$ evolves according to:
-$$
+\begin{equation} \label{eqn:dot_u}
     \dot u
     =
     - \frac{\theta}{\lambda} u \left(\lambda - u\right)
     \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) 
     +
     \theta \mu(x,\eta) u .
-$$
+\end{equation}
 The factor of $\theta$ appears here because we have rescaled time.
 We shall write 
 $$
@@ -2093,7 +2093,7 @@ as $\theta \to \infty$.
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Construction of individual lineages}
 
-Although we will \comment{later} show convergece of the lookdown process
+Although we will \comment{(later)} show convergece of the lookdown process
 defined by Definition~\ref{defn:lookdown_mgale}
 to a stochastic process in which individuals retain their identities,
 it is convenient to construct the lookdown process
@@ -2107,7 +2107,9 @@ To begin, we assign each extant individual a label from $\IN_{\ge 0}$.
 Suppose an individual with label $a$ and level $u$ reproduces,
 and as a result there are two individuals, one with level $u$ and one with a new level $u_1 > u$.
 The parent individual, previously labeled $a$, might be assigned either level.
-After reproduction, we give a new label to \emph{only} the individual
+We will track chains of descendant individuals forwards through time
+following levels, rather than individuals, and will call this a \emph{line of descent}.
+So, after reproduction, we give a new label to \emph{only} the individual
 that is given the new level $u_1$,
 retaining the label $a$ for the individual with the old level $u$.
 So, there is a unique label assigned at each birth event,
@@ -2119,20 +2121,26 @@ but we don't write this out.
 Concretely, then: for each label $a$ in
 $\labelspace = \bigcup_{k \ge 1} \IN_{\ge 1}^k$
 let $\Pi_a$ be an independent Poisson process on $[0, \infty)^2 \times \IR_d \times \{0,1\}$.
-The mean measure is a product of Lesbegue measure on the first three coordinates
-and $q(0, \cdot)$ on the remainder.
-For a point $(t, v, y, kappa)$ in $\Pi_a$,
-first $t$ will determine possible birth times,
+The mean measure is a product of Lesbegue measure on the first two coordinates,
+$q(0, \cdot)$ on $\IR^d$, and $(\delta_0 + \delta_1)/2$ on $\{0, 1\}$.
+It will also be convenient
+to suppose that for each label $a$ we have an enumeration of the points in $\Pi_a$,
+so we may refer to ``the $j^\text{th}$ point in $\Pi_a$'',
+although the precise order of this enumeration is irrelevant.
+If $(t, v, y, \kappa)$ is the $j^\text{th}$ point in $\Pi_a$,
+then $t$ will determine possible birth times,
 $v$ will determine levels of the offspring,
 $y$ will give the spatial displacement of the offspring relative to the parent,
-and $\kappa$ will be used to determine whether parent or offspring are assigned the new level.
+$\kappa$ will be used to determine whether parent or offspring are assigned the new level,
+and the new label produced, if any will be $aj$,
+i.e., the label $a$ with $j$ appended (so, if $a \in \IN_{\ge 0}^k$ then $aj \in \IN_{\ge 0}^{k+1}$).
 Each label $a$ has a birth time $\tau_a$,
 when it is first assigned,
 and a death time $\sigma_a$, when its level first hits $\lambda$.
 For any $\tau_a \le t \le \sigma_a$ we denote by $X_a(t)$ and $U_a(t)$ the spatial location and level
 of the individual carrying label $a$ at time $t$.
 Now, since we have defined labels so that the level does not jump,
-$U_a$ satistifies, for $\tau_a \le t \le \sigma_a$,
+$U_a$ satistifies~\eqref{eqn:dot_u} for $\tau_a \le t \le \sigma_a$, i.e.,
 \begin{equation*}
     \begin{split}
 & U_a(t)
@@ -2141,7 +2149,8 @@ $U_a$ satistifies, for $\tau_a \le t \le \sigma_a$,
 &\qquad {}   
     + \int_{\tau_a}^{t}
     \left(
-        \frac{\theta}{\lambda} \gamma(X_a(s),\eta(s)) \int_{\IR^d} r(y,\eta(s)) q(X_a(s),dy) U_a(s)^2
+        \frac{\theta}{\lambda} \gamma(X_a(s),\eta(s))
+        \int_{\IR^d} r(z,\eta(s)) q(X_a(s),dz) U_a(s)^2
         -
         b(X_a(s),\eta(s)) U_a(s)
     \right)
@@ -2150,13 +2159,12 @@ $U_a$ satistifies, for $\tau_a \le t \le \sigma_a$,
 \end{equation*}
 and, of course, $\sigma_a = \inf\{t \ge \tau_a : U_a(t) > \lambda\}$.
 
-Potential reproduction events occur at times $\tau_a + s$ for each point $(s, v, y, \kappa) \in \Pi_a$.
+Potential reproduction events occur at times $\tau_a + s$
+for each point $(s, v, y, \kappa) \in \Pi_a$.
 We say `potential' since if the resulting level is greater than $\lambda$,
 the event does not happen.
-If this is the $j^\text{th}$ such successful event,
-\comment{(need to sort out the "successful" qualifier)}
-the new level is $aj$ (i.e., $a$ with the integer $j$ appended),
-and the (potential) new level is
+If this is the $j^\text{th}$ point in $\Pi_a$,
+the new label is $aj$ and the (potential) new level is
 \begin{equation*}
     U_{aj}(\tau_a + s)
     =
@@ -2166,25 +2174,95 @@ and the (potential) new level is
         v
     }{
         2 \lambda^{-1} \theta \gamma(X_a(\tau_a + s-), \eta(\tau_a + s-))
-        \int_{\IR^d} r(y, \eta(\tau_a + s-)) q(X_a(\tau_a + s-), dy)
+        r(X_a(\tau_a + s-) + y, \eta(\tau_a + s-))
     }.
 \end{equation*}
 If $U_{aj}(\tau_a+s) < \lambda$,
-a new individual is produced with this level, label $aj$ and
-location 
-$$
+the new individual labeled $aj$ is produced,
+and $\kappa$ determines which label is associated with the new location,
+so
+\begin{align*}
     X_{aj}(\tau_a + s)
-    =
-    X_a(\tau_a+s-) + (1 - \kappa) y .
-$$
-If $\kappa=1$, then it is the original label that moves spatial locations, so
-$$
+    &=
+    X_a(\tau_a+s-) + (1 - \kappa) y \\
     X_a(\tau_a+s)
-    =
+    &=
     X_a(\tau_a+s-) + \kappa y .
+\end{align*}
+If $U_{aj}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged.
+Recall that the parental \emph{individual} always retains their spatial location,
+so that $\kappa = 0$ corresponds to the parent being assigned a new level,
+and our line of descent switching to the offspring.
+
+
+Consequently, 
+the \emph{line of descent}
+leading from the initial generation
+to any label $a \in \labelspace$
+can be explicitly constructed as follows.
+Supposed that $a = (a_1, a_2, \ldots, a_n) \in \IN^n$,
+and for $1 \le k \le n$ let $(a)_k = (a_1, a_2, \ldots, a_k)$.
+Then, let $\zeta_a(t)$ denote the counting process that records
+which label is present in the line of descent at time $t$,
+i.e., $\zeta_a(t) = \max\{k \ge 1 : \tau_{(a)_k} \le t\}$.
+This then lets us define $X_a(t)$ all the way back to $t=0$
+by setting $X_a(t) = X_{(a)_{\zeta_a(t)}}(t)$ (and, $U_a(t)$ similarly).
+Now, we can explicitly write down the evolution of $U_a(t)$ and $X_a(t)$.
+
+First, for each $1 \le k < n$
+let $(s_k, v_k, y_k, \kappa_k)$ be the $a_{k+1}^\text{th}$ point in $\Pi_{(a)_k}$
+(this is the sequence of jumps taken by the line of descent).
+Note that $s_k = \tau_{(a)_k}$, and also set $s_0 = 0$.
+Let $\Gamma_a$ by the point process ``experienced by the line of descent leading to $a$'',
+which is for $A \subset [0,\infty)^2 \times \IR^d \times \{0,1\}$
 $$
+\Gamma_a(A)
+=
+    \sum_{k=1}^n
+    \Pi_{(a)_k}\left(A \cap [s_{k-1}, s_k) \times [0, \infty) \times \IR^d \times \{0,1\}\right) .
+$$
+Then for $0 \le t \le \sigma_a$,
+\begin{align*}
+    X_a(t)
+    &=
+    X_{a_1}(0)
+    +
+    \sum_{k=1}^{\zeta_a(t) - 1}
+    y_k
+    +
+    \int_{
+        [0, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
+    }
+    \kappa y
+    \Gamma_{a}(ds, dv, dy, d\kappa) .
+\end{align*}
 
 
+% Then for $0 \le t \le \sigma_a$,
+% \begin{align*}
+%     X_a(t)
+%     &=
+%     X_{a_1}(0)
+%     +
+%     \sum_{k=1}^{\zeta_a(t) - 1}
+%     \left(
+%     y_k
+%     +
+%     \int_{
+%         [s_{k-1}, s_{k}) \times [0, \infty) \times \IR^d \times \{0, 1\}
+%     }
+%     \kappa y
+%     \Pi_{(a)_k}(ds, dv, dy, d\kappa)
+%     \right)
+%     \\
+%     &\qquad {}
+%     +
+%     \int_{
+%         [s_{\zeta_a(t)}, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
+%     }
+%     \kappa y
+%     \Pi_{(a)_{\zeta_a(t)}}(ds, dv, dy, d\kappa) .
+% \end{align*}
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
