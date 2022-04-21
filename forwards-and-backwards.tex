@@ -2221,6 +2221,9 @@ $$
     \sum_{k=1}^n
     \Pi_{(a)_k}\left(A \cap [s_{k-1}, s_k) \times [0, \infty) \times \IR^d \times \{0,1\}\right) .
 $$
+Note that $\Gamma_a$ has the same distribution as $\Pi_a$
+after removing $\kappa$.
+\comment{(say that better)}
 Then for $0 \le t \le \sigma_a$,
 \begin{align*}
     X_a(t)
@@ -2234,9 +2237,33 @@ Then for $0 \le t \le \sigma_a$,
         [0, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
     }
     \kappa y
-    \Gamma_{a}(ds, dv, dy, d\kappa) .
+    \Gamma_{a}(ds, dv, dy, d\kappa) 
 \end{align*}
-
+and
+\begin{align*}
+    U_a(t)
+    &=
+    U_{a_1}(0)
+    +
+    \sum_{k=1}^{\zeta_a(t) - 1}
+    \frac{
+        v_k
+    }{
+        2 \lambda^{-1} \theta \gamma(X_{(a)_k}(s_k-), \eta(s_k-))
+        r(X_{(a)_k}(s_k-) + y_k, \eta(s_k-))
+    }
+    \\ & \qquad {}
+    +
+    \int_0^t
+    \bigg(
+        \frac{\theta}{\lambda} \gamma(X_a(s),\eta(s))
+        \int_{\IR^d} r(z,\eta(s)) q(X_a(s),dz) U_a(s)^2
+    \\ & \qquad\qquad  \qquad {}
+        -
+        b(X_a(s),\eta(s)) U_a(s)
+    \bigg)
+    dt .
+\end{align*}
 
 % Then for $0 \le t \le \sigma_a$,
 % \begin{align*}
