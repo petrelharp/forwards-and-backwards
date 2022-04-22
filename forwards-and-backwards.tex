@@ -1827,12 +1827,14 @@ Recall from equation \eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu(x,\eta))$,
 and so we will have that
 \begin{align} \label{eqn:b_limit}
+\begin{split}
 b(x, \eta)
 &=
     \theta \gamma(x, \eta) \int_{\IR^d} \left( r(y, \eta) - r(x, \eta) \right) q(x, dy)
     + F(x, \eta) \\
 &\to
     \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) \qquad \text{as } \theta \to \infty .
+\end{split}
 \end{align}
 
 We can then rewrite the differential equation 
@@ -2356,6 +2358,76 @@ the generator of this motion is, when the level is $u$,
 Notice that the factors of 2 have canceled,
 and that the result is independent of $u$.
 
+The only thing that remains is to describe how the levels change.
+The limit of~\eqref{eqn:line_points} follows from
+equation \eqref{eqn:b_limit} and the fact that
+$\int_{\IR^d} r(z, \eta) q(x, dz) \to r(x, \eta)$.
+
+To write out the joint motion of spatial coordinate and levels,
+it is useful to work out the differential operator above in more detail.
+Recall that $\DG g(x) = \sum_i \meanq_i \partial_i g(x) + \sum_{ij} \covq_{ij} \partial_{ij} g(x)$,
+and for the moment write $r(x)$ for $r(\cdot, \eta(\cdot))(x)$,
+so that
+\begin{align*}
+\DG(rg)(x) - g(x) \DG(r)(x)
+    &=
+    r(x) \sum_i \meanq_i \partial_i g(x)
+    + 2 \sum_{ij} \meanq_i \partial_i r(x) \covq_{ij} \partial_j g(x)
+    + r(x) \sum_{ij} \covq_{ij} \partial_{ij} g(x) \\
+    &=
+    r(x) \left\{
+        \left(
+        \meanq
+        + 2 \covq \grad \log r(x)
+        \right)
+        \cdot
+        \grad g(x)
+        +
+        \sum_{ij} \covq_{ij} \partial_{ij} g(x)
+    \right\} .
+\end{align*}
+
+Now, let $\beta(x, \eta) = \meanq + 2 \Sigma \grad \log r(x, \eta)$,
+and associate with each label an independent $d$-dimensional Brownian motion $W_a$,
+and let $\covq = K K^T$.
+Then, we can summarize the results above by saying that
+in the infinite density limit,
+the spatial locations and level of each line of descent $a$
+behave for $\tau_a \le t < \sigma_a$ as
+\begin{equation*}
+\begin{split}
+X_a(t)
+    &=
+    X_a(\tau_a)
+    +
+    + \int_{\tau_a}^{t}
+    \bigg(
+        \beta(x, \eta(s)) ds
+        +
+        K dW_a(s)
+    \bigg)
+    ds .
+\end{split}
+\begin{split}
+U_a(t)
+    &=
+    U_a(\tau_a)
+    + \int_{\tau_a}^{t}
+    \bigg(
+        \delta \gamma(X_a(s),\eta(s))
+        r(x,\eta(s)) U_a(s)^2
+\\ &\qquad \qquad \qquad {}   
+        -
+        \left\{
+            \gamma(X_a(s),\eta(s)) \DG r(X_a(s),\eta(s))
+            + F(X_a(s), \eta(s))
+        \right\}
+        U_a(s)
+    \bigg)
+    ds .
+\end{split}
+\end{equation*}
+\comment{TODO: add description of Poisson random measure of birth times/levels as below.}
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
@@ -2469,6 +2541,8 @@ and applying Ito's formula we have
 \end{aligned}
 \end{equation}
 \end{remark}
+
+
 Furthermore, recall that in our scaling limit, 
 \begin{equation}
 \begin{aligned}
@@ -3966,11 +4040,16 @@ f(\lp)
 \end{align*}
 We have that
 \begin{align*}
-    \theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy)
-    \to
-    \DG(gr)(x) \qquad \text{as }\theta \to \infty,
+    &\theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy) \\
+    &\qquad =
+    \theta \int_{\IR^d} (r(y, \eta) g(y, u) - r(x, \eta) g(x, u)) q(x, dy)
+    - \theta \int_{\IR^d} g(x, u) (r(y, \eta) - r(x, \eta)) q(x, dy) \\
+    &\qquad \to
+    \DG(gr)(x) - g(x) \DG r(x) \qquad \text{as }\theta \to \infty.
 \end{align*}
-i.e., to $\DG\left(g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)$.
+i.e., to
+$\DG\left(g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+- g(\cdot, u) \DG\left(r(\cdot, \smooth{r}\eta(\cdot))\right)(x)$.
 Furthermore, by our assumption on $g$,
 $\int_u^\lambda g(x, u_1) du_1 / \lambda \to 1$ for all $x$ and $u$,
 so the first term here converges to
@@ -3978,13 +4057,15 @@ so the first term here converges to
     \gamma(x, \eta)
         \frac{
             \DG\left( g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+            -
+            g(\cdot, x) \DG\left( r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
         }{
             g(x, u)
         } .
 \end{align*}
 This corresponds to each particle moving according to the motion induced by
-$g \mapsto \gamma \DG(gr)$.
-\comment{TODO: explain the $r$-tilted $\DG$ motion somewhere.}
+$g \mapsto \gamma \DG(gr) - g \DG r$.
+\comment{TODO: explain the $r$-tilted $\DG$ motion somewhere earlier, introducing notation for it.}
 As for the second term,
 since $\int g(y, u_1) q(x, dy) \to g(x, u_1)$
 and $\theta/\lambda \to \delta$,
