@@ -2144,7 +2144,7 @@ For any $\tau_a \le t \le \sigma_a$ we denote by $X_a(t)$ and $U_a(t)$ the spati
 of the individual carrying label $a$ at time $t$.
 Now, since we have defined labels so that the level does not jump,
 $U_a$ satistifies~\eqref{eqn:dot_u} for $\tau_a \le t \le \sigma_a$, i.e.,
-\begin{equation*}
+\begin{equation} \label{eqn:U_line_of_descent}
     \begin{split}
 & U_a(t)
     =
@@ -2159,7 +2159,7 @@ $U_a$ satistifies~\eqref{eqn:dot_u} for $\tau_a \le t \le \sigma_a$, i.e.,
     \right)
     ds ,
 \end{split}
-\end{equation*}
+\end{equation}
 and, of course, $\sigma_a = \inf\{t \ge \tau_a : U_a(t) > \lambda\}$.
 
 Potential reproduction events occur at times $\tau_a + s$
@@ -2198,15 +2198,25 @@ so
 On the other hand
 if $U_{aj}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged and $X_{aj}$ is undefined,
 so
-\begin{align*}
+\begin{align} \label{eqn:X_line_of_descent}
     X_a(\tau_a+s)
     &=
     X_a(\tau_a+s-) + \kappa y \mathbbm{1}_{U_{aj}(\tau_{aj}) < \lambda} .
-\end{align*}
+\end{align}
 Recall that the parental \emph{individual} always retains their spatial location,
 so that $\kappa = 0$ corresponds to the parent being assigned a new level,
 and our line of descent switching to the offspring.
 
+We can now express our population processes using these levels:
+\begin{align*}
+    \eta_t = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
+    \qquad \text{and} \qquad
+    \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
+\end{align*}
+
+\comment{
+    The following is quite annoying to get right, but can fixed up.
+    However, I don't think we need it.}
 
 Consequently, 
 the \emph{line of descent}
@@ -2223,32 +2233,13 @@ This then lets us define $X_a(t)$ all the way back to $t=0$
 by setting $X_a(t) = X_{(a)_{\zeta_a(t)}}(t)$ (and, $U_a(t)$ similarly).
 Now, we can explicitly write down the evolution of $U_a(t)$ and $X_a(t)$.
 
-\comment{Do we want subscript $a$s here, on e.g., $\zeta$?
-I think not, because this is all given a particular $a$?}
-
 First, for each $1 \le k < n$
 let $(s_k, v_k, y_k, \kappa_k)$ be the $a_{k+1}^\text{th}$ point in $\Pi_{(a)_k}$
 (this is the sequence of jumps taken by the line of descent).
 Note that $s_k = \tau_{(a)_k}$, and also set $s_0 = 0$.
 Let $\Gamma_a$ by the point process ``experienced by the line of descent leading to $a$'',
-which is easier to define if we treat point processes as sets for a moment,
-defining
-\begin{align*}
-    \Gamma_a
-    &=
-    \bigcup_{k=1}^n 
-    \bigg\{
-        (s, v, y, \kappa) \in \Pi_{(a)_k} \; : \;
-        \tau_{(a)_{k-1}} \le s < \tau_{(a)_{k-1}} 
-    \\& \qquad \qquad 
-        \text{ and }
-        U_{(a)_k}(\tau_{(a)_{k-1}} + s) + \ell( X_{(a)_k}(\tau_{(a)_{k-1}} + s-), y, \eta(\tau_{(a)_{k-1}} + s-), v) < \lambda
-    \bigg\}
-\end{align*}
-\comment{TODO include the switch points}
-
 which is for $A \subset [0,\infty)^2 \times \IR^d \times \{0,1\}$
-\comment{This is wrong, as it includes non-viable individuals.}
+\comment{This is wrong, because $s$ is relative to birth time.}
 \begin{align*}
 \Gamma_a(A)
     &=
@@ -2263,7 +2254,7 @@ flipping $\kappa$ at these points,
 and as a result $\Gamma_a$ has the same distribution as $\Pi_a$
 restricted to $[0, \sigma_a)$.
 Then for $0 \le t \le \sigma_a$,
-\begin{align} \label{eqn:X_line_of_descent}
+\begin{align*}
     X_a(t)
     &=
     X_{a_1}(0)
@@ -2276,9 +2267,9 @@ Then for $0 \le t \le \sigma_a$,
         U_{(a)_{\zeta(s)}}(s) + \ell( X_{(a)_{\zeta(s)}}(s-), y, \eta(s-), v) < \lambda
     }
     \Gamma_{a}(ds, dv, dy, d\kappa) 
-\end{align}
+\end{align*}
 and
-\begin{align} \label{eqn:U_line_of_descent}
+\begin{align*}
     U_a(t)
     &=
     U_{a_1}(0)
@@ -2301,7 +2292,7 @@ and
         b(X_a(s),\eta(s)) U_a(s)
     \bigg)
     dt .
-\end{align}
+\end{align*}
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
@@ -2318,9 +2309,54 @@ is also fixed -- this is the sequence $(s_k, v_k, y_k, \kappa_k)$ associated wit
 Therefore, the processes $\Gamma_a$ are also unchanged.
 First, we clearly need that the spatial measures $\eta$ converge.
 \comment{(hm, no notation for $\eta$ depending on $\lambda$ here; need to introduce this here?)}
-Now, consider equations~\eqref{eqn:X_line_of_descent} and~\eqref{eqn:U_line_of_descent}.
 
-Equation~\eqref{eqn:X_line_of_descent} simply says that $X_a$ follows a random walk
+Supposing that they do,
+consider how a line of descent $(X_a(t), U_a(t))$ evolves.
+The line of descent throws off a new line of descent at a higher level
+when there is a point $(s, v, y, \kappa)$ in $\Pi_a$ with 
+\begin{equation} \label{eqn:line_points}
+v < 2 (\lambda - U_a(t)) \lambda^{-1} \theta \gamma(X_a(t), \eta) r(X_a(t)+y, \eta) .
+\end{equation}
+Since the mean measure of the $v$ coordinate is Lebesgue,
+$\theta/\lambda \to \delta$,
+and $q(x, dy) \to \delta_x(dy)$,
+this corresponds in the limit to new lines of descent being thrown off at all times,
+i.e., according to a Poisson process with rate
+$$
+\delta \gamma(X_a(t), \eta) r(X_a(t), \eta) 
+$$
+and uniform intensity on higher levels.
+Again, since in the limit the dispersal distance is zero,
+new levels are produced at the same spatial location.
+However, this affects the location of the line of descent:
+for each new line of descent, there is a $1/2$ chance
+that the line of descent switches location (i.e., moves to $X_a(t) + y$).
+Taking $g$ to be a suitable test function on $\IR^d$, 
+and rewriting~\eqref{eqn:line_points},
+the generator of this motion is, when the level is $u$,
+\begin{align*}
+    g(x)
+    &\mapsto
+    \left(1 - \frac{u}{\lambda}\right) \gamma(x, \eta)
+    \theta \int_{\IR^d} r(x+y, \eta) (g(x+y) - g(x)) q(x, dy) \\
+    &=
+    \left(1 - \frac{u}{\lambda}\right) \gamma(x, \eta)
+    \bigg\{
+        \theta \int_{\IR^d} (r(x+y, \eta) g(x+y) - r(x, \eta) g(x)) q(x, dy) \\
+        &\qquad \qquad {}
+        -
+        \theta \int_{\IR^d} (r(x+y, \eta) - r(x, \eta) ) g(x) q(x, dy) 
+    \bigg\} \\
+    &\to
+    \gamma(x, \eta)
+    \left(
+        \DG(rg)(x) - g(x) \DG(r)(x)
+    \right) .
+\end{align*}
+Notice that the factors of 2 have canceled,
+and that the result is independent of $u$.
+
+
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{PREVIOUS VERSION OF Evolution of an Individual Particle}
