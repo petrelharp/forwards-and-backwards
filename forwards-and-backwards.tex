@@ -2091,7 +2091,10 @@ as $\theta \to \infty$.
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{Construction of individual lineages}
+\subsection{Construction tracking individual lines of descent}
+
+\comment{This is a rewrite using Ulam-Harris labeling
+of \ref{sec: Evolution of an Individual Particle}.}
 
 Although we will \comment{(later)} show convergece of the lookdown process
 defined by Definition~\ref{defn:lookdown_mgale}
@@ -2164,32 +2167,42 @@ for each point $(s, v, y, \kappa) \in \Pi_a$.
 We say `potential' since if the resulting level is greater than $\lambda$,
 the event does not happen.
 If this is the $j^\text{th}$ point in $\Pi_a$,
-the new label is $aj$ and the (potential) new level is
-\begin{equation*}
-    U_{aj}(\tau_a + s)
+the new label is $aj$, the (potential) birth time is $\tau_{aj} = \tau_a + s$.
+For convenience define
+$$
+    \ell(x, y, \eta, v)
     =
-    U_a(\tau_a + s)
-    +
     \frac{
         v
     }{
-        2 \lambda^{-1} \theta \gamma(X_a(\tau_a + s-), \eta(\tau_a + s-))
-        r(X_a(\tau_a + s-) + y, \eta(\tau_a + s-))
-    }.
+        2 \lambda^{-1} \theta \gamma(x, \eta) r(x + y, \eta)
+    } ,
+$$
+and using this, the (potential) new level is
+\begin{equation*}
+    U_{aj}(\tau_{aj})
+    =
+    U_a(\tau_{aj})
+    +
+    \ell(X_a(\tau_{aj}-), y, \eta(\tau_{aj}-), v) .
 \end{equation*}
-If $U_{aj}(\tau_a+s) < \lambda$,
+If $U_{aj}(\tau_{aj}) < \lambda$,
 the new individual labeled $aj$ is produced,
 and $\kappa$ determines which label is associated with the new location,
 so
 \begin{align*}
     X_{aj}(\tau_a + s)
     &=
-    X_a(\tau_a+s-) + (1 - \kappa) y \\
+    X_a(\tau_a+s-) + (1 - \kappa) y .
+\end{align*}
+On the other hand
+if $U_{aj}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged and $X_{aj}$ is undefined,
+so
+\begin{align*}
     X_a(\tau_a+s)
     &=
-    X_a(\tau_a+s-) + \kappa y .
+    X_a(\tau_a+s-) + \kappa y \mathbbm{1}_{U_{aj}(\tau_{aj}) < \lambda} .
 \end{align*}
-If $U_{aj}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged.
 Recall that the parental \emph{individual} always retains their spatial location,
 so that $\kappa = 0$ corresponds to the parent being assigned a new level,
 and our line of descent switching to the offspring.
@@ -2199,6 +2212,7 @@ Consequently,
 the \emph{line of descent}
 leading from the initial generation
 to any label $a \in \labelspace$
+with $U_a(\tau_a) < \lambda$
 can be explicitly constructed as follows.
 Supposed that $a = (a_1, a_2, \ldots, a_n) \in \IN^n$,
 and for $1 \le k \le n$ let $(a)_k = (a_1, a_2, \ldots, a_k)$.
@@ -2209,38 +2223,62 @@ This then lets us define $X_a(t)$ all the way back to $t=0$
 by setting $X_a(t) = X_{(a)_{\zeta_a(t)}}(t)$ (and, $U_a(t)$ similarly).
 Now, we can explicitly write down the evolution of $U_a(t)$ and $X_a(t)$.
 
+\comment{Do we want subscript $a$s here, on e.g., $\zeta$?
+I think not, because this is all given a particular $a$?}
+
 First, for each $1 \le k < n$
 let $(s_k, v_k, y_k, \kappa_k)$ be the $a_{k+1}^\text{th}$ point in $\Pi_{(a)_k}$
 (this is the sequence of jumps taken by the line of descent).
 Note that $s_k = \tau_{(a)_k}$, and also set $s_0 = 0$.
 Let $\Gamma_a$ by the point process ``experienced by the line of descent leading to $a$'',
-which is for $A \subset [0,\infty)^2 \times \IR^d \times \{0,1\}$
-$$
-\Gamma_a(A)
-=
-    \sum_{k=1}^n
-    \Pi_{(a)_k}\left(A \cap [s_{k-1}, s_k) \times [0, \infty) \times \IR^d \times \{0,1\}\right) .
-$$
-Note that $\Gamma_a$ has the same distribution as $\Pi_a$
-after removing $\kappa$.
-\comment{(say that better)}
-Then for $0 \le t \le \sigma_a$,
+which is easier to define if we treat point processes as sets for a moment,
+defining
 \begin{align*}
+    \Gamma_a
+    &=
+    \bigcup_{k=1}^n 
+    \bigg\{
+        (s, v, y, \kappa) \in \Pi_{(a)_k} \; : \;
+        \tau_{(a)_{k-1}} \le s < \tau_{(a)_{k-1}} 
+    \\& \qquad \qquad 
+        \text{ and }
+        U_{(a)_k}(\tau_{(a)_{k-1}} + s) + \ell( X_{(a)_k}(\tau_{(a)_{k-1}} + s-), y, \eta(\tau_{(a)_{k-1}} + s-), v) < \lambda
+    \bigg\}
+\end{align*}
+\comment{TODO include the switch points}
+
+which is for $A \subset [0,\infty)^2 \times \IR^d \times \{0,1\}$
+\comment{This is wrong, as it includes non-viable individuals.}
+\begin{align*}
+\Gamma_a(A)
+    &=
+    \sum_{k=1}^n
+    \Pi_{(a)_k}\left(A \cap [s_{k-1}, s_k) \times [0, \infty) \times \IR^d \times \{0,1\}\right) 
+    \\ &\qquad {}
+    + \sum_{k=1}^{n-1}
+      \delta_{(s_k, v_k, y_k, 1 - \kappa_k)}(A) .
+\end{align*}
+Note that we have included the points at which the line of descent's level jumps,
+flipping $\kappa$ at these points,
+and as a result $\Gamma_a$ has the same distribution as $\Pi_a$
+restricted to $[0, \sigma_a)$.
+Then for $0 \le t \le \sigma_a$,
+\begin{align} \label{eqn:X_line_of_descent}
     X_a(t)
     &=
     X_{a_1}(0)
-    +
-    \sum_{k=1}^{\zeta_a(t) - 1}
-    y_k
     +
     \int_{
         [0, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
     }
     \kappa y
+    \mathbbm{1}_{
+        U_{(a)_{\zeta(s)}}(s) + \ell( X_{(a)_{\zeta(s)}}(s-), y, \eta(s-), v) < \lambda
+    }
     \Gamma_{a}(ds, dv, dy, d\kappa) 
-\end{align*}
+\end{align}
 and
-\begin{align*}
+\begin{align} \label{eqn:U_line_of_descent}
     U_a(t)
     &=
     U_{a_1}(0)
@@ -2263,34 +2301,26 @@ and
         b(X_a(s),\eta(s)) U_a(s)
     \bigg)
     dt .
-\end{align*}
+\end{align}
 
-% Then for $0 \le t \le \sigma_a$,
-% \begin{align*}
-%     X_a(t)
-%     &=
-%     X_{a_1}(0)
-%     +
-%     \sum_{k=1}^{\zeta_a(t) - 1}
-%     \left(
-%     y_k
-%     +
-%     \int_{
-%         [s_{k-1}, s_{k}) \times [0, \infty) \times \IR^d \times \{0, 1\}
-%     }
-%     \kappa y
-%     \Pi_{(a)_k}(ds, dv, dy, d\kappa)
-%     \right)
-%     \\
-%     &\qquad {}
-%     +
-%     \int_{
-%         [s_{\zeta_a(t)}, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
-%     }
-%     \kappa y
-%     \Pi_{(a)_{\zeta_a(t)}}(ds, dv, dy, d\kappa) .
-% \end{align*}
 
+%% %% %% %% %% %% %% %% %% %% %% %%
+\subsection{Limiting processes for lines of descent}
+
+\comment{This is a rewrite of \ref{sec:lines_of_descent} following on the previous section}
+
+The previous section constructs the lookdown process
+in a way that makes individual lines of descent converge pointwise as $\lambda \to \infty$,
+using the same underlying Poisson processes $\{\Pi_a\}_{a \in \labelspace}$.
+To see this, first note that if the Poisson processes are fixed
+then the set of events to which a given label $a \in \labelspace$ is associated
+is also fixed -- this is the sequence $(s_k, v_k, y_k, \kappa_k)$ associated with a given label $a$.
+Therefore, the processes $\Gamma_a$ are also unchanged.
+First, we clearly need that the spatial measures $\eta$ converge.
+\comment{(hm, no notation for $\eta$ depending on $\lambda$ here; need to introduce this here?)}
+Now, consider equations~\eqref{eqn:X_line_of_descent} and~\eqref{eqn:U_line_of_descent}.
+
+Equation~\eqref{eqn:X_line_of_descent} simply says that $X_a$ follows a random walk
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{PREVIOUS VERSION OF Evolution of an Individual Particle}
@@ -2375,7 +2405,7 @@ For further discussion refer to \S \ref{sec: Ulam-Harris Labels characterisation
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{Stochastic equations for movement of lines of descent}
+\subsection{PREVIOUS VERSION OF Stochastic equations for movement of lines of descent}
     \label{sec:lines_of_descent}
 
     \plr{This section needs to follow from the previous section better (and maybe be merged with it).}
