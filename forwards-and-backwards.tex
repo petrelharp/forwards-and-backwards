@@ -2387,6 +2387,8 @@ so that
     \right\} .
 \end{align*}
 
+\comment{The following could be a Proposition?}
+
 Now, let $\beta(x, \eta) = \meanq + 2 \Sigma \grad \log r(x, \eta)$,
 and associate with each label an independent $d$-dimensional Brownian motion $W_a$,
 and let $\covq = K K^T$.
@@ -2394,21 +2396,17 @@ Then, we can summarize the results above by saying that
 in the infinite density limit,
 the spatial locations and level of each line of descent $a$
 behave for $\tau_a \le t < \sigma_a$ as
-\begin{equation*}
-\begin{split}
+\begin{align*}
 X_a(t)
     &=
     X_a(\tau_a)
-    +
     + \int_{\tau_a}^{t}
     \bigg(
         \beta(x, \eta(s)) ds
         +
         K dW_a(s)
     \bigg)
-    ds .
-\end{split}
-\begin{split}
+    ds  \\
 U_a(t)
     &=
     U_a(\tau_a)
@@ -2425,9 +2423,35 @@ U_a(t)
         U_a(s)
     \bigg)
     ds .
-\end{split}
-\end{equation*}
-\comment{TODO: add description of Poisson random measure of birth times/levels as below.}
+\end{align*}
+To complete the description,
+for each label $a \in \labelspace$ let $R_a$ denote an independent Poisson process on $[0, \infty)^2$
+with Lebesgue mean measure,
+and as before order the points of each in some way.
+If the population state at time 0 is $\eta(0)$,
+then let $(x_i, u_i)$ be the points of a Poisson process
+with mean measure on $\IR^d \times [0, \infty)$ a product of $\eta(0)$ and Lebesgue measure.
+\comment{Here I've switched $t$ to be the absolute birth time
+rather than relative to the birth time of the parent; I think it's clearer?
+It, should be made to agree with the previous section.}
+For each point begin a line of descent
+with label $i$, location $X_i(0) = x_i$, level $U_a(0) = u_i$, and birth time $\tau_i = 0$.
+Each point in the $R_a$ denotes a potential birth time for $a$:
+if the $j^\text{th}$ point in $R_a$ is $(t, v)$,
+$\tau_a \ge t$, and and $U_a(t) < \infty$,
+then a new line of descent with label $aj$ is produced,
+with birth time $\tau_{aj} = t$, location $X_{aj}(t) = X_a(t)$, and level
+$$
+    U_{aj}(t) = U_a(t)
+    + \frac{v}{ 2 \delta \gamma(X_a(t), \eta(t)) r(X_a(t), \eta(t)) } .
+$$
+\comment{Perhaps the conclusion of the Propostion would be something like:}
+We can now express our population processes in the limit using these levels:
+\begin{align*}
+    \eta_t = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
+    \qquad \text{and} \qquad
+    \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
+\end{align*}
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
