@@ -46,8 +46,9 @@
 
 %%%%%%% notation
 \newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
+\newcommand{\DD}{\mathcal{D}}  % the second-order part of the generator of dispersal
 \newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
-\newcommand{\covq}{\Sigma}     % covariance matrix of dispersal, times theta
+\newcommand{\covq}{C}     % covariance matrix of dispersal, times theta
 \newcommand{\kernel}{\rho}  % interaction kernels
 \newcommand{\smooth}[1]{\kernel_{#1} \! * \!}  % convolution by the interaction kernel
 \newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
@@ -368,6 +369,8 @@ and $\eta(t) = X(t\theta)/N$.
 
 When the process has a density, it is $\varphi(t, x) = d \eta_t(dx)/dx$.
 
+$$\lim \frac{\theta}{N} =: \alpha$$
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and main results}
     \label{sec: Model and main results}
@@ -596,6 +599,8 @@ is a martingale with quadratic variation
 Since we are taking a diffusion limit,
 we will have use for the following notation:
 
+\comment{TODO: $\meanq$ can vary in space, make that clear?}
+
 \begin{definition}[Dispersal generator]
     \label{def:dispersal_generator}
     Recall that we have defined the dispersal kernel,
@@ -604,8 +609,10 @@ we will have use for the following notation:
     with mean $\meanq/\theta$ and covariance matrix $\covq/\theta$.
     This implies that if we define, for $f : \IR^d \to \IR$,
     \begin{align}
-    \DG f(x) = \sum_i \meanq_i \partial_{x_i} f(x)
-        + \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
+    \DG f(x)
+        =
+        \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
+        + \sum_i \meanq_i \partial_{x_i} f(x)
     \end{align}
     then
     \begin{align}
@@ -615,6 +622,13 @@ we will have use for the following notation:
     \to \DG f(x) 
         \qquad \text{as } \theta \to \infty .
     \end{align}
+    We will also denote the adjoint of $\DG$ by
+    $$
+    \DG^* f(x)
+        =
+        \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
+        + \sum_i \partial_{x_i} (f(x) \meanq_i) .
+    $$
 \end{definition}
 
 \paragraph{Remark:}
@@ -759,7 +773,7 @@ TODO: insert definition of "weak solution of the PDE \ref{eqn:nonlocal_pde}" hee
         \partial_t \varphi(t, x)
         =
         r\left(x, \smooth{r} \varphi(t,x) \right)
-        \mathcal{B} \left[
+        \DG^* \left[
             \varphi(t, \cdot)
             \gamma\big( x, \smooth{\gamma} \varphi(t, \cdot) \big)
         \right](x)
@@ -778,12 +792,22 @@ TODO: insert definition of "weak solution of the PDE \ref{eqn:nonlocal_pde}" hee
 
 Informally, equation \eqref{eqn:nonlocal_pde} is the PDE
 \begin{align} \label{eqn:pde}
-    \dot \varphi = r \DG\left( \gamma \varphi \right) + \varphi F ,
+    \dot \varphi = r \DG^* \left( \gamma \varphi \right) + \varphi F ,
 \end{align}
 where $\DG$ is an elliptic second order differential operator,
 and the coefficients $r$, $\gamma$, and $F$
 at $x$ depend nonlocally on $\varphi$
 (i.e., through a smoothed version of $\varphi$).
+To see why it is $\DG^*$ and not $\DG$ that appears in this equation,
+consider the case where dispersal has a mean drift to the right,
+so that the drift term in $\DG$ is $d/dx$.
+Then, the population density at a location with positive slope
+will tend to \emph{decrease}, i.e., proportional to $-d/dx$,
+because the density at a location is determined by the offspring that disperse \emph{to}
+that location, not away from it.
+Furthermore, if dispersal tends to move offspring away from a region
+(i.e., if divergence $\grad \cdot \meanq > 0$)
+this will tend to decrease the local density.
 
 \comment{TODO: Tom has conditions (coefficient are Lipschitz?) under which
     the solution to \eqref{eqn:nonlocal_pdf} has a density (Thm 2.1 in DDMOT);
@@ -1592,7 +1616,7 @@ Leaving aside questions of whether a lineage can be treated as a randomly chosen
 we might then proceed by defining a continuous-time jump process
 whose transition rates are given by \eqref{eqn:informal_rates} given $(\eta_t)_{t=0}^T$.
 Happily, we are interested in the case when $\eta$ has a density,
-say $\eta_t(dx) = \varphi(x) dx$,
+say $\eta_t(dx) = \varphi_t(x) dx$,
 so interpreting these rates is not too difficult.
 Now recall that $q_\theta(x, dy)$ is a Gaussian kernel
 with mean $x + \meanq/\theta$ and covariance $\covq/\theta$.
@@ -1602,9 +1626,9 @@ Then, rearranging infinitesimals,
 \eqref{eqn:informal_rates} implies a rate of
 \begin{equation} \label{eqn:informal_rates2}
 \frac{
-    \varphi(x) \gamma(x, \eta_t) r(y, \eta_t)
+    \gamma(x, \eta_t) r(y, \eta_t) \varphi_t(x) 
 }{
-    \varphi(y)
+    \varphi_t(y)
 } \widetilde q_\theta(y, dx) .
 \end{equation}
 Let $(L^\theta_s)_{s=0}^T$ be the location of a lineage that moves according to
@@ -1627,50 +1651,50 @@ Then
 \end{align}
 Referring back to Definition~\ref{def:dispersal_generator},
 recall that as $\theta \to \infty$,
-$$
+\begin{align*}
     \theta \int (f(x) - f(y)) \widetilde q_\theta(y, dx)
-    \to
+    &\to
     - \sum_i \meanq_i \partial_{x_i} f(y)
-    + \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y) ,
-$$
-which is just $\DG$ but with the first derivative terms multiplied by -1.
-\comment{The $\widetilde \DG$ and $\covq \grad$ notation here is terrible; suggestions?}
+    + \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y) \\
+    = \DD - \meanq \cdot \grad f ,
+\end{align*}
+where $\DD = \sum_{ij} \covq_{ij} \partial_{ij}$.
+(Note that this differs from $\DG^*$ if $\meanq$ can vary across space.)
 Consequently,
 \begin{align*}
     &
     \theta \int (f(x) - f(y)) g(x) \widetilde q_\theta(y, dx) \\
-    &\qquad \to
-    - g(y) \sum_i \meanq_i \partial_{x_i} f(y)
-    + g(y) \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y)
-    + \sum_{ij} \partial_{x_i} g(y) \covq_{ij} \partial_{x_j} f(y)  \\
     &\qquad =
-    g(y) \widetilde \DG f(y)
-    + (\covq \grad g) \cdot \grad f ,
+    \theta \int \left\{
+        (f(x) g(x) - f(y) g(y)) - f(y) (g(x) - g(y))
+    \right\} \widetilde q_\theta(y, dx) \\
+    &\qquad \to
+        \DD(fg)(x) - f(x) \DD g(x) - \meanq \cdot \left( \grad(fg)(x) - f(x) \grad g(x) \right) \\
+    &\qquad =
+        g(x) \DD f(x) + 2 (\covq \grad g(x)) \cdot \grad f(x) - g(x) \meanq \cdot \grad f(x) .
 \end{align*}
-if we define $\widetilde \DG$ to be the same as $\DG$ but with $-\meanq$ substituted for $\meanq$,
-and $(\covq \grad g(y))_i = \sum_j \covq_{ij} \partial_{x_j} g(y)$.
 Applying this to~\eqref{eqn:lineage_generator_Edt} with $g = \varphi_{T-s} \gamma$,
 this suggests that the generator of the limiting process is
-\begin{align*}
+\begin{align} \label{eqn:heuristic_lineage_generator}
     \Lgen_s f
     &=
     \frac{r}{\varphi_{T-s}}
     \left\{
-        \varphi_{T-s} \gamma \widetilde \DG f
-        + \left(\covq \grad (\varphi_{T-s} \gamma) \right) \cdot \grad f 
+        \varphi_{T-s} \gamma (\DD f - \meanq \cdot \grad f)
+        + 2 \left(\covq \grad (\varphi_{T-s} \gamma) \right) \cdot \grad f 
     \right\} \\
     &=
     r \gamma
     \left\{
-        \widetilde \DG f
-        + \left(\covq \grad \log(\varphi_{T-s} \gamma) \right) \cdot \grad f 
+        \DD f - \meanq \cdot \grad f
+        + 2 \left(\covq \grad \log(\varphi_{T-s} \gamma) \right) \cdot \grad f 
     \right\} .
-\end{align*}
+\end{align}
 In other words, the lineage moves at speed equal to the local production of successful offspring,
 $r \gamma$,
 by a time-reversed version of the dispersal distribution,
 but with a drift in the direction of the gradient of the logarithm
-of the production of juveniles, $\grad \log(\phi_{T-s} \gamma)$
+of the production of juveniles, $2 \grad \log(\phi_{T-s} \gamma)$
 (modified by the covariance of dispersal).
 This \comment{presumably?} agrees with \comment{the theorem}.
 
@@ -2203,7 +2227,7 @@ so
 \begin{align} \label{eqn:X_line_of_descent}
     X_a(\tau_a+s)
     &=
-    X_a(\tau_a+s-) + \kappa y \mathbbm{1}_{U_{aj}(\tau_{aj}) < \lambda} .
+    X_a(\tau_a+s-) + \kappa y \ind_{U_{aj}(\tau_{aj}) < \lambda} .
 \end{align}
 Recall that the parental \emph{individual} always retains their spatial location,
 so that $\kappa = 0$ corresponds to the parent being assigned a new level,
@@ -2265,7 +2289,7 @@ Then for $0 \le t \le \sigma_a$,
         [0, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
     }
     \kappa y
-    \mathbbm{1}_{
+    \ind_{
         U_{(a)_{\zeta(s)}}(s) + \ell( X_{(a)_{\zeta(s)}}(s-), y, \eta(s-), v) < \lambda
     }
     \Gamma_{a}(ds, dv, dy, d\kappa) 
@@ -2299,6 +2323,7 @@ and
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Limiting processes for lines of descent}
+\label{sec:limiting_lines_of_descent}
 
 \comment{This is a rewrite of \ref{sec:lines_of_descent} following on the previous section}
 
@@ -2320,12 +2345,12 @@ when there is a point $(s, v, y, \kappa)$ in $\Pi_a$ with
 v < 2 (\lambda - U_a(t)) \lambda^{-1} \theta \gamma(X_a(t), \eta) r(X_a(t)+y, \eta) .
 \end{equation}
 Since the mean measure of the $v$ coordinate is Lebesgue,
-$\theta/\lambda \to \delta$,
+$\theta/\lambda \to \alpha$,
 and $q(x, dy) \to \delta_x(dy)$,
 this corresponds in the limit to new lines of descent being thrown off at all times,
 i.e., according to a Poisson process with rate
 $$
-\delta \gamma(X_a(t), \eta) r(X_a(t), \eta) 
+\alpha \gamma(X_a(t), \eta) r(X_a(t), \eta) 
 $$
 and uniform intensity on higher levels.
 Again, since in the limit the dispersal distance is zero,
@@ -2368,13 +2393,13 @@ it is useful to work out the differential operator above in more detail.
 Recall that $\DG g(x) = \sum_i \meanq_i \partial_i g(x) + \sum_{ij} \covq_{ij} \partial_{ij} g(x)$,
 and for the moment write $r(x)$ for $r(\cdot, \eta(\cdot))(x)$,
 so that
-\begin{align*}
+\begin{align}
 \DG(rg)(x) - g(x) \DG(r)(x)
-    &=
+    &= \nonumber
     r(x) \sum_i \meanq_i \partial_i g(x)
     + 2 \sum_{ij} \meanq_i \partial_i r(x) \covq_{ij} \partial_j g(x)
     + r(x) \sum_{ij} \covq_{ij} \partial_{ij} g(x) \\
-    &=
+    &= \label{eqn:limiting_generator}
     r(x) \left\{
         \left(
         \meanq
@@ -2385,7 +2410,7 @@ so that
         +
         \sum_{ij} \covq_{ij} \partial_{ij} g(x)
     \right\} .
-\end{align*}
+\end{align}
 
 \comment{The following could be a Proposition?}
 
@@ -2412,7 +2437,7 @@ U_a(t)
     U_a(\tau_a)
     + \int_{\tau_a}^{t}
     \bigg(
-        \delta \gamma(X_a(s),\eta(s))
+        \alpha \gamma(X_a(s),\eta(s))
         r(x,\eta(s)) U_a(s)^2
 \\ &\qquad \qquad \qquad {}   
         -
@@ -2443,7 +2468,7 @@ then a new line of descent with label $aj$ is produced,
 with birth time $\tau_{aj} = t$, location $X_{aj}(t) = X_a(t)$, and level
 $$
     U_{aj}(t) = U_a(t)
-    + \frac{v}{ 2 \delta \gamma(X_a(t), \eta(t)) r(X_a(t), \eta(t)) } .
+    + \frac{v}{ 2 \alpha \gamma(X_a(t), \eta(t)) r(X_a(t), \eta(t)) } .
 $$
 \comment{Perhaps the conclusion of the Propostion would be something like:}
 We can now express our population processes in the limit using these levels:
@@ -2501,7 +2526,7 @@ level. If $\kappa = 1 $, the parent is given the new level and the new particle 
 level. Consequently, for $t \geq \tau$
 \begin{align}\label{eq: Spatial evolution of individual lineage}
 X_{\tau}(\tau+t)=&X_{\tau}(t)\\
-&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
+&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\ind_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
 &\qquad \times \xi_{\tau}(ds,dv,dw,d\kappa).
 \end{align}
 Starting with an initial particle at level $U_{(0,i)}$ , we can identify a potential line of descent by
@@ -2510,11 +2535,11 @@ We now explain the cases where $\kappa_k=0$ and $\kappa_k=1$. When $\kappa_k=0$,
 
 For $\tau=\tau_m$ in a recursion like this, let
 \begin{equation}\label{eq: Individual Evolution Recursion Terms}
-\zeta^{0}_{\tau}(B)=\sum_{k=1}^{m}\delta_{(s_k,v_k,w_k,(1-\kappa_k))}, ~~~ V_{\tau}(t)=\sum_{k=1}^{m}v_k\mathbbm{1}_{[0, \tau_k]}  (t)  
+\zeta^{0}_{\tau}(B)=\sum_{k=1}^{m}\delta_{(s_k,v_k,w_k,(1-\kappa_k))}, ~~~ V_{\tau}(t)=\sum_{k=1}^{m}v_k\ind_{[0, \tau_k]}  (t)  
 \end{equation}
 and define $U_{\tau}(0)=U_{(0,i)}, X_{\tau}(0)=X_{(0,i)}(0)$, and $\zeta_{\tau}$ by
 \begin{equation}\label{eq: integrand in spatial tracing}
-\zeta_{\tau}(B)=\zeta_{\tau}^{0}(B)+\sum_{k=0}^{m}\int \mathbbm{1}_{B}(\tau_k+s,v,w,\kappa)\mathbbm{1}_{\{\tau_k+s<\tau_{k+1}\}}\xi_{\tau_k}(ds,dv,dw,d\kappa)    
+\zeta_{\tau}(B)=\zeta_{\tau}^{0}(B)+\sum_{k=0}^{m}\int \ind_{B}(\tau_k+s,v,w,\kappa)\ind_{\{\tau_k+s<\tau_{k+1}\}}\xi_{\tau_k}(ds,dv,dw,d\kappa)    
 \end{equation}
 
 where $\tau_{m+1}=\infty$. Then 
@@ -2522,7 +2547,7 @@ where $\tau_{m+1}=\infty$. Then
 \begin{align*}
 U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))}dV_{\tau}(s)\\
 &+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))U^2_{\tau}(s)-b_{\theta}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds,\\  
-X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\mathbbm{1}_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
+X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\ind_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
 &\qquad \times \kappa   H(X_{\tau}(s-), \eta(s-),\omega)\zeta_{\tau}(ds,dv,dw,d\kappa)
 \end{align*}
 gives the spatial and level dynamics of a lineage. Note that $\zeta^{0}_{\tau}(B)$ produces spatial jumps when $\kappa_k=1$, while the integral against $\xi_{\tau_k}$ in Equation \eqref{eq: integrand in spatial tracing} gives spatial jumps when $(s,v,w,\kappa) \in \xi_{\kappa_k}$, $\tau_k \leq s \leq \tau_{k+1}$, and $\kappa = 1$. This corresponds to the discussion given above.
@@ -4092,17 +4117,17 @@ $g \mapsto \gamma \DG(gr) - g \DG r$.
 \comment{TODO: explain the $r$-tilted $\DG$ motion somewhere earlier, introducing notation for it.}
 As for the second term,
 since $\int g(y, u_1) q(x, dy) \to g(x, u_1)$
-and $\theta/\lambda \to \delta$,
+and $\theta/\lambda \to \alpha$,
 it converges to
 \begin{align*}
-    2 \delta
+    2 \alpha
     \gamma(x, \eta)
     r(x, \eta) 
     \int_u^\infty
     \left( g(x, u_1) - 1 \right)
     du_1
 \end{align*}
-This corresponds to births at higher levels at rate $2 \delta \gamma r$.
+This corresponds to births at higher levels at rate $2 \alpha \gamma r$.
 
 
 The remaining term is \eqref{eqn:level_generator}:
@@ -4119,7 +4144,7 @@ The remaining term is \eqref{eqn:level_generator}:
     \right)
     \frac{\partial_u g(x,u)}{g(x,u)} .
 \end{align*}
-The first part only uses the fact that $\theta/\lambda \to \delta$,
+The first part only uses the fact that $\theta/\lambda \to \alpha$,
 while as noted in \eqref{eqn:b_limit}, $b$ converges to $\gamma \DG r + F$,
 so in total this term converges to
 \begin{align*}
@@ -4128,7 +4153,7 @@ so in total this term converges to
     f(\lp)
     \sum_{(x, u) \in \lp}
     \left(
-    \delta
+    \alpha
         \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
         -
         \left\{
@@ -4141,7 +4166,7 @@ In other words, the level of a particle at $x$ evolves according to
 \begin{align*}
     \dot u
     =
-    \delta
+    \alpha
         \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
         -
         \left\{
@@ -4155,13 +4180,194 @@ In other words, the level of a particle at $x$ evolves according to
 \subsection{Motion of ancestral lineages}
 
 In this section we prove Theorem~\ref{thm:lineages}.
-The argument follows directly from the discussion in Section \ref{sec:lines_of_descent}
+The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}
 (and so maybe actually that content should be down here).
 
 \begin{proof}[of Theorem~\ref{thm:lineages}]
+
+Here
+\comment{(and in the statement of the theorem)}
+we take the high-density, deterministic limit
+(so, $\theta, N \to \infty$ and $\theta/N \to 0$)
+and so suppose that the limiting process has density $\varphi_t(x)$
+at location $x$ and time $t$.
+Let $Y$ denote the spatial motion followed by a single line of descent.
+Above equation~\eqref{eqn:limiting_generator},
+we showed that $Y$ is a diffusion with generator at time $s$
+$$
+    \mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) ) .
+$$
+The diffusion is time-inhomogeneous if the density is not constant with time
+(since recall that the coefficients $\gamma$ and $r$ depend on the density).
+Formally, the intensity of levels at $y$ at time $t$
+that are descended from individuals that were at $x$ at time $s$
+(with $s < t$) is
+\begin{equation} \label{eqn:formal_intensity}
+    \varphi_s(x) \IE_{s,x} \left[
+        \exp\left(
+            \int_s^t (F + \gamma \DG r)(Y_u) du
+        \right)
+        \ind_{Y_t = y}
+    \right]
+    dy ,
+\end{equation}
+where the subscript $s, x$ in the expectation indicates that $Y_s = x$.
+To see why this should be true, 
+suppose that an ancestor has level $v$. Conditional on its 
+spatial motion $\{Y_u\}_{s\leq u\leq t}$, its level at time $t$ will
+be $v \exp(-\int_s^t(F+\gamma\Delta r)(Y_u)du)$. This will be less than a given level 
+$\lambda$ if $v < \lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$. 
+The intensity of levels at $y$ that are descended from individuals at
+$x$ can therefore be obtained as the limit as $\lambda\to\infty$ of 
+$1/\lambda$ times the number of levels at $x$ at time zero with
+$u<\lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$ and for which
+the corresponding individual is at $y$ at time $t$, which is 
+precisely the quantity in~\eqref{eqn:formal_intensity}. 
+
+By our construction in Section~\ref{sec:limiting_lines_of_descent},
+when we integrate~\eqref{eqn:formal_intensity}
+with respect to $x$ we recover $\varphi_t(y)dy$. 
+Consider an individual sampled at location $y$ at time $t$,
+and write $p(t,s,y,x)$ for the probability density
+that their ancestor at time $s$ was at $x$.
+As a consequence of~\eqref{eqn:formal_intensity},
+still formally,
+\begin{equation}
+\label{eqn:ptsyx}
+    p(t,s,y,x)
+    =
+    \frac{\varphi_s(x)}{\varphi_t(y)}
+    \IE_{s,x}\left[
+        \exp\left( \int_s^t (F + \gamma\DG r)(Y_u) du \right)
+        \ind_{Y_t=y}
+    \right]
+\qquad \text{ for } s < t.
+\end{equation}
+
+To make~(\ref{eqn:ptsyx}) meaningful, we multiply by suitable test functions
+$f$ and $g$ and integrate.
+\begin{align*}
+&\int \int f(y) \varphi_t(y) p(t,s,y,x) g(x) dy dx \\
+&\qquad =
+\int g(x) \varphi_s(x)
+\IE_{x,s}\left[
+    \exp\left(
+        \int_s^t(F+\gamma\DG r)(Y_u)du
+    \right)f(Y_t)
+\right] dx .
+\end{align*}
+
+Writing $\hat{T}_{t,s}$ for the time-inhomogeneous semigroup
+corresponding to the motion of ancestral lineages backwards in time
+\comment{(Use notation for the motion of a lineage introduced above.)}
+(that is, $\hat{T}_{t,s} f(y) = \int p(t,s,x,y) f(x) dy$),
+we can write this as 
+$$
+    \int f(y)\varphi_t(y)\hat{T}_{t,s}g(y)dy
+    =
+    \int g(x) \varphi_s(x)
+        \IE_{s,x} \left[
+            \exp\left(
+                \int_s^t(F+\gamma\DG r)(Y_u)du
+            \right)f(Y_t)
+        \right]dx.
+$$
+Differentiating with respect to $t$ at $t=s$, and writing 
+$\hat{\mathcal L}_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
+\begin{align*}
+&
+    \int f(y) \left\{
+        \varphi_s(y) \widehat{\mathcal L}_s g(y)
+        + \left(
+            r(y) \DG^*(\gamma \varphi_s)(y) + \varphi_s(y) F(y)
+        \right) g(y)
+    \right\} dy \\
+&\qquad =
+    \int g(x) \varphi_s(x) \left(
+        {\mathcal L}^Y_s f(x) + (F(x)+\gamma(x) \DG r(x)) f(x)
+    \right) dx \\
+&\qquad =
+    \int f(x) \left(
+        ({\mathcal L}^Y_s)^* (\varphi_s g)(x) + (F(x) + \gamma(x) \DG r(x)) \varphi_s(x) g(x)
+    \right) dx ,
+\end{align*}
+where $({\mathcal L}^Y_s)^*$ is the adjoint of ${\mathcal L}^Y_s$
+and we have used that $\varphi_s$ solves $\dot \varphi = r \DG^*(\gamma \varphi) + F \varphi$.
+Since $f$ was arbitrary,
+\begin{eqnarray*}
+\hat{\mathcal L}_s g
+    &=&
+    \frac{1}{\varphi_s} \left[
+        ({\mathcal L}^Y_s)^* (\varphi_s g)
+        + \gamma \varphi_s g \DG(r)
+        - r g \DG^*(\gamma \varphi_s)
+    \right] .
+\end{eqnarray*}
+(Note that the $\phi_s F g$ terms have cancelled.)
+After liberal use of the product rule, we'll be able to simplify this last expression.
+To prepare for this, first define
+$$
+    \DD f(x) = \sum_{ij} \covq_{ij} \partial_{ij} f(x),
+$$
+and note that $\DD$ satisfies the following identity:
+\begin{align}
+    \DD(fg)
+    &=
+    f \DD g
+    + 2 (\covq \grad f) \cdot \grad g
+    + g \DD f .
+\end{align}
+
+\comment{Note here we are allowing $\meanq$ to vary with space!}
+
+Now consider the adjoint of $\mathcal{L}^Y_s$.
+Recall that $\DG g = \DD g + \meanq \cdot \grad g$
+and $\DG^* f = \DD f - \grad \cdot (f \meanq)$,
+so
+\begin{align*}
+    ({\mathcal L}^Y_s)^* f
+    &=
+    r \DG^* (\gamma f) - \gamma f \DG r \\
+    &=
+    r \DD(\gamma f) - r \grad \cdot (\gamma f \meanq)
+    - \gamma f \DG r .
+\end{align*}
+We can now expand the expression for $\hat{\mathcal L}_s$ to get
+\begin{eqnarray*}
+\hat{\mathcal L}_s g
+    &=&
+    \frac{1}{\varphi_s} \left[
+        r \DD(\gamma \varphi_s g) - r \grad \cdot (\gamma \varphi_s g \meanq)
+        - \gamma \varphi_s g \DG(r)
+        + \gamma \varphi_s g \DG(r)
+        - r g \DG^*(\gamma \varphi_s)
+    \right] \\
+    &=&
+    \frac{r}{\varphi_s} \left[
+        \DD(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
+        - g \DD(\gamma \varphi_s) + g \grad \cdot (\gamma \varphi_s \meanq)
+    \right] \\
+    &=&
+    \frac{r}{\varphi_s} \left[
+        \gamma \varphi_s \DD g
+        + 2 (\covq \grad (\gamma \varphi_s)) \cdot \grad g
+        - \gamma \varphi_s \meanq \cdot \grad g
+    \right] \\
+    &=&
+    r \gamma \left[
+        \DD g
+        + 2 (\covq \grad \log(\gamma \varphi_s)) \cdot \grad g
+        - \meanq \cdot \grad g
+    \right] ,
+\end{eqnarray*}
+in agreement with \eqref{eqn:heuristic_lineage_generator}.
+
+\end{proof}
+
+
+\begin{proof}[of Corollary~\ref{cor:wavefront}
     \comment{
-        This is actually copied over the proof of Corollary~\ref{cor:wavefront};
-        TODO is to generalize it to time-varying density.
+        TODO make non-redundant with proof of Theorem \ref{thm:lineages.}.
     }
 
 Let $Y$ denote the diffusion followed by following a single descendent line in this frame; 
@@ -4232,6 +4438,8 @@ Since $\psi$ was arbitrary,
 where we have used that $w$ solves~(\ref{profile}).
 
 \end{proof}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \appendix
@@ -4261,7 +4469,7 @@ We will now apply Markov Mapping Theorem while keeping notations consistent to t
         $\gamma_M$ & $ \mathcal{M}(\mathbb{R}^d \times [0, \lambda)) \ni \xi \to \frac{1}{\lambda}\sum_{(x,u) \in \xi, u < \lambda} \delta_{x} \in \mathcal{M}(\mathbb{R}^d)$\\\\
        $\alpha_M$ & $ \alpha_M(\Xi,d \nu) =     \begin{cases}
       0 & \text{if } \sum_{(x,u) \in \nu, u < \lambda} \delta_x \neq \Xi\\
-       \prod_{(u_i,x_i) \in \nu} \frac{1}{\lambda} \mathbbm{1}_{[0,\lambda]}du_i & \text{if } \sum_{(x,u) \in \nu, u < \lambda} \delta_x = \Xi,\\
+       \prod_{(u_i,x_i) \in \nu} \frac{1}{\lambda} \ind_{[0,\lambda]}du_i & \text{if } \sum_{(x,u) \in \nu, u < \lambda} \delta_x = \Xi,\\
     \end{cases} $\\
 &      where $du_i$ is the standard Lebesgue measure.
     \end{tabular}
