@@ -1030,15 +1030,8 @@ for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
 \end{corollary}
 
 
-\comment{This corollary was the previous theorem in the previous draft.
-    Besides this proposed set-up, we have the additional options of
-    (a) renaming the corollary a theorem and only proving it,
-    or (b) presenting only the corollary here (as a theorem)
-    and presenting the more general theorem later on.
-}
-
 \begin{corollary} \label{cor:wavefront}
-    In addition to the assumptions of Theorem~\ref{thm:lineages},
+    In addition to the assumptions of Corollary~\ref{cor:lineages_simple},
     suppose that the population process is described by a traveling wave with speed $\wavespeed$,
     i.e., the population has density
     $\varphi(t, x) = w(x - t \wavespeed)$
@@ -4199,10 +4192,11 @@ In other words, the level of a particle at $x$ evolves according to
 \subsection{Motion of ancestral lineages}
 
 In this section we prove Theorem~\ref{thm:lineages}.
-The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}
-(and so maybe actually that content should be down here).
+The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}.
 
 \begin{proof}[of Theorem~\ref{thm:lineages}]
+
+\comment{(TODO: Use notation for the motion of a lineage introduced in statement of theorem.)}
 
 Here
 \comment{(and in the statement of the theorem)}
@@ -4278,7 +4272,6 @@ $f$ and $g$ and integrate.
 
 Writing $\hat{T}_{t,s}$ for the time-inhomogeneous semigroup
 corresponding to the motion of ancestral lineages backwards in time
-\comment{(Use notation for the motion of a lineage introduced above.)}
 (that is, $\hat{T}_{t,s} f(y) = \int p(t,s,x,y) f(x) dy$),
 we can write this as 
 $$
@@ -4292,11 +4285,11 @@ $$
         \right]dx.
 $$
 Differentiating with respect to $t$ at $t=s$, and writing 
-$\hat{\mathcal L}_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
+$\Lgen_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
 \begin{align*}
 &
     \int f(y) \left\{
-        \varphi_s(y) \widehat{\mathcal L}_s g(y)
+        \varphi_s(y) \Lgen_s g(y)
         + \left(
             r(y) \DG^*(\gamma \varphi_s)(y) + \varphi_s(y) F(y)
         \right) g(y)
@@ -4314,7 +4307,7 @@ where $({\mathcal L}^Y_s)^*$ is the adjoint of ${\mathcal L}^Y_s$
 and we have used that $\varphi_s$ solves $\dot \varphi = r \DG^*(\gamma \varphi) + F \varphi$.
 Since $f$ was arbitrary,
 \begin{eqnarray*}
-\hat{\mathcal L}_s g
+\Lgen_s g
     &=&
     \frac{1}{\varphi_s} \left[
         ({\mathcal L}^Y_s)^* (\varphi_s g)
@@ -4331,7 +4324,7 @@ Since the adjoint of ${\mathcal L}^Y_s$ is
 \end{align*}
 we can rewrite the generator of a lineage as 
 \begin{eqnarray*}
-\hat{\mathcal L}_s g
+\Lgen_s g
     &=&
     \frac{r}{\varphi_s} \left[
         \DG^* (\gamma \varphi_s g)
@@ -4363,12 +4356,12 @@ $$
 Note that $\DD^*$ satisfies the following identity:
 \begin{align*}
     \DD^*(fg)
-    &=
-    \sum_{ij} \left\{
-        g \partial_{ij} (\covq_{ij} f)
-        + 2 \partial_{i} (\covq_{ij} f) \partial_j(g)
-        + \covq_{ij} f \partial_{ij} g
-    \right\} \\
+%     &=
+%     \sum_{ij} \left\{
+%         g \partial_{ij} (\covq_{ij} f)
+%         + 2 \partial_{i} (\covq_{ij} f) \partial_j(g)
+%         + \covq_{ij} f \partial_{ij} g
+%     \right\} \\
     &=
     \sum_{ij} \left\{
         g \partial_{ij} (\covq_{ij} f)
@@ -4385,7 +4378,7 @@ Note that $\DD^*$ satisfies the following identity:
 where $\vec{c}_j = \sum_i \partial_j C_{ij}$.
 So, with $f = \gamma \varphi_s$,
 \begin{eqnarray*}
-\hat{\mathcal L}_s g
+\Lgen_s g
     &=&
     \frac{r}{\varphi_s} \left[
         \DD^*(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
