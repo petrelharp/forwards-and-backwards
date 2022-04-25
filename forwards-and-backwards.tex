@@ -626,8 +626,8 @@ we will have use for the following notation:
     $$
     \DG^* f(x)
         =
-        \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
-        + \sum_i \partial_{x_i} (f(x) \meanq_i) .
+        \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq_{ij} f(x))
+        - \sum_i \partial_{x_i} (f(x) \meanq_i) .
     $$
 \end{definition}
 
@@ -941,12 +941,7 @@ However, the results here apply to either the local or nonlocal case
 (i.e., where the density solves a local or nonlocal PDE).
 
 \comment{
-    \textbf{Note:} the previous write-up motivated things only in the time-stationary case
-    (so, a stationary traveling wave, possibly with wave speed zero;
-    see the corollary below).
-    It'd be very nice to give this more general result,
-    but the proof has to be checked to make sure it still applies,
-    and the notation is time-inhomogeneous and so more annoying
+    TODO: make notation agree with that in the proof.
 }
 
 
@@ -972,17 +967,42 @@ To avoid complexity,
 we do this in the case where dispersal is $N(\meanq/\theta, \sigma^2 I/\theta)$,
 in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
 
-\comment{
-    Allowing a more general dispersal mechanism won't just entail replacing $\Delta$ with $\DG$,
-    it will also change at least one of the $\grad$s to something else (I think).
-}
 
 \begin{theorem} \label{thm:lineages}
+    In the context of Definition~\ref{def:lineage_generator},
+    \begin{align}
+        \label{eqn:lineage_generator}
+        \Lgen_s f
+        &=
+        \frac{r}{\varphi_s}
+        \left[
+            \DG^*(\gamma \varphi_s f) 
+            - f \DG^* (\gamma \varphi_s)
+        \right] \\
+        &= \label{eqn:lineage_generator2}
+        r\gamma
+        \left[
+            \sum_{ij} \covq_{ij} \partial_{ij} f
+            + 2 \sum_j \left(
+               \sum_i \partial_i (C_{ij} \log(\gamma \varphi_s))
+            \right) \partial_j f
+            - \sum_j \meanq_j \partial_j f
+        \right] .
+    \end{align}
+\end{theorem}
+
+To make the generator readable, we've written it in concise notation,
+omitting the dependencies on location and population density,
+which itself changes with time.
+When interpreting this,
+remember that everything depends on location and density at that location and time --
+for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
+
+\begin{corollary} \label{cor:lineages_simple}
     In the context of Definition~\ref{def:lineage_generator},
     if the dispersal process is isotropic (i.e., $\covq = \sigma^2 I$),
     then
     \begin{equation}
-        \label{eqn:lineage_generator}
         \Lgen_s f
         =
         \sigma^2 r \gamma
@@ -990,7 +1010,7 @@ in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
             \Delta f
             +
             \left(
-                2 \grad \log(\gamma \varphi)
+                2 \grad \log(\gamma \varphi_s)
                 - \meanq
             \right)
             \cdot \grad f
@@ -1002,14 +1022,8 @@ in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
     run at speed $\sigma^2$ multiplied by the local per-capita production of offspring ($r \gamma$)
     in a potential equal to the local birth output tilted by migraiton bias
     ($\varphi \gamma \exp(-\meanq \cdot x / 2 \sigma^2)$).
-\end{theorem}
+\end{corollary}
 
-To make the generator readable, we've written it in concise notation,
-omitting the dependencies on location and population density,
-which itself changes with time.
-When interpreting this,
-remember that everything depends on location and density at that location and time --
-for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
 
 \comment{This corollary was the previous theorem in the previous draft.
     Besides this proposed set-up, we have the additional options of
@@ -4304,59 +4318,77 @@ Since $f$ was arbitrary,
     \right] .
 \end{eqnarray*}
 (Note that the $\phi_s F g$ terms have cancelled.)
-After liberal use of the product rule, we'll be able to simplify this last expression.
-To prepare for this, first define
-$$
-    \DD f(x) = \sum_{ij} \covq_{ij} \partial_{ij} f(x),
-$$
-and note that $\DD$ satisfies the following identity:
-\begin{align}
-    \DD(fg)
-    &=
-    f \DD g
-    + 2 (\covq \grad f) \cdot \grad g
-    + g \DD f .
-\end{align}
-
-\comment{Note here we are allowing $\meanq$ to vary with space!}
-
-Now consider the adjoint of $\mathcal{L}^Y_s$.
-Recall that $\DG g = \DD g + \meanq \cdot \grad g$
-and $\DG^* f = \DD f - \grad \cdot (f \meanq)$,
-so
+Since the adjoint of ${\mathcal L}^Y_s$ is
 \begin{align*}
     ({\mathcal L}^Y_s)^* f
     &=
-    r \DG^* (\gamma f) - \gamma f \DG r \\
-    &=
-    r \DD(\gamma f) - r \grad \cdot (\gamma f \meanq)
-    - \gamma f \DG r .
+    r \DG^* (\gamma f) - \gamma f \DG r ,
 \end{align*}
-We can now expand the expression for $\hat{\mathcal L}_s$ to get
+we can rewrite the generator of a lineage as 
 \begin{eqnarray*}
 \hat{\mathcal L}_s g
     &=&
-    \frac{1}{\varphi_s} \left[
-        r \DD(\gamma \varphi_s g) - r \grad \cdot (\gamma \varphi_s g \meanq)
-        - \gamma \varphi_s g \DG(r)
-        + \gamma \varphi_s g \DG(r)
-        - r g \DG^*(\gamma \varphi_s)
-    \right] \\
+    \frac{r}{\varphi_s} \left[
+        \DG^* (\gamma \varphi_s g)
+        - g \DG^*(\gamma \varphi_s)
+    \right] .
+\end{eqnarray*}
+This is equation \eqref{eqn:lineage_generator}.
+
+
+To simplify to equation \eqref{eqn:lineage_generator2},
+this, first define
+$
+    \DD f(x) = \sum_{ij} \covq_{ij} \partial_{ij} f(x),
+$
+% and note that $\DD$ satisfies the following identity:
+% \begin{align}
+%     \DD(fg)
+%     &=
+%     f \DD g
+%     + 2 (\covq \grad f) \cdot \grad g
+%     + g \DD f .
+% \end{align}
+and so the adjoint of $\DD$ is
+$$
+    \DD^* f(x)
+    =
+    \sum_{ij} \partial_{ij} (\covq_{ij} f(x)) .
+$$
+Note that $\DD^*$ satisfies the following identity:
+\begin{align}
+    \DD^*(fg)
+    &=
+    \sum_{ij} \left\{
+        g \partial_{ij} (\covq_{ij} f)
+        + 2 \partial_{i} (\covq_{ij} f) \partial_j(g)
+        + \covq_{ij} f \partial_{ij} g
+    \right\} \\
+    &=
+    g \DD^* f
+    + 2 \mathcal{H} f \cdot \grad g
+    + f \DD g ,
+\end{align}
+where $(\mathcal{H} f)_j = \sum_i \partial_i (C_{ij} f)$.
+    \comment{(Need better notation for that.)}
+So, with $f = \gamma \varphi_s$,
+\begin{eqnarray*}
+\hat{\mathcal L}_s g
     &=&
     \frac{r}{\varphi_s} \left[
-        \DD(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
-        - g \DD(\gamma \varphi_s) + g \grad \cdot (\gamma \varphi_s \meanq)
+        \DD^*(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
+        - g \DD^*(\gamma \varphi_s) + g \grad \cdot (\gamma \varphi_s \meanq)
     \right] \\
     &=&
     \frac{r}{\varphi_s} \left[
         \gamma \varphi_s \DD g
-        + 2 (\covq \grad (\gamma \varphi_s)) \cdot \grad g
+        + 2 \mathcal{H} (\gamma \varphi_s) \cdot \grad g
         - \gamma \varphi_s \meanq \cdot \grad g
     \right] \\
     &=&
     r \gamma \left[
         \DD g
-        + 2 (\covq \grad \log(\gamma \varphi_s)) \cdot \grad g
+        + 2 (\mathcal{H} \log(\gamma \varphi_s)) \cdot \grad g
         - \meanq \cdot \grad g
     \right] ,
 \end{eqnarray*}
@@ -4364,6 +4396,15 @@ in agreement with \eqref{eqn:heuristic_lineage_generator}.
 
 \end{proof}
 
+\begin{proof}[of Corollary \ref{cor:lineages_simple}]
+
+In this section, we need only make
+simplify equation \eqref{eqn:lineage_generator}
+in the case where $\covq = \sigma^2 I$.
+
+    \comment{TODO}
+
+\end{proof}
 
 \begin{proof}[of Corollary~\ref{cor:wavefront}
     \comment{
