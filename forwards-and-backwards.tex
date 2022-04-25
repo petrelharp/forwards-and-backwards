@@ -983,12 +983,17 @@ in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
         r\gamma
         \left[
             \sum_{ij} \covq_{ij} \partial_{ij} f
-            + 2 \sum_j \left(
-               \sum_i \partial_i (C_{ij} \log(\gamma \varphi_s))
-            \right) \partial_j f
-            - \sum_j \meanq_j \partial_j f
-        \right] .
+            + 2 \sum_j \vec{m}_j \partial_j f
+        \right] ,
     \end{align}
+    where $\vec{m}$ is the vector
+    $$
+    \vec{m}_j
+    =
+    2 \sum_i C_{ij} \partial_i \log(\gamma \varphi_s)
+    + 2 \sum_i \partial_i C_{ij}
+    - \meanq_j .
+    $$
 \end{theorem}
 
 To make the generator readable, we've written it in concise notation,
@@ -4356,7 +4361,7 @@ $$
     \sum_{ij} \partial_{ij} (\covq_{ij} f(x)) .
 $$
 Note that $\DD^*$ satisfies the following identity:
-\begin{align}
+\begin{align*}
     \DD^*(fg)
     &=
     \sum_{ij} \left\{
@@ -4365,12 +4370,19 @@ Note that $\DD^*$ satisfies the following identity:
         + \covq_{ij} f \partial_{ij} g
     \right\} \\
     &=
+    \sum_{ij} \left\{
+        g \partial_{ij} (\covq_{ij} f)
+        + 2 f \partial_{i} (\covq_{ij}) \partial_j(g)
+        + 2 \covq_{ij} \partial_{i} (f) \partial_j(g)
+        + \covq_{ij} f \partial_{ij} g
+    \right\} \\
+    &=
     g \DD^* f
-    + 2 \mathcal{H} f \cdot \grad g
+    + 2 f \vec{c} \cdot \grad g
+    + 2 (C \grad f) \cdot \grad g
     + f \DD g ,
-\end{align}
-where $(\mathcal{H} f)_j = \sum_i \partial_i (C_{ij} f)$.
-    \comment{(Need better notation for that.)}
+\end{align*}
+where $\vec{c}_j = \sum_i \partial_j C_{ij}$.
 So, with $f = \gamma \varphi_s$,
 \begin{eqnarray*}
 \hat{\mathcal L}_s g
@@ -4382,23 +4394,26 @@ So, with $f = \gamma \varphi_s$,
     &=&
     \frac{r}{\varphi_s} \left[
         \gamma \varphi_s \DD g
-        + 2 \mathcal{H} (\gamma \varphi_s) \cdot \grad g
+        + 2 \gamma \varphi_s \vec{c} \cdot \grad g
+        + 2 (C \grad (\gamma \varphi_s)) \cdot \grad g
         - \gamma \varphi_s \meanq \cdot \grad g
     \right] \\
     &=&
     r \gamma \left[
         \DD g
-        + 2 (\mathcal{H} \log(\gamma \varphi_s)) \cdot \grad g
+        + 2 \vec{c} \cdot \grad g
+        + 2 (C \grad \log(\gamma \varphi_s)) \cdot \grad g
         - \meanq \cdot \grad g
     \right] ,
 \end{eqnarray*}
-in agreement with \eqref{eqn:heuristic_lineage_generator}.
+which is equation \eqref{eqn:lineage_generator}.
 
 \end{proof}
 
+
 \begin{proof}[of Corollary \ref{cor:lineages_simple}]
 
-In this section, we need only make
+In this section, we need only
 simplify equation \eqref{eqn:lineage_generator}
 in the case where $\covq = \sigma^2 I$.
 
@@ -4408,7 +4423,7 @@ in the case where $\covq = \sigma^2 I$.
 
 \begin{proof}[of Corollary~\ref{cor:wavefront}
     \comment{
-        TODO make non-redundant with proof of Theorem \ref{thm:lineages.}.
+        TODO make non-redundant with proof of Theorem \ref{thm:lineages}.
     }
 
 Let $Y$ denote the diffusion followed by following a single descendent line in this frame; 
