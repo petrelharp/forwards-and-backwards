@@ -56,6 +56,7 @@
 \newcommand{\Pgen}{\mathcal{P}}    % generator of the population process
 \newcommand{\lp}{\xi}              % process with levels
 \newcommand{\labelspace}{\mathcal{I}} % space of labels
+\newcommand{\concat}{\oplus}   % concatenation of labels
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -549,6 +550,8 @@ and state some assumptions on the parameters.
     with probability $r(x, \smooth{r} \eta^{\theta}(x))$, or else dies.
 \end{definition}
 
+\comment{TODO: insert remark about writing $\gamma(x, \smooth{\gamma}\eta(x)) = \gamma(x, \eta)$.}
+
 We will now define $(\eta^{\theta}(t))_{t \geq 0}$
 explicitly as a solution to a Martingale problem.
 
@@ -855,7 +858,7 @@ The following propositions give two concrete situations in which that is true.
     \begin{align} \label{eqn:PDE}
         \partial_t u(t, x)
         =
-        \DG \left( \gamma(\cdot, u(t, \cdot) u(t, \cdot)  \right)(x)
+        \DG^* \left( \gamma(\cdot, u(t, \cdot) u(t, \cdot)  \right)(x)
         + F(x, u(t, x)) u(t, x) .
     \end{align}
 \end{proposition}
@@ -967,6 +970,11 @@ To avoid complexity,
 we do this in the case where dispersal is $N(\meanq/\theta, \sigma^2 I/\theta)$,
 in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
 
+\comment{Make forwards-backwards time notation reasonable in this.}
+
+\comment{Perhaps write generator as depending on $\phi$ rather than $s$?
+    Then we can say that the generator is $\Lgen_{\varphi(T-s)}$.}
+
 
 \begin{theorem} \label{thm:lineages}
     In the context of Definition~\ref{def:lineage_generator},
@@ -974,23 +982,23 @@ in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
         \label{eqn:lineage_generator}
         \Lgen_s f
         &=
-        \frac{r}{\varphi_s}
+        \frac{r}{\varphi_{T-s}}
         \left[
-            \DG^*(\gamma \varphi_s f) 
-            - f \DG^* (\gamma \varphi_s)
+            \DG^*(\gamma \varphi_{T-s} f) 
+            - f \DG^* (\gamma \varphi_{T-s})
         \right] \\
         &= \label{eqn:lineage_generator2}
         r\gamma
         \left[
             \sum_{ij} \covq_{ij} \partial_{ij} f
-            + 2 \sum_j \vec{m}_j \partial_j f
+            + \sum_j \vec{m}(s)_j \partial_j f
         \right] ,
     \end{align}
     where $\vec{m}$ is the vector
     $$
-    \vec{m}_j
+    \vec{m}(s)_j
     =
-    2 \sum_i C_{ij} \partial_i \log(\gamma \varphi_s)
+    2 \sum_i C_{ij} \partial_i \log(\gamma \varphi_{T-s})
     + 2 \sum_i \partial_i C_{ij}
     - \meanq_j .
     $$
@@ -1615,41 +1623,28 @@ is
 $$
     \gamma(x, \eta_t) q(x, dy) r(y, \eta_t) .
 $$
+Happily, we are interested in the case when $\eta$ has a density,
+say $\eta_t(dx) = \varphi_t(x) dx$,
+so interpreting these rates is not too difficult.
 This implies that the probability a randomly chosen individual near $y$
 is a new offspring from a parent at $x$ in $[t, t+dt)$ is, informally,
 \begin{equation} \label{eqn:informal_rates}
 \frac{
-    \gamma(x, \eta_t) q_\theta(x, dy) r(y, \eta_t) \eta_t(dx)
+    \gamma(x, \eta_t) q_\theta(x, dy) r(y, \eta_t) \varphi_t(x)
 }{
-    \eta_t(dy)
-} dt .
+    \varphi_t(y)
+} \frac{ q_\theta(x, dy) }{ dy } dx dt .
 \end{equation}
 Leaving aside questions of whether a lineage can be treated as a randomly chosen individual,
 we might then proceed by defining a continuous-time jump process
-whose transition rates are given by \eqref{eqn:informal_rates} given $(\eta_t)_{t=0}^T$.
-Happily, we are interested in the case when $\eta$ has a density,
-say $\eta_t(dx) = \varphi_t(x) dx$,
-so interpreting these rates is not too difficult.
-Now recall that $q_\theta(x, dy)$ is a Gaussian kernel
-with mean $x + \meanq/\theta$ and covariance $\covq/\theta$.
-Write $\widetilde q_\theta(y, dx)$ for the ``reverse-time'' distribution,
-i.e., Gaussian with mean $x - \meanq/\theta$ and the same covariance.
-Then, rearranging infinitesimals,
-\eqref{eqn:informal_rates} implies a rate of
-\begin{equation} \label{eqn:informal_rates2}
-\frac{
-    \gamma(x, \eta_t) r(y, \eta_t) \varphi_t(x) 
-}{
-    \varphi_t(y)
-} \widetilde q_\theta(y, dx) .
-\end{equation}
+whose transition rates are given by \eqref{eqn:informal_rates} given $(\varphi_t)_{t=0}^T$.
 Let $(L^\theta_s)_{s=0}^T$ be the location of a lineage that moves according to
-jump rates~\eqref{eqn:informal_rates2},
+jump rates~\eqref{eqn:informal_rates},
 back through time (i.e., with the substitution that $s = T-t$).
-Then
+Then, writing $q_\theta(x, y)$ for the density of $q_\theta$,
 \begin{align} \label{eqn:lineage_generator_Edt}
     \begin{split}
-    &\IE[f(L^\theta_{s+ds}) \;|\; L_s = y] - f(y)
+    &\IE[f(L^\theta_{s+ds}) - f(y) \;|\; L_s = y]
     \\&\qquad 
     =
     ds \int \left(f(x) - f(y)\right)
@@ -1658,32 +1653,29 @@ Then
     }{
         \varphi_{T-s}(y)
     }
-    \widetilde q_\theta(y, dx) .
+    q_\theta(x, y) dx .
     \end{split}
 \end{align}
+\comment{I'm not sure if at this point in the paper we want to either
+(a) write out the next statement; (b) restrict to the $\DG = \Delta$ case,
+or (c) leave it as is (as an exercise for the reader, I guess?}
 Referring back to Definition~\ref{def:dispersal_generator},
-recall that as $\theta \to \infty$,
+it is not too hard to show that as $\theta \to \infty$,
 \begin{align*}
-    \theta \int (f(x) - f(y)) \widetilde q_\theta(y, dx)
+    \theta \int (f(x) - f(y)) q_\theta(x, y) dx
     &\to
-    - \sum_i \meanq_i \partial_{x_i} f(y)
-    + \sum_{ij} \covq_{ij} \partial_{x_i x_j} f(y) \\
-    = \DD - \meanq \cdot \grad f ,
+    \DG^* f(x)  - f(x) \DG^* 1 .
 \end{align*}
-where $\DD = \sum_{ij} \covq_{ij} \partial_{ij}$.
-(Note that this differs from $\DG^*$ if $\meanq$ can vary across space.)
 Consequently,
 \begin{align*}
     &
-    \theta \int (f(x) - f(y)) g(x) \widetilde q_\theta(y, dx) \\
+    \theta \int (f(x) - f(y)) g(x) q_\theta(x, y) dx \\
     &\qquad =
     \theta \int \left\{
         (f(x) g(x) - f(y) g(y)) - f(y) (g(x) - g(y))
-    \right\} \widetilde q_\theta(y, dx) \\
+    \right\} q_\theta(x, y) dx \\
     &\qquad \to
-        \DD(fg)(x) - f(x) \DD g(x) - \meanq \cdot \left( \grad(fg)(x) - f(x) \grad g(x) \right) \\
-    &\qquad =
-        g(x) \DD f(x) + 2 (\covq \grad g(x)) \cdot \grad f(x) - g(x) \meanq \cdot \grad f(x) .
+        \DG^*(fg)(x) - f(x) \DG^* g(x) . 
 \end{align*}
 Applying this to~\eqref{eqn:lineage_generator_Edt} with $g = \varphi_{T-s} \gamma$,
 this suggests that the generator of the limiting process is
@@ -1692,23 +1684,10 @@ this suggests that the generator of the limiting process is
     &=
     \frac{r}{\varphi_{T-s}}
     \left\{
-        \varphi_{T-s} \gamma (\DD f - \meanq \cdot \grad f)
-        + 2 \left(\covq \grad (\varphi_{T-s} \gamma) \right) \cdot \grad f 
-    \right\} \\
-    &=
-    r \gamma
-    \left\{
-        \DD f - \meanq \cdot \grad f
-        + 2 \left(\covq \grad \log(\varphi_{T-s} \gamma) \right) \cdot \grad f 
+        \DG^*(\gamma \varphi_{T-s} f) - f \DG^*(\gamma \varphi_{T-s})
     \right\} .
 \end{align}
-In other words, the lineage moves at speed equal to the local production of successful offspring,
-$r \gamma$,
-by a time-reversed version of the dispersal distribution,
-but with a drift in the direction of the gradient of the logarithm
-of the production of juveniles, $2 \grad \log(\phi_{T-s} \gamma)$
-(modified by the covariance of dispersal).
-This \comment{presumably?} agrees with \comment{the theorem}.
+This agrees with Theorem~\ref{thm:lineages}.
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -1914,6 +1893,8 @@ it should be understood that if $g(x,u)=0$,
 then it simply cancels 
 the corresponding factor in $f(\lp)$.
 
+\comment{Maybe we can not introduce $\theta$ before this point in this section, and say we'll put it in now?}
+
 Recall also that in defining $\eta_t$
 we had not only rescaled mass, dividing each individual's mass by $N$,
 but also time, speeding up time by a factor of $\theta$.
@@ -1990,8 +1971,7 @@ The remaining term in the generator is due to the motion of particles' levels:
 \end{align}
 
 
-\comment{TODO: consider whether this is where we stick in
-    these explicit definitions of $\gamma$ and set $\lambda=N$.}
+\comment{TODO: this note goes much earlier.}
 To scale our lookdown model to be consistent with
 the spatial model described in \S \ref{sec: Model and main results},
 we will let $\lambda$ takes on the role of $N$
@@ -2131,9 +2111,6 @@ as $\theta \to \infty$.
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Construction tracking individual lines of descent}
 
-\comment{This is a rewrite using Ulam-Harris labeling
-of \ref{sec: Evolution of an Individual Particle}.}
-
 Although we will \comment{(later)} show convergece of the lookdown process
 defined by Definition~\ref{defn:lookdown_mgale}
 to a stochastic process in which individuals retain their identities,
@@ -2173,7 +2150,7 @@ then $t$ will determine possible birth times,
 $v$ will determine levels of the offspring,
 $y$ will give the spatial displacement of the offspring relative to the parent,
 $\kappa$ will be used to determine whether parent or offspring are assigned the new level,
-and the new label produced, if any will be $aj$,
+and the new label produced will be $a \concat j$,
 i.e., the label $a$ with $j$ appended (so, if $a \in \IN_{\ge 0}^k$ then $aj \in \IN_{\ge 0}^{k+1}$).
 Each label $a$ has a birth time $\tau_a$,
 when it is first assigned,
@@ -2205,7 +2182,7 @@ for each point $(s, v, y, \kappa) \in \Pi_a$.
 We say `potential' since if the resulting level is greater than $\lambda$,
 the event does not happen.
 If this is the $j^\text{th}$ point in $\Pi_a$,
-the new label is $aj$, the (potential) birth time is $\tau_{aj} = \tau_a + s$.
+the new label is $a \concat j$, the (potential) birth time is $\tau_{a \concat j} = \tau_a + s$.
 For convenience define
 $$
     \ell(x, y, \eta, v)
@@ -2218,28 +2195,28 @@ $$
 $$
 and using this, the (potential) new level is
 \begin{equation*}
-    U_{aj}(\tau_{aj})
+    U_{a \concat j}(\tau_{a \concat j})
     =
-    U_a(\tau_{aj})
+    U_a(\tau_{a \concat j})
     +
-    \ell(X_a(\tau_{aj}-), y, \eta(\tau_{aj}-), v) .
+    \ell(X_a(\tau_{a \concat j}-), y, \eta(\tau_{a \concat j}-), v) .
 \end{equation*}
-If $U_{aj}(\tau_{aj}) < \lambda$,
-the new individual labeled $aj$ is produced,
+If $U_{a \concat j}(\tau_{a \concat j}) < \lambda$,
+the new individual labeled $a \concat j$ is produced,
 and $\kappa$ determines which label is associated with the new location,
 so
 \begin{align*}
-    X_{aj}(\tau_a + s)
+    X_{a \concat j}(\tau_a + s)
     &=
     X_a(\tau_a+s-) + (1 - \kappa) y .
 \end{align*}
 On the other hand
-if $U_{aj}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged and $X_{aj}$ is undefined,
+if $U_{a \concat j}(\tau_a+s) \ge \lambda$, then $X_a$ is unchanged and $X_{a \concat j}$ is undefined,
 so
 \begin{align} \label{eqn:X_line_of_descent}
     X_a(\tau_a+s)
     &=
-    X_a(\tau_a+s-) + \kappa y \ind_{U_{aj}(\tau_{aj}) < \lambda} .
+    X_a(\tau_a+s-) + \kappa y \ind_{U_{a \concat j}(\tau_{a \concat j}) < \lambda} .
 \end{align}
 Recall that the parental \emph{individual} always retains their spatial location,
 so that $\kappa = 0$ corresponds to the parent being assigned a new level,
@@ -2252,92 +2229,15 @@ We can now express our population processes using these levels:
     \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
 \end{align*}
 
-\comment{
-    The following is quite annoying to get right, but can fixed up.
-    However, I don't think we need it.}
-
-Consequently, 
-the \emph{line of descent}
-leading from the initial generation
-to any label $a \in \labelspace$
-with $U_a(\tau_a) < \lambda$
-can be explicitly constructed as follows.
-Supposed that $a = (a_1, a_2, \ldots, a_n) \in \IN^n$,
-and for $1 \le k \le n$ let $(a)_k = (a_1, a_2, \ldots, a_k)$.
-Then, let $\zeta_a(t)$ denote the counting process that records
-which label is present in the line of descent at time $t$,
-i.e., $\zeta_a(t) = \max\{k \ge 1 : \tau_{(a)_k} \le t\}$.
-This then lets us define $X_a(t)$ all the way back to $t=0$
-by setting $X_a(t) = X_{(a)_{\zeta_a(t)}}(t)$ (and, $U_a(t)$ similarly).
-Now, we can explicitly write down the evolution of $U_a(t)$ and $X_a(t)$.
-
-First, for each $1 \le k < n$
-let $(s_k, v_k, y_k, \kappa_k)$ be the $a_{k+1}^\text{th}$ point in $\Pi_{(a)_k}$
-(this is the sequence of jumps taken by the line of descent).
-Note that $s_k = \tau_{(a)_k}$, and also set $s_0 = 0$.
-Let $\Gamma_a$ by the point process ``experienced by the line of descent leading to $a$'',
-which is for $A \subset [0,\infty)^2 \times \IR^d \times \{0,1\}$
-\comment{This is wrong, because $s$ is relative to birth time.}
-\begin{align*}
-\Gamma_a(A)
-    &=
-    \sum_{k=1}^n
-    \Pi_{(a)_k}\left(A \cap [s_{k-1}, s_k) \times [0, \infty) \times \IR^d \times \{0,1\}\right) 
-    \\ &\qquad {}
-    + \sum_{k=1}^{n-1}
-      \delta_{(s_k, v_k, y_k, 1 - \kappa_k)}(A) .
-\end{align*}
-Note that we have included the points at which the line of descent's level jumps,
-flipping $\kappa$ at these points,
-and as a result $\Gamma_a$ has the same distribution as $\Pi_a$
-restricted to $[0, \sigma_a)$.
-Then for $0 \le t \le \sigma_a$,
-\begin{align*}
-    X_a(t)
-    &=
-    X_{a_1}(0)
-    +
-    \int_{
-        [0, t) \times [0, \infty) \times \IR^d \times \{0, 1\}
-    }
-    \kappa y
-    \ind_{
-        U_{(a)_{\zeta(s)}}(s) + \ell( X_{(a)_{\zeta(s)}}(s-), y, \eta(s-), v) < \lambda
-    }
-    \Gamma_{a}(ds, dv, dy, d\kappa) 
-\end{align*}
-and
-\begin{align*}
-    U_a(t)
-    &=
-    U_{a_1}(0)
-    +
-    \sum_{k=1}^{\zeta_a(t) - 1}
-    \frac{
-        v_k
-    }{
-        2 \lambda^{-1} \theta \gamma(X_{(a)_k}(s_k-), \eta(s_k-))
-        r(X_{(a)_k}(s_k-) + y_k, \eta(s_k-))
-    }
-    \\ & \qquad {}
-    +
-    \int_0^t
-    \bigg(
-        \frac{\theta}{\lambda} \gamma(X_a(s),\eta(s))
-        \int_{\IR^d} r(z,\eta(s)) q(X_a(s),dz) U_a(s)^2
-    \\ & \qquad\qquad  \qquad {}
-        -
-        b(X_a(s),\eta(s)) U_a(s)
-    \bigg)
-    dt .
-\end{align*}
-
+\begin{remark}
+    \comment{TODO: say that it's clear how this works following a line of descent
+    all the way from time 0 (in particular, in the infinite density limit,
+    just the spatial part looks just the same despite the jumps in level).}
+\end{remark}
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Limiting processes for lines of descent}
 \label{sec:limiting_lines_of_descent}
-
-\comment{This is a rewrite of \ref{sec:lines_of_descent} following on the previous section}
 
 The previous section constructs the lookdown process
 in a way that makes individual lines of descent converge pointwise as $\lambda \to \infty$,
@@ -2476,10 +2376,10 @@ with label $i$, location $X_i(0) = x_i$, level $U_a(0) = u_i$, and birth time $\
 Each point in the $R_a$ denotes a potential birth time for $a$:
 if the $j^\text{th}$ point in $R_a$ is $(t, v)$,
 $\tau_a \ge t$, and and $U_a(t) < \infty$,
-then a new line of descent with label $aj$ is produced,
-with birth time $\tau_{aj} = t$, location $X_{aj}(t) = X_a(t)$, and level
+then a new line of descent with label $a \concat j$ is produced,
+with birth time $\tau_{a \concat j} = t$, location $X_{a \concat j}(t) = X_a(t)$, and level
 $$
-    U_{aj}(t) = U_a(t)
+    U_{a \concat j}(t) = U_a(t)
     + \frac{v}{ 2 \alpha \gamma(X_a(t), \eta(t)) r(X_a(t), \eta(t)) } .
 $$
 \comment{Perhaps the conclusion of the Propostion would be something like:}
@@ -2490,221 +2390,7 @@ We can now express our population processes in the limit using these levels:
     \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
 \end{align*}
 
-
-%% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{PREVIOUS VERSION OF Evolution of an Individual Particle}
-\label{sec: Evolution of an Individual Particle}
-
-Here we give a general framework of tracking evolution
-of individual particles in the spatial-level population $\xi(t)_{t \geq 0}$ defined in \S \ref{sec:lookdown_defn}.
-
-Particles alive at time zero will be indexed by $(0, i)$,
-or more precisely,
-we index the levels of the particles
-alive at time $0$ by $(0, i)$,
-keeping in mind that at each birth event,
-the parent particle will,
-with probability $1/2$, change levels.
-Since no two particles born after time $0$
-will be born at the same time,
-we index the rest of the levels by their birth times.
-
-With each level,
-we can associate a Poisson random measure
-$\Tilde{\Pi}$ on $[0, \infty)^2\times [0,1]\times \{0,1\}$ (eventually, $\lambda \to \infty$) with mean measure $l^3 \times \{\frac{1}{2}\delta_0,\frac{1}{2}\delta_1\}$ which
-determines the birth times of the offspring of the particle at that level, the location of the
-offspring, and whether the offspring or the parent is placed at the new level. Let $U_{\tau}(t)$ be
-the level at time $t \geq \tau$ if the level first appeared at time $\tau$ , and let $X_{\tau}(t), t \geq \tau$ be the
-location of the particle with level $U_{\tau}(t)$. 
-Now $U_{\tau}$ satisfies
-\begin{equation}
-U_{\tau}(t)=U_{\tau}(\tau)+\int_{\tau}^{t}(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s),\eta(s))U^2_{\tau}(s)-b_{\theta}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds, ~~~ t \geq \tau.    
-\end{equation}
-If a level has index $\tau$ and $(s,v,w,\kappa)\in \xi_\tau$, then $\tau+s$ gives a potential birth time for an offspring of the particle at level $U_{\tau}$. We say `potential' since if $U_{\tau}(\tau+s)>\lambda$, the corresponding particle is dead. The (potential) new level is 
-\begin{equation}\label{New birth potential level}
-    U_{\tau+s}(\tau+s)=U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}.
-\end{equation}
-If $U_{\tau+s}(\tau+s)< \lambda$, a new particle is produced with location $X_{\tau}(\tau+s-)+H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ where $H(X_{\tau}(\tau+s-), \eta(\tau+s-),w)$ is a function such that if $w$ is a uniformly distribution on $[0,1]$, then 
-\begin{equation}\label{eq: Individual Evolution Jump Kernel}
-P(H(x, \eta,w)\in C | \eta,x)=q^{\mathfrak{m}}(x, \eta,C).    
-\end{equation}
-Consequently, 
-$$X_{\tau}(\tau+s)=X_{\tau}(\tau+s-)+\kappa H(X_{\tau}(\tau+s-), \eta(\tau+s),w)$$
-and 
-$$X_{\tau+s}(\tau+s)=X_{\tau}(\tau+s-)+(1-\kappa) H(X_{\tau}(\tau+s-), \eta(\tau+s),w),$$
-that is if $\kappa=0$, the parent stays at its current level and the new particle is given the new
-level. If $\kappa = 1 $, the parent is given the new level and the new particle is given the original
-
-level. Consequently, for $t \geq \tau$
-\begin{align}\label{eq: Spatial evolution of individual lineage}
-X_{\tau}(\tau+t)=&X_{\tau}(t)\\
-&+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\ind_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\kappa    H(X_{\tau}(\tau+s-), \eta(\tau+s),\omega) \\
-&\qquad \times \xi_{\tau}(ds,dv,dw,d\kappa).
-\end{align}
-Starting with an initial particle at level $U_{(0,i)}$ , we can identify a potential line of descent by
-taking $(s_1 , v_1 , w_1 , \kappa_1 ) \in \xi_{(0,i)}$ , setting $\tau_1=s_1$ , and then recursively taking $(s_k , v_k , w_k , \kappa_k ) \in \xi_{\tau_k }$ and defining $\tau_{k+1} = \tau_{k} + s_{k+1}$. Each time $\tau$ at which a new level appears has an “ancestory” of this type.\\
-We now explain the cases where $\kappa_k=0$ and $\kappa_k=1$. When $\kappa_k=0$, the parent retains the level, so $X_{\tau_{k}}$ remains the same at time $\tau_{k+1}$. When $\kappa_k=1$, the offspring gets its parent's level while the parent inherits a new level sampled between $[U_{\tau_k}(\tau_{k+1}-),\lambda]$. As a result, the spatial location $X_{\tau_{k}}$ jumps from the parent's location to the offspring's location at time $\tau_{k+1}$.  Meanwhile, between $[\tau_k, \tau_{k+1}]$ there maybe further birth events generated by $\xi_{\tau_k}$. If $(s,v,w,\kappa) \in \xi_{\tau_k}$, Equation \eqref{eq: Spatial evolution of individual lineage} holds and gives the spatial evolution of $X_{\tau_k}$ for $t \in [\tau_k, \tau_{k+1}]$.\\
-
-For $\tau=\tau_m$ in a recursion like this, let
-\begin{equation}\label{eq: Individual Evolution Recursion Terms}
-\zeta^{0}_{\tau}(B)=\sum_{k=1}^{m}\delta_{(s_k,v_k,w_k,(1-\kappa_k))}, ~~~ V_{\tau}(t)=\sum_{k=1}^{m}v_k\ind_{[0, \tau_k]}  (t)  
-\end{equation}
-and define $U_{\tau}(0)=U_{(0,i)}, X_{\tau}(0)=X_{(0,i)}(0)$, and $\zeta_{\tau}$ by
-\begin{equation}\label{eq: integrand in spatial tracing}
-\zeta_{\tau}(B)=\zeta_{\tau}^{0}(B)+\sum_{k=0}^{m}\int \ind_{B}(\tau_k+s,v,w,\kappa)\ind_{\{\tau_k+s<\tau_{k+1}\}}\xi_{\tau_k}(ds,dv,dw,d\kappa)    
-\end{equation}
-
-where $\tau_{m+1}=\infty$. Then 
-
-\begin{align*}
-U_{\tau}(t)=&U_{\tau}(0)+\int_{0}^{t}\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))}dV_{\tau}(s)\\
-&+\int_{0}^{t}\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))U^2_{\tau}(s)-b_{\theta}(X_{\tau}(s),\eta(s))U_{\tau}(s))ds,\\  
-X_{\tau}(t)=&X_{\tau}(0)+\int_{(0,t]\times[0,\infty]\times[0,1]\times\{0,1\}}\ind_{U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}<\lambda\}}\\
-&\qquad \times \kappa   H(X_{\tau}(s-), \eta(s-),\omega)\zeta_{\tau}(ds,dv,dw,d\kappa)
-\end{align*}
-gives the spatial and level dynamics of a lineage. Note that $\zeta^{0}_{\tau}(B)$ produces spatial jumps when $\kappa_k=1$, while the integral against $\xi_{\tau_k}$ in Equation \eqref{eq: integrand in spatial tracing} gives spatial jumps when $(s,v,w,\kappa) \in \xi_{\kappa_k}$, $\tau_k \leq s \leq \tau_{k+1}$, and $\kappa = 1$. This corresponds to the discussion given above.
-\begin{remark}
-The factor $\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x, \eta)}$ that scales the jump in levels give an average birth rate of $\theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s-), \eta(s-))$. This is because for the potential birth to be a true birth, we impose that $$U_{\tau}(\tau+s)+ \frac{v}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))}< \lambda,$$ where $U_{\tau}(\tau+s)$ is uniformly distributed between $[0, \lambda]$. As a result, a true birth occurs between $[0,\delta t]$ if there exists $(s,v) \in [0,\delta t]\times [0, 2 (\lambda-U_{\tau}(\tau+s)) \lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))]$. Averaging this over levels give a Poisson process with rate $ \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(\tau+s-), \eta(\tau+s-))$. 
-\end{remark}
-\begin{remark}
-Although the labelling presented here depends on random birth times, we can label each individual in the population deterministically with the Ulam-Harris label. We therefore have a countable particle system. In particular, we can now express our particle systems as
-$$\eta(t)=\frac{1}{\lambda}\sum_{U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t),U_{\tau}(t)}, ~~\eta(t)=\frac{1}{\lambda}\sum_{ U_{\tau}(t) < \lambda} \delta_{X_{\tau}(t)}.$$
-For further discussion refer to \S \ref{sec: Ulam-Harris Labels characterisation}.
-\end{remark}
-
-
-%% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{PREVIOUS VERSION OF Stochastic equations for movement of lines of descent}
-    \label{sec:lines_of_descent}
-
-    \plr{This section needs to follow from the previous section better (and maybe be merged with it).}
-
-The main interest in using a lookdown construction for our 
-population processes is that it allows us to retain information 
-about relatedness between individuals as we pass to the infinite
-density limit. In order to exploit this, we generalise the construction of 
-stochastic equations presented in \S \ref{sec: Evolution of an Individual Particle} to the infinite density limit.\\
-In the scaling limit $A^{\text{nl}}_{\epsilon}$, the spatial movement of particles can be characterised with the map $$h \mapsto \gamma\big(x,(\rho_{\epsilon}*\Xi)(x)\big)r\big(x,(\rho_{\epsilon}*\Xi)(x)\big)\mathcal{B}^{m}_{\epsilon}(\Xi)h(x) ,$$
-and as individual particles travel as a random walk in the pre-limit model, we should expect a diffusion limit for individual trajectories.
-\todo[inline]{From Terence: we should try explain in detail why this is the generator of an individual line of descent forward-in-time. The main question here is whether we should have a factor of $r$ in the above notation. For the proof to work in \S \ref{sec: motion of ancestral lineages} we will need a factor of $r$ but I have been finding it slightly unintuitive particularly since the effect of $r$ has been accounted into $\mathcal{B}^{\mathfrak{m}}$ through the limit.}
-To simply notation, we let the above map be the generator of a process 
-satisfying 
-\[X(t)=X(0)+\int_0^t\sigma (X(s),\Xi (s))dW(s)+\int\beta (X(s),\Xi 
-(s))ds.\]
-\begin{remark}
-In particular recall that as in Remark \ref{Remark: Product Rule on Laplacian}, if $\mathcal{B}$ is the Laplacian operator, then the generator above is merely 
-$$\gamma\big(x,(\rho_{\epsilon}*\Xi)(x)\big)\left(\Delta h(x) +2 \nabla h(x) \cdot \nabla \log r( \cdot, (\rho_{\epsilon}*\Xi)(\cdot))(x)\right),$$
-and applying Ito's formula we have 
-\begin{equation}\label{eq: Individual lineage generator description}
-\begin{aligned}
-\beta(X(s),\Xi(s))=& 2\gamma\big(X(s),(\rho_{\epsilon}*\Xi)(X(s))\big) \nabla \log r (\cdot, (\rho_{\epsilon}*\Xi)(\cdot))(X(s))\\
-\sigma(X(s),\Xi(s))=& \sqrt{2\gamma\big(X(s),(\rho_{\epsilon}*\Xi)(X(s))\big)}.
-\end{aligned}
-\end{equation}
-\end{remark}
-
-
-Furthermore, recall that in our scaling limit, 
-\begin{equation}
-\begin{aligned}
-\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(X_{\tau}(s), \eta(s)) &\to \ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)),\\
-b_{\theta}(X_{\tau}(s),\eta(s)) &\to  F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))\\
-&+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s)).
-\end{aligned}    
-\end{equation}
-
-We now have the required results to establish the individual lineage dynamics in the scaling limit. Our approach should be compared to Perkins stochastic calculus,
-\cite{perkins:1995}. First we label the individuals alive at time $0$
-by $\{(0,i), i\in\IN\}$. 
-
-When an individual is born, it is endowed with an
-independent Poisson random measure $\xi$ on $[0,\infty)^2$ with Lebesgue
-mean measure. The first coordinate encodes {\em potential} birth times of 
-offspring of the individual. We say potential, since the parent may have
-died before the potential birth time. 
-Since, after time $0$, no two particles will have the same birth
-time, we index the particles born after time $0$ by 
-their birth times.  
-For example, if a parent has index $\tau$ and $(s,v)\in \xi_\tau$, then 
-$\tau +s$ gives a potential birth time for an offspring which, if
-it is in fact born, will carry
-the label $\tau+s$. 
-The second 
-coordinate of $\xi$ will be used to determine, after scaling, 
-the level of offspring relative to the 
-level of the parent (offspring are always born to levels above that of
-the parent). 
-
-Starting with an initial particle 
-$(0,i)$, we can identify a potential line of descent by 
-taking $(s_1,u_1)\in\xi_{(0,i)}$, setting $\tau_1=s_1$, and then recursively 
-taking $(s_{k+1},u_{k+1})\in\xi_{\tau_k}$ and defining $\tau_{k+1}
-=\tau_k+s_{k+1}$.
-
-With each particle, we will 
-associate an independent Brownian motion, $W_\tau$. For times 
-$t>\tau$, the spatial location and level of the particle with
-label $\tau$ are then determined by
-\begin{equation}\label{Eq: Expression for dynamics in scaling limit}
-\begin{aligned}
-X_{\tau}(t)=&X_{\mbox{\rm $\tau$}}(\tau )+\int_{\tau}^t\sigma (X_{
-\tau}(s),\Xi (s))dW_{\tau}(s)+\int_{\tau}^t\beta (X_{\tau}(s),\Xi (
-s))ds\\
-U_{\tau}(t)=&U_{\tau}(\tau )+\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-& -\big(F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds.
-\end{aligned}
-\end{equation}
-If $(X_{\tau'},U_{\tau'})$ is the parent of $(X_{\tau},U_{\tau})$, 
-then there is $(s,v)\in\xi_{\tau'}$ 
-such that $\tau =\tau'+s$,
-$X_{\tau}(\tau'+s)=X_{\tau'}(\tau'+s)$ and 
-\begin{equation}
-\label{Eq: expression for offspring level in limit}
-U_{\tau}(\tau )=U_{\tau}(\tau'+s)=U_{\tau'}(\tau'+s)+\frac v{2\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s))U_{\tau}^2(s)},
-\end{equation} 
-recognizing 
-that $U_{\tau'}(\tau'+s)$ may be infinite, which means 
-that $(X_{\tau}, U_{\tau})$ doesn't exist.
-To see why we scale $v$ in this way, 
-we observe that
-in order for $U_{\tau}(\tau'+s)$ to be below some fixed level $u_g$,
-we require 
-$v<2\ell \gamma(X_{\tau'}(\tau'+s),\rho_\epsilon*\Xi(X_{\tau'}(\tau'+s))U_{\tau}^2(\tau'+s)\big(u_g-U_{\tau'}(\tau'+s)\big)$.
-Recalling
-that $\xi_{\tau'}$ is Poisson on $[0,\infty)^2$ with Lebesgue mean 
-measure, the instantaneous rate at which we see such a $v$ will be
-$2\gamma(X_{\tau'}(\tau'+s), \Xi(\tau'+s))\big(u_g-U_{\tau'}(\tau'+s)\big)$.
-Comparing  this
-with Equation
-\eqref{Eq: Non-local Scaling limit Lookdown Generator}, this is exactly
-the rate of births that we require.
-\begin{remark}
-Note in particular that $\ell=0$ in the deterministic limit , so the increment in Equation \eqref{Eq: expression for offspring level in limit} is always infinite, meaning that no new offspring is born in the deterministic model. 
-\end{remark}
-In order to write $X_\tau(t)$ and $U_\tau(t)$ as an integral along
-the whole ancestral path linking individual $\tau$ to its ancestor at 
-time $0$, we associate a counting process $N_{\tau}$ with the indivdual
-$\tau$    
-such that $N_{\tau}(t)$ gives the generation of the ancestor of $\tau$ 
-that is alive at time $t$,
-and a process $A_{\tau}$ such that 
-$A_{\tau}(t)$ is 
-the index of the ancestor of $\tau$ that is alive at time $t$. 
-Finally, let $V_{\tau}(t)=\sum_{k=1}^{N_{\tau}(t)}v_k^{\tau}$ be the sum of the second 
-coordinate of the Poisson points along the ancestral line 
-leading to $\tau$.  Then we can write 
-\begin{eqnarray*}
-X_{\tau}(t)&=&X_{\mbox{\rm $A_{\tau}(0)$}}(0)+\int_0^t\sigma 
-(X_{\tau}(s),\Xi (s))dW_{A_{\tau}(s)}(s)+\int_0^t\beta (X_{\tau}
-(s),\Xi (s))ds,\\
-U_{\tau}(t)&=&U_{A_{\tau}(0)}(0)+\int_0^t\frac 1{2\ell \gamma(X_{\tau}(s-),\rho_\epsilon*\Xi(X_{\tau}(s-))}dV_{\tau}(s)\\
-&&\qquad\qquad +\int_{\tau}^t\bigg\{\ell \gamma(X_{\tau}(s),\rho_\epsilon*\Xi(X_{\tau}(s)U_{\tau}^2(s) \\
-&&-\big(F(X_{\tau}(s), (\rho_{\epsilon}*\eta)(X_{\tau}(s)))+\gamma(X_{\tau}(s), (\rho_{\epsilon}*\Xi)(X_{\tau}(s)))\mathcal{B}r(\cdot,(\rho_{\epsilon}*\eta)(\cdot))(X_{\tau}(s))\big)U_{\tau}(s))\bigg\}ds,\end{eqnarray*}
-where
-\[\langle\Xi (t),\varphi\rangle =\lim_{\epsilon\rightarrow 0}
-\epsilon\sum_{
-\tau\leq t}e^{-\epsilon U_{\tau}(t)}\varphi (X_{\tau}(t)).\]
-
+\comment{TODO: incorporate this in the discussion somewhere (and maybe other refs? see previous version).}
 This representation of individuals allows us to identify all 
 of the individuals in the current population that are descendants of a
 given ancestor at time zero. In theory at least, this allows us to
