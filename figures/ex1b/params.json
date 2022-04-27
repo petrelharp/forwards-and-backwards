@@ -1,0 +1,13 @@
+{
+		"THETA" : 100,
+		"K" : 10,
+		"DT" : 0.1,
+		"EPSILON" : 1.0,
+		"DISPERSAL_SIGMA" : 1.0,
+		"WIDTH" : 30,
+		"HEIGHT" : 30,
+		"RUNTIME" : 10,
+        "INIT_PROP" : 1.0,
+        "DIMENSION" : 2,
+        "BURNIN" : 1000
+}

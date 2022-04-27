@@ -693,12 +693,18 @@ it should be possible in 1D, not in higher dimensions (brief note).
 
 \begin{figure}
     \begin{center}
-        FIGURE
+        \includegraphics{figures/ex1a/fkpp_123.locations}
+        \includegraphics{figures/ex1b/fkpp_123.locations}
     \end{center}
     \caption{
-        TODO: Figure depicting deterministic vs superprocess dichotomy:
-        showing 2D images of populations,
-        one with $\theta/N$ not small, the other with $\theta/N$ small.
+        Snapshots of two simulations, with small $\theta$ (left) and large $\theta$ (right).
+        Simulations are run with a FKPP-like parameterization:
+        birth and establishment are constant, while death increases linearly with density,
+        at slope $1/\theta$.
+        Left: $\theta=1$. Right: $\theta=100$.
+        Other parameters were the same:
+        dispersal and interactions distance were set to 1,
+        and the equilibrium density is 10 individuals per unit area.
         \label{fig:super_vs_det_2d}
     }
 \end{figure}

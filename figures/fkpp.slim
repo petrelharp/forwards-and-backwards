@@ -1,0 +1,184 @@
+initialize() {
+	initializeSLiMModelType("nonWF");
+	initializeSLiMOptions(dimensionality="xy");
+	initializeTreeSeq(retainCoalescentOnly=F);
+	initializeMutationRate(0.0);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 1e8-1);
+	initializeRecombinationRate(1e-8);
+	
+	// define to load from an existing file
+	// defineConstant("RESTART_FILE", "sim_1798394982614.trees");
+
+	// These are default params that can be modified with -d at runtime
+	// or read in from "params.slim" (NOTE: params.slim will override these!)
+	// The file params.slim will be read from the working directory, or
+	// from OUTDIR if this is defined on the command line.
+	defaults = Dictionary(	
+		"THETA", 10,  // inverse of difference in per-capita birth and death rates
+		"K", 100,	  // carrying capacity per unit area
+		"DT", 0.1, // discretization factor for time
+		"MAX_SURVIVAL", 0.95, // maximum survival probability
+		"EPSILON", 0.2,  // interaction distance
+		"DISPERSAL_SIGMA", 1.0,  // parent-offspring distance,
+		"DIMENSION", 1, // whether to treat this as 1- or 2-dimensional
+		"HEIGHT", 5,   // height in real units
+		"WIDTH", 20,   // width in real units
+		"SHIFT", 0.0,  // amount to shift by each time step (to keep in stationary frame for instance)
+		"INIT_PROP", 0.2, // proportion of range where the initial population lives
+		"OUTDIR", exists("OUTDIR") ? OUTDIR else ".",
+		"NUM_SNAPSHOTS", 21, // number of times at which to output pngs of the population
+		"RUNTIME", 1000, // amount of time to run for (so, RUNTIME/DT 'generations')
+		"BURNIN", 0, // time to run for before starting to record things
+		"DEBUG", exists("slimgui")  // whether to compute expensive debugging things and not record tree sequences
+	);
+	paramfile = defaults.getValue("OUTDIR") + "/" + "params.json";
+	if (fileExists(paramfile)) {
+		local_params = Dictionary(paste(readFile(paramfile), sep="\n"));
+		defaults.addKeysAndValuesFrom(local_params);
+		defaults.setValue("read_from_paramfile", paramfile);
+	}	
+	defaults.setValue("OUTPATH", defaults.getValue("OUTDIR") + "/fkpp_" + getSeed() + ".trees");
+	defaults.setValue("LOGPATH", defaults.getValue("OUTDIR") + "/fkpp_" + getSeed() + ".log");
+	defaults.setValue("IMAGEPATH", defaults.getValue("OUTDIR") + "/fkpp_" + getSeed() + "_");
+	
+	catn("-------------\n");
+	for (k in defaults.allKeys) {
+		if (!exists(k)) {
+			defineConstant(k, defaults.getValue(k));
+		} else {
+			defaults.setValue(k, executeLambda(paste(c(k, ";"), sep='')));
+		}
+		if (k != "README")
+			catn("  " + k + ": " + defaults.getValue(k));
+	}
+	catn("-------------\n");
+	defineGlobal("params", defaults);
+
+   
+	catn("theta / pop. density  = " + THETA / K + " (deterministic is -> 0)");
+	catn("(dispersal) neighborhood size = " + 4 * K * DISPERSAL_SIGMA + " (d=1) " + 4 * PI * K * DISPERSAL_SIGMA^2 + " (d=2)");
+	catn("interaction neighborhood = " + 4 * K * EPSILON + " (d=1) " + 4 * PI * K * EPSILON^2 + " (d=2)");
+	catn("dispersal / interaction =  " + DISPERSAL_SIGMA / EPSILON + " (< 1 is patchy)");
+
+	// spatial interaction for local competition
+	// NOTE: it is ONLY in the x direction if DIMENSION is 1
+	initializeInteractionType("i1",
+		(DIMENSION == 1) ? "x" else "xy",
+		reciprocal=T,
+		maxDistance = 2 * EPSILON);
+	i1.setInteractionFunction("n", 1.0/sqrt(2*PI*EPSILON^2), EPSILON);
+    // for mate choice
+	initializeInteractionType("i2",
+		(DIMENSION == 1) ? "x" else "xy",
+		reciprocal=T,
+		maxDistance = 2 * DISPERSAL_SIGMA);
+	i2.setInteractionFunction("n", 1.0/sqrt(2*PI*DISPERSAL_SIGMA^2), DISPERSAL_SIGMA);
+}
+	
+
+// set up logging
+1 first() {
+	if (!DEBUG) {
+		log = sim.createLogFile(OUTPATH + ".log");
+		log.setLogInterval(20);
+		log.addGeneration();
+		log.addGenerationStage();
+		log.addPopulationSize();
+		log.addCustomColumn("time", "sim.generation * DT;");
+		log.addMeanSDColumns("neighbor_density", "i1.localPopulationDensity(p1.individuals);");
+	}
+}
+
+1 first() {
+	sim.rescheduleScriptBlock(s98, generations=unique(asInteger(seq(1 + BURNIN / DT, (BURNIN + RUNTIME) / DT - 1, length=NUM_SNAPSHOTS))));
+	sim.rescheduleScriptBlock(s99, generations=asInteger((BURNIN + RUNTIME) / DT)); // end
+}
+
+1 late() {
+	if (exists("RESTART_FILE")) {
+		sim.readFromPopulationFile(RESTART_FILE);
+	} else {
+		sim.addSubpop("p1", asInteger(K * INIT_PROP * WIDTH * ((DIMENSION == 1) ? 1.0 else HEIGHT)));
+		p1.setSpatialBounds(c(0.0, 0.0, WIDTH, HEIGHT));
+		for (ind in p1.individuals) {
+			ind.setSpatialPosition(p1.pointUniform() * c(INIT_PROP, 1));
+		}
+	}
+}
+
+late() {
+	i1.evaluate();
+	i2.evaluate();
+	inds = p1.individuals;
+	inds.tagF = i1.localPopulationDensity(inds) / K;
+}
+
+reproduction() {
+	if (runif(1) < 1 - exp(-DT)) {
+		mate = i2.drawByStrength(individual, 1);
+		if (size(mate) > 0) {
+			offspring = p1.addCrossed(individual, mate);
+		} else {
+			offspring = p1.addSelfed(individual);
+		}
+		pos = individual.spatialPosition + rnorm(2, c(0,0), sqrt(DT) * DISPERSAL_SIGMA);
+		offspring.setSpatialPosition(p1.pointReflected(pos));
+		offspring.tagF = -1.0;
+	}
+}
+
+2: early() { // survival probabilities
+	inds = p1.individuals;
+	new = asFloat(inds.age == 0);
+	n = inds.tagF;
+	inds.fitnessScaling = new + (1 - new) * pmin(MAX_SURVIVAL, exp(-DT * ((1 - 1/THETA) + n/THETA)));
+}
+
+2: early() {
+	// shift into frame of reference of wave front
+	if (SHIFT != 0) {
+		inds = p1.individuals;
+		inds.x = inds.x - SHIFT;
+		inds.fitnessScaling = inds.fitnessScaling * asFloat(inds.x > 0);
+	}
+}
+
+late() {
+	if (p1.individualCount == 0) {
+		catn("The population has died out, in generation " + sim.generation);
+		sim.simulationFinished();
+	}
+	if (DEBUG & p1.individualCount > 0) { // color individuals
+		inds = p1.individuals;
+		neighbor_density = i1.localPopulationDensity(inds);
+		inds.color = colors(neighbor_density/max(neighbor_density), "jet");
+	}
+}
+
+late() {
+	if ((sim.generation >= BURNIN / DT) & !DEBUG)
+		sim.treeSeqRememberIndividuals(p1.individuals, permanent=T);
+}
+
+s99 2000 late() {
+	if (!DEBUG) sim.treeSeqOutput(OUTPATH, metadata=params);
+	sim.outputUsage();
+	catn("Done, written output to " + OUTPATH);
+	sim.simulationFinished();
+}
+
+// Output map of population
+s98 2000 late() {
+	if (!DEBUG) {
+		patches = summarizeIndividuals(
+			p1.individuals,
+			asInteger(100 * pmin(1.0, c(HEIGHT/WIDTH, WIDTH/HEIGHT))),
+			p1.spatialBounds,
+			operation="length(individuals);"
+		);
+		patch_map = Image(patches / max(patches));
+		patch_map.write(IMAGEPATH + format("%05.0f", sim.generation * DT) + ".png");
+	}
+}
