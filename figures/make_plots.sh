@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -e lineage_plotting ]
+    echo "Need lineage_plotting repository as a subdirectory."
+    exit 1
+fi
+
 # smooth and patchy figures
 for DIR in ex1a ex1b
 do
