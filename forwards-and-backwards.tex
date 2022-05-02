@@ -5,7 +5,6 @@
 \usepackage{amsmath}
 \usepackage[color=yellow]{todonotes}
 \usepackage{url}
-
 \usepackage{xcolor}
 \usepackage{longtable}
 \usepackage[hidelinks]{hyperref}
@@ -2776,7 +2775,7 @@ Note that since $\epsilon_{\gamma}>\epsilon_{r}$,
 \end{aligned}
 \end{equation}
 it suffices to show that 
-\begin{equation}
+\begin{equation}\label{eq: gaussian density estimate}
  \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
 \end{equation}
 where
@@ -2787,217 +2786,8 @@ $$H_{\theta}(x,w)=\int_{\mathbb{R}^d}
         1
     \right)^2
 q_{\theta}(x,dy).$$
-Writing out $H$,
-\begin{align}
-H_\theta(x, w)
-=
-\int
-    \left(
-        \exp\left(
-            - \frac{1}{2\epsilon_r^2}
-            \left\{
-                ||y - w||^2 - ||x - w||^2
-            \right\}
-        \right)
-        -
-        1
-    \right)^2
-    \frac{
-        e^{-\theta (y - x-\meanq)^{T}\covq^{-1}(y - x-\meanq)  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dy.
-\end{align}
-Writing $z=y-x-\meanq$, we have that 
-\begin{equation}
-\begin{aligned}
-||y - w||^2 - ||x - w||^2 
-=& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
-=&||x+z+ \meanq||^2-||x||^2-2 \langle z+ \meanq, w\rangle\\
-=&2\langle x, z+ \meanq \rangle + ||z+ \meanq||^2-2 \langle z+ \meanq, w\rangle \\
-=& 2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2\\
-=& 2\langle x-w+ \meanq,\meanq \rangle + 2\langle x-w+ \meanq, z \rangle +||z||^2
-\end{aligned}
-\end{equation}
-As a result, we have 
-\begin{align}
-H_\theta(x, w)
-=&
-\int
-    \left(
-        \exp\left(
-            - \frac{1}{2\epsilon_r^2}
-            \left\{
-                2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2
-            \right\}
-        \right)
-        -
-        1
-    \right)^2
-    \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\
-=&\exp\left(-\frac{2}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
-& \times \int
-        \frac{
-        \exp\left(
-            - \frac{2}{\epsilon_r^2} \langle x-w+ \meanq, z \rangle
-            - \frac{1}{\epsilon_r^2} ||z||^2
-            \right)
-            e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\ \label{eq: Second moment term matrix calculation}
-&-2\exp\left(-\frac{1}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
-& \qquad \qquad \times     \int
-    \frac{ \exp\left(
-             -\frac{1}{\epsilon_r^2}\langle x-w+ \meanq, z \rangle
-              -\frac{1}{2\epsilon_r^2} ||z||^2
-            \right)e^{-\theta z^{T}\covq^{-1}z  / 2}
-        }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2} \label{eq: first moment term matrix calculation}
-    }
-dz\\
-&+1.
-\end{align}
-We now consider the integral of the form 
-\begin{equation}
-\int \exp(v^{T}z-C||z||^2) \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz   
-\end{equation}
-for $v \in \mathbb{R}^d$ and $C>0$. 
-We have 
-\begin{equation}
-\begin{aligned}
-&\int \exp(v^{T}z-C||z||^2) \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\
-=&\frac{1}{|\covq|^{1/2}|  |\covq^{-1}(I+2C\covq/\theta )|^{1/2}  }\int \exp(v^{T}z) \frac{
-        e^{-\theta z^{T}\covq^{-1}(I+2C\covq/\theta )z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2}|\covq^{-1}(I+2C\covq/\theta )|^{-1/2} 
-    }
-dz\\
-=& \frac{1}{|I+2C\covq/\theta |^{1/2}} \mathbb{E}_{Z}[\exp (v^{T}Z)]\\
-=&\frac{1}{|I+2C\covq/\theta |^{1/2}}
-\exp 
-\left(
-\frac{1}{2}v^{T}\covq/\theta(I+2C\covq/\theta )^{-1}v
-\right),
-\end{aligned}
-\end{equation}
-where $Z \sim N(0, \covq/\theta \times (I+2C\covq/\theta )^{-1})$.
+For the proof of Equation \eqref{eq: gaussian density estimate} refer to the Lemma \ref{eq: Gaussin density estimates} in the Appendix.
 
-Now writing $v=\frac{2}{\epsilon_r^2}( w-x-\meanq)$
-and $C=\frac{1}{\epsilon_r^2}$,
-we have the expression in Equation
-\eqref{eq: Second moment term matrix calculation} is 
-$$\frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right).$$
-Similarly, writing $v=\frac{1}{\epsilon_r^2}( w-x-\meanq)$
-and $C=\frac{1}{2\epsilon_r^2}$,
-we have the expression in Equation
-\eqref{eq: first moment term matrix calculation} is 
-$$\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq\left(I+\covq/\theta/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right).$$
-As a result, we have 
-\begin{align*}
-&H_{\theta}(x,w)\\
-=& \frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right)\\
-&-2\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right)\\
-&+1.
-\end{align*}
-If we write $F(1/\theta)=H_{\theta}(x,w)$, i.e.
-\begin{align*}
-&F(s)\\
-=& \frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
-\right)\\
-&-2\frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
-\right)\\
-&+1\\
-&=G_1(s)+2G_2(s)+1
-\end{align*}
-we can check that $F(0)=0$.
-As a result, 
-$$\theta H_{\theta}(x,w)\rho_r(x-w)= \theta F(1/\theta)\rho_r(x-w)=F'(s)\rho_r(x-w),$$
-for some $s \in [0, 1/\theta]$.
-
-In Equation \eqref{eq: gamma-r convolution comparison}, we have established that 
-$\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
-with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
-Therefore it suffices to show that for all $x,w \in \mathbb{R}^d$ and $s \in [0, 1/\theta]$, 
-\begin{align} 
-    F'(s) \exp\left(-A (x-w)^2 \right) \le C .
-\end{align}
-
-We consider how to differentiate function $G$ of the form 
-$$G(s):=\frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),$$
-where $A,B,C$ are matrices with non-negative entries and $I$ is the identity matrix.
-
-Since 
-\begin{equation}
-\begin{aligned}
-G'(s)=& - \frac{|A|}{2|I+As|^{3/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
-      & + \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
-      & \qquad \times \left\{ v^{T}B(I+Cs)^{-1}v
-                            - sv^{T}BC(I+Cs)^{-2}v
-                    \right\}\\
-      &=\left(- \frac{|A|}{2|I+As|}+v^{T}B(I+Cs)^{-2}v
-        \right)\\
-      & \qquad \times
-        \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),
-\end{aligned}
-\end{equation}
-using non-negativity of $A,B,C$ we have
-\begin{equation}
-\label{eq: bounds on G'}
-|G'(s)| \leq (|A|+||B||_{2}||v||_2^2)G(s).    
-\end{equation}
-As a result, we have that 
-\begin{equation}
-\label{eq: bounds on G}
-G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}, ~~   G'(s)(|A|+||B||_{2}||v||_2^2)K e^{|A|+||B||_{2}||v||_2^2)s}.  
-\end{equation}
-
-Finally note that, 
-$$F'(s) \leq G_1'(s)+2G_2'(s),$$
-where 
-$$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
-and 
-$$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
-Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
 \end{proof}
 
 
@@ -3337,13 +3127,13 @@ Therefore, it suffices to show that for any $t>0$,
 \lim_{\theta \to \infty}
 \mathbb{E}\left[
 \left(
-F_f(\eta^{\theta}_{t+s})-F_f(\eta^{\theta}_t)
--\int_{t}^{t+s}\Pgen^{\infty}F_f(\eta^{\theta}_s)ds
+F_f(\eta^{\theta}_{t+\tau})-F_f(\eta^{\theta}_t)
+-\int_{t}^{t+\tau}\Pgen^{\infty}F_f(\eta^{\theta}_s)ds
 \right)
 \prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
 \right]=0
 \end{equation}
-for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+s$,
+for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
 and $h_1,...,h_k \in \mathcal{C}_{0}(\mathbb{R}^d)$.
 
 To prove this,
@@ -3353,28 +3143,28 @@ of $\eta^{\theta}_T$.
 We have
 \begin{equation}
 \begin{aligned}
-&\mathbb{E}\left[F_f(\eta^{\theta}_{t+s})-F_f(\eta^{\theta}_t)\bigg| \mathcal{F}_t \right]\\
+&\mathbb{E}\left[F_f(\eta^{\theta}_{t+\tau})-F_f(\eta^{\theta}_t)\bigg| \mathcal{F}_t \right]\\
 =& F'(\langle f, \eta^{\theta}_t \rangle )
 \mathbb{E}\left[
-                \langle f, \eta^{\theta}_{t+s}\rangle
+                \langle f, \eta^{\theta}_{t+\tau}\rangle
                     -\langle f, \eta^{\theta}_t\rangle 
                     \bigg| \mathcal{F}_t
          \right]
 +\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )
 \mathbb{E}\left[
                 \left(
-                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
                 \right)^2
                 \bigg| \mathcal{F}_t
         \right]\\
-&+\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
+&+\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+\tau'}\rangle)\mathbb{E}\left[
                 \left(
-                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
                 \right)^3
                 \bigg| \mathcal{F}_t
         \right]\\
 =& F'(\langle f, \eta^{\theta}_t \rangle )\\
-& \times  \int_{0}^{t}\bigg\{
+& \times  \int_{t}^{t+\tau}\bigg\{
         \int\left(   \int \theta
      \left(
         f(z)r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
@@ -3389,21 +3179,47 @@ We have
      \eta^{\theta}_{s}(dx)
     \bigg\} ds\\
 &+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
-&\quad \times \frac{\theta}{N} \int_{0}^{t}\bigg\{
+&\quad \times \frac{\theta}{N}\int_{t}^{t+\tau}\bigg\{
 \langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
 \int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
 ,\eta^{\theta}_{s}(dx)\rangle\\
 & \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
 ,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds\\
-&+\frac{1}{6}F^{(3)}(\langle f, \eta^{\theta}_{t+s'}\rangle)\mathbb{E}\left[
+&+\frac{1}{6}F^{(3)}(\langle f, \eta^{\theta}_{t+\tau'}\rangle)\mathbb{E}\left[
                 \left(
-                    \langle f, \eta^{\theta}_{t+s}\rangle -\langle f, \eta^{\theta}_t\rangle
+                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
                 \right)^3
                 \bigg| \mathcal{F}_t
         \right]
 \end{aligned}
 \end{equation}
 for some $s' \in [0,s]$.
+
+We first show that 
+$$\lim_{\theta \to \infty}\mathbb{E}\left[
+                \left|
+                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
+                \right|^3
+                \bigg| \mathcal{F}_t
+        \right] \to 0.$$
+Since the total number of births and deaths
+between $[t,t+\tau]$ is given by Poisson point processes
+with rates $\theta \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)$
+and $\theta \mu\big(x,\eta^{\theta}_{s}\big)$
+respectively,
+and each birth and death events contribute
+an increment of order $\mathcal{O}(1/N^3)$,
+we have that
+\begin{multline}
+\lim_{\theta \to \infty}\mathbb{E}\left[
+                \left|
+                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
+                \right|^3
+                \bigg| \mathcal{F}_t
+        \right] \\
+\leq ||f||_{\theta} \frac{\theta}{N^2}\int_{0}^{t}\left\langle\gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)+\mu\big(x,\eta^{\theta}_{s}\big), \eta^{\theta}_s(dx)\right\rangle ds \to 0
+\end{multline}
+as $\theta \to \infty$.
 \end{proof}
 
 
@@ -4471,209 +4287,27 @@ where $\mathcal{L}^{nl}_{\epsilon}$ is the generator of a non-linear superproces
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \newpage
+
+
 \section{Technical Lemmas}
-\subsection{Proof to Lemma \ref{lem: gamma - r radius comparison}}
-    \label{sec: Proof to gamma-r radius comparison}
-Suppose that the birth rate at $x$ is
-$\gamma(\rho_\gamma * \eta(x))$
-and the establishment probability is
-$r(\rho_r * \eta(x))$,
-for some functions $\gamma$ and $r$,
-and where $\rho_\gamma$ and $\rho_r$ are some kernels,
-and that the death rate at $x$ is
-$$
-    \mu(x, \eta) = 
-        \gamma(\rho_\gamma * \eta(x))
-        r(\rho_r * \eta(x))
-        +
-        \frac{1}{\theta} F(\rho_R * \eta(x))
-$$
-for some bounded function $F$ and kernel $\rho_R$ (that is probably either $\rho_r$ or $\rho_\gamma$).
+\subsection{Gaussian Kernel Estimates}
 
-To bound $\IE\left[\langle 1, \eta_t \rangle\right]$
-by Gronwall,
-we would like to find a bound of the form
-\begin{align} \label{eqn:goal}
-    \theta \int \left[
-        r(\rho_r * \eta(y))
-        -
-        r(\rho_r * \eta(x))
-    \right] q_\theta(x, dy)
-    \le
-    G( \rho_\gamma * \eta(x) ),
-\end{align}
-for some polynomial function $G$.
-
-To do this, first we expand $r(\rho_r * \eta(x))$ to second order.
-Given $y$, with $x < \tilde y < y$,
-\begin{align}
-    r(\rho_r * \eta(y)) - r(\rho_r * \eta(x))
-    &=
-    r'(\rho_r * \eta(x))
-    \left\{
-        \rho_r * \eta(y)
-        -
-        \rho_r * \eta(x)
-    \right\}
-    +
-    \frac{1}{2}
-    r''(\rho_r * \eta(\tilde y))
-    \left\{
-        \rho_r * \eta(y)
-        -
-        \rho_r * \eta(x)
-    \right\}^2 .
-\end{align}
-
-Putting this in Equation \eqref{eqn:goal}, the second term is then
-\begin{align}
-&\theta \int
-    \frac{1}{2}
-    r''(\rho_r * \eta(\tilde y))
-    \left\{
-        \rho_r * \eta(y)
-        -
-        \rho_r * \eta(x)
-    \right\}^2 
-    q_\theta(x, dy)  \\
-&\qquad
-\le \theta \frac{\|r''\|_\infty}{2}
-    \int
-    \left\{
-        \rho_r * \eta(y)
-        -
-        \rho_r * \eta(x)
-    \right\}^2 
-    q_\theta(x, dy)  .
-\end{align}
-
-We will first show that this is bounded by a function of $\rho_\gamma * \eta(x)$,
-i.e., that for any $x < \tilde y < y$ and $\theta$ sufficiently large,
-there is a $C$ with
-\begin{align} \label{eqn:goal2}
-    \theta \int
-    \left\{
-        \rho_r * \eta(y)
-        -
-        \rho_r * \eta(x)
-    \right\}^2 
-    q_\theta(x, dy)  
-\le
-C \rho_\gamma * \eta(x) .
-\end{align}
-
-Leaving aside the $\frac{\|r''\|_\infty}{2}$ constant,
-let's rewrite this so we can use Fubini.
-First note that,
-since $\rho_r *\eta(x) = \int \rho_r(x - w) \eta(dw)$
-is the normalizing constant for the measure proportional to $\rho_r(x - w) \eta(dw)$,
-then applying Jensen's inequality,
-\begin{align}
-&\left\{
-            \rho_r * \eta(y)
-            -
-            \rho_r * \eta(x)
-\right\}^2  \\
-&\qquad
-=
-\left\{
-\int
-    \left(
-        \rho_r(y-w)
-        -
-        \rho_r(x-w)
-    \right)
-\eta(dw)
-\right\}^2  \\
-&\qquad
-=
-\left\{
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)
-    \rho_r(x-w)
-\eta(dw)
-\right\}^2  \\
-&\qquad
-=
-\left(\rho_r * \eta(x)\right)^2 \left\{
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)
-    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
-\eta(dw)
-\right\}^2  \\
-&\qquad
-\le
-\left(\rho_r * \eta(x)\right)^2 
-\int
+\begin{lemma}\label{eq: Gaussin density estimates}
+\begin{equation}\label{eq: gaussian density estimate}
+ \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
+\end{equation}
+where
+$$H_{\theta}(x,w)=\int_{\mathbb{R}^d}
     \left(
         \frac{\rho_r(y-w)}{\rho_r(x-w)}
         -
         1
     \right)^2
-    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
-\eta(dw) \\
-&\qquad
-=
-\rho_r * \eta(x)
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-    \rho_r(x-w)
-\eta(dw) .
-\end{align}
-
-Now, we don't mind having the $\rho_r * \eta(x)$ term,
-so we'd like to bound the remaining bit by $\rho_\gamma * \eta(x)$.
-We'll now bring in the integral over $y$ and use Fubini, so that
-\begin{align}
-&\int \theta
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-    \rho_r(x-w)
-\eta(dw)
-q_\theta(x, dy) \\
-&\qquad
-=
-\int \theta H_\theta(x, w) \rho_r(x-w) \eta(dw) ,
-\end{align}
-if we define
-\begin{align}
-H_\theta(x, w)
-:=
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-q_\theta(x, dy) .
-\end{align}
-So, it only remains to bound $\theta H_\theta (w, x) \rho_r(x-w) $ by $\rho_\gamma(x - w)$.
-
-Now, let's assume that $\rho$ and $q$ are all Gaussian;
-to avoid difficulties with notation,
-define  $p_t(x) = \exp(-x^2 / 2t) / (2 \pi t)^{d/2}$
-to be the heat kernel,
-so that $\rho_r(x) = p_{\epsilon_r^2}(x)$
-and $q_\theta(x) = p_{1/\theta}(x)$.
+q_{\theta}(x,dy).$$
+\end{lemma}
+\begin{proof}
+   
 Writing out $H$,
 \begin{align}
 H_\theta(x, w)
@@ -4683,217 +4317,210 @@ H_\theta(x, w)
         \exp\left(
             - \frac{1}{2\epsilon_r^2}
             \left\{
-                (y - w)^2 - (x - w)^2
+                ||y - w||^2 - ||x - w||^2
             \right\}
         \right)
         -
         1
     \right)^2
     \frac{
-        e^{-\theta(y - x)^2 / 2}
+        e^{-\theta (y - x-\meanq)^{T}\covq^{-1}(y - x-\meanq)  / 2}
     }{
-        (2 \pi / \theta)^{d/2}
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
     }
-dy .
+dy.
 \end{align}
-
-We'll just multiply this out and evaluate it directly,
-using the fact that
-\begin{align}
-&
-\int e^{-a z - b z^2 / 2} \frac{e^{-\theta z^2 / 2}}{(2 \pi / \theta)^{d/2}} dz
-\\ &\qquad
-=
-\left(
-    \frac{ \theta }{ \theta + b }
-\right)^{d/2}
-\int e^{-a z} \frac{e^{-(\theta + b) z^2 / 2}}{(2 \pi / (\theta + b))^{d/2}} dz
-\\ &\qquad
-= \label{eqn:mgf}
-\left(
-    \frac{ \theta }{ \theta + b }
-\right)^{d/2}
-\exp\left( \frac{ a^2 }{ 2 (\theta + b) } \right) ,
-\end{align}
-(since $Z \sim \text{Normal}(0, \sigma^2)$ then $\IE[e^{tZ}] = \exp(\sigma^2 t^2 / 2)$).
-
-Let $z = y - x$ and note that the polynomial in the exponent inside the definition of $H$ is
-\begin{align}
-    (y-w)^2 - (x-w)^2
-    &=
-    (y - x)(y + x - 2w) \\
-    &=
-    z (z + 2x - 2w) ,
-\end{align}
-and so
-\begin{align}
-&
-\left(
-    \exp\left(
-        \frac{1}{2\epsilon_r^2}
-        \left\{
-            (y - w)^2 - (x - w)^2
-        \right\}
-    \right)
-    -
-    1
-\right)^2 \\
-&\qquad
-= \label{eqn:H_form}
-    \exp\left(
-        - \frac{1}{\epsilon_r^2}
-        \left\{
-            z^2 + z (2x - 2w)
-        \right\}
-    \right)
-    - 2 \exp\left(
-        - \frac{1}{2\epsilon_r^2}
-        \left\{
-            z^2 + z (2x - 2w)
-        \right\}
-    \right)
-    + 1 .
-\end{align}
-So, for the first term in $H$ we use \eqref{eqn:mgf} with
-$a = 2 (x-w) / \epsilon_r^2$ and $b = 2 / \epsilon_r^2$,
-while for the second these are each divided by 2.
-So,
+Writing $z=y-x-\meanq$, we have that 
+\begin{equation}
+\begin{aligned}
+||y - w||^2 - ||x - w||^2 
+=& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
+=&||x+z+ \meanq||^2-||x||^2-2 \langle z+ \meanq, w\rangle\\
+=&2\langle x, z+ \meanq \rangle + ||z+ \meanq||^2-2 \langle z+ \meanq, w\rangle \\
+=& 2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2\\
+=& 2\langle x-w+ \meanq,\meanq \rangle + 2\langle x-w+ \meanq, z \rangle +||z||^2
+\end{aligned}
+\end{equation}
+As a result, we have 
 \begin{align}
 H_\theta(x, w)
-&=
+=&
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\exp\left(-\frac{2}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
+& \times \int
+        \frac{
+        \exp\left(
+            - \frac{2}{\epsilon_r^2} \langle x-w+ \meanq, z \rangle
+            - \frac{1}{\epsilon_r^2} ||z||^2
+            \right)
+            e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\ \label{eq: Second moment term matrix calculation}
+&-2\exp\left(-\frac{1}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
+& \qquad \qquad \times     \int
+    \frac{ \exp\left(
+             -\frac{1}{\epsilon_r^2}\langle x-w+ \meanq, z \rangle
+              -\frac{1}{2\epsilon_r^2} ||z||^2
+            \right)e^{-\theta z^{T}\covq^{-1}z  / 2}
+        }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2} \label{eq: first moment term matrix calculation}
+    }
+dz\\
+&+1.
+\end{align}
+We now consider the integral of the form 
+\begin{equation}
+\int \exp(v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz   
+\end{equation}
+for $v \in \mathbb{R}^d$ and $C>0$. 
+We have 
+\begin{equation}
+\begin{aligned}
+&\int \exp(v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\frac{1}{|\covq|^{1/2}|  |\covq^{-1}(I+2C\covq/\theta )|^{1/2}  }\int \exp(v^{T}z) \frac{
+        e^{-\theta z^{T}\covq^{-1}(I+2C\covq/\theta )z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2}|\covq^{-1}(I+2C\covq/\theta )|^{-1/2} 
+    }
+dz\\
+=& \frac{1}{|I+2C\covq/\theta |^{1/2}} \mathbb{E}_{Z}[\exp (v^{T}Z)]\\
+=&\frac{1}{|I+2C\covq/\theta |^{1/2}}
+\exp 
 \left(
-    \frac{ \theta }{ \theta + 2/\epsilon_r^2 }
-\right)^{d/2}
-\exp\left( \frac{ 4 (x-w)^2 }{ 2 \epsilon_r^2 (\theta \epsilon_r^2 + 2) } \right)
-- 2
+\frac{1}{2}v^{T}\covq/\theta(I+2C\covq/\theta )^{-1}v
+\right),
+\end{aligned}
+\end{equation}
+where $Z \sim N(0, \covq/\theta \times (I+2C\covq/\theta )^{-1})$.
+
+Now writing $v=\frac{2}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: Second moment term matrix calculation} is 
+$$\frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
 \left(
-    \frac{ \theta }{ \theta + 1/\epsilon_r^2 }
-\right)^{d/2}
-\exp\left( \frac{ (x-w)^2 }{ 2 \epsilon_r^2 (\theta \epsilon_r^2 + 1) } \right)
-+ 1 \\
-&=
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+Similarly, writing $v=\frac{1}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{2\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: first moment term matrix calculation} is 
+$$\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
 \left(
-    \frac{ 1 }{ 1 + 2/(\theta \epsilon_r^2) }
-\right)^{d/2}
-\exp\left( \frac{ 4 (x-w)^2 }{ 2 \epsilon_r^2 \theta (\epsilon_r^2 + 2/\theta) } \right)
-- 2
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq\left(I+\covq/\theta/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+As a result, we have 
+\begin{align*}
+&H_{\theta}(x,w)\\
+=& \frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
 \left(
-    \frac{ 1 }{ 1 + 1/(\theta \epsilon_r^2) }
-\right)^{d/2}
-\exp\left( \frac{ (x-w)^2 }{ 2 \epsilon_r^2 \theta (\epsilon_r^2 + 1/\theta) } \right)
-+ 1 .
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1.
+\end{align*}
+If we write $F(1/\theta)=H_{\theta}(x,w)$, i.e.
+\begin{align*}
+&F(s)\\
+=& \frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1\\
+&=G_1(s)+2G_2(s)+1
+\end{align*}
+we can check that $F(0)=0$.
+As a result, 
+$$\theta H_{\theta}(x,w)\rho_r(x-w)= \theta F(1/\theta)\rho_r(x-w)=F'(s)\rho_r(x-w),$$
+for some $s \in [0, 1/\theta]$.
+
+In Equation \eqref{eq: gamma-r convolution comparison}, we have established that 
+$\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
+with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
+Therefore it suffices to show that for all $x,w \in \mathbb{R}^d$ and $s \in [0, 1/\theta]$, 
+\begin{align}\label{eqn:goal3}
+    F'(s) \exp\left(-A (x-w)^2 \right) \le C .
 \end{align}
 
-If we define $f(u)$ so that $f(1/\theta) = H_\theta(x, w)$,
-then notice since $f(0) = 0$,
-that $\theta f(1/\theta) = f'(u)$ for some $0 \le u \le 1/\theta$,
-by the intermediate value theorem.
-Let's work out what $f'(u)$ is.
-First note that if
-\begin{align}
-    g(u)
-    &=
-    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
-    \exp\left(
-    \frac{
-    b u
-    }{
-    1 + c u
-    }
-    \right)
-\end{align}
-then
-\begin{align}
-    g'(u)
-    &=
-\left\{
-    \frac{ - ad/2 }{ 1 + a u }
-    +
-    \frac{b}{1 + cu}
-    -
-    \frac{bcu}{(1+cu)^2}
-\right\}
-    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
-    \exp\left(
-    \frac{
-    b u
-    }{
-    1 + c u
-    }
-    \right) \\
-    &=
-\left\{
-    \frac{ - ad/2 }{ 1 + a u }
-    +
-    \frac{b}{(1 + cu)^2}
-\right\}
-    \left( \frac{ 1 }{ 1 + a u } \right)^{d/2}
-    \exp\left(
-    \frac{
-    b u
-    }{
-    1 + c u
-    }
-    \right) .
-\end{align}
-If, as will be the case, all of $a$, $b$, $c$, and $u$ are nonnegative, then
-\begin{align}
-|g'(u)|
-&\le
- (b + ad/2) \exp(bu) .   
-\end{align}
-Now, note that $f'(u) = g_1'(u) - 2 g_2'(u)$, where $g_1$ and $g_2$ are of this form
-with constants $a_1, b_1, c_1$ and $a_2, b_2, c_2$ respectively.
+We consider how to differentiate function $G$ of the form 
+$$G(s):=\frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),$$
+where $A,B,C$ are matrices with non-negative entries and $I$ is the identity matrix.
 
+Since 
+\begin{equation}
+\begin{aligned}
+G'(s)=& - \frac{|A|}{2|I+As|^{3/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & + \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & \qquad \times \left\{ v^{T}B(I+Cs)^{-1}v
+                            - sv^{T}BC(I+Cs)^{-2}v
+                    \right\}\\
+      &=\left(- \frac{|A|}{2|I+As|}+v^{T}B(I+Cs)^{-2}v
+        \right)\\
+      & \qquad \times
+        \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),
+\end{aligned}
+\end{equation}
+using non-negativity of $A,B,C$ we have
+\begin{equation}
+\label{eq: bounds on G'}
+|G'(s)| \leq (|A|+||B||_{2}||v||_2^2)G(s).    
+\end{equation}
+As a result, we have that 
+\begin{equation}
+\label{eq: bounds on G}
+G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}, ~~   G'(s)(|A|+||B||_{2}||v||_2^2)K e^{|A|+||B||_{2}||v||_2^2)s}.  
+\end{equation}
 
-Again, we'd like to show that for some $C$,
-\begin{align}
-    \theta H_\theta(x, w) \rho_r(x-w) \le C \rho_\gamma(x-w)  .
-\end{align}
-We will have $\rho_\gamma = p_{\epsilon_\gamma^2}$ with $\epsilon_\gamma > \epsilon_r$,
-so that $\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-A (x-w)^2 / 2)$
-with $A = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
-Putting this together,
-we will have shown \eqref{eqn:goal2}
-if we can show for some $\theta$ that
-for all $x$ and $w$ and all $u \le 1/\theta$,
-\begin{align} \label{eqn:goal3}
-    f'(u) \exp\left(-A (x-w)^2 \right) \le C .
-\end{align}
-Since $f'(u) = g_1'(u) - 2 g_2'(u)$ we need only prove this bound
-for both $g_1'(u)$ and $g_2'(u)$.
-Referring to \eqref{eqn:H_form}
-we see that $b_1 = 2(x-w)^2 / \epsilon_r^4$
-and that $a$ and $c$ only depend on $\epsilon_r$,
-\begin{align}
-|g_1'(u)|
-&\le
-\left\{
-    C_1 + C_2 (x-w)^2
-\right\}
-\exp\left(
-    \frac{ 2 (x - w)^2 }{ \epsilon_r^4 } u
-\right)  \\
-&\le
-\left\{
-    C_1 + C_2 (x-w)^2
-\right\}
-\exp\left(
-    \frac{ 2 (x - w)^2 }{ \epsilon_r^4 \theta }
-\right) 
-\end{align}
-where $C_1$ and $C_2$ are constants that just depend on $\epsilon_r$.
-Therefore, equation \eqref{eqn:goal3} is satisfied
-if the multiplier of $(x-w)^2$ in the last equation is less than $A$,
-i.e., if
-\begin{align}
-\theta 
-> 
-\frac{ 4 }{ A \epsilon_r^4 }
-=
-\frac{ 4 / \epsilon_r^2 }{1 - \epsilon_r^2 / \epsilon_\gamma^2 } .
-\end{align}
-This is possible if $\epsilon_r < \epsilon_\gamma$.
+Finally note that, 
+$$F'(s) \leq G_1'(s)+2G_2'(s),$$
+where 
+$$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
+and 
+$$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
+Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
+ 
+\end{proof}
 
 \bibliographystyle{plainnat}
 \bibliography{refs.bib}
