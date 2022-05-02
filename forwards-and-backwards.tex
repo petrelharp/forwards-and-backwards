@@ -135,7 +135,7 @@ reaction-diffusion equation, travelling waves, genealogies,
 \tableofcontents
 \newpage
 
-
+\comment{TODO: talk about $N \to \infty$ rather than $\theta \to \infty$.}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -1628,6 +1628,7 @@ is
 $$
     \gamma(x, \eta_t) q(x, dy) r(y, \eta_t) .
 $$
+\comment{TODO: explain this more.}
 Happily, we are interested in the case when $\eta$ has a density,
 say $\eta_t(dx) = \varphi_t(x) dx$,
 so interpreting these rates is not too difficult.
@@ -1635,7 +1636,7 @@ This implies that the probability a randomly chosen individual near $y$
 is a new offspring from a parent at $x$ in $[t, t+dt)$ is, informally,
 \begin{equation} \label{eqn:informal_rates}
 \frac{
-    \gamma(x, \eta_t) q_\theta(x, dy) r(y, \eta_t) \varphi_t(x)
+    \gamma(x, \eta_t) r(y, \eta_t) \varphi_t(x)
 }{
     \varphi_t(y)
 } \frac{ q_\theta(x, dy) }{ dy } dx dt .
@@ -1680,7 +1681,7 @@ Consequently,
         (f(x) g(x) - f(y) g(y)) - f(y) (g(x) - g(y))
     \right\} q_\theta(x, y) dx \\
     &\qquad \to
-        \DG^*(fg)(x) - f(x) \DG^* g(x) . 
+        \DG^*(fg)(y) - f(y) \DG^* g(y) . 
 \end{align*}
 Applying this to~\eqref{eqn:lineage_generator_Edt} with $g = \varphi_{T-s} \gamma$,
 this suggests that the generator of the limiting process is
@@ -1713,7 +1714,7 @@ The gneral set-up is as follows.
 Each individual will be labeled with a ``level'',
 which will be a number in $[0, \lambda]$.
 When taking the limit, we will set $\lambda = N$.
-\comment{Should we just use $N$ instead of $\lambda$? Or vice-versa?}
+\comment{Should we just use $N$ instead of $\lambda$? Or vice-versa? Change to $N$ but comment that when comparing ot other papers set $\lambda=N$.}
 We will still encode the process embellished by these levels
 as a point measure:
 if the $i^\mathrm{th}$ individual's spatial location is $x_i$
@@ -2229,7 +2230,7 @@ and our line of descent switching to the offspring.
 
 We can now express our population processes using these levels:
 \begin{align*}
-    \eta_t = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
+    \eta_t = \frac{1}{\lambda} \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
     \qquad \text{and} \qquad
     \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
 \end{align*}
@@ -2390,9 +2391,9 @@ $$
 \comment{Perhaps the conclusion of the Propostion would be something like:}
 We can now express our population processes in the limit using these levels:
 \begin{align*}
-    \eta_t = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
+    \eta_t = \lim_{\lambda \to \infty} \frac{1}{\lambda} \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{X_a(t)}
     \qquad \text{and} \qquad
-    \lp = \sum_{a : \tau_a > t \;\&\; U_a(t) < \lambda} \delta_{(X_a(t), U_a(t))} .
+    \lp = \sum_{a : \tau_a > t} \delta_{(X_a(t), U_a(t))} .
 \end{align*}
 
 \comment{TODO: incorporate this in the discussion somewhere (and maybe other refs? see previous version).}
