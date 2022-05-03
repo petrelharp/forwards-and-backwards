@@ -16,3 +16,15 @@ do
     ../lineage_plotting/plot_density.py fkpp_123.trees 3
     popd
 done
+
+# smooth and patchy expanding wave lineages
+for DIR in ex2a ex2b
+do
+    pushd $DIR
+    if [ ! -e pme_123.trees ]
+    then
+        slim -s 123 ../pme.slim
+    fi
+    ../lineage_plotting/plot_1d_lineages.py pme_123.trees 3 1 3 3
+    popd
+done
