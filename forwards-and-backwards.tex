@@ -135,7 +135,7 @@ reaction-diffusion equation, travelling waves, genealogies,
 \tableofcontents
 \newpage
 
-\comment{TODO: talk about $N \to \infty$ rather than $\theta \to \infty$.}
+\comment{TODO: talk about $N \to \infty$ rather than $N \to \infty$.}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -622,7 +622,7 @@ we will have use for the following notation:
             f(y) - f(x)
         \right) q_\theta(x, dy)
     \to \DG f(x) 
-        \qquad \text{as } \theta \to \infty .
+        \qquad \text{as } N \to \infty .
     \end{align}
     We will also denote the adjoint of $\DG$ by
     $$
@@ -655,7 +655,7 @@ should be biased towards regions of higher establishment probability.
 For comparison to future results,
 it is interesting to write down the limiting generator:
 \begin{align*}
-    \lim_{\theta \to \infty}
+    \lim_{N \to \infty}
     \theta \int (f(y) - f(x)) q_\theta^\mathfrak{m}(x, dy)
     &=
     \frac{
@@ -711,14 +711,14 @@ it should be possible in 1D, not in higher dimensions (brief note).
 \begin{theorem} \label{thm:nonlocal_convergence}
     Let $(\eta^\theta_t)_{t \geq 0}$
     be as defined in Definition \ref{def:model_setup}
-    and assume that as $\theta \to \infty$, $N \to \infty$
+    and assume that as $N \to \infty$, $N \to \infty$
     in such a way that $\theta/N \to \alpha$.
     (However, interaction distances $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$
     remain constant.)
 
     The sequence of stochastic processes
     $(\eta^\theta_t)_{t \geq 0}$
-    converges along subsequences in distribution as $\theta \to \infty$
+    converges along subsequences in distribution as $N \to \infty$
     to a measure-valued process $(\eta_t)_{t \geq 0}$
     which satisfies that, for every $f:\mathbb{R}^d \rightarrow \mathbb{R}$,
     \begin{align} \label{eqn:mgale_problem}
@@ -748,8 +748,8 @@ it should be possible in 1D, not in higher dimensions (brief note).
         \alpha
         \int_0^t
         \big\langle
-            \gamma\left( x, \smooth{\gamma} \eta_{s}(x) \right)
-            r\left(x, \smooth{r} \eta_{s}(x) \right)
+            \left(\gamma\left( x,  \eta_{s} \right)
+            r\left(x, \eta_{s} \right)+\mu\left(x, \eta_{s} \right)\right)
             f^2(x),
             \eta_{s} (dx)
         \big\rangle ds. 
@@ -827,7 +827,7 @@ this will tend to decrease the local density.
     defined by equations \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}
     has a unique solution,
     then $(\eta^\theta(t))_{t \ge 0}$ converges to that solution
-    as $\theta \to \infty$.
+    as $N \to \infty$.
     \comment{
         Is this what we want to say here? Could be said better.
         TODO: see what Dawson \& Li say about uniqueness
@@ -869,7 +869,7 @@ The following propositions give two concrete situations in which that is true.
 \end{proposition}
 
 Theorem \ref{thm:nonlocal_convergence} combined with Proposition \ref{prop:nonlocal_to_local}
-imply that we can take the $\theta \to \infty$ limit
+imply that we can take the $N \to \infty$ limit
 followed by $\epsilon \to 0$
 to obtain solutions to the PDE \eqref{eqn:PDE}.
 However, it is of substantial interest to know whether
@@ -881,7 +881,7 @@ but we can prove such ``diagonal'' convergence in the following situation.
     \label{thm:local_convergence}
     Let $(\eta^\theta_t)_{t \geq 0}$
     be as defined in Definition \ref{def:model_setup}
-    and assume that as $\theta \to \infty$, $N \to \infty$
+    and assume that as $N \to \infty$, $N \to \infty$
     and $\epsilon_r < \epsilon_\gamma = \epsilon_F = \epsilon \to 0$
     in such a way that $\theta/N \to 0$
     and
@@ -1509,7 +1509,7 @@ F(x,\eta)
 \end{equation}
 More generally, we expect everything to work
 if the remaining parameters ($r$, $\gamma$, and $F$)
-depended on $\theta$, but converged as $\theta \to \infty$.
+depended on $\theta$, but converged as $N \to \infty$.
 
 
 % % % % % % % 
@@ -1549,7 +1549,7 @@ F''(\langle f,\eta\rangle)
     , \eta(dx)\rangle
     +
     \langle
-        \mu_\theta(x,\eta)\frac{1}{N^2}f^2(x) 
+        \mu(x,\eta)\frac{1}{N^2}f^2(x) 
     ,\eta(dx)\rangle
 \right\} .
 $$
@@ -1606,7 +1606,7 @@ $$\langle f(x), \Xi_t(dx)\rangle-\langle f(x), \Xi_0(dx)\rangle
 \Xi_s(dx)\rangle ds$$
 is a martingale with quadratic variation
 $$\frac{2}{\alpha}\int_0^t\langle f^2(x) 
-\gamma(x,\Xi_s)r(x,\Xi_s),\Xi_s(dx)\rangle ds.$$
+(\gamma(x,\Xi_s)r(x,\Xi_s)+\mu(x,\Xi_s)),\Xi_s(dx)\rangle ds.$$
 
 
 
@@ -1666,7 +1666,7 @@ Then, writing $q_\theta(x, y)$ for the density of $q_\theta$,
 (a) write out the next statement; (b) restrict to the $\DG = \Delta$ case,
 or (c) leave it as is (as an exercise for the reader, I guess?}
 Referring back to Definition~\ref{def:dispersal_generator},
-it is not too hard to show that as $\theta \to \infty$,
+it is not too hard to show that as $N \to \infty$,
 \begin{align*}
     \theta \int (f(x) - f(y)) q_\theta(x, y) dx
     &\to
@@ -1854,7 +1854,7 @@ b(x, \eta)
     \theta \gamma(x, \eta) \int_{\IR^d} \left( r(y, \eta) - r(x, \eta) \right) q(x, dy)
     + F(x, \eta) \\
 &\to
-    \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) \qquad \text{as } \theta \to \infty .
+    \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) \qquad \text{as } N \to \infty .
 \end{split}
 \end{align}
 
@@ -2111,7 +2111,7 @@ $(\eta^{\theta}_t)_{t \geq 0}$ to $(\Xi_t)_{t \geq 0}$.
 As a result, it suffices for us to focus on
 tightness of $(\eta^{\theta}_t)_{t \geq 0}$
 and spatial convergence of $(\eta^{\theta}_t)_{t \geq 0}$
-as $\theta \to \infty$.
+as $N \to \infty$.
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
@@ -2695,7 +2695,7 @@ As a result,
                 \times \epsilon_\gamma^d \epsilon_r^{-d}
                 p_{\epsilon^2_\gamma}(x-w)        
 \end{align}
-for some $u \in [0, 1/\theta]$ by Intermediate Value Theorem. We have therefore established our bound as $F(s)$ has bounded derivative in a neighbourhood around $0$.
+for some $u \in [0, 1/\theta]$ by Mean Value Theorem. We have therefore established our bound as $F(s)$ has bounded derivative in a neighbourhood around $0$.
 
 We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
 \begin{align}
@@ -2807,7 +2807,7 @@ such that
 uniformly in $\theta$.
 In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such that
 \begin{equation}
-\limsup_{\theta \to \infty}
+\limsup_{N \to \infty}
     \mathbb{P}\left[\sup_{s \in [0,T]}
         \langle 1 ,\eta^{\theta}_{s}\rangle
         > K_\epsilon \right]
@@ -2895,7 +2895,7 @@ independent of $\theta, N$.
 As a result 
 
 \begin{equation}
-\limsup_{\theta \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{\theta}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
+\limsup_{N \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{\theta}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
 \end{equation}
 for any $K > 0$, giving us compact containment condition.    
 
@@ -3008,7 +3008,7 @@ Similarly, the control on the second moment is given by Equation \eqref{eq: Cont
 \leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
 \end{aligned}
 \end{equation}
-As $\theta / N \to \alpha$ as $\theta \to \infty$,
+As $\theta / N \to \alpha$ as $N \to \infty$,
 there exists some $K'>0$ such that 
 $\sup_{\theta > \theta_0} \theta / N < K'$.
 An application of Markov's inequality proves that
@@ -3063,7 +3063,7 @@ Theorem \ref{teo: Tightness of real-valued projections}.
 \subsection{Convergence of generators}
     \label{sec:population_generators_proofs}
 
-Before we prove convergence, we define our limit $(\eta^{\infty}(t))_{t>0}$ as a solution to a Martingale Problem with generator $\Pgen$.
+Before we prove convergence, we define our limit $(\eta^{\infty}(t))_{t>0}$ as a solution to a Martingale Problem with generator $\Pgen^{\infty}$.
 
 \begin{definition}
     \label{def: MP definition of limit}
@@ -3073,6 +3073,7 @@ acting on test functions of the form
 $F_f(\eta):=F (\langle f, \eta \rangle)$
 such that 
 \begin{equation}
+    \label{eq: Limit Generator Definition}
 \begin{aligned}
 \Pgen^{\infty} F_f(\eta):=& F'(\langle f, \eta \rangle)
                    \times \left\{
@@ -3087,11 +3088,13 @@ such that
                         \eta(dx)
                     \big\rangle
                    \right\}\\
-                &+ \frac{1}{2}F''(\langle f, \eta \rangle)
+                &+ \frac{\alpha}{2} F''(\langle f, \eta \rangle)
                   \times \left\{
-                  \alpha \big\langle
-                    \gamma\left( x, \smooth{\gamma} \eta(x) \right)
-                    r\left(x, \smooth{r} \eta(x) \right)
+                  \big\langle
+                    \left(\gamma\left( x, \eta \right)
+                    r\left(x,\eta \right)
+                    +\mu\left(x,\eta \right)
+                    \right)
                     f^2(x),
                     \eta (dx)
                     \big\rangle 
@@ -3103,16 +3106,50 @@ for all $F \in \mathcal{C}^{2}(\mathbb{R})$
 and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$,
 $$M_t:=F_f(\eta^{\infty}_t)-F_f(\eta_0)
 -\int_{0}^{t}\Pgen^{\infty}F_f(\eta^{\infty}_s)ds$$
-is a martingale.
+is a martingale, with initial condition distributed as a Poisson measure with mean measure $\eta_0$.
 \end{definition}
+
+
+In a similar manner,
+we may also define our pre-limit
+$(\eta^{N}(t))_{t>0}$ as a solution
+to a Martingale Problem
+with generator $\Pgen^{N}$.
+
+
+\begin{definition}
+    \label{def: MP definition of pre-limit}
+Let $F \in \mathcal{C}^{2}(\mathbb{R})$ and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$.
+We define $\Pgen^N$ to be a generator
+acting on test functions of the form
+$F_f(\eta):=F (\langle f, \eta \rangle)$
+such that 
+\begin{equation}
+\begin{aligned}
+\Pgen^{N} F_f(\eta):=& \int_{\mathbb{R}^d} \theta\gamma(x, \eta) \left\{\int_{\mathbb{R}^d} \left\{F(\langle f, \eta \rangle + f(y)/N )-F(\langle f, \eta \rangle )\right\}r(y, \eta)q_{\theta}(x,dy)\right\}N\eta(dx)\\
+&+\int_{\mathbb{R}^d} \theta \mu(x, \eta) \left\{F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\right\}N\eta(dx).
+\end{aligned}    
+\end{equation}
+In this case, our pre-limit model $(\eta^{N}(t))_{t \geq 0}$ is the solution to the Martingale Problem $(\Pgen^{N}, \eta_0)$, i.e. 
+for all $F \in \mathcal{C}^{2}(\mathbb{R})$
+and $f \in \mathcal{C}_{0}(\mathbb{R}^d)$,
+$$M_t:=F_f(\eta^{N}_t)-F_f(\eta_0)
+-\int_{0}^{t}\Pgen^{N}F_f(\eta^{N}_s)ds$$
+is a martingale, and the initial condition is distributed as a Poisson measure with mean measure $\eta_0$.
+\end{definition}
+
 \begin{remark}
-Taking $F(x)=x$ and $F(x)=x^2$, we can recover Equation \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}.
+Taking $F(x)=x$ and $F(x)=x^2$, we can recover Equation \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation} for the limit.
+Similarly, we can recover
+Definition \ref{Def: Rescaled Models},
+an equivalent characterisation
+of our pre-limit model.
 \end{remark}
 
 \begin{lemma}[Convergence of generators for the population process]
-As $\theta \to \infty$,
-$(\eta^{\theta}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
-to $(\eta^{\infty}(t))_{t \geq 0}$.
+As $N \to \infty$,
+$(\eta^{N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
+to $(\eta^{N}(t))_{t \geq 0}$.
 \end{lemma}
 \begin{proof}
 We use Theorem 4.8.10 in \cite{EK}.
@@ -3125,11 +3162,11 @@ subset of functions in $\mathcal{M}_f(\mathbb{R}^d)$.
 Therefore, it suffices to show that for any $t>0$,
 \begin{equation}
     \label{eq: Convergence Condition}
-\lim_{\theta \to \infty}
+\lim_{N \to \infty}
 \mathbb{E}\left[
 \left(
-F_f(\eta^{\theta}_{t+\tau})-F_f(\eta^{\theta}_t)
--\int_{t}^{t+\tau}\Pgen^{\infty}F_f(\eta^{\theta}_s)ds
+F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
+-\int_{t}^{t+\tau}\Pgen^{\infty}F_f(\eta^{N}_s)ds
 \right)
 \prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
 \right]=0
@@ -3138,89 +3175,113 @@ for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
 and $h_1,...,h_k \in \mathcal{C}_{0}(\mathbb{R}^d)$.
 
 To prove this,
-we apply Taylor's series expansion
-and make use of the Martingale Problem characterisation
-of $\eta^{\theta}_T$.
-We have
+we make use of the Martingale Problem characterisation
+of $(\eta^{N}_t)_{t \geq 0}$.
+From Definition \ref{def: MP definition of pre-limit},
+we can apply Tower Law
+and obtain that
 \begin{equation}
+    \label{eq: Prelimit MP Application}
+\lim_{N \to \infty}
+\mathbb{E}\left[
+\left(
+F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
+-\int_{t}^{t+\tau}\Pgen^{N}F_f(\eta^{N}_s)ds
+\right)
+\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\right]=0
+\end{equation}
+for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
+and $h_1,...,h_k \in \mathcal{C}_{0}(\mathbb{R}^d)$.
+
+Therefore, it suffices to show that 
+\begin{equation}
+    \label{eq: Convergence of Spatial Generator}
+\lim_{N \to \infty}
+\mathbb{E}\left[
+\int_{t}^{t+\tau}
+\left|
+\Pgen^{N}F_f(\eta^{N}_s)
+-\Pgen^{\infty}F_f(\eta^{N}_s)
+\right|
+ds
+\times 
+\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\right]=0
+\end{equation}
+We apply Taylor Expansion
+around the term $F(\langle f, \eta \rangle )$
+up to third order.
+This gives
+\begin{equation}
+    \label{eq: Taylor Expansion calculations i}
 \begin{aligned}
-&\mathbb{E}\left[F_f(\eta^{\theta}_{t+\tau})-F_f(\eta^{\theta}_t)\bigg| \mathcal{F}_t \right]\\
-=& F'(\langle f, \eta^{\theta}_t \rangle )
-\mathbb{E}\left[
-                \langle f, \eta^{\theta}_{t+\tau}\rangle
-                    -\langle f, \eta^{\theta}_t\rangle 
-                    \bigg| \mathcal{F}_t
-         \right]
-+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )
-\mathbb{E}\left[
-                \left(
-                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
-                \right)^2
-                \bigg| \mathcal{F}_t
-        \right]\\
-&+\frac{1}{6}F'''(\langle f, \eta^{\theta}_{t+\tau'}\rangle)\mathbb{E}\left[
-                \left(
-                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
-                \right)^3
-                \bigg| \mathcal{F}_t
-        \right]\\
-=& F'(\langle f, \eta^{\theta}_t \rangle )\\
-& \times  \int_{t}^{t+\tau}\bigg\{
-        \int\left(   \int \theta
-     \left(
-        f(z)r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
-            -f(x)r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
-            \right)
-                    q_\theta(x,dz)\right)
-        \\ & \qquad \qquad \qquad \qquad {} \times
-                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-                            \eta^{\theta}_{s}(dx)
-     \\ & \qquad \qquad {} +\int 
-     f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
-     \eta^{\theta}_{s}(dx)
-    \bigg\} ds\\
-&+\frac{1}{2}F''(\langle f, \eta^{\theta}_t \rangle )\\
-&\quad \times \frac{\theta}{N}\int_{t}^{t+\tau}\bigg\{
-\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
-,\eta^{\theta}_{s}(dx)\rangle\\
-& \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
-,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds\\
-&+\frac{1}{6}F^{(3)}(\langle f, \eta^{\theta}_{t+\tau'}\rangle)\mathbb{E}\left[
-                \left(
-                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
-                \right)^3
-                \bigg| \mathcal{F}_t
-        \right]
+&F(\langle f, \eta \rangle + f(y)/N )-F(\langle f, \eta \rangle )\\
+=& F'(\langle f, \eta \rangle ) \frac{f(y)}{N}
++\frac{1}{2}F''(\langle f, \eta \rangle ) \frac{f^2(y)}{N^2}
++\frac{1}{6}F'''(w ) \frac{f^3(y)}{N^3}
 \end{aligned}
 \end{equation}
-for some $s' \in [0,s]$.
+for some $w \in [\langle f, \eta \rangle, \langle f, \eta \rangle+ ||f||/N]$.
+Similarly,
+\begin{equation}
+    \label{eq: Taylor Expansion calculations ii}
+\begin{aligned}
+&F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\\
+=& - F'(\langle f, \eta \rangle ) \frac{f(x)}{N}
++\frac{1}{2}F''(\langle f, \eta \rangle ) \frac{f^2(x)}{N^2}
+-\frac{1}{6}F'''(v ) \frac{f^3(x)}{N^3}
+\end{aligned}
+\end{equation}
+for some $v \in [\langle f, \eta \rangle - ||f||/N, \langle f, \eta \rangle ]$.
 
-We first show that 
-$$\lim_{\theta \to \infty}\mathbb{E}\left[
-                \left|
-                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
-                \right|^3
-                \bigg| \mathcal{F}_t
-        \right] \to 0.$$
-Since the total number of births and deaths
-between $[t,t+\tau]$ is given by Poisson point processes
-with rates $\theta \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)$
-and $\theta \mu\big(x,\eta^{\theta}_{s}\big)$
-respectively,
-and each birth and death events contribute
-an increment of order $\mathcal{O}(1/N^3)$,
-we have that
+We may now rewrite $\mathcal{P}^NF(\langle f, \eta \rangle)$ as 
+\small
+\begin{equation} 
+    \label{eq: Pre-Limit Generator Expanded}
+\begin{aligned}
+\Pgen^{N} F_f(\eta):=& F'(\langle f, \eta \rangle)\int_{\mathbb{R}^d}  \theta\left\{\int_{\mathbb{R}^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu(x, \eta)\right\}q_{\theta}(x,dy)\right\}\eta(dx)\\
+&+\frac{1}{2}\frac{\theta}{N}F''(\langle f, \eta \rangle)\int_{\mathbb{R}^d} 
+ \left\{\gamma(x, \eta)\int_{\mathbb{R}^d} \left\{f^2(y) r(y,\eta) \right\}q_{\theta}(x,dy)+f^2(x)\mu(x, \eta)\right\}\eta(dx)\\
+&+\frac{1}{6}\frac{\theta}{N^2}\int_{\mathbb{R}^d}\left\{ 
+F'''(w) \left\{\gamma(x, \eta)\int_{\mathbb{R}^d} f^3(y) r(y,\eta) q_{\theta}(x,dy)\right\}-F'''(v)f^3(x)\mu(x, \eta)\right\}\eta(dx)
+\end{aligned}    
+\end{equation}
+\normalsize
+for some $w,v \in [\langle f,\eta \rangle - ||f||/N, \langle f,\eta \rangle + ||f||/N]$.
+
+As $N\to \infty$, 
+$\theta/N \to \alpha$, 
+$\theta/N^2 \to 0$,
+and 
+$$\int_{\mathbb{R}^d} f^m(y) r(y,\eta) q_{\theta}(x,dy) \to f^m(x)r(x, \eta)$$
+for $m=2,3$,
+the third term in Equation \eqref{eq: Pre-Limit Generator Expanded} vanishes
+while the second term converges to
+that of Equation \eqref{eq: Limit Generator Definition}.
+
+Finally, by Equation \eqref{mean measure},
+\eqref{eqn:rewritten mean measure}, \eqref{eqn:near_critical} and
+\eqref{limit of mean measure equation},
+we have 
 \begin{multline}
-\lim_{\theta \to \infty}\mathbb{E}\left[
-                \left|
-                    \langle f, \eta^{\theta}_{t+\tau}\rangle -\langle f, \eta^{\theta}_t\rangle
-                \right|^3
-                \bigg| \mathcal{F}_t
-        \right] \\
-\leq ||f||_{\theta} \frac{\theta}{N^2}\int_{0}^{t}\left\langle\gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)+\mu\big(x,\eta^{\theta}_{s}\big), \eta^{\theta}_s(dx)\right\rangle ds \to 0
+ \theta\left\{\int_{\mathbb{R}^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu(x, \eta)\right\}q_{\theta}(x,dy)\right\}
+ \\
+\to \gamma(x, \eta)                           \mathcal{B}\left(
+                            f(\cdot) r(\cdot, \eta)
+                            \right)(x)
+                    +
+                    f(x)
+                        F(x, \eta),
 \end{multline}
-as $\theta \to \infty$.
+so comparing terms we have
+\begin{equation}
+\lim_{N\to \infty} |\mathcal{P}^{N}F\langle f, \eta \rangle - \mathcal{P}^{\infty}F\langle f, \eta \rangle| \to 0,   
+\end{equation}
+and so by Dominated Convergence Theorem,
+we establish Equation 
+\eqref{eq: Convergence of Spatial Generator}
+which concludes our proof.
 \end{proof}
 
 
@@ -3615,7 +3676,7 @@ We have that
     \theta \int_{\IR^d} (r(y, \eta) g(y, u) - r(x, \eta) g(x, u)) q(x, dy)
     - \theta \int_{\IR^d} g(x, u) (r(y, \eta) - r(x, \eta)) q(x, dy) \\
     &\qquad \to
-    \DG(gr)(x) - g(x) \DG r(x) \qquad \text{as }\theta \to \infty.
+    \DG(gr)(x) - g(x) \DG r(x) \qquad \text{as }N \to \infty.
 \end{align*}
 i.e., to
 $\DG\left(g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
