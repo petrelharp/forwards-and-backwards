@@ -527,40 +527,25 @@ The process takes values in the space of finite measures on $\IR^d$,
 which we write as $\measures$.
 
 \begin{definition}[Model parameterization and assumptions]
-    \label{def:model_setup}
-    Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
-    are bounded, uniformly continuous functions
-    from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
-    Furthermore, suppose $r$ takes values in $[0, 1]$
-    and has uniformly bounded second derivatives,
-    and that $(x, m) \mapsto m^2 \gamma(x, m)$ is unformly bounded.
-    Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
-    with $\epsilon_r < \epsilon_\gamma$.
-    Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continous
-    and define
-    \begin{align} \label{eqn:mu_defn}
-        \mu(x, \eta)
-        =
-        r(x, \smooth{r} \eta(x))
-        \gamma(\smooth{\gamma} \eta(x))
-        - \frac{1}{\theta}
-        F(x, \smooth{F} \eta(x)) .
-    \end{align}
-    For each $N > 0$ and $\theta \ge 1/(\epsilon_\gamma - \epsilon_r)$,
-    let $\left(\eta^\theta(t)\right)_{t \ge 0}$
-    be the continuous-time measure-valued Markov process described above
-    with birth rates, establishment probabilities, and death rates
-    determined as follows.
-    When the state of the process is $\eta \in \measures$,
-    offspring of mass $1/N$ are produced at location $x$
-    with rate $\theta \gamma(x, \smooth{\gamma} \eta(x)) N \eta_s(dx)$
-    and adults die at location $x$ with rate $\theta \mu(x, \smooth{\mu} \eta(x)) N \eta_s(dx)$,
-    (i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
-    Each offspring disperses to a location offset from the parent's location
-    by an independent Gaussian with mean $\meanq(x) / \theta$
-    and covariance matrix $\covq(x) / \theta$;
-    an offspring at $x$ establishes instantaneously
-    with probability $r(x, \smooth{r} \eta(x))$, or else dies.
+\label{def:model_setup}
+Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
+are bounded, uniformly continuous functions
+from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
+Furthermore, suppose $r$ takes values in $[0, 1]$
+and has uniformly bounded second derivatives,
+and that $(x, m) \mapsto m^2 \gamma(x, m)$ is unformly bounded.
+Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
+with $\epsilon_r < \epsilon_\gamma$.
+Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continous
+and define
+\begin{align} \label{eqn:mu_defn}
+    \mu(x, \eta)
+    =
+    r(x, \smooth{r} \eta(x))
+    \gamma(\smooth{\gamma} \eta(x))
+    - \frac{1}{\theta}
+    F(x, \smooth{F} \eta(x)) .
+\end{align}
 \end{definition}
 
 Expressions like $\gamma(x, \smooth{\gamma} \eta(x))$ will appear often in the paper.
@@ -572,9 +557,24 @@ and similiarly write $\mu(x, \eta)$  for $\mu(x, \smooth{\mu} \eta(x))$ and $r(x
 When convenient, we may also suppress the arguments completely,
 writing simply $\gamma$, $\mu$, and $r$ for these quantities.
 
-\comment{I'm not quite sure how we want to frame these two things: probably not as two definitions...}
-We will now give another, equivalent definition of $(\eta^{\theta}(t))_{t \geq 0}$,
-this time as a solution to a martingale problem.
+For each $N > 0$ and $\theta \ge 1/(\epsilon_\gamma - \epsilon_r)$,
+the process $\left(\eta^\theta(t)\right)_{t \ge 0}$
+is the continuous-time measure-valued Markov process described above
+with birth rates, establishment probabilities, and death rates
+determined as follows.
+When the state of the process is $\eta \in \measures$,
+offspring of mass $1/N$ are produced at location $x$
+with rate $\theta \gamma(x, \eta) N \eta_s(dx)$
+and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta_s(dx)$,
+(i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
+Each offspring disperses to a location offset from the parent's location
+by an independent Gaussian with mean $\meanq(x) / \theta$
+and covariance matrix $\covq(x) / \theta$;
+an offspring at $x$ establishes instantaneously
+with probability $r(x, \eta)$, or else dies.
+
+We have just effectively defined the process, but to be completely clear,
+we will now give a formal definition as a solution to a martingale problem.
 
 \begin{definition}[Martingale Problem Characterisation]
     \label{Def: Rescaled Models}
@@ -705,15 +705,14 @@ has a different behavior yet again.
 % % % % % % % % % % % % % % %
 \subsection{Main results on population processes}
 
-\comment{
-Set-up: there are two dichotomies:
-is the limiting process deterministic or a generalized superprocess?
-See Figure \ref{fig:super_vs_det_2d} for simulations.
+Our main results depend on two dichotomies:
+Is the limiting process deterministic or a (generalized) superprocess?
 And, are interactions local in the limit or not?
-Below we have results for three of these cases;
-as for the remaining one (local, superprocess),
-it should be possible in 1D, not in higher dimensions (brief note).
-}
+Below we have results for deterministic limits with local and nonlocal interactions,
+and for superprocess limits with nonlocal interactions.
+See Figure \ref{fig:super_vs_det_2d} for illustrative simulations.
+We suspect that limits are possible the remaining (local, superprocess) case
+in only $d=1$, but do not discuss the case further.
 
 
 \begin{figure}
@@ -784,45 +783,83 @@ it should be possible in 1D, not in higher dimensions (brief note).
     Furthermore, if $\alpha = 0$ the limit is deterministic.
 \end{theorem}
 
+Recall when interpreting~\eqref{eqn:mgale_problem}
+that for instance $r(x, \eta_s) = r(x, \smooth{r} \eta_s(x))$,
+and so $\DG(fr)(x) = \DG(f(\cdot) r(\cdot, \smooth{r} \eta_s(\cdot)))(x)$.
+
 Theorem \ref{thm:nonlocal_convergence} provided convergence along subsequences;
 i.e., for any sequence of values of $\theta$
 there is a subsequence that converges.
 However, if the limiting process is unique then the convergence is unqualified.
 In the deterministic case, we have convergence to a nonlocal PDE.
-\comment{Maybe the following two corollaries should be combined?}
 
-\comment{
-TODO: insert definition of "weak solution of the PDE \ref{eqn:nonlocal_pde}" heere.
-}
+\begin{corollary}[Superprocess limits] \label{cor:superprocess_uniqueness}
+    In the context of Theorem~\ref{thm:nonlocal_convergence},
+    if the martingale problem
+    defined by equations \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}
+    has a unique solution,
+    then $(\eta^\theta(t))_{t \ge 0}$ converges to that solution
+    as $N \to \infty$.
+    \comment{
+        Is this what we want to say here? Could be said better.
+        TODO: see what Dawson \& Li say about uniqueness
+        so we have at least some conditions under which this happens.
+    }
+\end{corollary}
+
+Our results will show that in determinstic limits ``$\eta_t$ solves a PDE'',
+but since $\eta_t$ is a measure for which we don't always know there exists a density,
+we need to formalize the weak sense in which it solves the PDE.
+The notation in the following definition
+is written to suggest the case in which $\eta_t(dx)$ has a density $\varphi_t(x)$.
+
+\begin{definition}[Weak solutions]
+    \label{defn:weak_solutions}
+    We say that $(\eta_t)_{t \ge 0}$, with $\eta_t \in \measures$
+    is a \emph{weak solution} to the PDE
+    $$
+        \dot \varphi = r \DG^*(\gamma \varphi) + \varphi F
+    $$
+    if for all $f \in C_0^\infty(\IR^d)$,
+    $$
+        \frac{d}{dt} \langle f, \eta_t \rangle
+        =
+        \langle
+            \gamma \DG(rf) + f F,
+            \eta_t
+        \rangle .
+    $$
+    \comment{Write this out with $(x)$'s?}
+\end{definition}
+
 
 \begin{corollary}[Deterministic limits]
     \label{cor:nonlocal_pde_limits}
-    \comment{(TODO: remove "has a density" and rephrase appropriately)}
-    In the context of Theorem~\ref{thm:nonlocal_convergence},
-    if the limit is deterministic (i.e., $\theta / N \to \alpha = 0$), $\eta_0$ has a density,
-    and \comment{additional conditions? can we say something like this??}
-    then any limit $\eta_t(dx)$ has a density $\varphi(t, x)$,
-    which is a weak solution to the nonlocal partial differential equation
+    Under the assumptions of Theorem~\ref{thm:nonlocal_convergence},
+    if the limit is deterministic (i.e., $\theta / N \to \alpha = 0$),
+    then any limit $\eta_t$ is a weak solution to the nonlocal partial differential equation
     \begin{equation} \label{eqn:nonlocal_pde}
-        \partial_t \varphi(t, x)
+        \partial_t \varphi_t(x)
         =
-        r\left(x, \smooth{r} \varphi(t,x) \right)
+        r\left(x, \smooth{r} \varphi_t(x) \right)
         \DG^* \left[
-            \varphi(t, \cdot)
-            \gamma\big( x, \smooth{\gamma} \varphi(t, \cdot) \big)
+            \varphi_t(\cdot)
+            \gamma\big( x, \smooth{\gamma} \varphi_t(\cdot) \big)
         \right](x)
         +
-        \varphi(t, x)
-        F\left(x, \smooth{F} \varphi(t,x) \right)
-        .
+        \varphi_t(x)
+        F\left(x, \smooth{F} \varphi_t() \right)
+        ,
     \end{equation}
+    in the sense of Definition~\ref{defn:weak_solutions}.
     If equation \eqref{eqn:nonlocal_pde} has a unique solution,
     then $(\eta^\theta_t)_{t \ge 0}$ converges to that solution.
-
-    In particular, if
-    \comment{TODO: find some conditions under which this is true?}
-    then we have convergence to a unique solution.
 \end{corollary}
+
+\comment{TODO: find some conditions under which we have convergence to a unique solution?}
+\comment{TODO: Tom has conditions (coefficient are Lipschitz?) under which
+    the solution to \eqref{eqn:nonlocal_pdf} has a density (Thm 2.1 in DDMOT);
+    should we insert those here (as a Corollary or Proposition, maybe?)}
 
 Informally, equation \eqref{eqn:nonlocal_pde} is the PDE
 \begin{align} \label{eqn:pde}
@@ -842,24 +879,6 @@ that location, not away from it.
 Furthermore, if dispersal tends to move offspring away from a region
 (i.e., if divergence $\grad \cdot \meanq > 0$)
 this will tend to decrease the local density.
-
-\comment{TODO: Tom has conditions (coefficient are Lipschitz?) under which
-    the solution to \eqref{eqn:nonlocal_pdf} has a density (Thm 2.1 in DDMOT);
-    should we insert those here (as a Corollary or Proposition, maybe?)}
-
-\begin{corollary}[Superprocess limits] \label{cor:superprocess_uniqueness}
-    In the context of Theorem~\ref{thm:nonlocal_convergence},
-    if the martingale problem
-    defined by equations \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}
-    has a unique solution,
-    then $(\eta^\theta(t))_{t \ge 0}$ converges to that solution
-    as $N \to \infty$.
-    \comment{
-        Is this what we want to say here? Could be said better.
-        TODO: see what Dawson \& Li say about uniqueness
-        so we have at least some conditions under which this happens.
-    }
-\end{corollary}
 
 Theorem~\ref{thm:nonlocal_convergence} shows convergence to the solution to a nonlocal PDE
 of the form \eqref{eqn:nonlocal_pde}.
