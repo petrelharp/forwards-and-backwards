@@ -880,36 +880,28 @@ Furthermore, if dispersal tends to move offspring away from a region
 (i.e., if divergence $\grad \cdot \meanq > 0$)
 this will tend to decrease the local density.
 
-Theorem~\ref{thm:nonlocal_convergence} shows convergence to the solution to a nonlocal PDE
-of the form \eqref{eqn:nonlocal_pde}.
-Since the coefficients at $x$ in \eqref{eqn:nonlocal_pde}
-depend only on the region nearby to $x$,
-we would often expect solutions of the nonlocal PDE to be close to the corresponding local PDE
+Although the coefficients at $x$ in \eqref{eqn:nonlocal_pde} are nonlocal,
+they depend only on the region nearby to $x$,
+and so we would expect solutions of the nonlocal PDE to be close to the corresponding local PDE
 as the interaction distances $\epsilon_r$, $\epsilon_\gamma$ and $\epsilon_F$
-go to zero.
+go to zero:
+for instance, if $\eta_t$ has density $\varphi_t$
+then $\gamma(x, \smooth{\gamma} \eta_t(x)) \to \gamma(x, \varphi_t(x))$ as $\epsilon_\gamma \to 0$.
 The following propositions give two concrete situations in which that is true.
-
-\comment{I've not got straight exactly how we're framing this
-    (namely, does $\eta$ have a density?).
-    Also, is this one or two propositions --
-    we said initially this would be two,
-    one for FKPP and one for PME,
-    but then maybe the argument was more general?
-}
 
 \begin{proposition}
     \label{prop:nonlocal_to_local}
-    Suppose that $\eta_\epsilon(t,dx)$ is a solution to equation \eqref{eqn:nonlocal_pde}
+    Suppose that $\eta^\epsilon_t$ is a weak solution to equation \eqref{eqn:nonlocal_pde}
     with $r(x, m) = 1$ for all $x$ and $m$
-    and some $\epsilon_r < \epsilon_\gamma = \epsilon_F = \epsilon$
+    and some $\epsilon_r + 1/\theta < \epsilon_\gamma = \epsilon_F = \epsilon$
     \comment{and assumptions on $\gamma$? and $F$?}.
-    Then $\eta_\epsilon(t, dx)$ converges \comment{in what sense?} as $\epsilon \to 0$
-    to $u(t, x) dx$, which solves
+    Then $\eta^\epsilon_t(dx)$ converges \comment{in what sense?} as $\epsilon \to 0$
+    to $\varphi_t(x) dx$, which is a (strong) solution to
     \begin{align} \label{eqn:PDE}
-        \partial_t u(t, x)
+        \partial_t \varphi(t, x)
         =
-        \DG^* \left( \gamma(\cdot, u(t, \cdot) u(t, \cdot)  \right)(x)
-        + F(x, u(t, x)) u(t, x) .
+        \DG^* \left( \gamma(\cdot, \varphi(t, \cdot)) \varphi(t, \cdot)  \right)(x)
+        + F(x, \varphi(t, x)) \varphi(t, x) .
     \end{align}
 \end{proposition}
 
@@ -918,7 +910,7 @@ imply that we can take the $N \to \infty$ limit
 followed by $\epsilon \to 0$
 to obtain solutions to the PDE \eqref{eqn:PDE}.
 However, it is of substantial interest to know whether
-we can take those two limit simultaneously.
+we can take those two limits simultaneously.
 The general case seems difficult,
 but we can prove such ``diagonal'' convergence in the following situation.
 
@@ -926,8 +918,8 @@ but we can prove such ``diagonal'' convergence in the following situation.
     \label{thm:local_convergence}
     Let $(\eta^\theta_t)_{t \geq 0}$
     be as defined in Definition \ref{def:model_setup}
-    and assume that as $N \to \infty$, $N \to \infty$
-    and $\epsilon_r < \epsilon_\gamma = \epsilon_F = \epsilon \to 0$
+    and assume that as $N \to \infty$, $\theta \to \infty$
+    and $\epsilon_r + 1/\theta < \epsilon_\gamma = \epsilon_F = \epsilon \to 0$
     in such a way that $\theta/N \to 0$
     and
     \comment{TODO: some conditions on $\epsilon$ and $r$ and $\gamma$ and $F$}.
@@ -948,21 +940,20 @@ but we can prove such ``diagonal'' convergence in the following situation.
 
 Now that we have established what we can say about how population density changes with time,
 we turn to results on ancestral lineages,
-i.e., how genealogical ancestry moves across the landscape.
+i.e., how genealogical ancestry can be traced back across the landscape.
 Informally,
 a \emph{lineage} $(L_t)_{t \ge 0}$
 begun at spatial location $L_0 = x$
 can be obtained by picking a focal individual uniformly at $x$,
 and then for each amount of time $t$ in the past,
 setting $L_t$ to the spatial location of the individual from whom
-the focal individual inherits.
+the focal individual inherits at that time in the past.
 Since in our model individuals have only one parent, this is unambiguous.
 Although we did not explicitly retain such information,
-it is clear that
-for finite $\theta$ (and hence, finite $N$),
+it is clear that for finite $N$
 one could construct the distribution of a lineage $(L_t)_{t=0}^T$
-given the history of the population $(\eta^\theta_t)_{t = 0}^T$,
-for each starting location to which $\eta^\theta_T$ assigns positive mass.
+given the history of the population $(\eta^N_t)_{t = 0}^T$,
+for each starting location to which $\eta^N_T$ assigns positive mass.
 It is less clear, however, how to formally retain such information in the limit.
 The \emph{lookdown construction} in Section~\ref{sec:lookdown}
 provides just such a construction,
@@ -978,11 +969,11 @@ A lineage is, in general, a well-defined stochastic process,
 but there are two important questions
 that affect its tractability.
 First, when is it a Markov process given the population process?
-(I.e., given $(\eta_t)_{t=0^T}$ that records numbers of individuals
+(In other words, given $(\eta_t)_{t=0}^T$ that records numbers of individuals
 but not their ancestry.)
 We expect the answer here to be that a lineage is Markov
-only in the $N \to \infty$ limit.
-\comment{(or, do we know this? we can cite Barton, Depaulis and Etheridge at least for discussion.)}
+only in the $N \to \infty$ limit
+(see \citet{barton/depaulis/etheridge:2002} for discussion).
 Second, does the process have a tractable description?
 If the population process has a density,
 then it turns out that a lineage is a diffusion driven by the density.
@@ -993,49 +984,36 @@ We focus on the more tractable situation where the population process is determi
 However, the results here apply to either the local or nonlocal case
 (i.e., where the density solves a local or nonlocal PDE).
 
-\comment{
-    TODO: make notation agree with that in the proof.
-}
-
 
 \begin{definition}[Generator of a lineage] \label{def:lineage_generator}
-    Let $(\varphi(x, t))_{0 \le t \le T}$
+    Let $(\varphi_t(x))_{0 \le t \le T}$
     denote the density of a population that solves \eqref{eqn:nonlocal_pde},
-    and let $y$ be a point with $\varphi(y, T) > 0$.
+    and let $y$ be a point with $\varphi_T(y) > 0$.
     We define $(L_s(y))_{s=0}^T$,
-    the ancestral lineage of an individual sampled at $y$ at time $T$,
+    the ancestral lineage in this population of an individual sampled at $y$ at time $T$,
     to be the position of the unique ancestor of $y$ alive at time $T - s$.
     We define
     $(Q_s)_{s \geq 0}$
     to be the time inhomogeneous semi-group satisfying
     \begin{align*}
-        Q_s f(y) := \IE_y[ f(L_s) ] ,
+        Q_s f(y) := \IE_y[ f(L_s) ] .
     \end{align*}
-    and $\Lgen_s$ to be the generator of this semi-group.
 \end{definition}
 
 Our main result identifies a lineage as a diffusion
 by characterizing its generator.
-To avoid complexity,
-we do this in the case where dispersal is $N(\meanq/\theta, \sigma^2 I/\theta)$,
-in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
-
-\comment{Make forwards-backwards time notation reasonable in this.}
-
-\comment{Perhaps write generator as depending on $\phi$ rather than $s$?
-    Then we can say that the generator is $\Lgen_{\varphi(T-s)}$.}
 
 
 \begin{theorem} \label{thm:lineages}
-    In the context of Definition~\ref{def:lineage_generator},
+    For $\varphi: \IR^d \to \IR$, define
     \begin{align}
         \label{eqn:lineage_generator}
-        \Lgen_s f
+        \Lgen_\varphi f
         &=
-        \frac{r}{\varphi_{T-s}}
+        \frac{r}{\varphi}
         \left[
-            \DG^*(\gamma \varphi_{T-s} f) 
-            - f \DG^* (\gamma \varphi_{T-s})
+            \DG^*(\gamma \varphi f) 
+            - f \DG^* (\gamma \varphi)
         \right] \\
         &= \label{eqn:lineage_generator2}
         r\gamma
@@ -1048,32 +1026,35 @@ in which case $\DG = \sigma^2 \Delta + \meanq \cdot \grad$.
     $$
     \vec{m}(s)_j
     =
-    2 \sum_i C_{ij} \partial_i \log(\gamma \varphi_{T-s})
+    2 \sum_i C_{ij} \partial_i \log(\gamma \varphi)
     + 2 \sum_i \partial_i C_{ij}
     - \meanq_j .
     $$
+    Then $\Lgen_{\varphi_{T-s}}$ is the generator of the semigroup $Q_s$
+    of Definition~\ref{def:lineage_generator}.
 \end{theorem}
 
-To make the generator readable, we've written it in concise notation,
+As usual,
+to make the generator readable, we've written it in concise notation,
 omitting the dependencies on location and population density,
 which itself changes with time.
 When interpreting this,
 remember that everything depends on location and density at that location and time --
-for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
+for instance, ``$r$'' is actually $r(x, \varphi(x))$.
 
 \begin{corollary} \label{cor:lineages_simple}
-    In the context of Definition~\ref{def:lineage_generator},
+    In addition to the assumptions of Theorem~\ref{thm:lineages},
     if the dispersal process is isotropic (i.e., $\covq = \sigma^2 I$),
     then
     \begin{equation}
-        \Lgen_s f
+        \Lgen_\varphi f
         =
         \sigma^2 r \gamma
         \left(
             \Delta f
             +
             \left(
-                2 \grad \log(\gamma \varphi_s)
+                2 \grad \log(\gamma \varphi)
                 - \meanq
             \right)
             \cdot \grad f
@@ -1083,8 +1064,8 @@ for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
     a lineage behaves as a diffusion
     that is driven by a Brownian motion 
     run at speed $\sigma^2$ multiplied by the local per-capita production of offspring ($r \gamma$)
-    in a potential equal to the local birth output tilted by migraiton bias
-    ($\varphi \gamma \exp(-\meanq \cdot x / 2 \sigma^2)$).
+    in a potential equal to the local birth output tilted by migration bias
+    ($\varphi_s \gamma \exp(-\meanq \cdot x / 2 \sigma^2)$).
 \end{corollary}
 
 
@@ -1095,21 +1076,22 @@ for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
     $\varphi(t, x) = w(x - t \wavespeed)$
     where $w$ solves
     \begin{align*}
-        r \Delta (\gamma w) + w F(w) + \wavespeed \cdot \grad w = 0 .
+        r \Delta (\gamma w) + w F + \wavespeed \cdot \grad w = 0 .
     \end{align*}
-    Then the generator $\Lgen$
-    of the motion of a linages in this population is
+    Then the semigroup 
+    of the motion of a linages in this population 
+    $Q_s$ is time-homogeneous with generator
     \begin{align}
         \Lgen f
         &=
-        r \gamma
+        \sigma^2 r \gamma
         \left(
             \Delta f
             +
             2 \grad \log (\gamma w)
             \cdot \grad f
         \right)
-        + \wavespeed \cdot \grad f .
+        + (\wavespeed - \meanq) \cdot \grad f .
     \end{align}
 \end{corollary}
 
