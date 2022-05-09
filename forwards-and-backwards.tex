@@ -56,6 +56,7 @@
 \newcommand{\lp}{\xi}              % process with levels
 \newcommand{\labelspace}{\mathcal{I}} % space of labels
 \newcommand{\concat}{\oplus}   % concatenation of labels
+\newcommand{\measures}{\mathcal{M}_F(\IR^d)} % finite measures on Rd
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -140,10 +141,18 @@ reaction-diffusion equation, travelling waves, genealogies,
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\plr{I have not edited the introduction yet! It's just a pile of words. Skip to the next section.}
+\comment{I think the introduction covers a good set of things in a good order, it's just a bit long.}
 
-\todo[inline]{
-From Terence: Personally, I think the long discussion on porous medium equations distract readers from the main message of our paper - we demonstrated a way to trace genealogy and derive dynamics of ancestral lineage through lookdown construction. I would suggest trimming most of the discussion there and only leaving discussions relevant to ancestries and lineages.}
+As one takes a journey, long or short, the landscape changes:
+forests thicken or thin or change their composition,
+springtime grasslands host intergrading mosaics of different types of flowers.
+The aim of this paper is to understand the implications of a broad class of mechanistic spatial models
+that might describe how such populations live, die, and reproduce:
+How does population density change across space and time?
+And, how might we learn about the underlying dynamics from genealogical or genetic data?
+We work with individual-based models of a single species in continuous space,
+where birth, death and establishment may all depend on spatial location
+as well as on local population density, allowing for stable populations through density-dependent feedback.
 
 There is now a huge literature devoted to spatial branching processes,
 including branching random walk, 
@@ -259,8 +268,7 @@ Fisher KPP equation, the solution at time $t$
 vanishes beyond $x=x_0+ct$ for some constant wavespeed
 $c>0$, \cite{kamin/rosenau:2004}.
 
-\subsection{More motivation, on lineages, to merge with the above}
-
+\comment{Need a transition or otherwise to merge this with the above.}
 The history of a natural population is often only accessible indirectly 
 through patterns of genetic diversity that have been laid down. From 
 genetic data, one can try to infer the genealogical trees that relate 
@@ -342,25 +350,22 @@ obtaining convergence of both the population process
 although strictly speaking it is a measure that may not have a density)
 as well as of lineages traced back through such a population.
 We retain linages through the rescaling process
-by means of a lookdown construction, which adds technical difficulty
-to an already difficult topic.
-Furthermore, convergence results for the lookdown process
-require convergence of the population process.
-So, we do not introduce the lookdown process until Section X.
-
-First, in section X, we describe the model and the main theorems (Theorems X and Y).
-Next, in section X, we discuss a few striking consequences of these results,
-namely, X Y and Z.
-In section X, we provide heuristic explanations
+by means of a lookdown construction.
+First, in section~\ref{sec: Model and main results},
+we describe the model and the main theorems
+(Theorems~\ref{thm:nonlocal_convergence}, \ref{thm:local_convergence}, and~\ref{thm:lineages}).
+Next, in Section~\ref{sec:applications}, we discuss a few striking consequences of these results,
+namely, X Y and Z \comment{TODO}.
+In section \ref{sec:heuristics}, we provide heuristic explanations
 of why the theorems ought to be true,
 and some key ideas behind them.
-In Section X we define and discuss the lookdown process that retains the levels.
-This is followed by the technical proofs in section X.
+In Section \ref{sec:lookdown} we define and discuss the lookdown process that retains the levels.
+This is followed by the technical proofs in section \ref{sec:proofs}.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Notes to ourselves}
+\section*{Notes to ourselves}
 
 \plr{For recording/discussing notation decisions.}
 
@@ -377,26 +382,26 @@ $$\lim \frac{\theta}{N} =: \alpha$$
 
 The model we work with is a fairly general model
 of individuals living in continuous space.
-We shall suppose that we start with a population of
+We start with a population of
 $\bigO(N)$ individuals per unit area distributed in $\mathbb{R}^d$.
 For applications, $d=1$ or $d=2$, but our results apply more generally.
 The population will be distributed over a bounded region,
 so the total number of individuals will also be $\bigO(N)$.
-We describe the state of the population at time $t$
-with a counting measure $X(t)$,
+The population changes in continuous time, and
+we describe the state of the population at time $t$ with a counting measure $X(t)$,
 which assigns one unit of mass to the location of each individual.
-Locations need not be unique, so some locations may have a mass of greater than 1.
 
-It will be simplest to think of the population as evolving in continuous time
-and giving birth to one offspring at a time.
 Population dynamics are controlled by three quantities,
-birth, establishment, and death,
-each of which can depend on spatial location and local population density.
+birth ($\gamma$), establishment ($r$), and death ($\mu$),
+each of which can depend on spatial location and local population density
+in a way we specify later.
 Each individual gives birth at rate $\gamma$ to a single offspring,
 and the offspring
 then disperses according to a kernel $q(\cdot)$ away from the location of the parent.
 We assume that $q$ is the density of a multivariate Gaussian,
-allowing a nonzero mean and inhomogeneous variance.
+allowing a nonzero mean and anisotropic variance.
+Both the mean and covariance can change across space,
+but do not depend on population density.
 The offspring does not necessarily survive to be counted in the population:
 it ``establishes'' with probability $r$,
 or else it dies immediately.
@@ -421,9 +426,12 @@ See Figure~\ref{fig:model_setup} for a conceptual depiction.
         \includegraphics{figures/conceptual_figure}
     \end{center}
     \caption{
+        \comment{Perhaps we should have two panels, one with the PME example (currently panel A) and the other with FKPP;
+        right now panel B is not very helpful I think, so maybe should be omitted or added to so it better describes the whole process
+        (including dispersal and establishment).}
         Conceptual figure of the model.
         \textbf{(A)} Example plot of $\gamma$, $\mu$, and $F$
-        (calculated with $r=1$) against scaled local population density.
+        (calculated here with $r=1$) against scaled local population density.
         In this example, both birth and death rates increase with population density,
         but death increases faster,
         and equilibrium occurs where they cross
@@ -439,26 +447,30 @@ Since we would like the population density to scale with $N$,
 these are functions of $X/N$, i.e.,
 the counting measure with mass $1/N$ placed at the location of each individual.
 To measure local population density, we convolve the population measure with
-an ``interaction kernel'' -- for simplicity, we take these to be Gaussian
-with various scales, and write
+an ``interaction kernel'' -- which, for simplicity, we take to be Gaussian,
+which we write as
 $$
-    p_{\sigma^2}(x) = \frac{1}{(2 \pi \sigma^2)^{d/2}} e^{-\|x\|^2 / 2 \sigma^2} .
+    p_{\epsilon^2}(x) := \frac{1}{(2 \pi \epsilon^2)^{d/2}} e^{-\|x\|^2 / 2 \epsilon^2} ,
 $$
-Given a nonnegative function $\gamma(x, m) : \IR^d \times \IR_{\ge 0} \to \IR_{\ge 0}$,
-the birth rate of an individual at location $x$ when the state of the population is $X$
-is $\gamma(x, \smooth{\gamma} X(x) / N)$,
-where $\smooth{\gamma} X$ is the convolution of $X$
-with $p_{\epsilon_\gamma^2}$.
+for an ``interaction distance'' $\epsilon$.
+First consider birth rates, defined by
+a nonnegative function $\gamma(x, m) : \IR^d \times \IR_{\ge 0} \to \IR_{\ge 0}$
+of location $x$ and local population density $m$,
+and an interaction distance $\epsilon_\gamma > 0$.
+Local population density enters through the convolution of $X$ with $p_{\epsilon_\gamma^2}$,
+which we write as $\smooth{\gamma} X$.
+Then, the birth rate of an individual at location $x$ when the state of the population is $X$
+is $\gamma(x, \smooth{\gamma} X(x) / N)$.
 Similarly, the establishment probability of an offspring at location $x$ is
 is $r(x, \smooth{r} X(x) / N)$,
 where $r(x, m) : \IR^d \times \IR_{\ge 0} \to [0, 1]$
-and again $\smooth{r} p_{\epsilon_r^2}$.
+and again $\smooth{r} X$ is the convolution of $p_{\epsilon_r^2}$ with $X$.
 Rather than defining a function $\mu(x, m)$ for the death rate,
 it turns out to be more convenient to parameterize in terms of the net reproductive rate,
 which we denote by $F(x, m)$,
 scaled by $1/\theta$
-so that the population density changes over a time scale of $\theta$,
-i.e., we have ``near-critical branching''.
+so that the population density changes over a time scale of $\theta$.
+(This corresponds to a ``near-critical branching'' assumption.)
 Informally, we would like that
 $$
     F = \theta (r \gamma - \mu) ,
@@ -476,7 +488,8 @@ the death rate of an individual at $x$ to be
 where again $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR_{\ge 0}$
 and $\kernel_F = p_{\epsilon_F^2}$.
 
-In summary, demographic parameters depend on local density measured
+In summary, each of the three demographic parameters depend on local density measured
+with a Gaussian kernel with possibly different scales:
 for birth over a scale of $\epsilon_\gamma$,
 for establishment over a scale of $\epsilon_r$,
 and for net reproductive rate over a scale of $\epsilon_F$.
@@ -487,9 +500,9 @@ we have introduced unnecessary complexity
 with these three different spatial scales on which interactions occur.
 However,
 it will turn out to be useful in the proofs to have $\epsilon_r < \epsilon_\gamma$,
-although in the limit they can be taken equal to each other,
+although in the limit they can be taken equal to each other
+(and $\epsilon_F$ is unconstrained),
 so informally we think of local density as being determined on a scale of $\epsilon$.
-The value of $\epsilon_F$ is unconstrained.
 
 \begin{remark}
 Although this model allows fairly general birth and death mechanisms,
@@ -503,21 +516,18 @@ and the age of an individual does not affect their fecundity or death rates.
 Finally, there is no notion of mating,
 so availability of mates will not restrict the spread of a population,
 and the lineages we follow will be uniparental.
-For these reasons, the model is most obviously applicable to bacterial populations,
+For these reasons, the model is most obviously applicable to bacterial populations or selfing plants,
 although we do not anticipate that incorporation of these complications
 will change the general picture.
 \end{remark}
 
 We next summarize the dynamics of the rescaled model $\eta(t) = X(\theta t)/N$,
 and state some assumptions on the parameters.
+The process takes values in the space of finite measures on $\IR^d$,
+which we write as $\measures$.
 
 \begin{definition}[Model parameterization and assumptions]
     \label{def:model_setup}
-    For each $\theta \ge 0$,
-    let $\left(\eta^\theta(t)\right)_{t \ge 0}$
-    be the continuous-time measure-valued Markov process described above
-    with birth rates, establishment probabilities, and death rates
-    determined as follows.
     Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
     are bounded, uniformly continuous functions
     from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
@@ -525,7 +535,7 @@ and state some assumptions on the parameters.
     and has uniformly bounded second derivatives,
     and that $(x, m) \mapsto m^2 \gamma(x, m)$ is unformly bounded.
     Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
-    with $\epsilon_r < \epsilon_\gamma - 1/\theta$.
+    with $\epsilon_r < \epsilon_\gamma$.
     Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continous
     and define
     \begin{align} \label{eqn:mu_defn}
@@ -536,79 +546,94 @@ and state some assumptions on the parameters.
         - \frac{1}{\theta}
         F(x, \smooth{F} \eta(x)) .
     \end{align}
-    Let $N$ be a positive number determined by $\theta$.
-    When the state of the process is $\eta$,
+    For each $N > 0$ and $\theta \ge 1/(\epsilon_\gamma - \epsilon_r)$,
+    let $\left(\eta^\theta(t)\right)_{t \ge 0}$
+    be the continuous-time measure-valued Markov process described above
+    with birth rates, establishment probabilities, and death rates
+    determined as follows.
+    When the state of the process is $\eta \in \measures$,
     offspring of mass $1/N$ are produced at location $x$
-    with rate $\theta \gamma(x, \smooth{\gamma} \eta^{\theta}(x)) N \eta^{\theta}_s(dx)$
-    and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta^{\theta}_s(dx)$,
+    with rate $\theta \gamma(x, \smooth{\gamma} \eta(x)) N \eta_s(dx)$
+    and adults die at location $x$ with rate $\theta \mu(x, \smooth{\mu} \eta(x)) N \eta_s(dx)$,
     (i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
-    Offspring disperse to a location offset from the parent's location
-    by an independent Gaussian with mean $\meanq/\theta$
-    and covariance matrix $\covq / \theta$;
+    Each offspring disperses to a location offset from the parent's location
+    by an independent Gaussian with mean $\meanq(x) / \theta$
+    and covariance matrix $\covq(x) / \theta$;
     an offspring at $x$ establishes instantaneously
-    with probability $r(x, \smooth{r} \eta^{\theta}(x))$, or else dies.
+    with probability $r(x, \smooth{r} \eta(x))$, or else dies.
 \end{definition}
 
-\comment{TODO: insert remark about writing $\gamma(x, \smooth{\gamma}\eta(x)) = \gamma(x, \eta)$.}
+Expressions like $\gamma(x, \smooth{\gamma} \eta(x))$ will appear often in the paper.
+To make formula more readable, we overload notation to define
+$$
+    \gamma(x, \eta) := \gamma(x, \smooth{\gamma} \eta(x)) ,
+$$
+and similiarly write $\mu(x, \eta)$  for $\mu(x, \smooth{\mu} \eta(x))$ and $r(x, \eta)$ for $r(x, \smooth{r} \eta(x))$.
+When convenient, we may also suppress the arguments completely,
+writing simply $\gamma$, $\mu$, and $r$ for these quantities.
 
-We will now define $(\eta^{\theta}(t))_{t \geq 0}$
-explicitly as a solution to a Martingale problem.
+\comment{I'm not quite sure how we want to frame these two things: probably not as two definitions...}
+We will now give another, equivalent definition of $(\eta^{\theta}(t))_{t \geq 0}$,
+this time as a solution to a martingale problem.
 
 \begin{definition}[Martingale Problem Characterisation]
     \label{Def: Rescaled Models}
-We define $(\eta^{\theta}_t)_{t \geq 0}$ to be the solution to the Martingale Problem,
-with initial condition $\eta^{\theta}_0$,
+We define $(\eta^N_t)_{t \geq 0}$ to be the solution to the Martingale Problem,
+with initial condition $\eta^N_0 \in \measures$,
 such that for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$,
+writing $\langle f, \eta \rangle = \int_{\IR^d} f(x) \eta(dx)$
+and $q_\theta(x, dy)$ as the Gaussian kernel
+with mean $x + \meanq(x)/\theta$ and covariance $\covq(x) / \theta$,
 \begin{equation}
     \label{eq: Pre-limit Martingale Characterisation}
 \begin{aligned}
-M^{\theta}_t(f)
-&:=  \langle f,\eta^{\theta}_t \rangle
-        -\langle f,\eta^{\theta}_0 \rangle
+M^N_t(f)
+&:=  \langle f, \eta^N_t \rangle
+        -\langle f, \eta^N_0 \rangle
  \\ &\qquad {}
  -  \int_{0}^{t}\bigg\{
-        \int\left(   \int \theta
-     \left(
-        f(z)r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
-            -f(x)r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
+        \int\left( \int \theta
+             \left(
+                f(z)r(z, \eta^N_{s})
+                - f(x)r(x, \eta^N_{s})
             \right)
-                    q_\theta(x,dz)\right)
-        \\ & \qquad \qquad \qquad \qquad {} \times
-                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-                            \eta^{\theta}_{s}(dx)
-     \\ & \qquad \qquad {} +\int 
-     f(x)F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
-     \eta^{\theta}_{s}(dx)
+        q_\theta(x,dz) \right)
+\\ & \qquad \qquad \qquad \qquad {}
+        \times \gamma(x, \eta^N_{s}) \eta^N_{s}(dx)
+\\ & \qquad \qquad {}
+    + \int f(x) F(x, \eta^N_{s}) \eta^N_{s}(dx)
     \bigg\} ds
 \end{aligned}    
 \end{equation}
 is a martingale with quadratic variation
 \begin{equation}
 \begin{aligned} \relax
-[ M^{\theta}_t(f)] =& 
+[ M^N_t(f)] =& 
 \frac{\theta}{N} \int_{0}^{t}\bigg\{
-\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
-,\eta^{\theta}_{s}(dx)\rangle\\
-& \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
-,\eta^{\theta}_{s}(dx)\rangle \bigg\}ds. 
+    \langle \gamma(x, \eta^N_{s})
+        \int f^2(y)r(y, \eta^N_{s}) q_\theta(x,dy) 
+    , \eta^N_{s}(dx) \rangle \\
+& \qquad \qquad {}
+    + \langle \mu(x, \eta^N_{s}) f^2(x) 
+    , \eta^N_{s}(dx)\rangle
+    \bigg\}ds. 
 \end{aligned}    
 \end{equation}
-
-
 \end{definition}
 
+Note that
+since individuals are produced at rate $N \gamma \eta$ but have mass $1/N$ each,
+these factors of $N$ cancel in~\eqref{eq: Pre-limit Martingale Characterisation}.
 Since we are taking a diffusion limit,
 we will have use for the following notation:
-
-\comment{TODO: $\meanq$ can vary in space, make that clear?}
 
 \begin{definition}[Dispersal generator]
     \label{def:dispersal_generator}
     Recall that we have defined the dispersal kernel,
     $q_\theta(x, dy)$,
     to be the density of a multivariate Normal
-    with mean $\meanq/\theta$ and covariance matrix $\covq/\theta$.
+    with mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
+    (although sometimes we omit the dependence of $\meanq$ and $\covq$ on $x$).
     This implies that if we define, for $f : \IR^d \to \IR$,
     \begin{align}
     \DG f(x)
@@ -634,10 +659,11 @@ we will have use for the following notation:
 \end{definition}
 
 \paragraph{Remark:}
-An equivalent way to describe the model
-would be to say that an individual at $x$ gives birth at rate
+An equivalent way to describe the model would be to say that
+when the state of the population is $\eta$,
+an individual at $x$ gives birth at rate
 $$
-    \gamma(x, \smooth{\gamma} \eta(x))
+    \theta \gamma(x, \smooth{\gamma} \eta(x))
     \int r(x, \smooth{r} \eta(y)) q(x, dy) ,
 $$
 and that offspring disperse according to the kernel
@@ -1071,6 +1097,7 @@ for instance, ``$r$'' is actually $r(x, \varphi(T-s, x))$.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Examples and applications}
+\label{sec:applications}
 
 Next,
 we cover some illustrative examples
@@ -2412,6 +2439,7 @@ genetics by a number of authors including
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Proofs}
+\label{sec:proofs}
 
 \comment{
     TODO: write overview.
