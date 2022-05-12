@@ -26,5 +26,19 @@ do
         slim -s 123 ../pme.slim
     fi
     ../lineage_plotting/plot_1d_lineages.py pme_123.trees 3 1 3 3
+    ../lineage_plotting/pme/plot_pme_density.py pme_123.trees 45 55 6
+    popd
+done
+
+# comparison of three wave models
+for MODEL in fkpp pme allen-cahn
+do
+    DIR="ex3_${MODEL}"
+    pushd $DIR
+    if [ ! -e ${MODEL}_123.trees ]
+    then
+        slim -s 123 ../${MODEL}.slim
+    fi
+    ../lineage_plotting/plot_1d_lineages.py ${MODEL}_123.trees 3 1 3 3
     popd
 done

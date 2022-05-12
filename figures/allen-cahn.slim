@@ -9,17 +9,18 @@ initialize() {
 	initializeRecombinationRate(1e-8);
 	
 	// define to load from an existing file
-	// defineConstant("RESTART_FILE", "pme_1798394982614.trees");
+	// defineConstant("RESTART_FILE", "sim_1798394982614.trees");
 
 	// These are default params that can be modified with -d at runtime
 	// or read in from "params.slim" (NOTE: params.slim will override these!)
 	// The file params.slim will be read from the working directory, or
 	// from OUTDIR if this is defined on the command line.
 	defaults = Dictionary(	
+		"S", 0.5,  // wave speed for the Allen-Cahn (should be between 0 and 2)
 		"THETA", 10,  // inverse of difference in per-capita birth and death rates
 		"K", 100,	  // carrying capacity per unit area
-		"MIN_DENSITY", 4/7, // threshold for density dependence on N/K
 		"DT", 0.1, // discretization factor for time
+		"MAX_SURVIVAL", 0.95, // maximum survival probability
 		"EPSILON", 0.2,  // interaction distance
 		"DISPERSAL_SIGMA", 1.0,  // parent-offspring distance,
 		"DIMENSION", 1, // whether to treat this as 1- or 2-dimensional
@@ -39,9 +40,9 @@ initialize() {
 		defaults.addKeysAndValuesFrom(local_params);
 		defaults.setValue("read_from_paramfile", paramfile);
 	}	
-	defaults.setValue("OUTPATH", defaults.getValue("OUTDIR") + "/pme_" + getSeed() + ".trees");
-	defaults.setValue("LOGPATH", defaults.getValue("OUTDIR") + "/pme_" + getSeed() + ".log");
-	defaults.setValue("IMAGEPATH", defaults.getValue("OUTDIR") + "/pme_" + getSeed() + "_");
+	defaults.setValue("OUTPATH", defaults.getValue("OUTDIR") + "/allen-cahn_" + getSeed() + ".trees");
+	defaults.setValue("LOGPATH", defaults.getValue("OUTDIR") + "/allen-cahn_" + getSeed() + ".log");
+	defaults.setValue("IMAGEPATH", defaults.getValue("OUTDIR") + "/allen-cahn_" + getSeed() + "_");
 	
 	catn("-------------\n");
 	for (k in defaults.allKeys) {
@@ -55,21 +56,12 @@ initialize() {
 	}
 	catn("-------------\n");
 	defineGlobal("params", defaults);
-	
-	// adjustment to death rate
-	defineConstant("DELTA",
-		1 + 2/THETA - (1/DT) * (
-        log(1 + DT * (2 * exp(-(1+1/THETA) * DT / K) - 1))
-        + 
-        (K - 1) * log(1 - DT * (1 - exp(-(1+1/THETA) * DT / K)))
-    	)
-   );
+
    
 	catn("theta / pop. density  = " + THETA / K + " (deterministic is -> 0)");
 	catn("(dispersal) neighborhood size = " + 4 * K * DISPERSAL_SIGMA + " (d=1) " + 4 * PI * K * DISPERSAL_SIGMA^2 + " (d=2)");
 	catn("interaction neighborhood = " + 4 * K * EPSILON + " (d=1) " + 4 * PI * K * EPSILON^2 + " (d=2)");
 	catn("dispersal / interaction =  " + DISPERSAL_SIGMA / EPSILON + " (< 1 is patchy)");
-	catn("reducing death rates by delta = " + DELTA);
 
 	// spatial interaction for local competition
 	// NOTE: it is ONLY in the x direction if DIMENSION is 1
@@ -125,8 +117,7 @@ late() {
 }
 
 reproduction() {
-	// density-dependent offspring production
-	if (runif(1) < 1 - exp(-DT * max(MIN_DENSITY, individual.tagF))) {
+	if (runif(1) < 1 - exp(-DT)) {
 		mate = i2.drawByStrength(individual, 1);
 		if (size(mate) > 0) {
 			offspring = p1.addCrossed(individual, mate);
@@ -142,8 +133,8 @@ reproduction() {
 2: early() { // survival probabilities
 	inds = p1.individuals;
 	new = asFloat(inds.age == 0);
-	n = pmax(MIN_DENSITY, inds.tagF);
-	inds.fitnessScaling = new + (1 - new) * exp(-DT * ((1 + 1/THETA) * n - 1/THETA));
+	n = inds.tagF;
+	inds.fitnessScaling = new + (1 - new) * pmin(MAX_SURVIVAL, exp(-DT * (1 - (1 - n) * (2 * n - 1 + S) / THETA)));
 }
 
 2: early() {
