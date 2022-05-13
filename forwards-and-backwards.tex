@@ -640,8 +640,8 @@ we will have use for the following notation:
     \begin{align}
     \DG f(x)
         =
-        \sum_{ij} \covq_{ij} \partial_{x_i} \partial_{x_j} f(x)
-        + \sum_i \meanq_i \partial_{x_i} f(x)
+        \sum_{ij} \covq(x)_{ij} \partial_{x_i} \partial_{x_j} f(x)
+        + \sum_i \meanq(x)_i \partial_{x_i} f(x)
     \end{align}
     then
     \begin{align}
@@ -655,8 +655,8 @@ we will have use for the following notation:
     $$
     \DG^* f(x)
         =
-        \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq_{ij} f(x))
-        - \sum_i \partial_{x_i} (f(x) \meanq_i) .
+        \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
+        - \sum_i \partial_{x_i} (f(x) \meanq(x)_i) .
     $$
 \end{definition}
 
@@ -4548,7 +4548,7 @@ Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equ
 \end{proof}
 
 \bibliographystyle{plainnat}
-\bibliography{refs.bib}
+\bibliography{refs.bib,plr_refs.bib
 
 
 \end{document}
