@@ -3835,16 +3835,19 @@ First,
 note that the birth time
 of $a$ at the $N$-th scaling
 regime, denoted as
-$\tau^{N}_a$,
-is identical in distribution
-for all $N > 0$.
+$\tau^{N}_a$ converges to $0$
+as $N \to \infty$.
 This is because the birth time
 of $a=(a_0,a_1,...,a_k)$
 comes after $a_1$ births
 in the 1st generation,
 followed by $a_2$ births
 in the 2nd generation, etc..
-Therefore $\tau^N_{a} \sim Gamma(\sum_{i=1}^{k}a_i,1)$.
+Furthermore,
+these birth times are
+independent of the environment. Finally,
+we rescale time by a factor of $\theta$,
+so $\tau^N_{a} \sim Gamma(\theta\sum_{i=1}^{k}a_i,1) \to 0$.
 
 Now we prove
 convergence in distribution
@@ -3856,55 +3859,56 @@ we have
 &X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0)\\
 =& \sum_{i=1}^{k}
 \sum_{j=1}^{a_i-1}
-(1-\kappa_{[a]_{i-1}\concat j}) y_{[a]_{i-1}\concat j} \ind_{U^N_{[a]_{i-1}\concat j}(\tau_{[a]_{i-1}\concat j}) < N}\\
+\ind_{\kappa_{[a]_{i-1}\concat j}=0}  \ind_{U^N_{[a]_{i-1}\concat j}(\tau_{[a]_{i-1}\concat j}) < N}y_{[a]_{i-1}\concat j}\\
 &+ \sum_{i=1}^{k}
-\kappa_{[a]_i} y_{[a]_i} \ind_{U^N_{[a]_i}(\tau_{[a]_i}) < N}.
+\ind_{\kappa_{[a]_{i-1}\concat j}=1} \ind_{U^N_{[a]_i}(\tau_{[a]_i}) < N}y_{[a]_i} .
 \end{aligned}    
 \end{equation}
+
 
 Since $(s_{[a]_{i} \concat j}, v_{[a]_{i} \concat j}, y_{[a]_{i} \concat j}, \kappa_{[a]_{i} \concat j})
 \in \Pi_{[a]_{i-1}}$
 are all iid random variables 
 for each $i$ and $j$,
-and that the sum above is finite,
-it suffices to show that
-the quantities 
-\begin{equation}
-\mathbb{P}(U^N_{[a]_{i-1} \concat j}(\tau_{[a]_{i-1} \concat j}) < N)    
-\end{equation}
-converges
-for all $i=1,..,k$ and $j=1,..,a_i$.
+we can give a simple bound
+on $\mathbb{E}[(X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0))^2]$.
 
-Writing out
-$U^N_{[a]_{i-1} \concat j}(\tau_{[a]_{i-1} \concat j})$,
-we have
+First of all, 
+note that the total number
+of jumps
+the ancestral lineage 
+has until time $\tau_{a}$
+is at most $\sum_{i=1}^{k}a_i$.
+Furthermore, each jump is independent and has mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
+that is bounded uniformly across
+the environment.
+
+As a result, as $N \to \infty$,
 \begin{equation}
 \begin{aligned}
-&\mathbb{P}(U^N_{[a]_{i-1} \concat j}(\tau_{[a]_{i-1} \concat j}) < N) \\
-=&\mathbb{P}(U^N_{[a]_{i-1} }(\tau_{[a]_{i-1} \concat j})
-    +
-    \ell(
-    X^N_{[a]_{i-1} }(\tau_{[a]_{i-1} \concat j}-),
-    y_{[a]_{i-1} \concat j},
-    \eta^{N}(\tau_{[a]_{i-1} \concat j}-),
-    v_{[a]_{i-1} \concat j})
-    < N)\\
-=&\mathbb{P}\left(
-    \frac{
-        v_{[a]_{i-1} \concat j}
-    }{
-        2 N^{-1} \theta \gamma(x, \eta) r(x + y, \eta)
-    }
-    < N-U^N_{[a]_{i-1} }(\tau_{[a]_{i-1} \concat j})
-    \right)\\
-=&\mathbb{P}\left(
-            v^N_{[a]_{i-1} \concat j}
-    < (2 \theta \gamma(x, \eta) r(x + y, \eta)-  2 N^{-1} \theta \gamma(x, \eta) r(x + y, \eta)U^N_{[a]_{i-1} }(\tau_{[a]_{i-1} \concat j}))
-    \right)\\
-=& \frac{(2 \theta \gamma(x, \eta) r(x + y, \eta)-  2 N^{-1} \theta \gamma(x, \eta) r(x + y, \eta)U^N_{[a]_{i-1} }(\tau_{[a]_{i-1} \concat j}))}{N}\\
-\to & 2\alpha \gamma(x, \eta) r(x + y, \eta).
+&\quad\mathbb{E}[(X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0))^2]\\
+\leq & \quad\mathbb{E}\left[\left(\sum_{i=1}^{k}
+\sum_{j=1}^{a_i-1} y_{[a]_{i-1}\concat j}+ \sum_{i=1}^{k}
+y_{[a]_i}\right)^2\right]\\
+\leq & \quad\mathbb{E}\left[\left(\sum_{i=1}^{k}
+\sum_{j=1}^{a_i} y_{[a]_{i-1}\concat j}\right)^2\right]\\
+=& \quad{ka_k \choose 2}\sup_{x \in \mathbb{R}^d}(||\meanq(x)||^2)/\theta^2 + ka_k \left(\sup_{x \in \mathbb{R}^d}(||\meanq(x)||^2)/\theta^2+\sup_{x \in \mathbb{R}^d}|tr(\covq(x) )|\right)\\
+ \to &  \quad 0.
 \end{aligned}    
 \end{equation}
+
+
+This is expected
+as in the infinitesimal limit,
+births are instantaneous. 
+Therefore, all offspring 
+within small number of generations
+($k << \theta$)
+from the original
+ancestors are born
+almost instantaneously
+at the position of its
+ancestor.
 
 We write $S_{t,r}:=(t,t+r  ]\times [0,\infty )\times [0,1]\times 
 \{0,1\}$ to be the region for the Poisson measure driving $(X^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}(t))$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{\tau_u}(ds,dv,dw,d\kappa):=\Pi_{\tau_u}(ds,dv,dw, d\kappa) - ds\times dv\times dw \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ be the compensated Poisson point process of $\Pi_{\tau_u}$. 
