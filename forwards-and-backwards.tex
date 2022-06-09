@@ -2175,6 +2175,7 @@ and using this, the (potential) new level is
 \end{equation*}
 If $U_{a \concat j}(\tau_{a \concat j}) < N$,
 the new individual labeled $a \concat j$ is produced,
+\plr{TODO: explain why this does the right thing}
 and $\kappa$ determines which label is associated with the new location,
 so
 \begin{align*}
@@ -3831,106 +3832,27 @@ $\{(X^{N}_{a}(t))_{t \geq \tau^{N}_a}: N \in \mathbb{N},  \}$ is relatively comp
 $D_{\mathbb{R}^d}[0,\infty )$ where $\mathbb{R}^d$ is equipped with the standard Euclidean metric. 
 \end{lemma}
 \begin{proof}
-First,
-note that the birth time
-of $a$ at the $N$-th scaling
-regime, denoted as
-$\tau^{N}_a$ converges to $0$
-as $N \to \infty$.
-This is because the birth time
-of $a=(a_0,a_1,...,a_k)$
-comes after $a_1$ births
-in the 1st generation,
-followed by $a_2$ births
-in the 2nd generation, etc..
-Furthermore,
-these birth times are
-independent of the environment. Finally,
-we rescale time by a factor of $\theta$,
-so $\tau^N_{a} \sim Gamma(\theta\sum_{i=1}^{k}a_i,1) \to 0$.
-
-Now we prove
-convergence in distribution
-of the birth locations $X^N_{a}(\tau^N_{a})$.
-From Equation \eqref{eq: space_across_lineage},
-we have
-\begin{equation}
-\begin{aligned}
-&X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0)\\
-=& \sum_{i=1}^{k}
-\sum_{j=1}^{a_i-1}
-\ind_{\kappa_{[a]_{i-1}\concat j}=0}  \ind_{U^N_{[a]_{i-1}\concat j}(\tau_{[a]_{i-1}\concat j}) < N}y_{[a]_{i-1}\concat j}\\
-&+ \sum_{i=1}^{k}
-\ind_{\kappa_{[a]_{i-1}\concat j}=1} \ind_{U^N_{[a]_i}(\tau_{[a]_i}) < N}y_{[a]_i} .
-\end{aligned}    
-\end{equation}
-
-
-Since $(s_{[a]_{i} \concat j}, v_{[a]_{i} \concat j}, y_{[a]_{i} \concat j}, \kappa_{[a]_{i} \concat j})
-\in \Pi_{[a]_{i-1}}$
-are all iid random variables 
-for each $i$ and $j$,
-we can give a simple bound
-on $\mathbb{E}[(X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0))^2]$.
-
-First of all, 
-note that the total number
-of jumps
-the ancestral lineage 
-has until time $\tau_{a}$
-is at most $\sum_{i=1}^{k}a_i$.
-Furthermore, each jump is independent and has mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
-that is bounded uniformly across
-the environment.
-
-As a result, as $N \to \infty$,
-\begin{equation}
-\begin{aligned}
-&\quad\mathbb{E}[(X^{N}_{[a]_{k}}(\tau^N_{a})- X^{N}_{[a]_{0}}(0))^2]\\
-\leq & \quad\mathbb{E}\left[\left(\sum_{i=1}^{k}
-\sum_{j=1}^{a_i-1} y_{[a]_{i-1}\concat j}+ \sum_{i=1}^{k}
-y_{[a]_i}\right)^2\right]\\
-\leq & \quad\mathbb{E}\left[\left(\sum_{i=1}^{k}
-\sum_{j=1}^{a_i} y_{[a]_{i-1}\concat j}\right)^2\right]\\
-=& \quad{ka_k \choose 2}\sup_{x \in \mathbb{R}^d}(||\meanq(x)||^2)/\theta^2 + ka_k \left(\sup_{x \in \mathbb{R}^d}(||\meanq(x)||^2)/\theta^2+\sup_{x \in \mathbb{R}^d}|tr(\covq(x) )|\right)\\
- \to &  \quad 0.
-\end{aligned}    
-\end{equation}
-
-
-This is expected
-as in the infinitesimal limit,
-births are instantaneous. 
-Therefore, all offspring 
-within small number of generations
-($k << \theta$)
-from the original
-ancestors are born
-almost instantaneously
-at the position of its
-ancestor.
-
 We write $S_{t,r}:=(t,t+r  ]\times [0,\infty )\times [0,1]\times 
-\{0,1\}$ to be the region for the Poisson measure driving $(X^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}(t))$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{\tau_u}(ds,dv,dw,d\kappa):=\Pi_{\tau_u}(ds,dv,dw, d\kappa) - ds\times dv\times dw \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ be the compensated Poisson point process of $\Pi_{\tau_u}$. 
+\{0,1\}$ to be the region for the Poisson measure driving $(X^{N}_{a}(t))_{t \geq \tau_a}$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{\tau_u}(ds,dv,dy,d\kappa):=\Pi_{\tau_u}(ds,dv,dy, d\kappa) - ds\times dv\times dy \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ to be the compensated Poisson point process of $\Pi_{\tau_u}$. 
 For $t\geq\tau_\mathfrak{u}$, we can compute
 \small
 \begin{eqnarray*}
-&&\mathbb{E}[|X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r )-X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)|^2|{\cal F}_t^{
+&&\mathbb{E}[|X^{N}_{\tau_{\mathfrak{u}}}(t+r )-X^{N}_{\tau_{\mathfrak{u}}}(t)|^2|{\cal F}_t^{
 \eta}]\\
-&&= \mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{U_{\tau_{\mathfrak{u}}}(s)+\frac v{2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_\theta(X^{\varepsilon,\theta, \lambda}_{
-\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-))}<\lambda \}}\kappa 
-H(X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-),w)\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dw,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\leq 2\mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{\varepsilon,\theta, \lambda}_{
-\tau}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-))\}}{\bf 1}_{\kappa =1}
-H(X^{\varepsilon,\theta, \lambda}_{\tau}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-),w)\tilde\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dw,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\quad +2\mathbb{E}\left[\left|\int_{t}^{t+r}\int_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{\varepsilon,\theta, \lambda}_{
-\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-))\}}\frac{1}{2}\left| \int_{\mathbb{R}^d} (y-X^{\varepsilon,\theta, \lambda}_{\tau}(s-)) q^{\mathfrak{m}}_{\theta, \varepsilon}(X^{\varepsilon,\theta, \lambda}_{\tau}(s-),\overline{\eta}^{\varepsilon,\theta, \lambda}(s-),dy) \right|
+&&= \mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{U_{\tau_{\mathfrak{u}}}(s)+\frac v{2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
+\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{N}(s-))}<\lambda \}}\kappa 
+y\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dy,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
+&&\leq 2\mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
+\tau}(s-),\overline{\eta}^{N}(s-))\}}{\bf 1}_{\kappa =1}
+y\tilde\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dy,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
+&&\quad +2\mathbb{E}\left[\left|\int_{t}^{t+r}\int_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
+\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{N}(s-))\}}\frac{1}{2}\left| \int_{\mathbb{R}^d} (y-X^{N}_{\tau}(s-)) q^{\mathfrak{m}}_{\theta, \varepsilon}(X^{N}_{\tau}(s-),\overline{\eta}^{N}(s-),dy) \right|
 dvds \right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\leq 2\mathbb{E}\left[\int_{t}^{(t+r)   }\theta (1+C_G)\int_{{\mathbb{R}}^d}|y-X^{\varepsilon,\theta, \lambda}_{
-\tau_{\mathfrak{u}}}(s)|^2q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\bar{\eta}^{\varepsilon,\theta,\lambda}(s-),dy)ds\Bigg|{\cal F}_t^{\eta}\right]\\
+&&\leq 2\mathbb{E}\left[\int_{t}^{(t+r)   }\theta (1+C_G)\int_{{\mathbb{R}}^d}|y-X^{N}_{
+\tau_{\mathfrak{u}}}(s)|^2q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{N}_{\tau_{\mathfrak{u}}}(s),\bar{\eta}^{\varepsilon,\theta,\lambda}(s-),dy)ds\Bigg|{\cal F}_t^{\eta}\right]\\
 &&\quad +2\mathbb{E}\left[\left|\int_{t}^{(t+r)    } \theta (1+C_G)\left|\int_{{\mathbb{R}}^d}
-(y-X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(s))q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(s),
-\overline{\eta}^{\varepsilon,\theta, \lambda}(s),dy)\right|ds\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
+(y-X^{N}_{\tau_{\mathfrak{u}}}(s))q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{N}_{\tau_{\mathfrak{u}}}(s),
+\overline{\eta}^{N}(s),dy)\right|ds\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
 &&\leq 2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2.\end{eqnarray*}
 \normalsize
 
@@ -3938,7 +3860,7 @@ The first inequality uses the fact that $(A+B)^2 \leq 2A^2+2B^2$ as well as the 
 
 Finally, since $\overline{\eta}_0$ has compact support, we can take $t=\tau_u$ and apply Markov inequality to get that for every $\delta>0$, there exists $N_{\delta}>0$ such that
 \begin{equation}\label{eq: Compact Containment Condition for individual spatial motion}
-\sup_{\varepsilon, \theta, \lambda}\sup_{T>0}\mathbb{P}\left[|X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}}+T)-X^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}})|>N_{\delta}\right]\leq   \frac{2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2}{N_{\delta}^2}  < \delta,
+\sup_{\varepsilon, \theta, \lambda}\sup_{T>0}\mathbb{P}\left[|X^{N}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}}+T)-X^{N}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}})|>N_{\delta}\right]\leq   \frac{2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2}{N_{\delta}^2}  < \delta,
 \end{equation}
 giving us compact containment condition. Relative compactness thus follows by Theorem 3.8.6.
 of \cite{ethier/kurtz:1986}.
@@ -3962,7 +3884,7 @@ as the last term can be expressed as $\theta \mathbb{E}_{x}[(B_{1/\theta}-x)^2]=
 Proving tightness of the level process is slightly trickier as the levels of many particles will drift towards infinity in finite time. These particles however will not contribute to the metric associated with the vague topology and thus we will retain relative compactness. The main argument relies on the observation that particles with levels lower than some threshold $\overline{U}_{N, \delta}$  have regulated level increments of order $\delta$ over any small time interval of length $r$ given large enough $\lambda$. As a result, we can evaluate our level process against test functions $(g_n)_{n=1,..,N}$ with cut off smaller than $\overline{U}_{N, \delta}$. 
 
 \begin{lemma} \label{tightness of levels} For fixed $\mathfrak{u}\in \mathcal{U}$,
-$\{(U^{\varepsilon,\theta, \lambda}_{\tau_\mathfrak{u}}(t))_{t \geq 0}, \lambda >0\}$ is relatively compact in 
+$\{(U^{N}_{\tau_\mathfrak{u}}(t))_{t \geq 0}, \lambda >0\}$ is relatively compact in 
 $\mathcal{D}_{[0,\infty]}[0,\infty )$ where $[0,\infty]$ is equipped with the metric $\mathfrak{d}$ for the vague topology in $[0,\infty]$ (see Theorem  \ref{Vague times Euclidean is Polish}).
 \end{lemma}
 
@@ -3970,17 +3892,17 @@ $\mathcal{D}_{[0,\infty]}[0,\infty )$ where $[0,\infty]$ is equipped with the me
 
 \begin{proof}
 
-\textbf{Introducing a cutoff range:} It suffices to show that for any $\delta > 0$ and for any particle $\mathfrak{u} \in \mathcal{U}$, there exists small enough  $r>0$ such that $\mathbb{E}[\mathfrak{d}(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r),U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|{\cal F}_t^{
+\textbf{Introducing a cutoff range:} It suffices to show that for any $\delta > 0$ and for any particle $\mathfrak{u} \in \mathcal{U}$, there exists small enough  $r>0$ such that $\mathbb{E}[\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))|{\cal F}_t^{
 \eta}]< \delta$. \\
 For this, pick $K_{\delta} \in \mathbb{N}$ such that $\frac{1}{2^{K_{\delta}}} < \delta/2$. then we have that 
 \begin{multline}
-\mathfrak{d}(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r),U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))\leq  \sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|}{2^n} +  \delta/2. 
+\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))\leq  \sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n} +  \delta/2. 
 \end{multline}
-Now it suffices to prove that for small enough $r$, $|g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))| < \delta / (2K_{\delta})$. 
+Now it suffices to prove that for small enough $r$, $|g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))| < \delta / (2K_{\delta})$. 
 
 Pick $\overline{U}_{K_{\delta}, \delta}>0$ large enough such that $\text{supp}(g_n)\subset [0,\overline{U}_{K_{\delta}, \delta}]$ for all $n=1,..,K_{\delta}$. Since we picked $g_n$ to be continuous and differentiable with compact support, by Mean Value Theorem we have that 
-$$|g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|<C'_{g_1,..,g_{K_\delta}}(|U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r)-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}), $$
-uniformly over $n=1,..,K_{\delta}$ for some constant $C'_{g_1,...,g_{K_{\delta}}}$. Note that it suffices to consider $|U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r)-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}$ because $g_n(u)=g_n(\overline{U}_{K_{\delta}, \delta})=0$ for all $u > \overline{U}_{K_{\delta}, \delta}$. We proceed to bound $|U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r)-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)|$ given that $U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t) < \overline{U}_{K_{\delta}, \delta}$.
+$$|g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|<C'_{g_1,..,g_{K_\delta}}(|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}), $$
+uniformly over $n=1,..,K_{\delta}$ for some constant $C'_{g_1,...,g_{K_{\delta}}}$. Note that it suffices to consider $|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}$ because $g_n(u)=g_n(\overline{U}_{K_{\delta}, \delta})=0$ for all $u > \overline{U}_{K_{\delta}, \delta}$. We proceed to bound $|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|$ given that $U^{N}_{\tau_{\mathfrak{u}}}(t) < \overline{U}_{K_{\delta}, \delta}$.
 
 
 \textbf{Controlling downward drift:} We first consider the case where $\tau_{\mathfrak{u}}< t$, i.e. the particle $\mathfrak{u}$ is born before time $t$. 
@@ -3988,7 +3910,7 @@ We have that
 \small
 \begin{equation}
 \begin{aligned}
-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r)-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t) =  &   \int_{t}^{(t+r)  }\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))}dV^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\\
+U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t) =  &   \int_{t}^{(t+r)  }\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))}dV^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\\
 &+\int_{t}^{(t+r)  }\bigg(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)^2 - b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\bigg)ds,
 \end{aligned}
 \end{equation}
@@ -3997,7 +3919,7 @@ where the first term corresponds to positive jumps and the second term correspon
 we neglect all positive drift and obtain
 \begin{equation}
 \begin{aligned}
-\mathbb{E}[U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r)-U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)] \geq   &   - \int_{t}^{(t+r)  } G(\varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_s(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s))) U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)ds\\
+\mathbb{E}[U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)] \geq   &   - \int_{t}^{(t+r)  } G(\varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_s(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s))) U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)ds\\
 \geq& - rC_G\overline{U}_{K_{\delta}, \delta}.
 \end{aligned}    
 \end{equation}
@@ -4005,14 +3927,14 @@ we neglect all positive drift and obtain
 \textbf{Controlling Upward Drift with Comparison Principle:}
 On the other hand, the positive increments are due to jumps and the quadratic evolution. To control the quadratic upward drift, we apply comparison principle.
 
-The process $(W_s)_{s \geq 0}:=(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+s)\wedge \overline{U}_{K_{\delta}, \delta})_{s \geq 0}$ satisfy the differential inequality with jumps of the form 
+The process $(W_s)_{s \geq 0}:=(U^{N}_{\tau_{\mathfrak{u}}}(t+s)\wedge \overline{U}_{K_{\delta}, \delta})_{s \geq 0}$ satisfy the differential inequality with jumps of the form 
 \begin{equation}
 \begin{aligned}
  dW_s \leq& \frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))}dV^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\wedge \overline{U}_{K_{\delta}, \delta}\\
  &+\bigg(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))W_s^2 - b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))W_s\bigg)\mathbbm{1}_{W_s \leq \overline{U}_{K_{\delta}, \delta}}ds,
 \end{aligned}
 \end{equation}
-with initial condition $W_0=U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t)\leq \overline{U}_{K_{\delta},\delta}$. The first term is due to the fact that all jumps of $(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+s))_{s \geq 0}$ that lands above $\overline{U}_{K_{\delta}, \delta}$ will result in  the process $(W_s)_{s \geq 0}$ landing on $\overline{U}_{K_{\delta}, \delta}$. The indicator function in the second term is due to the process staying at $\overline{U}_{K_{\delta}, \delta}$ once the process hit the value. 
+with initial condition $W_0=U^{N}_{\tau_{\mathfrak{u}}}(t)\leq \overline{U}_{K_{\delta},\delta}$. The first term is due to the fact that all jumps of $(U^{N}_{\tau_{\mathfrak{u}}}(t+s))_{s \geq 0}$ that lands above $\overline{U}_{K_{\delta}, \delta}$ will result in  the process $(W_s)_{s \geq 0}$ landing on $\overline{U}_{K_{\delta}, \delta}$. The indicator function in the second term is due to the process staying at $\overline{U}_{K_{\delta}, \delta}$ once the process hit the value. 
 
 Note that we have $\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s)) \leq (1+C_G),$ and $- b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s)) \leq \varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_{s}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)).$ Furthermore, recall that $V_{\tau}(t)=\sum_{k=1}^{m}v_k\mathbbm{1}_{[0, \tau_k]}  (t)  $ and all jumps are at most of size $\overline{U}_{K_{\delta}, \delta}$ for the process $(W_s)_{s \geq 0}$, By the comparison principle, for any $s \geq 0$, $W_s-W_0$ is bounded above by the increment $\widetilde{W}_s-\widetilde{W}_0$ of a process $(\widetilde{W}_s)_{s \geq 0}$ which satisfies 
 \begin{equation}
@@ -4033,28 +3955,28 @@ Taking expectations, we have that
 \end{equation}
 
 \textbf{Controlling Increments by Birth Events:}
-Now consider the scenario where $t > \tau_u$, i.e. the particle $\mathfrak{u}$ has not been born at time $t$. Denote $\mathcal{B}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ])$ to be the event that particle $\mathfrak{u}$ is born between $[t,t+r  ]$ with level smaller than $U_{K_{\delta}, \delta}$. In this case,
+Now consider the scenario where $t > \tau_u$, i.e. the particle $\mathfrak{u}$ has not been born at time $t$. Denote $\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])$ to be the event that particle $\mathfrak{u}$ is born between $[t,t+r  ]$ with level smaller than $U_{K_{\delta}, \delta}$. In this case,
 \begin{multline}
- |g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|\\
- =g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))\times\mathbbm{1}_{\mathcal{B}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ])}\\
- < C_{g_1,...,g_n}\times \mathbbm{1}_{\mathcal{B}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ])},   
+ |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|\\
+ =g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))\times\mathbbm{1}_{\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])}\\
+ < C_{g_1,...,g_n}\times \mathbbm{1}_{\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])},   
 \end{multline}
-for some uniform bound $C_{g_1,...,g_n}$ over $\{||g_n||_{\infty}: n =1,...,N \}$. It suffices therefore to show that the probability for a particle $\mathfrak{u}$ to be born or gives birth in some time interval of length less than or equal to $r$ can be arbitrarily small given small enough $r$. Let $\mathcal{N}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ])$ to be the number of particles born between $[t,t+r]$ with level smaller than $U_{K_{\delta}, \delta}$. Then 
+for some uniform bound $C_{g_1,...,g_n}$ over $\{||g_n||_{\infty}: n =1,...,N \}$. It suffices therefore to show that the probability for a particle $\mathfrak{u}$ to be born or gives birth in some time interval of length less than or equal to $r$ can be arbitrarily small given small enough $r$. Let $\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ])$ to be the number of particles born between $[t,t+r]$ with level smaller than $U_{K_{\delta}, \delta}$. Then 
 \begin{equation}
 \begin{aligned}
-\mathbb{P}[\mathcal{B}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ])]  \leq&  \mathbb{P}[\mathcal{N}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ]) \geq 1]\\
-\leq & \mathbb{E}[\mathcal{N}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ]) ].
+\mathbb{P}[\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])]  \leq&  \mathbb{P}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) \geq 1]\\
+\leq & \mathbb{E}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) ].
 \end{aligned}
 \end{equation}
 Recall that we have bounds over the total mass of the particle systems, so at time $t$, the expected number of particles alive in the $N$-th stage of scaling is bounded above $\lambda_NC_0e^{C_Gt}$ (with $\lambda_N=N$). The particles have levels that are independently and uniformly distributed between $[0, \lambda_N]$. Therefore, the expected number of particles with levels between $[0,U_{K_{\delta}, \delta}]$ is $U_{K_{\delta}, \delta}C_0e^{C_Gt}$. The number of births within an interval of length $r$ is a sum of Poisson random variables, and so we have 
-$$\mathbb{E}[\mathcal{N}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}([t,t+r  ]) ]=U_{K_{\delta}, \delta}C_0e^{C_Gt}r.$$
+$$\mathbb{E}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) ]=U_{K_{\delta}, \delta}C_0e^{C_Gt}r.$$
 
 \textbf{Conclusion:} Combining all of the above results, we have that for any $\delta > 0$,
 \begin{equation}
 \begin{aligned}
-\mathbb{E}[\mathfrak{d}(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r),U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))] \leq & \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|}{2^n}\right] +  \delta/2\\
-\leq &\mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \leq t \right]\\
-& + \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{\varepsilon,\theta, \lambda}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \geq t \right] + \delta/2\\
+\mathbb{E}[\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))] \leq & \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}\right] +  \delta/2\\
+\leq &\mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \leq t \right]\\
+& + \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \geq t \right] + \delta/2\\
 \leq & C'_{g_1,...,g_n}\bigg(\overline{U}_{K_{\delta}, \delta}r + \lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2r\\
 & \qquad \qquad  +\overline{U}_{K_{\delta}, \delta} +(C_0e^t+\frac{C_0K'}{C_G+1}e^{C_G+1})(e^{r}-1)\bigg)\\
 & + C'_{g_1,...,g_n}U_{K_{\delta}, \delta}C_0e^{C_Gt}r+\delta/2\\
@@ -5044,353 +4966,128 @@ Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equ
 \end{proof}
 \section{Topological Results on Lookdown Representations}
 \label{sec: Topologies on Lookdown}
-\subsection{Particle Systems under Product Topology}\label{sec: Convergence in Product Topology}
 
-
+\subsection{Euclidean-Vague Topology on $\mathbb{R}^d \times [0,\infty]$}\label{sec: Convergence in Product Topology}
+We first define a topology on $\mathbb{R}^d \times [0,\infty]$ which is Euclidean on $\mathbb{R}^d$ and vague in $[0,\infty]$.
+\begin{definition}
 We define the topology $\mathfrak{p}$ on $\mathbb{R}^d \times [0,\infty]:$
 we say $(x_n,u_n) \to (x,u)$ in topology $\mathfrak{p}$ if 
 \begin{enumerate}
     \item $|x_n-x| \to 0$ in $\mathbb{R}^d$.
     \item  For all $g \in C_{c}([0,\infty])$, the space of continuous functions with compact support on $[0,\infty]$, $g(u_n) \to g(u).$ Since this is the vague convergence for $(\delta_{u_n})_{n \in \mathbb{N}}$ we will abuse a bit the notation and denote this by the symbol $u_n \xrightarrow{vague} u$. 
 \end{enumerate}
-In other words, our topology is Euclidean in space ($\mathbb{R}$) and vague in level ($[0,\infty]$).
+\end{definition}
+
+In other words, our topology is Euclidean in space $\mathbb{R}^d$ and vague in levels in $[0,\infty]$.
 \begin{lemma}\label{Vague times Euclidean is Polish}
 The space $\mathbb{R}^d \times [0,\infty]$ under topology $\mathfrak{p}$ is Polish.
 \end{lemma}
 \begin{proof}
-It suffices to show that the convergence of $u_n \xrightarrow{vague} u$ is metrisable and gives a separable space. The space $C_c([0,\infty])$ is dense, so we pick a countable dense subset $S:=\{h_n: n \in \mathbb{N}\} \subset C^{1}_c([0,\infty])$ and define the metric $\mathfrak{d}$ such that $\mathfrak{d}(u,v)=\sum_{n=1}^{\infty}\frac{1 \wedge |h_n(u)-h_n(v)|}{2^n}$.\\ Assume that $u_n \xrightarrow{vague} u$. Pick arbitrary $\delta>0$ and take $N$ large enough such that $\frac{1}{2^N}<\delta/2$. Furthermore, pick $n$ large enough such that $\inf_{i=1,2,...,N}|h_i(u_n)-h_i(u)|<\delta/2$. From this we immediately have that $\mathfrak{d}(u_n,u)<\delta$. Thus $\mathfrak{d}(u_n,u) \to 0$.\\\\
-Conversely assume that $\mathfrak{d}(u_n,u) \to 0$. For any $h \in \mathcal{C}^{1}_c([0,\infty])$ and for any $\delta>0$, pick $g_N$ such that $||h-h_N||_{\infty}<\delta /3$ and $n$ large enough such that $\mathfrak{d}(u_n,u)< \frac{\delta}{3 \times 2^N}$. Then $|h(u)-h(u_n)|< |h(u)-h_N(u)|+|h_N(u)-h_N(u_n)|+|h_N(u_n)-h(u_n)|<\delta$, and so $h(u_n) \to h(u)$.\\\\
+The space $C_c([0,\infty])$ is dense, so we pick a countable dense subset $S:=\{h_n: n \in \mathbb{N}\} \subset C^{1}_c([0,\infty])$ and define the metric $\mathfrak{d}$ such that $\mathfrak{d}(u,v)=\sum_{n=1}^{\infty}\frac{1 \wedge |h_n(u)-h_n(v)|}{2^n}$.
+
+Assume that $u_n \xrightarrow{vague} u$. Pick arbitrary $\delta>0$ and take $N$ large enough such that $\frac{1}{2^N}<\delta/2$. Furthermore, pick $n$ large enough such that $\inf_{i=1,2,...,N}|h_i(u_n)-h_i(u)|<\delta/2$. From this we immediately have that $\mathfrak{d}(u_n,u)<\delta$. Thus $\mathfrak{d}(u_n,u) \to 0$.
+
+Conversely assume that $\mathfrak{d}(u_n,u) \to 0$. For any $h \in \mathcal{C}^{1}_c([0,\infty])$ and for any $\delta>0$, pick $g_N$ such that $||h-h_N||_{\infty}<\delta /3$ and $n$ large enough such that $\mathfrak{d}(u_n,u)< \frac{\delta}{3 \times 2^N}$. Then $|h(u)-h(u_n)|< |h(u)-h_N(u)|+|h_N(u)-h_N(u_n)|+|h_N(u_n)-h(u_n)|<\delta$, and so $h(u_n) \to h(u)$.
+
 Finally, one can easily check that $\mathbb{Q}$ is a countable dense set in $[0,\infty]$ equipped with the metric $\mathfrak{d}$.
-\end{proof}
-The metric $d_{\mathfrak{p}}$ satisfies
-$$d_{\mathfrak{p}}((x_1,u_1),(x_2,u_2))=||x_1-x_2||+\mathfrak{d}(u_1,u_2).$$
-\begin{definition}[Test functions for $\mathfrak{p}$]\label{def: Test functions for p-topology}
-We define $$\mathfrak{G}:= \{g(x,u):~~\text{for all } x \in \mathbb{R}^d, ~ u \in [0, \infty],~~ g(\cdot,u) \in C_0(\mathbb{R}^d), ~~ g(x, \cdot) \in C_{c}([0,\infty])  \}$$
-to be the test functions on $\mathbb{R}^d \times [0, \infty]$ under the $\mathfrak{p}$-topology. Similarly, we define 
-$$\mathfrak{G}_{\leq 1}:=\{g \in \mathcal{C}_{b}(\mathbb{R}^d \times [0, \infty]): ~ 0< g \leq 1 ~\& ~\exists ~ U_g ~s.t. ~~g(\cdot,u)\equiv 1 \text{ for all } u\geq U_g\}$$
-to be the set of test functions bounded above by $1$.
-\end{definition}
-
-\begin{lemma}\label{lem: convergence determining test functions}
-The collection of test functions $\mathfrak{G}$ is dense in $\mathcal{C}_{0}(\mathbb{R}^d \times [0, \infty], \mathbb{R})$ under the topology of uniform convergence given by metric $d_{\mathfrak{p}}$. It is also convergence determining.
-\end{lemma}
-\begin{proof}
-It is immediately clear that $\mathfrak{G}$ forms an algebra and vanishes nowhere. Furthermore, for any $(x_1,u_1), (x_2,u_2) \in \mathbb{R}^d \times [0, \infty]$ such that $d_{\mathfrak{p}}((x_1,u_1), (x_2,u_2)) > \delta$, by definition, $$||x_1-x_2||+\sum_{n=1}^{\infty}\frac{1 \wedge |h_n(u_1)-h_n(u_2)|}{2^n}>\delta.$$
-As a result, there must exists some $K>0$ such that 
-$$||x_1-x_2||+\sum_{n=1}^{K}|h_n(u_1)-h_n(u_2)|>\delta/2,$$
-and $$\max \{||x_1-x_2||,|h_1(u_1)-h_1(u_2)|,..., |h_n(u_1)-h_n(u_2)|\}>0.$$
-We write $g_0(x,u)=\varrho*||x|| \mathbbm{1}_{B((x_1,u_1),2\delta)}$ and $g_n(x,u)=\varrho*h_n(u)\mathbbm{1}_{B((x_1,u_1),2\delta)}$ for all $n =1,...,K$. Here we pick $\varrho$ to be some mollifier such that $g_0,..,g_K$ are all continuous and in $\mathfrak{G}$. Therefore, 
-$$\inf_{(x',u'): d_{\mathfrak{p}}((x,u),(x',u'))> \delta} \max_{0 \leq n \leq K} |g_n(x,u)-g_n(x',u')| >0.$$
-According to Theorem 3.4.5. in \cite{EK}, $\mathfrak{G}$ is strongly separable and thus separable. Density in $\mathcal{C}_{0}(\mathbb{R}^d \times [0, \infty], \mathbb{R})$ follows from the Stone-Weierstrass Theorem and by Theorem 3.4.6. in \cite{EK}, $\mathfrak{G}$ is convergence determining.
-\end{proof}
-\begin{definition}[State Space for Individual Trajectories]\label{metric for countable topology}
-We denote $\mathcal{X}_{\mathfrak{u}}$ to be the state space of the spatial-level location of particle $\mathfrak{u}$, i.e. we impose $\mathcal{X}_{\mathfrak{u}}$ to be the space $\mathbb{R}^d \times [0,\infty]$ equipped with the topology $\mathfrak{p}$ defined above. We define $d_{\mathfrak{p}}$ to be the metric for the Polish space $\mathbb{R}^d \times [0,\infty]$ under the topology $\mathfrak{p}$.
-
-We denote the countable product space of $\mathcal{X}_{\mathfrak{u}}$ as
-$\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}$, with a typical element $(\textbf{x},\textbf{u})$ having the form
-$$(\textbf{x},\textbf{u}):=\big((x_\mathfrak{u_1},u_\mathfrak{u_1}),(x_\mathfrak{u_2},u_\mathfrak{u_2}),...,(x_\mathfrak{u_n},u_\mathfrak{u_n}),...\big).$$
-
-We define the product metric $d_{\mathfrak{p}^{\infty}}$ as follows: for two countable particle systems $(\textbf{x}^1,\textbf{u}^1):=\big((x^1_\mathfrak{u_1},u^1_\mathfrak{u_1}),(x^1_\mathfrak{u_2},u^1_\mathfrak{u_2}),...,(x^1_\mathfrak{u_n},u^1_\mathfrak{u_n}),...\big)$ and $(\textbf{x}^2,\textbf{u}^2):=\big((x^2_\mathfrak{u_1},u^2_\mathfrak{u_1}),(x^2_\mathfrak{u_2},u^2_\mathfrak{u_2}),...,(x^2_\mathfrak{u_n},u^2_\mathfrak{u_n}),...\big)$, 
-$$d_{\mathfrak{p}^{\infty}}\big((\textbf{x}^1,\textbf{u}^1),(\textbf{x}^2,\textbf{u}^2)\big):=\sum_{n=1}^{\infty}\frac{d_{\mathfrak{p}}\big((x^1_{\mathfrak{u}_n},u^1_{\mathfrak{u}_n}), (x^2_{\mathfrak{u}_n},u^2_{\mathfrak{u}_n})\big)\wedge 1}{2^n}.$$
-
-Since $(\mathcal{X}_{\mathfrak{u}},\mathfrak{p})$ is a Polish space with metric $d_{\mathfrak{p}}$, the countable product space 
-$\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}$ under the canonical product metric $d_{\mathfrak{p}^{\infty}}$
-is also a Polish space.
-\end{definition}
-
-\begin{lemma}[Convergence-determining test functions under $\mathfrak{p}^{\infty}$-topology]\label{lem: test functions under countable topology}
-The collection of functions given by 
-\begin{equation}
-M_{\infty}=\left\{F_{g,n}(\textbf{x},\textbf{u}):=\prod_{k=1}^{n}g_k(x_k,u_k): n\geq 1, ~~ k=1,...,n,~~ g_k \in \mathfrak{G}\cup\{1\}\right\}    
-\end{equation}
-is convergence-determining in the space $\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}$ under the $\mathfrak{p}^{\infty}$-topology.
-\end{lemma}
-\begin{proof}
-This follows immediately from Theorem 3.4.6 in \cite{EK} and Lemma \ref{lem: convergence determining test functions}.
+Defining the metric $d_{\mathfrak{p}}$
+by
+$$d_{\mathfrak{p}}((x_1,u_1),(x_2,u_2))=||x_1-x_2||+\mathfrak{d}(u_1,u_2),$$
+we can show easily that
+convergence in $d_{\mathfrak{p}}$
+is equivalent to convergence in 
+$\mathfrak{p}$ topology.
 \end{proof}
 
-\begin{corollary}\label{cor: convergence in p implies convergence in p-infty} For each $\mathfrak{u} \in \mathcal{U}$, we let $\mathcal{X}_{\mathfrak{u}}= \mathbb{R}^{d}\times[0, \infty]$ equipped with the $\mathfrak{p}$-topology. Suppose the process $(U^{n}_{\mathfrak{u}}(t),X^{n}_{\mathfrak{u}}(t))_{t \geq 0}$ converges to some $(U^{\infty}_{\mathfrak{u}}(t),X^{\infty}_{\mathfrak{u}}(t))_{t \geq 0}$ under the Skorokhod topology in $\mathcal{D}_{[0,\infty)}(\mathcal{X}_{\mathfrak{u}})$ for each $\mathfrak{u} \in \mathcal{U}$. Then the countable product process satisfies
-\begin{equation}
-\Big(\textbf{X}^{n}_{\mathfrak{u}}(t ),\textbf{U}^{n}_{\mathfrak{u}}(t )\Big)_{t \geq 0} \to \Big(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )\Big)_{t \geq 0}~~ \text{ in } ~~ \mathcal{D}_{[0,\infty)}\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}},    
-\end{equation}
-under the Skorokhod topology, where $\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}$ is equipped with the $\mathfrak{p}^{\infty}$ topology given by the metric $d_{\mathfrak{p}^{\infty}}$.
+
+
+\subsection{Weak-Vague Topology on Measures}\label{sec: Empirical Measure Topology}
+
+We now characterise the lookdown representation
+of our particle system
+as a measure on 
+$(\mathbb{R}^d \times [0, \infty], \mathfrak{p})$.
+We endow the vague topology
+on these measures for
+convergence of lookdown representations.
+We refer to Theorem A.23 and Theorem A.24 in \cite{kallenberg1997foundations}.
+
+First of all,
+as $(\mathbb{R}^d \times [0, \infty], \mathfrak{p})$
+is Polish,
+the family of $C^{+}_K$ of continuous functions
+$$f: \mathbb{R^d} \times [0, \infty] \to \mathbb{R}^{+}$$
+with compact support
+is separable in the uniform metric. 
+The sets $K_n =[-n, n]^d \times [0,n]$ clearly forms a sequence of compact sets and $K_n \uparrow \mathbb{R^d} \times [0, \infty]$.
+
+We denote $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ as the class of measures on $\mathbb{R^d} \times [0, \infty]$ that are 
+locally finite (i.e. bounded on bounded intervals),
+and write $\pi_B, \pi_f$ 
+for the mappings 
+$\mu \to \mu B$, $\mu \to \mu f := \int f d\mu$,
+respectively,
+on $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
+
+The \textit{vague topology} in $\mathcal{M}(\mathbb{R^d} \times [0, \infty)$ is generated by the maps $\pi_f, f \in C^{+}_K$, and 
+we write the cague convergence of $\mu_n$ toward $\mu$
+as $\mu_n \xrightarrow{v} \mu$.
+
+Taking $S= \mathbb{R^d} \times [0, \infty]$
+in Theorem A.23
+in \cite{kallenberg1997foundations},
+we have
+\begin{theorem}[vague topology]
+\label{teo: Kallenberg vague results}
+
+The following holds:
+\begin{enumerate}
+    \item $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ is a Polish space in the vague topology
+    \item A set $A \subset \mathcal{M}(\mathbb{R^d} \times [0, \infty])$ is vaguely relatively compact iff 
+    $\sup_{\mu \in A} \mu f < \infty$ for all $f \in C^{+}_K$
+    \item if $\mu_n \xrightarrow{v} \mu$ and a set $B$ is finite with $\mu \partial B = 0$, then $\mu_n B \to \mu B$.
+\end{enumerate}
+
+\end{theorem}
+
+\begin{corollary}
+For any arbitrary $N,K>0$, the set $$\mathcal{M}_K([-N,N]^d \times [0,N]):= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): \mu([-N,N]^d \times [0,N]) \leq K\}$$   
+is a compact subset in 
+$\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ 
+under the vague topology.
 \end{corollary}
 \begin{proof}
-By Lemma \ref{lem: test functions under countable topology} and Corollary 3.9.2 in \cite{EK}, using the fact that $M_{\infty}$ strongly separate points, it suffices to show that for any finite set $\{F_{g_1,n_1},...,F_{g_k,n_k} \} \in M_{\infty}$, as $m \to \infty$,
-\begin{multline}
-\left(F_{g_1,n_1}(\textbf{X}^{m}_{\mathfrak{u}}(t ),\textbf{U}^{m}_{\mathfrak{u}}(t )),F_{g_2,n_2}(\textbf{X}^{m}_{\mathfrak{u}}(t ),\textbf{U}^{m}_{\mathfrak{u}}(t )),...,F_{g_k,n_k}(\textbf{X}^{m}_{\mathfrak{u}}(t ),\textbf{U}^{m}_{\mathfrak{u}}(t ))\right)\\
-\to \left(F_{g_1,n_1}(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )),F_{g_2,n_2}(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )),...,F_{g_k,n_k}(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t ))\right) \text{  in  } \mathcal{D}_{[0,\infty)}\mathbb{R}^{k}.
-\end{multline}
-As the expression above concerns finite-dimensional convergence of finite products, it suffices to show that for any arbitrary $g \in \mathfrak{G}$ and $\mathfrak{u}  \in \mathcal{U}$, the process 
-$\left(g(U^{n}_{\mathfrak{u}}(t),X^{n}_{\mathfrak{u}}(t))\right)_{t \geq 0}$ converges to $\left(g(U^{\infty}_{\mathfrak{u}}(t),X^{\infty}_{\mathfrak{u}}(t))\right)_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}(\mathbb{R})$, which is equivalent to the process $(U^{n}_{\mathfrak{u}}(t),X^{n}_{\mathfrak{u}}(t))_{t \geq 0}$ converging to some $(U^{\infty}_{\mathfrak{u}}(t),X^{\infty}_{\mathfrak{u}}(t))_{t \geq 0}$ under the Skorokhod topology in $\mathcal{D}_{\mathcal{X}_{\mathfrak{u}}}([0,\infty))$.
+For any function $f \in C^{+}_K$, it is compactly supported and
+so there exists a constant $C_f > ||f||_{\infty}$.
+As a result, 
+$$\sup_{\mu \in \mathcal{M}_K([-N,N]^d \times [0,N])} \mu f < C_f \times \mu \{ supp(f) \cap [-N,N]^d \times [0,N]\} \leq C_f K < \infty.$$
+
+Since $f$ is arbitrary, by (ii) of Theorem \ref{teo: Kallenberg vague results}, 
+the set
+$\mathcal{M}_K([-N,N]^d \times [0,N])$
+is vaguely relatively compact. 
+
+We now prove that $\mathcal{M}_K([-N,N]^d \times [0,N])$ is a closed subset of $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
+
+Since $[-N,N]^d \times [0,N]$ is finite, by part 3 of Theorem \ref{teo: Kallenberg vague results},
+for any sequence in $(\mu_n)_{n \in \mathbb{N}}$ in  $\mathcal{M}_K([-N,N]^d \times [0,N])$ that converges vaguely to $\mu$ in 
+$ \mathcal{M}(\mathbb{R^d} \times [0, \infty])$, 
+$$K \geq \mu_n([-N,N]^d \times [0,N]) \to \mu([-N,N]^d \times [0,N]).$$
+Therefore, $\mu \in \mathcal{M}_K([-N,N]^d \times [0,N])$.
+As a result, $\mathcal{M}_K([-N,N]^d \times [0,N])$ is closed and relatively vaguely compact, so it is vaguely compact.
 \end{proof}
 
-Given the above topological set-up, 
-our population system at the $\lambda$-th stage of scaling is
-$$\Big(\textbf{X}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}(t ),\textbf{U}^{\varepsilon,\theta, \lambda}_{\mathfrak{u}}(t )\Big)_{t \geq 0}:=\Big((X^{\varepsilon,\theta, \lambda}_{\mathfrak{u}_1}(t),U^{\varepsilon,\theta, \lambda}_{\mathfrak{u}_1}(t)),(X^{\varepsilon,\theta, \lambda}_{\mathfrak{u}_2}(t),U^{\varepsilon,\theta, \lambda}_{\mathfrak{u}_2}(t)),....\Big)_{t \geq 0} \in \mathcal{D}_{[0,\infty)}\left(\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}\right),$$
-which is again a Polish space. Before proving tightness of our process in the above space, we shall highlight why proving convergence in this topology is useful. First of all, it is simpler to prove convergence of our particle system in the product topology - it suffices to prove that the trajectories of the spatial location and level of an individual particle converge. Furthermore, as shown in \S \ref{sec: Empirical Measure Topology}, convergence in the product topology gives convergence of the empirical measures in $\mathcal{M}_{F}(\mathbb{R}^d, [0, \infty])$ under a Polish metric.
-
-\subsection{Particle Systems as Empirical Measures}\label{sec: Empirical Measure Topology}
-\begin{definition}\label{def: Weak-Vague topology convergence}
-We say that a sequence of point measures $\xi^{n} \in \mathcal{N}_f(\mathbb{R}^d \times [0, \infty])$ converges in the $\mathfrak{p}^{wv}$-topology if for all $f \in C_0(\mathbb{R}^d)$ and all $h \in \mathcal{C}_c([0, \infty])$,
-\begin{equation}\label{eq: Weak-Vague topology characterisation}
-\int_{\mathbb{R}^d \times [0, \infty]}f(x)h(u)\xi^{n}(dx,du) \to    \int_{\mathbb{R}^d \times [0, \infty]}f(x)h(u)\xi^{\infty}(dx,du) 
-\end{equation}
-for some measure $\xi^{\infty} \in \mathcal{N}_{f}(\mathbb{R}^d \times [0, \infty])$.
+\begin{definition}
+We define $\mathfrak{G}_{\leq 1}$ to be the set of functions $g \in \mathcal{C}(\mathbb{R}^d \times [0, \infty) \to \mathbb{R})$ such that 
+$g(\cdot, u) \in \mathcal{C}_{0}(\mathbb{R}^d)$ for all $u \geq 0$, and there exists some $C_g>0$, such that $g(x,u)=1$ for all $u \geq C_g$.
 \end{definition}
-\begin{lemma}\label{lem: Metrizability of the weak-vague topology}
-The topology $\mathfrak{p}^{wv}$ is metrizable and gives a Polish space.
-\end{lemma}
-\begin{proof}
-Take $\{h_n: n \in \mathbb{N}\}$ to be a dense set of functions in $\mathcal{C}_c([0, \infty])$ and let $\{f_m : m \in \mathbb{N}\}$ be a dense set of functions in $\mathcal{C}_0(\mathbb{R}^d)$. For a point measure $\xi \in \mathcal{N}_f(\mathbb{R}^d \times [0, \infty])$, we define $\xi_{X} := \sum_{(x,u) \in \xi} \delta_x \in \mathcal{N}_f(\mathbb{R}^d)$ to be its spatial projection and $\xi_{U} := \sum_{(x,u) \in \xi} \delta_u \in \mathcal{N}_f([0,\infty])$ to be its level projection. For $\xi, \zeta \in \mathcal{N}_f(\mathbb{R}^d \times [0, \infty])$, we define 
-$$\mathfrak{d}'(\xi, \zeta):=\sum_{m=1}^{\infty}\frac{|h_m(\xi_U)-h_m(\zeta_U)|\wedge 1}{2^m}+\sum_{n=1}^{\infty}\frac{|f_n(\xi_X)-f_n(\zeta_X)|\wedge 1}{2^n}.$$
 
-
-The proof will be nearly identical as that of Lemma \ref{Vague times Euclidean is Polish}. In particular, the set of point measures on rational points is countable and dense in $\mathcal{N}_{f}(\mathbb{R}^d \times [0, \infty])$ under $\mathfrak{p}^{wv}$.
-\end{proof}
-\begin{lemma}\label{lem: Dense set for test functions on empirical measures}[Dense set of $C_{c}(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)),\mathbb{R})$] For $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$. The set of functions 
+\begin{lemma}\label{lem: Dense set for test functions on empirical measures} For $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$. The set of functions 
 $$\left\{\sum_{m=1}^{N}a_m F_{g_m}(\cdot) ~~|~~ g_1,...,g_N \in \mathfrak{G}_{\leq 1}\right\}$$
-is dense in $C_{c}(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)),\mathbb{R})$.
+is dense in $C(\mathcal{M}(\mathbb{R^d} \times [0, \infty]),\mathbb{R})$.
 \end{lemma}
 \begin{proof}
 Direct application of Stone-Weierstrass Theorem. These finite combinations are closed under addition by construction, and they are closed under multiplication as $F_{g_1}(\cdot) \times F_{g_2}(\cdot):=F_{g_1 \times g_2}(\cdot)$. Thus we have a subalgebra that also clearly separates points and vanishes nowhere.
-\end{proof}
-
-\subsection{Convergences in Equivalent Topologies}
-
-We now introduce an important lemma which shows convergence in $\mathfrak{p}^{\infty}$ implies that in $\mathfrak{p}^{wv}$.
-\begin{lemma}\label{lem: Countable Implies Vague}
-Assume that 
-\begin{equation}
-\Big(\textbf{X}^{n}_{\mathfrak{u}}(t ),\textbf{U}^{n}_{\mathfrak{u}}(t )\Big)_{t \geq 0} \to \Big(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )\Big)_{t \geq 0}~~ \text{ in } ~~ \mathcal{D}_{[0,\infty)}\left(\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}\right),    
-\end{equation}
-where $\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}}$ is equipped with the $\mathfrak{p}^{\infty}$ topology given by the metric $d_{\mathfrak{p}^{\infty}}$. Assume furthermore that for all $t \geq 0$, $g \in \mathfrak{G}_{\leq 1}$ and for all $\varepsilon \geq 0$, we may find some finite set $A_g \subset \mathcal{U}$ such that the stopping times $$\rho_{A_g,n}:= \inf\{t \geq 0: U^{n}_{\mathfrak{u}}(t) \leq U_{g} \text{ for all } \mathfrak{u} \in A_g\}$$
-satisfies 
-$$\limsup_{n \to \infty}\mathbb{P}\{ \rho_{A_g,n} \leq t\} \leq \varepsilon /2.$$
-
-Then the sequence of associated empirical measures $(\xi^n(t))_{t \geq 0}:=(\sum_{\mathfrak{u} \in \mathcal{U}}\delta_{X^{n}_{\mathfrak{u}}(t),U^{n}_{\mathfrak{u}}(t)})_{t \geq 0}$ converges to $(\xi^{\infty}(t))_{t \geq 0}:=(\sum_{\mathfrak{u} \in \mathcal{U}}\delta_{X^{\infty}_{\mathfrak{u}}(t),U^{\infty}_{\mathfrak{u}}(t)})_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}\left(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)\right)$ where $\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)$ is equipped with the metric $\mathfrak{d}'$.
-\end{lemma}
-\begin{proof}
-By Lemma \ref{lem: Dense set for test functions on empirical measures} and Theorem 3.9.1 in \cite{EK}, it suffices to show that for any $g \in \mathfrak{G}_{\leq 1}$, the real-valued sequence $\left(\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(t), U^{n}_{\mathfrak{u}}(t))\right)_{t \geq 0}$ converges to 
-$\left(\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{\infty}_{\mathfrak{u}}(t), U^{\infty}_{\mathfrak{u}}(t))\right)_{t \geq 0}$
-in the $\mathcal{D}_{[0,\infty)}(\mathbb{R})$ topology. To prove so, we must prove convergence in finite-dimensional distribution and tightness.
-
-\textbf{Convergence in finite-dimensional distribution:} 
-It suffices to prove convergence in distribution for one fixed $t$. Let $\mathcal{U}^N:\bigcup_{m=0}^{N}\{0,1\}^m$, and note that the function
-$$\prod_{\mathfrak{u} \in \mathcal{U}^{N}} g(X^{n}_{\mathfrak{u}}(t), U^{n}_{\mathfrak{u}}(t))$$
-is bounded above by $1$ and decrease monotonically with respect to $N$. Furthermore, one can show easily that the set 
-$$\{g(x,u): ~g(x,u)=f(x)h(u), ~~f \in C_0(\mathbb{R}^d), ~ 0\leq f \leq 1 ~ \& ~~ h \in \mathcal{C}_c([0,\infty]), ~ 0\leq h \leq 1\}$$
-is dense in $\mathfrak{G}_{\leq 1}$ under the supremum norm.
-
-As we have that 
-\begin{equation}
-\Big(\textbf{X}^{n}_{\mathfrak{u}}(t ),\textbf{U}^{n}_{\mathfrak{u}}(t )\Big)_{t \geq 0} \to \Big(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )\Big)_{t \geq 0}~~ \text{ in } ~~ \mathcal{D}_{[0,\infty)}\prod_{\mathfrak{u} \in \mathcal{U}}\mathcal{X}_{\mathfrak{u}},    
-\end{equation}
-using the test functions in Lemma \ref{lem: convergence determining test functions} we have that for any finite set $A=\{\mathfrak{u}_1,...,\mathfrak{u}_m\} \subset \mathcal{U}$, 
-\begin{multline}\label{eq: Convergence of finite product in skorokhod space}
-\left(\prod_{i=1}^{m}g\Big(x^{n}_{\mathfrak{u_i}}(t ),u^{n}_{\mathfrak{u_i}}(t )\Big)\right)_{t \geq 0}=\left( F_{g,m}(\textbf{X}^{m}_{\mathfrak{u}}(t ),\textbf{U}^{m}_{\mathfrak{u}}(t ))\right)_{t \geq 0} \\
-\to \left( F_{g,m}(\textbf{X}^{\infty}_{\mathfrak{u}}(t ),\textbf{U}^{\infty}_{\mathfrak{u}}(t )) \right)_{t \geq 0}=  \left(\prod_{i=1}^{m}g\Big(x^{\infty}_{\mathfrak{u_i}}(t ),u^{\infty}_{\mathfrak{u_i}}(t )\Big)\right)_{t \geq 0} \text{  in  } \mathcal{D}_{[0,\infty)}(\mathbb{R}).
-\end{multline}
-
-Therefore, we can apply Monotone Convergence Theorem to obtain for any arbitrary $t >0$,
-\begin{equation}
-\begin{aligned}
-\lim_{n \to \infty}\mathbb{E}^{n}\bigg[\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(t), U^{n}_{\mathfrak{u}}(t))\bigg]=&\lim_{n \to \infty}\lim_{N \to \infty}\mathbb{E}^{n}\bigg[\prod_{\mathfrak{u} \in \mathcal{U}^N} g(X^{n}_{\mathfrak{u}}(t), U^{n}_{\mathfrak{u}}(t))\bigg]\\
-=&\lim_{N \to \infty}\lim_{n \to \infty}\mathbb{E}^{n}\bigg[\prod_{\mathfrak{u} \in \mathcal{U}^N} g(X^{n}_{\mathfrak{u}}(t), U^{n}_{\mathfrak{u}}(t))\bigg]\\
-=&\lim_{N \to \infty}\mathbb{E}^{\infty}\bigg[\prod_{\mathfrak{u} \in \mathcal{U}^N} g(X^{\infty}_{\mathfrak{u}}(t), U^{\infty}_{\mathfrak{u}}(t))\bigg]\\
-=&\mathbb{E}^{\infty}\bigg[\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{\infty}_{\mathfrak{u}}(t), U^{\infty}_{\mathfrak{u}}(t))\bigg],
-\end{aligned}
-\end{equation}
-where the third equality uses Equation \eqref{eq: Convergence of finite product in skorokhod space} alongside a density argument, and the first and last equalities are due to the monotonicity of the product with respect to $N$. 
-
-\textbf{Tightness:} By Aldous Criterion, or Lemma 16.12 in \cite{kallenberg2002foundations}, we want to show that for all $t \geq 0$ and arbitrary $g \in \mathfrak{G}_{\leq 1}$,
-\begin{equation}\label{eq: infinite product tightness criteria}
-   \lim_{h \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left| \prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\sigma), U^{n}_{\mathfrak{u}}(\sigma)) -\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\tau), U^{n}_{\mathfrak{u}}(\tau)) \right| \wedge 1 \right\} =0,
-\end{equation}
-where the sup extends over all $\mathcal{F}^n$-optional times $\sigma, \tau \leq t$ with $\sigma \leq \tau \leq \sigma +h$.
-
-By Assumption, for any $\varepsilon > 0$, $g \in \mathfrak{G}_{\leq 1}$, we may find some finite set $A_g$ such that the stopping time $$\rho_{A_g,n}:= \inf\{t \geq 0: U^{n}_{\mathfrak{u}}(t) \leq U_{g} \text{ for all } \mathfrak{u} \in A_g\}$$
-satisfies 
-$$\limsup_{n \to \infty}\mathbb{P}\{ \rho_{A_g,n} \leq t\} \leq \varepsilon /2.$$
-As a result, conditioning on $\{ \rho_{A_g} \leq t\}$, we have 
-\begin{multline}
-   \lim_{h \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left| \prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\sigma), U^{n}_{\mathfrak{u}}(\sigma)) -\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\tau), U^{n}_{\mathfrak{u}}(\tau)) \right| \wedge 1 \right\} \\
-   =\lim_{h \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left| \prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\sigma \wedge \rho_{A_g}), U^{n}_{\mathfrak{u}}(\sigma \wedge \rho_{A_g})) -\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\tau \wedge \rho_{A_g}), U^{n}_{\mathfrak{u}}(\tau \wedge \rho_{A_g})) \right| \wedge 1 : \rho_{A_g} \geq t \right\}\\
-   + \lim_{h \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left| \prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\sigma ), U^{n}_{\mathfrak{u}}(\sigma )) -\prod_{\mathfrak{u} \in \mathcal{U}} g(X^{n}_{\mathfrak{u}}(\tau ), U^{n}_{\mathfrak{u}}(\tau)) \right| \wedge 1 : \rho_{A_g} \leq t \right\}\\
-   \leq \lim_{h \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left| \prod_{\mathfrak{u} \in A_g} g(X^{n}_{\mathfrak{u}}(\sigma), U^{n}_{\mathfrak{u}}(\sigma )) -\prod_{\mathfrak{u} \in A_g} g(X^{n}_{\mathfrak{u}}(\tau), U^{n}_{\mathfrak{u}}(\tau)) \right| \wedge 1 : \rho_{A_g} \geq t \right\}\\
-   + \limsup_{n \to \infty} 2 \mathbb{P}\{ \rho_{A_g,n} \leq t\} \leq 0+\varepsilon=\varepsilon. 
-\end{multline}
-The final inequality holds as tightness of our particle system in $\mathfrak{p}^{\infty}$ topology ensures the jump increments over finite product is controlled, and the jump increments are always bounded above by $2$ as the products are at most $1$. As $\varepsilon$ is arbitrary, we have shown Equation \eqref{eq: infinite product tightness criteria}.
-\end{proof}
-
-
-
-Finally, we will state and prove a generalised version of Theorem A.12 in \cite{kurtz/rodrigues:2011} which serves as a framework to prove convergence of our models to solutions of partial differential equations.
-
-
-\begin{theorem}\label{teo: Theorem A12 Kurtz Rodrigues generalised}
-Let $\xi^{n}(t)_{t \geq 0}$ be a sequence of cadlag $\mathcal{N}_f(\mathbb{R}^d \times [0, \infty])$-valued processes and define $$\Xi^{n}(t):=\frac{1}{\lambda_n}\xi^{n}(t,dx \times [0,\lambda_n]),$$ which gives a $\mathcal{M}_{f}(\mathbb{R}^d)$-valued process. Assume furthermore that for all $t>0$,
-\begin{equation}\label{Markov Mapping Cox Condition}
-\mathbb{E}\left[e^{-\int_{S \times [0,\lambda_n]} f(x,u) \xi^n(t,dx \times du)}\bigg| \mathcal{F}^{\Xi^{n}}_t\right]=e^{-\int F^{n}_f(x) \Xi^{n}_t(dx)},
-\end{equation}
-where 
-$$F^{n}_f(x):=-\lambda_n\log \left(\frac{1}{\lambda_n}\int_{0}^{\lambda_n}e^{-f(x,u)}du\right)=-\lambda_n\log \left(1-\frac{1}{\lambda_n}\int_{0}^{\lambda_n}(1-e^{-f(x,u)})du\right).$$
-In other words, conditioned on $\Xi^n_t$, the levels of individual particles in $\xi^{n}_t$ are identical and uniformly distributed between $[0, \lambda_n]$. Finally, assume that as $n \to \infty$, $(\xi^{n}_t)_{t \geq 0}$ converges to $(\xi^{\infty}(t))_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}\left(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)\right)$ where $\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)$ is equipped with the metric $\mathfrak{d}'$.
-
-Then $(\Xi^{n}_t)_{t \geq 0}$ converges to $(\Xi^{\infty}_t)_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}\left(\mathcal{M}_f(\mathbb{R}^d \right)$, where $\mathcal{M}_f(\mathbb{R}^d)$ is equipped with the weak topology. In particular, $\Xi^{\infty}(t) \times \Lambda$ is the Cox measure of $\xi^{\infty}(t)$ and, specifically, $\Xi^{\infty}(t):= \lim_{u_0 \to \infty}\frac{1}{u_0}\xi^{\infty}(t,dx\times [0,u_0])$.
-\end{theorem}
-\begin{proof}
-\textbf{Part I (Pointwise Convergence):}
-
-First we prove that for any fixed $t$, $\xi^n_t \to \xi^{\infty}_t$ in $\mathfrak{p}^{wv}$ topology implies convergence of $\Xi^n_t$ to $\Xi^{\infty}_t$ in the weak topology on $\mathcal{M}_f(\mathbb{R}^d)$. For all $f(x) \in C_0(\mathbb{R}^d)$, $h(u) \in \mathcal{C}_{c}([0, \infty])$ and $K>0$,
-
-\begin{equation}\label{eq: A12 derivation fixed time}
-\begin{aligned}
-\mathbb{E}\left[e^{-\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t,dx \times du)}\right]=&\lim_{n \to \infty}\mathbb{E}\left[e^{-\int_{S \times [0,K]} f(x)h(u) \xi^n(t,dx \times du)}\right]\\
-=&\lim_{n \to \infty}\mathbb{E}\left[e^{-\int_{S \times [0,\lambda_n]} f(x)h(u) \xi^n(t,dx \times du)}\right]\\
-= & \lim_{n \to \infty}\mathbb{E}\bigg[e^{-\int \left(-\lambda_n\log \left(1-\frac{1}{\lambda_n}\int_{0}^{\lambda_n}(1-e^{-f(x)h(u)})du\right)\right) \Xi^{n}_t(dx)}\bigg].
-\end{aligned}    
-\end{equation}
-
-For fixed $t>0$, $\xi^n_t \to \xi^{\infty}_t$ in the $\mathfrak{p}^{wv}$-topology, so the collection of random variables $$\left\{\int_{S \times [0,K]} f(x)h(u) \xi^n(t,dx \times du): n \in \mathbb{N}\right\}$$ is stochastically bounded and tight. Note that 
-\begin{equation}
-\begin{aligned}
-G^{\lambda_n}_{K,\varepsilon,f}(x):=&-\lambda_n\log \left(1-\frac{1}{\lambda_n}\int_{0}^{K}(1-e^{-\varepsilon f(x)h(u)})du\right) \\
- \geq& \int_{0}^{K}(1-e^{-\varepsilon f(x)h(u)})du\\
- \geq& \int_{0}^{K}\varepsilon e^{-\varepsilon f(x)h(u)}f(x)h(u)du\\
- \geq &\varepsilon e^{-\varepsilon||fh||_{\infty}}f(x)K||h||_{\infty}.
-\end{aligned}    
-\end{equation}
-
-As a result, we have that
-\begin{equation}\label{eq: Control Xi with xi}
-\begin{aligned}
-\mathbb{E}[1-e^{-\int_{S \times [0,K]} \varepsilon f(x)h(u) d \xi^n}]=&  \mathbb{E}[1-e^{-\int_{S } G^{\lambda_n}_{K,\varepsilon,f} d \Xi^n}]\\
-\geq&\mathbb{E}[1-e^{-\varepsilon e^{-\varepsilon||fh||_{\infty}} K||h||_{\infty}\int_{S } f(x)  \Xi^n(dx)}]\\
-\geq&\left(1-e^{-\varepsilon e^{-\varepsilon||fh||_{\infty}} K||h||_{\infty}C}\right)\mathbb{P}\bigg[\int_{S } f(x)  \Xi^n(dx) > C\bigg].
-\end{aligned}
-\end{equation}
-
-Taking $\varepsilon=C^{-1}$ gives that for any arbitrary $h \in C_{c}([0, \infty])$, for all $f \in C_0(\mathbb{R}^d)$ and for any $K>0$,
-
-$$\mathbb{P}\bigg[\int_{S } f(x)  \Xi^n(dx) > C\bigg] \leq \frac{\mathbb{E}[1-e^{-\int_{S \times [0,K]} C^{-1}f(x)h(u) d \xi^n}]}{1-e^{-e^{-C^{-1} ||fh||_{\infty}} K||h||_{\infty}}}.$$ 
-
-Furthermore, if we pick $h(u)$ such that $h(x)=1$ on $[0,K]$ and decreases to $0$ outside $K$ in some finite region, we have that gives 
-\begin{equation}\label{eq: Markov inequality for Xi}
-\mathbb{P}\bigg[\int_{S } f(x)  \Xi^n(dx) > C\bigg] \leq \frac{\mathbb{E}[1-e^{-\int_{S \times [0,K]} C^{-1}f(x) d \xi^n}]}{1-e^{-e^{-C^{-1} ||f||_{\infty}} K}} 
-\end{equation}
-for arbitrary $K>0$. A similar argument gives us 
-\begin{equation}\label{eq: Markov inequality for Xi, infinity case}
-\mathbb{P}\bigg[\int_{S } f(x)  \Xi^\infty(dx) > C\bigg] \leq \frac{\mathbb{E}[1-e^{-\int_{S \times [0,K]} C^{-1}f(x) d \xi^\infty}]}{1-e^{-e^{-C^{-1} ||f||_{\infty}} K}} 
-\end{equation}
-for arbitrary $K>0$.
-
-As a result of the above inequalities, stochastic boundedness of integrals against $\xi^n$ implies stochastic boundedness (and similarly tightness) of the random variables  
-$$\left\{\int_{S \times [0,K]} f(x) \Xi^n(t,dx): n \in \mathbb{N}\right\}$$
-in the weak topology. As a result, $\Xi^{n}$ converges to some $\Xi^{\infty}$ weakly. 
-
-Finally, note that for large enough $\lambda_n$, 
-\begin{equation}
-\begin{aligned}
-\exp\bigg(-\lambda_n\log \left(1-\frac{1}{\lambda_n}\int_{0}^{\lambda_n}(1-e^{-f(x)h(u)})du\right)\bigg)=&  \left(1-\frac{1}{\lambda_n}\int_{0}^{\infty}(1-e^{-f(x)h(u)})du\right)^{-\lambda_n} \\
-\to& \exp\bigg(\int_{0}^{\infty}(1-e^{-f(x)h(u)})du\bigg)
-\end{aligned}    
-\end{equation}
-uniformly (in space) as $n \to \infty$, so the last equality of Equation \eqref{eq: A12 derivation fixed time} gives for any fixed time $t >0 $,
-\begin{equation}\label{eq: A12 derivation fixed time conclusion}
-\begin{aligned}
-\mathbb{E}\left[e^{-\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t,dx \times du)}\right]
-= & \lim_{n \to \infty}\mathbb{E}\bigg[e^{-\int \left(-\lambda_n\log \left(1-\frac{1}{\lambda_n}\int_{0}^{\lambda_n}(1-e^{-f(x)h(u)})du\right)\right) \Xi^{n}_t(dx)}\bigg]\\
-= & \mathbb{E}\bigg[e^{-\int \left(\int_{0}^{\infty}(1-e^{-f(x)h(u)})du\right) \Xi^{\infty}_t(dx)}\bigg],
-\end{aligned}    
-\end{equation}
-which characterises $\xi^{\infty}_t$ as a conditionally Poisson point process with Cox measure $\Xi^{\infty}_t \times \Lambda$.
-
-\textbf{Part II (Finite-dimensional Convergence):}
-
-The finite-dimensional distribution of $(\xi^n(t))_{t \geq 0}$ converges, so for any k-tuples $(t_1,...,t_k) \in (\mathbb{R}^{+})^{k}$, $f(x) \in C_0(\mathbb{R}^d)$, $h(u) \in \mathcal{C}_{c}([0, \infty])$ and $K >0$,
-\begin{equation}\label{eq: A12 derivation finite dimensional, xi}
-\begin{aligned}
-\mathbb{E}\left[\prod_{i=1}^{k}\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)\right]=&\lim_{n \to \infty}\mathbb{E}\left[\prod_{i=1}^{k}\int_{S \times [0,K]} f(x)h(u) \xi^n(t_i,dx \times du)\right].
-\end{aligned}    
-\end{equation}
-We aim to prove the convergence of finite-dimensional distribution of $\Xi^{n}(t)$, i.e. 
-\begin{equation}\label{eq: A12 derivation finite dimensional, Xi}
-\begin{aligned}
-\mathbb{E}\left[\prod_{i=1}^{k}\int_{S} f(x) \Xi^\infty(t_i,dx)\right]=&\lim_{n \to \infty}\mathbb{E}\left[\prod_{i=1}^{k}\int_{S} f(x) \Xi^n(t_i,dx)\right].
-\end{aligned}    
-\end{equation}
-First of all, note that 
-$$\mathbb{E}\left[\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)\right]=\mathbb{E}\left[\int_{S}f(x)\Xi^\infty(t_i,dx)\int_{[0,K]}h(u)du\right].$$
-For convenience we will denote $I_{K}(h):=\int_{[0,K]}h(u)du$.
-
-We use Chebyschev's inequality to obtain
-\begin{multline}
-\mathbb{P}\left[\bigg|\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)-\int_{S} f(x)  \Xi^\infty(t_i,dx)\bigg|>\delta \Bigg| \Xi^{\infty}\right] \\
-\leq \frac{Var\left[\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)\right]}{I_K(h)^2\delta^2}\wedge 1   \\
-\leq \frac{\int_{S} f^2(x) \Xi^\infty(t_i,dx) \int_{[0,K]} h^2(u) du}{I_K(h)^2\delta^2}\wedge 1   \\
-\leq \frac{CI_K(h^2)}{I_K(h)^2\delta^2} + \mathbbm{1}_{\{\int_{S}f^2(x)\Xi^{\infty}(t_i,dx) > C\}},
-\end{multline}
-Taking expectations (with respect to the law of $\Xi^{\infty}$) gives for any $\delta>0$, $C>0$, $K,K'>0$,
-\begin{multline}\label{eq: Chebyschev inequality for Xi infinity}
-\mathbb{P}\left[\bigg|\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)-\int_{S} f(x)  \Xi^\infty(t_i,dx)\bigg|>\delta \right]\\
-\leq  \frac{CI_K(h^2)}{I_K(h)^2\delta^2} + \mathbb{P}\{\int_{S}f^2(x)\Xi^{\infty}(t_i,dx) > C\}\\
- \leq \frac{CI_K(h^2)}{I_K(h)^2\delta^2} +\frac{\mathbb{E}[1-e^{-C^{-1}\int_{S \times [0,K']} f^2(x) d \xi^\infty(t_i,dx \times du)}]}{1-e^{-e^{-C^{-1} ||f^2||_{\infty}} K'}} ,
-\end{multline}
-where the last equality uses Equation \eqref{eq: Markov inequality for Xi}. 
-
-Since $h$ is continuous, bounded with compact support, we can apply Cauchy Inequality to bound $\frac{I_K(h^2)}{I_K(h)^2}$. By picking $C$ to be sufficiently large, the second term term on the right hand side of Equality \eqref{eq: Chebyschev inequality for Xi infinity} can be arbitrarily small. This is because the integral in the exponent given fixed $K'$ is finite. To control the first term, we pick $K >> \frac{C}{\delta^2}$, and pick $h$ such that $h(x)=1$ for all $x \in [0,K]$ and decreases to $0$ in finite region. Then $\frac{I_K(h^2)}{I_K(h)^2}=\frac{1}{K}$ which will make the first term arbitrarily small.
-
-Similarly, for $K< \lambda_n$,
-\begin{align*}
-\mathbb{E}\left[\int_{S \times [0,K]} f(x)h(u) \xi^n(t_i,dx \times du)\right]=&\mathbb{E}\left[\frac{1}{\lambda_n}\int_{[0,K]}h(u)du\int_{S}f(x)\xi^n(t_i,dx\times [0, \lambda_n])\right]\\
-=&\mathbb{E}\left[I_K(h)\int_{S}f(x)\Xi^n(t_i,dx)\right],
-\end{align*}
-and 
-$$Var\left[\int_{S \times [0,K]} f(x)h(u) \xi^\infty(t_i,dx \times du)\right]=\left\{\lambda_n^{-1}I_k(h^2)-\lambda_n^{-2}I_K(h)^2\right\} \int_{S} f^2(x) \Xi^\infty(t_i,dx),$$
-so we have that
-\begin{multline}\label{eq: Controlling Xi minus xi}
-\mathbb{P}\left[\bigg|\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^n(t_i,dx \times du)-\int_{S} f(x)  \Xi^n(t_i,dx)\bigg|>\delta \right]\\
- \leq \frac{C\left\{\lambda_n^{-1}I_K(h^2)-\lambda_n^{-2}I_K(h)^2\right\}}{I_K(h)^2\delta^2} +\frac{\mathbb{E}[1-e^{-C^{-1}\int_{S \times [0,K']} f^2(x) d \xi^n}]}{1-e^{-K'e^{-C^{-1} ||f^2||_{\infty}} }} .
-\end{multline}
- As $n \to \infty$, $\lambda_n \to \infty$. Convergence in finite-dimension of $\xi^n$ also gives stochastic boundedness of integrals against $d\xi^n$ uniformly across $n$. The same argument for controlling $\xi^\infty$ therefore applies.
-
-Finally, since we are evaluating the expectation over a finite product, convergence in probability for the stochastic integrals at each time $t_i$ gives convergence in finite-dimensional distributions.
-
-\textbf{Part III (Tightness):}
-
-To prove tightness in $\mathcal{M}_{F}(\mathbb{R}^d)$, we aim to prove that for all $f \in C_{0}(\mathbb{R}^d)$, and $t >0$,
-\begin{equation}\label{eq: Empirical Measure Tightness Criteria}
-   \lim_{s \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left|\int_{S } f(x) \Xi^n(\sigma,dx) - \int_{S} f(x) \Xi^n(\tau,dx)\right| \wedge 1 \right\} =0.
-\end{equation}
-where the sup extends over all $\mathcal{F}^n$-optional times $\sigma, \tau \leq t$ with $\sigma \leq \tau \leq \sigma +s$.
-
-With triangle inequality, we have that 
-\begin{multline}\label{eq: Triangle inequality on integral against mean measure}
-\left|\int_{S } f(x) \Xi^n(\sigma,dx) - \int_{S} f(x) \Xi^n(\tau,dx)\right|  \\
-\leq \left|\int_{S } f(x) \Xi^n(\sigma,dx) -\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^n(\sigma,dx \times du)\right|\\
-+ \left|\int_{S }\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^n(\tau,dx \times du) - \int_{S} f(x) \Xi^n(\tau,dx)\right|\\
-+\left|\frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^n(\sigma,dx \times du) - \frac{1}{I_K(h)}\int_{S \times [0,K]} f(x)h(u) \xi^n(\tau,dx \times du)\right|.
-\end{multline}
-By concavity of the function $x \to 1-\exp(-C^{-1}x)$, we have that 
-\begin{multline}
-   \lim_{s \to 0} \limsup_{n \to \infty} \sup_{\sigma \leq t}\mathbb{E} \left\{ 1-e^{- C^{-1}\int_{S \times [0,K']} f^2(x) d \xi^n(\sigma,dx \times du)} \right\}\\
-   \leq 
-   \lim_{s \to 0} \limsup_{n \to \infty} \sup_{\sigma \leq t} 1-e^{- C^{-1}\mathbb{E} \left\{\int_{S \times [0,K']} f^2(x) d \xi^n(\sigma,dx \times du) \right\} }.
-\end{multline}
-As the sequence of processes $\xi^n$ converges, the expectation on the right hand side can be uniformly bounded across all $\sigma < t$ and $n \in \mathbb{N}$, and so by taking large $C$ and $K>>C$ in Equation \eqref{eq: Controlling Xi minus xi}, the first two terms in Equation \eqref{eq: Triangle inequality on integral against mean measure} can be arbitrarily small. 
-
-Finally, as $\xi^n$ converges in the Skorokhod topology, for any $f \in C_{0}(\mathbb{R}^d), h \in C_{c}([0,\infty)$, the sequence of real-valued stochastic processes 
-$$\left\{\left(\int_{S \times [0,K]} f(x)h(u) \xi^n(t,dx \times du)\right)_{t \geq 0} : n \in \mathbb{N}\right\}$$
-is tight. Therefore, we have that  
-\begin{multline}
-     \lim_{s \to 0} \limsup_{n \to \infty} \sup_{\sigma, \tau}\mathbb{E} \left\{\left|\int_{S \times [0,K]} f(x)h(u) \xi^n(\sigma,dx \times du) - \int_{S \times [0,K]} f(x)h(u) \xi^n(\tau,dx \times du)\right|   \right\}=0,
-\end{multline}
-where the sup extends over all $\mathcal{F}^n$-optional times $\sigma, \tau \leq t$ with $\sigma \leq \tau \leq \sigma +s$. Combining these inequalities we have proven Equation \eqref{eq: Empirical Measure Tightness Criteria}.
-
-To conclude, we have shown tightness of our processes  
-$$\left\{\left(\int_{S \times [0,K]} f(x) \Xi^n(t,dx)\right)_{t \geq 0}: n \in \mathbb{N}\right\}$$
-for all $f \in C_{0}(\mathbb{R}^d)$ as well as finite-dimensional convergence of our processes to $\left(\int_{S \times [0,K]} f(x) \Xi^\infty(t,dx)\right)_{t \geq 0}$. Thus we have proved convergence of $(\Xi^{n}_t)_{t \geq 0}$ to $(\Xi^{\infty}_t)_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}\left(\mathcal{M}_f(\mathbb{R}^d \right)$, where $\mathcal{M}_f(\mathbb{R}^d)$ is equipped with the weak topology, and its distribution is characterised through Equation \eqref{eq: A12 derivation fixed time conclusion}.
 \end{proof}
 
 \bibliographystyle{plainnat}
