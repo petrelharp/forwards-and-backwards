@@ -670,7 +670,7 @@ $$
 $$
 and that offspring disperse according to the kernel
 $$
-    q_\theta^\mathfrak{m}(x, dy)
+    q_\theta^\mathfrak{m}(x,\eta,  dy)
     :=
     \frac{
         r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
@@ -684,7 +684,7 @@ For comparison to future results,
 it is interesting to write down the limiting generator:
 \begin{align*}
     \lim_{N \to \infty}
-    \theta \int (f(y) - f(x)) q_\theta^\mathfrak{m}(x, dy)
+    \theta \int (f(y) - f(x)) q_\theta^\mathfrak{m}(x, \eta, dy)
     &=
     \frac{
         \DG\left[ f(\cdot) r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
@@ -838,7 +838,7 @@ is written to suggest the case in which $\eta_t(dx)$ has a density $\varphi_t(x)
 \begin{corollary}[Deterministic limits]
     \label{cor:nonlocal_pde_limits}
     Under the assumptions of Theorem~\ref{thm:nonlocal_convergence},
-    if the limit is deterministic (i.e., $\theta / N \to \alpha = 0$),
+    if the limit is deterministic (i.e., $N^{-1}\theta \to \alpha = 0$),
     then any limit $\eta_t$ is a weak solution to the nonlocal partial differential equation
     \begin{equation} \label{eqn:nonlocal_pde}
         \partial_t \varphi_t(x)
@@ -2112,15 +2112,15 @@ Concretely, then: for each label $a$ in
 $\labelspace = \bigcup_{k \ge 1} \IN_{\ge 1}^k$
 let $\Pi_a$ be an independent Poisson process on $[0, \infty)^2 \times \IR_d \times \{0,1\}$.
 The mean measure is a product of Lebesgue measure on the first two coordinates,
-$q(0, \cdot)$ on $\IR^d$, and $(\delta_0 + \delta_1)/2$ on $\{0, 1\}$.
+the density of the standard Gaussian $N(0,1)$ on $\IR^d$, and $(\delta_0 + \delta_1)/2$ on $\{0, 1\}$.
 It will also be convenient
 to suppose that for each label $a$ we have an enumeration of the points in $\Pi_a$,
 so we may refer to ``the $j^\text{th}$ point in $\Pi_a$'',
 although the precise order of this enumeration is irrelevant.
-If $(t, v, y, \kappa)$ is the $j^\text{th}$ point in $\Pi_a$,
+If $(t, v, z, \kappa)$ is the $j^\text{th}$ point in $\Pi_a$,
 then $t$ will determine possible birth times,
 $v$ will determine levels of the offspring,
-$y$ will give the spatial displacement of the offspring relative to the parent,
+$z$ will give the spatial displacement of the offspring relative to the parent,
 $\kappa$ will be used to determine whether parent or offspring are assigned the new level,
 and the new label produced will be $a \concat j$,
 i.e., the label $a$ with $j$ appended (so, if $a \in \IN_{\ge 0}^k$ then $a \concat j \in \IN_{\ge 0}^{k+1}$).
@@ -2150,11 +2150,15 @@ $U_a$ satisfies~\eqref{eqn:dot_u} for $\tau_a \le t \le \sigma_a$, i.e.,
 and, of course, $\sigma_a = \inf\{t \ge \tau_a : U_a(t) > N\}$.
 
 Potential reproduction events occur at times $\tau_a + s$
-for each point $(s, v, y, \kappa) \in \Pi_a$.
+for each point $(s, v, w, \kappa) \in \Pi_a$.
 We say `potential' since if the resulting level is greater than $N$,
 the event does not happen.
 If this is the $j^\text{th}$ point in $\Pi_a$,
 the new label is $a \concat j$, the (potential) birth time is $\tau_{a \concat j} = \tau_a + s$.
+Similarly, the potential birth location is 
+$$y(z) = \frac{1}{\theta}\meanq(X_a(\tau_{a+j}-)) + \frac{1}{\sqrt{\theta}}K(X_a(\tau_{a+j}-))z,$$
+where $K(x)K^{T}(x)=\covq(x)$.
+
 For convenience define
 $$
     \ell(x, y, \eta, v)
@@ -2383,8 +2387,9 @@ if $\kappa = 0$, the label $(2,3)$
 is adopted by the offspring
 which results in a spatial jump
 in the position of $(2,3)$
-again.
+again. 
 
+Finally, we write $S(\tau_{[a]_k},t):=[\tau_{[a]_k},t]\times[0,\infty)\times\mathbb{R}^d \times \{0,1\}$.
 Under this notation, for $t>\tau_{[a]_k}$,
 
 
@@ -2397,14 +2402,14 @@ Under this notation, for $t>\tau_{[a]_k}$,
 (1-\kappa_{[a]_{i-1}\concat j}) y_{[a]_{i-1}\concat j} \ind_{U_{[a]_{i-1}\concat j}(\tau_{[a]_{i-1}\concat j}) < N}\\
 &+ \sum_{i=1}^{k}
 \kappa_{[a]_i} y_{[a]_i} \ind_{U_{[a]_i}(\tau_{[a]_i}) < N}\\
-&+\int_{\tau_{[a]_k}}^{t}
-(1-\kappa)y
+&+\int_{S(\tau_{[a]_k},t)}
+(1-\kappa)y(z)
 \ind_{ \{
         U_{[a]_k}(\tau_{[a]_k}+s)
         +\ell(X_{[a]_k}(\tau_{[a]_k}+s),y,\eta_{[a]_k}(\tau_{[a]_k}+s),v) < N
         \}
       } 
-\Pi_{[a]_k}(dsdvdyd\kappa),
+\Pi_{[a]_k}(dsdvdzd\kappa),
 \end{aligned}    
 \end{equation}
 where the first term
@@ -2559,7 +2564,7 @@ Each point in the $R_a$ denotes a potential birth time for $a$:
 if the $j^\text{th}$ point in $R_a$ is $(t, v)$, with $t < \sigma_a - \tau_a$,
 then a new line of descent with label $a \concat j$ is produced,
 with birth time $\tau_{a \concat j} = \tau_a + t$,
-location $X_{a \concat j}(\tau_a + t) = X_a(tau_a + t)$, and level
+location $X_{a \concat j}(\tau_a + t) = X_a(\tau_a + t)$, and level
 $$
     U_{a \concat j}(\tau_a + t) = U_a(\tau_a + t)
     + \frac{v}{ 2 \alpha \gamma(X_a(\tau_a + t), \eta_{\tau_a + t}) r(X_a(\tau_a + t), \eta_{\tau_a + t}) } .
@@ -2967,6 +2972,7 @@ Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
 then for all $T>0$, there exists some constant $C(T)$,
 such that
     \begin{align}
+        \label{eq: Growth function bound on running sup}
         \IE\left[
             \sup_{0 \le t \le T}
             \langle 1, \eta^\theta_t \rangle
@@ -3177,9 +3183,9 @@ Similarly, the control on the second moment is given by Equation \eqref{eq: Cont
 \leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
 \end{aligned}
 \end{equation}
-As $\theta / N \to \alpha$ as $N \to \infty$,
+As $N^{-1}\theta \to \alpha$ as $N \to \infty$,
 there exists some $K'>0$ such that 
-$\sup_{\theta > \theta_0} \theta / N < K'$.
+$\sup_{\theta > \theta_0} N^{-1}\theta < K'$.
 An application of Markov's inequality proves that
 for small enough $\delta > 0,$
 \begin{equation}
@@ -3776,7 +3782,7 @@ In this section we prove Theorem~\ref{them:nonlocal_pde_limits}.
 
 
 % % % % % % % % % % % % %
-\subsection{Tightness of the lookdown process}
+\subsection{Tightness of the Lines of Descent}
     \label{sec:lookdown_tightness_proofs}
 
 In this section,
@@ -3785,14 +3791,6 @@ of the spatial and level trajectory
 of a line of descent
 (constructed in \S \ref{sec: individual lines of descent})
 as a forward-in-time process.
-
-In Appendix \ref{sec: Topologies on Lookdown},
-we will prove that
-tightness of the whole lookdown process
-holds given
-tightness of 
-all ancestral lineages
-in a countable product topology.
 
 To prove tightness of the 
 spatial and level locations
@@ -3827,169 +3825,384 @@ these increments are bounded
 in small time scales.
 
 \begin{lemma} \label{lem: tightness of individual spatial trajectory}
-For fixed $a=(a_0,a_1,..,a_k)$,
-$\{(X^{N}_{a}(t))_{t \geq \tau^{N}_a}: N \in \mathbb{N},  \}$ is relatively compact in 
+Assume that the jump kernel $q_\theta^\mathfrak{m}(x, \eta, dy)$ of the form
+$$
+    q_\theta^\mathfrak{m}(x,\eta,  dy)
+    :=
+    \frac{
+        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
+    }{
+        \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
+    } 
+$$
+satisfies the inequalities
+\begin{align}
+   \sup_{\theta}\mathbb{E}\left[\limsup_{x, \eta} \theta \left| \int_{\mathbb{R}^d} (y-x) q^{\mathfrak{m}}_{ \theta}(x,\eta,dy) \right|\right] \leq & \quad \overline{\alpha},\\
+   \sup_{\theta}\mathbb{E}\left[\limsup_{x, \eta} \theta \int_{\mathbb{R}^d} |y-x|^2 q^{\mathfrak{m}}_{ \theta}(x,\eta,dy)\right]  \leq & \quad \overline{\beta}.
+\end{align}
+Furthermore, assume that the birth rate satisfies 
+$$\sup_{x, \eta}\gamma_{\theta}(x, \varrho_{\gamma}*\eta(x)) < C_G,$$ 
+then for fixed $a=(a_0,a_1,..,a_k)$,
+$\{(X^{N}_{a}(t))_{\tau^{N}_a\leq t < \sigma^{N}_{a}}: N \in \mathbb{N},  \}$ is relatively compact in 
 $D_{\mathbb{R}^d}[0,\infty )$ where $\mathbb{R}^d$ is equipped with the standard Euclidean metric. 
 \end{lemma}
 \begin{proof}
-We write $S_{t,r}:=(t,t+r  ]\times [0,\infty )\times [0,1]\times 
-\{0,1\}$ to be the region for the Poisson measure driving $(X^{N}_{a}(t))_{t \geq \tau_a}$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{\tau_u}(ds,dv,dy,d\kappa):=\Pi_{\tau_u}(ds,dv,dy, d\kappa) - ds\times dv\times dy \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ to be the compensated Poisson point process of $\Pi_{\tau_u}$. 
-For $t\geq\tau_\mathfrak{u}$, we can compute
+We write $S_{t,r}:=(t,t+r  ]\times [0,\infty )\times \mathbb{R}^d\times 
+\{0,1\}$ to be the region for the Poisson measure driving $(X^{N}_{a}(t))_{t \geq \tau_a}$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{a}(ds,dv,dz,d\kappa):=\Pi_{a}(ds,dv,dz, d\kappa) - ds\times dv\times dz \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ to be the compensated Poisson point process of $\Pi_{a}$. 
+For $\tau_a \leq t < t+r < \sigma_a$, we can compute
 \small
-\begin{eqnarray*}
-&&\mathbb{E}[|X^{N}_{\tau_{\mathfrak{u}}}(t+r )-X^{N}_{\tau_{\mathfrak{u}}}(t)|^2|{\cal F}_t^{
+\begin{align*}
+&\mathbb{E}[|X^{N}_{a}(t+r )-X^{N}_{a}(t)|^2|{\cal F}_t^{
 \eta}]\\
-&&= \mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{U_{\tau_{\mathfrak{u}}}(s)+\frac v{2\lambda^{-1}\theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
-\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{N}(s-))}<\lambda \}}\kappa 
-y\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dy,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\leq 2\mathbb{E}\left[\left|\int_{S_{t,r}}{\bf 1}_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
-\tau}(s-),\overline{\eta}^{N}(s-))\}}{\bf 1}_{\kappa =1}
-y\tilde\Pi_{\tau_{\mathfrak{u}}}(ds,dv,dy,d\kappa )\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\quad +2\mathbb{E}\left[\left|\int_{t}^{t+r}\int_{\{v < 2 \theta \gamma^{\mathfrak{m}}_\theta(X^{N}_{
-\tau_{\mathfrak{u}}}(s-),\overline{\eta}^{N}(s-))\}}\frac{1}{2}\left| \int_{\mathbb{R}^d} (y-X^{N}_{\tau}(s-)) q^{\mathfrak{m}}_{\theta, \varepsilon}(X^{N}_{\tau}(s-),\overline{\eta}^{N}(s-),dy) \right|
-dvds \right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\leq 2\mathbb{E}\left[\int_{t}^{(t+r)   }\theta (1+C_G)\int_{{\mathbb{R}}^d}|y-X^{N}_{
-\tau_{\mathfrak{u}}}(s)|^2q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{N}_{\tau_{\mathfrak{u}}}(s),\bar{\eta}^{\varepsilon,\theta,\lambda}(s-),dy)ds\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\quad +2\mathbb{E}\left[\left|\int_{t}^{(t+r)    } \theta (1+C_G)\left|\int_{{\mathbb{R}}^d}
-(y-X^{N}_{\tau_{\mathfrak{u}}}(s))q^{\mathfrak{m}}_{\varepsilon,\theta}(X^{N}_{\tau_{\mathfrak{u}}}(s),
-\overline{\eta}^{N}(s),dy)\right|ds\right|^2\Bigg|{\cal F}_t^{\eta}\right]\\
-&&\leq 2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2.\end{eqnarray*}
+=& \mathbb{E}\left[\left|
+\int_{S_{t,r}}
+(1-\kappa)y(z)
+\ind_{ \{
+        U_{a}(\tau_{a}+s)
+        +\ell(X_{a}(\tau_{a}+s),y(z),\eta_{a}(\tau_{a}+s),v) < N
+        \}
+      } 
+\Pi_{a}(dsdvdzd\kappa)
+\right|^2
+\Bigg|{\cal F}_t^{\eta}\right]\\
+\leq&
+ 2\mathbb{E}\left[
+ \left|
+ \int_{S_{t,r}}
+ {\bf 1}_{\{v < 2  \theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta) \}}{\bf 1}_{\kappa =1}
+y(z)
+\tilde\Pi_{a}(ds,dv,dy,d\kappa )
+\right|^2
+\Bigg|{\cal F}_t^{\eta}
+\right]\\
+&\quad +2\mathbb{E}\left[
+\left|
+\int_{t}^{t+r}\int_{\{v < 2\theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta) \}}
+\frac{1}{2}\left| \int_{\mathbb{R}^d} (y-X^{N}_{\tau}(s-)) q^{\mathfrak{m}}_{\theta}(X^{N}_{\tau}(s-),\eta^{N}(s-),dy) 
+\right|
+dvds \right|^2
+\Bigg|{\cal F}_t^{\eta}
+\right]\\
+&\leq 
+2\mathbb{E}\left[
+\int_{t}^{(t+r)   }
+(1+C_G) \theta 
+\int_{{\mathbb{R}}^d}|y-X^{N}_{
+a}(s)|^2q^{\mathfrak{m}}_{\theta}(X^{N}_{a}(s),\eta^{N}(s),dy)ds
+\Bigg|{\cal F}_t^{\eta}\right]\\
+&\quad +2\mathbb{E}\left[
+\left|
+\int_{t}^{(t+r)}
+(1+C_G)\theta 
+\left|
+\int_{{\mathbb{R}}^d}
+(y-X^{N}_{a}(s))q^{\mathfrak{m}}_{\theta}(X^{N}_{a}(s),
+\eta^{N}(s),dy)
+\right|
+ds
+\right|^2
+\Bigg|{\cal F}_t^{\eta}\right]\\
+\leq& 2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2.
+\end{align*}
 \normalsize
 
-The first inequality uses the fact that $(A+B)^2 \leq 2A^2+2B^2$ as well as the definition of the transition kernel $H$. The second inequality holds because birth events occur at rate $2 \theta \gamma^{\mathfrak{m}}_{\theta}$ bounded above by $2\theta (1+C_G)$. The third inequality holds given the assumptions on the dispersal kernel.
+The first inequality uses of the inequality $(A+B)^2 \leq 2A^2+2B^2$ as well as the fact that $(N-U_{a})N^{-1} \leq 1$.
+The second inequality holds 
+because birth events occur
+at rate $2\theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta)$
+which is bounded above by $2\theta (1+C_G)$. The third inequality holds due to the assumptions on the dispersal kernel.
 
-Finally, since $\overline{\eta}_0$ has compact support, we can take $t=\tau_u$ and apply Markov inequality to get that for every $\delta>0$, there exists $N_{\delta}>0$ such that
+Finally, since $\eta_0$ has compact support, we can take $t=\tau_u$ and apply Markov inequality to get that for every $\delta>0$, there exists $N_{\delta}>0$ such that
 \begin{equation}\label{eq: Compact Containment Condition for individual spatial motion}
-\sup_{\varepsilon, \theta, \lambda}\sup_{T>0}\mathbb{P}\left[|X^{N}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}}+T)-X^{N}_{\tau_{\mathfrak{u}}}(\tau_{\mathfrak{u}})|>N_{\delta}\right]\leq   \frac{2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2}{N_{\delta}^2}  < \delta,
+\sup_{N>N_{\delta}}\sup_{T>0}\mathbb{P}\left[|X^{N}_{a}(\tau_{a}+T)-X^{N}_{a}(\tau_{a})|>N_{\delta}\right]\leq   \frac{2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2}{N_{\delta}^2}  < \delta,
 \end{equation}
 giving us compact containment condition. Relative compactness thus follows by Theorem 3.8.6.
 of \cite{ethier/kurtz:1986}.
 \end{proof}
 \begin{remark}
-Note that under the assumptions laid out in Theorem \ref{teo: Non-local interaction Convergence} and Theorem \ref{teo: Local Interaction Convergence}, $r \equiv 1$, so 
-$$\gamma^{\mathfrak{m}}_{\varepsilon,\theta}(x, \overline{\eta})=\tilde\gamma_{\theta}(x, \varrho_{\varepsilon}*\overline{\eta})= 1+\frac{G(\varrho_{\varepsilon}*\overline{\eta})}{\theta} \leq (1+C_G)$$
-for all $\theta > 1$, and 
-$$q^{\mathfrak{m}}_{\varepsilon,\theta,\lambda}(x,\overline{\eta},dy)=q_{\theta}(x,dy).$$
-In particular, we have the inequalities
+Note that if we assume $r \equiv 1$, then 
+$q^{\mathfrak{m}}_{\theta}(x,\eta,dy)=q_{\theta}(x,dy).$
+In particular, if we let $q_{\theta}$ be the standard Gaussian normal, we have the inequalities
 \begin{align}
-   \sup_{\varepsilon, \theta}\limsup_{x, \overline{\eta}} \theta \left| \int_{\mathbb{R}^d} (y-x) q^{\mathfrak{m}}_{ \varepsilon, \theta}(x,\overline{\eta},dy) \right| =& \sup_{\theta}\limsup_{x} \theta \left| \int_{\mathbb{R}^d} (y-x) q_{\theta}(x,dy) \right| =  0,\\
-   \sup_{\varepsilon, \theta}\limsup_{x, \overline{\eta}} \theta \int_{\mathbb{R}^d} |y-x|^2 q^{\mathfrak{m}}_{ \varepsilon, \theta}(x,\overline{\eta},dy)  =& \sup_{\theta}\limsup_{x} \theta \int_{\mathbb{R}^d} |y-x|^2 q_{\theta}(x,dy) =  1,
+   \sup_{\theta}\limsup_{x, \eta} \theta \left| \int_{\mathbb{R}^d} (y-x) q^{\mathfrak{m}}_{ \theta}(x,\eta,dy) \right| =& \sup_{\theta}\limsup_{x} \theta \left| \int_{\mathbb{R}^d} (y-x) q_{\theta}(x,dy) \right| =  0,\\
+   \sup_{\theta}\limsup_{x, \eta} \theta \int_{\mathbb{R}^d} |y-x|^2 q^{\mathfrak{m}}_{ \theta}(x,\eta,dy)  =& \sup_{\theta}\limsup_{x} \theta \int_{\mathbb{R}^d} |y-x|^2 q_{\theta}(x,dy) =  1,
 \end{align}
-as the last term can be expressed as $\theta \mathbb{E}_{x}[(B_{1/\theta}-x)^2]=1$. As a result, Lemma \ref{lem: tightness of individual spatial trajectory} holds for the setting in Theorem \ref{teo: Non-local interaction Convergence} and Theorem \ref{teo: Local Interaction Convergence}.
+as the last term can be expressed as $\theta \mathbb{E}_{x}[(B_{1/\theta}-x)^2]=1$.
+
+As a result, we have tightness for all populations with unbiased isotropic dispersal.
+
+Furthermore, the assumption on $\gamma$ is natural as we typically assume an uniform upper bound on the total fecundity rate, i.e.
+$\sup_{u \geq 0} u\gamma(x,u) < C$.
 \end{remark}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Tightness of Level Processes}
-Proving tightness of the level process is slightly trickier as the levels of many particles will drift towards infinity in finite time. These particles however will not contribute to the metric associated with the vague topology and thus we will retain relative compactness. The main argument relies on the observation that particles with levels lower than some threshold $\overline{U}_{N, \delta}$  have regulated level increments of order $\delta$ over any small time interval of length $r$ given large enough $\lambda$. As a result, we can evaluate our level process against test functions $(g_n)_{n=1,..,N}$ with cut off smaller than $\overline{U}_{N, \delta}$. 
+We have now proved that the spatial trajectories of a line of descent during its lifetime is relatively compact as $N \to \infty$. However, we will still need to show that the level process is also well controlled, i.e. a line of descent with an initial level smaller than $K << N$ will have a level larger than $N$ in very small time-scale with very low probability. This will then prevent a line of descent from dying instantaneously in the scaling limit.
 
-\begin{lemma} \label{tightness of levels} For fixed $\mathfrak{u}\in \mathcal{U}$,
-$\{(U^{N}_{\tau_\mathfrak{u}}(t))_{t \geq 0}, \lambda >0\}$ is relatively compact in 
-$\mathcal{D}_{[0,\infty]}[0,\infty )$ where $[0,\infty]$ is equipped with the metric $\mathfrak{d}$ for the vague topology in $[0,\infty]$ (see Theorem  \ref{Vague times Euclidean is Polish}).
+To make this precise, we must work in the vague topology. Proving tightness of the level process is slightly trickier as the levels of many particles will drift towards infinity in finite time. These particles however will not contribute to the metric associated with the vague topology and thus we will retain relative compactness. The main argument relies on the observation that particles with levels lower than some threshold $\overline{U}_{N, \delta}$  have regulated level increments of order $\epsilon$ over any small time interval of length $\delta t$ given large enough $N$. As a result, we can evaluate our level process against test functions $(g_n)_{n=1,..,N}$ with cut off smaller than $\overline{U}_{N, \delta}$. 
+
+\begin{lemma} \label{tightness of levels} For fixed $a\in \mathcal{U}$, let $U^N_{a}(\tau_a)=U_0$, i.e. the level of the line of descent $a$ at birth is $U_0>0$.
+On top of the assumptions laid out in Lemma \ref{lem: tightness of individual spatial trajectory}, assume that 
+$$
+    \sup_{\theta}\mathbb{E}\left[ \sup_{x, \eta}b_\theta(x, \eta) \right]
+    :=
+    \sup_{\theta}
+    \theta 
+    \mathbb{E}\left[ \sup_{x, \eta} \left(
+    \gamma_\theta(x,\eta) \int_{\IR^d} r_\theta(y, \eta) q_\theta(x, dy)
+    -
+    \mu_\theta(x,\eta)
+    \right)\right] 
+    \leq C_G,
+$$
+and there exists some $C_F \geq 0$ such that
+\begin{align} 
+\begin{split}
+b_{\theta}(x, \eta)
+&=
+    \theta \gamma_{\theta}(x, \eta) \int_{\IR^d} \left( r_{\theta}(y, \eta) - r_{\theta}(x, \eta) \right) q_{\theta}(x, dy)
+    + F_{\theta}(x, \eta) \\
+& \geq - C_F \varrho_F*\eta(x)
+\end{split}
+\end{align}
+for all $x \in \mathbb{R}^d$ and  $\eta \in \mathcal{M}_{F}(\mathbb{R}^d)$.
+
+Then
+$\{(U^{N}_{a}(t))_{t \geq \tau_a}, N >0\}$ is relatively compact in 
+$\mathcal{D}_{[0,\infty]}[0,\infty )$, where $[0,\infty]$ is equipped with the metric $\mathfrak{d}$ for the vague topology in $[0,\infty]$ (see Theorem  \ref{Vague times Euclidean is Polish}).
 \end{lemma}
 
 
 
-\begin{proof}
+\begin{proof} Recall that for a fixed line of descent, the level process is determined only by the integral equation of the form 
+\begin{align*}
+&U^{N}_{a}(t+r)-U^{N}_{a}(t)\\
+=&\int_{t}^{t+r}
+\left(
+        \frac{\theta}{N} \gamma_{\theta}(X^N_{a}(s),\eta^N_s)
+        \int_{\IR^d} r_{\theta}(z,\eta^N_s) q_{\theta}(X^N_a(s),dz) U^N_a(s)^2
+        -
+        b_{\theta}(X^N_a(s),\eta^N_s) U^N_a(s)
+    \right)
+    ds.
+\end{align*}
 
-\textbf{Introducing a cutoff range:} It suffices to show that for any $\delta > 0$ and for any particle $\mathfrak{u} \in \mathcal{U}$, there exists small enough  $r>0$ such that $\mathbb{E}[\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))|{\cal F}_t^{
-\eta}]< \delta$. \\
-For this, pick $K_{\delta} \in \mathbb{N}$ such that $\frac{1}{2^{K_{\delta}}} < \delta/2$. then we have that 
-\begin{multline}
-\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))\leq  \sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n} +  \delta/2. 
-\end{multline}
-Now it suffices to prove that for small enough $r$, $|g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))| < \delta / (2K_{\delta})$. 
+To control the level process, we consider two scenarios, one where the local density of the system between $[0,r]$ is never too big, i.e.
+$$h(r)=\sup_{x \in \mathbb{R}^d}\sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(s)) \right\} \leq H_{\epsilon}(r),$$
+and otherwise. 
 
-Pick $\overline{U}_{K_{\delta}, \delta}>0$ large enough such that $\text{supp}(g_n)\subset [0,\overline{U}_{K_{\delta}, \delta}]$ for all $n=1,..,K_{\delta}$. Since we picked $g_n$ to be continuous and differentiable with compact support, by Mean Value Theorem we have that 
-$$|g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|<C'_{g_1,..,g_{K_\delta}}(|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}), $$
-uniformly over $n=1,..,K_{\delta}$ for some constant $C'_{g_1,...,g_{K_{\delta}}}$. Note that it suffices to consider $|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|\wedge \overline{U}_{K_{\delta}, \delta}$ because $g_n(u)=g_n(\overline{U}_{K_{\delta}, \delta})=0$ for all $u > \overline{U}_{K_{\delta}, \delta}$. We proceed to bound $|U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)|$ given that $U^{N}_{\tau_{\mathfrak{u}}}(t) < \overline{U}_{K_{\delta}, \delta}$.
+When the local density is smaller than $H_{\epsilon}$, we will show that the level grows steadily. Consequently, the level grows very fast and hit some level $\overline{U}_{K_{\epsilon}}$ very quickly only when the local density is larger than $H_{\epsilon}$. In this case, the effective increment in levels observed under the vague topology is bounded above by $\overline{U}_{K_{\epsilon}}$. We will first make this statement precise. 
+We will also show that the probability of such event is very small.
+As a result, the level process is tight.
 
+We will first make our convergence statement precise under the vague topology. 
+We will then prove tightness in the high density scenario,
+and finally
+prove tightness in the scenario where population density is well controlled
+with a comparison principle.  
 
-\textbf{Controlling downward drift:} We first consider the case where $\tau_{\mathfrak{u}}< t$, i.e. the particle $\mathfrak{u}$ is born before time $t$. 
-We have that 
-\small
+\textbf{Introducing a cutoff range:} It suffices to show that for any $\epsilon > 0$ and for any line of descent $a \in \mathcal{U}$, there exists small enough  $\delta t>0$ such that $\mathbb{E}[\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t))|{\cal F}_t^{
+\eta}]< \epsilon$. \\
+For this, pick $K_{\epsilon} \in \mathbb{N}$ such that $\frac{1}{2^{K_{\epsilon}}} < \epsilon/2$. then we have that 
+\begin{equation}
+\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t))\leq  \sum_{n=1}^{K_{\epsilon}}\frac{1 \wedge |g_n(U^{N}_{a}(t+\delta t))-g_n(U^{N}_{a}(t))|}{2^n} +  \epsilon/2. 
+\end{equation}
+Now it suffices to prove that for small enough $\delta t>0$, $|g_n(U^{N}_{a}(t+\delta t))-g_n(U^{N}_{a}(t))| < \epsilon / (2K_{\epsilon})$. 
+
+Pick $\overline{U}_{K_{\epsilon}, \epsilon}>0$ large enough such that $\text{supp}(g_n)\subset [0,\overline{U}_{K_{\epsilon}, \epsilon}]$ for all $n=1,..,K_{\epsilon}$. Since we picked $g_n$ to be continuous and differentiable with compact support, by Mean Value Theorem we have that 
+$$|g_n(U^{N}_{a}(t+\delta t ))-g_n(U^{N}_{a}(t))|<C_{g_1,..,g_{K_{\epsilon}}}(|U^{N}_{a}(t+\delta t)-U^{N}_{a}(t)|\wedge \overline{U}_{K_{\epsilon}, \epsilon}), $$
+uniformly over $n=1,..,K_{\epsilon}$ for some constant $C'_{g_1,...,g_{K_{\epsilon}}}$. Note that it suffices to consider $|U^{N}_{a}(t+\delta t)-U^{N}_{a}(t)|\wedge \overline{U}_{K_{\epsilon}, \epsilon}$ because $g_n(u)=g_n(\overline{U}_{K_{\epsilon}, \epsilon})=0$ for all $u > \overline{U}_{K_{\epsilon}, \epsilon}$.
+
+Therefore, it suffices to show that for all $\epsilon > 0$, there exists $\delta t>0$ small enough such that 
+\begin{equation}
+\mathbb{E}[C_{g_1,..,g_{K_{\epsilon}}}|U^{N}_{a}(t+\delta t)-U^{N}_{a}(t)|\wedge \overline{U}_{K_{\epsilon}, \epsilon} ~|~{\cal F}_t^{
+\eta} ] < \epsilon /2    
+\end{equation}
+uniformly over $N \geq N_0$.
+
+\textbf{Controlling high density events:}
+Recall that in Lemma \ref{lem: Compact Containment}, we have established compact containment for the total mass process. Therefore for any $\epsilon>0$ and $r>0$, there exists some large 
+\begin{equation}
+    \label{eq: Mass Bound Constant}
+H_{\epsilon}(r):=\frac{\epsilon}{2||\varrho_F||_{\infty}C(r) \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}}>0    
+\end{equation}
+
+such that 
+the event 
+$$A_{H_{\epsilon}}:= \left\{ \omega \in \Omega: \sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(t+s)) \right\}(\omega) \geq H_{\epsilon}(r) \right\}$$
+satisfies
+\begin{equation}
+\limsup_{N \to \infty}\mathbb{P}\left[A_{H_{\epsilon}}\right]
+\leq  \frac{||\varrho_F||_{\infty}\mathbb{E}[\sup_{s\in [t,t+r]}\langle 1,  \eta^N_s \rangle ]}{H_{\epsilon}(r)}
+\leq  \frac{||\varrho_F||_{\infty}C(t+r)}{H_{\epsilon}(r)}
+< \frac{\epsilon}{2 \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}},
+\end{equation}
+where $(C(t))_{t \geq 0}$ is the growth function that bounds the expected value of the running supremum of the total mass in Equation \eqref{eq: Growth function bound on running sup}.
+
+As a result, for any $s < r$,
 \begin{equation}
 \begin{aligned}
-U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t) =  &   \int_{t}^{(t+r)  }\frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))}dV^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\\
-&+\int_{t}^{(t+r)  }\bigg(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)^2 - b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\bigg)ds,
+\mathbb{E}\left[\mathfrak{d}(U^{N}_{a}(t+s),U^{N}_{a}(t)) : A_{H_{\epsilon}} ~|~{\cal F}_t^{
+\eta} \right] & \leq  
+  \mathbb{E}\left[\sum_{n=1}^{K_{\epsilon}}\frac{1 \wedge |g_n(U^{N}_{a}(t+s))-g_n(U^{N}_{a}(t))|}{2^n} +  \epsilon/2: A_{H_{\epsilon}} ~\bigg|~{\cal F}_t^{
+\eta} \right]  \\
+ & \leq  \sum_{n=1}^{K_{\epsilon}}\frac{\mathbb{E}\left[C_{g_1,..,g_{K_{\epsilon}}} \overline{U}_{K_{\epsilon}, \epsilon}: A_{H_{\epsilon}} \right] }{2^n} +  \epsilon/2  \\
+& \leq  \sum_{n=1}^{K_{\epsilon}}\frac{C_{g_1,..,g_{K_{\epsilon}}} \overline{U}_{K_{\epsilon}, \epsilon}\mathbb{P}\left[ A_{H_{\epsilon}} \right] }{2^n} +  \epsilon/2 \\
+& \leq  \sum_{n=1}^{K_{\epsilon}}\frac{\epsilon /2 }{2^n} +  \epsilon/2 \\
+& < \epsilon.
 \end{aligned}
 \end{equation}
-\normalsize
-where the first term corresponds to positive jumps and the second term corresponds to the evolution according to a quadratic differential equation. To control the downward drift of our levels from the quadratic evolution,
+
+\textbf{Controlling bounded density events:}
+We now consider $A_{H_{\epsilon}}^{c}$.
+To control the downward drift of our levels from the quadratic evolution,
 we neglect all positive drift and obtain
 \begin{equation}
 \begin{aligned}
-\mathbb{E}[U^{N}_{\tau_{\mathfrak{u}}}(t+r)-U^{N}_{\tau_{\mathfrak{u}}}(t)] \geq   &   - \int_{t}^{(t+r)  } G(\varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_s(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s))) U^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)ds\\
-\geq& - rC_G\overline{U}_{K_{\delta}, \delta}.
+\mathbb{E}[U^{N}_{a}(t+r)-U^{N}_{a}(t)] \geq   &   - \mathbb{E}\left[\int_{t}^{(t+r)  } b_{\theta}(X^N_a(s),\eta^N_s) U^N_a(s)ds\right]\\
+\geq& - rC_G\overline{U}_{K_{\epsilon}, \epsilon}.
 \end{aligned}    
 \end{equation}
 
-\textbf{Controlling Upward Drift with Comparison Principle:}
-On the other hand, the positive increments are due to jumps and the quadratic evolution. To control the quadratic upward drift, we apply comparison principle.
+We can also control the upward drift by comparing our process $(U^N_{a}(\tau_a+r))_{r \geq 0}$ with another process $(W^N_a(r))_{r \geq 0}$, where 
+\begin{align*}
+&W^{N}_{a}(r)-W^{N}_{a}(0)\\
+=&\int_{0}^{r}
+\left(
+        \frac{\theta}{N} C_G W^N_a(s)^2
+        +
+        C_F H_{\epsilon}(r) W^N_a(s)
+    \right)
+    ds,
+\end{align*}
+with $H_{\epsilon}(r) > \sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(s)) \right\}$,
+and $W^N_a(0)=U^N_a(\tau_a) = U_0 \leq \overline{U}_{K_{\epsilon}, \epsilon}$.
 
-The process $(W_s)_{s \geq 0}:=(U^{N}_{\tau_{\mathfrak{u}}}(t+s)\wedge \overline{U}_{K_{\delta}, \delta})_{s \geq 0}$ satisfy the differential inequality with jumps of the form 
+This is because $\gamma_{\theta} \leq C_G$, $r_{\theta} \leq 1$, and $-b_{\theta}(x, \eta) \leq  C_F \varrho_F * \eta(x) < -C_F H_{\epsilon}(r)$. Therefore, the growth rate of the differential equation governing $(U^N_a(t+s))_{s \geq 0}$ is smaller than that of $(W^N_a(s))_{s \geq 0}$ at all time instances.
+
+Note that $(W^N_a(s))_{s \geq 0}$ can be solved explicitly and 
+\begin{equation}
+W^N_a(s) = \frac{C_F H_{\epsilon}(r) U_0 \exp(C_F H_{\epsilon}(r) s)}{C_F H_{\epsilon}(r)+C_G  N^{-1}\theta U_0(1- \exp(C_F H_{\epsilon}(r) s))}\leq \overline{U}_{K_{\epsilon}, \epsilon}    
+\end{equation}
+for 
+\begin{equation}
+    \label{eq: Bound on Level Hitting Time}
+s \leq  \frac{1}{C_F H_{\epsilon}(r)} \log\left\{
+1+
+\frac{C_F H_{\epsilon}(r)
+(\overline{U}_{K_{\epsilon}, \epsilon}
+-U_0)
+}
+{C_F H_{\epsilon}(r)U_0 +C_G  N^{-1}\theta \overline{U}_{K_{\epsilon}, \epsilon}    U_0}
+\right\}.
+\end{equation}
+As $\theta / N $ converges in the limit, we may take some constant $A$ such that for large enough $N$,
+the level process $(U^N_{a}(s))_{s \geq 0}$ will not hit  $\overline{U}_{K_{\epsilon}, \epsilon}$ as long as
+\begin{equation}
+s \leq  \frac{1}{C_F H_{\epsilon}(r)} \log\left\{
+1+
+\frac{C_F H_{\epsilon}(r)
+(\overline{U}_{K_{\epsilon}, \epsilon}
+-U_0)
+}
+{C_F H_{\epsilon}(r)U_0 +C_G  A \overline{U}_{K_{\epsilon},\epsilon}    U_0}
+\right\}:=T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r).
+\end{equation}
+
+Note that $T$ only depends on the initial level $U_0$, the upper limit $\overline{U}_{K_{\epsilon}, \epsilon}$ and the bound on total mass $C(r)$ at time $r$, and is independent to $N$. 
+In particular, 
+\begin{equation}
+\label{eq: Compact Containment for Levels}
+\limsup_{N \to \infty}
+\mathbb{P}\left[
+\sup_{t \in [0, T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)]}
+U^N_{a}(\tau_a + t)
+\geq \overline{U}_{K_{\epsilon},\epsilon} 
+\right]  
+\leq \mathbb{P}[A_{H_{\epsilon}}]
+< \frac{\epsilon}{2 \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}},
+\end{equation}
+so we have therefore proven compact containment condition for our level process up to time $T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$.
+
+As a result, for all time $ 0 < t , t+ \delta t \leq T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r),$
+
+\begin{align*}
+W^N_a(t+\delta t)-W^N_a(t) 
+\leq &\int_{t}^{t+\delta t} 
+        \left( \frac{\theta}{N} C_G \overline{U}_{K_{\epsilon}, \epsilon}^2
+        +
+        C_F H_{\epsilon}(r) \overline{U}_{K_{\epsilon}, \epsilon}
+        \right)
+        ds\\
+=&\left( \frac{\theta}{N} C_G \overline{U}_{K_{\epsilon}, \epsilon}^2
+        +
+        C_F H_{\epsilon}(r) \overline{U}_{K_{\epsilon}, \epsilon}
+        \right) \delta t \\
+\leq&\left( A C_G \overline{U}_{K_{\epsilon}, \epsilon}^2
+        +
+        C_F H_{\epsilon}(r) \overline{U}_{K_{\epsilon}, \epsilon}
+        \right) \delta t
+\end{align*}
+
+Combining the results together, we have that for any $\delta t > 0$ small enough such that 
+\begin{equation}
+\delta t < \frac{\epsilon  }{4C_{g_1,..,g_{K_{\epsilon}}}}\min\left\{\frac{1}{C_G \overline{U}_{K_{\epsilon}, \epsilon}}, \frac{1}{A C_G \overline{U}_{K_{\epsilon}, \epsilon}^2
+        +
+        C_F H_{\epsilon}(r) \overline{U}_{K_{\epsilon}, \epsilon}}\right\}    
+\end{equation}
+holds, then we have for all $t \leq T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$,
 \begin{equation}
 \begin{aligned}
- dW_s \leq& \frac{1}{2\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))}dV^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)\wedge \overline{U}_{K_{\delta}, \delta}\\
- &+\bigg(\lambda^{-1} \theta \gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))W_s^2 - b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s))W_s\bigg)\mathbbm{1}_{W_s \leq \overline{U}_{K_{\delta}, \delta}}ds,
+\mathbb{E}\left[\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t)) : A_{H_{\epsilon}}^{c} \right] \leq  &  
+  \mathbb{E}\left[\sum_{n=1}^{K_{\epsilon}}\frac{1 \wedge |g_n(U^{N}_{a}(t+\delta t))-g_n(U^{N}_{a}(t))|}{2^n} +  \epsilon/2: A_{H_{\epsilon}}^{c} ~\bigg|~{\cal F}_t^{
+\eta}\right]  \\
+ \leq &   \sum_{n=1}^{K_{\epsilon}}\frac{\mathbb{E}\left[C_{g_1,..,g_{K_{\epsilon}}} |U^{N}_{a}(t+r)-U^{N}_{a}(t)|: A_{H_{\epsilon}}^{c} ~\bigg|~{\cal F}_t^{
+\eta} \right] }{2^n} +  \epsilon/2  \\
+\leq&   \sum_{n=1}^{K_{\epsilon}}\frac{\mathbb{E}\left[C_{g_1,..,g_{K_{\epsilon}}} |C_G \overline{U}_{K_{\epsilon}, \epsilon} \delta t|  : A_{H_{\epsilon}}^{c} ~\bigg|~{\cal F}_t^{
+\eta} \right] }{2^n}  \\
+ & + \sum_{n=1}^{K_{\epsilon}}\frac{\mathbb{E}\left[C_{g_1,..,g_{K_{\epsilon}}}  |W^N_a(t+\delta t)-W^N_a(t)|: A_{H_{\epsilon}}^{c} ~\bigg|~{\cal F}_t^{
+\eta} \right] }{2^n} +  \epsilon/2  \\
+\leq  &  \sum_{n=1}^{K_{\epsilon}}\frac{\epsilon /2 }{2^n} +  \epsilon/2 \\
+< &  \epsilon.
 \end{aligned}
 \end{equation}
-with initial condition $W_0=U^{N}_{\tau_{\mathfrak{u}}}(t)\leq \overline{U}_{K_{\delta},\delta}$. The first term is due to the fact that all jumps of $(U^{N}_{\tau_{\mathfrak{u}}}(t+s))_{s \geq 0}$ that lands above $\overline{U}_{K_{\delta}, \delta}$ will result in  the process $(W_s)_{s \geq 0}$ landing on $\overline{U}_{K_{\delta}, \delta}$. The indicator function in the second term is due to the process staying at $\overline{U}_{K_{\delta}, \delta}$ once the process hit the value. 
 
-Note that we have $\gamma^{\mathfrak{m}}_{\varepsilon, \theta}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s)) \leq (1+C_G),$ and $- b_{\varepsilon, \theta, \lambda}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s),\Xi^{\varepsilon, \theta, \lambda}(s)) \leq \varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_{s}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)).$ Furthermore, recall that $V_{\tau}(t)=\sum_{k=1}^{m}v_k\mathbbm{1}_{[0, \tau_k]}  (t)  $ and all jumps are at most of size $\overline{U}_{K_{\delta}, \delta}$ for the process $(W_s)_{s \geq 0}$, By the comparison principle, for any $s \geq 0$, $W_s-W_0$ is bounded above by the increment $\widetilde{W}_s-\widetilde{W}_0$ of a process $(\widetilde{W}_s)_{s \geq 0}$ which satisfies 
+
+\textbf{Conclusion:} Combining all of the above results, for any $\epsilon > 0$, we pick arbitrary $r>0$ and
+generate $T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$ by 
+Equation \eqref{eq: Bound on Level Hitting Time} and Equation \eqref{eq: Mass Bound Constant}.
+
+We have proven that for all $t \in [0, T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)]$,
 \begin{equation}
 \begin{aligned}
- d\widetilde{W}_s =& \overline{U}_{K_{\delta}, \delta} dN_{\tau_\mathfrak{u}}(s) +\bigg(\lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2 + \varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_{s}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s)) \overline{U}_{K_{\delta}, \delta}\bigg)ds.
-\end{aligned}
-\end{equation}
-Here $(N_{\tau_\mathfrak{u}}(s))_{s \geq 0}$ is the Poisson point process $N_{\tau_\mathfrak{u}}(t)=\sum_{k=1}^{m}\mathbbm{1}_{[0, \tau_k]}  (t) $ with rate $1$ and $\widetilde{W}_0 = \overline{U}_{K_{\delta}, \delta}$. 
-
-Taking expectations, we have that 
-\begin{equation}
-\begin{aligned}
-\mathbb{E}[\widetilde{W}_{t+r}-\widetilde{W}_t] \leq &   \overline{U}_{K_{\delta}, \delta}r + \lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2r + \overline{U}_{K_{\delta}, \delta} \int_{t}^{t+r}\mathbb{E}\left[\varrho_{\varepsilon}*\Xi^{\varepsilon, \theta, \lambda}_{s}(X^{\varepsilon, \theta, \lambda}_{\tau_{\mathfrak{u}}}(s))\right]ds\\
-\leq & \overline{U}_{K_{\delta}, \delta}r + \lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2r +\overline{U}_{K_{\delta}, \delta} \int_{t}^{t+r}\left(C_0
-+   K' e^{C_G s}\right)e^s ds \\
-= & \overline{U}_{K_{\delta}, \delta}r + \lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2r +\overline{U}_{K_{\delta}, \delta} +(C_0e^t+\frac{C_0K'}{C_G+1}e^{C_G+1})(e^{r}-1).
-\end{aligned}
-\end{equation}
-
-\textbf{Controlling Increments by Birth Events:}
-Now consider the scenario where $t > \tau_u$, i.e. the particle $\mathfrak{u}$ has not been born at time $t$. Denote $\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])$ to be the event that particle $\mathfrak{u}$ is born between $[t,t+r  ]$ with level smaller than $U_{K_{\delta}, \delta}$. In this case,
-\begin{multline}
- |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|\\
- =g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))\times\mathbbm{1}_{\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])}\\
- < C_{g_1,...,g_n}\times \mathbbm{1}_{\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])},   
-\end{multline}
-for some uniform bound $C_{g_1,...,g_n}$ over $\{||g_n||_{\infty}: n =1,...,N \}$. It suffices therefore to show that the probability for a particle $\mathfrak{u}$ to be born or gives birth in some time interval of length less than or equal to $r$ can be arbitrarily small given small enough $r$. Let $\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ])$ to be the number of particles born between $[t,t+r]$ with level smaller than $U_{K_{\delta}, \delta}$. Then 
-\begin{equation}
-\begin{aligned}
-\mathbb{P}[\mathcal{B}^{N}_{\mathfrak{u}}([t,t+r  ])]  \leq&  \mathbb{P}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) \geq 1]\\
-\leq & \mathbb{E}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) ].
-\end{aligned}
-\end{equation}
-Recall that we have bounds over the total mass of the particle systems, so at time $t$, the expected number of particles alive in the $N$-th stage of scaling is bounded above $\lambda_NC_0e^{C_Gt}$ (with $\lambda_N=N$). The particles have levels that are independently and uniformly distributed between $[0, \lambda_N]$. Therefore, the expected number of particles with levels between $[0,U_{K_{\delta}, \delta}]$ is $U_{K_{\delta}, \delta}C_0e^{C_Gt}$. The number of births within an interval of length $r$ is a sum of Poisson random variables, and so we have 
-$$\mathbb{E}[\mathcal{N}^{N}_{\mathfrak{u}}([t,t+r  ]) ]=U_{K_{\delta}, \delta}C_0e^{C_Gt}r.$$
-
-\textbf{Conclusion:} Combining all of the above results, we have that for any $\delta > 0$,
-\begin{equation}
-\begin{aligned}
-\mathbb{E}[\mathfrak{d}(U^{N}_{\tau_{\mathfrak{u}}}(t+r),U^{N}_{\tau_{\mathfrak{u}}}(t))] \leq & \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}\right] +  \delta/2\\
-\leq &\mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \leq t \right]\\
-& + \mathbb{E}\left[\sum_{n=1}^{K_{\delta}}\frac{1 \wedge |g_n(U^{N}_{\tau_{\mathfrak{u}}}(t+r))-g_n(U^{N}_{\tau_{\mathfrak{u}}}(t))|}{2^n}: \tau_{\mathfrak{u}} \geq t \right] + \delta/2\\
-\leq & C'_{g_1,...,g_n}\bigg(\overline{U}_{K_{\delta}, \delta}r + \lambda^{-1} \theta (1+C_G)\overline{U}_{K_{\delta}, \delta}^2r\\
-& \qquad \qquad  +\overline{U}_{K_{\delta}, \delta} +(C_0e^t+\frac{C_0K'}{C_G+1}e^{C_G+1})(e^{r}-1)\bigg)\\
-& + C'_{g_1,...,g_n}U_{K_{\delta}, \delta}C_0e^{C_Gt}r+\delta/2\\
-< & \delta 
+\mathbb{E}[\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t))~|~{\cal F}_t^{
+\eta}] \leq & \mathbb{E}\left[\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t)) : A_{H_{\epsilon}} ~|~{\cal F}_t^{
+\eta}\right]\\
+&+ \mathbb{E}\left[\mathfrak{d}(U^{N}_{a}(t+\delta t),U^{N}_{a}(t)) : A_{H_{\epsilon}}^{c} ~|~{\cal F}_t^{
+\eta}\right] \\
+< & \epsilon + \epsilon = 2\epsilon
 \end{aligned}    
 \end{equation}
-for small enough $r>0$. In particular, this choice of $r$ is independent of $\varepsilon, \theta, \lambda$. Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3.8.6.
+for  
+\begin{equation*}
+\delta t < \frac{\epsilon  }{4C_{g_1,..,g_{K_{\epsilon}}}}\min\left\{\frac{1}{C_G \overline{U}_{K_{\epsilon}, \epsilon}}, \frac{1}{A C_G \overline{U}_{K_{\epsilon}, \epsilon}^2
+        +
+        C_F H_{\epsilon}(r) \overline{U}_{K_{\epsilon}, \epsilon}}\right\}.    
+\end{equation*}
+
+We have also proven Compact Containment Condition in Equation \eqref{eq: Compact Containment for Levels}.
+
+Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3.8.6.
 \end{proof}
-\subsubsection{Convergence in $\mathcal{D}_{[0,\infty)}\left(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)\right)$ to $(\xi^{ \infty}_t)_{t \geq 0}$, where $\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)$}
-Now that we have proven tightness for individual level and spatial trajectories, by Corollary \ref{cor: convergence in p implies convergence in p-infty}, Lemma \ref{lem: Countable Implies Vague} and Theorem \ref{teo: Theorem A12 Kurtz Rodrigues generalised}, we have proved that the particle system $(\xi^{\varepsilon_N, \theta_N,\lambda_N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}\left(\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)\right)$ to $(\xi^{ \infty}_t)_{t \geq 0}$, where $\mathcal{N}_f(\mathbb{R}^d \times [0, \infty)$ is equipped with the $\mathfrak{p}^{wv}$-topology. Furthermore, its spatial projection $(\overline{\eta}^{\varepsilon_N, \theta_N,\lambda_N}_t)_{t \geq 0}$ converges to $(\overline{\eta}^{\infty}_t)_{t \geq 0}$ in $\mathcal{D}_{[0,\infty)}\left(\mathcal{M}_f(\mathbb{R}^d \right)$, where $\mathcal{M}_f(\mathbb{R}^d)$ is equipped with the weak topology.
 
-In the next section, we will show how we identify the limit process.
+\subsection{Tightness of the Lookdown Representation}
 
+We have now proved tightness of the spatial and level process for a line of descent. To prove that the lookdown representation is tight, we generalise the vague topology to the setting of measure-valued processes. For a detailed description of the vague topology, refer to Appendix \ref{sec: Empirical Measure Topology}.
+
+We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem: Compact Containment}, we have immediately established compact containment condition for our lookdown processes. 
+
+Then, we apply Theorem A.24 in \cite{kallenberg1997foundations} (Theorem \ref{teo: Vague Relative Compactness through Projection}) and use a corollary of Stone-Weierstrass Theorem (Lemma \ref{lem: Dense set for test functions on empirical measures}) to show that our lookdown representation $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process in the vague topology as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued stochastic processes for a huge class of $F_g$. Explicitly, $F_g(\xi):= \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$, where $g(x,u)$ satisfies the property that $g(x,u) = 1 $ for all $u \geq u_{*}$ for some $u_{*}>0$.
 
 \comment{
     This comes later because it uses convergence of the population process itself.
@@ -4511,7 +4724,7 @@ Once we manage to solve the Martingale Problem \eqref{Markov Mapping Theorem Mar
 \end{enumerate}
 Note that in particular, the third statement is equivalent to the fact that conditioned on the spatial configuration $\Xi^{\theta}_t$, the levels of the particles must be i.i.d uniformly between $[0,\lambda]$. We may also express this condition through the following equation:
 \begin{equation}\label{Markov Mapping Theorem Cox Condition}
-\mathbb{E}\left[e^{-\int_{S \times [0,\lambda]} f(x,u) \xi^{\epsilon,\theta,\lambda}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{\epsilon,\theta, \lambda}}_t\right]=e^{-\int F^{\epsilon,\theta,\lambda}_f(x) \Xi^{\epsilon,\theta,\lambda}_t(dx)},
+\mathbb{E}\left[e^{-\int_{S \times [0,\lambda]} f(x,u) \xi^{\epsilon,\theta,\lambda}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{\epsilon,N}}_t\right]=e^{-\int F^{\epsilon,\theta,\lambda}_f(x) \Xi^{\epsilon,\theta,\lambda}_t(dx)},
 \end{equation}
 where 
 $$F^{\epsilon,\theta,\lambda}_f(x):=-\lambda\log \left(\frac{1}{\lambda}\int_{0}^{\lambda}e^{-f(x,u)}du\right)=-\lambda\log \left(1-\frac{1}{\lambda}\int_{0}^{\lambda}(1-e^{-f(x,u)})du\right).$$
@@ -5001,7 +5214,7 @@ $\mathfrak{p}$ topology.
 
 
 
-\subsection{Weak-Vague Topology on Measures}\label{sec: Empirical Measure Topology}
+\subsection{Vague Topology on Measures}\label{sec: Empirical Measure Topology}
 
 We now characterise the lookdown representation
 of our particle system
@@ -5077,9 +5290,16 @@ Therefore, $\mu \in \mathcal{M}_K([-N,N]^d \times [0,N])$.
 As a result, $\mathcal{M}_K([-N,N]^d \times [0,N])$ is closed and relatively vaguely compact, so it is vaguely compact.
 \end{proof}
 
+\begin{theorem}
+    \label{teo: Vague Relative Compactness through Projection}
+For any Polish space $S$, let $f_1,f_2,...,$ be a dense collection of functions in $C^{+}_{K}$ that is closed under addition, then a set $A \in \mathcal{D}_{\mathcal{M}(S)}([0,\infty))$ is relative compact if and only if $Af_j = \{xf_j: x \in A\}$ is relatively compact on $\mathcal{D}_{[0, \infty)}([0,\infty))$ for every $j \in \mathbb{N}$.
+\end{theorem}
+\begin{proof}
+See \cite{kallenberg1997foundations} Theorem A2.4.
+\end{proof}
 \begin{definition}
 We define $\mathfrak{G}_{\leq 1}$ to be the set of functions $g \in \mathcal{C}(\mathbb{R}^d \times [0, \infty) \to \mathbb{R})$ such that 
-$g(\cdot, u) \in \mathcal{C}_{0}(\mathbb{R}^d)$ for all $u \geq 0$, and there exists some $C_g>0$, such that $g(x,u)=1$ for all $u \geq C_g$.
+$g(\cdot, u) \in \mathcal{C}_{0}(\mathbb{R}^d)$ for all $u \geq 0$, and there exists some $u_{*}>0$, such that $g(x,u)=1$ for all $u \geq u_{*}$.
 \end{definition}
 
 \begin{lemma}\label{lem: Dense set for test functions on empirical measures} For $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$. The set of functions 
@@ -5090,6 +5310,9 @@ is dense in $C(\mathcal{M}(\mathbb{R^d} \times [0, \infty]),\mathbb{R})$.
 Direct application of Stone-Weierstrass Theorem. These finite combinations are closed under addition by construction, and they are closed under multiplication as $F_{g_1}(\cdot) \times F_{g_2}(\cdot):=F_{g_1 \times g_2}(\cdot)$. Thus we have a subalgebra that also clearly separates points and vanishes nowhere.
 \end{proof}
 
+
+Combining Theorem \ref{teo: Vague Relative Compactness through Projection} and Lemma \ref{lem: Dense set for test functions on empirical measures}, we have that $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process in the vague topology as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued stochastic processes
+for all $g \in \mathfrak{G}_{\leq 1}$. 
 \bibliographystyle{plainnat}
 \bibliography{refs.bib,plr_refs.bib}
 
