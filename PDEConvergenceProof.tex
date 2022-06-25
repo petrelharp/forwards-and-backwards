@@ -1,0 +1,306 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathrsfs}
+\usepackage[color=yellow]{todonotes}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+
+
+%\usepackage{subcaption} 
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber,style=alphabetic, maxbibnames=99]{biblatex}
+\addbibresource{MendeleyIan.bib}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumptions}[theorem]{Assumptions}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\comment}[1]{{\color{blue} \it #1}}
+\newcommand{\norma}{\mathrm{Norm}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\IE}{\mathbb{E}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\IN}{\mathbb{N}}
+\newcommand{\OP}{\mathbb{O}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\IP}{\mathbb{P}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\IQ}{\mathbb{Q}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\IR}{\mathbb{R}}
+\newcommand{\AS}{\mathbb{S}}
+\newcommand{\AT}{\mathbb{T}}
+\newcommand{\IT}{\mathbb{T}}
+\newcommand{\VV}{\mathbb{V}}
+%\newcommand{\DD}{\mathbb{D}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\IZ}{\mathbb{Z}}
+\newcommand{\qm}{{\mathfrak q}}
+\newcommand{\A}{{\cal A}}
+\newcommand{\B}{{\cal B}}
+\newcommand{\C}{{\cal C}}
+\newcommand{\D}{{\cal D}}
+\newcommand{\E}{{\cal E}}
+\newcommand{\F}{{\cal F}}
+\newcommand{\G}{{\cal G}}
+\newcommand{\hH}{{\cal H}}
+\newcommand{\K}{{\cal K}}
+\newcommand{\I}{{\cal I}}
+\newcommand{\T}{{\cal T}}
+\newcommand{\J}{{\cal J}}
+\newcommand{\aL}{{\cal L}}
+\newcommand{\aB}{{\bf B}}
+\newcommand{\aP}{{\bf P}} 
+\newcommand{\aE}{{\bf E}}
+\newcommand{\wP}{{\widetilde{P}}}
+\newcommand{\M}{{\cal M}}
+\newcommand{\N}{{\cal N}}
+\newcommand{\cO}{{\cal O}}
+\newcommand{\R}{{\cal R}}
+\newcommand{\hS}{{\cal S}}
+\newcommand{\tT}{{\cal T}}
+\newcommand{\U}{{\cal U}}
+\newcommand{\V}{{\cal V}}
+\newcommand{\dd}{{\mathbbm{d}}}
+\newcommand{\DG}{\mathcal{B}}
+
+\newcommand{\bigO}[1]{{\mathcal {O}\left(#1\right)}}
+\newcommand{\littleo}[1]{{\emph{o}\left(#1\right)}}
+
+
+\newcommand{\W}{{\mathbf W}} %%% I AM CHANGING THIS HERE TO SAVE CHANGING ALL THE \W's TO SOMETHING ELSE, BUT WANT CONSISTENT NOTATION FOR ONE-DIMENSIONAL AND MULTI-DIMENSIONAL HISTORICAL PROCESSES
+
+
+\newcommand{\X}{{\cal X}}
+\newcommand{\Y}{{\cal Y}}
+\newcommand{\cZ}{{\cal Z}}
+\newcommand{\FV}{{SLFVS$\Omega$}}
+\newcommand{\oI}{{\overline{I}}}
+\newcommand{\oJ}{{\overline{J}}}
+\newcommand{\oK}{{\overline{K}}}
+\newcommand{\oL}{{\overline{L}}}
+\newcommand{\omu}{{\overline{\mu}}}
+\newcommand{\orh}{{\overline{\rho}}}
+\newcommand{\oAS}{{\overline{\AS}}}
+\newcommand{\trho}{{\widehat{\rho}}}
+\newcommand{\Int}{{\rm int}}
+\newcommand{\oX}{{\G^+_0}}
+\newcommand{\Cl}{{\rm cl}}
+\newcommand{\1}{{\bf {1}}}
+\def\v{\boldsymbol} %for vectors in bold text, use as \v{x
+\font\gsymb=cmsy10 scaled \magstep3
+\newcommand{\gtimes}{\hbox{\gsymb \char2}}
+\def\hbn{\hfill\break\noindent}
+\def\hch{\hfill\cr\hfill}
+\let\scr=\scriptstyle
+\def\sgn{\mathop{\rm sgn}\nolimits}
+\def\One{{\mathbf 1}}
+\def\one{ {\rm 1 \hskip -2.7pt  I}}
+\def\d{^{\delta}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\lt}{\leadsto}
+
+\def\v{\boldsymbol} %for vectors in bold text, use as \v{x}
+
+\def\dim{\mathbbm{d}}
+
+\def\Ca{($\mathscr{C}1$)}
+\def\Cb{($\mathscr{C}2$)}
+\def\Cc{($\mathscr{C}3$)}
+\def\Cd{($\mathscr{C}4$)}
+\def\Ce{($\mathscr{C}5$)}
+
+\def\epsilon{\varepsilon}
+
+\begin{document}
+
+
+In this note, I will write the result of the convergence of the non-local Fisher-KPP equation to the local Fisher-KPP. In conjunction with the convergence to non-local PDEs of our particle system, this would finish a two-step approximation to a weak solution of  the local PDEs.
+
+In this notes we assume $(X_t)$ is a diffusion with generator $\DG$ and denotes its transition density by $f_t(x,y)$.
+
+We will prove the following results.
+\begin{proposition}
+    \label{prop:nonlocal_to_local}
+    Suppose that $\varphi^a$ is a weak solution to the equation:
+    \begin{equation}
+\label{nonlocalPDEv1} \begin{cases}
+\partial_t \varphi^a = \DG^* \varphi^a + \varphi^a (F(\varrho_a*\varphi^a)))  & x \in \mathbb{R}^d, t >0, \\ \varphi^a(x,0) = \varphi_0(x) & x \in \mathbb{R}^d.
+\end{cases}
+\end{equation}
+and that $\varphi$ is a weak solution to the equation:
+ \begin{equation}
+\label{localPDE} \begin{cases}
+\partial_t \varphi = \DG^* \varphi + \varphi (F(\varphi)))  & x \in \mathbb{R}^d, t >0, \\ \varphi(x,0) = \varphi_0(x) & x \in \mathbb{R}^d.
+\end{cases}
+\end{equation}
+Assume $\varphi_0$ is positive, Lipschitz and uniformly bounded function. Assume $F$ is a Lipschitz function which is bounded above. Assume the following regularities for $b(x)$ and $C(x)$, the drift and covariance matrix of $\DG$,
+\begin{enumerate}
+    \item $b(x)$, $C(x)$ are uniformly bounded in each component.
+    \item $C(x)$ and $b(x)$ are $\alpha$-Holder, for some $\alpha \in (0,1]$.
+    \item $C(x)$ is a symmetric matrix. Furthermore, there is some constant $\Lambda>0$ such that, for all $x \in \mathbb{R}^d$,
+    \[ \Lambda I< C(x) \]
+    where $I$ is the $d \times d$ identity matrix.
+\end{enumerate}
+Then, for all $T>0$ there exists a constant $K=K(T, \Vert \varphi_0 \Vert_\infty)>0$ such that, for all $0 \leq t \leq T$ and $a$ small enough,
+\[ \Vert \varphi(\cdot,t) - \varphi^a(\cdot,t) \Vert_\infty \leq K\left( e^{-a^{-1/3}/2} + a^{1/9}\right).\]
+In particular, as $a$ goes to $0$, we have that $\varphi^a$ converges uniformly in compact intervals of time to $\varphi$.
+\end{proposition}
+
+
+\subsection{A regularity results for $X_t$.}
+\begin{lemma} \label{regularityForX1}
+Fix $T>0$. There exist a constant $K= K(T)>0$ such that, for any $x,y.z \in \mathbb{R}^d$ and $t \in [0,T]$,
+\begin{equation} \label{eq:boundDensityXt}
+\int |f_t(x,z)-f_t(y,z)| dz \leq \frac{|x-y|}{\sqrt{t}} K.
+\end{equation}
+\end{lemma}
+\begin{proof}
+We first use intermediate value Theorem to get the bound,
+\begin{align*}
+\int |f_t(x,z)-f_t(y,z)| dz & \leq \int |x-y| |\nabla f_t(w,z)| dz
+\end{align*}
+where $w \in [x,y]$. But our assumption on $b$ and $C$ we can use \cite{Sheu:1991}, equation (1.3), to get there exists a constant $\gamma=\gamma(T)>0$ such that,
+\[ |\nabla f_t(w,z)|  \leq  \frac{\gamma }{\sqrt{t}}p_{ \gamma  t}(w,z), \]
+Hence, 
+\begin{align*}
+\int |f_t(x,z)-f_t(y,z)| dz & \leq \gamma \frac{|x-y|}{\sqrt{t}} \int p_{\gamma  t}(w,z)dz = \gamma  \frac{|x-y|}{\sqrt{t}},
+\end{align*}
+which proves the result.
+\end{proof}
+\begin{lemma} \label{regularityForX2}
+Fix $T>0$. Let $x,y \in \mathbb{R}^d$, $t \in [0,T]$. Let us denote $X_t^y$ and $X_t^x$ independent copies of the diffusion $X_t$ starting position at $y$ and $x$ respectively. There exists a constant $K=K(T)>0$ such that, 
+\[ \EE[|X_t^y-X_t^x|] \leq K(\sqrt{t} + |y-x|) \]
+\end{lemma}
+\begin{proof}
+First we write, 
+\[ \EE[|X_t^y-X_t^x|]  = \int \int |u-v| f_t(y,u) f_t(x,v) du dv  \]
+By the regularity on $C$, $b$ and using \cite{Sheu:1991}, equation (1.2), there is some constant $\gamma =\gamma (T)>0$ so that we can bound,
+\[ f_t(y,u) \leq \gamma  p_{\gamma  t}(y,u) \]
+So then we have that,
+\begin{align}
+  \EE[|X_t^y-X_t^x|]  \leq \int \int |u-v| \gamma ^2 p_{\gamma  t}(y,u) p_{\gamma  t}(x,v) dv du = \gamma ^2 \EE[|B_{\gamma  t}^y-B_{\gamma  t}^x|] \label{eq:ExpDif1}
+\end{align}
+where $B_t^y$ and $B_t^x$ are independent Brownian motion starting at $y$ and $x$ respectively. It is easy to see $B_{\gamma t} ^y-B_{\gamma t}^x \sim \mathcal{N}(y-x, It \gamma )$. So then $|B_{\gamma t} ^y-B_{\gamma t}^x|$ is a folded normal distribution with parameters $|y-x|$ and $d t \gamma $. Hence,
+\begin{align}
+\EE[|B_{\gamma  t}^y-B_{\gamma  t}^x|] &= \sqrt{t d \gamma } \sqrt{2/\pi} e^{-(y-x)^2/(2dt\gamma )} + (y-x) (1-2\Phi(-(y-x)/(\gamma  d t))) \nonumber \\ & \leq \sqrt{d \gamma  2/\pi}  \sqrt{t} + |y-x| \label{eq:ExpDif2}
+\end{align}
+Using (\ref{eq:ExpDif2}) in (\ref{eq:ExpDif1}) gives the result.
+\end{proof}
+\subsection{Auxiliary results for $\varphi$ and $\varphi^a$.}
+To bound $\varphi^a-\varphi$ we first write an expression for $\varphi$ and $\varphi^a$. For this we note that, by a Feynman-Kac representation we can write,
+\begin{align}
+\varphi(x,t) &= \EE_x[\varphi_0(X_t) + \int_0^t \varphi(X_s,s)F(\varphi(X_s,s)) ds] \label{FK:varphi} \\
+\varphi^a(x,t) &= \EE_x[\varphi_0(X_t) + \int_0^t \varphi^a(X_s,s)F(\rho_a*\varphi^a(X_s,s)) ds]
+\end{align}
+where $(X_t)_{t \geq 0}$ is a process with generator $\DG$. So,
+\begin{equation} \varphi(x,t) - \varphi^a(x,t) = \EE_x\left[ \int_0^t (\varphi(X_s,s)F(\varphi(X_s,s))-\varphi^a(X_s,s)F(\rho_a*\varphi^a(X_s,s))) ds \right] \label{FK:diferencesVarphis}\end{equation}
+The key will be to replace $F(\varphi(X_s,s))$ by $F(\rho_a*\varphi(X_s,s))$ in the last representation. That way we will have \textit{analogous} terms for $\varphi$ and $\varphi^a$ which simplifies our comparison. This is done on the next three results.
+
+First we need a uniform bound on $\varphi$ and $\varphi^a$.  
+\begin{proposition} \label{BoundednessVarphis}
+For any $T>0$ there exists $M = M(T, \Vert \varphi_0 \Vert) >0$ such that, for all $0 \leq t \leq T$:
+\[ \max\{ \Vert \varphi(\cdot,t) \Vert_\infty, \Vert \varphi^a(\cdot,t) \Vert_\infty\} < M \]
+\end{proposition}
+\begin{proof}
+Using that $\varphi_0$ and $F$ are bounded above  we get,
+\begin{align*}
+\varphi(x,t) \leq \Vert \varphi_0 \Vert_\infty + K \EE[\int_0^t \varphi(X_s,s) ds]
+\end{align*}
+In particular,
+\[ \Vert \varphi(\cdot,t) \Vert_\infty \leq \Vert \varphi_0 \Vert +  K \int_0^t \Vert \varphi(\cdot,s) \Vert_\infty ds \]
+So, by Gronwall's inequality,
+\[ \Vert \varphi(\cdot,t) \Vert_\infty \leq \Vert \varphi_0 \Vert \exp\left( K T \right) \]
+A totally analogous proof also give that $\Vert \varphi^a(\cdot,t) \Vert_{\infty} \leq \Vert \varphi_0 \Vert \exp\left( K T \right) $.
+\end{proof}
+We now proof a continuity result on $\varphi$.
+
+
+\begin{lemma} \label{ContinuityVarphi}
+Let $T>0$. There exists a constant $K(T, \Vert \varphi_0\Vert_\infty) = K>0$ and $\delta_0(T, \Vert \varphi_0\Vert_\infty) = \delta_0>0$ such that for all $0 < \delta<\delta_0$ and $0 \leq t \leq T$,
+\[  |x-y|<\delta^3 \Rightarrow |\varphi(x,t)-\varphi(y,t)|< K\delta.\]
+\end{lemma}
+\begin{proof}
+First we need some notation. Let $M$ be the constant given in Proposition~\ref{BoundednessVarphis} for $T$ and let $\Vert F \Vert_{M} = \sup_{x \in [0,M]} |F(x)|$. We reserve $\widehat{K}$ for the constant in the right hand side of equation (\ref{eq:boundDensityXt}). We also reserve $K_{\varphi_0}$ for the Lipschitz constant of $\varphi_0$. Having this we can set:
+\[ \delta_0=\min(\Vert F \Vert_M^{-2},(M e)^{-1}(2\Vert F \Vert_{M}+ \widehat{K})^{-1}, (K_{\varphi_0} + 2 \Vert F \Vert_M M)^{-1} ,  1)\]
+In what follows we let let $0< \delta<\delta_0$. 
+
+
+
+We first proof that the result holds if $t < \delta^2$. Let $f_t(x,y)$ the transition density of $(X_t)_{t \geq 0}$.  Let $X_t^x$ and $X_t^y$ let independent copies of the diffusion $X_t$ starting at $x$ and $y$ independently. From our Feynman-Kac representation (\ref{FK:varphi}) and Proposition~\ref{BoundednessVarphis}, we can write:
+\begin{align*}
+|\varphi(x,t)- \varphi(y,t)| &\leq |\EE_x[\varphi_0(X_t)]-\EE_y[\varphi_0(X_t)]| + 2 \Vert F \Vert_M M t \\ & \leq \EE[|\varphi_0(X_t^x)-\varphi_0(X_t^y)|] + 2 \Vert F \Vert_M M t  \\ &\leq K_{\varphi_0}  \EE[|X_t^x-X_t^y|] + 2 \Vert F \Vert_M M t \\ & \leq K_{\varphi_0}  (\sqrt{t} + |y-x|) + 2 \Vert F \Vert_M M t \\ & \leq K_{\varphi_0} (\delta + \delta^3) + 2 \Vert F \Vert_M M \delta^2 \leq (K_{\varphi_0} +1)\delta.
+\end{align*}
+Where we have used Lemma~\ref{regularityForX2} in the fourth inequality and the definition of $\delta_0$ in the last inequality.
+
+So, in what follows we can assume $\delta^2<t$. In this case, we will follow the pattern in \cite{sarahfkpp}, Lemma 2.2. 
+
+
+First, note that by Feynman-Kac we have the alternative representation for $\varphi(x,t)$, for any $t'<t$,
+\[ \varphi(x,t) = \EE_x[ \varphi(t-t',X_{t'}) \exp( \int_0^{t'} F(\varphi(X_s,t-s)) ds ) ] \]
+Therefore, for all $z$:
+\[ e^{-\delta^2(\Vert F \Vert_{M})}\mathbb{E}_z[  \varphi(t-\delta^2,X_{\delta^2})] \leq  \varphi(t,z) \leq e^{\delta^2(\Vert F \Vert_{M})} \mathbb{E}_z[  \varphi(t-\delta^2,X_{\delta^2})] \]
+We can then deduce that,
+\begin{align*}
+\varphi(t,x)-\varphi(t,y) &\leq e^{\delta^2(\Vert F \Vert_{M}}\mathbb{E}_x[ \varphi(t-\delta^2,B_{\delta^2})] - e^{-\delta^2(\Vert F \Vert_{M}}\mathbb{E}_y[ \varphi(t-\delta^2,X_{\delta^2})] \\ & = e^{\delta^2(\Vert F \Vert_{M}}(\mathbb{E}_x[ \varphi(t-\delta^2,X_{\delta^2})]- \mathbb{E}_y[ \varphi(t-\delta^2,X_{\delta^2}]) \\ &+ (e^{\delta^2(\Vert F \Vert_{M}} - e^{-\delta^2(\Vert F \Vert_{M}}  )\mathbb{E}_y[ \varphi(t-\delta^2,X_{\delta^2})] \\&\leq e^{\delta^2\Vert F \Vert_{M}} (\mathbb{E}_x[ \varphi(t-\delta^2,X_{\delta^2})]- \mathbb{E}_y[ \varphi(t-\delta^2,X_{\delta^2})])\\ &+ M(e^{\delta^2(\Vert F \Vert_{M}}-e^{-\delta^2\Vert F \Vert_{M}})
+\end{align*}
+where the last line is, again, Proposition~\ref{BoundednessVarphis}. For bounding the differences of the expected values on the last equation, note that, by using again Proposition~\ref{BoundednessVarphis}
+\begin{align*}
+(\mathbb{E}_x[ &\varphi(t-\delta^2,X_{\delta^2})]- \mathbb{E}_y[ \varphi(t-\delta^2,X_{\delta^2}]) & \\ & = \int \varphi(t-\delta^2,z) (f_{\delta^2}(x,z)-f_{\delta^2}(y,z) ) dz  \\ &\leq M \int |f_{\delta^2}(x,z)-f_{\delta^2}(y,z) | dz \\ &\leq M \widehat{K} \frac{|x-y|}{\delta}  \leq M \widehat{K} \delta^2 
+\end{align*}
+where in the first inequality we have used, again, Lemma~\ref{regularityForX1}. Hence,
+\begin{align*}
+\varphi(t,x)-\varphi(t,y)&\leq e^{\delta^2 \Vert F \Vert_{M}} \left(M+M \widehat{K}\delta^2 - M e^{-2\delta^2\Vert F \Vert_{M}}  \right) \\ & \leq e^{\delta^2 \Vert F \Vert_{M}}\left(M \widehat{K}\delta^2 + 2 M \delta^2\Vert F \Vert_{M}  \right) \\ &\leq e \left( M \widehat{K}+2 M \Vert F \Vert_M  \right) \delta^2 \leq  \delta
+\end{align*}
+where in the second inequality we have used $1-e^{-x} \leq x$ for all $\delta \geq 0$. The last two inequalities follows by definition of $\delta$. Analogously we can get the same bound for $\varphi(t,y)-\varphi(t,x)$ and the result is proven.
+\end{proof}
+We proceed to prove that we can replace $F(\varphi)$ by $F(\rho_a*\varphi)$. For simplicity, we define,
+\[ \widehat{\delta}(a) := 2e^{-a^{-1/3}/2}+a^{1/9}. \]
+\begin{lemma} \label{ContinuityConvolution}
+Let $T>0$. There exists a constant $K=K(T,\Vert \varphi_0 \Vert_\infty)>0$ such that, for all $0 \leq t \leq T$, for all $a$ small enough,
+\begin{equation} \label{ContinuityConvolution1} \Vert \varphi(\cdot,t) - \rho_a*\varphi(\cdot,t) \Vert_\infty = K \widehat{\delta}(a) \end{equation}
+Furthermore, there is a constant $K(T, \Vert \varphi_0 \Vert_\infty) = K >0 $ such that, for all $0 \leq t \leq T$,
+\begin{equation} \label{ContinuityConvolution2} \Vert F(\varphi(\cdot,t)) - F(\rho_a*\varphi(\cdot,t)) \Vert_\infty \leq K \widehat{\delta}(a). \end{equation}
+\end{lemma}
+\begin{proof}
+Let $a$ be smaller than $\delta_0$ in Lemma~\ref{ContinuityVarphi}. Then,
+\begin{align*}
+|\varphi(x,t) - \rho_a*\varphi(x,t)| & = \int_{|x-y| > a^{1/3} } p_a(x,y)|\varphi(y,t)-\varphi(x,t)| dy  \\ & + \int_{|x-y| \leq a^{1/3} } p_a(x,y)|\varphi(y,t)-\varphi(x,t)| dy \\ & \leq 2 M \int_{|x-y| > a^{1/3}  } p_a(x,y) dy + \int_{|x-y| \leq a^{1/3}} p_a(x,y) K a^{1/9} \\ &= 2M \PP[|B_a| > a^{1/3}] + K a^{1/9} \\ & \leq  2 d M  e^{-a^{-1/3}/2} + Ka^{1/9}.
+\end{align*}
+where we used that, for $Z$ a standard random variable, $\PP[Z > x] \leq e^{-x^2/2}$. This proves (\ref{ContinuityConvolution1}). For (\ref{ContinuityConvolution2}) note that, by Proposition~\ref{BoundednessVarphis}, we have that $\varphi(x,t)$ and $\rho_a*\varphi(x,t)$ are bounded by $M$. Let $L_M$ be the (uniform) Lipschitz constant of $F$ on $[0,M]$. Then,
+\begin{align*}
+ \Vert F(\varphi(\cdot,t)) - F(\rho_a*\varphi(\cdot,t)) \Vert_\infty &\leq L_M \Vert \varphi(\cdot,t)) - (\rho_a*\varphi(\cdot,t)) \Vert_\infty \\ & \leq L_M ( 2 d M e^{-a^{-1/3}/2} + Ka^{1/9}).
+\end{align*}
+which proves (\ref{ContinuityConvolution2}). 
+\end{proof}
+\subsection{Conclusion}
+\begin{proof}[Proof of Proposition \ref{prop:nonlocal_to_local}]
+Let $a$ be small enough so that Lemma~\ref{ContinuityConvolution} holds. Then from the Feynman-Kac representation (\ref{FK:diferencesVarphis}) and Lemma~\ref{ContinuityConvolution} we can write,
+\begin{align*}
+| &\varphi(x,t) - \varphi^a(x,t)|  \\ & \leq \EE_x\left[ |\int_0^t (\varphi(X_s,s)F(\rho_a*\varphi(X_s,s))-\varphi^a(X_s,s)F(\rho_a*\varphi^a(X_s,s)))| ds \right] +K t \widehat{\delta}(a)   \\ & \leq \EE_x[ \int_0^t |F(\rho_a*\varphi^a(X_s,s))||(\varphi^a(X_s,s)-\varphi(X_s,s))| ds  ] \\ & +  \EE_x[\int_0^t |\varphi(X_s,s)| |F(\rho_a*\varphi^a(X_s,s))-F(\rho_a*\varphi(X_s,s))| ds ] + K t \widehat{\delta}(a)  \\ & \leq \Vert F \Vert_M \int_0^t \Vert \varphi^a(\cdot,s) - \varphi(\cdot,s) \Vert_\infty ds  + M L_M \int_0^t \Vert \rho_a*\varphi^a(\cdot,s)-\rho_a*\varphi(\cdot,s) \Vert_\infty ds + K t \widehat{\delta}(a)  \\ & \leq (\Vert F \Vert_M + M L_M) \int_0^t \Vert \varphi^a(\cdot,s) - \varphi(\cdot,s) \Vert_\infty ds + K t \widehat{\delta}(a).
+\end{align*}
+Where the second inequality is the triangular inequality and the third one is Proposition~\ref{BoundednessVarphis}. A simple application of Gronwall's inequality then yields,
+\begin{align*}
+\Vert \varphi^a(\cdot,t)-\varphi(\cdot,t)\Vert_\infty &\leq K t \widehat{\delta}(a)  \exp(t (\Vert F \Vert_M + M L_M)) \\ & \leq  K T \widehat{\delta}(a)  \exp(T(\Vert F \Vert_M + M L_M)),
+\end{align*}
+giving the result.
+\end{proof}
+
+\printbibliography
+
+\end{document}
