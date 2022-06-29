@@ -691,7 +691,7 @@ it is interesting to write down the limiting generator:
         - 
         f(\cdot) \DG\left[ r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
     }{
-        r(x, \smooth{r} \eta^{\theta}(x))
+        r(x, \smooth{r} \eta^{N}(x))
     } .
 \end{align*}
 In the simplest case of unbiased, isotropic dispersal,
@@ -2060,17 +2060,6 @@ $(\eta^{N}(t))_{t \geq 0}$,
 the levels of particles in $(\lp^{N}_t)_{t \geq 0}$
 are i.i.d. uniformly distributed between $[0,N]$.
 
-Theorem A.10 in \cite{kurtz/rodrigues:2011}
-states that convergence of $(\eta^{N}_t)_{t \geq 0}$
-to a conditionally Poisson system $(\lp_t)_{t \geq 0}$
-with Cox measure $\eta_t \times \Lambda$
-is equivalent to convergence of
-$(\eta^{N}_t)_{t \geq 0}$ to $(\eta_t)_{t \geq 0}$.
-As a result, it suffices for us to focus on
-tightness of $(\eta^{N}_t)_{t \geq 0}$
-and spatial convergence of $(\eta^{N}_t)_{t \geq 0}$
-as $N \to \infty$.
-
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Construction tracking individual lines of descent} \label{sec: individual lines of descent}
@@ -2968,14 +2957,14 @@ For the proof of Equation \eqref{eq: gaussian density estimate} refer to the Lem
 
 \begin{lemma}[Compact Containment for the population process]
     \label{lem: Compact Containment}
-Assume that $\eta^{\theta}_0 \to \eta_0$ weakly,
+Assume that $\eta^{N}_0 \to \eta_0$ weakly,
 then for all $T>0$, there exists some constant $C(T)$,
 such that
     \begin{align}
         \label{eq: Growth function bound on running sup}
         \IE\left[
             \sup_{0 \le t \le T}
-            \langle 1, \eta^\theta_t \rangle
+            \langle 1, \eta^{N}_t \rangle
         \right]
         \le C(T) ,
     \end{align}
@@ -2984,7 +2973,7 @@ In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such t
 \begin{equation}
 \limsup_{N \to \infty}
     \mathbb{P}\left[\sup_{s \in [0,T]}
-        \langle 1 ,\eta^{\theta}_{s}\rangle
+        \langle 1 ,\eta^{N}_{s}\rangle
         > K_\epsilon \right]
         \leq \frac{C(T)}{K_{\epsilon}} < \epsilon.    
 \end{equation}
@@ -2994,72 +2983,72 @@ We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Character
 \begin{equation}
     \label{eq: Total Mass Martingale Characterisation}
 \begin{aligned}
-     M^{\theta}_t(1):=&  \langle 1,\eta^{\theta}_t \rangle
-        -\langle 1,\eta^{\theta}_0 \rangle\\
+     M^{\theta}_t(1):=&  \langle 1,\eta^{N}_t \rangle
+        -\langle 1,\eta^{N}_0 \rangle\\
  &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
  \left(
-        r\big(z,\rho_{r}*\eta^{\theta}_{s}(z)\big)
-            -r\big(x,\rho_{r}*\eta^{\theta}_{s}(x)\big)
+        r\big(z,\rho_{r}*\eta^{N}_{s}(z)\big)
+            -r\big(x,\rho_{r}*\eta^{N}_{s}(x)\big)
             \right)
                     q_\theta(x,dz)\right)
-                            \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-                            \eta^{\theta}_{s}(dx)\\
-& \qquad +\int F\big(x,\rho_{F}*\eta^{\theta}_{s}(x)\big)
-\eta^{\theta}_{s}(dx)\bigg\} ds
+                            \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
+                            \eta^{N}_{s}(dx)\\
+& \qquad +\int F\big(x,\rho_{F}*\eta^{N}_{s}(x)\big)
+\eta^{N}_{s}(dx)\bigg\} ds
 \end{aligned}    
 \end{equation}
 is a martingale.
 Therefore, taking expectations, we have
 \begin{equation}\label{eq: Total mass control generalised}
 \begin{aligned}
-&\mathbb{E}[\langle 1 ,\eta^{\theta}_{t}\rangle] \\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
+&\mathbb{E}[\langle 1 ,\eta^{N}_{t}\rangle] \\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] \\
 &+ \int_{0}^{t}\mathbb{E}\bigg\langle
-        \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
+        \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
             \left| \theta \int_{\mathbb{R}^n}
-                    \big\{r\big(\rho_{r}*\eta^{\theta}_s(y)\big)-r\big(\rho_{r}*\eta^{\theta}_s(x)\big)\big\}
+                    \big\{r\big(\rho_{r}*\eta^{N}_s(y)\big)-r\big(\rho_{r}*\eta^{N}_s(x)\big)\big\}
                     \rho_{1/\theta}(x-y)dy\right| + C_F 
-                            ,\eta^{\theta}_s(dx)  \bigg\rangle ds\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{\theta}_s(dx) \rangle ds,
+                            ,\eta^{N}_s(dx)  \bigg\rangle ds\\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{N}_s(dx) \rangle ds,
 \end{aligned}
 \end{equation}
 where the last inequality holds by Lemma \ref{lem: gamma - r radius comparison}.
 
 Applying Gronwall's inequality, we have that 
 \begin{equation}
- \mathbb{E}[\langle 1 ,\eta^{\theta}_{t}\rangle] \leq \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}.   
+ \mathbb{E}[\langle 1 ,\eta^{N}_{t}\rangle] \leq \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}.   
 \end{equation}
 
 To prove compact containment condition, we apply BDG inequality.
 We denote $M^{*}_t(\phi)=\sup_{s \in [0,t]}M_t(\phi)$
-and define $h(t):=\sup_{s \in [0,t]}\langle 1, \eta^{\theta}_{s} \rangle$.
+and define $h(t):=\sup_{s \in [0,t]}\langle 1, \eta^{N}_{s} \rangle$.
 We have that
 \begin{equation}\label{eq: Control quadratic variation}
 \begin{aligned}
 \mathbb{E}\{M^{*}_t(1)\} \leq & C \mathbb{E}\{[M_t(1)]^{1/2}\}\\
 \leq& C (1+\mathbb{E}\{[M_t(1)]\})\\
-\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n}r(\rho_{r}*\eta^{\theta}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{\theta}_{s}), \eta^{\theta}_{s}(dx) \right\rangle ds \\
-\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))r(\rho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds \\
-& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\rho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\\
-\leq & C+ \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
+\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n}r(\rho_{r}*\eta^{N}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{N}_{s}), \eta^{N}_{s}(dx) \right\rangle ds \\
+\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))r(\rho_{r}*\eta^{N}_{s}(x)), \eta^{N}_{s}(dx) \right\rangle ds \\
+& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\rho_{\gamma}*\eta^{N}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\right) q_\theta(x,dy), \eta^{N}_{s}(dx) \right\rangle ds\\
+\leq & C+ \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
 \end{aligned}
 \end{equation}
 
 As a result, we have that 
 \begin{equation}\label{eq: Total mass control supremum control}
 \begin{aligned}
-&\mathbb{E}[h(t)]:=\mathbb{E}\left[\sup_{s \in [0,t]}\langle 1 ,\eta^{\theta}_{s}\rangle\right] \\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] \\
-&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\rho_{r}*\eta^{\theta}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\rho_{r}*\eta^{\theta}_{s}(y)\big)-r\big(\rho_{r}*\eta^{\theta}_{s}(x)\big)\big\}\rho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{\theta}_{s}(dx)  \bigg\rangle dw\\
+&\mathbb{E}[h(t)]:=\mathbb{E}\left[\sup_{s \in [0,t]}\langle 1 ,\eta^{N}_{s}\rangle\right] \\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] \\
+&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\rho_{r}*\eta^{N}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\rho_{r}*\eta^{N}_{s}(y)\big)-r\big(\rho_{r}*\eta^{N}_{s}(x)\big)\big\}\rho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{N}_{s}(dx)  \bigg\rangle dw\\
 &+ \mathbb{E}\{M^{*}_t(1)\}\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ \sup_{\tau \in [0,s]} \langle 1  ,\eta^{\theta}_{s} \rangle \right]ds+\mathbb{E}\{M^{*}_t(1)\}\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ h(s) \right]ds+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
+\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ \sup_{\tau \in [0,s]} \langle 1  ,\eta^{N}_{s} \rangle \right]ds+\mathbb{E}\{M^{*}_t(1)\}\\
+\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ h(s) \right]ds+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
 \end{aligned}
 \end{equation}
 Once again, with Gronwall's inequality we have 
 \begin{equation}
 \mathbb{E}[h(t)] 
-\leq   \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]
+\leq   \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]
             \left(1+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})e^{(C_{\gamma,r}+C_F)t}}{N}\right)e^{(C_{\gamma,r}+C_F)t}.  
 \end{equation}
 \end{proof}
@@ -3070,16 +3059,16 @@ independent of $\theta, N$.
 As a result 
 
 \begin{equation}
-\limsup_{N \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{\theta}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
+\limsup_{N \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{N}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
 \end{equation}
 for any $K > 0$, giving us compact containment condition.    
 
-\subsubsection{Tightness of $(\langle f, \eta^{\theta}_t \rangle )_{t>0}$}
-\begin{theorem}[Tightness of $(\langle f, \eta^{\theta}_t \rangle )_{t>0}$]
+\subsubsection{Tightness of $(\langle f, \eta^{N}_t \rangle )_{t>0}$}
+\begin{theorem}[Tightness of $(\langle f, \eta^{N}_t \rangle )_{t>0}$]
     \label{teo: Tightness of real-valued projections}
 For all $f \in C^{2}_{0}(\mathbb{R}^d)$, 
 the process
-$(\langle f, \eta^{\theta}_t \rangle)_{t \geq 0}$ is tight.
+$(\langle f, \eta^{N}_t \rangle)_{t \geq 0}$ is tight.
 \end{theorem}
 \begin{proof}
 We apply the Aldous-Rebolledo criterion \cite{rebolledo:1980}.
@@ -3089,8 +3078,8 @@ $\tau \in [0,T]$ and for each $\epsilon>0$, there exists $\delta>0$ and $\theta_
 \begin{aligned}
 \sup_{\theta > \theta_0}
 \sup_{s \in [0, \delta]}
-\mathbb{P}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
-                        - \langle f, \eta^{\theta}_{\tau}\rangle
+\mathbb{P}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
+                        - \langle f, \eta^{N}_{\tau}\rangle
                 \right|> \epsilon \right]
                 & < \epsilon;\\
 \sup_{\theta > \theta_0}
@@ -3104,43 +3093,43 @@ $\tau \in [0,T]$ and for each $\epsilon>0$, there exists $\delta>0$ and $\theta_
 Note that
 \begin{equation}
 \begin{aligned}
- & \mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle \right|\right] \\
-\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
-& \qquad + F(\rho_{F}*\eta^{\theta}_{s}(x)) f(x),\eta^{\theta}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
+ & \mathbb{E}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle - \langle f, \eta^{N}_{\tau}\rangle \right|\right] \\
+\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\rho_{r}*\eta^{N}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{N}_{s}(y))-f(x)r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
+& \qquad + F(\rho_{F}*\eta^{N}_{s}(x)) f(x),\eta^{N}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
 \end{aligned}
 \end{equation}
 In particular,
 \begin{multline}
- \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{\theta}_{s}(y))-f(x)r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
- =  f(x)\theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy\\
- + \theta\gamma(\rho_{r}*\eta^{\theta}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\rho_{r}*\eta^{\theta}_{s}(y))\big\}\rho_{1/\theta}(x-y)dy\\
+ \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{N}_{s}(y))-f(x)r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
+ =  f(x)\theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy\\
+ + \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\rho_{r}*\eta^{N}_{s}(y))\big\}\rho_{1/\theta}(x-y)dy\\
  \leq C_{\gamma,r}||f||_{\infty} + C_{\gamma}||\Delta f||_{\infty},
 \end{multline}
 since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{lem: gamma - r radius comparison}
 and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
 
-Finally,  $F(\rho_{F}*\eta^{\theta}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
+Finally,  $F(\rho_{F}*\eta^{N}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
 \begin{multline}
 \mathbb{E}\left[\left|
-                        \langle f, \eta^{\theta}_{\tau+s}\rangle - \langle f, \eta^{\theta}_{\tau}\rangle
+                        \langle f, \eta^{N}_{\tau+s}\rangle - \langle f, \eta^{N}_{\tau}\rangle
                 \right|\right] \\
 \leq (C_{\gamma,r}||f||_{\infty}
         + C_{\gamma,r}||\Delta f||_{\infty}
             +C_F||f||_{\infty})
     \mathbb{E}\bigg\{
                         \int_{\tau}^{\tau+s}
-                        \bigg\langle 1,\eta^{\theta}_{s}(dx)  \bigg\rangle 
+                        \bigg\langle 1,\eta^{N}_{s}(dx)  \bigg\rangle 
                         ds
                 \bigg\} \\
 \leq (C_{\gamma,r}||f||_{\infty}
             + C_{\gamma,r}||\Delta f||_{\infty}
                     +C_F||f||_{\infty})
-                \mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]
+                \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]
                         e^{(C_{\gamma,r}+C_F)T}(e^\delta-1).
 \end{multline}
-As $\eta^{\theta}_0$ converges weakly,
+As $\eta^{N}_0$ converges weakly,
 we have that 
-$\sup_{\theta > \theta_0}\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle] < K$
+$\sup_{\theta > \theta_0}\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] < K$
 for some $K>0$.
 Applying Markov's Inequality,
 we can pick small enough $\delta > 0$ such that 
@@ -3148,14 +3137,14 @@ we can pick small enough $\delta > 0$ such that
 \begin{aligned}
 \sup_{\theta > \theta_0}
 \sup_{s \in [0, \delta]}
-\mathbb{P}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
-                        - \langle f, \eta^{\theta}_{\tau}\rangle
+\mathbb{P}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
+                        - \langle f, \eta^{N}_{\tau}\rangle
                 \right|> \epsilon \right]
 & \leq \sup_{\theta > \theta_0}
 \sup_{s \in [0, \delta]}
 \frac{
-\mathbb{E}\left[\left| \langle f, \eta^{\theta}_{\tau+s}\rangle
-                        - \langle f, \eta^{\theta}_{\tau}\rangle
+\mathbb{E}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
+                        - \langle f, \eta^{N}_{\tau}\rangle
                 \right| \right]
         }{\epsilon}\\
 & < \frac{(C_{\gamma,r}||f||_{\infty}
@@ -3173,14 +3162,14 @@ Similarly, the control on the second moment is given by Equation \eqref{eq: Cont
 & \sup_{\theta > \theta_0}
 \sup_{s \in [0, \delta]}\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
 \leq &\frac{\theta}{N} \mathbb{E} \Bigg\{ \int_{\tau}^{\tau+s}\bigg|
-\langle \gamma\big(x,\rho_{\gamma}*\eta^{\theta}_{s}(x)\big)
-\int f^2(y)r\big(y,\rho_{r}*\eta^{\theta}_{s}(y)\big)q_\theta(x,dy) 
-,\eta^{\theta}_{s}(dx)\rangle\\
-& \qquad \qquad \qquad +\langle \mu\big(x,\eta^{\theta}_{s}\big)f^2(x) 
-,\eta^{\theta}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
-\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\rho_{\gamma}*\eta^{\theta}_{s}(x))r(\rho_{r}*\eta^{\theta}_{s}(x)), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\} \\
-& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\rho_{\gamma}*\eta^{\theta}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{\theta}_{s}(y))-r(\rho_{r}*\eta^{\theta}_{s}(x))\right) q_\theta(x,dy), \eta^{\theta}_{s}(dx) \right\rangle ds\Bigg\}\\
-\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{\theta}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
+\langle \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
+\int f^2(y)r\big(y,\rho_{r}*\eta^{N}_{s}(y)\big)q_\theta(x,dy) 
+,\eta^{N}_{s}(dx)\rangle\\
+& \qquad \qquad \qquad +\langle \mu\big(x,\eta^{N}_{s}\big)f^2(x) 
+,\eta^{N}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
+\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))r(\rho_{r}*\eta^{N}_{s}(x)), \eta^{N}_{s}(dx) \right\rangle ds\Bigg\} \\
+& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\rho_{\gamma}*\eta^{N}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\right) q_\theta(x,dy), \eta^{N}_{s}(dx) \right\rangle ds\Bigg\}\\
+\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
 \end{aligned}
 \end{equation}
 As $N^{-1}\theta \to \alpha$ as $N \to \infty$,
@@ -3205,15 +3194,15 @@ for small enough $\delta > 0,$
 \end{equation}
 \end{proof}
 
-\subsubsection{Tightness of $(\eta^{\theta}_t)_{t \geq 0}$}
+\subsubsection{Tightness of $(\eta^{N}_t)_{t \geq 0}$}
 \begin{theorem}
 The collection of measure-valued processes 
-$\{(\eta^{\theta}_t)_{t \geq 0}: \theta > 0\}$
+$\{(\eta^{N}_t)_{t \geq 0}: \theta > 0\}$
 is tight in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_F(\overline{\mathbb{R}^d}))$.
 \end{theorem}
 \begin{proof}
 To prove relative compactness 
-of the processes $(\eta^{\theta}_t)_{t \geq 0}$,
+of the processes $(\eta^{N}_t)_{t \geq 0}$,
 we apply Theorem 3.9.1. in \cite{EK}.
 
 First of all, the set of measures 
@@ -3226,9 +3215,9 @@ Secondly, the set of functions $\mathcal{C}^{2}_{0}(\overline{\mathbb{R}^d})$ is
 under the topology of uniform convergence in compact sets.
 
 Furthermore,
-since each measure $\eta^{\theta}_t$ is concentrated in $\mathbb{R}^d$,
+since each measure $\eta^{N}_t$ is concentrated in $\mathbb{R}^d$,
 it suffices to show that the real-valued processes
-$\langle f, \eta^{\theta}_t \rangle$
+$\langle f, \eta^{N}_t \rangle$
 is tight for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$,
 which is proven in
 Theorem \ref{teo: Tightness of real-valued projections}.
@@ -3343,7 +3332,7 @@ Therefore, it suffices to show that for any $t>0$,
 F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
 -\int_{t}^{t+\tau}\Pgen^{\infty}F_f(\eta^{N}_s)ds
 \right)
-\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
 \right]=0
 \end{equation}
 for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
@@ -3363,7 +3352,7 @@ and obtain that
 F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
 -\int_{t}^{t+\tau}\Pgen^{N}F_f(\eta^{N}_s)ds
 \right)
-\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
 \right]=0
 \end{equation}
 for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
@@ -3381,7 +3370,7 @@ Therefore, it suffices to show that
 \right|
 ds
 \times 
-\prod_{i=1}^{k}\langle h_i,\eta^{\theta}_{t_i} \rangle
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
 \right]=0
 \end{equation}
 We apply Taylor Expansion
@@ -4027,7 +4016,6 @@ Recall that in Lemma \ref{lem: Compact Containment}, we have established compact
     \label{eq: Mass Bound Constant}
 H_{\epsilon}(r):=\frac{\epsilon}{2||\varrho_F||_{\infty}C(r) \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}}>0    
 \end{equation}
-
 such that 
 the event 
 $$A_{H_{\epsilon}}:= \left\{ \omega \in \Omega: \sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(t+s)) \right\}(\omega) \geq H_{\epsilon}(r) \right\}$$
@@ -4198,16 +4186,133 @@ Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3
 
 \subsection{Tightness of the Lookdown Representation}
 
-We have now proved tightness of the spatial and level process for a line of descent. To prove that the lookdown representation is tight, we generalise the vague topology to the setting of measure-valued processes. For a detailed description of the vague topology, refer to Appendix \ref{sec: Empirical Measure Topology}.
-
-We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem: Compact Containment}, we have immediately established compact containment condition for our lookdown processes. 
-
-Then, we apply Theorem A.24 in \cite{kallenberg1997foundations} (Theorem \ref{teo: Vague Relative Compactness through Projection}) and use a corollary of Stone-Weierstrass Theorem (Lemma \ref{lem: Dense set for test functions on empirical measures}) to show that our lookdown representation $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process in the vague topology as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued stochastic processes for a huge class of $F_g$. Explicitly, $F_g(\xi):= \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$, where $g(x,u)$ satisfies the property that $g(x,u) = 1 $ for all $u \geq u_{*}$ for some $u_{*}>0$.
-
 \comment{
     This comes later because it uses convergence of the population process itself.
 }
 
+We have now proved tightness of the spatial and level process for a line of descent. To prove that the lookdown representation is tight, we generalise the vague topology to the setting of measure-valued processes. For a detailed description of the vague topology, refer to Appendix \ref{sec: Empirical Measure Topology}.
+
+We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem: Compact Containment}, we have immediately established compact containment condition for our lookdown processes. 
+
+Then, we apply Theorem A.24 in \cite{kallenberg1997foundations}
+(Theorem \ref{teo: Vague Relative Compactness through Projection})
+and use a corollary of Stone-Weierstrass Theorem
+(Lemma \ref{lem: Dense set for test functions on empirical measures})
+to show that our lookdown representation $\{\xi^N_t: N \in \mathbb{N}\}$ is tight
+as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process
+in the vague topology
+as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight
+as real-valued stochastic processes for a huge class of $F_g$. 
+Explicitly, $F_g(\xi):= \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$,
+where $g(x,u)$ satisfies the property that
+$g(x,u) = 1 $
+for all $u \geq u_{*}$ for some $u_{*}>0$.
+
+\subsubsection{Compact Containment Condition}
+\begin{definition}
+For any arbitrary $M,K>0$, 
+we denote the set 
+$$\mathcal{M}_{K,M}:= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): \mu([-M,M]^d \times [0,M])/M \leq K\}$$
+to be the set of measures on $\mathbb{R}^d \times[0,\infty)$ with mass smaller than $K$ in the region $[-M,M]^d \times [0,M]$.
+\end{definition}
+
+In Corollary \ref{cor: Vague Compact sets}, we will prove that $\mathcal{M}_{K,M}$ is vaguely compact. 
+
+\begin{lemma}[Compact Containment]
+    \label{lem: Compact Containment}
+Assume that $\xi^{N}_0 \to \xi_0$ weakly,
+then for all $T>0$, there exists some constant $C(T)$,
+such that
+    \begin{align}
+        \label{eq: Growth function bound on running sup, lookdown}
+        \IE\left[
+            \sup_{0 \le t \le T}
+            \frac{1}{N}\langle 1, \xi^{N}_t \rangle
+        \right]
+        \le C(T) ,
+    \end{align}
+uniformly in $N$.
+In particular, for any $\epsilon > 0$, there exists some $M_{\epsilon}>0, K_{\epsilon}>0$,
+such that 
+\begin{equation}
+\limsup_{N \to \infty}
+    \mathbb{P}\left\{ \xi^{N}_t \in \mathcal{M}_{K_{\epsilon},M_{\epsilon}}
+        \text{ for } t\in [0,T] \right\}
+        < \epsilon.
+\end{equation}
+\end{lemma}
+\begin{proof}
+By an application of Markov Mapping Theorem (see \S \ref{sec: Markov Mapping Theorem Application - Prelimit}), we know that 
+
+$$\left(\frac{1}{N}\langle 1, \xi^{N}_t(\cdot , [0, N]) \rangle\right)_{t \geq 0} \sim (\eta^N_t(\cdot ))_{t \geq 0},$$
+i.e. the spatial projection of $(\xi^{N}_t)_{t \geq 0}$ has the same distribution as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{defn:mgale_construction}. 
+As a result, by Lemma \ref{lem: Compact Containment},
+we have immediately that 
+\begin{align}
+        \IE\left[
+            \sup_{0 \le t \le T}
+            \frac{1}{N}\langle 1, \xi^{N}_t \rangle
+        \right]
+        = \IE\left[
+            \sup_{0 \le t \le T}
+            \langle 1, \eta^{N}_t \rangle
+        \right]
+        \le C(T) ,
+    \end{align}
+for some $C(T)>0$.
+
+Moreover, we know that conditional on the spatial configuration 
+$\frac{1}{N}\langle 1, \xi^{N}_t(\cdot , [0, N]) \rangle,$
+the levels of each individual
+is i.i.d uniformly distributed between $[0,N]$. 
+Therefore, for $N>M_{\varepsilon}$
+\begin{align*}
+     \mathbb{P}\left\{ \xi^{N}_t \in \mathcal{M}_{K_{\epsilon},M_{\epsilon}}
+        \text{ for } t\in [0,T] \right\}
+        =& \mathbb{P}\left\{\sup_{ t\in [0,T]} \frac{1}{M_\varepsilon} \xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon]) \leq K_\varepsilon
+         \right\}\\
+         \leq& \frac{1}{M_\varepsilon K_{\varepsilon}} \mathbb{E}\left\{\sup_{ t\in [0,T]}  \xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon]) \right\}\\
+        =& \frac{1}{M_\varepsilon K_{\varepsilon}}             \mathbb{E}_{\eta^N_t}\left\{ N \times
+            \mathbb{E}\left[  
+                \sup_{ t\in [0,T]}  \frac{1}{N}\xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon])
+                \bigg| \eta^N_t
+                        \right]
+                    \right\}\\
+        =& \frac{1}{M_\varepsilon K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
+                    \left\{ N \times
+                    \sup_{ t\in [0,T]} \eta^{N}_t([-M_\varepsilon,M_\varepsilon]^d) \times \frac{M_{\varepsilon}}{N}
+                    \right\}\\
+        =& \frac{1}{K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
+                    \left\{
+                    \sup_{ t\in [0,T]} \eta^{N}_t([-M_\varepsilon,M_\varepsilon]^d) 
+                    \right\}\\
+        \leq & \frac{1}{K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
+                    \left\{
+                    \sup_{ t\in [0,T]} \langle 1, \eta^{N}_t \rangle 
+                    \right\}\\
+        < & \varepsilon.
+\end{align*}
+The first inequality holds by Markov's inequality, and the following two equalities hold as 
+conditional on $\eta^N_t$,
+$M_{\varepsilon}/N$ proportion of particles in $\xi^N_t$ have levels in $[0,M_{\varepsilon}]$. The final inequality holds as a direct consequence of \ref{lem: Compact Containment}. 
+
+We have therefore proved compact containment condition in the vague topology for our lookdown representation.
+\end{proof}
+\subsubsection{Tightness of $(F_g(\xi_t))_{t \geq 0}$}
+
+\begin{definition}
+We define $\mathfrak{G}_{\leq 1}$ to be the set of functions $g \in \mathcal{C}(\mathbb{R}^d \times [0, \infty) \to \mathbb{R}$ such that 
+$g(\cdot, u) \in \mathcal{C}_{0}(\mathbb{R}^d)$ for all $u \geq 0$, and there exists some $u_{*}>0$ such that $g(x,u)=1$ for all $u \geq u_{*}$. Furthermore, for $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$.
+\end{definition}
+
+To prove tightness of $(\xi_t)_{t \geq 0}$ in the vague topology, it suffices to prove tightness of $(F_g(\xi_t))_{t \geq 0}$ as a real-valued stochastic process. For a proof of this statement refer to Appendix \ref{sec: Topologies on Lookdown}.
+
+\begin{lemma}
+For all $g \in \mathfrak{G}_{\leq 1}$, the processes $\{(F_g(\xi^N_t))_{t \geq 0}: N \in \mathbb{N}\}$ is tight as a real-valued stochastic process.
+\end{lemma}
+\begin{proof}
+
+\end{proof}
 
 
 % % % % % % % % % % % % %
@@ -5264,7 +5369,9 @@ The following holds:
 \end{theorem}
 
 \begin{corollary}
-For any arbitrary $N,K>0$, the set $$\mathcal{M}_K([-N,N]^d \times [0,N]):= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): \mu([-N,N]^d \times [0,N]) \leq K\}$$   
+\label{cor: Vague Compact sets}
+For any arbitrary $M,K>0$, the set 
+$$\mathcal{M}_{K,M}:= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): M^{-1}\mu([-M,M]^d \times [0,M]) \leq K\}$$   
 is a compact subset in 
 $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ 
 under the vague topology.
@@ -5273,21 +5380,21 @@ under the vague topology.
 For any function $f \in C^{+}_K$, it is compactly supported and
 so there exists a constant $C_f > ||f||_{\infty}$.
 As a result, 
-$$\sup_{\mu \in \mathcal{M}_K([-N,N]^d \times [0,N])} \mu f < C_f \times \mu \{ supp(f) \cap [-N,N]^d \times [0,N]\} \leq C_f K < \infty.$$
+$$\sup_{\mu \in \mathcal{M}_{K,M}} \mu f < C_f \times \mu \{ supp(f) \cap [-M,M]^d \times [0,M]\} \leq C_f M^{-1} K < \infty.$$
 
 Since $f$ is arbitrary, by (ii) of Theorem \ref{teo: Kallenberg vague results}, 
 the set
-$\mathcal{M}_K([-N,N]^d \times [0,N])$
+$\mathcal{M}_{K,M}$
 is vaguely relatively compact. 
 
-We now prove that $\mathcal{M}_K([-N,N]^d \times [0,N])$ is a closed subset of $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
+We now prove that $\mathcal{M}_{K,M}$ is a closed subset of $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
 
-Since $[-N,N]^d \times [0,N]$ is finite, by part 3 of Theorem \ref{teo: Kallenberg vague results},
-for any sequence in $(\mu_n)_{n \in \mathbb{N}}$ in  $\mathcal{M}_K([-N,N]^d \times [0,N])$ that converges vaguely to $\mu$ in 
+Since $[-M,M]^d \times [0,M]$ is finite, by part 3 of Theorem \ref{teo: Kallenberg vague results},
+for any sequence in $(\mu_n)_{n \in \mathbb{N}}$ in  $\mathcal{M}_{K,M}$ that converges vaguely to $\mu$ in 
 $ \mathcal{M}(\mathbb{R^d} \times [0, \infty])$, 
-$$K \geq \mu_n([-N,N]^d \times [0,N]) \to \mu([-N,N]^d \times [0,N]).$$
-Therefore, $\mu \in \mathcal{M}_K([-N,N]^d \times [0,N])$.
-As a result, $\mathcal{M}_K([-N,N]^d \times [0,N])$ is closed and relatively vaguely compact, so it is vaguely compact.
+$$MK \geq \mu_n([-M,M]^d \times [0,M]) \to \mu([-M,M]^d \times [0,M]).$$
+Therefore, $\mu \in \mathcal{M}_{K,M}$.
+As a result, $\mathcal{M}_{K,M}$ is closed and relatively vaguely compact, so it is vaguely compact.
 \end{proof}
 
 \begin{theorem}
