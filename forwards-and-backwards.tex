@@ -163,13 +163,16 @@ As one takes a journey, long or short, the landscape changes:
 forests thicken or thin or change their composition,
 springtime grasslands host intergrading mosaics of different types of flowers.
 The aim of this paper is to understand the implications of a broad class of mechanistic spatial models
-that might describe how such populations live, die, and reproduce:
+that might describe how such spatially heterogeneous populations live, die, and reproduce:
 How does population density change across space and time?
-And, how might we learn about the underlying dynamics from genealogical or genetic data?
+How might we learn about the underlying dynamics from genealogical or genetic data?
+And,  how does genetic ancestry spread across geography,
+when looking back through time in these populations?
 We work with individual-based models of a single species in continuous space,
 where birth, death and establishment may all depend on spatial location
 as well as on local population density, allowing for stable populations through density-dependent feedback.
 
+Reproduction of individuals naturally leads to a branching process.
 There is now a huge literature devoted to spatial branching processes,
 including branching random walk, 
 branching Brownian motion, and the Dawson-Watanabe superprocesses.  
@@ -256,13 +259,13 @@ carried out for the PME and its generalisations.
 The degeneracy of the PME
 results in some extra analytic
 challenges,~\cite{jourdain:2000}.
-Recent work in this 
-direction has been spurred on by applications
-in mathematical finance, %where the porous medium arises 
-in particular, in the study of weak limits of systems
-of diffusions interacting through their 
-rank,~\cite{dembo/shkolnikov/varadhan/zeitouni:2016, jourdain/reygner:2013}
-and references therein.
+% Recent work in this 
+% direction has been spurred on by applications
+% in mathematical finance, %where the porous medium arises 
+% in particular, in the study of weak limits of systems
+% of diffusions interacting through their 
+% rank,~\cite{dembo/shkolnikov/varadhan/zeitouni:2016, jourdain/reygner:2013}
+% and references therein.
 Our approach is different.
 We start from individual
 based population models, thus providing a microscopic mechanism that leads to 
@@ -380,20 +383,6 @@ This is followed by the technical proofs in section \ref{sec:proofs}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Notes to ourselves}
-
-\plr{For recording/discussing notation decisions.}
-
-$X$ is the original, unscaled process,
-and $\eta(t) = X(t\theta)/N$.
-
-When the process has a density, it is $\varphi(t, x) = d \eta_t(dx)/dx$.
-
-$$\lim \frac{\theta}{N} =: \alpha$$
-
-Were not using $\lambda$, but only $N$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and main results}
     \label{sec: Model and main results}
 
@@ -465,7 +454,7 @@ these are functions of $X/N$, i.e.,
 the counting measure with mass $1/N$ placed at the location of each individual.
 To measure local population density, we convolve the population measure with
 an ``interaction kernel'' -- which, for simplicity, we take to be Gaussian,
-which we write as
+and we write as
 $$
     p_{\epsilon^2}(x) := \frac{1}{(2 \pi \epsilon^2)^{d/2}} e^{-\|x\|^2 / 2 \epsilon^2} ,
 $$
@@ -510,7 +499,7 @@ with a Gaussian kernel with possibly different scales:
 for birth over a scale of $\epsilon_\gamma$,
 for establishment over a scale of $\epsilon_r$,
 and for net reproductive rate over a scale of $\epsilon_F$.
-Note that death rates depend in principle on population densities at three different scales,
+Note that death rate depends in principle on population densities at three different scales,
 so that we could write $\mu = \mu(x, \smooth{\gamma} X(x) / N, \smooth{r} X(x) / N, \smooth{F} X(x) / N)$.
 It might seem like
 we have introduced unnecessary complexity
@@ -554,7 +543,7 @@ Furthermore, suppose $r$ takes values in $[0, 1]$
 and has uniformly bounded second derivatives,
 that $\gamma(x,m) \ge 0$,
 and that $m^2 \gamma(x, m)$ is uniformly bounded.
-Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
+Fix positive values $\theta$, $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
 with $\epsilon_r < \epsilon_\gamma$.
 Suppose $F(x,m)$ is bounded above
 with uniformly bounded first and second derivatives in $m$,
@@ -567,6 +556,8 @@ and define
     - \frac{1}{\theta}
     F(x, \smooth{F} \eta(x)) .
 \end{align}
+Although the models will make sense without this requirement,
+for the purposes of convergence we will also require that $\theta > 1/(\epsilon_\gamma - \epsilon_r)$.
 \end{definition}
 
 Expressions like $\gamma(x, \smooth{\gamma} \eta(x))$ will appear often in the paper.
@@ -574,19 +565,20 @@ To make formula more readable, we overload notation to define
 $$
     \gamma(x, \eta) := \gamma(x, \smooth{\gamma} \eta(x)) ,
 $$
-and similarly write $\mu(x, \eta)$  for $\mu(x, \smooth{\mu} \eta(x))$ and $r(x, \eta)$ for $r(x, \smooth{r} \eta(x))$.
+and similarly write $r(x, \eta)$ for $r(x, \smooth{r} \eta(x))$
+and $\mu(x, \eta)$ for the expression of equation \eqref{eqn:mu_defn}.
 When convenient, we may also suppress the arguments completely,
 writing simply $\gamma$, $\mu$, and $r$ for these quantities.
 
-For each $N > 0$ and $\theta \ge 1/(\epsilon_\gamma - \epsilon_r)$,
-the process $\left(\eta^N(t)\right)_{t \ge 0}$
+For each value of $N$ and $\theta$,
+the process $\left(\eta^N_t \right)_{t \ge 0}$
 is the continuous-time measure-valued Markov process described above
 with birth rates, establishment probabilities, and death rates
 determined as follows.
 When the state of the process is $\eta \in \measures$,
 offspring of mass $1/N$ are produced at location $x$
-with rate $\theta \gamma(x, \eta) N \eta_s(dx)$
-and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta_s(dx)$,
+with rate $\theta \gamma(x, \eta) N \eta(dx)$
+and adults die at location $x$ with rate $\theta \mu(x, \eta) N \eta(dx)$,
 (i.e., at rates $\theta \gamma$ and $\theta \mu$ per capita respectively).
 Each offspring disperses to a location offset from the parent's location
 by an independent Gaussian with mean $\meanq(x) / \theta$
@@ -594,14 +586,15 @@ and covariance matrix $\covq(x) / \theta$;
 an offspring at $x$ establishes instantaneously
 with probability $r(x, \eta)$, or else dies.
 
-We have just effectively defined the process, but to be completely clear,
+We have just effectively defined the process, but for future use,
 we will now give a formal definition as a solution to a martingale problem.
 
 \begin{definition}[Martingale Problem Characterisation]
     \label{defn:mgale_construction},
-We define $(\eta^N_t)_{t \geq 0}$ to be the solution to the Martingale Problem,
+For each value of $N$ and $\theta = \theta(N)$,
+we define $(\eta^N_t)_{t \geq 0}$ to be the solution to the Martingale Problem,
 with initial condition $\eta^N_0 \in \measures$,
-such that for all smooth functions $f \in C^{2}_{0}(\mathbb{R}^d)$,
+such that for all smooth functions $f \in C^{\infty}_{0}(\mathbb{R}^d)$,
 writing $\langle f, \eta \rangle = \int_{\IR^d} f(x) \eta(dx)$
 and $q_\theta(x, dy)$ as the Gaussian kernel
 with mean $x + \meanq(x)/\theta$ and covariance $\covq(x) / \theta$,
@@ -652,7 +645,7 @@ we will have use for the following notation:
     \label{def:dispersal_generator}
     Recall that we have defined the dispersal kernel,
     $q_\theta(x, dy)$,
-    to be the density of a multivariate Normal
+    to be the density of a multivariate Gaussian
     with mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
     (although sometimes we omit the dependence of $\meanq$ and $\covq$ on $x$).
     This implies that if we define, for $f : \IR^d \to \IR$,
@@ -668,15 +661,18 @@ we will have use for the following notation:
             f(y) - f(x)
         \right) q_\theta(x, dy)
     \to \DG f(x) 
-        \qquad \text{as } N \to \infty .
+        \qquad \text{as } \theta \to \infty .
     \end{align}
     We will also denote the adjoint of $\DG$ by
-    $$
+    \begin{align*}
     \DG^* f(x)
-        =
+        &=
         \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
-        - \sum_i \partial_{x_i} (f(x) \meanq(x)_i) .
-    $$
+        - \sum_i \partial_{x_i} (f(x) \meanq(x)_i) 
+        \\
+        &=
+        \text{TODO} .
+    \end{align*}
 \end{definition}
 
 \paragraph{Remark:}
@@ -685,7 +681,7 @@ when the state of the population is $\eta$,
 an individual at $x$ gives birth at rate
 $$
     \theta \gamma(x, \smooth{\gamma} \eta(x))
-    \int r(x, \smooth{r} \eta(y)) q(x, dy) ,
+    \int r(y, \smooth{r} \eta(y)) q(x, dy) ,
 $$
 and that offspring disperse according to the kernel
 $$
@@ -694,21 +690,21 @@ $$
     \frac{
         r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
     }{
-        \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
+        \int r(z, \smooth{r} \eta(z)) q_\theta(x, dz)
     } .
 $$
 Clearly, the random walk driven by this dispersal kernel
-should be biased towards regions of higher establishment probability.
+is biased towards regions of higher establishment probability.
 For comparison to future results,
 it is interesting to write down the limiting generator:
 \begin{align*}
-    \lim_{N \to \infty}
+    \lim_{\theta \to \infty}
     \theta \int (f(y) - f(x)) q_\theta^\mathfrak{m}(x, \eta, dy)
     &=
     \frac{
         \DG\left[ f(\cdot) r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
         - 
-        f(\cdot) \DG\left[ r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
+        f(x) \DG\left[ r(\cdot, \smooth{r} \eta(\cdot)) \right](x)
     }{
         r(x, \smooth{r} \eta^{N}(x))
     } .
@@ -719,6 +715,8 @@ and this is equal to
 \begin{align*}
     \Delta f(x) + 2 \grad f(x) \cdot \grad \log r(\cdot, \smooth{r} \eta(\cdot))(x) .
 \end{align*}
+One might guess that the spatial motion described by following a lineage of successful individuals back through time
+would be described by this generator in the limit.
 However, we will see that following a lineage back through the population
 has a different behavior yet again.
 
@@ -757,16 +755,15 @@ only in $d=1$, but do not discuss the case further.
 \begin{theorem} \label{thm:nonlocal_convergence}
     Let $(\eta^N_t)_{t \geq 0}$
     be as defined in Definition \ref{def:model_setup}
-    and assume that as $N \to \infty$, $N \to \infty$
+    and assume that as $N \to \infty$, also $\theta \to \infty$
     in such a way that $\theta/N \to \alpha$.
     (However, interaction distances $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$
     remain constant.)
-
     The sequence of stochastic processes
     $(\eta^N_t)_{t \geq 0}$
     converges along subsequences in distribution as $N \to \infty$
     to a measure-valued process $(\eta_t)_{t \geq 0}$
-    which satisfies that, for every $f:\mathbb{R}^d \rightarrow \mathbb{R}$,
+    which satisfies that, for every $f \in C^\infty_0(\IR^d)$,
     \begin{align} \label{eqn:mgale_problem}
         \begin{split}
         M_t
@@ -777,14 +774,14 @@ only in $d=1$, but do not discuss the case further.
             \\ & \qquad
             -
             \int_0^t \big\langle
-                \gamma(x, \smooth{\gamma} \eta_{s}(x))
+                \gamma(x, \eta_s)
                 \mathcal{B}\left(
-                    f(\cdot) r(\cdot, \smooth{r} \eta_{s}(\cdot))
+                    f(\cdot) r(\cdot, \eta_s)
                 \right)(x)
                 \\ &\qquad \qquad \qquad {}
                 +
                 f(x)
-                F(x, \smooth{F} \eta_{s}(x)),
+                F(x, \eta_s),
                 \eta_{s}(dx)
             \big\rangle ds,
         \end{split}
@@ -797,8 +794,8 @@ only in $d=1$, but do not discuss the case further.
         \alpha
         \int_0^t
         \big\langle
-            \left(\gamma\left( x,  \eta_{s} \right)
-            r\left(x, \eta_{s} \right)+\mu\left(x, \eta_{s} \right)\right)
+            \left(\gamma\left( x, \eta_{s} \right)
+            r\left(x, \eta_{s} \right) + \mu\left(x, \eta_{s} \right)\right)
             f^2(x),
             \eta_{s} (dx)
         \big\rangle ds. 
@@ -812,8 +809,8 @@ that for instance $r(x, \eta_s) = r(x, \smooth{r} \eta_s(x))$,
 and so $\DG(fr)(x) = \DG(f(\cdot) r(\cdot, \smooth{r} \eta_s(\cdot)))(x)$.
 
 Theorem \ref{thm:nonlocal_convergence} provided convergence along subsequences;
-i.e., for any sequence of values of $\theta$
-there is a subsequence that converges.
+i.e., for any sequence of values of $N$
+there is a subsequence along which $\eta^N$ converges.
 However, if the limiting process is unique then the convergence is unqualified.
 In the deterministic case, we have convergence to a nonlocal PDE.
 
@@ -822,7 +819,7 @@ In the deterministic case, we have convergence to a nonlocal PDE.
     if the martingale problem
     defined by equations \eqref{eqn:mgale_problem} and \eqref{eqn:mgale_variation}
     has a unique solution,
-    then $(\eta^N(t))_{t \ge 0}$ converges to that solution
+    then $(\eta^N_t)_{t \ge 0}$ converges to that solution
     as $N \to \infty$.
     \comment{
         Is this what we want to say here? Could be said better.
@@ -891,10 +888,7 @@ is written to suggest the case in which $\eta_t(dx)$ has a density $\varphi_t(x)
     the solution to \eqref{eqn:nonlocal_pdf} has a density (Thm 2.1 in DDMOT);
     should we insert those here (as a Corollary or Proposition, maybe?)}
 
-Informally, equation \eqref{eqn:nonlocal_pde} is the PDE
-\begin{align} \label{eqn:pde}
-    \dot \varphi = r \DG^* \left( \gamma \varphi \right) + \varphi F ,
-\end{align}
+Informally, equation \eqref{eqn:nonlocal_pde} is the PDE of Definition~\ref{defn:weak_solutions},
 where $\DG$ is an elliptic second order differential operator,
 and the coefficients $r$, $\gamma$, and $F$
 at $x$ depend nonlocally on $\varphi$
@@ -916,7 +910,8 @@ and so we would expect solutions of the nonlocal PDE to be close to the correspo
 as the interaction distances $\epsilon_r$, $\epsilon_\gamma$ and $\epsilon_F$
 go to zero:
 for instance, if $\eta_t$ has density $\varphi_t$
-then $\gamma(x, \smooth{\gamma} \eta_t(x)) \to \gamma(x, \varphi_t(x))$ as $\epsilon_\gamma \to 0$.
+then $\gamma(x, \smooth{\gamma} \eta_t(x)) \to \gamma(x, \varphi_t(x))$ as $\epsilon_\gamma \to 0$
+(recalling that $\smooth{\gamma}{}$ denotes convolution with the heat kernel at time $\epsilon_\gamma^2$).
 The following propositions give two concrete situations in which that is true.
 
 \begin{proposition}
@@ -986,8 +981,7 @@ given the history of the population $(\eta^N_t)_{t = 0}^T$,
 for each starting location to which $\eta^N_T$ assigns positive mass.
 It is less clear, however, how to formally retain such information in the limit.
 The \emph{lookdown construction} in Section~\ref{sec:lookdown}
-provides just such a construction,
-where lineages are retained in the $N \to \infty$ limit.
+provides just such a construction.
 Roughly speaking,
 this works by assigning to each particle a unique ``level''
 that functions as a label and thus allows reconstruction of lineages,
@@ -1001,6 +995,7 @@ that affect its tractability.
 First, when is it a Markov process given the population process?
 (In other words, given $(\eta_t)_{t=0}^T$ that records numbers of individuals
 but not their ancestry.)
+\comment{NOT RIGHT:}
 We expect the answer here to be that a lineage is Markov
 only in the $N \to \infty$ limit
 (see \citet{barton/depaulis/etheridge:2002} for discussion).
