@@ -57,6 +57,8 @@
 \newcommand{\labelspace}{\mathcal{I}} % space of labels
 \newcommand{\concat}{\oplus}   % concatenation of labels
 \newcommand{\measures}{\mathcal{M}_F(\IR^d)} % finite measures on Rd
+\newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR}^d)} % finite measures on compactified Rd
+\newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on space x level
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -116,6 +118,11 @@ terence.tsui@sjc.ox.ac.uk &      \\
 
 We do something...
 
+make sure to put in here that we get convergence of the FKPP
+
+Note: use "reproductive value" instead of "long-term fitness"
+and say clearly that "lineage" means "ancestral lineage".
+
 \vspace{.1in}
 
 
@@ -142,6 +149,13 @@ reaction-diffusion equation, travelling waves, genealogies,
 \section{Introduction}
 
 \comment{I think the introduction covers a good set of things in a good order, it's just a bit long.}
+
+\comment{
+    Make sure that we discuss the difference to Flandoli's model
+    (one of the few others that show convergence of FKPP),
+    and say that a novelty of our results is that we show convergence
+    for FKPP and broader models.
+}
 
 As one takes a journey, long or short, the landscape changes:
 forests thicken or thin or change their composition,
@@ -342,8 +356,7 @@ can be very different from those under
 the classical Fisher-KPP equation. 
 
 % % % % % % % % % % % % % %
-\subsection{Structure of the paper}
-
+\paragraph{Structure of the paper}
 In the paper we study scaling limits of spatial populations,
 obtaining convergence of both the population process
 (i.e., the population density as a function of time,
@@ -528,17 +541,21 @@ and state some assumptions on the parameters.
 The process takes values in the space of finite measures on $\IR^d$,
 which we write as $\measures$.
 
+\plr{TODO: check the conditions below (esp on the derivatives of $F$)}
+
 \begin{definition}[Model parameterization and assumptions]
 \label{def:model_setup}
 Suppose $\gamma(x, m)$, $r(x, m)$, and $F(x, m)$
-are bounded, uniformly continuous functions
-from $\IR^d \times \IR_{\ge 0}$ to $\IR_{\ge 0}$.
+are uniformly continuous functions
+from $\IR^d \times \IR_{\ge 0}$ to $\IR$.
 Furthermore, suppose $r$ takes values in $[0, 1]$
 and has uniformly bounded second derivatives,
-and that $(x, m) \mapsto m^2 \gamma(x, m)$ is uniformly bounded.
+that $\gamma(x,m) \ge 0$,
+and that $m^2 \gamma(x, m)$ is uniformly bounded.
 Fix nonnegative values $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
 with $\epsilon_r < \epsilon_\gamma$.
-Suppose $F: \IR^d \times \IR_{\ge 0} \to \IR$ is bounded and uniformly continuous
+Suppose $F(x,m)$ is bounded above
+with uniformly bounded first and second derivatives in $m$,
 and define
 \begin{align} \label{eqn:mu_defn}
     \mu(x, \eta)
@@ -705,7 +722,7 @@ has a different behavior yet again.
 
 
 % % % % % % % % % % % % % % %
-\subsection{Main results on population processes}
+\subsection{Scaling limits of the population density process}
 
 Our main results depend on two dichotomies:
 Is the limiting process deterministic or a (generalized) superprocess?
@@ -713,8 +730,8 @@ And, are interactions local in the limit or not?
 Below we have results for deterministic limits with local and nonlocal interactions,
 and for superprocess limits with nonlocal interactions.
 See Figure \ref{fig:super_vs_det_2d} for illustrative simulations.
-We suspect that limits are possible the remaining (local, superprocess) case
-in only $d=1$, but do not discuss the case further.
+We suspect that limits are possible in the remaining (local, superprocess) case
+only in $d=1$, but do not discuss the case further.
 
 
 \begin{figure}
@@ -749,23 +766,26 @@ in only $d=1$, but do not discuss the case further.
     to a measure-valued process $(\eta_t)_{t \geq 0}$
     which satisfies that, for every $f:\mathbb{R}^d \rightarrow \mathbb{R}$,
     \begin{align} \label{eqn:mgale_problem}
+        \begin{split}
         M_t
-        &:=
-        \langle f(x), \eta_t(dx) \rangle
-        -
-        \langle f(x), \eta_0(dx) \rangle
-        \\ & \qquad
-        -
-        \int_0^t \big\langle
-            \gamma(x, \smooth{\gamma} \eta_{s}(x))
-            \mathcal{B}\left(
-                f(\cdot) r(\cdot, \smooth{r} \eta_{s}(\cdot))
-            \right)(x)
-            +
-            f(x)
-            F(x, \smooth{F} \eta_{s}(x)),
-            \eta_{s}(dx)
-        \big\rangle ds,
+            &:=
+            \langle f(x), \eta_t(dx) \rangle
+            -
+            \langle f(x), \eta_0(dx) \rangle
+            \\ & \qquad
+            -
+            \int_0^t \big\langle
+                \gamma(x, \smooth{\gamma} \eta_{s}(x))
+                \mathcal{B}\left(
+                    f(\cdot) r(\cdot, \smooth{r} \eta_{s}(\cdot))
+                \right)(x)
+                \\ &\qquad \qquad \qquad {}
+                +
+                f(x)
+                F(x, \smooth{F} \eta_{s}(x)),
+                \eta_{s}(dx)
+            \big\rangle ds,
+        \end{split}
     \end{align}
     is a martingale.
     The quadratic variation of $M_t$, denoted $\langle M \rangle_t$, is given by 
@@ -808,6 +828,12 @@ In the deterministic case, we have convergence to a nonlocal PDE.
         so we have at least some conditions under which this happens.
     }
 \end{corollary}
+
+\comment{
+    TODO: put in what Kurtz \& Xiong have to say about uniqueness,
+along the lines of a note saying ``For some conditions under which the limit is known to be unique,
+see Kurtz \& Xiong and/or Dawson \& Li.''
+}
 
 Our results will show that in deterministic limits ``$\eta_t$ solves a PDE'',
 but since $\eta_t$ is a measure for which we don't always know there exists a density,
@@ -938,7 +964,7 @@ but we can prove such ``diagonal'' convergence in the following situation.
 
 
 % % % % % % % % % % % %
-\subsection{Main results on lineages}
+\subsection{Ancestral lineages in the scaling limit}
 
 Now that we have established what we can say about how population density changes with time,
 we turn to results on ancestral lineages,
@@ -1107,7 +1133,9 @@ we cover some illustrative examples
 and interesting applications.
 
 % % % % % % % % % % % %
-\subsection{A nonlinear diffusive population: the Porous Medium Equation}
+\subsection{Beyond reaction-diffusion equations: a population described by the porous medium equation}
+\comment{look up what the technical term is for the nonlinear diffusive bit?
+    and, does "reaction-diffusion" mean parabolic?}
 
 Consider the porous medium equation (PME) with logistic growth,
 \begin{equation}
@@ -1186,7 +1214,7 @@ As expected, noise slows down the wave.
 
 
 % % % % % % % % % % % %
-\subsection{Traveling waves}
+\subsection{Different types of traveling waves}
 
 \begin{figure}
     \begin{center}
@@ -1361,7 +1389,7 @@ These results agree with those of \cite{etheridge/penington:2020}.
 
 
 % % % % % % % % % % % % % % % %
-\subsection{Nonuniqueness of population density}
+\subsection{Lineage motion is not uniquely determined by population density}
 
 It is natural for applications to wonder about identifiability:
 when can the observed quantities like population density
@@ -1406,7 +1434,7 @@ In this section we give heuristic arguments for our main results,
 to build intuition before the formal proofs.
 
 % % % % % % % % % % % % % % % % % %
-\subsection{Population processes}
+\subsection{The population density}
     \label{sec:population_heuristics}
 
 We write $\Pgen^N$
@@ -1611,14 +1639,25 @@ In other words, the limit is a weak solution to the deterministic equation
 \label{deterministic limit}
 \frac{d\varrho(x)}{dt}
 =
-    r(x,\varrho(x))
+    r(x,\varrho)
     \DG\big(
         \gamma(\cdot,\varrho) \varrho(\cdot)
     \big)(x)
-    + F(x, \varrho(x)) \varrho(x) 
+    + F(x, \varrho) \varrho(x) 
 \end{equation}
 in the sense of Definition~\ref{defn:weak_solutions},
 where $\varrho_t$ is the density of $\eta_t$, if it has a density.
+
+\comment{
+    Point out that this is still with $\epsilon > 0$,
+    and put in heuristics for why $N \epsilon^d / \theta \to \infty$
+    and $\theta \epsilon^2 \to \infty$
+    are plausible conditions for the diagonal convergence.
+    (Because we want (a) a macroscopic number of neighbors relative to $\theta$,
+    and (b) to make the initial condition smooth enough
+    since we start with an $\epsilon^2$-smoothed initial condition,
+    and we want this to look like a bunch of $1/\theta$-jumps have already happened.
+}
 
 On the other hand, if $N = \alpha \theta$ for some $\alpha > 0$,
 the second order term remains, and we expect a ``generalised superprocess'' limit.
@@ -1627,7 +1666,7 @@ is exactly as seen in Theorem~\ref{thm:nonlocal_convergence}.
 
 
 % % % % % % % % % % % % % % % % % %
-\subsection{Lineages}
+\subsection{Motion of ancestral lineages}
 
 Although our proof of Theorem~\ref{thm:lineages}
 uses the explicit representation in terms of the lookdown process,
@@ -1743,7 +1782,7 @@ large-population-density limit.
 
 
 % % % % % % % % % % % % % % % %
-\subsection{Definition and generator of the lookdown process}
+\subsection{Lookdown construction of the population density process}
 \label{sec:lookdown_defn}
 
 In this section,
@@ -2026,6 +2065,25 @@ and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$ is the scaled spatial pushforwa
 as before.
 \end{definition}
 
+Now that the lookdown process has been defined,
+we can present the main convergence theorem that is analogous
+to Theorem~\ref{thm:nonlocal_convergence} for the population process.
+
+
+\begin{theorem}
+    \label{thm:lookdown_convergence}
+    Let $(\lp_t^N)$ be as defined in Definition~\ref{defn:lookdown_mgale}
+    and assume that as $N \to \infty$,
+    $\theta \to \infty$ in such a way that $\theta/N \to \alpha$.
+    The sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
+    converges along subsequences in distribution as $N \to \infty$
+    to a measure-valued process $(\lp_t)_{t \ge 0}$ which satisfies,
+    for every $f: \IR^d \to \IR$
+    \plr{TODO: write down limiting martingale characterization}
+\end{theorem}
+
+
+
 \comment{I don't think this bit quite makes sense yet without understanding the MMT
 section (but, it should be understandable without understanding that section).}
 
@@ -2062,7 +2120,8 @@ are i.i.d. uniformly distributed between $[0,N]$.
 
 
 %% %% %% %% %% %% %% %% %% %% %% %%
-\subsection{Construction tracking individual lines of descent} \label{sec: individual lines of descent}
+\subsection{Explicit construction of lines of descent}
+    \label{sec: individual lines of descent}
 
 Although in Section \ref{sec:proofs} we will show convergence of the lookdown process
 defined by Definition~\ref{defn:lookdown_mgale}
@@ -2210,8 +2269,20 @@ We can now express the population processes using these levels:
     \lp^N_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} .
 \end{align*}
 
+\comment{
+    Note here that although we have a single construction that couples
+    the processes across all $N$,
+    we don't necessarily have pointwise a.s.\ convergence of trajectories of the process.
+    Furthermore, individuals at all levels may affect others through the population process,
+    and in the deterministic case arbitrarily high levels may drift downwards.
+    HOWEVER, this does suggest that a good approximation to the genealogies
+    might be obtained by simulating up until a sufficiently high level
+    that we have a good approximation to the population process.
+}
 
-\subsubsection{Evolution of levels along a whole line of descent}
+% % % % % % % % % % % % %  % % %
+\subsubsection{Lines of descent in the scaling limit}
+
 We now write down expressions
 that give the spatial and level dynamic
 of a whole line of descent.
@@ -2561,12 +2632,15 @@ $$
 For each $a$, let $\sigma_a = \inf\{t \ge 0: U_a(t) < \infty\}$.
 Then, the processes defined by
 \begin{align*}
-    \eta_t = \lim_{N \to \infty} \frac{1}{N} \sum_{a : \tau_a \le t < \sigma_a} \delta_{X_a(t)}
+    \eta_t
+    =
+    \lim_{u_0 \to \infty} \frac{1}{u_0}
+        \sum_{a : \tau_a \le t < \sigma_a \;\&\; U_a(t) < u_0} \delta_{X_a(t)}
     \qquad \text{and} \qquad
     \lp_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} 
 \end{align*}
-agree in distribution with those of Definitions~\ref{defn:mgale_construction} and~\ref{defn:lookdown_mgale},
-respectively.
+agree in distribution with those of Definitions~\ref{defn:mgale_construction}
+and~\ref{defn:lookdown_mgale}, respectively.
 \end{proposition}
 
 
@@ -2576,31 +2650,51 @@ respectively.
 \section{Proofs}
 \label{sec:proofs}
 
-\comment{
-    TODO: write overview.
-    To prove convergence, we'll be proving
-    (a) tightness
-    (b) convergence of generators, and
-    (c) uniqueness of the limit.
+\comment{TODO structure of this section}
 
-    Then, to get convergence of the lookdown
-    we use the population process (somehow).
-}
+% % % % % % % % % % % % %
+\subsection{Convergence of the population density process}
+    \label{sec:population_density_proof}
+
+In this section we prove the main theorem on convergence
+of the population density process, Theorem~\ref{thm:nonlocal_convergence}.
+This is usually implied by convergence of the lookdown process
+(see \citet{kurtz/rodrigues:2011} and \citet{KE});
+however in our situation because the parameters depend on the population process
+we will use convergence of the population process
+in the proofs of tightness and convergence for the lookdown process.
 
 \begin{proof}[Proof of Theorem~\ref{thm:nonlocal_convergence}.]
+Here, we need to prove that for any sequence $N_k \to \infty$,
+there is a subsequence $N_{k(j)}$ along which $(\eta^{N_{k(j)}}_t)_{t\ge 0}$ converges in distribution
+(i.e., tightness for the family of distributions on c\`adl\`ag measure-valued paths),
+and that any limit is a solution to the martingale problem stated in the Theorem.
+This would convergence along $N_k$ to a unique limit
+if the solution to the martingale problem was unique;
+however, we only know this to be the case in certain situations.
 
-\comment{INSERT HERE
-    narrative of tightness,
-    proved in Section \ref{sec:population_tightness_proofs},
-    and convergence of generators,
-    proved in Section \ref{sec:population_generators_proofs}.
-}
+We prove tightness of $\eta^N$ as $\mathcal{D}_{\cmeasures}([0,\infty))$-valued processes,
+where $\cmeasures$ is the space of finite measures on the one-point compactification of $\IR^d$.
+To do this, we first prove that $\sup_{0 \le t \le T} \langle 1, \eta^N_t \rangle$ is tight
+(a compact containment condition, Lemma~\ref{lem: Compact Containment}).
+(The reason we use $\cmeasures$ instead of $\measures$
+is so that the set of measures with total mass less than $K$ is compact.)
+Next, in Lemma~ we show that the one-dimensional distributions,
+$\langle f, \eta^N_t \rangle$ are tight
+for each $f \in \mathcal{C}^2_0(\overline{\IR^d})$.
+Since this is a dense subset of bounded continuous functions on $\cmeasures$,
+together these results allow us to apply Theorem~3.9.1 of \citet{EK}.
 
+Next, we prove that the limit solves the martingale properties
+of equations~\eqref{eqn:mgale_problem} and~\eqref{eqn:mgale_variation}
+in Lemma~\ref{lem:limit_mgale}
+basically by checking the generators converge,
+which was mostly done in Section~\ref{sec:population_heuristics}.
 \end{proof}
 
 
 % % % % % % % % % % % % %
-\subsection{Tightness of empirical measures}
+\subsubsection{Tightness of empirical measures}
     \label{sec:population_tightness_proofs}
 To prove tightness of our population process, 
 we first show that the expected total mass of our population process at some fixed time $T>0$,
@@ -3224,7 +3318,7 @@ Theorem \ref{teo: Tightness of real-valued projections}.
 \end{proof}
 
 % % % % % % % % % % % % %
-\subsection{Convergence of generators}
+\subsubsection{Convergence of generators}
     \label{sec:population_generators_proofs}
 
 Before we prove convergence, we define our limit $(\eta^{\infty}(t))_{t>0}$ as a solution to a Martingale Problem with generator $\Pgen^{\infty}$.
@@ -3310,7 +3404,11 @@ an equivalent characterisation
 of our pre-limit model.
 \end{remark}
 
-\begin{lemma}[Convergence of generators for the population process]
+\begin{lemma}[Identifying the limit as a solution to the martingale problem]
+    \label{lem:limit_mgale}
+    \comment{
+        Here we need to check that the martingale property is preserved in the limit.
+        But this maybe can be shorter?}
 As $N \to \infty$,
 $(\eta^{N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
 to $(\eta^{N}(t))_{t \geq 0}$.
@@ -3449,27 +3547,23 @@ which concludes our proof.
 \end{proof}
 
 
-% % % % % % % % % % % % %
-\subsection{Uniqueness of the limit}
-    \label{sec:uniqueness_proofs}
-
-Here are the proofs of Corollaries~\ref{cor:nonlocal_pde_limits}
-and \ref{cor:superprocess_uniqueness},
-giving conditions in which the limiting process is unique
-(in which case we have convergence, not just on subsequences).
 
 
 % % % % % % % % % % % % %
 \subsection{Convergence of the nonlocal equation to the local equation}
 
-\comment{... for the cases in which we know this.
+\comment{... for the cases in which we know this: FKPP-type and PME.
 This then shows that we can take the local, deterministic limit
 by taking $\theta, N \to \infty$ first, and then $\epsilon \to 0$ after.
 }
 
 In this section we prove Proposition~\ref{prop:nonlocal_pde_limits}.
 
-\subsubsection{Porous Media Equation}
+\subsubsection{Fisher-KPP-type}
+
+\comment{Insert TwoStepConvergenceV3 with Alison's markups incorporated here.}
+
+\subsubsection{Porous Medium Equation}
 
 \plr{This is from pme.tex.}
 
@@ -3503,6 +3597,8 @@ logistic growth:
 
 We work on $[0,T]\times \IT_K$ where $\IT_K$ is the one-dimensional
 torus of size $K$, and $T,K>0$ are fixed but arbitrary.
+
+\comment{rephrase/shorten this:}
 
 \begin{remark}
 By taking a sequence $K_n\to\infty$, and doing a bit of work,
@@ -3765,6 +3861,7 @@ $\int u^\epsilon|\log u^\epsilon|\dif x$ that we proved above.
     Convergence of generators along (something like) the diagonal,
     taking $\epsilon \to 0$ at the same time as the other coefficient.
     (We won't prove tightness here.)
+    This is where OneStepConvergence goes in.
 }
 
 In this section we prove Theorem~\ref{them:nonlocal_pde_limits}.
@@ -3772,6 +3869,170 @@ In this section we prove Theorem~\ref{them:nonlocal_pde_limits}.
 
 % % % % % % % % % % % % %
 \subsection{Tightness of the Lines of Descent}
+    \label{sec:lookdown_convergence}
+
+Now we prove the main theorem on convergence of the lookdown process, 
+Theorem~\ref{thm:lookdown_convergence}.
+This follows a similar pattern as the the proofs of convergence for the population process
+in Section~\ref{sec:population_density_proof},
+although we will need additional estimates to ensure that
+trajectories of individual lines of descent converge,
+not just the population process.
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
+    As in Section~\ref{sec:population_density_proof},
+    the theorem will follow from tightness,
+    ensuring convergence along subsequences,
+    and characterization of the limit.
+    This time, the processes $\lp^N$ take values in $\lpmeasures$,
+    the space of locally finite measures on space $\times$ levels.
+    (They will in fact be point measures, including the limit,
+    but that is a consequence of this theorem.)
+    Again, tightness will follow from a compact containment condition,
+    tightness of one-dimensional distributions,
+    and an application of \citet{EK} Theorem~3.9.1.
+    We show that the martingale properties are preserved in the limit
+    in Section~\ref{sec:lookdown_generator_proofs}.
+    \comment{TODO: write and refer to lemma?}
+
+    Lines of descent can escape to infinite level in finite time,
+    and so we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
+    i.e., the topology induced by test functions on $\overline{\IR^d} \times [0,\infty)$
+    of the form $f(x) g(u)$, where $f \in C_b(\overline{\IR^d})$ is bounded and continuous
+    and $g \in C_c([0,\infty))$ is continuous with compact support.
+    In this topology, compact containment follows from
+    tightness of the spatial and level motions of a single line of descent
+    (Lemmas~\ref{lem: tightness of individual spatial trajectory}
+    and~\ref{lem:tightness of levels}, respectively),
+    and
+    tightness of $\lp^N(\IR^d \times [0, u_0])$ for each $u_0$
+    (i.e., the number of individuals with level below $u_0$).
+
+    Finally, we must show that the limiting lookdown process $\lp$
+    projects to the limiting process $\eta$, i.e., a solution of the martingale
+    problem in Theorem~\ref{thm:nonlocal_convergence}.
+    Let $N_k \to \infty$ be a sequence along which $\lp^{N_k}$ converges.
+    However, by Theorem~\ref{thm:nonlocal_convergence},
+    there is a subsequence $N_{k(j)}$ along which the projected population processes
+    $\eta^{N_{k(j)}}$ converge, and the limit solves the martingale problem.
+    This implies that any limit of $\lp^N$ projects to a population process $\eta$
+    solving the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
+
+\comment{MAKE THIS BELOW A LEMMA?}
+
+% BEGIN OLD STUFF
+To prove that the lookdown representation is tight, we generalise the vague
+    topology to the setting of measure-valued processes. For a detailed
+    description of the vague topology, refer to Appendix \ref{sec: Empirical
+    Measure Topology}.
+
+We will lay out the steps we follow to prove tightness. First of all, we will
+    show that compact containment condition is satisfied if we can control the
+    total mass of particles in our system living in a finite region in space
+    with a level lower than some $u_{*}$. Since a control on total mass has
+    already been shown in Lemma \ref{lem: Compact Containment}, we have
+    immediately established compact containment condition for our lookdown
+    processes. 
+
+Then, we apply Theorem A 2.4 in \cite{kallenberg1997foundations} (Theorem
+    \ref{teo: Vague Relative Compactness through Projection}) and use a
+    corollary of Stone-Weierstrass Theorem (Lemma \ref{lem: Dense set for test
+    functions on empirical measures}) to show that our lookdown representation
+    $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\mathbb{R^d}
+    \times [0, \infty])$-valued stochastic process in the vague topology as
+    long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued
+    stochastic processes for a huge class of $F_g$. Explicitly, $F_g(\xi):=
+    \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$, where $g(x,u)$ satisfies the property
+    that $g(x,u) = 1 $ for all $u \geq u_{*}$ for some $u_{*}>0$.
+% END OLD STUFF
+
+    The process we consider is similar to the state-dependent branching processes
+    of \citet{KR}, so one might expect that the proofs there would carry over with little change.
+    However, there is an important difference:
+    Recall that the level $U_a(t)$ of a line of descent evolves as
+    $$
+    \dot u 
+    =
+    c(x, \eta)
+    u^2
+    - b(x, \eta) ,
+    $$
+    where
+    \begin{align*}
+        c(x, \eta) &= \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) \\
+        \text{and}\qquad
+        b(x, \eta)
+        &=
+        \theta \gamma(x, \eta) \int_{\IR^d} \left(r(y, \eta) - r(x, \eta)\right) q(x, dy)
+        + F(x, \eta) 
+    \end{align*}
+    (see equations \eqref{eqn:level_generator} and \eqref{eqn:b_limit}),
+    where $c(x, \eta) \ge 0$ and $b(x, \eta)$ may take either sign.
+    In \citet{kurtz/rodrigues:2011}, $b$ was bounded above and $c$ was bounded away from zero,
+    so they noted that if $U_a(t) \ge b/c$
+    lines of descent would only move upwards from that time onwards.
+    This allows the processes to be jointly and simultaneously constructed
+    for all values of $N$, with a pointwise embedding
+    of $(\xi^N_t)_{t \ge 0}$ within $(\xi^{M})_{t \ge 0}$ for $b/c < N < M$.
+    In other words, individuals with levels above $N > b/c$ at time $t_0$
+    do not affect $(\lp^N_t)_{t \ge t_0}$,
+    thus allowing a comparison of the number of lines of descent below level $u_0$
+    to a branching process.
+    Although we have provided a
+    joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
+    it does not have this monotonicity:
+    for one thing, $b$ and $c$ depend on the population process $\eta$
+    and so all individuals can affect all other ones (even those with lower levels).
+    Furthermore, in the deterministic case $\theta/N$ and hence $c$ converge to zero,
+    and so lines of descent with arbitrarily high level may drift back downwards.
+    Indeed, this must be the case if the population persists,
+    since in the deterministic case there is no branching.
+    In our case $b$ and $c$ depend on the state of the population,
+    so we have no such monotonicity.
+
+    To get around this,
+    first note that both $b$ and $c$ are uniformly bounded above since $\gamma$, $r$ and $F$ are.
+    Also note that by \plr{TODO},
+    for any $\delta > 0$ we can find a $K$ such that
+    $$
+    \IP\left\{
+        \sup_{0 \le t \le T} \sup_x \smooth{F} \eta_t(x) < K
+        \right\} < \delta,
+    $$
+    uniformly in $N$ and over a compact set of initial conditions.
+    Since $F$ is uniformly continuous, this implies that $\sup_{0 \le t \le T} \sup_x F(x, \eta_t)$
+    is similarly tight,
+    as well as the rate of downward drift of the level of a line of descent,
+    i.e., there is a $\bar b$ such that $b(x, \eta_t) \le \bar b$
+    on a set of probability at least $1-\delta$ as well.
+    Therefore, if $u_1 \ge u_0 + \bar b T$, then
+    $$
+    \IP\left\{
+        \inf_{0 \le t \le T} U_a(t) \le u_0
+        \;\big|\;
+        U_a(0) > u_1
+    \right\}
+    \le \delta ,
+    $$
+    and so with high probability any lines of descent that had level below $u_0$
+    at some point $0 \le t \le T$
+    are descended from lines of descent with initial level below $u_1$.
+    Since the number of lines of descent with level below $u_1$
+    converges to a Poisson with finite mean,
+    we need only show that the number of offpring lines of descent
+    produced by this initially finite number is also tight.
+    However, this follows immediately
+    since the rate of production of new lines of descent with level below $u_1$
+    of a line of descent at location $x$ and level $u$ is
+    $2 (u_1 - u) N^{-1} \theta \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy)$
+    and therefore uniformly bounded (because we may take $u_1 \le N$).
+
+
+\end{proof}
+
+% % % % % % % % % % % % %
+\subsubsection{Tightness of the Lines of Descent}
     \label{sec:lookdown_tightness_proofs}
 
 In this section,
@@ -3931,7 +4192,7 @@ We have now proved that the spatial trajectories of a line of descent during its
 
 To make this precise, we must work in the vague topology. Proving tightness of the level process is slightly trickier as the levels of many particles will drift towards infinity in finite time. These particles however will not contribute to the metric associated with the vague topology and thus we will retain relative compactness. The main argument relies on the observation that particles with levels lower than some threshold $\overline{U}_{N, \delta}$  have regulated level increments of order $\epsilon$ over any small time interval of length $\delta t$ given large enough $N$. As a result, we can evaluate our level process against test functions $(g_n)_{n=1,..,N}$ with cut off smaller than $\overline{U}_{N, \delta}$. 
 
-\begin{lemma} \label{tightness of levels} For fixed $a\in \mathcal{U}$, let $U^N_{a}(\tau_a)=U_0$, i.e. the level of the line of descent $a$ at birth is $U_0>0$.
+\begin{lemma} \label{lem:tightness of levels} For fixed $a\in \mathcal{U}$, let $U^N_{a}(\tau_a)=U_0$, i.e. the level of the line of descent $a$ at birth is $U_0>0$.
 On top of the assumptions laid out in Lemma \ref{lem: tightness of individual spatial trajectory}, assume that 
 $$
     \sup_{\theta}\mathbb{E}\left[ \sup_{x, \eta}b_\theta(x, \eta) \right]
@@ -4316,16 +4577,7 @@ For all $g \in \mathfrak{G}_{\leq 1}$, the processes $\{(F_g(\xi^N_t))_{t \geq 0
 
 
 % % % % % % % % % % % % %
-\subsection{Proof of convergence for the lookdown process}
-
-The proof of the main result in Section~\ref{sec:lookdown}.
-
-This will depend on Sections~\ref{sec:lookdown_tightness_proofs}
-and \ref{sec:lookdown_generator_proofs}.
-
-
-% % % % % % % % % % % % %
-\subsection{Convergence of generators for the lookdown process}
+\subsubsection{Convergence of generators for the lookdown process}
     \label{sec:lookdown_generator_proofs}
 
 
