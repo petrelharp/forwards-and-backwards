@@ -3900,6 +3900,535 @@ $\int u^\epsilon|\log u^\epsilon|\dif x$ that we proved above.
 
 In this section we prove Theorem~\ref{them:nonlocal_pde_limits}.
 
+\todo[inline]{BEGIN OneStepConvergence}
+These notes are an attempt of writing the one-step convergence of the particle system to a PDE limit.
+
+\textbf{In this whole document $\rho_\epsilon$ will be the density of a normal with mean $0$ and variance $\epsilon^2$, and $q_\theta$ the density of a normal with mean $0$ and variance $1/\theta$. That is, $\rho_\epsilon(x) = p_{\epsilon^2}(x)$ and $q_\theta = p_{1/\theta}(x)$.}
+
+In this document we assume we have the particle system with (unscaled) birth rate constant and equal $1$ and death rate at position $x$ given by $1+F(\rho_\epsilon*\overline{\eta}(x))/\theta$. That is, the martingale problem for the scaled system $\overline{\eta}_t$, is that for any smooth function $\phi$ we can write
+\begin{align}
+&\langle\phi(x),\overline{\eta}_{t}(dx)\rangle-\langle\phi(x),\overline{\eta}_{0}(dx)\rangle = M_t(\phi)   + \int_{0}^{t}\langle \theta  \int_{\mathbb{R}^d} \left( \phi(y)-\phi(x)\right) q_\theta(x,dy), \overline{\eta}_s^\epsilon(dx) \rangle ds \nonumber \\
+ & + \int_0^t \langle  F(\langle \rho_\epsilon(y-x), \overline{\eta}_s(dy) \rangle)\phi(x),\overline{\eta}_s^{\varepsilon, \theta, N}(dx)  \rangle ds. \label{mgp1}
+\end{align}
+where $M_t(\phi)$ is a martingale with quadratic variation:
+\begin{align}
+[M(\phi)]_t&:=\frac{\theta}{N}\int_{0}^{t}\bigg\{ \left\langle \int_{\mathbb{R}^d} \phi^2(y) q_\theta(x,dy), \overline{\eta}_s^{\varepsilon, \theta, N}(dx) \right\rangle \nonumber\\
+&+ \left\langle  \left(1 + \frac{F(\langle \rho_\epsilon(y-x), \overline{\eta}_s(dy)\rangle )}{\theta } \right)\phi^2(x), \overline{\eta}_s^{\varepsilon, \theta, N}(dx))\right\rangle   \bigg\}ds.  \label{mgp2}
+\end{align}
+
+We have the following result.
+
+\begin{theorem} \label{TeoremOneStepConvergence}
+Let $(\overline{\eta}_t)_{t \geq 0}$ be the scaled particle system with $r_\theta \equiv \gamma_\theta = 1$. Suppose $F(x)$ satisfies:
+\begin{enumerate}
+    \item $F(x)1_{x>0}$  is bounded above.
+    \item $|F'(x)1_{x>0}|$ is bounded,
+    \item and $||F''(x)||_\infty < \infty$.
+\end{enumerate}
+We will also suppose $\theta$ is big enough that $1- \frac{F(x)1_{x>0}}{\theta}$ is non-negative.
+
+We will assume $\overline{\eta}_0:=\overline{\eta}_0(\epsilon,N,\theta)$ is a sequence of initial conditions for $(\overline{\eta}_t)_{t \geq 0}$ such that there exists a finite constant $C>0$ independent of $\epsilon, N, \theta$, 
+\begin{enumerate}
+\item $\langle 1 , \overline{\eta}_0 \rangle < C $
+\item  $\Vert \rho_\epsilon * \overline{\eta}_0(x) \Vert_\infty < C$ for all $x \in \mathbb{R}^d$
+\item $|\rho_\epsilon * \overline{\eta}_0(x) - \rho_\epsilon * \overline{\eta}_0(y)| \leq C \Vert x - y \Vert  $ for all $x,y \in \mathbb{R}^d$
+\item $(\rho_\epsilon * \overline{\eta}_0(x) dx) \Rightarrow u_0(x)dx$ for some $u_0(x) \in \mathcal{C}^2(\mathbb{R}^d)$, where $\Rightarrow$ denotes weak convergence. 
+\end{enumerate}
+Furthermore, suppose that,
+\begin{equation}
+\frac{\theta}{\epsilon^d N} + \frac{1}{\theta \epsilon^{2}}\rightarrow 0 \label{ConditionsForConvergence}
+\end{equation}
+Fix $T>0$. Then, the measure $((\rho_\epsilon *\overline{\eta}_t)(x) dx)_{t \geq 0}$ converges weakly in $D([0,T], \mathcal{M}_F(\mathbb{R}^d))$ to a measure $(\Xi_t(dx))_{t \geq 0}$. Moreover, up to a modification on a set of measure zero, $\Xi_t(x) = u_t(x)dx$, where $u_t(x)$ is a weak solution to:
+\[ \partial_t u = \frac{1}{2}\Delta u + u F(u) \]
+with initial condition $u_0$. That is, for every smooth function with compact support $f$ and $t>0$, we have:
+\begin{equation*}
+ \int \partial_t  u_t(x) f(x) dx = \int u_t(x)\frac{1}{2} \Delta f(x) dx + \int f(x) u_t(x) F(u_t(x)) dx.
+\end{equation*}
+\end{theorem}
+
+ \todo[inline]{Question: Why do we need that regularity on $u_0$? I believe all we need is that (\ref{aprox3}) holds, and for that, I am almost sure that $u_0$ only needs to satisfy the first three hypotheses for $\overline{\eta}_0(x)$. Furthermore,  if I am not mistaken, those are all implied by $u_0(x) \in L^1(\mathbb{R}^d) \cap L^2(\mathbb{R}^d) \cap \mathcal{C}^1(\mathbb{R}^d)$ in case we want a nice space to put on the result.
+ Alison says: $C^1 \cap L^1$ probably enough, but...
+ }
+
+\todo[inline]{Questions 2: The conditions on $F$ implies that $F(x)1_{x>0} = (A-Bx)1_{x>0}$ for some $A,B>0$, or not? At least that is the only polynomial that is bounded above with a bounded derivative. Maybe we could rewrite the result for that explicit $F$?
+Note: $F$ no longer assumed polynomial.
+}
+
+
+
+To prove this we will proceed in a standard pattern, proving $C$-tightness of the measure and then identifying the limit.
+
+As a preliminary, we will prove some basic tools we are going to need all the way through. First, we prove that, under the conditions of Theorem~\ref{TeoremOneStepConvergence}, $\overline{\eta}_t$ has a uniformly bounded total mass in expectation. We then prove some regularity estimates of a random walk with Gaussian jumps. While this may seem disconnected from our goal the generator of this random walk is in the first integral element that appears in the martingale problem for $\overline{\eta}_t$, equation (\ref{mgp1}). It is then, no surprise, that we need some control over the regularity this term brings to our particle system.
+
+We then focus on $C$-tighness of $\rho_\epsilon * \overline{\eta}_t(x)dx$. For this we will prove that for fixed $x$, the random variable $\rho_\epsilon*\overline{\eta}_t(x)$ has uniformly bounded expectation. Using this and the regularity of the random walk mention above, we will be able to prove the $C$-tightness of $\rho_\epsilon * \overline{\eta}_t(x)dx$.
+
+Then we will proceed to identify the limit. For this, a continuity estimate for $(\rho_\epsilon*\overline{\eta}_t(x))$ is needed, which is again a consequence of the random walk estimates mentioned above. Using this we focus on controlling the convergence of \textit{non-linear terms} in the martingale problem of $(\rho_\epsilon*\overline{\eta}_t(x))$ (as the others converge as a consequence of weak convergence). Those do not converge as a consequence of weak convergence, since they are not written as an integral on $M^{\otimes k}(\mathbb{R}^d)$ of $(\rho_\epsilon*\overline{\eta}_t(x) dx)$ (for some $k \in \mathbb{N}$). Instead, we will first compare the quadratic terms to terms only involving $\rho_\epsilon*\overline{\eta}_s$ (and not $\overline{\eta}_s(dy)$) and then we will exchange those terms with a suitable integral in $M^{\otimes2}(\mathbb{R}^d)$, for which convergence do follow easily.
+
+\subsubsection{Preliminaries}
+
+\paragraph{Boundedness of the total mass}
+\begin{lemma} \label{Lemma:UniformlyBoundedMass}
+Under the assumptions of Theorem~\ref{TeoremOneStepConvergence}, there is a finite constant $C$ (independent of $\epsilon, N, \theta$), such that $\IE\left[ \sup_{0 \leq s \leq T} \langle 1, \overline{\eta}_s \rangle \right] \leq C$.
+\end{lemma}
+\begin{proof}
+By putting $\phi(x)=1$ in the martingale problem of $\overline{\eta}_t$, equation (\ref{mgp1}), we have,
+\begin{align} \label{eq:MPTotalMass}
+\langle 1, \overline{\eta}_t \rangle &= \langle 1, \overline{\eta}_0 \rangle + \int_0^t \langle F(\rho_\epsilon * \overline{\eta}_s), \overline{\eta}_s \rangle ds + M_t
+\end{align}
+where $M_t$ is a martingale with quadratic variation,
+\begin{align} \label{eq:QVTotalMass}
+[M]_t = \frac{\theta}{N}\int_0^t \langle 1 + \frac{F(\rho_\epsilon* \overline{\eta}_s)}{\theta}, \overline{\eta}_s \rangle d s 
+\end{align}
+By taking expectations in (\ref{eq:MPTotalMass}) we get,
+\[ \IE[\langle 1, \overline{\eta}_t \rangle] =  \IE[\langle 1, \overline{\eta}_0 \rangle]  + \IE[ \int_0^t \langle F(\rho * \overline{\eta}_s), \overline{\eta}_s \rangle ds ]   \leq C +   C \mathbb{E}\left[ \int_0^t \langle 1, \overline{\eta}_s \rangle ds \right].\] 
+In last inequality we used that $F(x)1_{x >0}$ and $\langle 1, \overline{\eta}_0 \rangle$ are uniformly bounded above. By Gronwall's inequality we deduce $\IE[\langle 1, \overline{\eta}_s \rangle]$ is bounded on $[0,T]$. Hence, by taking expectations in (\ref{eq:QVTotalMass}) and using again the bound on $F(x)1_{x>0}$ we get,
+\begin{equation} \IE\left[ [M]_t \right] \leq \frac{\theta}{N} C \int_0^t \mathbb{E}\left[ \langle 1, \overline{\eta}_s \rangle ds \right] \leq \frac{\theta}{N}C t \label{eq:quadvarMass} \end{equation}
+Note that, with this, $\IE[ [M]_t]$ is bounded (and in fact $\mathcal{O}(\theta/N)$). By the Burkholder-Davis-Gundy inequality and then Jensen's inequality we get
+\begin{align*}
+    \IE\left[ \sup_{0 \leq t \leq T} M_t \right]
+    \leq
+    C \IE\left[ [M]_T \right]^{1/2}
+    \leq
+    C \IE[M]_T^{1/2}
+    \leq
+    C  
+\end{align*}
+Taking supremum and then expectation in (\ref{eq:MPTotalMass}) and using the last inequality gives the result.
+
+    \comment{Alison says: I'd actually write out
+    $\sup \langle 1, \eta_s \rangle \le \int_0^T xxx ds + \sup M_t$ .
+    }
+
+\end{proof}
+
+We will require also a second moment bound on the total mass.
+
+\begin{proposition}
+Under the assumptions of Theorem~\ref{TeoremOneStepConvergence} there is a finite constant $C$ (independent of $\epsilon, N, \theta$) such that, for all $t \in [0,T]$ and for big enough $N$ and $\theta$, $\IE[ \langle 1, \overline{\eta}_t \rangle^2] \leq C$.\label{Prop:SecondMomentMass}
+\end{proposition} 
+
+\comment{Alison says: Just use the martingale problem and boundedness of $F$ and Gronwall I think. (The proof below is false.)}
+
+\begin{proof}
+By using in (\ref{eq:MPTotalMass}) that, by assumption, $\langle 1, \overline{\eta}_0 \rangle$  and $F(x)1_{x > 0}$ are bounded above we get,
+\begin{align*}
+ \langle 1, \overline{\eta}_t \rangle^2 \leq C \langle 1, \overline{\eta}_t \rangle + C\langle 1,\overline{\eta}_t \rangle \int_0^t \langle 1, \overline{\eta}_s\rangle ds + M_t \langle 1, \overline{\eta}_t \rangle \end{align*}
+Taking expectation we obtain,
+\begin{align*}
+\IE[ \langle 1, \overline{\eta}_t \rangle^2 ]
+    & \leq
+    C \IE[\langle 1, \overline{\eta}_t \rangle] + C\IE[  \langle 1,\overline{\eta}_t \rangle \int_0^t \langle 1, \overline{\eta}_s\rangle ds ] + \IE[ M_t \langle 1, \overline{\eta}_t \rangle] \\
+    & \leq
+    C +
+    C\IE[\frac{1}{2} \langle 1, \overline{\eta}_t\rangle^2] + \frac{1}{2} \IE[t \int_0^t \langle 1, \overline{\eta}_s \rangle^2 ds ] + (\IE[M_t^2] \IE[\langle 1, \overline{\eta}_t \rangle^2])^{1/2}
+\end{align*}
+where in the second inequality we have used Lemma~\ref{Lemma:UniformlyBoundedMass} on the first term, that $2ab \leq a^2 + b^2$ and Jensen's inequality in the second term and Holder's inequality in the third term. Note that by the Burkholder-Davis-Gundy inequality and (\ref{eq:quadvarMass}) we have that,
+\[ \IE[ M_t^2 ] = \mathcal{O}\left( \frac{\theta}{N} \right). \]
+Hence, by using that for positive $a$ we have $a^{1/2} \leq a+1$ we can deduce that,
+\comment{Alison says: but you don't have $C < 1$, so not clear how you're doing this.}
+\begin{align*}
+\frac{1}{2} \IE[ \langle 1, \overline{\eta}_t \rangle^2 ] \leq C + \frac{1}{2} \IE[t \int_0^t \langle 1, \overline{\eta}_s \rangle^2 ds ] + \mathcal{O}\left( \left(\frac{\theta}{N}\right)^{1/2} \right) +\mathcal{O}\left( \left(\frac{\theta}{N}\right)^{1/2} \right) \IE[\langle 1, \overline{\eta}_t \rangle^2].
+\end{align*}
+Let $\theta$ and $N$ big enough so $\theta/N < 1/16$. From the last equation we then can deduce,
+\[ \frac{1}{4}\IE[ \langle 1, \overline{\eta}_t \rangle^2 ] \leq C + \frac{C}{2} t \int_0^t\IE[\langle 1, \overline{\eta}_s \rangle^2 ] ds\]
+An application of Grownwall's inequality yields
+\[ \IE[ \langle 1, \overline{\eta}_t \rangle^2 ] \leq C \exp(2 C t^2) \leq C \exp(2 C T^2),  \]
+finishing the proof.
+\end{proof}
+
+
+\paragraph{Regularity estimates of the density of a independent Gaussian random walk}
+Let us write $\mathcal{L}^\theta f(x) := \theta \int (f(y)-f(x))q_\theta(x,y) dy$ with $q_\theta$ is a Gaussian kernel of mean $0$ and variance $1/\theta$. We note that $\mathcal{L}^\theta$ is the generator of a continuous random walk, where at rate $\theta$ we have the arrival of Gaussian jumps of mean $0$ and variance $1/\theta$.
+
+In what follows we let $\psi_t^{\epsilon, x}(y)$ be the solution of:
+\begin{equation} \frac{\partial}{ \partial_t} \psi_t^{\epsilon,x} = \mathcal{L}^\theta \psi_t^{\epsilon, x} \label{AlmostHeatEquation} \end{equation}
+with initial condition $\psi_0^{\epsilon,x}(y) = \rho_\epsilon(y-x)$. We have the following result for $\psi_t^{\epsilon,x}$.
+
+\begin{lemma} \label{PsiBoundHS}
+Fix $t>0$ and let $T(t)$ be a random variable such that $\theta T(t) \sim Poisson(\theta t)$. Then:
+\[ \psi^{\epsilon,x}_t(y) = \mathbb{E}\left[ p_{\epsilon^2+T(t)}(x,y)\right] \]
+Moreover,
+\[ \Vert \psi^{\epsilon,x}_t \Vert_\infty \leq \mathcal{O}\left( \frac{1}{(t+\epsilon^2)^{d/2}} + \frac{1}{\epsilon^2 \theta} \right) \]
+\end{lemma}
+\begin{proof}
+The first claim of this result follows immediately from $\mathcal{L}^\theta$ being the generator of a continuous random walk, where Gaussian jumps with mean $0$ and variance $1/\theta$ arrive at rate $\theta$.
+
+For the second claim we note that $T(t)-t$ has mean $0$ and variance $t/\theta$.  So by Chebyshev's inequality we get,
+\begin{equation}
+\IP\left[  \frac{|T(t)-t|}{\epsilon^2+t} > \frac{1}{2} \right] \leq \frac{4t}{\theta(\epsilon^2+t)^2} \leq \frac{2}{\epsilon^2 \theta}. \label{eq:IneqConcentrationT}
+\end{equation}
+Thus, by using standard bounds for the heat semigroup we get that,
+\begin{align*}
+\Vert \psi^{\epsilon,x} \Vert_\infty & \leq \IE\left[  \frac{1}{2 \pi (\epsilon^2+T(t))^{d/2}}\right] \\ & = \frac{1}{(2 \pi(\epsilon^2+t)^{d/2}} \IE\left[\left(\frac{1}{1+\frac{T(t)-t}{\epsilon^2+t}} \right)^{d/2} \right] \\ &\leq \frac{\pi^{-d/2}}{(\epsilon^2+t)^{d/2}} + \frac{2}{\epsilon^2 \theta}
+\end{align*}
+where in the last inequality we partition over $\{ |T(t)-t| > (\epsilon^2+t)/2\}$ and its complement, and use (\ref{eq:IneqConcentrationT}).
+\end{proof}
+We will need a further comparison of $\psi_t^{\epsilon,x}$ to the heat semigroup.
+\begin{lemma}
+For every $x,y \in \mathbb{R}^d$ and $t>0$ we have,
+\begin{align*}
+|\psi_t^{\epsilon,x}(y) - p_{\epsilon^2+t}(x,y)| &\leq \frac{C}{\epsilon^2 \theta}\left(\psi_t^{\epsilon,x}(y) + p_{\epsilon^2+t}(x,y) + p_{3/2(\epsilon^2+t)}(x,y)+p_{3(\epsilon^2+t)}(x,y) \right)
+\end{align*} \label{Lemma:BoundPsiHS2}
+\end{lemma}
+\begin{proof}
+From Lemma~\ref{PsiBoundHS} we have that $\psi_t^{\epsilon,x} = \IE\left[ p_{N(t)/\theta+\epsilon^2}(x,y) \right]$ with $N(t)$ a Poisson process of rate $\theta$. We write $\tau(t) = N(t)/\theta - t$, which has mean $0$ and variance $t/\theta$. In particular,
+equation~\eqref{eq:IneqConcentrationT} says that
+\begin{equation}
+\IP[|\tau(t)| > (\epsilon^2+t)/2] \leq \frac{4t}{\theta(\epsilon+t)^2} \leq \frac{2}{\theta \epsilon^2} \label{eq:ConcentrationTau}
+\end{equation}
+Consider first the event in which $|\tau(t)| \leq (\epsilon^2+t)/2$. For such $\tau$ we have that,
+\begin{equation} |p_{\epsilon^2+t+\tau(t)}(x,y) - p_{\epsilon^2+t}(x,y) | = |\tau(t)| \left| \frac{\partial p_s(x,y)}{\partial s} \right| \end{equation}
+for some $s \in (\epsilon^2+t-|\tau(t)|, \epsilon^2+t+|\tau(t)|)$. Without loss of generality we suppose $x=0$ and write $p_s(y):=p_s(0,y)$ to simplify notation. Then,
+\[ \frac{\partial}{\partial s} \frac{1}{(2 \pi s)^{d/2}} \exp(-\frac{\Vert y \Vert^2}{2s}) = - \frac{d}{s} p_s(y) + \frac{y^2}{2 s^2} p_s(y)\]
+Now for $s \in ((\epsilon^2+t)/2,3(\epsilon^2+t)/2)$ we have,
+\[ p_s(y) \leq 3^{d/2} p_{3/2(\epsilon^2+t)}(y) \, \, ,\text{ and } \, \, \frac{1}{s} \leq \frac{2}{\epsilon^2+t}\]
+Morever, since $\frac{y^2}{4s} e^{-y^2/4s} \leq 1$ for all $y$,
+\begin{align*}
+\frac{y^2}{s^2}  p_s(y) &= \frac{1}{s} \frac{4}{(2 \pi s)^{d/2}}\exp(-\frac{y^2}{4s}) \frac{y^2}{4s} \exp( - \frac{y^2}{4 s}) \\ &\leq  4\frac{ 2^{d/2}}{s} p_{2s}(y) \\ &\leq \frac{4}{s}  2^{d/2} 3^{d/2} p_{3(\epsilon^2+t)}(y)  \\ & \leq 8 \frac{ 2^{d/2} 3^{d/2}}{\epsilon^2+t} p_{3(\epsilon^2+t)}(y)
+\end{align*}
+Combining these estimates
+    \comment{Alison says: Not quite. Can bound the second term this way, but for the first it doesn't work.
+    So use a uniform bound of $1/\varepsilon^d$ and then a bound on the probability that $|\tau|$
+    is this big based on the moment generating function.
+    We end up needing $|\log \varepsilon| / (\theta \varepsilon^2) \to 0$.
+    }
+\begin{align*}
+|\psi_t^{\epsilon,x}(y)-p_{\epsilon^2+t}(x,y)|
+    &=
+    | \mathbb{E}\left[ (1_{|\tau(t)| > (\epsilon^2+t)/2}+1_{|\tau(t)| \leq (\epsilon^2+t)/2})(p_{t+\epsilon^2+\tau(t)}(x,y)-p_{\epsilon^2+t}(x,y)) \right]| \\
+    &\leq
+    \IP[|\tau(t)| \geq (\epsilon^2+t)/2] \IE[p_{t+\epsilon^2+\tau(t)}(x,y) + p_{\epsilon^2+t})(x,y)] \\
+    &+
+    \mathbb{E}\left[ \frac{|\tau(t)|}{\epsilon^2+t}\right]\left( 2d3^{d/2} p_{3(\epsilon^2+t)/2} (x,y) + 4 2^{d/2}3^{d/2} p_{3(\epsilon^2+t)}(x,y)\right) \\
+    & \leq
+    \frac{2}{\theta \epsilon^2} (\psi_t^{\epsilon,x}(y)+p_{\epsilon^2+t}(x,y)) + \mathbb{E}\left[ \frac{|\tau(t)|}{\epsilon^2+t}\right] C (p_{3/2(\epsilon^2+t)}(x,y) + p_{3(\epsilon^2+t)}(x,y))
+\end{align*}
+Finally, since
+\[ \mathbb{E}\left[ \frac{|\tau(t)|}{\epsilon^2+t}\right] \leq \mathbb{E}\left[ \frac{\tau(t)^2}{\epsilon^2+t}\right] \leq \frac{1}{2 \theta \epsilon^2} \]
+the result follows.
+\end{proof}
+The last result will be useful when combined with the next bound for the heat kernel.
+\begin{lemma}
+Let $s>0, x, y, z\in \mathbb{R}^d$. The following estimate holds
+\[ |p_s(x,z) - p_s(y,z)| \leq \frac{C|x-y|}{\sqrt{s}} \left(p_{2s}(x,z) + p_{2s}(y,z)\right) \]
+where the constant $C$ does not depend on $x,y,z$ or $s$.\label{Lemma:ContinuityHS}
+\end{lemma}
+\begin{proof}
+Expanding the difference of two squares we can rewrite,
+\begin{align*}
+&\exp\left(-\frac{(y-z)^2}{2 s} \right)-\exp\left(-\frac{(x-z)^2}{2 s} \right) \\ &= \left(\exp\left(-\frac{(y-z)^2}{4 s} \right)-\exp\left(-\frac{(x-z)^2}{4 s} \right) \right)\left(\exp\left(-\frac{(y-z)^2}{4 s} \right)+\exp\left(-\frac{(x-z)^2}{4 s} \right) \right)
+\end{align*}
+by using the Intermediate Value Theorem we can write the right hand side as,
+\[ (y-x) \left( - \frac{2(w-z)}{4s} \exp\left(-\frac{(w-z)^2}{4s}\right)\right) 2^{d/2}\left( p_{2s}(y,z)+p_{2s}(x,z) \right)\]
+for some $w \in [y,z]$. Using the fact that $x e^{-x^2}$ is uniformly bounded we can bounded the first bracket in the last equation by $C/\sqrt{s}$ and the result follows.
+\end{proof}
+
+\paragraph{The martingale problem for a time dependent function.}
+Before proceeding we make the following observation. For any time, dependent function $\phi_t(x)$ the martingale problem for $\overline{\eta}_t$, (\ref{mgp1}), gives that
+\comment{Alison says: not sure this needs spelling out? (Also, $\partial_t \phi_{t-s}$ is a slightly confusing way to write it out but OK.}
+\begin{align}
+\langle \overline{\eta}_t(dx), \phi_0(x)\rangle &= \langle \overline{\eta}_0(dx), \phi_t(x)\rangle +  M_t(\phi_\cdot(\cdot)) - \int_0^t \langle \partial_t \phi_{t-s}(x), \overline{\eta}_s(dx) \rangle  ds \nonumber \\ & + \int_0^t \langle \mathcal{L}^\theta \phi_{t-s}(x), \overline{\eta}_s(dx) \rangle ds+ \int_{0}^t \langle \phi_{t-s}(x)F (\rho_\epsilon*\overline{\eta}_s)(x) ) , \overline{\eta}_s(dx) \rangle ds \label{timeMGP}
+\end{align}
+where $M_t(\phi_\cdot(\cdot))$ has quadratic variation:
+\[ [M(\phi_\cdot(\cdot))]_t = \frac{\theta}{N}\int_0^t \langle \int_{\mathbb{R}^d} \phi_{t-s}(z)^2 q_\theta(y,dz) + \left( 1 + \frac{F(\rho_\epsilon*\overline{\eta}_s(y))}{\theta}\right) \phi_{t-s}(y)^2, \overline{\eta}_s(dy) \rangle ds \]
+
+%%%%%%%%%%%%%%%%%%
+\subsubsection{Tightness}
+
+\paragraph{Bounds for $\{ \rho_\epsilon * \overline{\eta}_s (x)\}_{0 \leq s \leq T}$}
+\begin{lemma} \label{FirstBoundLocalDensity}
+Under the conditions of Theorem~\ref{TeoremOneStepConvergence} there is a constant $C>0$ (independent of $\epsilon, N, \theta, x$ and $T$) such that,
+\[ \IE[ \rho_\epsilon*\overline{\eta}_t(x) ] < C \]
+for all $t \in [0,T]$ and $x \in \mathbb{R}^d$.
+\end{lemma}
+\begin{proof}
+Recall that $\psi_t^{\epsilon,x}$ is the solution of (\ref{AlmostHeatEquation}) with initial condition $\psi_0^{\epsilon,x}(y)=\rho_\epsilon(y-x)$. By replacing $\phi_t$ with $\psi_t^{\epsilon,x}$ in (\ref{timeMGP}) we can write,
+\begin{align}
+(\rho_\epsilon*\overline{\eta}_t(x)) = \langle \psi_t^{\epsilon,x}(y), \overline{\eta}_0(dy) \rangle  + \int_0^t \langle \psi_{t-s}^{\epsilon,x}(y) F(\rho_\epsilon*\overline{\eta}_s(y)), \overline{\eta}_s(dy) \rangle ds + M_t(x) \label{MartingaleProblemMolifier}
+\end{align}
+where $F$ is uniformly bounded above. Hence, if we take expectations,
+\begin{align}
+\IE[\rho_\epsilon * \overline{\eta}_t(x)]
+    &\le
+    \IE[\langle \psi_t^{\epsilon,x}(y), \overline{\eta}_0(dy) \rangle] + C \IE[\int_0^t \langle \psi_{t-s}^{\epsilon,x}(y), \overline{\eta}_s(dy) \rangle ds] \nonumber \\ & \leq  \IE[\langle p_{\epsilon^2+T(t)}(x,y),\overline{\eta}_0(dy)\rangle] + C \int_0^t \Vert \psi_{t-s}^{\epsilon,0} \Vert_\infty \IE[\sup_{0 \leq s \leq t} \langle 1, \overline{\eta}_s(dy) \rangle] ds \\ & \leq C + C \int_0^t \Vert \psi_{t-s}^{\epsilon,0} \Vert_\infty ds \label{BoundForMolifier}
+\end{align}
+Where in the last inequality we used Lemma~\ref{Lemma:UniformlyBoundedMass} and our first assumption on the initial condition. Furthermore, using Lemma \ref{PsiBoundHS} we can bound $\Vert \psi_{t-s}^{\epsilon,0} \Vert_\infty$ by $C (t-s+\epsilon^2)^{-d/2}$. In dimension one the right hand side is immediately uniformly bounded. For $d=2$ we can iterate. By using again the martingale problem and the same arguments we used to get (\ref{BoundForMolifier}) we get,
+\begin{equation} \label{IterationBoundPsi}
+\IE[\langle \psi_{t-s}^{\epsilon,x}, \overline{\eta}_s(dy)\rangle] \leq \IE[\langle \psi_{t}^{\epsilon,x}(y), \overline{\eta}_0(dy) \rangle]  + C \int_0^s \Vert \psi_{t-u}^{\epsilon,0} \Vert_\infty du
+\end{equation}
+Hence, using (\ref{IterationBoundPsi}) in (\ref{BoundForMolifier}) gives
+\begin{align*}
+\IE[ \rho_\epsilon * \overline{\eta}_t(x)  ] &\leq \IE[\langle \psi_t^{\epsilon,x}(y), \overline{\eta}_0(dy) \rangle] + \int_0^t C\langle \psi_{t}^{\epsilon,x}, \overline{\eta}_0(dy)\rangle ds + C^2 \int_0^t \int_0^s  \Vert \psi_{t-u}^{\epsilon,0} \Vert_\infty du ds \\ &= (1+Ct) \IE[ \langle \psi_t^{\epsilon,x}, \overline{\eta}_0(dy) \rangle] + C^2 \int_0^t (t-u) \Vert \psi_{t-u}^{\epsilon,0} \Vert_\infty du \\ &\leq C(1+t) + C^2 \int_0^t (t-u) \Vert \psi_{t-u}^{\epsilon,0} \Vert_\infty du
+\end{align*}
+which again is uniformly bounded using Lemma \ref{PsiBoundHS}. It is easy to see that, iterating, we can prove a uniform bound in any dimension. 
+
+\end{proof}
+
+\begin{remark} \label{Remark:BoundLocalDensity}
+It is convenient to remark that from $\IE\left[ \langle \rho_\epsilon(x,y), \overline{\eta}_t(dy) \rangle \right]$ being bounded it follows that $\IE[ \langle p_{s+\epsilon^2}(x,y), \overline{\eta}_t(dy) \rangle ]$ is bounded for all $s>0$. Indeed, this follows from writing $p_{s+\epsilon^2} = p_s * p_{\epsilon^2}$ and integrating.
+\end{remark}
+
+\begin{corollary}
+Let $(M_t(x))_{t \geq 0}$ be the martingale in (\ref{MartingaleProblemMolifier}). Then
+\[ \IE\left[ [M(x)]_t \right] \leq \frac{C \theta}{ N \epsilon^{d}} \]
+where $C$ is independent of $\epsilon,\theta,N$. \label{Cor:ControlQVMQ}
+\end{corollary}
+\begin{proof}
+We can explicitly write the quadratic variation of $M_t$ as
+\[ [M(x)]_t = \frac{\theta}{N} \int_0^t \langle \int_{\mathbb{R}^d} \psi_{t-s}^{\epsilon,x}(z)^2 q_\theta(y,dz) + \left(1+\frac{F(\rho_\epsilon * \overline{\eta}_s(y))}{\theta}\right)\psi_{t-s}^{\epsilon,x}(y)^2, \overline{\eta}_s(dy) \rangle  ds\]
+so Lemma~\ref{PsiBoundHS} gives the following bound,
+\[ \psi_{t-s}^{\epsilon,x}(y)^2 \leq \psi_{t-s}^{\epsilon,x}(y) \frac{C}{(\epsilon^2+t-s)^{d/2}} \leq \frac{C}{\epsilon^d} \psi_{t-s}^{\epsilon,x}(y). \]
+Hence, by using the last inequality and the upper bound on $F(x)1_{\{x > 0\}}$, we deduce that:
+\begin{align}
+[M(x)]_t &\leq \frac{C \theta}{\epsilon^d N} \int_0^t \left\{  \langle \int \psi_{t-s}^{\epsilon,x}(z) q_\theta(y,dz), \overline{\eta}_s(dy) \rangle + \langle \psi_{t-s}^{\epsilon,x}(y), \overline{\eta}_s(dy)\rangle \right\} ds 
+\label{QuadVarBound} \end{align}
+Taking expectations and using the bound of Lemma~\ref{FirstBoundLocalDensity} we get the result.
+\end{proof}
+
+By reusing the computations in the last Corollary we can prove a certain integrability of $M_t(x)$.
+\begin{proposition}
+Let $(M_t(x))_{t \geq 0}$ be the martingale in (\ref{MartingaleProblemMolifier}). Then
+\[ \int \IE\left[ M_t(x)^2 \right] dx \leq \frac{C \theta}{ N \epsilon^{d}} \]
+where $C$ is independent of $\epsilon,\theta,N$. \label{IntegrabilityOfM}
+\end{proposition}
+\begin{proof}
+Recall that since $M_t(x)$ is a martingale, then,
+\[ \IE\left[ M_t(x)^2 \right] = \IE\left[ [M(x)]_t \right].  \]
+Hence, using (\ref{QuadVarBound}),
+\begin{align*}
+\int &\IE\left[ M_t(x)^2 \right] dx \\ & \leq \frac{C \theta}{\varepsilon^d N} \int \int_0^t \IE\left[ \langle \int \psi_{t-s}^{\epsilon,x}(z) q_\theta(y,dz), \overline{\eta}_s(dy) \rangle + \langle \psi_{t-s}^{\epsilon,x}(y), \overline{\eta}_s(dy)\rangle \right] ds  dx \\ &=  \frac{C \theta}{\varepsilon^d N}  \int_0^t \IE \left[  \langle \int \left( \int \psi_{t-s}^{\epsilon,x}(z) dx \right) q_\theta(y,dz), \overline{\eta}_s(dy) \rangle + \langle \left( \int  \psi_{t-s}^{\epsilon,x}(y) dx \right), \overline{\eta}_s(dy)\rangle \right] ds.
+\end{align*}
+Now using Lemma~\ref{PsiBoundHS} we have that,
+\begin{align*}
+\int \psi_t^{\epsilon, x}(y) dx & = \int \IE[p_{\epsilon^2+T(t)}(x,y)] dx \\ &= \IE[ \int p_{\epsilon^2+T(t)}(y,x) dx ] = 1.
+\end{align*}
+Thus,
+\begin{align*}
+\int \IE\left[ M_t(x)^2 \right] dx & \leq  \frac{C \theta}{\varepsilon^d N}  \int_0^t \IE \left[  \langle \int  q_\theta(y,dz), \overline{\eta}_s(dy) \rangle + \langle 1, \overline{\eta}_s(dy)\rangle \right] ds. \\ & \leq \frac{C \theta}{\varepsilon^d N} \int_0^t \IE[ \langle 1, \overline{\eta}_s(dy) \rangle ] ds \\ & \leq T \frac{C \theta}{ \varepsilon^d N}
+\end{align*}
+proving the result.
+\end{proof}
+
+By doing the same pattern used to prove Proposition~\ref{Prop:SecondMomentMass} (replacing the use of equation (\ref{eq:MPTotalMass}) by equation (\ref{MartingaleProblemMolifier}) and the used of equation \ref{eq:quadvarMass} by Corollary~\ref{Cor:ControlQVMQ}) we can get the following result.
+\comment{Alison writes: the proof of Proposition~\ref{Prop:SecondMomentMass} above was wrong.
+I think using $\theta/(N \varepsilon^d) \to 0$ this is easy, but should maybe write it out.}
+
+\begin{proposition}
+Under the assumptions of Theorem~\ref{TeoremOneStepConvergence} there is a finite constant $C$ (independent of $\epsilon, N, \theta$) such that, for all $t \in [0,T]$, $x \in \mathbb{R}^d$ and for big enough $N$ and $\theta$, $\IE[ (\rho_\epsilon*\overline{\eta}_t(x))^2] \leq C$.\label{Prop:SecondMomentDensity}
+\end{proposition} 
+
+
+\paragraph{$C$-tightness of $\rho_\epsilon * \overline{\eta}_t(x) dx$ }
+\begin{lemma}
+Under the assumptions of Theorem~\ref{TeoremOneStepConvergence} the sequence of measure valued process $\{ \rho*\overline{\eta}_t(x) dx \}_{t \geq 0}$ (taking values in $D([0,T], \mathcal{M}_F(\mathbb{R}^d))$ is $C$-tight.
+\end{lemma}
+\begin{proof}
+
+Let $f \in C_c^2$ (that is, compactly supported and with smooth second derivative). We will show convergence of $\int f(x) \rho_\epsilon * \overline{\eta}_t(x) dx$ (which is enough to establish weak convergence of the measures $\rho_\epsilon * \overline{\eta}_t(x) dx$).
+\comment{Alison writes: no it's not weak - this would be vague convergence. Take $f \in C^2$ to mean bounded first and second derivatives, which is weak convergence.}
+For this note that,
+\begin{align*}
+\int f(x) \rho_\epsilon * \overline{\eta}_t(x) dx &= \int \int f(x) \rho_\epsilon (x-y) \overline{\eta}(dy) dx \\ & = \langle \int f(x) \rho_\epsilon(x-y) dx, \overline{\eta}(dy) \rangle \\ &= \langle T_{\epsilon^2} f(y), \overline{\eta}_t(dy) \rangle
+\end{align*}
+where $T_t$ denotes the heat semigroup. Substituting this into the martingale problem for $\overline{\eta}_t$, (\ref{mgp1}), we get,
+\begin{align}
+\langle T_{\epsilon^2} f(y), \overline{\eta}_t(dy) \rangle & = \langle T_{\epsilon^2}
+ f(y), \overline{\eta}_0(dy) \rangle + \theta \int_0^t \langle \int (T_{\epsilon^2} f(z) - T_{\epsilon^2} f(y))q_\theta(y,z)dz, \overline{\eta}_s(dy)\rangle ds \nonumber \\ &+\int_0^t \langle T_{\epsilon^2} f(y) F(\rho_\epsilon*\overline{\eta}_s(y)), \overline{\eta}_s(dy) \rangle ds + \widehat{M}_t \label{MGPT_epsilon} \end{align}
+ with $\widehat{M}_t$ a martingale. Now note that,
+by the Intermediate Value Theorem,
+ \begin{align}
+    | \theta \int (T_{\epsilon^2} f(z) - T_{\epsilon^2}f(y))q_\theta(y,z) dz | &= |\theta( T_{\epsilon^2 + 1/\theta} f(y) - T_{\epsilon^2}f(y)| \nonumber \\ &= | \Delta T_{\epsilon+1/\tilde{\theta}} f(y) | \nonumber \\ &=|T_{\epsilon^2 + 1/\tilde{\theta}} \Delta f(y) | \leq \Vert \Delta f \Vert_{\infty} \label{ShortBoundLaplacianHS}
+ \end{align}
+for some $\tilde{\theta} \in [0,1/\theta]$.
+Proceeding as in the proof of Lemma~\ref{Lemma:UniformlyBoundedMass}, we can use that $F(x)1_{x > 0}$ is bounded above and Gronwall's inequality to conclude that,
+\[ \IE\left[\langle T_{\epsilon^2} f(y), \overline{\eta}_t(dy) \rangle \right] \text{ is uniformly bounded for } t \in [0,T].\]
+The quadratic variation of $\widehat{M}_t$ is;
+\[ [ \widehat{M}]_t = \frac{\theta}{N}\int_0^t \langle T_{1/\theta}(T_{\epsilon^2}f(\cdot)^2)(y) + \left(1+\frac{F(\rho_\epsilon*\overline{\eta}_s(y))}{\theta}\right)T_{\epsilon^2}f(y)^2, \overline{\eta}_s(dy) \rangle ds \]
+And so, using boundedness of $f$ and $F$,
+\begin{align*}
+\IE\left[ [\widehat{M}]_t \right] \leq \frac{\theta}{N} \Vert f \Vert_\infty C \int_0^t \mathbb{E}\left[ \langle 1, \overline{\eta}_s(dy) \right] ds < \frac{\theta}{N} t C
+\end{align*}
+where in the last inequality we have used Lemma~\ref{Lemma:UniformlyBoundedMass}.Hence, using the Burkholder-Davis-Gundy inequality we can conclude,
+\[ \IE[\sup_{0 \leq t \leq T} [\widehat{M}]_t ] \text{ is uniformly bounded (for fixed } f \text{)} \]
+Therefore, by taking supremum and expectation and in (\ref{MGPT_epsilon}) we conclude that
+\begin{equation} \IE[\sup_{0 \leq t \leq T} \langle T_{\epsilon^2} f, \overline{\eta}_t \rangle ] \text{ is uniformly bounded (for fixed } f \text{)} \label{eq:boundedIntegralAgainstf} \end{equation}
+To conclude $C$-tightness we show that, for $T>0$, $\alpha > 0$ there is some $\delta >0$ so that for $\theta$ and $N$ large enough,
+\begin{align}
+&\IP\left[ \sup_{u,v \in [0,T], |u-v| < \delta} \left| \int f, \rho_\epsilon*\overline{\eta}_u(x) dx   - \int f, \rho_\epsilon*\overline{\eta}_v(x) dx \right|  > \alpha \right]
+    \\ &=
+\IP\left[ \sup_{u,v \in [0,T], |u-v| < \delta} | \langle T_{\epsilon^2} f, \overline{\eta}_u \rangle - \langle T_{\epsilon^2} f,\overline{\eta}_v \rangle > \alpha \right]
+    <
+    \alpha \label{conditionCtightness}
+\end{align}
+But, from our estimates above, we have
+\begin{align*}
+|\langle T_{\epsilon^2} f, \overline{\eta}_u \rangle - \langle T_{\epsilon^2} f,\overline{\eta}_v \rangle|  \leq ( \Vert \Delta f \Vert_\infty + C_F||f||_\infty) |u-v| \sup_{0 \leq s \leq T } \langle 1, \overline{\eta}_s \rangle + \sup_{s \leq T}|\widehat{M}_s|
+\end{align*}
+Taking expectations we get,
+\begin{equation}
+\IE\left[ |\langle T_{\epsilon^2} f, \overline{\eta}_u \rangle - \langle T_{\epsilon^2} f,\overline{\eta}_v \rangle|\right] \leq \widehat{C} |u-v| + \frac{\widehat{C}\theta}{N}\end{equation}
+Using this and Markov's inequality give that (\ref{conditionCtightness}) holds with $\delta = \alpha/(3 \widehat{C}|u-v|)$, for $N,\theta$ big enough so $\widehat{C}\theta/N$ is bounded by $\alpha/3$ (Note the last condition is possible by (\ref{ConditionsForConvergence})). Thus we have concluded $C$-tightness. 
+\end{proof}
+\begin{remark} \label{remark:BoundedIntegral}
+Similar as we got equation (\ref{eq:boundedIntegralAgainstf}), from equation \ref{MGPT_epsilon} we can conclude that
+\[ \IE\left[\sup_{0 \leq t \leq T} \int \rho_{\epsilon/2} * \overline{\eta}_t(x) dx \right] = C < \infty. \]
+By using this and the same pattern used to prove Proposition~\ref{Prop:SecondMomentMass}, we can then conclude that,
+\[ \IE\left[  \sup_{0 \leq t \leq T} \int \left(\rho_{\epsilon/2} * \overline{\eta}_t(x) \right)^2 dx \right] = C < \infty. \]
+Since,
+\begin{align*}
+\langle \rho_\epsilon * \overline{\eta}_t(z), \overline{\eta}(dz) \rangle & = \sum_{y \in \overline{\eta}_t} \sum_{z \in \overline{\eta}_t} \rho_\epsilon(y-z) \overline{\eta}(z) \overline{\eta}(y) \\ &= \int  \sum_{y \in \overline{\eta}_t} \sum_{z \in \overline{\eta}_t} \rho_{\epsilon/2}(y-x) \rho_{\epsilon/2}(z-x) \overline{\eta}(z) \overline{\eta}(y) \\ &= \int (\rho_{\epsilon/2}*\overline{\eta}_t(x))^2 dx.
+\end{align*}
+This allows us to conclude that $\IE[\langle \rho_\epsilon*\overline{\eta}_t(z),\overline{\eta}_t(dz) \rangle ] < \infty$. This bound will be useful in the next section.
+\end{remark}
+
+\subsubsection{Identifying the limit}
+
+\paragraph{Continuity estimate}
+
+In this section we prove the following continuity estimate for $\rho_\epsilon * \overline{\eta}_t(x)$.
+\begin{proposition} \label{ContinuityEstimate}
+Under the same conditions of Theorem~\ref{TeoremOneStepConvergence} we have that for all $x \in \mathbb{R}^d$, $\delta>0$,
+\[
+\int |\rho_\epsilon*\overline{\eta}_s(x) -\rho_\epsilon*\overline{\eta}_s(y)| \rho_\delta(x-y) dy \]
+is bounded by
+\begin{align*}
+\frac{\delta}{\sqrt{\epsilon^2+s}} \langle 1,\overline{\eta}_0(dz) \rangle &+ \int_0^s \frac{\delta}{\sqrt{\epsilon^2+s-r}} (\langle 1, \overline{\eta}_r(dz)\rangle + \langle \rho_\epsilon*\overline{\eta}_r(z), \overline{\eta}_r(dz)\rangle)dr \\ &+ |M_s(x)| + \int |M_s(y)| \rho_\delta(y-x)dy + \mathcal{O}\left( \frac{1}{\epsilon^2 \theta}\right)
+\end{align*} 
+\end{proposition}
+where $M_s(x)$ is the martingale in (\ref{MartingaleProblemMolifier}).
+\begin{proof}
+Recall from our assumptions that $|F'(x)1_{x>0}|$ is uniformly bounded. Hence, we can always write,
+\begin{align} \label{StrongBoundOnF}
+|F(\rho_\epsilon*\overline{\eta}_t(x))| \leq |F(0)| + C \rho_\epsilon*\overline{\eta}_t(x)
+\end{align}
+So, by (\ref{MartingaleProblemMolifier}) we can write,
+\begin{align}
+& |\rho_\epsilon*\overline{\eta}_t(x)-\rho_\epsilon*\overline{\eta}_t(y)| \nonumber \\ &= |\langle \rho_\epsilon(y-z)-\rho_\epsilon(x-z),\overline{\eta}_t(dz) \rangle | \nonumber\\ &\leq  |M_t(x)-M_t(y)|  +\langle \psi_t^{\epsilon,y}(z)-\psi_t^{\epsilon,x}(z), \overline{\eta}_0(dz)\rangle \nonumber \\ &+ C\int_0^t \langle |\psi_{t-s}^{\epsilon,x}(z) - \psi_{t-s}^{\epsilon, y}(z) |, \overline{\eta}_s(dz) \rangle  ds | \\ &+ C \int_0^t \langle |\psi_{t-s}^{\epsilon,x}(z) - \psi_{t-s}^{\epsilon, y}(z) | \rho_\epsilon*\overline{\eta}(z), \overline{\eta}_s(dz) \rangle  ds | \label{eq:bound1CE} \end{align} 
+By using Lemma~\ref{Lemma:BoundPsiHS2} we can then write, 
+\begin{align*}
+ \int &|\rho_\epsilon*\overline{\eta}_s(x) -\rho_\epsilon*\overline{\eta}_s(y)| \rho_\delta(x-y) dy  \leq \int |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(x,z)|\overline{\eta}_0(dz) \rho_\delta(x-y)dy \\&+ C\int_0^s \langle p_{\epsilon^2+s-r}(y,z)-p_{\epsilon^2+s-r}(x,z)|, \overline{\eta}_r(dz) \rangle \rho_\delta (x-y) dr  \\  & + C \int_0^s \langle |p_{\epsilon+s-r}(y,z) - p_{\epsilon+s-r}(x,z) | \rho_\epsilon*\overline{\eta}_r(z), \overline{\eta}_r(dz) \rangle  dr | + \int|M_s(y)-M_s(x)| \rho_\delta(y-x)dy  \\  & + \frac{C}{\epsilon^2 \theta} \int \langle \rho_\epsilon*\overline{\eta}(z),\overline{\eta}_s(dz)\rangle ds   +\mathcal{O}\left( \frac{1}{\epsilon^2 \theta} \right) 
+\end{align*}
+By Remark~\ref{remark:BoundedIntegral} the last integral term is of order $(\epsilon^2 \theta)^{-1}$. By using Lemma~\ref{Lemma:ContinuityHS} we get that the contribution of the first three terms is bounded by,
+\begin{align*}
+\int &\frac{|y-x|}{\sqrt{\epsilon^2+s}} \rho_{\delta}(y-x) dy \langle 1, \overline{\eta}_0(dz)\rangle + \int \int_0^s  \langle \frac{|y-x|}{\sqrt{\sqrt{\epsilon^2+s-r}}}, \overline{\eta}_r(dz) \rangle \rho_\delta(x-y) dy dr \\ & +  \int \int_0^s \langle \frac{|y-x| \rho_\epsilon*\overline{\eta}(z)}{\sqrt{\epsilon^2+s-r}}, \overline{\eta}_r(dz) \rangle \rho_\delta(y-x) dy dr \\ & \leq \frac{\delta}{\sqrt{\epsilon^2+s}} \langle 1, \overline{\eta}_0(dz) \rangle + \int_0^s \frac{\delta}{\sqrt{\epsilon^2+s-r}} (\langle 1, \overline{\eta}_r(dz) \rangle + \langle \rho_\epsilon*\overline{\eta}_r(z), \overline{\eta}_r(dz) \rangle) dr.
+\end{align*}
+To finish the proof just notice that,
+\begin{align*}
+\int |M_s(y)-M_s(x)| \rho_\delta(y-x)dy \leq |M_s(x)| + \int |M_s(y)| \rho_\delta(y-x)dy.
+\end{align*}
+\end{proof}
+
+\paragraph{Identifying the limit of $\langle T_{\epsilon^2} f(y), \overline{\eta}_t (dy) \rangle$.}
+We now prove the identification of the limit. We recall that, the main difficulty, is the non-linear term of the martingale problem. To deal with them, our first step would prove that an approximation of the form:
+\begin{align*}
+\langle T_{\epsilon^2} f(y) F(\rho_\epsilon *\overline{\eta}_s(dy)), \overline{\eta}_s(dy) \rangle \sim \langle T_{\epsilon^2} f(y) F(\rho_\epsilon * \overline{\eta}_s(dy)), \rho_\epsilon * \overline{\eta}_s(y) dy \rangle
+\end{align*}
+This is the content of the next result.
+\begin{proposition} \label{CuadraticApprox}
+Under the condition of Theorem~\ref{TeoremOneStepConvergence} there is a constant $C>0$ such that
+\begin{equation*}
+\int_0^t \IE[|\langle T_{\epsilon^2} f(y) F(\rho_\epsilon *\overline{\eta}_s(dy)), \overline{\eta}_s(dy) \rangle - \langle T_{\epsilon^2} f(y) F(\rho_\epsilon * \overline{\eta}_s(dy)), \rho_\epsilon * \overline{\eta}_s(y) dy \rangle|]
+\end{equation*}
+is bounded by,
+\begin{equation*}
+\mathcal{O}\left( \frac{1}{\epsilon^2 \theta} + \epsilon^2 + \epsilon + \epsilon^{1/3}  + \left( \frac{\theta}{N \epsilon^d} \right)^{1/2}\right)
+\end{equation*}
+\end{proposition}
+\begin{proof}
+We first note that,
+\begin{align*}
+    &\langle T_{\epsilon^2} f(y) F(\rho_\epsilon *\overline{\eta}_s(dy)), \overline{\eta}_s(dy) \rangle - \langle T_{\epsilon^2} f(y) F(\rho_\epsilon * \overline{\eta}_s(dy)), \rho_\epsilon * \overline{\eta}_s(y) dy \rangle \\ & = \langle \int T_{\epsilon^2} f(y) F(\rho_\epsilon * \overline{\eta}_s(y))\rho_\epsilon(y-w) dy, \overline{\eta}_s(dw)\rangle - \langle T_{\epsilon^2} f(w) F(\rho_\epsilon*\overline{\eta}_s(w)), \overline{\eta}_s(dw) \rangle \\ &= \langle \int \{ T_{\epsilon^2} f(y) F(\rho_\epsilon*\overline{\eta}_s(y))-T_{\epsilon^2}f(w) F(\rho_\epsilon*\overline{\eta}_s(w))\} \rho_\epsilon(w-y)dy, \overline{\eta}_s(dw) \rangle.
+\end{align*}
+Let us denote $I$ the integral against $dy$ in the last expresion, that is 
+\[ I :=  \int \{ T_{\epsilon^2} f(y) F(\rho_\epsilon*\overline{\eta}_s(y))-T_{\epsilon^2}f(w) F(\rho_\epsilon*\overline{\eta}_s(w))\} \rho_\epsilon(w-y)dy \]
+And note that $|I|$ is bounded by
+\begin{align}
+& \int \left\{ |F(\rho_\epsilon*\overline{\eta}_s(y))-F(\rho_\epsilon*\overline{\eta}_s(w))|T_{\epsilon^2}f(y)+F(\rho_\epsilon*\overline{\eta}_s(w))|T_{\epsilon^2}f(y)-T_{\epsilon^2}f(w))|\right\} \rho_{\epsilon}(w-y)dy \nonumber \\ &\leq \int C |\rho_\epsilon*\overline{\eta}_s(y)-\rho_\epsilon*\overline{\eta}_s(w)| \rho_\epsilon(w-y)dy + C \epsilon^2 \Vert \Delta f \Vert_2 \label{FirstBoundCT}
+\end{align}
+where in the last inequality we have used $F(x)1_{x>0}$ and $|F'(x)1_{x>0}|$ are both bounded above. We want to use Proposition~\ref{ContinuityEstimate} in the last equation, but the terms that we would obtain would be too hard to control unless we first control the total mass and their noise. Let us define,
+\begin{align*}
+A_{t} &:= \left\{ \sup_{0 \leq s \leq t} \langle 1, \overline{\eta}_s(dz) \rangle > \epsilon^{-2/3} \right\}. \end{align*}
+Note that, by Markov's inequality and Lemma~\ref{Lemma:UniformlyBoundedMass} the event $A_{t}$ has probability of order $\epsilon^{2/3}$. Hence, writing $I = I(1_{A^c_{t}} + 1_{A_{t}})$ and proceeding as before we can use Proposition~\ref{ContinuityEstimate} in (\ref{FirstBoundCT}) to get,
+\begin{align}
+&\int_0^t \IE[|\langle T_{\epsilon^2} f(y) F(\rho_\epsilon *\overline{\eta}_s(dy)), \overline{\eta}_s(dy) \rangle - \langle T_{\epsilon^2} f(y) F(\rho_\epsilon * \overline{\eta}_s(dy)), \rho_\epsilon * \overline{\eta}_s(y) dy \rangle|] \nonumber \\ &\leq   \int_0^t \IE[ \frac{\epsilon}{\sqrt{\epsilon^2 + s}} \langle 1,\overline{\eta}_0(dz) \rangle \langle 1, \overline{\eta}_s(dz)\rangle ] ds +  \int_0^t \IE[  \int_0^s \frac{\epsilon}{\sqrt{\epsilon^2 + s - r}} \langle 1, \overline{\eta}_r (dz) \rangle dr \langle 1, \overline{\eta}_s(dz) \rangle  ] ds \nonumber\\ & + \int_0^t \IE[   1_{A^c_{t}} \int_0^s \frac{\epsilon}{\sqrt{\epsilon^2 + s - r}} \langle \rho_\epsilon*\overline{\eta}_r(z), \overline{\eta}_r(dz) \rangle dr \langle 1, \overline{\eta}_s(dz) \rangle  ] ds + \int_0^t \IE[\langle |M_s(x)|,\overline{\eta}_s(dx) \rangle] ds \nonumber \\ &+ \int_0^t \int \IE[|M_s(y)|\rho_\epsilon*\overline{\eta}_s(y)] dy ds  +\mathcal{O}\left( \frac{1}{\epsilon^2 \theta} + \epsilon^2 + \epsilon^{1/3} \right)  \label{ThingsToBound}
+\end{align}
+Note we have bounded $1_{A^c_{t}}$ by one in all the terms expect the third one, which is the one that will require it. For the first two term we can use our hypothesis on the initial condition and that $2 ab \leq a^2+b^2$ to get that their contribution is bounded by,
+\begin{align*}
+\int_0^t C \frac{\epsilon}{\sqrt{\epsilon^2+s}}\IE[\langle 1, \overline{\eta}_s(dz) \rangle] ds + \int_0^t \int_0^s \frac{\epsilon}{\sqrt{\epsilon^2+s-r}}\IE[\langle 1, \overline{\eta}_r(dz)\rangle^2 + \langle 1, \overline{\eta}_s(dz)\rangle^2] ds,
+\end{align*}
+which, due to Proposition~\ref{Prop:SecondMomentMass}, is of order $\epsilon$. To bound the third integral term we use the event $A_{t}$ to get it is bounded by,
+\begin{align*}
+\int_0^t \int_0^s \frac{\epsilon^{1/3}}{\sqrt{\epsilon^2+s-r}} \IE[ \langle \rho*\overline{\eta}_r(z), \overline{\eta}(dz) \rangle] dr ds = \mathcal{O}(\epsilon^{1/3})
+\end{align*}
+where we have used Remark~\ref{remark:BoundedIntegral}. 
+We now proceed to control the terms with martingales in (\ref{ThingsToBound}). For the first one note that, by using Cauchy-Schwartz in $L^2(\mathbb{P})$ and then in $L^2(\mathbb{R}^d)$,
+\begin{align}
+\int_0^t \int \IE[|M_s(y)|\rho_\epsilon*\overline{\eta}_s(y)] dy ds & \leq \int_0^t \int \IE[|M^2_s(y)]^{1/2} \IE[\rho_\epsilon * \overline{\eta}_s(y)^2]^{1/2} dy dy \nonumber \\ & \leq \int_0^t \left( \int \IE[|M_s(y)^2|] dy \int \IE[\rho_\epsilon * \overline{\eta}_s(y)^2] dy \right)^{1/2} ds  \nonumber \\ &= \mathcal{O}\left( \left( \frac{\theta}{N \epsilon^d} \right)^{1/2} \right)
+\label{TwiceCS} \end{align}
+where in the last inequality we used Proposition~\ref{IntegrabilityOfM} and Remark~\ref{remark:BoundedIntegral}. For the second term with a Martingale in (\ref{ThingsToBound}) we need to proceed with more care. For this we first rewrite explicitly the dependency on $\epsilon$ of $M_t(x)$ by using $M_t^{\varepsilon^2}(x)$. We can then write from (\ref{MartingaleProblemMolifier}) and Lemma~\ref{Lemma:BoundPsiHS2}) that,
+\begin{align*}
+ M_t^{\epsilon^2}(x) &= \langle p_{\epsilon^2}(x,y), \overline{\eta}_t(dx) \rangle - \langle p_{t + \epsilon^2}(x,y), \overline{\eta}_0(dx) \rangle \\ &- \int_0^t \langle F(\rho_\epsilon*\overline{\eta}_s(y)) p_{t-s+\epsilon^2}(x,y), \overline{\eta}_s(dy) \rangle ds + \mathcal{O}\left(\frac{1}{\epsilon^2 \theta} \right) \end{align*}
+ It follows then that $M_s^{\epsilon^2}= p_{\epsilon^2/2}*M_s^{\epsilon^2/2} + \mathcal{O}\left(1/\epsilon^2 \theta\right)$. Using this we can then bound,
+ \begin{align*}
+\int_0^t &\IE[ \langle |M_s^{\epsilon^2}(x)|, \overline{\eta}_s(dx) \rangle ] ds \\ &= \int_0^t \IE[ \langle | p_{\epsilon^2/2}*M_s^{\epsilon^2/2}(x)|, \overline{\eta}_s(dx) \rangle] ds \\ & \leq  \int_0^t \IE[ \langle p_{\epsilon^2/2}*| M_s^{\epsilon^2/2}(x)|, \overline{\eta}_s(dx) \rangle] ds \\ &= \int_0^t \IE[ \langle \int p_{\epsilon^2/2}(x,y) |M_s^{\epsilon^2/2}(y)|dy, \overline{\eta}_s(dx) \rangle] ds \\ &= \int_0^t \IE[ \int |M_s^{\epsilon^2/2}(y)| p_{\epsilon^2/2}*\overline{\eta}_s(y) dy ] ds \\ &= \int_0^t \int \IE[ M_s^{\epsilon^2/2}(y)| p_{\epsilon^2/2} * \overline{\eta}_s(dy)] dy ds 
+ \end{align*}
+ An analogues computation as the one performed to obatin (\ref{TwiceCS}) gives the last term is $\mathcal{O}\left( \left( \frac{\theta}{N \epsilon^d} \right)^{1/2} \right)$.
+ \end{proof}
+Now, to finish the characterisation of the limit, it remain to show that:
+\[ \int f(x) \rho_\epsilon * \overline{\eta}_t(x) F(\rho_\epsilon * \overline{\eta}_t(x)) dx \rightarrow \int f(x) u_t(x) F(u_t(x)) dx \]
+where $u_t(x)dx$ is the limit of $\rho_\epsilon*\overline{\eta}_t(x)dx$. As we mention as the start of this note this does now follow from weak convergence of $\rho_\epsilon*\overline{\eta}(x)dx$. For proving this, we recall that $F(x)$ is a polynomial, so we just need to prove said convergence of powers of $(\rho_\epsilon*\overline{\eta}_t(x))$. To illustrate how to proceed, we will prove the convergence,
+\begin{equation} \label{eq:QuadConvergence} \int f(x) \rho_\epsilon * \overline{\eta}_t(x) \rho_\epsilon * \overline{\eta}_t(x)^2 dx \rightarrow \int f(x) u_t(x) u_t(x)^2 dx \end{equation}
+with the understanding that converge of higher powers will follows in a similar fashion with rougher notation. To achieve (\ref{eq:QuadConvergence}) we proceed by proving an approximation of the form,
+\begin{equation}
+\label{aprox2}
+\langle f, (\overline{\eta}_s * \rho_\epsilon)^2 \rangle \sim \int \int f(z) (\rho_\epsilon * \overline{\eta}_s)(z) \rho_\delta (z-y) (\rho_\epsilon * \overline{\eta}_s)(y) dz dy.
+\end{equation}
+Before proceeding with a proof of (\ref{aprox2}), we argue why this is enough to conclude Theorem~\ref{TeoremOneStepConvergence}. Note the right hand side of (\ref{aprox2}) can written as
+\[ \int_{\mathbb{R}^{d} \otimes \mathbb{R}^d} f(z) \rho_\delta(z-y) (\rho_\epsilon * \overline{\eta}_s(dz) \otimes (\rho_\epsilon * \overline{\eta}_s(dy)). \]
+Weak convergence of $\rho_\epsilon * \overline{\eta}$ (plus continuity of the mapping $(z,y) \rightarrow f(z) \rho_\delta(z-y)$) gives that the last term converges in $L^1$ to
+\[ \int_{\mathbb{R}^{d} \otimes \mathbb{R}^d} f(z) \rho_\delta(z-y) (u_s(dz) \otimes (u_s(dy)). \]
+Finally, by a direct analogue of (\ref{aprox2}) we can say that
+\begin{equation} \int_{\mathbb{R}^{d} \otimes \mathbb{R}^d} f(z) \rho_\delta(z-y) (u_s(dz) \otimes (u_s(dy)) \sim \langle f(x), u_s^2(x) dx \rangle. \label{aprox3} \end{equation}
+which is what we seek. We proceed now to prove (\ref{aprox2}), with the understanding that (\ref{aprox3}) follows in a similar way and give even better error terms.
+\begin{theorem}
+Under the conditions of Theorem~\ref{TeoremOneStepConvergence}, we have that
+\begin{align*}
+\int_0^t \mathbb{E}&\left[\left| \langle f(y), (\overline{\eta}_s * \rho_\epsilon(y))^2) dy\rangle - \int \int f(y) (\rho_\epsilon * \overline{\eta}_s)(z) \rho_\delta (z-y) (\rho_\epsilon * \overline{\eta}_s)(y) dz dy. \right|\right] ds
+\end{align*}
+is bounded by,
+\[  \mathcal{O}\left(\delta^{1/3} + \delta +  \frac{1}{\epsilon^2 \theta} + \left( \frac{\theta}{N \epsilon^2}\right)^{1/2} \right)  \]
+in particular, under (\ref{ConditionsForConvergence}), the last term goes to $0$ uniformly in $\theta,\epsilon,N$ and $\delta$ (when $\delta$, $\epsilon$ go to $0$ and $N,\theta$ to infinity).
+\end{theorem}
+\begin{proof}
+First note,
+\begin{align}
+&\int_0^t \mathbb{E}\left[| \langle f(y), (\overline{\eta}_s * \rho_\epsilon(y))^2) dy \rangle - \int \int f(y) (\rho_\epsilon * \overline{\eta}_s)(z) \rho_\delta (z-y) (\rho_\epsilon * \overline{\eta}_s)(y) dz dy. |\right] ds \nonumber \\ &\leq  \Vert f \Vert_\infty \int_{S_f}  \int_0^t  \mathbb{E}\left[ \int \left\{ \left|(\rho_\epsilon * \overline{\eta}_s)(y)-(\rho_\epsilon * \overline{\eta}_s)(z) \right|   \rho_\delta(z-y) dz \right\} (\rho_\epsilon *\overline{\eta}_s)(y) \right] ds  dy \label{b1}
+\end{align}
+We want then to bound (\ref{b1}) by using Proposition~\ref{ContinuityEstimate}. For this consider the event,
+\[ B_{s,y} := \{ \rho_\epsilon * \overline{\eta}_s(y) > \delta^{-2/3} \}. \]
+Note that by Markov's inequality and Lemma~\ref{FirstBoundLocalDensity} the event $B_{s,y}$ has probability of order $\delta^{2/3}$ (and independent of $s$ and $y$). Thus, proceeding as how get (\ref{ThingsToBound}), the integral against $ds$ in the right hand side of (\ref{b1}) is bounded by
+\begin{align}
+&\int_0^t \IE[ \frac{\delta}{\sqrt{\epsilon^2 + s}} \langle 1,\overline{\eta}_0(dz) \rangle (\rho_\epsilon *\overline{\eta}_s)(y) ] ds +  \int_0^t \IE[  \int_0^s \frac{\delta}{\sqrt{\epsilon^2 + s - r}} \langle 1, \overline{\eta}_r (dz) \rangle dr(\rho_\epsilon *\overline{\eta}_s)(y)  ] ds \nonumber\\ & + \int_0^t \IE[   1_{B^c_{s,\delta}} \int_0^s \frac{\delta}{\sqrt{\epsilon^2 + s - r}} \langle \rho_\epsilon*\overline{\eta}_r(z), \overline{\eta}_r(dz) \rangle dr (\rho_\epsilon *\overline{\eta}_s)(y) ] ds + \int_0^t \IE[\langle |M_s(x)|,\overline{\eta}_s(dx) \rangle] ds \nonumber \\ & + \int_0^t  \IE[|M_s(y)|\rho_{\epsilon+\delta}*\overline{\eta}_s(y)] ds  +\mathcal{O}\left( \frac{1}{\epsilon^2 \theta} + \delta^{1/3} \right)  \label{ThingsToBound2}
+\end{align}
+From this point onward we can proceed as how we bounded (\ref{ThingsToBound}) in Proposition~\ref{CuadraticApprox} to obtain that the right hand side of (\ref{b1}) is bounded by,
+\[  \mathcal{O}\left(\delta^{1/3} + \delta+ \frac{1}{\epsilon^2 \theta} + \left( \frac{\theta}{N \epsilon^2}\right)^{1/2} \right)  \]
+Concluding the result.
+\end{proof}
+
+\paragraph{Conclusion}
+Under the condition (\ref{ConditionsForConvergence}) we have that all the errors in our approximations go to $0$. It is then we can deduce that quadratic (and analogously, higher order) terms in the martingale problem for $\rho_\epsilon*\overline{\eta}_t(x)dx$, (\ref{MGPT_epsilon}), converges to the corresponding term of the weak limit. Any linear term converge trivially by weak convergence. By a Taylor's expansion we can also conclude that,
+\begin{align*}
+\int_0^t \langle \mathcal{L}^\theta T_{\epsilon^2} f, \overline{\eta}_s(dx)\rangle ds &= \int_0^t \langle \frac{1}{2} \Delta T_{\epsilon^2} f(x), \overline{\eta}_s(dx) \rangle + \mathcal{O}(\theta^{-1}) 
+\\ &= \int_0^t \langle \frac{1}{2} \Delta f(x), \rho_\epsilon* \overline{\eta}_s(x) dx \rangle ds + \mathcal{O}(\theta^{-1} + \epsilon).
+\end{align*}
+Thus, by weak convergence we can deduce
+\[ \int_0^t \langle \mathcal{L}^\theta T_{\epsilon^2} f, \overline{\eta}_s(dx)\rangle ds \rightarrow \int_0^t \langle \frac{1}{2} \Delta f(x), u_s(x) dx \rangle ds \]
+Putting all the convergences together, this identifies the limit of $\rho_\epsilon*\overline{\eta}_s(x)dx$ as we have claimed in Theorem~\ref{TeoremOneStepConvergence}.
+
+
+\todo[inline]{END OneStepConvergence}
+
+
 
 % % % % % % % % % % % % %
 \subsection{Tightness of the Lines of Descent}
