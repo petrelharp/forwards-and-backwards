@@ -558,7 +558,8 @@ and define
     \right) .
 \end{align}
 Although the models will make sense without this requirement,
-for the purposes of convergence we will also require that $\theta > 1/(\epsilon_\gamma - \epsilon_r)$.
+for the purposes of convergence we will also require that
+$\theta > 2 \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y/(\epsilon_\gamma^2 - \epsilon_r^2)$.
 \end{definition}
 
 Expressions like $\gamma(x, \smooth{\gamma} \eta(x))$ will appear often in the paper.
@@ -2799,12 +2800,14 @@ however in our situation because the parameters depend on the population process
 we will use convergence of the population process
 in the proofs of tightness and convergence for the lookdown process.
 
+\comment{TODO: move actual proof after its ingredients; just foreshadow here?}
+
 \begin{proof}[Proof of Theorem~\ref{thm:nonlocal_convergence}.]
 Here, we need to prove that for any sequence $N_k \to \infty$,
 there is a subsequence $N_{k(j)}$ along which $(\eta^{N_{k(j)}}_t)_{t\ge 0}$ converges in distribution
 (i.e., tightness for the family of distributions on c\`adl\`ag measure-valued paths),
 and that any limit is a solution to the martingale problem stated in the Theorem.
-This would convergence along $N_k$ to a unique limit
+This would imply convergence along $N_k$ to a unique limit
 if the solution to the martingale problem was unique;
 however, we only know this to be the case in certain situations.
 
@@ -2837,30 +2840,359 @@ we first show that the expected total mass at some fixed time $T$
 is controlled uniformly across $N$, a compact containment condition.
 To establish this control,
 we first prove a technical lemma which controls spatial density of our population,
-and then we use the Burkholder-Davis-Gundy inequality \comment{TODO CITE}
+and then we use the Burkholder-Davis-Gundy inequality
 to give us control over the running supremum of the total population mass.
 Once we have control over the total mass of the population, 
 we will also have control over local densities.
 This then allows us to prove that the particle system is tight
-by an application of the Aldous-Rebolledo criterion \comment{TODO CITE}.
+by an application of the Aldous-Rebolledo criterion \citet{rebolledo:1980,alisonsup}.
 
-\comment{summarize and move to the appendix}
 
+% % % % % % % % % % % % %
 \subsubsection{Compact Containment Condition}
-Before proving compact containment condition,
-we first prove a technical lemma that involves a bound on the Gaussian kernels.
+
+To show compact containment, we will need boundedness
+of the total net reproduction rate.
+This does not follow immediately from our assumption that $F$ is bounded above
+because reproduction is not local.
+\comment{say more about the difference between $F$ and the total net reproduction rate}
+The following lemma will be useful.
+
 \begin{lemma}
-    \label{lem: gamma - r radius comparison}
+    \label{lem:q_bound}
     Under the assumptions of Definition~\ref{def:model_setup},
-    if $\epsilon_{r}^2 + \frac{1}{\theta} < \epsilon_{\gamma}^2,$ then
-    for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d \times \mathbb{R})$
+    for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times [0,\infty))$,
+    then there exists a $C_f < \infty$ such that
+    for all $\theta > 0$ and all $\eta \in \measures$,
+    \begin{equation*}
+        \left| \theta 
+            \int_{\IR^n} 
+                \left\{
+                    f\left(y, \smooth{r}\eta(y)\right)
+                    -
+                    f\left(x, \smooth{r}\eta(x)\right)
+                \right\}
+            q_{\theta}(x,dy)
+        \right|
+        \leq
+        C_f \left( 1 + \smooth{\gamma} \eta(x)^2 \right)
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}[of Lemma \ref{lem:q_bound}]
+    The key assumption here from Definition~\ref{def:model_setup}
+    will be that $\epsilon_{r}^2 + \frac{2\lambda}{\theta} < \epsilon_{\gamma}^2$,
+    where $\lambda = \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y$
+    is the largest eigenvalue of $\covq(x)$ across all $x$.
+    First note that 
+    \begin{align} \label{eqn:q_bound_split}
+    &
+        \left| \theta 
+            \int_{\IR^n} 
+                \left\{
+                    f\left(y, \smooth{r}\eta(y)\right)
+                    -
+                    f\left(x, \smooth{r}\eta(x)\right)
+                \right\}
+            q_{\theta}(x,dy)
+        \right|
+    \\ &\qquad {} \leq
+        \left| \theta 
+            \int_{\IR^n} 
+                \left\{
+                    f\left(y, \smooth{r}\eta(y)\right)
+                    -
+                    f\left(x, \smooth{r}\eta(y)\right)
+                \right\}
+            q_{\theta}(x,dy)
+        \right|
+    \\ &\qquad \qquad {}  +
+        \left| \theta 
+            \int_{\IR^n} 
+                \left\{
+                    f\left(x, \smooth{r}\eta(y)\right)
+                    -
+                    f\left(x, \smooth{r}\eta(x)\right)
+                \right\}
+            q_{\theta}(x,dy) 
+        \right| .
+    \end{align}
+
+    Since 
+    \begin{align*}
+        f\left(y, \smooth{r}\eta(y)\right) - f\left(x, \smooth{r}\eta(y)\right)
+        &=
+        \sum_i (y_i - x_i) \partial_{x_i} f \left(x, \smooth{r}\eta(y)\right) 
+        \\ &\qquad {}
+        +
+        \frac{1}{2} \sum_{ij} (y_i - x_i)(y_j - x_j)
+            \partial_{x_i x_j} f \left(z, \smooth{r}\eta(y)\right) 
+    \end{align*}
+    where $z = t x + (1-t) y$ for some $0 \le t \le 1$,
+    writing
+    $K_1 = \sup_{x,m} \max_i |\partial_{x_i} f(x, m)|$
+    and 
+    $K_2 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x, m)|$
+    for the bounds on the spatial derivatives of $f$,
+    the first term is bounded by
+    \begin{align*}
+        K_1 \left|
+            \theta \int_{\IR^d} \sum_i (y_i - x_i) q_\theta(x, dy)
+        \right|
+        +
+        K_2 \left|
+            \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
+        \right| .
+    \end{align*}
+    This is bounded uniformly because
+    $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
+    and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
+    are bounded uniformly in $x$.
+
+    Similarly, 
+    \begin{align*}
+        f(x, \smooth{r}\eta(y)) - f(x, \smooth{r}\eta(x))
+        &=
+        (\smooth{r}\eta(y) - \smooth{r}\eta(x)) f'(x, \smooth{r}\eta(x))
+        + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 f''(x, m)
+    \end{align*}
+    for some $\smooth{r}\eta(x) \le m \le \smooth{r}\eta(y)$,
+    where $f'$ and $f''$ denote the first and second derivatives with respect to the second argument.
+    So,
+    the second term in~\eqref{eqn:q_bound_split} is bounded by
+    \begin{align*}
+        \|f'\|_\infty
+        \left|
+            \theta \int_{\IR^d}
+                (\smooth{r}\eta(y) - \smooth{r}\eta(x))
+            q_\theta(x, dy)
+        \right|
+        +
+        \|f''\|_\infty
+        \left|
+            \theta \int_{\IR^d}
+                (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
+            q_\theta(x, dy)
+        \right| .
+    \end{align*}
+    Therefore, it suffices to show that there is a $K < \infty$ such that
+    for all $\eta \in \measures$ and $x \in \IR^d$,
+    \begin{equation}
+        \label{eqn:first_moment_rho}
+        \left|\theta \int_{\mathbb{R}^d}
+            ( \smooth{r} \eta(y)-\smooth{r} \eta(x) )
+        q_\theta(x,dy)\right|
+        \leq K \smooth{\gamma} \eta(x)
+    \end{equation}
+    and
+    \begin{equation}
+        \label{eqn:second_moment_rho}
+        \theta \int_{\mathbb{R}^d}
+                \left( \smooth{r} \eta(y) - \smooth{r} \eta(x) \right)^2
+        q_\theta(x,dy)
+        \leq K \left(\smooth{\gamma}\eta(x) \right)^2 .
+    \end{equation}
+    Note that the right hand side of each is the average density
+    over a wider region (since $\epsilon_\gamma > \epsilon_r$).
+
+    First we prove \eqref{eqn:first_moment_rho}.
+    Recall that $\smooth{r} \eta(x) = \int p_{\epsilon^2_r}(x - w) \eta(dw)$,
+    where $p_t$ is the density of a Gaussian with mean 0 and variance $t$,
+    so that applying Fubini, \eqref{eqn:first_moment_rho} is
+    \begin{align*}
+        \left|
+        \int_{\IR^d}
+        \theta
+            \int_{\IR^d}
+                ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
+            q_\theta(x, dy)
+        \eta(dw)
+        \right| .
+    \end{align*}
+    Write $p_{s, x}(\cdot)$ for the density of a Gaussian
+    with mean $s \meanq(x)$ and covariance $\epsilon_r^2 I + s \covq(x)$,
+    so that $\int p_{\epsilon_r^2}(y - w) q_\theta(x, dy) = p_{\epsilon_r^2, 1/\theta, x}(w-x)$.
+    It therefore suffices to show that for all $x$ and $w \in \IR^d$,
+    \begin{align*}
+        \left|
+        \theta
+            \int_{\IR^d}
+                ( p_{\epsilon_r^2}(y-w) - p_{\epsilon_r^2}(x-w) )
+            q_\theta(x, dy)
+        \right|
+        &=
+        \theta \left|
+            p_{1/\theta, x}(w-x) - p_{0, x}(w-x)
+        \right|
+        \le
+        p_{\epsilon^2_\gamma}(w-x) .
+    \end{align*}
+    However,
+    $\theta( p_{1/\theta, x}(z) - p_{0, x}(z) )
+    = \partial_s p_{s, x}(z)$ for some $0 \le s \le 1/\theta$.
+    Write $\Gamma(s,x) = \epsilon_r^2 I + s \covq(x)$,
+    so that
+    \begin{align*}
+        p_{s, x}(z)
+        &=
+        \frac{1}{\left(2 \pi |\Gamma(s,x)|\right)^{d/2}}
+        \exp\left(
+            -\frac{1}{2} (z - s\meanq(x))^T \Gamma(s,x)^{-1} (z - s\meanq(x))
+        \right) ,
+    \end{align*}
+    and note that if $\lambda_i$ are the eigenvalues of $\covq(x)$
+    then $|\Gamma(s, x)| = \prod_i (\epsilon_r^2 + s \lambda_i)$,
+    and
+    $\partial_s |\Gamma(s, x)| = \sum_i \lambda_i |\Gamma(s, x)| / (\epsilon_r^2 + s \lambda_i)$.
+    Therefore,
+    \begin{align*}
+        \partial_s p_{s, x}(z)
+        &=
+        \left(
+            \meanq(x)^T \Gamma(s,x)^{-1} (z - s \meanq)
+            +
+            (z - s \meanq)^T
+            \Gamma(s,x)^{-1} \covq(x) \Gamma(s,x)^{-1}
+            (z - s \meanq)
+            -
+            \sum_i \frac{\lambda_i}{\epsilon_r^2 + s \lambda_i}
+        \right)
+        p_{s, x}(z) ,
+    \end{align*}
+    where $z^T$ is the transpose of $z$.
+    Since $\partial_s p_{s, x}(z) / p_{s, x}(z)$ is a polynomial in $z$
+    with coefficients that are uniformly bounded for $s \ge 1$,
+    it is evident that
+    $\sup_z \partial_s p_{\epsilon_r^2, s, x}(z) / p_{\epsilon_\gamma^2}(z) < \infty$
+    if and only if
+    \begin{align*}
+        \frac{1}{2\epsilon_\gamma^2} \|z\|^2
+        -\frac{1}{2} (z - s\meanq(x))^T \Gamma(s,x)^{-1} (z - s\meanq(x))
+    \end{align*}
+    is negative for all $z$ outside a bounded region.
+    Since $\inf_z z^T \Gamma(s,x)^{-1} z / \|z\|^2 = 1 / (s \lambda(x) + \epsilon_r^2)$,
+    where $\lambda(x) = \sup z^T \covq(x) z / \|z\|^2$ is the largest eigenvalue of $\covq(x)$,
+    equation~\eqref{eqn:first_moment_rho} follows from the assumption
+    that $\epsilon_r^2 + 2 \sup_x \lambda(x)/\theta < \epsilon_\gamma^2$.
+    (Note that we do not yet need the factor of 2.)
+
+    Next we prove equation~\eqref{eqn:second_moment_rho}, in a similar way.
+    Again applying Fubini,
+    \begin{align*}
+        &
+        \theta \int_{\mathbb{R}^d}
+                \left( \smooth{r} \eta(y) - \smooth{r} \eta(x) \right)^2
+        q_\theta(x,dy)
+        \\ &\qquad
+        =
+        \int_{\IR^d} \int_{\IR^d}
+        \theta \int_{\IR^d}
+            ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
+            ( p_{\epsilon_r^2}(y - v) - p_{\epsilon_r^2}(x - v) )
+        q_\theta(x, dy)
+        \eta(dv) \eta(dw) ,
+    \end{align*}
+    and so as before, equation~\eqref{eqn:second_moment_rho} will follow if
+    the integrand is bounded by $K p_\gamma(x-w) p_\gamma(x - v)$.
+    % \begin{align*}
+    %     \theta \int_{\IR^d}
+    %         ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
+    %         ( p_{\epsilon_r^2}(y - v) - p_{\epsilon_r^2}(x - v) )
+    %     q_\theta(x, dy)
+    %     \le K p_\gamma(x-w) p_\gamma(x - v) .
+    % \end{align*}
+    Now, let $Y_1$, $Y_2$, and $Z$ be independent $d$-dimensional Gaussians with mean zero,
+    where $Y_1$ and $Y_2$ have covariance $\sigma^2_r I$,
+    and $Z$ has covariance $\covq(x)$.
+    Write $p_{s,t,x}(\cdot, \cdot)$ for the joint density of
+    $Y_1 + \sqrt{s} Z + s \meanq(x)$ and $Y_2 + \sqrt{t} Z + t \meanq(x)$.
+    Then, observe that
+    \begin{align*}
+        &
+        \theta \int_{\IR^d}
+            ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
+            ( p_{\epsilon_r^2}(y - v) - p_{\epsilon_r^2}(x - v) )
+        q_\theta(x, dy)
+        \\ &\qquad
+        =
+        \theta \left(
+            p_{1/\theta, 1/\theta, x}(x-w, x-v)
+            - p_{0, 1/\theta, x}(x-w, x-v)
+        \right. \\ &\qquad \qquad \left. {}
+            - p_{1/\theta, 0, x}(x-w, x-v)
+            + p_{0, 0, x}(x-w, x-v)
+        \right) 
+        \\ &\qquad 
+        =
+            \partial_s p_{s, 1/\theta, x}(x-w, x-v)
+            - \partial_t p_{0, t, x}(x-w, x-v) ,
+    \end{align*}
+    for some $0 \le s, t \le 1/\theta$.
+    As before, $\partial_s p_{s, t, x}(y_1, y_2)$ has polynomial terms multiplying
+    $$
+        \exp\left(
+            - \frac{1}{2} [y_1, y_2[^T \Gamma(s, t, x)^{-1} [y_1, y_2]
+        \right) ,
+    $$
+    where $[y_1, y_2]$ is the $\IR^{2d}$ vector formed by concatenating $y_1$ and $y_2$,
+    and $\Gamma(s, t, x)$ is the block matrix
+    \begin{align*}
+        \Gamma(s, t, x)
+        =
+        \left[
+        \begin{array}{cc}
+            \epsilon_r^2 I + s \covq(x) & \sqrt{st} \covq(x) \\
+            \sqrt{st} \covq(x) & \epsilon_r^2 I + t \covq(x) \\
+        \end{array}
+        \right] .
+    \end{align*}
+    If $\covq(x) u = a u$ for some $a \in \IR$,
+    then $[u \sqrt{s}, u \sqrt{t}]$ is an eigenvector of $\Gamma(s, t, x)$
+    with eigenvalue $\epsilon^2_r + (s+t) a$,
+    and $[u \sqrt{t}, - u \sqrt{s}]$ is an eigenvector of $\Gamma(s, t, x)$
+    with eigenvalue 0.
+    This implies the largest eigenvalue of $\Gamma(s, t, x)$
+    is equal to $\epsilon^2_r + (s+t) \lambda(x)$,
+    where $\lambda(x)$ is again the largest eigenvalue of $\covq(x)$.
+    Therefore, if $s + t \le 2 / \theta$,
+    \begin{align*}
+        &
+        (\|y_1\|^2 + \|y_2\|^2) / \epsilon^2_\gamma
+            - [y_1, y_2[^T \Gamma(s, t, x)^{-1} [y_1, y_2]
+        \\ &\qquad \le
+        (\|y_1\|^2 + \|y_2\|^2) \left(
+            \frac{1}{\epsilon^2_\gamma}
+            - \frac{1}{\epsilon^2_r +  2\lambda(x)/\theta}
+        \right) ,
+    \end{align*}
+    which is negative by assumption.
+    Therefore, there is a $K$ such that
+    \begin{align*}
+        \frac{ \left|
+            \partial_s p_{s, 1/\theta, x}(x-w, x-v)
+            - \partial_t p_{0, t, x}(x-w, x-v)
+        \right| }{
+            p_{\epsilon^2_\gamma}(x - w)
+            p_{\epsilon^2_\gamma}(x - v)
+        }
+        \le K
+    \end{align*}
+    for all $\theta > 1$ and all $x$, $v$, and $w \in \IR^d$,
+    proving equation~\eqref{eqn:second_moment_rho} and hence the lemma.
+\end{proof}
+
+
+\begin{corollary}
+    \label{cor:gamma_bound}
+    Under the assumptions of Definition~\ref{def:model_setup},
+    including that $\epsilon_{r}^2 + \frac{1}{\theta} < \epsilon_{\gamma}^2$,
+    for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times \IR)$
     with bounded first and second derivatives
-    and for all $\eta \in \mathcal{M}_{f}(\mathbb{R}^d)$, we have 
-    
+    and for all $\eta \in \measures$, we have
     \begin{equation}\label{eq: gamma - r radius comparison bound}
     \gamma\big(x,\rho_{\gamma}*\eta(x)\big)
     \left| \theta 
-        \int_{\mathbb{R}^n} 
+        \int_{\IR^n} 
             \big\{
                 f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)
             \big\}
@@ -2869,7 +3201,8 @@ we first prove a technical lemma that involves a bound on the Gaussian kernels.
     \leq C_{\gamma, f}    
     \end{equation}
     for some constant $C_{\gamma,f}$ independent of $\eta$ and $\theta$. 
-\end{lemma}
+\end{corollary}
+
 \begin{proof}
 Since $f(x_1,...,x_d,w)$ is twice differentiable, we can Taylor expand $f$ around  $(x_1,...,x_d,\rho_{r}*\eta(x))$ up to second order and obtain that for $x=(x_1,..,x_d)$,
 \begin{equation}
@@ -3092,6 +3425,7 @@ As a result,
                 p_{\epsilon^2_\gamma}(x-w)        
 \end{align}
 for some $u \in [0, 1/\theta]$ by Mean Value Theorem. We have therefore established our bound as $J(s)$ has bounded derivative in a neighbourhood around $0$.
+\comment{This is not enough, since we need to show the constant holds for all $x$, and $J$ depends on $x$.}
 
 We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
 \begin{align}
@@ -3249,7 +3583,7 @@ Therefore, taking expectations, we have
 \leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{N}_s(dx) \rangle ds,
 \end{aligned}
 \end{equation}
-where the last inequality holds by Lemma \ref{lem: gamma - r radius comparison}.
+where the last inequality holds by Lemma \ref{cor:gamma_bound}.
 
 Applying Gronwall's inequality, we have that 
 \begin{equation}
@@ -3341,7 +3675,7 @@ In particular,
  + \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\rho_{r}*\eta^{N}_{s}(y))\big\}\rho_{1/\theta}(x-y)dy\\
  \leq C_{\gamma,r}||f||_{\infty} + C_{\gamma}||\Delta f||_{\infty},
 \end{multline}
-since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{lem: gamma - r radius comparison}
+since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{cor:gamma_bound}
 and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
 
 Finally,  $F(\rho_{F}*\eta^{N}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
