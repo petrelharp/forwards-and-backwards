@@ -601,7 +601,7 @@ writing $\langle f, \eta \rangle = \int_{\IR^d} f(x) \eta(dx)$
 and $q_\theta(x, dy)$ as the Gaussian kernel
 with mean $x + \meanq(x)/\theta$ and covariance $\covq(x) / \theta$,
 \begin{equation}
-    \label{eq: Pre-limit Martingale Characterisation}
+    \label{eqn:eta_martingale}
 \begin{aligned}
 M^N_t(f)
 &:=  \langle f, \eta^N_t \rangle
@@ -639,7 +639,7 @@ is a martingale with quadratic variation
 
 Note that
 since individuals are produced at rate $N \gamma \eta$ but have mass $1/N$ each,
-these factors of $N$ cancel in~\eqref{eq: Pre-limit Martingale Characterisation}.
+these factors of $N$ cancel in~\eqref{eqn:eta_martingale}.
 Since we are taking a diffusion limit,
 we will have use for the following notation:
 
@@ -2115,14 +2115,14 @@ The lookdown processes have been carefully constructed so that
 if we average over levels in the expression for the lookdown generator
 (equation~\eqref{eqn:lookdown_generator} or~\eqref{eqn:limiting_lookdown_generator})
 we get the generator for the population process
-(visible in equation~\eqref{eq: Pre-limit Martingale Characterisation}
+(visible in equation~\eqref{eqn:eta_martingale}
 or~\eqref{eqn:limiting_mgale_problem}, respectively).
 Once this is verified (and some boundedness conditions)
 in Appendix \ref{sec: Markov Mapping Theorem Application},
 the Markov Mapping Theorem \citep[Thm A.2 in][]{etheridge/kurtz:2018}
 tells us that for any population process $(\eta^N_t)_{t \ge 0}$
 (i.e., solution to the martingale problem of Definition~\ref{defn:mgale_construction})
-% of equations~\eqref{eq: Pre-limit Martingale Characterisation} and \eqref{eqn:prelimit_martingale_variation}
+% of equations~\eqref{eqn:eta_martingale} and \eqref{eqn:prelimit_martingale_variation}
 there is a lookdown representation $(\lp^N_t)_{t \ge 0}$
 (i.e., solution to the martingale problem of Definition~\ref{defn:lookdown_mgale})
 for which $\eta^N_t(\cdot) = \lp^N_t(\cdot \times [0, N])$
@@ -2814,7 +2814,7 @@ however, we only know this to be the case in certain situations.
 We prove tightness of $\eta^N$ as $\mathcal{D}_{\cmeasures}([0,\infty))$-valued processes,
 where $\cmeasures$ is the space of finite measures on the one-point compactification of $\IR^d$.
 To do this, we first prove that $\sup_{0 \le t \le T} \langle 1, \eta^N_t \rangle$ is tight
-(a compact containment condition, Lemma~\ref{lem: Compact Containment}).
+(a compact containment condition, Lemma~\ref{lem:eta_compact_containment}).
 (The reason we use $\cmeasures$ instead of $\measures$
 is so that the set of measures with total mass less than $K$ is compact.)
 Next, in Lemma~ we show that the one-dimensional distributions,
@@ -2852,18 +2852,52 @@ by an application of the Aldous-Rebolledo criterion \citet{rebolledo:1980,alison
 \subsubsection{Compact Containment Condition}
 
 To show compact containment, we will need boundedness
-of the total net reproduction rate.
+of the net per-capita reproduction rate.
 This does not follow immediately from our assumption that $F$ is bounded above
-because reproduction is not local.
-\comment{say more about the difference between $F$ and the total net reproduction rate}
-The following lemma will be useful.
+because reproduction is not local:
+the net per-capita reproduction rate of an individual at $x$ is
+$$
+\theta \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) - \theta \mu(x, \eta)
+=
+F(x, \eta) + \gamma(x, \eta) \theta \int_{\IR^d} (r(y, \eta) - r(x, \eta)) q_\theta(x, dy) .
+$$
+We have assumed that $F$ is bounded,
+but we still need to show that our assumptions imply that
+the second term is bounded, uniformly as $\theta$ grows.
 
 \begin{lemma}
-    \label{lem:q_bound}
+    \label{lem:gamma_bound}
     Under the assumptions of Definition~\ref{def:model_setup},
     for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times [0,\infty))$,
-    then there exists a $C_f < \infty$ such that
+    there exists a $K_f < \infty$ such that
     for all $\theta > 0$ and all $\eta \in \measures$,
+    \begin{equation} \label{eqn:gamma_bound}
+    \gamma\big(x,\smooth{\gamma} \eta(x)\big)
+    \left| \theta 
+        \int_{\IR^n} 
+            \left\{
+                f(y, \smooth{r} \eta(y)) - f(x, \smooth{r} \eta(x))
+            \right\}
+        q_{\theta}(x,dy)
+    \right|
+    \leq C_f     .
+    \end{equation}
+\end{lemma}
+
+The key assumption here from Definition~\ref{def:model_setup}
+will be that the spatial scale over which local density affects birth rate
+is larger than the scale over which it affects establishment:
+concretely, that $\epsilon_{r}^2 + \frac{2\lambda}{\theta} < \epsilon_{\gamma}^2$,
+where $\lambda = \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y$
+is the largest eigenvalue of $\covq(x)$ across all $x$.
+In the simple case of $\meanq = 0$ and $\covq = \sigma^2 I$,
+the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamma^2$.
+
+\begin{proof}[of Lemma \ref{lem:gamma_bound}]
+
+    Since we have assumed that there is a $K$ for which $m^2 \gamma(x, m) < K$
+    for all $x \in \IR^d$ and $m \ge 0$,
+    equation~\eqref{eqn:gamma_bound} will follow if we can show that
     \begin{equation*}
         \left| \theta 
             \int_{\IR^n} 
@@ -2875,16 +2909,9 @@ The following lemma will be useful.
             q_{\theta}(x,dy)
         \right|
         \leq
-        C_f \left( 1 + \smooth{\gamma} \eta(x)^2 \right)
+        C_f \left( 1 + \smooth{\gamma} \eta(x)^2 \right) .
     \end{equation*}
-\end{lemma}
-
-\begin{proof}[of Lemma \ref{lem:q_bound}]
-    The key assumption here from Definition~\ref{def:model_setup}
-    will be that $\epsilon_{r}^2 + \frac{2\lambda}{\theta} < \epsilon_{\gamma}^2$,
-    where $\lambda = \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y$
-    is the largest eigenvalue of $\covq(x)$ across all $x$.
-    First note that 
+    To do this, first note that 
     \begin{align} \label{eqn:q_bound_split}
     &
         \left| \theta 
@@ -3011,9 +3038,10 @@ The following lemma will be useful.
     \end{align*}
     Write $p_{s, x}(\cdot)$ for the density of a Gaussian
     with mean $s \meanq(x)$ and covariance $\epsilon_r^2 I + s \covq(x)$,
-    so that $\int p_{\epsilon_r^2}(y - w) q_\theta(x, dy) = p_{\epsilon_r^2, 1/\theta, x}(w-x)$.
+    so that $\int p_{\epsilon_r^2}(y - w) q_\theta(x, dy) = p_{1/\theta, x}(w-x)$.
     It therefore suffices to show that for all $x$ and $w \in \IR^d$,
-    \begin{align*}
+    there exists $K$ such that
+    \begin{align} \label{eqn:goal1}
         \left|
         \theta
             \int_{\IR^d}
@@ -3025,8 +3053,8 @@ The following lemma will be useful.
             p_{1/\theta, x}(w-x) - p_{0, x}(w-x)
         \right|
         \le
-        p_{\epsilon^2_\gamma}(w-x) .
-    \end{align*}
+        K p_{\epsilon^2_\gamma}(w-x) .
+    \end{align}
     However,
     $\theta( p_{1/\theta, x}(z) - p_{0, x}(z) )
     = \partial_s p_{s, x}(z)$ for some $0 \le s \le 1/\theta$.
@@ -3051,25 +3079,42 @@ The following lemma will be useful.
         \left(
             \meanq(x)^T \Gamma(s,x)^{-1} (z - s \meanq)
             +
-            (z - s \meanq)^T
+            (z - s \meanq(x))^T
             \Gamma(s,x)^{-1} \covq(x) \Gamma(s,x)^{-1}
-            (z - s \meanq)
+            (z - s \meanq(x))
+        \right. \\ & \qquad \qquad \qquad \left. {}
             -
             \sum_i \frac{\lambda_i}{\epsilon_r^2 + s \lambda_i}
         \right)
         p_{s, x}(z) ,
     \end{align*}
     where $z^T$ is the transpose of $z$.
-    Since $\partial_s p_{s, x}(z) / p_{s, x}(z)$ is a polynomial in $z$
-    with coefficients that are uniformly bounded for $s \ge 1$,
-    it is evident that
-    $\sup_z \partial_s p_{\epsilon_r^2, s, x}(z) / p_{\epsilon_\gamma^2}(z) < \infty$
-    if and only if
+    This implies that
     \begin{align*}
-        \frac{1}{2\epsilon_\gamma^2} \|z\|^2
-        -\frac{1}{2} (z - s\meanq(x))^T \Gamma(s,x)^{-1} (z - s\meanq(x))
+        \frac{
+        \theta
+            \int_{\IR^d}
+                ( p_{\epsilon_r^2}(y-w) - p_{\epsilon_r^2}(x-w) )
+            q_\theta(x, dy)
+        }{
+            p_{\epsilon^2_\gamma}(w-x) .
+        }
+        =
+        h(z) e^{k(z)},
     \end{align*}
-    is negative for all $z$ outside a bounded region.
+    where $h(z)$ and $k(z)$ are quadratic polynomials in $z$
+    whose coefficients depend on $s$ and $x$ but are uniformly bounded for $s \ge 1$
+    and $x \in \IR^d$.
+    Therefore, \eqref{eqn:goal1} holds for some finite $K$
+    if and only if $k(z) < 0$ for all $z$ outside some bounded region.
+    This is
+    \begin{align*}
+        k(z)
+        =
+        \frac{1}{2\epsilon_\gamma^2} \|z\|^2
+        -\frac{1}{2} (z - s\meanq(x))^T \Gamma(s,x)^{-1} (z - s\meanq(x)) ,
+    \end{align*}
+    which is negative for all $z$ outside a bounded region.
     Since $\inf_z z^T \Gamma(s,x)^{-1} z / \|z\|^2 = 1 / (s \lambda(x) + \epsilon_r^2)$,
     where $\lambda(x) = \sup z^T \covq(x) z / \|z\|^2$ is the largest eigenvalue of $\covq(x)$,
     equation~\eqref{eqn:first_moment_rho} follows from the assumption
@@ -3102,7 +3147,7 @@ The following lemma will be useful.
     %     \le K p_\gamma(x-w) p_\gamma(x - v) .
     % \end{align*}
     Now, let $Y_1$, $Y_2$, and $Z$ be independent $d$-dimensional Gaussians with mean zero,
-    where $Y_1$ and $Y_2$ have covariance $\sigma^2_r I$,
+    where $Y_1$ and $Y_2$ have covariance $\epsilon^2_r I$,
     and $Z$ has covariance $\covq(x)$.
     Write $p_{s,t,x}(\cdot, \cdot)$ for the joint density of
     $Y_1 + \sqrt{s} Z + s \meanq(x)$ and $Y_2 + \sqrt{t} Z + t \meanq(x)$.
@@ -3128,13 +3173,28 @@ The following lemma will be useful.
             - \partial_t p_{0, t, x}(x-w, x-v) ,
     \end{align*}
     for some $0 \le s, t \le 1/\theta$.
-    As before, $\partial_s p_{s, t, x}(y_1, y_2)$ has polynomial terms multiplying
-    $$
-        \exp\left(
-            - \frac{1}{2} [y_1, y_2[^T \Gamma(s, t, x)^{-1} [y_1, y_2]
-        \right) ,
-    $$
-    where $[y_1, y_2]$ is the $\IR^{2d}$ vector formed by concatenating $y_1$ and $y_2$,
+    As before,
+    \begin{align*}
+        \frac{
+            \theta \int_{\IR^d}
+                ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
+                ( p_{\epsilon_r^2}(y - v) - p_{\epsilon_r^2}(x - v) )
+            q_\theta(x, dy)
+        }{
+            p_{\epsilon_\gamma^2}(x - w)
+            p_{\epsilon_\gamma^2}(x - v)
+        }
+        =
+        h(x-w, x-v) e^{ k(x-w, x-v) },
+    \end{align*}
+    where $h(z_1, z_2)$ is a polynomial with uniformly bounded coefficients and
+    \begin{align*}
+        k(z_1, z_2)
+        =
+        (\|z_1\|^2 + \|z_2\|^2)/(2 \epsilon_\gamma^2)
+            - \frac{1}{2} [z_1, z_2[^T \Gamma(s, t, x)^{-1} [z_1, z_2] ,
+    \end{align*}
+    where $[z_1, z_2]$ is the $\IR^{2d}$ vector formed by concatenating $z_1$ and $z_2$,
     and $\Gamma(s, t, x)$ is the block matrix
     \begin{align*}
         \Gamma(s, t, x)
@@ -3157,10 +3217,10 @@ The following lemma will be useful.
     Therefore, if $s + t \le 2 / \theta$,
     \begin{align*}
         &
-        (\|y_1\|^2 + \|y_2\|^2) / \epsilon^2_\gamma
-            - [y_1, y_2[^T \Gamma(s, t, x)^{-1} [y_1, y_2]
+        (\|z_1\|^2 + \|z_2\|^2) / \epsilon^2_\gamma
+            - [z_1, z_2[^T \Gamma(s, t, x)^{-1} [z_1, z_2]
         \\ &\qquad \le
-        (\|y_1\|^2 + \|y_2\|^2) \left(
+        (\|z_1\|^2 + \|z_2\|^2) \left(
             \frac{1}{\epsilon^2_\gamma}
             - \frac{1}{\epsilon^2_r +  2\lambda(x)/\theta}
         \right) ,
@@ -3181,493 +3241,240 @@ The following lemma will be useful.
     proving equation~\eqref{eqn:second_moment_rho} and hence the lemma.
 \end{proof}
 
-
-\begin{corollary}
-    \label{cor:gamma_bound}
+\begin{lemma}
+    \label{lem:eta_f_bound}
     Under the assumptions of Definition~\ref{def:model_setup},
-    including that $\epsilon_{r}^2 + \frac{1}{\theta} < \epsilon_{\gamma}^2$,
-    for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times \IR)$
-    with bounded first and second derivatives
-    and for all $\eta \in \measures$, we have
-    \begin{equation}\label{eq: gamma - r radius comparison bound}
-    \gamma\big(x,\rho_{\gamma}*\eta(x)\big)
-    \left| \theta 
-        \int_{\IR^n} 
-            \big\{
-                f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)
-            \big\}
-        q_{\theta}(x,dy)
-    \right|
-    \leq C_{\gamma, f}    
-    \end{equation}
-    for some constant $C_{\gamma,f}$ independent of $\eta$ and $\theta$. 
-\end{corollary}
+    if $\eta^{N}_0 \to \eta_0$ weakly as $N \to \infty$,
+    then for all $f \in C^2_0(\IR^d)$ there exists a $C_f < \infty$
+    such that
+    $$
+        \IE[\langle f, \eta^N_t \rangle]
+        \le
+        \IE[\langle f, \eta^N_0 \rangle]
+        e^{Ct}
+    $$
+    for all $N > 0$.
+\end{lemma}
 
 \begin{proof}
-Since $f(x_1,...,x_d,w)$ is twice differentiable, we can Taylor expand $f$ around  $(x_1,...,x_d,\rho_{r}*\eta(x))$ up to second order and obtain that for $x=(x_1,..,x_d)$,
-\begin{equation}
-\begin{aligned}
-&~f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)\\
-=&~ \nabla_x f \big(x,\rho_{r}*\eta(x)\big)
-            \cdot (y-x)\\ 
-        &~ + \frac{\partial f}{\partial w}
-            \big(x,\rho_{r}*\eta(x)\big) \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)\\
-        &~ + \frac{1}{2}\sum_{1 \leq i,j \leq d }\frac{\partial^2 f}{\partial x_i x_j}
-            \big(z,\rho_{r}*\eta(z)\big) (y_i-x_i)(y_j-x_j)\\
-        &~ + \frac{1}{2}\sum_{1 \leq i \leq d}
-                \frac{\partial^2 f}{\partial w \partial x_i}
-                 \big(z,\rho_{r}*\eta(z)\big) (y_i-x_i)
-                    \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)\\
-        &~ + \frac{1}{2}\frac{\partial^2 f}{\partial^2 w}
-            \big(z,\rho_{r}*\eta(z)\big)
-            \left(
-            \rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)^2,
-\end{aligned}    
-\end{equation}
-where $z=ty+(1-t)x$ for some $t \in [0,1]$.
-
-Write $||Df||_{\infty}$ and $||D^2f||_{\infty}$
-for the suprema of the first and second derivatives of $f$
-(which we have assumed are bounded).
-Therefore, we have that 
-\begin{equation}
-\begin{aligned}
-&~\left| 
-        \theta \int_{\mathbb{R}^d}
-                f\big(y,\rho_{r}*\eta(y)\big)-f\big(x,\rho_{r}*\eta(x)\big)
-                q_{\theta}(x,dy)
-\right|\\
-\leq &~ ||Df||_{\infty} \left|
-                        \theta \int_{\mathbb{R}^d} \sum_{i=1,..,d}(y_i-x_i) q_{\theta}(x,dy)
-                        \right|\\ 
-        &~ + ||Df||_{\infty} 
-            \left| \theta \int_{\mathbb{R}^d}
-               \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
-            q_{\theta}(x,dy) \right| \\
-        &~ + \frac{1}{2}||D^2f||_{\infty}\left|
-                        \theta \int_{\mathbb{R}^d} (y-x)(y-x)^{T} q_{\theta}(x,dy)
-                        \right|\\
-        &~ + \frac{1}{2}||D^2f||_{\infty}    
-                \sum_{1 \leq i \leq d}\left|
-                        \theta \int_{\mathbb{R}^d}
-                        \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
-                  (y_i-x_i)
-                        q_{\theta}(x,dy)
-                        \right|
-                    \\
-        &~ + \frac{1}{2}||D^2f||_{\infty} \left|
-            \theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)^2
-            q_\theta(x,dy) \right|
-\end{aligned}    
-\end{equation}
-Recall that $q_{\theta}(x,dy)$ is a Gaussian kernel
-with mean $\meanq/\theta$
-and covariance matrix $\covq / \theta$.
-As a result, the first and third term
-is easily bounded above by 
-\comment{I'm not sure about the L1 norm in the next two equations:}
-$$||Df||_{\infty} \left|
-                        \theta \int_{\mathbb{R}^d} \sum_{i=1,..,d}(y_i-x_i) q_{\theta}(x,dy)
-                        \right|
-                        \leq  ||Df||_{\infty}||\meanq||_{1},$$
-and 
-$$ \frac{1}{2}|D^2f||_{\infty}\left|
-                        \theta \int_{\mathbb{R}^d} (y-x)(y-x)^{T} q_{\theta}(x,dy)
-                        \right| \leq \frac{1}{2}||D^2f||_{\infty} ||\covq||_{1}.$$
-For the cross term, we apply Cauchy's inequality to obtain
-\comment{What's $||C||_{1/2}$?}
-\begin{equation}
-\begin{aligned}
-&\frac{1}{2}|D^2f||_{\infty}\sum_{1 \leq i \leq d}    
-                \left|
-                        \theta \int_{\mathbb{R}^d}
-                        \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
-                  (y_i-x_i)
-                        q_{\theta}(x,dy)
-                        \right|\\
-\leq& \frac{1}{2}|D^2f||_{\infty} \sum_{1 \leq i \leq d} 
-        \sqrt{\theta \int_{\mathbb{R}^d}
-           (y_i-x_i)^2
-            q_\theta(x,dy)
-            }
-        \sqrt{
-            \theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)^2
-            q_\theta(x,dy) 
-            }    \\
-\leq& \frac{1}{2}|D^2f||_{\infty} ||\covq||_{1/2}
-        \sqrt{
-            \theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)^2
-            q_\theta(x,dy) 
-            }.    
-\end{aligned}
-\end{equation}
-\comment{We've only assumed boundedness of $z^2 \gamma$! Do we need $z \gamma$ also?}
-We have assumed in Definition~\ref{def:model_setup}
-(for this reason) that $z\gamma(x,z)$ and $z^2 \gamma(x,z)$ is bounded above
-for all $z  \geq 0$.
-Therefore, it suffices to show that
-for all $\eta \in \mathcal{M}_{f}(\mathbb{R}^d)$,
-\begin{equation}
-    \label{eq: r-gamma first moment control}
-\left|\theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)
-            q_\theta(x,dy)\right|
-            \leq \rho_{\gamma}*\eta(x),    
-\end{equation}
-and
-\begin{equation}
-    \label{eq: r-gamma comparison square term}
-\theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)^2
-            q_\theta(x,dy)
-            \leq \rho_{\gamma}*\eta(x)^2.    
-\end{equation}
-We first prove Equation \eqref{eq: r-gamma first moment control}.
-Note that 
-$$ \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)\right)
-        = \left\langle p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w),             \eta(dw)\right \rangle,$$
-so applying Fubini's theorem, 
-\begin{equation}
-\left|\theta \int_{\mathbb{R}^d}
-            \left(\rho_{r}*\eta(y)-\rho_{r}*\eta(x)
-            \right)
-            q_\theta(x,dy)\right|
-            = \left\langle \left| \theta \int_{\mathbb{R}^d} \left(p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w)\right)
-            q_\theta(x,dy) \right| , \eta(dw)\right \rangle.    
-\end{equation}
-It suffices therefore to show that for all $w \in \mathbb{R}^d$,
-\begin{equation}
-\left| \theta \int_{\mathbb{R}^d} \left(p_{\epsilon^2_r}(y-w)-p_{\epsilon^2_r}(x-w)\right)
-            q_\theta(x,dy) \right| \leq p_{\epsilon^2_{\gamma}}(x-w).
-\end{equation}
-By the Chapman-Kolmogorov equality, we have
-\begin{align}
-&\left| \theta \int_{\mathbb{R}^d}
-                \left(p_{\epsilon^2_r}(y-w)
-                        -p_{\epsilon^2_r}(x-w)
-                \right)
-                q_\theta(x,dy)
-        \right|\\
-        =& \theta \left\{
-                    \frac{\epsilon^d_r }{\left|\covq / \theta +  \epsilon^2_r I \right|^{1/2}}
-                    \exp \left(
-                    \frac{(x-w-\meanq / \theta)^{T}
-                        (\covq /\theta +  \epsilon^2_r I)^{-1}
-                        (x-w-\meanq / \theta)}{2}
-                        -\frac{|x-w|^2}{2\epsilon^2}
-                    \right)
-                    -1\right\}\\
-         & \times p_{\epsilon^2_r}(x-w).
-\end{align}
-If we write 
-\begin{equation}
-J(s)=  \frac{\epsilon^d_r }
-        {\left|\covq s +  \epsilon^2_r I \right|^{1/2}}
-        \exp \left(
-                    \frac{(x-w-\meanq s)^{T}
-                        (\covq s +  \epsilon^2_r I)^{-1}
-                        (x-w-\meanq s)}{2}
-                        -\frac{|x-w|^2}{2\epsilon^2}
-            \right)
-        -1,   
-\end{equation}
-then $J(0)=0$ and
-
-\begin{align}
-J'(s)=&  -\frac{\epsilon^d_r |\covq|}
-        {2\left|\covq s +  \epsilon^2_r I \right|^{3/2}}
-        \exp \left(
-                    \frac{(x-w-\meanq s)^{T}
-                        (\covq s +  \epsilon^2_r I)^{-1}
-                        (x-w-\meanq s)}{2}
-                        -\frac{|x-w|^2}{2\epsilon^2}
-            \right)\\
-    &+\frac{\epsilon^d_r }
-        {\left|\covq s +  \epsilon^2_r I \right|^{1/2}}
-        \exp \left(
-                    \frac{(x-w-\meanq s)^{T}
-                        (\covq s +  \epsilon^2_r I)^{-1}
-                        (x-w-\meanq s)}{2}
-                        -\frac{|x-w|^2}{2\epsilon^2}
-            \right) \\
-    & \qquad \times \frac{1}{2}
-                    \bigg\{
-                         -\meanq^{T}(\covq s + \epsilon^2_r I)^{-1}(x-w-\meanq s)\\
-    & \qquad \qquad     -(x-w-\meanq s)^{T}
-                        (\covq s +  \epsilon^2_r I)^{-1}\meanq\\
-    & \qquad \qquad     -(x-w-\meanq s)^{T}
-                        \covq(\covq s +  \epsilon^2_r I)^{-2}(x-w-\meanq s)                    
-                    \bigg\},
-\end{align}
-which is continuous and bounded near $s=0$.
-As a result,
-\begin{align}
-\left| \theta \int_{\mathbb{R}^d}
-                \left(p_{\epsilon^2_r}(y-w)
-                        -p_{\epsilon^2_r}(x-w)
-                \right)
-                q_\theta(x,dy)
-        \right|
-        \leq&  \theta \left(J\left(1 / \theta \right)-1\right) 
-                \times \epsilon_\gamma^d \epsilon_r^{-d}
-                p_{\epsilon^2_\gamma}(x-w)\\
-         =&  J'(u) 
-                \times \epsilon_\gamma^d \epsilon_r^{-d}
-                p_{\epsilon^2_\gamma}(x-w)        
-\end{align}
-for some $u \in [0, 1/\theta]$ by Mean Value Theorem. We have therefore established our bound as $J(s)$ has bounded derivative in a neighbourhood around $0$.
-\comment{This is not enough, since we need to show the constant holds for all $x$, and $J$ depends on $x$.}
-
-We now prove Equation \eqref{eq: r-gamma comparison square term}. Applying Jensen's inequality, we have
-\begin{align}
-&\left\{
-            \rho_r * \eta(y)
-            -
-            \rho_r * \eta(x)
-\right\}^2  \\
-&\qquad
-=
-\left\{
-\int
-    \left(
-        \rho_r(y-w)
-        -
-        \rho_r(x-w)
-    \right)
-\eta(dw)
-\right\}^2  \\
-&\qquad
-=
-\left\{
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)
-    \rho_r(x-w)
-\eta(dw)
-\right\}^2  \\
-&\qquad
-=
-\left(\rho_r * \eta(x)\right)^2 \left\{
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)
-    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
-\eta(dw)
-\right\}^2  \\
-&\qquad
-\le
-\left(\rho_r * \eta(x)\right)^2 
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-    \frac{\rho_r(x-w)}{\rho_r * \eta(x)}
-\eta(dw) \\
-&\qquad
-=
-\rho_r * \eta(x)
-\int
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-    \rho_r(x-w)
-\eta(dw).
-\end{align}
-Note that since $\epsilon_{\gamma}>\epsilon_{r}$,
-\begin{equation}
-    \label{eq: gamma-r convolution comparison}
-\begin{aligned}
- \rho_r * \eta(x)=& \int p_{\epsilon^2_r}(x-w) \eta(dw)\\
-                 =&  \int \frac{p_{\epsilon^2_r}(x-w)}{p_{\epsilon^2_\gamma}(x-w)}
-                  p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
-            \leq & \int \epsilon_\gamma^d \epsilon_r^{-d}
-                   e^{-(x-w)^2(\frac{1}{\epsilon^2_r}-\frac{1}{\epsilon^2_\gamma})}
-                   p_{\epsilon^2_\gamma}(x-w) \eta(dw)\\
-            \leq & \epsilon_\gamma^d \epsilon_r^{-d}\rho_\gamma * \eta(x),
-\end{aligned}
-\end{equation}
-it suffices to show that 
-\begin{equation}\label{eq: gaussian density estimate}
- \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
-\end{equation}
-where
-$$H_{\theta}(x,w)=\int_{\mathbb{R}^d}
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-q_{\theta}(x,dy).$$
-For the proof of Equation \eqref{eq: gaussian density estimate} refer to Lemma \ref{eq: Gaussin density estimates} in the Appendix.
-
+    \comment{TODO: copy over from below}
 \end{proof}
 
+With a bound on per-capita net growth rate in hand,
+bounds on the total population size follow easily.
 
-\begin{lemma}[Compact Containment for the population process]
-    \label{lem: Compact Containment}
-If $\eta^{N}_0 \to \eta_0$ weakly as $N \to \infty$,
-then for all $T>0$, there exists some constant $C_T$,
-such that
+\begin{lemma}[Compact containment for the population process]
+    \label{lem:eta_compact_containment}
+    Under the assumptions of Definition~\ref{def:model_setup},
+    if $\theta/N \to \alpha$ and $\eta^{N}_0 \to \eta_0$ weakly as $N \to \infty$,
+    then for all $T>0$ and $N > 0$, there exists some constant $C_T$,
+    such that
     \begin{align}
-        \label{eq: Growth function bound on running sup}
+        \label{eqn:eta_mass_bound}
         \IE\left[
             \sup_{0 \le t \le T}
             \langle 1, \eta^{N}_t \rangle
         \right]
-        \le C_T ,
+        \le C_T .
     \end{align}
-uniformly in $\theta$.
-In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such that
-\begin{equation}
-\limsup_{N \to \infty}
-    \mathbb{P}\left[\sup_{s \in [0,T]}
-        \langle 1 ,\eta^{N}_{s}\rangle
-        > K_\epsilon \right]
-        \leq \frac{C_T}{K_{\epsilon}} < \epsilon.    
-\end{equation}
+    In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such that
+    \begin{equation}
+    \limsup_{N \to \infty}
+        \mathbb{P}\left[\sup_{s \in [0,T]}
+            \langle 1 ,\eta^{N}_{s}\rangle
+            > K_\epsilon \right]
+            \leq \frac{C_T}{K_{\epsilon}} < \epsilon.    
+    \end{equation}
 \end{lemma}
 
 \begin{proof}
-    \comment{TODO: superscript $\theta$ should be $N$ below}
-We first take $f \equiv 1$ in Equation \eqref{eq: Pre-limit Martingale Characterisation}.
-\comment{TODO: Write $[M]_t$ instead of $[M_t]$ for quadratic variation.}
-We have that 
-\begin{equation}
-    \label{eq: Total Mass Martingale Characterisation}
-\begin{aligned}
-     M^{\theta}_t(1):=&  \langle 1,\eta^{N}_t \rangle
-        -\langle 1,\eta^{N}_0 \rangle\\
- &-  \int_{0}^{t}\bigg\{   \int\left(   \int \theta
- \left(
-        r\big(z,\rho_{r}*\eta^{N}_{s}(z)\big)
-            -r\big(x,\rho_{r}*\eta^{N}_{s}(x)\big)
-            \right)
-                    q_\theta(x,dz)\right)
-                            \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
-                            \eta^{N}_{s}(dx)\\
-& \qquad +\int F\big(x,\rho_{F}*\eta^{N}_{s}(x)\big)
-\eta^{N}_{s}(dx)\bigg\} ds
-\end{aligned}    
-\end{equation}
-is a martingale.
-Therefore, taking expectations, we have
-\begin{equation}\label{eq: Total mass control generalised}
-\begin{aligned}
-&\mathbb{E}[\langle 1 ,\eta^{N}_{t}\rangle] \\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] \\
-&+ \int_{0}^{t}\mathbb{E}\bigg\langle
-        \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
-            \left| \theta \int_{\mathbb{R}^n}
-                    \big\{r\big(\rho_{r}*\eta^{N}_s(y)\big)-r\big(\rho_{r}*\eta^{N}_s(x)\big)\big\}
-                    \rho_{1/\theta}(x-y)dy\right| + C_F 
-                            ,\eta^{N}_s(dx)  \bigg\rangle ds\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \langle 1  ,\eta^{N}_s(dx) \rangle ds,
-\end{aligned}
-\end{equation}
-where the last inequality holds by Lemma \ref{cor:gamma_bound}.
-
-Applying Gronwall's inequality, we have that 
-\begin{equation}
- \mathbb{E}[\langle 1 ,\eta^{N}_{t}\rangle] \leq \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}.   
-\end{equation}
-
-To prove compact containment condition, we apply BDG inequality.
-We denote $M^{*}_t(\phi)=\sup_{s \in [0,t]}M_t(\phi)$
-and define $h(t):=\sup_{s \in [0,t]}\langle 1, \eta^{N}_{s} \rangle$.
-We have that
-\begin{equation}\label{eq: Control quadratic variation}
-\begin{aligned}
-\mathbb{E}\{M^{*}_t(1)\} \leq & C \mathbb{E}\{[M_t(1)]^{1/2}\}\\
-\leq& C (1+\mathbb{E}\{[M_t(1)]\})\\
-\leq & C+\frac{\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n}r(\rho_{r}*\eta^{N}_{s}(y)) q_\theta(x,dy)+\mu(x,\eta^{N}_{s}), \eta^{N}_{s}(dx) \right\rangle ds \\
-\leq & C+\frac{2\theta}{N}\int_{0}^{t} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))r(\rho_{r}*\eta^{N}_{s}(x)), \eta^{N}_{s}(dx) \right\rangle ds \\
-& + \frac{1}{N}\int_{0}^{t} \left\langle \gamma (\rho_{\gamma}*\eta^{N}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\right) q_\theta(x,dy), \eta^{N}_{s}(dx) \right\rangle ds\\
-\leq & C+ \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
-\end{aligned}
-\end{equation}
-
-As a result, we have that 
-\begin{equation}\label{eq: Total mass control supremum control}
-\begin{aligned}
-&\mathbb{E}[h(t)]:=\mathbb{E}\left[\sup_{s \in [0,t]}\langle 1 ,\eta^{N}_{s}\rangle\right] \\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] \\
-&+ \sup_{\tau \in [0,t]} \int_{0}^{\tau}\mathbb{E} \bigg\langle \gamma(\rho_{r}*\eta^{N}_{s}(x)) \left| \theta \int_{\mathbb{R}^n} \big\{r\big(\rho_{r}*\eta^{N}_{s}(y)\big)-r\big(\rho_{r}*\eta^{N}_{s}(x)\big)\big\}\rho_{1/\theta}(x-y)dy\right| + C_F ,\eta^{N}_{s}(dx)  \bigg\rangle dw\\
-&+ \mathbb{E}\{M^{*}_t(1)\}\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ \sup_{\tau \in [0,s]} \langle 1  ,\eta^{N}_{s} \rangle \right]ds+\mathbb{E}\{M^{*}_t(1)\}\\
-\leq &  \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] + (C_{\gamma,r} + C_F)\int_{0}^{t}\mathbb{E} \left[ h(s) \right]ds+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)t}}{N}.
-\end{aligned}
-\end{equation}
-Once again, with Gronwall's inequality we have 
-\begin{equation}
-\mathbb{E}[h(t)] 
-\leq   \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]
-            \left(1+\frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})e^{(C_{\gamma,r}+C_F)t}}{N}\right)e^{(C_{\gamma,r}+C_F)t}.  
-\end{equation}
+    We first take $f \equiv 1$ in Equation \eqref{eqn:eta_martingale},
+    so that
+    \begin{align} \label{eqn:mass_martingale_decomp}
+        \langle 1, \eta^N_t \rangle
+        &=
+        \langle 1, \eta^N_0 \rangle
+        + \int_0^t \int_{\IR^d} \left\{
+            B(x, \eta^N_s)
+            + F(x, \eta^N_s)
+            \right\} \eta^N_s(dx) ds
+        + M^N_t(1) ,
+    \end{align}
+    where $M^N_t(1)$ is a martingale and for the moment we are defining
+    \begin{equation*}
+        B(x, \eta) = \gamma(x, \eta) \int_{\IR^d} \theta (r(y, \eta) - r(x, \eta)) q_\theta(x, dy) .
+    \end{equation*}
+    By Lemma~\ref{lem:eta_compact_containment} and the assumption that $F$ is bounded above,
+    $B(x, \eta) + F(x, \eta) \le C$ for some $C$,
+    and so, taking expectations,
+    \begin{align*}
+        \IE\left[ \langle 1, \eta^N_t \rangle \right]
+        &\le
+        \IE\left[ \langle 1, \eta^N_0 \rangle \right]
+        + C \int_0^t \IE\left[ \langle 1, \eta^N_s \rangle \right] dt .
+    \end{align*}
+    Applying Grownwall's inequality, we have that
+    \begin{align*}
+        \IE\left[ \langle 1, \eta^N_t \rangle \right]
+        \le
+        \IE\left[ \langle 1, \eta^N_0 \rangle \right] e^{Ct} .
+    \end{align*}
+    Now, let $M^*_t(\phi) = \sup_{0 \le s \le t} M_t(\phi)$,
+    and as before $[M(\phi)]_t$ the quadratic variation of $M_t(\phi)$,
+    so that by the Burkholder-Davis-Gundy inequality, there is a $C'$ so that
+    \begin{align*}
+        \IE\left[ M^*_t(1) \right]
+        &\le
+        C' \IE\left[ \sqrt{[M^*(1)]_t} \right]
+        \\ &\le
+        C'\left( 1 + \IE\left[ [M^*(1)]_t \right] \right)
+        \\ &=
+        C'\left( 1 + \frac{\theta}{N} \IE\left[
+            \int_0^t
+            \int_{\IR^d} \left\{
+                \gamma(x, \eta^N_s)
+                \int_{\IR^d} r(y, \eta^N_s) q_\theta(x, dy)
+                + \mu(x, \eta^N_s)
+            \right\} \eta_s^N(dx)
+            dt
+            \right] \right)
+        \\ &=
+        C'\left( 1 + \IE\left[
+            \int_0^t
+            \int_{\IR^d} \left\{
+                \frac{2\theta}{N} \gamma(x, \eta^N_s) r(x, \eta^N_s)
+                + \frac{1}{N} B(x, \eta^N_s)
+            \right\} \eta_s^N(dx)
+            dt
+            \right] \right) .
+    \end{align*}
+    Since $\gamma(x, \eta) r(x, \eta)$ and $B(x, \eta)$ are bounded,
+    and $\theta/N \to \alpha < \infty$,
+    combining constants and again using Gronwall's inequality, we get that
+    \begin{align*}
+        \IE\left[ M^*_t(1) \right]
+        % &\le
+        % C'\left( 1 + \IE\left[
+        %     \int_0^t
+        %     \int_{\IR^d} \left\{ C'' \right\} \eta_s^N(dx)
+        %     dt
+        %     \right] \right) \\
+        &\le
+        C' + C'' \IE[ \langle 1, \eta_0^N \rangle ] e^{tC} .
+    \end{align*}
+    Taking suprema and expectations on both sides of equation~\eqref{eqn:mass_martingale_decomp},
+    then again using the fact that $B(x, \eta) + F(x, \eta) \le C$,
+    \begin{align*}
+        \IE\left[\sup_{0 \le s \le t} \langle 1, \eta^N_s \rangle \right]
+        &\le
+        \IE[\langle 1, \eta^N_0 \rangle]
+        + \IE\left[
+            \sup_{0 \le s \le t}
+            \int_0^t \int_{\IR^d} \left\{
+            B(x, \eta^N_s)
+            + F(x, \eta^N_s)
+            \right\} \eta^N_s(dx) ds
+        \right]
+        + \IE[M^*_t(1)] 
+        \\
+        &\le
+        \IE[\langle 1, \eta^N_0 \rangle]
+        + C \IE\left[
+            \int_0^t \sup_{0 \le s \le t} \langle 1, \eta^N_s \rangle ds
+        \right]
+        + C' + C'' \IE[ \langle 1, \eta_0^N \rangle ] e^{tC} .
+    \end{align*}
+    Once again applying Gronwall's inequality,
+    \begin{align*}
+        \IE\left[\sup_{0 \le s \le t} \langle 1, \eta^N_s \rangle \right]
+        &\le
+        C'' 
+        \left(\IE[\langle 1, \eta^N_0 \rangle] + C'\right)
+        \IE[ \langle 1, \eta_0^N \rangle ] e^{2tC} .
+    \end{align*}
+    For any $T$,
+    the inequality on the right is bounded above by a constant $C(T)$ independent of $N$.
+    As a result, for any $K > 0$,
+    \begin{equation*}
+    \limsup_{N \to \infty}
+        \IP\left[ \sup_{0 \le s \le T} \langle 1, \eta^{N}_{s} \rangle \geq K \right]
+        \leq
+        \frac{C(T)}{K}.
+    \end{equation*}
 \end{proof}
 
-Note that as $\theta/N \to \alpha$ and $N \to \infty$,
-the inequality on the right is bounded above by a constant $C(T)$
-independent of $\theta, N$.
-As a result 
-\begin{equation}
-\limsup_{N \to \infty}\mathbb{P}\left[\sup_{s \in [0,T]}\langle 1 ,\eta^{N}_{s}\rangle \geq K\right] \leq \frac{C(T)}{K}    
-\end{equation}
-for any $K > 0$, giving us compact containment condition.
+Now that we have a compact containment condition for $\eta^N$,
+we need tightness of the one-dimensional distributions.
 
-\subsubsection{Tightness of $(\langle f, \eta^{N}_t \rangle )_{t>0}$}
-\begin{theorem}[Tightness of $(\langle f, \eta^{N}_t \rangle )_{t>0}$]
-    \label{teo: Tightness of real-valued projections}
+\begin{lemma}[Tightness of $(\langle f, \eta^{N}_t \rangle )_{t>0}$]
+    \label{lem:eta_projections_tightness}
 For all $f \in C^{2}_{0}(\mathbb{R}^d)$, 
-the process
-$(\langle f, \eta^{N}_t \rangle)_{t \geq 0}$ is tight.
-\end{theorem}
+the collection of processes
+$(\langle f, \eta^{N}_t \rangle)_{t \geq 0}$
+for $N = 1, 2, \ldots$ is tight as a sequence of c\`adl\`ag, real-valued processes.
+\end{lemma}
+
 \begin{proof}
-We apply the Aldous-Rebolledo criterion \cite{rebolledo:1980}.
-It suffices to show that for all stopping time
-$\tau \in [0,T]$ and for each $\epsilon>0$, there exists $\delta>0$ and $\theta_0>0$ such that 
-\begin{equation}
-\begin{aligned}
-\sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\mathbb{P}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
-                        - \langle f, \eta^{N}_{\tau}\rangle
-                \right|> \epsilon \right]
-                & < \epsilon;\\
-\sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\mathbb{P}\left[\big| [M^{\theta}_{\tau+s}(f)] 
-                        - [M^{\theta}_{\tau}(f)] \big|
-                        > \epsilon\right]
-                & < \epsilon.
-\end{aligned}    
-\end{equation}
-Note that
-\begin{equation}
-\begin{aligned}
- & \mathbb{E}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle - \langle f, \eta^{N}_{\tau}\rangle \right|\right] \\
-\leq & \mathbb{E}\Bigg[\bigg| \int_{\tau}^{\tau+s}\bigg\langle \theta\gamma(\rho_{r}*\eta^{N}_{s}(x)) \int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{N}_{s}(y))-f(x)r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
-& \qquad + F(\rho_{F}*\eta^{N}_{s}(x)) f(x),\eta^{N}_{s}(dx)  \bigg\rangle ds \bigg|\Bigg].
-\end{aligned}
-\end{equation}
+As in the proof of Lemma~\ref{lem:gamma_bound},
+we use the semimartingale representation of $\langle f, \eta^N_t\rangle$
+from Definition~\ref{defn:mgale_construction},
+\begin{align*}
+    \langle f, \eta^{N}_{\tau+s}\rangle
+    -
+    \langle f, \eta^{N}_{\tau}\rangle
+    &=
+    M^N_{\tau + s}(f) - M^N_\tau(f)
+    +
+    \int_\tau^{\tau + s} 
+    \int_{\IR^d}
+    \left\{
+        B_f(x, \eta^N_s)
+        + f(x) F(x, \eta^N_s)
+    \right\} 
+    \eta^N_s(dx)
+    ds,
+\end{align*}
+where
+$$
+    B_f(x, \eta)
+    =
+    \gamma(x, \eta) \int_{\IR^d} \theta ( f(y) r(y, \eta) - f(x) r(x, \eta) ) q_\theta(x, dy) .
+$$
+% By Lemma~\ref{lem:gamma_bound} and the assumption that $F$ is bounded above,
+% $B_f(x, \eta) + f(x) F(x, \eta) \le C_f$ for some constant $C_f$.
+We apply the Aldous-Rebolledo criterion \citep{rebolledo:1980}, which says that
+it suffices to show that 
+$\{\langle f, \eta^N_t \rangle\}_{N \ge 1}$ is tight for each $t$, and that
+for any sequence of stopping times $\tau_N$ bounded by $T$,
+and for each $\epsilon > 0$, there exists $\delta > 0$ and $N_0 > 0$ such that 
+\begin{gather*}
+    \sup_{N > N_0}
+    \sup_{s \in [0, \delta]}
+    \IP\left[\left|
+            \int_\tau^{\tau + s} 
+            \int_{\IR^d}
+            \left\{
+                B_f(x, \eta^N_s)
+                + f(x) F(x, \eta^N_s)
+            \right\} 
+            \eta^N_s(dx)
+            ds
+        \right|> \epsilon \right]
+        < \epsilon ,
+    \\ \text{and} \qquad
+    \sup_{N > N_0}
+    \sup_{s \in [0, \delta]}
+    \IP\left[\big| [M^{N}(f)]_{\tau+s} 
+                            - [M^{N}(f)]_\tau \big|
+                            > \epsilon \right]
+                    < \epsilon.
+\end{gather*}
+Tightness of $\langle f, \eta^N_t\rangle$ for fixed $t$
+follows from Lemma~\ref{lem:eta_f_bound} and Markov's inequality,
+so we focus on the remaining conditions.
+
+\comment{The following is NOT RIGHT because $F$ is not bounded below!}
+
 In particular,
 \begin{multline}
  \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{N}_{s}(y))-f(x)r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
@@ -3778,7 +3585,7 @@ we apply Theorem 3.9.1. in \cite{EK}.
 First of all, the set of measures 
 $\{ \mu: \langle 1, \mu \rangle \leq K \} $
 is compact in $\mathcal{M}_F(\overline{\mathbb{R}^d})$.
-Therefore, by Lemma \ref{lem: Compact Containment},
+Therefore, by Lemma \ref{lem:eta_compact_containment},
 our processes satisfy the compact containment condition.
 
 Secondly, the set of functions $\mathcal{C}^{2}_{0}(\overline{\mathbb{R}^d})$ is a dense subset of all continuous functions on $\mathcal{M}_f(\overline{\mathbb{R}^d})$
@@ -3790,7 +3597,7 @@ it suffices to show that the real-valued processes
 $\langle f, \eta^{N}_t \rangle$
 is tight for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$,
 which is proven in
-Theorem \ref{teo: Tightness of real-valued projections}.
+Theorem \ref{lem:eta_projections_tightness}.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -4124,7 +3931,9 @@ of the initial conditions implies strong convergence of the solutions.
 \end{proposition}
 %\noindent
 %{\bf Proof}
+
 \begin{proof}
+    \comment{Check where we use compactness of the mollifier.}
 
 Our proof owes a lot to~\cite{lions/mas-gallic:2001}.
 First observe that
@@ -4936,7 +4745,7 @@ We will lay out the steps we follow to prove tightness. First of all, we will
     show that compact containment condition is satisfied if we can control the
     total mass of particles in our system living in a finite region in space
     with a level lower than some $u_{*}$. Since a control on total mass has
-    already been shown in Lemma \ref{lem: Compact Containment}, we have
+    already been shown in Lemma \ref{lem:eta_compact_containment}, we have
     immediately established compact containment condition for our lookdown
     processes. 
 
@@ -5277,7 +5086,7 @@ Therefore, it suffices to show that for all $\epsilon > 0$, there exists $\delta
 uniformly over $N \geq N_0$.
 
 \textbf{Controlling high density events:}
-Recall that in Lemma \ref{lem: Compact Containment}, we have established compact containment for the total mass process. Therefore for any $\epsilon>0$ and $r>0$, there exists some large 
+Recall that in Lemma \ref{lem:eta_compact_containment}, we have established compact containment for the total mass process. Therefore for any $\epsilon>0$ and $r>0$, there exists some large 
 \begin{equation}
     \label{eq: Mass Bound Constant}
 H_{\epsilon}(r):=\frac{\epsilon}{2||\varrho_F||_{\infty}C(r) \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}}>0    
@@ -5292,7 +5101,7 @@ satisfies
 \leq  \frac{||\varrho_F||_{\infty}C(t+r)}{H_{\epsilon}(r)}
 < \frac{\epsilon}{2 \overline{U}_{K_{\epsilon}}C_{g_1,..,g_{K_{\epsilon}}}},
 \end{equation}
-where $(C(t))_{t \geq 0}$ is the growth function that bounds the expected value of the running supremum of the total mass in Equation \eqref{eq: Growth function bound on running sup}.
+where $(C(t))_{t \geq 0}$ is the growth function that bounds the expected value of the running supremum of the total mass in Equation \eqref{eqn:eta_mass_bound}.
 
 As a result, for any $s < r$,
 \begin{equation}
@@ -5458,7 +5267,7 @@ Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3
 
 We have now proved tightness of the spatial and level process for a line of descent. To prove that the lookdown representation is tight, we generalise the vague topology to the setting of measure-valued processes. For a detailed description of the vague topology, refer to Appendix \ref{sec: Empirical Measure Topology}.
 
-We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem: Compact Containment}, we have immediately established compact containment condition for our lookdown processes. 
+We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem:eta_compact_containment}, we have immediately established compact containment condition for our lookdown processes. 
 
 Then, we apply Theorem A.24 in \cite{kallenberg1997foundations}
 (Theorem \ref{teo: Vague Relative Compactness through Projection})
@@ -5485,12 +5294,12 @@ to be the set of measures on $\mathbb{R}^d \times[0,\infty)$ with mass smaller t
 In Corollary \ref{cor: Vague Compact sets}, we will prove that $\mathcal{M}_{K,M}$ is vaguely compact. 
 
 \begin{lemma}[Compact Containment]
-    \label{lem: Compact Containment}
+    \label{lem:lp_compact_containment}
 Assume that $\xi^{N}_0 \to \xi_0$ weakly,
 then for all $T>0$, there exists some constant $C(T)$,
 such that
     \begin{align}
-        \label{eq: Growth function bound on running sup, lookdown}
+        \label{eqn:lp_mass_bound}
         \IE\left[
             \sup_{0 \le t \le T}
             \frac{1}{N}\langle 1, \xi^{N}_t \rangle
@@ -5512,7 +5321,7 @@ By an application of Markov Mapping Theorem (see \S \ref{sec: Markov Mapping The
 
 $$\left(\frac{1}{N}\langle 1, \xi^{N}_t(\cdot , [0, N]) \rangle\right)_{t \geq 0} \sim (\eta^N_t(\cdot ))_{t \geq 0},$$
 i.e. the spatial projection of $(\xi^{N}_t)_{t \geq 0}$ has the same distribution as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{defn:mgale_construction}. 
-As a result, by Lemma \ref{lem: Compact Containment},
+As a result, by Lemma \ref{lem:lp_compact_containment},
 we have immediately that 
 \begin{align}
         \IE\left[
@@ -5560,7 +5369,7 @@ Therefore, for $N>M_{\varepsilon}$
 \end{align*}
 The first inequality holds by Markov's inequality, and the following two equalities hold as 
 conditional on $\eta^N_t$,
-$M_{\varepsilon}/N$ proportion of particles in $\xi^N_t$ have levels in $[0,M_{\varepsilon}]$. The final inequality holds as a direct consequence of \ref{lem: Compact Containment}. 
+$M_{\varepsilon}/N$ proportion of particles in $\xi^N_t$ have levels in $[0,M_{\varepsilon}]$. The final inequality holds as a direct consequence of \ref{lem:eta_compact_containment}. 
 
 We have therefore proved compact containment condition in the vague topology for our lookdown representation.
 \end{proof}
