@@ -3570,31 +3570,38 @@ also obtains \eqref{eqn:eta_projections_goal2}.
 
 % % % % % % % % %
 \begin{theorem}[Tightness of $(\eta^{N}_t)_{t \geq 0}$]
-The collection of measure-valued processes 
-$\{(\eta^{N}_t)_{t \geq 0}: \theta > 0\}$
-is tight in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_F(\overline{\mathbb{R}^d}))$.
+    The collection of measure-valued processes 
+    $\{(\eta^{N}_t)_{t \geq 0}: N > 0\}$
+    is tight in $\mathcal{D}_{[0,\infty)}(\measures)$.
 \end{theorem}
+
 \begin{proof}
-To prove relative compactness 
-of the processes $(\eta^{N}_t)_{t \geq 0}$,
-we apply Theorem 3.9.1. in \cite{EK}.
+    Theorem 3.9.1~in \cite{EK},
+    says that if the collection of $E$-valued processes
+    satisfies a compact containment condition
+    (for any $\epsilon > 0$ and $T>0$, there is a compact set
+    such that the processes stay within that set up to time $T$ with probability at least $1-\epsilon$),
+    then the collection is relatively compact
+    if and only if
+    $\{(f(\eta^{N}_t))_{t \geq 0}: N > 0\}$ is relatively compact
+    for all $f$ in a dense subset of $C_0(E)$
+    under the topology of uniform convergence in compact sets.
 
-First of all, the set of measures 
-$\{ \mu: \langle 1, \mu \rangle \leq K \} $
-is compact in $\mathcal{M}_F(\overline{\mathbb{R}^d})$.
-Therefore, by Lemma \ref{lem:eta_compact_containment},
-our processes satisfy the compact containment condition.
-
-Secondly, the set of functions $\mathcal{C}^{2}_{0}(\overline{\mathbb{R}^d})$ is a dense subset of all continuous functions on $\mathcal{M}_f(\overline{\mathbb{R}^d})$
-under the topology of uniform convergence in compact sets.
-
-Furthermore,
-since each measure $\eta^{N}_t$ is concentrated in $\mathbb{R}^d$,
-it suffices to show that the real-valued processes
-$\langle f, \eta^{N}_t \rangle$
-is tight for all $f \in \mathcal{C}^{2}_{0}(\mathbb{R}^d)$,
-which is proven in
-Theorem \ref{lem:eta_projections_tightness}.
+    First of all,
+    the set of measures $\{ \mu: \langle 1, \mu \rangle \leq K \} $ is compact in $\cmeasures$,
+    so Lemma \ref{lem:eta_compact_containment}
+    shows that our processes satisfy a compact containment condition.
+    Secondly, Lemma \ref{lem:eta_projections_tightness}
+    shows that the real-valued processes $\langle f, \eta^{N}_t \rangle$
+    are relatively compact for all $f \in \mathcal{C}^{2}_{0}(\overline{\IR^d})$.
+    Since the set of finite sums and products of terms of this form
+    is dense in the space of bounded continuous functions on $\cmeasures$,
+    we have relative compactness in $\mathcal{D}_{[0,\infty)}(\cmeasures)$.
+    Finally,
+    since each measure $\eta^{N}_t$ is concentrated in $\IR^d$,
+    any limit point must in fact be in $\measures$,
+    and so we have 
+    tightness in $\mathcal{D}_{[0,\infty)}(\measures)$.
 \end{proof}
 
 % % % % % % % % % % % % %
