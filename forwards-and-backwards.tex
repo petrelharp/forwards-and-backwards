@@ -546,6 +546,7 @@ Fix positive values $\theta$, $\epsilon_r$, $\epsilon_\gamma$, and $\epsilon_F$,
 with $\epsilon_r < \epsilon_\gamma$.
 Suppose $F(x,m)$ is bounded above
 with uniformly bounded first and second derivatives in $m$,
+that $\sup_x F(x,m)$ is finite for all $m$,
 and define
 \begin{align} \label{eqn:mu_defn}
     \mu(x, \eta)
@@ -3251,13 +3252,37 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
         \IE[\langle f, \eta^N_t \rangle]
         \le
         \IE[\langle f, \eta^N_0 \rangle]
-        e^{Ct}
+        e^{C_f t}
     $$
     for all $N > 0$.
 \end{lemma}
 
 \begin{proof}
-    \comment{TODO: copy over from below}
+    Consider the semimartingale decomposition of Equation \eqref{eqn:eta_martingale},
+    \begin{align} \label{eqn:eta_f_mgale_decomp}
+        \langle f, \eta^N_t \rangle
+        &=
+        \langle f, \eta^N_0 \rangle
+        + \int_0^t \int_{\IR^d} \left\{
+            \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+            + f(x) F(x, \eta^N_s)
+            \right\} \eta^N_s(dx) ds
+        + M^N_t(f) ,
+    \end{align}
+    where $M^N_t(f)$ is a martingale and for the moment we are defining
+    \begin{equation*}
+        B_f(x, \eta) = \int_{\IR^d} \theta (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
+    \end{equation*}
+    By Lemma~\ref{lem:eta_compact_containment} and the assumption that $F$ is bounded above,
+    $\gamma(x, \eta) B_f(x, \eta) + f(x) F(x, \eta) \le C_f$ for some $C_f$,
+    and so, taking expectations,
+    \begin{align*}
+        \IE\left[ \langle f, \eta^N_t \rangle \right]
+        &\le
+        \IE\left[ \langle f, \eta^N_0 \rangle \right]
+        + C_f \int_0^t \IE\left[ \langle f, \eta^N_s \rangle \right] dt .
+    \end{align*}
+    The bound then follows from Grownwall's inequality.
 \end{proof}
 
 With a bound on per-capita net growth rate in hand,
@@ -3280,47 +3305,20 @@ bounds on the total population size follow easily.
     In particular, for any $\epsilon > 0$, there exists some $K_{\epsilon}>0$ such that
     \begin{equation}
     \limsup_{N \to \infty}
-        \mathbb{P}\left[\sup_{s \in [0,T]}
+        \IP \left\{ \sup_{s \in [0,T]}
             \langle 1 ,\eta^{N}_{s}\rangle
-            > K_\epsilon \right]
-            \leq \frac{C_T}{K_{\epsilon}} < \epsilon.    
+            > K_\epsilon \right\}
+        \leq \frac{C_T}{K_{\epsilon}}
+        < \epsilon .
     \end{equation}
 \end{lemma}
 
 \begin{proof}
-    We first take $f \equiv 1$ in Equation \eqref{eqn:eta_martingale},
-    so that
-    \begin{align} \label{eqn:mass_martingale_decomp}
-        \langle 1, \eta^N_t \rangle
-        &=
-        \langle 1, \eta^N_0 \rangle
-        + \int_0^t \int_{\IR^d} \left\{
-            B(x, \eta^N_s)
-            + F(x, \eta^N_s)
-            \right\} \eta^N_s(dx) ds
-        + M^N_t(1) ,
-    \end{align}
-    where $M^N_t(1)$ is a martingale and for the moment we are defining
-    \begin{equation*}
-        B(x, \eta) = \gamma(x, \eta) \int_{\IR^d} \theta (r(y, \eta) - r(x, \eta)) q_\theta(x, dy) .
-    \end{equation*}
-    By Lemma~\ref{lem:eta_compact_containment} and the assumption that $F$ is bounded above,
-    $B(x, \eta) + F(x, \eta) \le C$ for some $C$,
-    and so, taking expectations,
-    \begin{align*}
-        \IE\left[ \langle 1, \eta^N_t \rangle \right]
-        &\le
-        \IE\left[ \langle 1, \eta^N_0 \rangle \right]
-        + C \int_0^t \IE\left[ \langle 1, \eta^N_s \rangle \right] dt .
-    \end{align*}
-    Applying Grownwall's inequality, we have that
-    \begin{align*}
-        \IE\left[ \langle 1, \eta^N_t \rangle \right]
-        \le
-        \IE\left[ \langle 1, \eta^N_0 \rangle \right] e^{Ct} .
-    \end{align*}
-    Now, let $M^*_t(\phi) = \sup_{0 \le s \le t} M_t(\phi)$,
-    and as before $[M(\phi)]_t$ the quadratic variation of $M_t(\phi)$,
+    First note that by Lemma~\ref{lem:eta_f_bound},
+    $\IE[\langle 1, \eta^N_t \rangle] \le \IE[\langle 1, \eta^N_0 \rangle] e^{Ct}$
+    for some $C$.
+    Now, let $M^*_t(f) = \sup_{0 \le s \le t} M_t(f)$,
+    and as before $[M(f)]_t$ the quadratic variation of $M_t(f)$,
     so that by the Burkholder-Davis-Gundy inequality, there is a $C'$ so that
     \begin{align*}
         \IE\left[ M^*_t(1) \right]
@@ -3362,8 +3360,8 @@ bounds on the total population size follow easily.
         &\le
         C' + C'' \IE[ \langle 1, \eta_0^N \rangle ] e^{tC} .
     \end{align*}
-    Taking suprema and expectations on both sides of equation~\eqref{eqn:mass_martingale_decomp},
-    then again using the fact that $B(x, \eta) + F(x, \eta) \le C$,
+    Taking suprema and expectations on both sides of equation~\eqref{eqn:eta_f_mgale_decomp},
+    then again using the fact that $\gamma(x, \eta) B(x, \eta) + F(x, \eta) \le C$,
     \begin{align*}
         \IE\left[\sup_{0 \le s \le t} \langle 1, \eta^N_s \rangle \right]
         &\le
@@ -3371,8 +3369,9 @@ bounds on the total population size follow easily.
         + \IE\left[
             \sup_{0 \le s \le t}
             \int_0^t \int_{\IR^d} \left\{
-            B(x, \eta^N_s)
-            + F(x, \eta^N_s)
+                \gamma(x, \eta^N_s)
+                B(x, \eta^N_s)
+                + F(x, \eta^N_s)
             \right\} \eta^N_s(dx) ds
         \right]
         + \IE[M^*_t(1)] 
@@ -3403,6 +3402,50 @@ bounds on the total population size follow easily.
     \end{equation*}
 \end{proof}
 
+\begin{lemma}
+    \label{lem:tightness_for_F}
+    Fix a $\sigma > 0$ and a continuous function $f \in C(\IR^d, [0, \infty))$
+    such that $\sup_x f(x, m)$ is finite for each $m$.
+    Under the assumptions of Definition~\ref{def:model_setup},
+    and if $\eta^N_0$ converges in distribution,
+    for all $\epsilon > 0$ and $T \ge 0$
+    there exists a $K_f$ such that for all $N > 0$,
+    \begin{align*}
+        \IP\left\{
+            \sup_{0 \le s \le T}
+            \int_{\IR^d}
+            f(x, p_{\sigma^2}*\eta^N_s(x))
+            \eta^N_s(dx)
+            > K_f
+        \right\}
+        \le \epsilon ,
+    \end{align*}
+    where recall that $p_{\sigma^2}*\eta(\cdot)$ denotes convolution of the Gaussian kernel
+    with mean 0 and variance $\sigma^2 I$ with the measure $\eta$.
+\end{lemma}
+
+\begin{proof}[of Lemma~\ref{lem:tightness_for_F}]
+    Let $\bar f(m) = \sup_x \sup_{k \le m} f(x, k)$, which is finite by assumption.
+    Since $p_{\sigma^2}*\eta(x) \le \langle 1, \eta \rangle / (2 \pi \sigma^2)^{d/2}$,
+    we have that
+    $$
+        \sup_{0 \le s \le T} \sup_{x \in \IR^d} f(x, p_{\sigma^2}*\eta^N_s(x))
+        \le
+        \bar f( \sup_{0 \le s \le T} \langle 1, \eta^N_s \rangle  / (2 \pi \sigma^2)^{d/2} ) .
+    $$
+    This implies that if $0 \le s \le T$ then
+    $$
+            \int_{\IR^d} f(x, p_{\sigma^2}*\eta^N_s(x)) \eta^N_s(dx)
+            \le
+            \bar f(\sup_{0 \le s \le T} \langle 1, \eta^N_s \rangle)
+            \sup_{0 \le s \le T} \langle 1, \eta^N_s \rangle .
+    $$
+    Now, if we let $g(m) = m \bar f(m/ (2 \pi \sigma^2)^{d/2})$,
+    which again is finite and nondecreasing,
+    then the lemma follows by choosing $K_f = g^{-1}(K_\epsilon)$
+    in Lemma~\ref{lem:eta_compact_containment}.
+\end{proof}
+
 Now that we have a compact containment condition for $\eta^N$,
 we need tightness of the one-dimensional distributions.
 
@@ -3415,164 +3458,118 @@ for $N = 1, 2, \ldots$ is tight as a sequence of c\`adl\`ag, real-valued process
 \end{lemma}
 
 \begin{proof}
-As in the proof of Lemma~\ref{lem:gamma_bound},
-we use the semimartingale representation of $\langle f, \eta^N_t\rangle$
-from Definition~\ref{defn:mgale_construction},
-\begin{align*}
-    \langle f, \eta^{N}_{\tau+s}\rangle
-    -
-    \langle f, \eta^{N}_{\tau}\rangle
-    &=
-    M^N_{\tau + s}(f) - M^N_\tau(f)
-    +
-    \int_\tau^{\tau + s} 
-    \int_{\IR^d}
-    \left\{
-        B_f(x, \eta^N_s)
-        + f(x) F(x, \eta^N_s)
-    \right\} 
-    \eta^N_s(dx)
-    ds,
-\end{align*}
-where
-$$
-    B_f(x, \eta)
-    =
-    \gamma(x, \eta) \int_{\IR^d} \theta ( f(y) r(y, \eta) - f(x) r(x, \eta) ) q_\theta(x, dy) .
-$$
-% By Lemma~\ref{lem:gamma_bound} and the assumption that $F$ is bounded above,
-% $B_f(x, \eta) + f(x) F(x, \eta) \le C_f$ for some constant $C_f$.
-We apply the Aldous-Rebolledo criterion \citep{rebolledo:1980}, which says that
-it suffices to show that 
+We apply the Aldous-Rebolledo criterion \citep{rebolledo:1980}, which 
+applied to the semimartingale representation of $\langle f, \eta^N_t\rangle$
+of equation~\eqref{eqn:eta_f_mgale_decomp},
+says that it suffices to show that 
 $\{\langle f, \eta^N_t \rangle\}_{N \ge 1}$ is tight for each $t$, and that
 for any sequence of stopping times $\tau_N$ bounded by $T$,
 and for each $\epsilon > 0$, there exists $\delta > 0$ and $N_0 > 0$ such that 
-\begin{gather*}
+\begin{gather}
+        \label{eqn:eta_projections_goal1}
     \sup_{N > N_0}
-    \sup_{s \in [0, \delta]}
-    \IP\left[\left|
-            \int_\tau^{\tau + s} 
+    \sup_{t \in [0, \delta]}
+    \IP\left\{\left|
+            \int_\tau^{\tau + t}
             \int_{\IR^d}
             \left\{
-                B_f(x, \eta^N_s)
+                \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
                 + f(x) F(x, \eta^N_s)
             \right\} 
             \eta^N_s(dx)
             ds
-        \right|> \epsilon \right]
+        \right|> \epsilon \right\}
         < \epsilon ,
     \\ \text{and} \qquad
+        \label{eqn:eta_projections_goal2}
     \sup_{N > N_0}
-    \sup_{s \in [0, \delta]}
-    \IP\left[\big| [M^{N}(f)]_{\tau+s} 
-                            - [M^{N}(f)]_\tau \big|
-                            > \epsilon \right]
-                    < \epsilon.
-\end{gather*}
+    \sup_{t \in [0, \delta]}
+    \IP\left\{\big|
+        [M^{N}(f)]_{\tau + t} 
+            - [M^{N}(f)]_\tau \big|
+        > \epsilon
+    \right\}
+    < \epsilon.
+\end{gather}
 Tightness of $\langle f, \eta^N_t\rangle$ for fixed $t$
 follows from Lemma~\ref{lem:eta_f_bound} and Markov's inequality,
 so we focus on the remaining conditions.
 
-\comment{The following is NOT RIGHT because $F$ is not bounded below!}
+Next, note that for $0 \le t \le \delta$,
+if we choose $K_f$ as in Lemma~\ref{lem:tightness_for_F}
+and $C_f$ as in Lemma~\ref{lem:gamma_bound},
+then
+\begin{align*}
+    &
+    \IP\left\{
+        \int_\tau^{\tau + t}
+        \int_{\IR^d}
+        \left\{
+            \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+            + f(x) F(x, \eta^N_s)
+        \right\} 
+        \eta^N_s(dx)
+        ds
+        > (K_f + C_f) \delta
+    \right\}
+    \\ & \qquad \le
+    \IP\left\{
+        \sup_{0 \le s \le \delta}
+        \int_{\IR^d} \left\{
+            \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+            + f(x) F(x, \eta^N_s)
+        \right\} \eta^N_s(dx)
+        >
+        K_f + C_f
+    \right\}
+    < \epsilon .
+\end{align*}
+Therefore, setting $\delta = \epsilon / (K_f + C_f)$
+obtains \eqref{eqn:eta_projections_goal1}.
 
-In particular,
-\begin{multline}
- \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{f(y)r(\rho_{r}*\eta^{N}_{s}(y))-f(x)r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy \\
- =  f(x)\theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\big\}\rho_{1/\theta}(x-y)dy\\
- + \theta\gamma(\rho_{r}*\eta^{N}_{s}(x))\int_{\mathbb{R}^n} \big\{(f(y)-f(x))r(\rho_{r}*\eta^{N}_{s}(y))\big\}\rho_{1/\theta}(x-y)dy\\
- \leq C_{\gamma,r}||f||_{\infty} + C_{\gamma}||\Delta f||_{\infty},
-\end{multline}
-since the first term is bounded above by $C_{\gamma,r}f(x)$ by Lemma \ref{cor:gamma_bound}
-and the second term by $C_{\gamma} \Delta f(x)$ as $r \leq 1$.
+Similarly,
+\begin{align*}
+    &
+    [M^{N}(f)]_{\tau + t} 
+        - [M^{N}(f)]_\tau \big|
+    \\ & \qquad =
+    \int_{\tau}^{\tau + t}
+        \frac{\theta}{N}
+        \int_{\IR^d}
+        \left\{
+            \gamma(x, \eta^N_s)
+            \int_{\IR^d} f^2(y) r(y, \eta^N_s) q_\theta(x, dy)
+            +
+            \mu(x, \eta^N_s) f^2(x)
+        \right\}
+        \eta^N_s(dx)
+    ds .
+    \\ & \qquad =
+    \int_{\tau}^{\tau + t}
+        \frac{\theta}{N}
+        \int_{\IR^d}
+        \left\{
+            \gamma(x, \eta^N_s)
+            \left(
+                2 f^2(x) r(x, \eta^N_s)
+                +
+                B_{f^2}(x, \eta^N_s)
+            \right)
+            +
+            f^2(x) F(x, \eta^N_s) / \theta
+        \right\}
+        \eta^N_s(dx)
+    ds ,
+\end{align*}
+and so using the fact that $\theta/N \to \alpha < \infty$,
+an argument similar to 
+that for \eqref{eqn:eta_projections_goal1}.
+also obtains \eqref{eqn:eta_projections_goal2}.
 
-Finally,  $F(\rho_{F}*\eta^{N}_{s}(x)) f(x)$ is bounded above by $C_F||f||_{\infty}$, so 
-\begin{multline}
-\mathbb{E}\left[\left|
-                        \langle f, \eta^{N}_{\tau+s}\rangle - \langle f, \eta^{N}_{\tau}\rangle
-                \right|\right] \\
-\leq (C_{\gamma,r}||f||_{\infty}
-        + C_{\gamma,r}||\Delta f||_{\infty}
-            +C_F||f||_{\infty})
-    \mathbb{E}\bigg\{
-                        \int_{\tau}^{\tau+s}
-                        \bigg\langle 1,\eta^{N}_{s}(dx)  \bigg\rangle 
-                        ds
-                \bigg\} \\
-\leq (C_{\gamma,r}||f||_{\infty}
-            + C_{\gamma,r}||\Delta f||_{\infty}
-                    +C_F||f||_{\infty})
-                \mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]
-                        e^{(C_{\gamma,r}+C_F)T}(e^\delta-1).
-\end{multline}
-As $\eta^{N}_0$ converges weakly,
-we have that 
-$\sup_{\theta > \theta_0}\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle] < K$
-for some $K>0$.
-Applying Markov's Inequality,
-we can pick small enough $\delta > 0$ such that 
-\begin{equation}
-\begin{aligned}
-\sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\mathbb{P}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
-                        - \langle f, \eta^{N}_{\tau}\rangle
-                \right|> \epsilon \right]
-& \leq \sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\frac{
-\mathbb{E}\left[\left| \langle f, \eta^{N}_{\tau+s}\rangle
-                        - \langle f, \eta^{N}_{\tau}\rangle
-                \right| \right]
-        }{\epsilon}\\
-& < \frac{(C_{\gamma,r}||f||_{\infty}
-            + C_{\gamma,r}||\Delta f||_{\infty}
-                    +C_F||f||_{\infty})
-                Ke^{(C_{\gamma,r}+C_F)T}(e^\delta-1)
-         }{\epsilon}\\
-& < \epsilon.
-\end{aligned}    
-\end{equation}
-Similarly, the control on the second moment is given by Equation \eqref{eq: Control quadratic variation}.
-\begin{equation}
-    \label{eq: Controlling Quadratic Jumps}
-\begin{aligned}
-& \sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] - [M^{\theta}_{\tau}(f)] \big|\right]\\
-\leq &\frac{\theta}{N} \mathbb{E} \Bigg\{ \int_{\tau}^{\tau+s}\bigg|
-\langle \gamma\big(x,\rho_{\gamma}*\eta^{N}_{s}(x)\big)
-\int f^2(y)r\big(y,\rho_{r}*\eta^{N}_{s}(y)\big)q_\theta(x,dy) 
-,\eta^{N}_{s}(dx)\rangle\\
-& \qquad \qquad \qquad +\langle \mu\big(x,\eta^{N}_{s}\big)f^2(x) 
-,\eta^{N}_{s}(dx)\rangle \bigg|ds \Bigg\}\\
-\leq & \frac{2\theta}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma(\rho_{\gamma}*\eta^{N}_{s}(x))r(\rho_{r}*\eta^{N}_{s}(x)), \eta^{N}_{s}(dx) \right\rangle ds\Bigg\} \\
-& + \frac{1}{N}\mathbb{E} \Bigg\{\int_{\tau}^{\tau+s} \left\langle \gamma (\rho_{\gamma}*\eta^{N}_{s}(x))\theta\int_{\mathbb{R}^n}\left(r(\rho_{r}*\eta^{N}_{s}(y))-r(\rho_{r}*\eta^{N}_{s}(x))\right) q_\theta(x,dy), \eta^{N}_{s}(dx) \right\rangle ds\Bigg\}\\
-\leq & \frac{(2 \theta C_{\gamma,r}+C_{\gamma,r})\mathbb{E}[\langle 1 ,\eta^{N}_{0}\rangle]e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)}{N}.
-\end{aligned}
-\end{equation}
-As $N^{-1}\theta \to \alpha$ as $N \to \infty$,
-there exists some $K'>0$ such that 
-$\sup_{\theta > \theta_0} N^{-1}\theta < K'$.
-An application of Markov's inequality proves that
-for small enough $\delta > 0,$
-\begin{equation}
-\begin{aligned}
-\sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\mathbb{P}\left[\big| [M^{\theta}_{\tau+s}(f)] 
-                        - [M^{\theta}_{\tau}(f)] \big|
-                        > \epsilon\right]
-&\leq  \sup_{\theta > \theta_0}
-\sup_{s \in [0, \delta]}
-\mathbb{E}\left[\big| [M^{\theta}_{\tau+s}(f)] 
-                        - [M^{\theta}_{\tau}(f)] \big|
-                        \right]/\epsilon \\
-&< K'e^{(C_{\gamma,r}+C_F)T}(e^\delta-1)/\epsilon < \epsilon.
-\end{aligned}    
-\end{equation}
 \end{proof}
 
-\subsubsection{Tightness of $(\eta^{N}_t)_{t \geq 0}$}
-\begin{theorem}
+% % % % % % % % %
+\begin{theorem}[Tightness of $(\eta^{N}_t)_{t \geq 0}$]
 The collection of measure-valued processes 
 $\{(\eta^{N}_t)_{t \geq 0}: \theta > 0\}$
 is tight in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_F(\overline{\mathbb{R}^d}))$.
