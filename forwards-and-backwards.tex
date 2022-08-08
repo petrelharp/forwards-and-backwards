@@ -3594,7 +3594,8 @@ also obtains \eqref{eqn:eta_projections_goal2}.
     Secondly, Lemma \ref{lem:eta_projections_tightness}
     shows that the real-valued processes $\langle f, \eta^{N}_t \rangle$
     are relatively compact for all $f \in \mathcal{C}^{2}_{0}(\overline{\IR^d})$.
-    Since the set of finite sums and products of terms of this form
+    Since by the Stone-Weierstrass theorem,
+    the algebra of finite sums and products of terms of this form
     is dense in the space of bounded continuous functions on $\cmeasures$,
     we have relative compactness in $\mathcal{D}_{[0,\infty)}(\cmeasures)$.
     Finally,
@@ -3693,9 +3694,7 @@ of our pre-limit model.
 
 \begin{lemma}[Identifying the limit as a solution to the martingale problem]
     \label{lem:limit_mgale}
-    \comment{
-        Here we need to check that the martingale property is preserved in the limit.
-        But this maybe can be shorter?}
+    \comment{Here we need to check that the martingale property is preserved in the limit.}
 As $N \to \infty$,
 $(\eta^{N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\mathbb{R}^d))$
 to $(\eta^{N}(t))_{t \geq 0}$.
