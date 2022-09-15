@@ -4337,7 +4337,7 @@ and gives us the following result.
         ds
         \right] .
     \end{align*}
-    Since $F(m)1_{m > 0}$ is bounded above and $\theta/N$ converges,
+    Since $F$ is bounded above and $\theta/N$ converges,
     we have for an appropriate $C$ that
     \begin{align*}
         \IE[\langle 1, \eta_t \rangle^2]
@@ -5006,9 +5006,10 @@ where $M_t(\phi_\cdot(\cdot))$ has quadratic variation
     [M^x]_t
         &\leq
         \frac{C \theta}{N \epsilon^d} \int_0^t \left\{
-            \langle \int \psi_{t-s}^{\epsilon,x}(z) q_\theta(y,dz), \eta_s(dy) \rangle
+            \langle \int \psi_{t-s}^{\epsilon,x}(z) q_\theta(y,dz)
             +
-            \langle \psi_{t-s}^{\epsilon,x}(y), \eta_s(dy)\rangle
+            \psi_{t-s}^{\epsilon,x}(y)
+            , \eta_s(dy)\rangle
         \right\} ds 
     \end{align}
     We can now take expectations and use Corollary~\ref{cor:BoundLocalDensity} to prove the result.
@@ -5227,7 +5228,7 @@ We could replace the proof with another short description?}
         % \\ & =
         % \langle \int f(x) \rho_\epsilon(x-y) dx, \eta(dy) \rangle
         % \\ &=
-        \langle \rho_\epsilon f(y), \eta_t(dy) \rangle .
+        \langle \rho_\epsilon * f(y), \eta_t(dy) \rangle .
     \end{align*}
     Substituting this into the martingale problem for $\eta_t$, \eqref{mgp1},
     we get
@@ -5264,9 +5265,11 @@ We could replace the proof with another short description?}
     \end{align}
     for some $\tilde{\theta} \in [0,1/\theta]$.
     Proceeding as in the proof of Lemma~\ref{lem:eta_f_bound},
-    we can use that $F(x)$ is bounded above and Gronwall's inequality to conclude that
+    we can take expectations of equation~\eqref{MGPT_epsilon},
+    use \eqref{ShortBoundLaplacianHS} and the fact that $F(x)$ is bounded above,
+    and then Gronwall's inequality to conclude that
     \[
-        \IE\left[\langle \rho_{\epsilon} * f(y) F(y, \eta_t), \eta_t(dy) \rangle \right]
+        \IE\left[\langle \rho_{\epsilon} * f(y), \eta_t(dy) \rangle \right]
         \text{ is uniformly bounded for } t \in [0,T].
     \]
 
@@ -5287,18 +5290,18 @@ We could replace the proof with another short description?}
     \begin{align*}
         \IE\left[ [\widehat{M}]_t \right]
         \leq
-        \frac{\theta}{N} \| f \|_\infty C
+        \frac{\theta}{N} \| f \|_\infty (1 + C_F/\theta)
         \int_0^t \mathbb{E}\left[ \langle 1, \eta_s(dy) \right] ds
         <
         C \frac{\theta}{N} t ,
     \end{align*}
     where in the last inequality we have used Lemma~\ref{Lemma:UniformlyBoundedMass}.
-    Hence, using the Burkholder-Davis-Gundy and Jensen's inequalities we can conclude that
+    Hence, using the Burkholder-Davis-Gundy inequality and then Jensen's inequality we can conclude that
     \[
         \IE[\sup_{0 \leq t \leq T} |\widehat{M}_t| ]
         \le
         C
-        \IE\left[ [\widehat{M}]_t \right]^{1/2}
+        \IE\left[ [\widehat{M}]_T \right]^{1/2}
         \le
         \sqrt{ C \frac{\theta}{N} T } .
     \]
@@ -5306,29 +5309,29 @@ We could replace the proof with another short description?}
     we conclude that
     \begin{equation}
         \label{eq:boundedIntegralAgainstf}
-        \IE[ \sup_{0 \leq t \leq T} \langle T_{\epsilon^2} f, \eta_t \rangle ]
-        \text{ is uniformly bounded (for fixed } f \text{)}
+        \IE[ \sup_{0 \leq t \leq T} \langle p_{\epsilon^2} * f, \eta_t \rangle ]
+        \text{ is uniformly bounded (for fixed } f \text{)} .
     \end{equation}
     To conclude $C$-tightness we show that, for $T>0$, and $\alpha > 0$
     there is some $\delta >0$ so that for $\theta$ and $N$ large enough,
     \begin{align}
-        &
+        % &
+        % \IP\left[
+        %     \sup_{s,t \in [0,T], |s-t| < \delta}
+        %     \left|
+        %         \int f(x) \rho_\epsilon*\eta_s(x) dx
+        %         -
+        %         \int f(x) \rho_\epsilon*\eta_t(x) dx
+        %     \right|
+        %     >
+        %     \alpha
+        % \right]
+        % \\ &=
         \IP\left[
             \sup_{s,t \in [0,T], |s-t| < \delta}
             \left|
-                \int f(x) \rho_\epsilon*\eta_s(x) dx
-                -
-                \int f(x) \rho_\epsilon*\eta_t(x) dx
-            \right|
-            >
-            \alpha
-        \right]
-        \\ &=
-        \IP\left[
-            \sup_{s,t \in [0,T], |s-t| < \delta}
-            \left|
-                \langle p_{\epsilon^2} * f, \eta_s \rangle
-                - \langle p_{\epsilon^2} * f, \eta_t \rangle
+                \langle \rho_{\epsilon} * f, \eta_s \rangle
+                - \langle \rho_{\epsilon} * f, \eta_t \rangle
             \right|
             >
             \alpha
@@ -5336,15 +5339,16 @@ We could replace the proof with another short description?}
         <
         \alpha \label{conditionCtightness}
     \end{align}
-    But, from our estimates above, we have
+    Now, we can use \eqref{MGPT_epsilon} to write this difference
+    as an integral, then bound the terms as above to get
     \begin{align*}
         \left|
-        \langle p_{\epsilon^2} * f, \eta_s \rangle
+        \langle \rho_{\epsilon} * f, \eta_s \rangle
         -
-        \langle p_{\epsilon^2} * f, \eta_t \rangle
+        \langle \rho_{\epsilon} * f, \eta_t \rangle
         \right|
         \leq
-        ( \| \Delta f \|_\infty + C_F \|f\|_\infty) |u-v|
+        ( \| \Delta f \|_\infty + C_F \|f\|_\infty) |s - t|
         \sup_{0 \leq u \leq T } \langle 1, \eta_u \rangle
         +
         \sup_{u \leq T} |\widehat{M}_u| .
@@ -5352,9 +5356,9 @@ We could replace the proof with another short description?}
     Taking expectations we get,
     \begin{equation}
         \IE\left[ \left|
-            \langle T_{\epsilon^2} f, \eta_s \rangle
+            \langle \rho_\epsilon * f, \eta_s \rangle
             -
-            \langle T_{\epsilon^2} f, \eta_t \rangle
+            \langle \rho_\epsilon * f, \eta_t \rangle
         \right| \right]
         \leq
         \widehat{C} |s-t|
@@ -5368,16 +5372,103 @@ We could replace the proof with another short description?}
     Thus we have concluded $C$-tightness. 
 \end{proof}
 
+\comment{
+    Peter writes: the following Remark refers to the proof of Lemma~\ref{lem:SecondMomentMass},
+    which was previously wrong and is now fairly different.
+    However, I don't see how to prove the Remark using any similar method,
+    because to bound $\int p_{\epsilon^2 / 2} * \eta_t(x)^2 dx$
+    it seems like we need control on $\rho_\epsilon * \eta_t(x)$ uniformly in $x$
+    (and, integrability), which I don't think we have?
+    But, I'm probably being dense.
+    See after this for an attempted rewrite.
+}
+
 \begin{remark} \label{remark:BoundedIntegral}
-Similar as we got equation (\ref{eq:boundedIntegralAgainstf}), from equation \ref{MGPT_epsilon} we can conclude that
-\[ \IE\left[\sup_{0 \leq t \leq T} \int \rho_{\epsilon/2} * \eta_t(x) dx \right] = C < \infty. \]
-By using this and the same pattern used to prove Lemma~\ref{lem:SecondMomentMass}, we can then conclude that,
-\[ \IE\left[  \sup_{0 \leq t \leq T} \int \left(\rho_{\epsilon/2} * \eta_t(x) \right)^2 dx \right] = C < \infty. \]
-Since,
-\begin{align*}
-\langle \rho_\epsilon * \eta_t(z), \eta(dz) \rangle & = \sum_{y \in \eta_t} \sum_{z \in \eta_t} \rho_\epsilon(y-z) \eta(z) \eta(y) \\ &= \int  \sum_{y \in \eta_t} \sum_{z \in \eta_t} \rho_{\epsilon/2}(y-x) \rho_{\epsilon/2}(z-x) \eta(z) \eta(y) \\ &= \int (\rho_{\epsilon/2}*\eta_t(x))^2 dx.
-\end{align*}
-This allows us to conclude that $\IE[\langle \rho_\epsilon*\eta_t(z),\eta_t(dz) \rangle ] < \infty$. This bound will be useful in the next section.
+    Similar as we got equation (\ref{eq:boundedIntegralAgainstf}), from equation \ref{MGPT_epsilon} we can conclude there exists a $C < \infty$ such that
+    \[
+        \IE\left[\sup_{0 \leq t \leq T} \int p_{\epsilon^2/2} * \eta_t(x) dx \right] < C .
+    \]
+    By using this and the same pattern used to prove Lemma~\ref{lem:SecondMomentMass},
+    we can then conclude there is a (different) $C < \infty$ such that
+    \[
+        \IE\left[  \sup_{0 \leq t \leq T} \int \left( p_{\epsilon^2/2} * \eta_t(x) \right)^2 dx \right]
+        <
+        C .
+    \]
+    Then, because
+    \begin{align*}
+        \langle p_{\epsilon^2} * \eta_t(x), \eta(dx) \rangle
+        &=
+        \langle p_{\epsilon^2/2} * p_{\epsilon^2/2} * \eta_t(x), \eta(dx) \rangle
+        \\ &=
+        \int_{\IR^d} \left( p_{\epsilon^2/2} * \eta_t(x) \right)^2 dx .
+    \end{align*}
+    we can conclude that
+    $\IE[\langle \rho_\epsilon*\eta_t(x), \eta_t(dx) \rangle ]$ is uniformly bounded,
+    which will be useful in the next section.
+\end{remark}
+
+\comment{Here's my start at rewriting that Remark;
+    however, I'm stuck since $\theta(p_{\epsilon^2 + 1/\theta} - p_{\epsilon^2}) * \eta$
+    isn't bounded by $p_{\epsilon^2} * \eta$ (uniformly in $\epsilon$, anyhow).
+}
+
+\begin{remark} \label{remark:BoundedIntegral2}
+    Below, we will want to bound
+    \[
+        \langle \rho_\epsilon * \eta_t, \eta_t \rangle
+        =
+        \int_{\IR^d} \int_{\IR^d} p_{\epsilon^2}(x, y) \eta_t(dx) \eta_t(dy) .
+    \]
+    Writing $H(\eta) = \langle \rho_\epsilon * \eta, \eta \rangle$,
+    note that since $p_{\epsilon^2}$ is symmetric,
+    $H(\eta + \delta_z / N) = H(\eta) + 2 \rho_\epsilon * \eta(z) / N + p_{\epsilon^2}(z, z) / N^2$,
+    so following Section~\ref{sec:heuristics},
+    \begin{align*}
+        \langle \rho_\epsilon * \eta_t, \eta_t \rangle
+        &=
+        \langle \rho_\epsilon * \eta_0, \eta_0 \rangle
+        +
+        2 \theta \int_0^t \left \langle \int_{\IR^d}
+            \left(
+               \rho_\epsilon * \eta_s(y)
+               -
+               \rho_\epsilon * \eta_s(x)
+            \right)
+            q_\theta(x, dy)
+        , \eta_s(dy) \right \rangle ds
+        \\ & \qquad {}
+        +
+        2 \int_0^t
+        \langle
+            \rho_\epsilon * \eta_s(x) F(x, \eta_s)
+        , \eta_s(dx) \rangle
+        ds
+        +
+        O\left( \frac{1}{\epsilon^d N^2} \right)
+        + M_t ,
+    \end{align*}
+    where $M_t$ is a martingale with quadratic variation
+    \begin{align*}
+        [M]_t
+        &=
+        2 \frac{\theta}{N} \int_0^t
+        \left \langle
+            \int_{\IR^d}
+                \rho_\epsilon * \eta_s(y)^2
+            q_\theta(x, dy)
+        , \eta_s(dx) \right\rangle
+        ds
+        \\ & \qquad {}
+        +
+        2 \int_0^t
+        \left \langle
+            \rho_\epsilon * \eta_s(x)^2 (1 + F(x, \eta_s) / \theta) 
+        , \eta_s(dx) \right\rangle
+        ds
+        +
+        O\left( \frac{1}{\epsilon^d N^2} \right) .
+    \end{align*}
 \end{remark}
 
 \subsubsection{Identifying the limit}
