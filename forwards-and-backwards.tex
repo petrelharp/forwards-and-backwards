@@ -2708,7 +2708,7 @@ Given $\eta_0 \in \measures$,
 let $(x_i, u_i)$ be the points of a Poisson process
 with mean measure on $\IR^d \times [0, \infty)$ a product of $\eta_0$ and Lebesgue measure.
 For each point begin a line of descent
-with label $i$, location $X_i(0) = x_i$, level $U_a(0) = u_i$, and birth time $\tau_i = 0$.
+with label $i$, location $X_i(0) = x_i$, level $U_i(0) = u_i$, and birth time $\tau_i = 0$.
 Suppose that the spatial locations and level of each line of descent $a$
 solve, for $\tau_a \le t < \sigma_a$ as,
 where $\sigma_a = \lim_{K \to \infty} \inf\{t \ge 0: U_a(t) > K\}$,
@@ -2718,7 +2718,7 @@ X_a(t)
     &=
     X_a(\tau_a)
     + \int_{\tau_a}^{t}
-        \beta(X_a(s), \eta(s)) ds
+        \beta(X_a(s), \eta_s) ds
     + \int_{\tau_a}^{t}
         K(X_a(s)) dW_a(s)
     \\
@@ -2727,13 +2727,13 @@ U_a(t)
     U_a(\tau_a)
     + \int_{\tau_a}^{t}
     \bigg(
-        \alpha \gamma(X_a(s),\eta(s))
-        r(X_a(s), \eta(s)) U_a(s)^2
+        \alpha \gamma(X_a(s),\eta_s)
+        r(X_a(s), \eta_s) U_a(s)^2
 \\ &\qquad \qquad \qquad {}   
         -
         \left\{
-            \gamma(X_a(s),\eta(s)) \DG r(X_a(s),\eta(s))
-            + F(X_a(s), \eta(s))
+            \gamma(X_a(s),\eta_s) \DG r(X_a(s),\eta_s)
+            + F(X_a(s), \eta_s)
         \right\}
         U_a(s)
     \bigg)
@@ -2746,8 +2746,9 @@ with birth time $\tau_{a \concat j} = t$,
     location $X_{a \concat j}(t) = X_a(t)$, and level
 $$
     U_{a \concat j}(t) = U_a(t)
-    + \frac{v}{ 2 \alpha \gamma(X_a(t), \eta_t) r(X_a(t), \eta_t) } .
+    + \frac{v}{ 2 \alpha \gamma(X_a(t), \eta_t) r(X_a(t), \eta_t) } ,
 $$
+if this is finite.
 For any solution to the equations above, the processes defined by
 \begin{align*}
     \eta_t
@@ -2765,7 +2766,7 @@ respectively.
 In particular, note that if $\alpha=0$,
 no new lines of descent are produced.
 (More precisely, they are produced but ``at infinity'',
-since the spatial motion of the line of descent is the result of production of these lineages.
+since the spatial motion of the line of descent is the result of production of these lineages.)
 
 \comment{Note that the analogous theorem for finite $N$ is obvious (??) and not stated as a proposition.}
 
