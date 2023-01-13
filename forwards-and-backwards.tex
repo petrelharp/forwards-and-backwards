@@ -6203,119 +6203,50 @@ Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3
 \end{proof}
 
 \subsection{Tightness of the Lookdown Representation}
-
-\comment{
-    This comes later because it uses convergence of the population process itself.
-}
-
-We have now proved tightness of the spatial and level process for a line of descent. To prove that the lookdown representation is tight, we generalise the vague topology to the setting of measure-valued processes. For a detailed description of the vague topology, refer to Appendix \ref{sec: Empirical Measure Topology}.
-
-We will lay out the steps we follow to prove tightness. First of all, we will show that compact containment condition is satisfied if we can control the total mass of particles in our system living in a finite region in space with a level lower than some $u_{*}$. Since a control on total mass has already been shown in Lemma \ref{lem:eta_compact_containment}, we have immediately established compact containment condition for our lookdown processes. 
-
-Then, we apply Theorem A.24 in \cite{kallenberg1997foundations}
-(Theorem \ref{teo: Vague Relative Compactness through Projection})
-and use a corollary of Stone-Weierstrass Theorem
-(Lemma \ref{lem: Dense set for test functions on empirical measures})
-to show that our lookdown representation $\{\xi^N_t: N \in \mathbb{N}\}$ is tight
-as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process
-in the vague topology
-as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight
-as real-valued stochastic processes for a huge class of $F_g$. 
-Explicitly, $F_g(\xi):= \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$,
-where $g(x,u)$ satisfies the property that
-$g(x,u) = 1 $
-for all $u \geq u_{*}$ for some $u_{*}>0$.
-
-\subsubsection{Compact Containment Condition}
-\begin{definition}
-For any arbitrary $M,K>0$, 
-we denote the set 
-$$\mathcal{M}_{K,M}:= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): \mu([-M,M]^d \times [0,M])/M \leq K\}$$
-to be the set of measures on $\IR^d \times[0,\infty)$ with mass smaller than $K$ in the region $[-M,M]^d \times [0,M]$.
-\end{definition}
-
-In Corollary \ref{cor: Vague Compact sets}, we will prove that $\mathcal{M}_{K,M}$ is vaguely compact. 
-
-\begin{lemma}[Compact Containment]
-    \label{lem:lp_compact_containment}
-Assume that $\xi^{N}_0 \to \xi_0$ weakly,
-then for all $T>0$, there exists some constant $C(T)$,
-such that
-    \begin{align}
-        \label{eqn:lp_mass_bound}
-        \IE\left[
-            \sup_{0 \le t \le T}
-            \frac{1}{N}\langle 1, \xi^{N}_t \rangle
-        \right]
-        \le C(T) ,
-    \end{align}
-uniformly in $N$.
-In particular, for any $\epsilon > 0$, there exists some $M_{\epsilon}>0, K_{\epsilon}>0$,
-such that 
+\begin{lemma}
+The lookdown representation satisfies
+Equation \eqref{eq: vague compact containment condition}, i.e.
+for all $\epsilon>0$, there exists $N>0$ such that
 \begin{equation}
-\limsup_{N \to \infty}
-    \mathbb{P}\left\{ \xi^{N}_t \in \mathcal{M}_{K_{\epsilon},M_{\epsilon}}
-        \text{ for } t\in [0,T] \right\}
-        < \epsilon.
+ \limsup_{n \to \infty} \mathbb{P}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right\} < \epsilon,
 \end{equation}
 \end{lemma}
+
 \begin{proof}
-By an application of Markov Mapping Theorem (see \S \ref{sec: Markov Mapping Theorem Application - Prelimit}), we know that 
-
-$$\left(\frac{1}{N}\langle 1, \xi^{N}_t(\cdot , [0, N]) \rangle\right)_{t \geq 0} \sim (\eta^N_t(\cdot ))_{t \geq 0},$$
-i.e. the spatial projection of $(\xi^{N}_t)_{t \geq 0}$ has the same distribution as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{defn:mgale_construction}. 
-As a result, by Lemma \ref{lem:lp_compact_containment},
-we have immediately that 
-\begin{align}
-        \IE\left[
-            \sup_{0 \le t \le T}
-            \frac{1}{N}\langle 1, \xi^{N}_t \rangle
-        \right]
-        = \IE\left[
-            \sup_{0 \le t \le T}
-            \langle 1, \eta^{N}_t \rangle
-        \right]
-        \le C(T) ,
-    \end{align}
-for some $C(T)>0$.
-
-Moreover, we know that conditional on the spatial configuration 
-$\frac{1}{N}\langle 1, \xi^{N}_t(\cdot , [0, N]) \rangle,$
-the levels of each individual
-is i.i.d uniformly distributed between $[0,N]$. 
-Therefore, for $N>M_{\varepsilon}$
-\begin{align*}
-     \mathbb{P}\left\{ \xi^{N}_t \in \mathcal{M}_{K_{\epsilon},M_{\epsilon}}
-        \text{ for } t\in [0,T] \right\}
-        =& \mathbb{P}\left\{\sup_{ t\in [0,T]} \frac{1}{M_\varepsilon} \xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon]) \leq K_\varepsilon
-         \right\}\\
-         \leq& \frac{1}{M_\varepsilon K_{\varepsilon}} \mathbb{E}\left\{\sup_{ t\in [0,T]}  \xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon]) \right\}\\
-        =& \frac{1}{M_\varepsilon K_{\varepsilon}}             \mathbb{E}_{\eta^N_t}\left\{ N \times
-            \mathbb{E}\left[  
-                \sup_{ t\in [0,T]}  \frac{1}{N}\xi^{N}_t([-M_\varepsilon,M_\varepsilon]^d \times [0,M_\varepsilon])
-                \bigg| \eta^N_t
-                        \right]
-                    \right\}\\
-        =& \frac{1}{M_\varepsilon K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
-                    \left\{ N \times
-                    \sup_{ t\in [0,T]} \eta^{N}_t([-M_\varepsilon,M_\varepsilon]^d) \times \frac{M_{\varepsilon}}{N}
-                    \right\}\\
-        =& \frac{1}{K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
-                    \left\{
-                    \sup_{ t\in [0,T]} \eta^{N}_t([-M_\varepsilon,M_\varepsilon]^d) 
-                    \right\}\\
-        \leq & \frac{1}{K_{\varepsilon}} \mathbb{E}_{\eta^N_t}
-                    \left\{
-                    \sup_{ t\in [0,T]} \langle 1, \eta^{N}_t \rangle 
-                    \right\}\\
-        < & \varepsilon.
-\end{align*}
-The first inequality holds by Markov's inequality, and the following two equalities hold as 
-conditional on $\eta^N_t$,
-$M_{\varepsilon}/N$ proportion of particles in $\xi^N_t$ have levels in $[0,M_{\varepsilon}]$. The final inequality holds as a direct consequence of \ref{lem:eta_compact_containment}. 
-
-We have therefore proved compact containment condition in the vague topology for our lookdown representation.
+For every $f \in C^{+}_{c}(\overline{\mathbb{R}^d} \times [0,\infty))$,
+there exists $u^* > 0$ such that $f(x,u) = 0$ for all $u \geq u^*$.
+Then,
+\begin{equation}
+\begin{aligned}
+ &\limsup_{n \to \infty} \mathbb{P}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right\} \\
+ \leq & \limsup_{n \to \infty}\frac{\mathbb{E}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle \right\}}{N}\\
+ \leq & \limsup_{n \to \infty}||f||_{\infty}\frac{\mathbb{E}\left\{ \sup_{t\in [0,T]}\langle 1_{[0,u^*]}, \xi^n_t \rangle \right\}}{N}.
+\end{aligned}
+\end{equation}
+Recall that conditional on 
+$$ \frac{1}{n}\langle 1_{[0,n]}, \xi^n_t \rangle = \eta^n_t,$$
+the level of each individual is independently and uniformly distributed between $[0,n]$.
+Therefore, 
+\begin{equation}
+\mathbb{E}\left\{ \sup_{t\in [0,T]}\langle 1_{[0,u^*]}, \xi^n_t \rangle \right\} = u^* \mathbb{E}\left\{ \sup_{t\in [0,T]}\langle 1, \eta^n_t \rangle \right\}.
+\end{equation}
+Finally, 
+recall that the supremum of the empirical measure process is controlled in Lemma \ref{lem:eta_compact_containment}
+so there exists some constant $C_T$ such that 
+\begin{equation}
+\begin{aligned}
+ &\limsup_{n \to \infty} \mathbb{P}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right\} \\
+ \leq & \limsup_{n \to \infty}||f||_{\infty}\frac{u^*}{N}\mathbb{E}\left\{ \sup_{t\in [0,T]}\langle 1, \eta^n_t \rangle \right\}\\
+ \leq & ||f||_{\infty}\frac{u^*}{N}C_T\\
+ < & \epsilon
+\end{aligned}
+\end{equation}
+for sufficiently large $N$.
 \end{proof}
+
+It now suffices for us to show that the processes $\{(F_g(\xi^n_t))_{t \geq 0}: n \geq 1\}$ is relatively compact for all test functions $F_g$.
+To do so, we apply Aldous criterion for real-valued processes.
+
 \subsubsection{Tightness of $(F_g(\xi_t))_{t \geq 0}$}
 
 \begin{definition}
@@ -6329,9 +6260,79 @@ To prove tightness of $(\xi_t)_{t \geq 0}$ in the vague topology, it suffices to
 For all $g \in \mathfrak{G}_{\leq 1}$, the processes $\{(F_g(\xi^N_t))_{t \geq 0}: N \in \mathbb{N}\}$ is tight as a real-valued stochastic process.
 \end{lemma}
 \begin{proof}
+Once again, we intend to apply the Aldous Criterion. 
+To do so, we need to prove that for all $\epsilon > 0$,
+there exists $n_0 > 0$ and $\delta > 0$ such that 
+\begin{equation}
+\sup_{n \geq n_0}\sup_{\theta \in [0, \delta]}\mathbb{P}\{|F_g(\xi^n_{\tau+\theta})-F_g(\xi^n_{\tau})| > \epsilon\} < \epsilon
+\end{equation} 
+holds. 
+It suffices to show that for sufficiently small $\delta > 0$,
+$\limsup_{n \to \infty}\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2] < \epsilon$
+for all $\theta \in [0, \delta]$.
 
+First, note that only events happening on particles with levels smaller than $u_g$ at time $\tau_n$ will contribute to the difference $|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|$.
+
+To calculate this difference, we couple $(\xi^n_{\tau_n + s})_{s \in [0,\delta]}$ with the process $(\hat{\xi}^n_{\tau_n + s})_{s \in [0,\delta]}$ which has the same level dynamics as $(\xi^n_{\tau_n + s})_{s \in [0,\delta]}$ but with no birth. 
+With this coupling, 
+we have 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2] \leq 2\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2]+ 2\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]$
+
+We first try to control $\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]$. 
+This difference is simply influenced by the level dynamics. Therefore,
+\begin{equation}
+\begin{aligned}
+ &\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]\\
+ \leq &
+ \mathbb{E}\left[ \int_{0}^{\delta} \sum_{(x,u)\in\xi^n_{\tau_n+s}}\,
+    \left|
+        \frac{\theta}{n} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) u^2 -b_{\theta}(x,\eta)u
+    \right|^2 \partial_u g(x,u)^2 ds\right]\\
+ \leq & ||g'||_{\infty}
+ \mathbb{E}\left[ \int_{0}^{\delta} \sum_{(x,u)\in\xi^n_{\tau_n+s}}\,
+    \left| \frac{\theta}{n}  \gamma(x,\eta)  u_g^2 + (2  \gamma(x,\eta) + F(x,\eta))u_g
+    \right|^2  ds\right] + O(1/\theta)\\
+\leq & ||g'||_{\infty}u_g
+ \mathbb{E}_{\eta}\left[ \int_{\tau_n}^{\tau_n+\delta} \int_{\mathbb{R}^d}
+    \left| \frac{\theta}{n}  \gamma(x,\eta^n_{s})  u_g^2 + (2  \gamma(x,\eta^n_{s}) + F(x,\eta^n_{s}))u_g
+    \right|^2 \eta^N_s(dx) ds\right] + O(1/\theta),
+\end{aligned}
+\end{equation}
+so this term can be controlled with Lemma \ref{lem:tightness_for_F}.
+
+We now control 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2]$.
+Note that this difference is purely contributed by the number of birth with both the parent and child having levels below $u_g$,
+and the simple inequality 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2] \leq 4 \mathbb{P}\{|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|>0\}$
+holds. 
+
+Therefore it suffices to prove that within a small interval of length $\delta > 0$,
+the probability of such birth events happening is small.
+
+This term can be controlled by the uniform boundedness of $\gamma(x,m)$.
+For the birth event to contribute to the difference, the parent must have a level below $u_g$, and give birth to a child at level $u + \ell < u_g$.
+Therefore, the total rate of relevant birth events satisfies
+\begin{equation}
+\sum_{(x,u) \in \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})}  \gamma(x,\eta^n_{\tau_n}) \mathbbm{1}_{u+ \ell < u_g }
+\leq C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d}.
+\end{equation}
+Therefore, with an application of Markov inequality, 
+we have
+\begin{equation}
+\begin{aligned}
+\mathbb{P}\{|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|>0\}
+\leq & \mathbb{P}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s) \geq  1]\\
+\leq & \mathbb{E}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s)]\\
+\leq & \mathbb{E}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s)]\\
+\leq & C_{\gamma}  \mathbb{E}[\xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})]s\\
+\leq & C_{\gamma}  u_g\mathbb{E}[\eta^n_{\tau_n}(\overline{\mathbb{R}^d})]s\\
+<&  \epsilon.
+\end{aligned}
+\end{equation}
+
+Combining all inequalities above, we have established Aldous Criterion and thus, tightness for the lookdown representation. 
 \end{proof}
-
 
 % % % % % % % % % % % % %
 \subsubsection{Convergence of generators for the lookdown process}
@@ -8090,142 +8091,160 @@ Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equ
 \end{proof}
 \section{Topological Results on Lookdown Representations}
 \label{sec: Topologies on Lookdown}
+\subsection{Topology for convergence of lookdown representations}
 
-\subsection{Euclidean-Vague Topology on $\IR^d \times [0,\infty]$}\label{sec: Convergence in Product Topology}
-We first define a topology on $\IR^d \times [0,\infty]$ which is Euclidean on $\IR^d$ and vague in $[0,\infty]$.
-\begin{definition}
-We define the topology $\mathfrak{p}$ on $\IR^d \times [0,\infty]:$
-we say $(x_n,u_n) \to (x,u)$ in topology $\mathfrak{p}$ if 
-\begin{enumerate}
-    \item $|x_n-x| \to 0$ in $\IR^d$.
-    \item  For all $g \in C_{c}([0,\infty])$, the space of continuous functions with compact support on $[0,\infty]$, $g(u_n) \to g(u).$ Since this is the vague convergence for $(\delta_{u_n})_{n \in \mathbb{N}}$ we will abuse a bit the notation and denote this by the symbol $u_n \xrightarrow{vague} u$. 
-\end{enumerate}
-\end{definition}
+Recall that
+the lookdown representation has a spatial component and a level component.
+Specifically, for fixed $N>0$ and $t>0$,
+the lookdown representation $\xi^N(t)$ 
+is a finite measure on $\overline{\mathbb{R}^d} \times [0,N]$.
 
-In other words, our topology is Euclidean in space $\IR^d$ and vague in levels in $[0,\infty]$.
-\begin{lemma}\label{Vague times Euclidean is Polish}
-The space $\IR^d \times [0,\infty]$ under topology $\mathfrak{p}$ is Polish.
-\end{lemma}
-\begin{proof}
-The space $C_c([0,\infty])$ is dense, so we pick a countable dense subset $S:=\{h_n: n \in \mathbb{N}\} \subset C^{1}_c([0,\infty])$ and define the metric $\mathfrak{d}$ such that $\mathfrak{d}(u,v)=\sum_{n=1}^{\infty}\frac{1 \wedge |h_n(u)-h_n(v)|}{2^n}$.
+To characterise convergence of $\xi^N(t)$ as $N \to \infty$,
+we therefore need to impose an appropriate topology on $\mathcal{M}(\overline{\mathbb{R}^d} \times [0,\infty))$,
+the space of finite measures on $\overline{\mathbb{R}^d} \times [0,\infty)$.
 
-Assume that $u_n \xrightarrow{vague} u$. Pick arbitrary $\delta>0$ and take $N$ large enough such that $\frac{1}{2^N}<\delta/2$. Furthermore, pick $n$ large enough such that $\inf_{i=1,2,...,N}|h_i(u_n)-h_i(u)|<\delta/2$. From this we immediately have that $\mathfrak{d}(u_n,u)<\delta$. Thus $\mathfrak{d}(u_n,u) \to 0$.
+We now refer to the vague topology introduced in P564, \S A2 in \cite{kallenberg1997foundations}.
+Let $S$ be a locally compact Polish space and $\hat{S}$ be the class of bounded sets in $S$.
+We consider the family $C^{+}_c(S)$ of positive continuous functions with compact support. It is known that $C^{+}_c$ is separable in the uniform metric.
+We now consider $\mathcal{M}(S)$, the class of measures on $S$ that are locally finite.
+The \textit{vague topology} on $\mathcal{M}(S)$ is generated by the the maps $\mu \to \mu f := \int f d \mu$, where $f\in C^{+}_{c}(S)$.
+In other words, convergence of $\mu^n \to \mu$ in the vague topology holds if 
+$$\int f d\mu^n \to \int f d\mu$$
+for all $f\in C^{+}_{c}(S)$.
 
-Conversely assume that $\mathfrak{d}(u_n,u) \to 0$. For any $h \in \mathcal{C}^{1}_c([0,\infty])$ and for any $\delta>0$, pick $g_N$ such that $||h-h_N||_{\infty}<\delta /3$ and $n$ large enough such that $\mathfrak{d}(u_n,u)< \frac{\delta}{3 \times 2^N}$. Then $|h(u)-h(u_n)|< |h(u)-h_N(u)|+|h_N(u)-h_N(u_n)|+|h_N(u_n)-h(u_n)|<\delta$, and so $h(u_n) \to h(u)$.
-
-Finally, one can easily check that $\mathbb{Q}$ is a countable dense set in $[0,\infty]$ equipped with the metric $\mathfrak{d}$.
-Defining the metric $d_{\mathfrak{p}}$
-by
-$$d_{\mathfrak{p}}((x_1,u_1),(x_2,u_2))=||x_1-x_2||+\mathfrak{d}(u_1,u_2),$$
-we can show easily that
-convergence in $d_{\mathfrak{p}}$
-is equivalent to convergence in 
-$\mathfrak{p}$ topology.
-\end{proof}
-
-
-
-\subsection{Vague Topology on Measures}\label{sec: Empirical Measure Topology}
-
-We now characterise the lookdown representation
-of our particle system
-as a measure on 
-$(\IR^d \times [0, \infty], \mathfrak{p})$.
-We endow the vague topology
-on these measures for
-convergence of lookdown representations.
-We refer to Theorem A.23 and Theorem A.24 in \cite{kallenberg1997foundations}.
-
-First of all,
-as $(\IR^d \times [0, \infty], \mathfrak{p})$
-is Polish,
-the family of $C^{+}_K$ of continuous functions
-$$f: \mathbb{R^d} \times [0, \infty] \to \IR^{+}$$
-with compact support
-is separable in the uniform metric. 
-The sets $K_n =[-n, n]^d \times [0,n]$ clearly forms a sequence of compact sets and $K_n \uparrow \mathbb{R^d} \times [0, \infty]$.
-
-We denote $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ as the class of measures on $\mathbb{R^d} \times [0, \infty]$ that are 
-locally finite (i.e. bounded on bounded intervals),
-and write $\pi_B, \pi_f$ 
-for the mappings 
-$\mu \to \mu B$, $\mu \to \mu f := \int f d\mu$,
-respectively,
-on $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
-
-The \textit{vague topology} in $\mathcal{M}(\mathbb{R^d} \times [0, \infty)$ is generated by the maps $\pi_f, f \in C^{+}_K$, and 
-we write the cague convergence of $\mu_n$ toward $\mu$
-as $\mu_n \xrightarrow{v} \mu$.
-
-Taking $S= \mathbb{R^d} \times [0, \infty]$
-in Theorem A.23
-in \cite{kallenberg1997foundations},
+We now introduce two important theorems on compactness and convergence in the vague topology.
+\begin{theorem}[Theorem A.23 in \cite{kallenberg1997foundations}]
+For any locally compact, second-countable Hausdorff Space $S$, 
 we have
-\begin{theorem}[vague topology]
-\label{teo: Kallenberg vague results}
-
-The following holds:
-\begin{enumerate}
-    \item $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ is a Polish space in the vague topology
-    \item A set $A \subset \mathcal{M}(\mathbb{R^d} \times [0, \infty])$ is vaguely relatively compact iff 
-    $\sup_{\mu \in A} \mu f < \infty$ for all $f \in C^{+}_K$
-    \item if $\mu_n \xrightarrow{v} \mu$ and a set $B$ is finite with $\mu \partial B = 0$, then $\mu_n B \to \mu B$.
-\end{enumerate}
-
+\begin{itemize}
+\item $\mathcal{S}$ is Polish in the vague topology,
+\item a set $A\subset \mathcal{S}$ is vaguely relatively compact iff $\sup_{\mu\in A} \mu f < \infty$ for all $f \in C^{+}_{c}$
+\item if $\mu_n \to \mu$ in the vague topology and $B \in \hat{S}$ with $\mu \partial B = 0$, then $\mu_n B \to \mu B$
+\end{itemize}
 \end{theorem}
 
+The following corollary holds immediately.
 \begin{corollary}
-\label{cor: Vague Compact sets}
-For any arbitrary $M,K>0$, the set 
-$$\mathcal{M}_{K,M}:= \{\mu \in \mathcal{M}(\mathbb{R^d} \times [0, \infty]): M^{-1}\mu([-M,M]^d \times [0,M]) \leq K\}$$   
-is a compact subset in 
-$\mathcal{M}(\mathbb{R^d} \times [0, \infty])$ 
-under the vague topology.
+The set $\Gamma_K := \{\mu \in \mathcal{M}(S): \mu(S) \leq K\}$
+is vaguely compact in $\mathcal{M}(S)$.
 \end{corollary}
 \begin{proof}
-For any function $f \in C^{+}_K$, it is compactly supported and
-so there exists a constant $C_f > ||f||_{\infty}$.
-As a result, 
-$$\sup_{\mu \in \mathcal{M}_{K,M}} \mu f < C_f \times \mu \{ supp(f) \cap [-M,M]^d \times [0,M]\} \leq C_f M^{-1} K < \infty.$$
+It suffices to show that $\Gamma_K$ is vaguely relatively compact and vaguely closed.
+For any fixed $f \in C^{+}_c$,
+we have that $ \sup_{\mu \in A} \mu f \leq  ||f||_{\infty} \mu(S)  \leq ||f|| K < \infty$,
+so $\Gamma_K$ is vaguely relatively compact.
 
-Since $f$ is arbitrary, by (ii) of Theorem \ref{teo: Kallenberg vague results}, 
-the set
-$\mathcal{M}_{K,M}$
-is vaguely relatively compact. 
-
-We now prove that $\mathcal{M}_{K,M}$ is a closed subset of $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$.
-
-Since $[-M,M]^d \times [0,M]$ is finite, by part 3 of Theorem \ref{teo: Kallenberg vague results},
-for any sequence in $(\mu_n)_{n \in \mathbb{N}}$ in  $\mathcal{M}_{K,M}$ that converges vaguely to $\mu$ in 
-$ \mathcal{M}(\mathbb{R^d} \times [0, \infty])$, 
-$$MK \geq \mu_n([-M,M]^d \times [0,M]) \to \mu([-M,M]^d \times [0,M]).$$
-Therefore, $\mu \in \mathcal{M}_{K,M}$.
-As a result, $\mathcal{M}_{K,M}$ is closed and relatively vaguely compact, so it is vaguely compact.
+Now it suffices to prove that $\Gamma_K$ is closed under the vague topology.
+Consider a vaguely converging sequence $(\mu_n)_{n \geq 1}$ in $\Gamma_K$
+satisfying $\mu_n \to \mu \in \mathcal{M}(S)$,
+then for an increasing sequence of functions $f_m \to 1$,
+by the Dominating Convergence Theorem, 
+\begin{equation}
+\mu(S)
+= \lim_{m \to \infty} \mu f_m
+= \lim_{m \to \infty} \lim_{n \to \infty} \mu_n f_m
+= \lim_{n \to \infty}   \mu_n (S)
+\leq K,
+\end{equation}
+and so $\mu \in \Gamma_K$.
+Therefore $\Gamma_K$ is vaguely compact. 
 \end{proof}
 
-\begin{theorem}
-    \label{teo: Vague Relative Compactness through Projection}
-For any Polish space $S$, let $f_1,f_2,...,$ be a dense collection of functions in $C^{+}_{K}$ that is closed under addition, then a set $A \in \mathcal{D}_{\mathcal{M}(S)}([0,\infty))$ is relative compact if and only if $Af_j = \{xf_j: x \in A\}$ is relatively compact on $\mathcal{D}_{[0, \infty)}([0,\infty))$ for every $j \in \mathbb{N}$.
+We now include another theorem that is very relevant to establishing tightness of $\mathcal{M}(S)$-valued processes in the Skorokhod topology.
+
+\begin{theorem}[Theorem A2.4 in \cite{kallenberg1997foundations}]\label{teo: vag_sko_conv}
+Let $f_1,f_2,...$ be a dense collection in $C^{+}_{c}(S)$ closed under addition, 	
+then any set $A \subset \mathcal{D}_{\mathcal{M}(S)}([0,\infty))$
+is relatively compact if and only if for every $j \in \mathbb{N}$,
+$Af_j = \{xf_j, x \in A\}$
+is relatively compact in $\mathcal{D}_{\mathbb{R}^{+}}([0,\infty))$.
 \end{theorem}
-\begin{proof}
-See \cite{kallenberg1997foundations} Theorem A2.4.
-\end{proof}
-\begin{definition}
-We define $\mathfrak{G}_{\leq 1}$ to be the set of functions $g \in \mathcal{C}(\IR^d \times [0, \infty) \to \IR)$ such that 
-$g(\cdot, u) \in \mathcal{C}_{0}(\IR^d)$ for all $u \geq 0$, and there exists some $u_{*}>0$, such that $g(x,u)=1$ for all $u \geq u_{*}$.
-\end{definition}
 
-\begin{lemma}\label{lem: Dense set for test functions on empirical measures} For $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$. The set of functions 
-$$\left\{\sum_{m=1}^{N}a_m F_{g_m}(\cdot) ~~|~~ g_1,...,g_N \in \mathfrak{G}_{\leq 1}\right\}$$
-is dense in $C(\mathcal{M}(\mathbb{R^d} \times [0, \infty]),\IR)$.
+To characterise convergence of lookdown representations,
+we take $S = \overline{\mathbb{R}^d} \times [0,\infty)$
+and consider the test functions of the form 
+\begin{equation}
+F_g(\xi) = \prod_{(x,u) \in \xi} g(x,u),
+\end{equation}
+where $g(x,u)$ is differentiable in $u$, smooth in $x$.
+and satisfies the property that $0\leq g(x,u) \leq 1$,
+and that there exists $u^*$ such that for all $u > u^*$,
+$g(x, u) =1$.
+
+In fact, there is a one-to-one correspondence between $C^{+}_c(S)$
+and test functions of the form $F_g$.
+For all $f \in C^{+}_c(S)$,
+if we write $g = e^{-f}$,
+then
+\begin{equation}
+F_g(\xi)= e^{-\langle f, \xi \rangle}.
+\end{equation}
+
+Furthermore,
+we know that for any $x_1, x_2 \in [0,N]$,
+$$|x_1-x_2|\geq |e^{-x_1}-e^{-x_2}| \geq e^{-N}|x_1-x_2|,$$
+so we can control $\langle f, \xi^n_t \rangle $ by controlling $F_g(\xi^n_t)$ as long as 
+there exists some $N > 0$ such that $\langle f, \xi^n_t \rangle < N$.
+
+Combining the above observation and Theorem \ref{teo: vag_sko_conv},
+we have the following lemma.
+
+\begin{lemma}
+We consider a sequence $(\xi^n_t)_{t\geq 0}$ of $\mathcal{M}(\overline{\mathbb{R}^d} \times [0,\infty))$-valued cadlag processes.
+Assume that for all test functions of the form $F_g$,
+the sequence $\{(F_g(\xi^n_t))_{t \geq}: n=1,2,...\}$ of real-valued cadlag processes are relatively compact. 
+
+Furthermore, assume that for any $f \in C^{+}_{c}(\overline{\mathbb{R}^d} \times [0,\infty))$ and $\epsilon > 0$, there exists $N>0$ (dependent on $f$ and $\epsilon$), 
+such that 
+\begin{equation}
+\label{eq: vague compact containment condition}
+ \limsup_{n \to \infty} \mathbb{P}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right\} < \epsilon,
+\end{equation}
+
+ then $(\xi^n_t)_{t\geq 0}$ is relatively compact in $\mathcal{D}_{\overline{\mathbb{R}^d} \times[0,\infty)}([0,T])$.
 \end{lemma}
+
 \begin{proof}
-Direct application of Stone-Weierstrass Theorem. These finite combinations are closed under addition by construction, and they are closed under multiplication as $F_{g_1}(\cdot) \times F_{g_2}(\cdot):=F_{g_1 \times g_2}(\cdot)$. Thus we have a subalgebra that also clearly separates points and vanishes nowhere.
+By Theorem \ref{teo: vag_sko_conv},
+it suffices to prove that for all $f \in C^{+}_{c}(\overline{\mathbb{R}^d} \times [0,\infty))$,
+$\{(f(\xi^n_t))_{t \geq 0}: n=1,2,.. \}$ is relatively compact.
+
+We now make use of the Aldous Criterion of tightness on the real-valued sequences
+$\{(f(\xi^n_t))_{t \geq 0}: n=1,2,.. \}$. It suffices to show that
+for fixed sequences of stopping time $\tau_n$ bounded above by $T$,
+for each $\varepsilon>0$,
+there exists $\delta > 0$ and $n_0$ such that
+\begin{equation}
+\sup_{n \geq n_0}\sup_{\theta \in [0, \delta]} \mathbb{P}\left[|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon \right] \leq \varepsilon.
+\end{equation}
+
+First we pick $N,M>0$ such that 
+ $$\sup_{n \geq M} \mathbb{P}\left\{ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right\} < \epsilon /2 .$$
+Then, we can partition the event $\{|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon\}$ into two subsets according to the event 
+$ \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N$.
+
+For all $n>M$,
+\begin{equation}
+\begin{aligned}
+ &\mathbb{P}\left[|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon \right]\\
+ =& \mathbb{P}\left[|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon ,  \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle > N \right]\\
+ & + \mathbb{P}\left[|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon,  \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle \leq N \right]\\
+< & \varepsilon/2 + \mathbb{P}\left[|e^{-\langle f, \xi^n_{\tau_n+\theta}\rangle} - e^{-\langle f, \xi^n_{\tau_n}\rangle }| > e^{-N}\varepsilon,  \sup_{t\in [0,T]}\langle f, \xi^n_t \rangle \leq N \right]\\
+< & \varepsilon/2 + \mathbb{P}\left[|F_g(\xi^n_{\tau_n+\theta})-F_g(\xi^n_{\tau_n})| > e^{-N}\varepsilon\right].
+\end{aligned}
+\end{equation}
+
+Finally, by tightness of the processes $\{F_g(\xi^n_t): n = 1,2,...\}$, 
+we can pick large enough $n_0 > M$ and $\delta > 0$
+such that 
+$$\sup_{n \geq n_0}\sup_{\theta \in [0,\delta]}\mathbb{P}\left[|F_g(\xi^n_{\tau_n+\theta})-F_g(\xi^n_{\tau_n})| > e^{-N}\varepsilon\right]< e^{-N}\varepsilon,$$
+so
+\begin{equation}
+\sup_{n \geq n_0}\sup_{\theta \in [0, \delta]} \mathbb{P}\left[|\langle f, \xi^n_{\tau_n+\theta}\rangle - \langle f, \xi^n_{\tau_n}\rangle | > \varepsilon \right] \leq \varepsilon / 2 + e^{-N} \varepsilon < \varepsilon.
+\end{equation}
+
+ We have proved relative compactness of $\{(f(\xi^n_t))_{t \geq 0}: n=1,2,.. \}$ and thus relative compactness of  $(\xi^n_t)_{t\geq 0}$ in $\mathcal{D}_{\overline{\mathbb{R}^d} \times[0,\infty)}([0,T])$.
 \end{proof}
-
-
-Combining Theorem \ref{teo: Vague Relative Compactness through Projection} and Lemma \ref{lem: Dense set for test functions on empirical measures}, we have that $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\mathbb{R^d} \times [0, \infty])$-valued stochastic process in the vague topology as long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued stochastic processes
-for all $g \in \mathfrak{G}_{\leq 1}$. 
 \bibliographystyle{plainnat}
 \bibliography{refs.bib,plr_refs.bib}
 
