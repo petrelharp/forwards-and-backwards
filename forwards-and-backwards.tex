@@ -61,7 +61,7 @@
 \newcommand{\labelspace}{\mathcal{I}} % space of labels
 \newcommand{\concat}{\oplus}   % concatenation of labels
 \newcommand{\measures}{\mathcal{M}_F(\IR^d)} % finite measures on Rd
-\newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR}^d)} % finite measures on compactified Rd
+\newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR^d})} % finite measures on compactified Rd
 \newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on space x level
 
 
@@ -5740,44 +5740,96 @@ Putting all the convergences together, this identifies the limit of $\rho_\epsil
 \subsection{Tightness of the Lines of Descent}
     \label{sec:lookdown_convergence}
 
-Now we prove the main theorem on convergence of the lookdown process, 
-Theorem~\ref{thm:lookdown_convergence}.
-This follows a similar pattern as the the proofs of convergence for the population process
-in Section~\ref{sec:population_density_proof},
-although we will need additional estimates to ensure that
-trajectories of individual lines of descent converge,
-not just the population process.
+Now we turn to the main theorem on convergence of the lookdown process, 
+Theorem~\ref{thm:lookdown_convergence}, whose proof
+follows a similar pattern as the the proofs of convergence for the population process
+in Section~\ref{sec:population_density_proof}.
+
+
+The process we consider is similar to the state-dependent branching processes
+of \citet{KR}, so one might expect that the proofs there would carry over with little change.
+However, there is an important difference:
+Recall that the level $U_a(t)$ of a line of descent evolves as
+$$
+\dot u 
+=
+c(x, \eta)
+u^2
+- b(x, \eta)
+u,
+$$
+where
+\begin{align*}
+    c(x, \eta) &= \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) \\
+    \text{and}\qquad
+    b(x, \eta)
+    &=
+    \theta \gamma(x, \eta) \int_{\IR^d} \left(r(y, \eta) - r(x, \eta)\right) q(x, dy)
+    + F(x, \eta) 
+\end{align*}
+(see equations \eqref{eqn:level_generator} and \eqref{eqn:b_limit}),
+where $c(x, \eta) \ge 0$ and $b(x, \eta)$ may take either sign.
+In \citet{kurtz/rodrigues:2011}, $b$ was bounded above and $c$ was bounded away from zero,
+so they noted that if $U_a(t) \ge b/c$
+lines of descent would only move upwards from that time onwards.
+This allows the processes to be jointly and simultaneously constructed
+for all values of $N$, with a pointwise embedding
+of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b/c < N < M$.
+In other words, individuals with levels above $N > b/c$ at time $t_0$
+do not affect $(\lp^N_t)_{t \ge t_0}$,
+thus allowing a comparison of the number of lines of descent below level $u_0$
+to a branching process.
+Although we have provided a
+joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
+it does not have this monotonicity:
+for one thing, $b$ and $c$ depend on the population process $\eta$
+and so all individuals can affect all other ones (even those with lower levels).
+Furthermore, in the deterministic case $\theta/N$ and hence $c$ converge to zero,
+and so lines of descent with arbitrarily high level may drift back downwards.
+Indeed, this must be the case if the population persists,
+since in the deterministic case there is no branching.
+In our case $b$ and $c$ depend on the state of the population,
+so we have no such monotonicity.
 
 
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
-    the theorem will follow from tightness,
-    ensuring convergence along subsequences,
-    and characterization of the limit.
+    the theorem will follow from tightness and characterization of the limit.
     This time, the processes $\lp^N$ take values in $\lpmeasures$,
     the space of locally finite measures on space $\times$ levels.
     (They will in fact be point measures, including the limit,
     but that is a consequence of this theorem.)
-    Again, tightness will follow from a compact containment condition,
+
+    Again, tightness follows from a compact containment condition
+    (Lemma~\ref{lem:compact containment lookdown}),
     tightness of one-dimensional distributions,
     and an application of \citet{EK} Theorem~3.9.1.
-    We show that the martingale properties are preserved in the limit
-    in Section~\ref{sec:lookdown_generator_proofs}.
-    \comment{TODO: write and refer to lemma?}
-
     Lines of descent can escape to infinite level in finite time,
     and so we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
     i.e., the topology induced by test functions on $\overline{\IR^d} \times [0,\infty)$
-    of the form $f(x) g(u)$, where $f \in C_b(\overline{\IR^d})$ is bounded and continuous
-    and $g \in C_c([0,\infty))$ is continuous with compact support.
-    In this topology, compact containment follows from
-    tightness of the spatial and level motions of a single line of descent
-    (Lemmas~\ref{lem: tightness of individual spatial trajectory}
-    and~\ref{lem:tightness of levels}, respectively),
-    and
-    tightness of $\lp^N(\IR^d \times [0, u_0])$ for each $u_0$
-    (i.e., the number of individuals with level below $u_0$).
+    of the form $g(x) h(u)$, where $g \in C_b(\overline{\IR^d})$ is bounded and continuous
+    and $h \in C_c([0,\infty))$ is continuous with compact support.
+    Theorem~3.9.1 of \citet{EK} requires that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
+    is tight as a sequence of real-valued c\`adl\`ag processes for all $F$ in a subset
+    of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$,
+    that is dense with respect to uniform convergence on compact subsets.
+    Lemma~\ref{lem:test_fn_tightness} shows that $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
+    for any $f: \overline{\IR^d} \times [0,\infty) \to \IR$ with compact support
+    in the level direction.
+    The functions $\lp \mapsto \langle f, \lp \rangle$
+    do not form not a dense subset of $\bar C(\lpmeasures)$,
+    but they do separate points and vanish nowhere, so
+    by the Stone-Weierstrass theorem, the algebra they generate is dense in $C_0(\lpmeasures)$,
+    the continuous functions that vanish at infinity
+    (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
+    Since $C_0(\lpmeasures)$ is dense in $\bar C(\lpmeasures)$
+    with respect to uniform convergence on compact subsets,
+    it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
+    extends to finite sums and products of these processes,
+    which is shown in Lemma~\ref{lem:product_tightness}.
 
+    We show that the martingale properties are preserved in the limit
+    in Section~\ref{sec:lookdown_generator_proofs}.
     Finally, we must show that the limiting lookdown process $\lp$
     projects to the limiting process $\eta$, i.e., a solution of the martingale
     problem in Theorem~\ref{thm:nonlocal_convergence}.
@@ -5787,126 +5839,258 @@ not just the population process.
     $\eta^{N_{k(j)}}$ converge, and the limit solves the martingale problem.
     This implies that any limit of $\lp^N$ projects to a population process $\eta$
     solving the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
-
-\comment{MAKE THIS BELOW A LEMMA?}
-
-% BEGIN OLD STUFF
-To prove that the lookdown representation is tight, we generalise the vague
-    topology to the setting of measure-valued processes. For a detailed
-    description of the vague topology, refer to Appendix \ref{sec: Empirical
-    Measure Topology}.
-
-We will lay out the steps we follow to prove tightness. First of all, we will
-    show that compact containment condition is satisfied if we can control the
-    total mass of particles in our system living in a finite region in space
-    with a level lower than some $u_{*}$. Since a control on total mass has
-    already been shown in Lemma \ref{lem:eta_compact_containment}, we have
-    immediately established compact containment condition for our lookdown
-    processes. 
-
-Then, we apply Theorem A 2.4 in \cite{kallenberg1997foundations} (Theorem
-    \ref{teo: Vague Relative Compactness through Projection}) and use a
-    corollary of Stone-Weierstrass Theorem (Lemma \ref{lem: Dense set for test
-    functions on empirical measures}) to show that our lookdown representation
-    $\{\xi^N_t: N \in \mathbb{N}\}$ is tight as a $\mathcal{M}(\IR^d
-    \times [0, \infty])$-valued stochastic process in the vague topology as
-    long as $\{F_g(\xi^N_t): N \in \mathbb{N}\}$ is tight as real-valued
-    stochastic processes for a huge class of $F_g$. Explicitly, $F_g(\xi):=
-    \prod_{(x_i,u_i)\in \xi}g(x_i,u_i)$, where $g(x,u)$ satisfies the property
-    that $g(x,u) = 1 $ for all $u \geq u_{*}$ for some $u_{*}>0$.
-% END OLD STUFF
-
-    The process we consider is similar to the state-dependent branching processes
-    of \citet{KR}, so one might expect that the proofs there would carry over with little change.
-    However, there is an important difference:
-    Recall that the level $U_a(t)$ of a line of descent evolves as
-    $$
-    \dot u 
-    =
-    c(x, \eta)
-    u^2
-    - b(x, \eta)
-    u,
-    $$
-    where
-    \begin{align*}
-        c(x, \eta) &= \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) \\
-        \text{and}\qquad
-        b(x, \eta)
-        &=
-        \theta \gamma(x, \eta) \int_{\IR^d} \left(r(y, \eta) - r(x, \eta)\right) q(x, dy)
-        + F(x, \eta) 
-    \end{align*}
-    (see equations \eqref{eqn:level_generator} and \eqref{eqn:b_limit}),
-    where $c(x, \eta) \ge 0$ and $b(x, \eta)$ may take either sign.
-    In \citet{kurtz/rodrigues:2011}, $b$ was bounded above and $c$ was bounded away from zero,
-    so they noted that if $U_a(t) \ge b/c$
-    lines of descent would only move upwards from that time onwards.
-    This allows the processes to be jointly and simultaneously constructed
-    for all values of $N$, with a pointwise embedding
-    of $(\xi^N_t)_{t \ge 0}$ within $(\xi^{M})_{t \ge 0}$ for $b/c < N < M$.
-    In other words, individuals with levels above $N > b/c$ at time $t_0$
-    do not affect $(\lp^N_t)_{t \ge t_0}$,
-    thus allowing a comparison of the number of lines of descent below level $u_0$
-    to a branching process.
-    Although we have provided a
-    joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
-    it does not have this monotonicity:
-    for one thing, $b$ and $c$ depend on the population process $\eta$
-    and so all individuals can affect all other ones (even those with lower levels).
-    Furthermore, in the deterministic case $\theta/N$ and hence $c$ converge to zero,
-    and so lines of descent with arbitrarily high level may drift back downwards.
-    Indeed, this must be the case if the population persists,
-    since in the deterministic case there is no branching.
-    In our case $b$ and $c$ depend on the state of the population,
-    so we have no such monotonicity.
-
-    To get around this,
-    first note that both $b$ and $c$ are uniformly bounded above 
-    by Lemma~\ref{lem:gamma_bound} and since $\gamma$, $r$, $F$ \comment{(???)}, and $\theta/N$ are.
-    Also note that for any $\delta > 0$ we can find a $K$ such that
-    $$
-    \IP\left\{
-        \sup_{0 \le t \le T} \sup_x \smooth{F} \eta_t(x) < K
-        \right\} < \delta,
-    $$
-    uniformly in $N$ and over a compact set of initial conditions.
-    Since $F$ is uniformly continuous, this implies that $\sup_{0 \le t \le T} \sup_x F(x, \eta_t)$
-    is similarly tight,
-    as well as the rate of downward drift of the level of a line of descent,
-    i.e., there is a $\bar b$ such that $b(x, \eta_t) \le \bar b$
-    on a set of probability at least $1-\delta$ as well.
-    Therefore, if $u_1 \ge u_0 + \bar b T$, then
-    $$
-    \IP\left\{
-        \inf_{0 \le t \le T} U_a(t) \le u_0
-        \;\big|\;
-        U_a(0) > u_1
-    \right\}
-    \le \delta ,
-    $$
-    and so with high probability any lines of descent that had level below $u_0$
-    at some point $0 \le t \le T$
-    are descended from lines of descent with initial level below $u_1$.
-    Since the number of lines of descent with level below $u_1$
-    converges to a Poisson with finite mean,
-    we need only show that the number of offpring lines of descent
-    produced by this initially finite number is also tight.
-    However, this follows immediately
-    since the rate of production of new lines of descent with level below $u_1$
-    of a line of descent at location $x$ and level $u$ is
-    $2 (u_1 - u) N^{-1} \theta \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy)$
-    and therefore uniformly bounded (because we may take $u_1 \le N$).
-
-
 \end{proof}
 
-% % % % % % % % % % % % %
-\subsubsection{New stuff}
+Let $C_c^+$ denote the set of nonnegative continuous functions on $\overline{\IR^d} \times [0, \infty)$
+for which there exists a $u_f \ge 0$ such that $u > u_f$ implies that $f(x, u) = 0$.
+Recall that we are working with the vague topology ``in the level direction'',
+so that $m_n \to m$ in $\lpmeasures$ if and only if $\langle f, m_n \rangle \to \langle f, m \rangle$
+for all $f \in C_c^+$.
+By Theorem~A.23 in \citet{kallenberg1997foundations},
+the space $\lpmeasures$ is separable and metrizable,
+and $K \subset \lpmeasures$ is relatively compact if and only if
+$\sup_{\lp \in K} \langle f, \lp \rangle < \infty$
+for any $f \in C_c^+$.
+% The compact sets we consider are those with bounded total mass of their spatial projection,
+% i.e., of the form
+% $$
+%     K_M = \left\{
+%         \lp \in \lpmeasures \;:\;
+%         \sup_{L \ge 1} \frac{1}{L} \lp\left(\overline{\IR^d} \times [0, L]\right) \le M
+%     \right\} .
+% $$
+% These sets are compact 
+% because if $\lp \in K_M$ and $f \in C_c^+$ then $\langle f, \lp\rangle \le M u_f \|f\|_\infty$.
+Let $\mathcal{H} = \{h_n\}_{n \ge 1}$ be a sequence of
+monotone, nonnegative, compactly supported, differentiable functions
+on $[0, \infty)$ such that there exist sequences $u_n \to \infty$ and $c_n$ such that
+\begin{enumerate}
+    \item $h_n(u) > 1$ for $u \le u_n/2$,
+    \item $h_n(u) = 0$ for $u \ge u_n$,
+    \item $- h_n(u) \le h_n'(u) \le 0$, and
+    \item $\max\left( \int_u^\infty h_n(v) dv, \int_u^\infty h_n(v)^2 dv \right) \le c_n h_n(u)$.
+\end{enumerate}
+For instance, we could take $h_n(u)$ to be a mollified version of $\min(1, e^{-(u-n)})$,
+and then $u_n = c_n = n$.
+The compact sets we consider are those with uniformly bounded integrals against $\mathcal{H}$,
+i.e., of the form
+$$
+    K_C = \left\{
+        \lp \in \lpmeasures \;:\;
+        \langle h_n, \lp \rangle \le C_n
+        \text{ for all } n \ge 1
+    \right\} ,
+$$
+for some sequence of constants $(C_1, C_2, \ldots)$.
+This set is compact because any $f \in C_c^+$ is bounded by a constant multiple of some $h_n$.
+\comment{check: why is it closed?}
 
-\comment{TODO: reference this elsewhere, if we keep it?}
+\begin{lemma}[Compact containment for $\lp$]
+    \label{lem:compact containment lookdown}
+    Under Assumptions~\ref{},
+    if $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$
+    \comment{and they are conditionally Poisson},
+    for any $T$ and $\delta > 0$ there exists a sequence
+    $(C_1, C_2, \ldots)$ of finite constants such that
+    \begin{align} \label{eqn:compact eqn lookdown}
+    \limsup_{N \to \infty}
+    \IP\left\{
+        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
+        \text{ for some } n \ge 1
+    \right\}
+    < \delta .
+    \end{align}
+\end{lemma}
+
+In other words, the processes $\lp^N$ stay in $K_C$ for all $0 \le t \le T$
+with uniformly high probability.
+We will prove this Lemma using the following one:
+
+\begin{lemma}
+    \label{lem:compact containment hn}
+    Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
+    for any $T$, $M$ and $n$ there exists a constant $K_n$ such that
+    $$ 
+    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > M \right\}
+    <
+    \frac{K_n}{M} .
+    $$
+\end{lemma}
+
+\begin{proof}[of Lemma~\ref{lem:compact containment lookdown}]
+    By a union bound,
+    $$ 
+    \IP\left\{
+        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
+        \text{ for some } n \ge 1
+    \right\}
+    \le
+    \sum_{n \ge 1}
+    \IP\left\{
+        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
+    \right\} ,
+    $$
+    so \eqref{eqn:compact eqn lookdown} follows
+    by taking $C_n = 2^{n-1} K_n / \delta$ in Lemma~\ref{lem:compact containment hn}.
+\end{proof}
+
+\begin{proof}[of Lemma~\ref{lem:compact containment hn}]
+    \comment{TODO: just give bounds on moments and say this follows
+        the proof of Lemma~\ref{lem:eta_compact_containment} exactly, otherwise.
+        Or make the basic idea a lemma in the appendix?}
+    Let $h \in \mathcal{H}$.
+    It is evident from the description of the process
+    (or, by differentiating in Definition~\ref{defn:lookdown_mgale})
+    that
+    \begin{align*}
+    \begin{split}
+        \langle h^n(u), \lp_t^N(dx, du) \rangle
+        &=
+        \langle h^n(u), \lp_0^N(dx, du) \rangle
+        + M^{h_n}_t 
+        \\ & \qquad \qquad {}
+        +
+        \int_0^t
+        \big\langle
+            2 a^N(x, \eta^N_s) \int_u^N h_n(u_1) du_1
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds
+        \\ & \qquad \qquad {}
+        +
+        \int_0^t
+        \big\langle
+            \left(
+                a^N(x, \eta^N_s) u^2
+                - b^N(x, \eta^N_s) u
+            \right)
+            h_n'(u)
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds
+    \end{split}
+    \end{align*}
+    where $M^{h_n}_t$ is a martingale
+    with quadratic variation
+    \begin{align*}
+        [M^{h_n}]_t
+        &=
+        \int_0^t
+        \langle 2 a^N(x, \eta_s^N) \int_u^N h(u_1)^2 du_1
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds .
+    \end{align*}
+    Now, note that $0 \le a^N(x, \eta_x^N) \le C_a$ for some $C_a < \infty$,
+    and we have assumed that $\int_u^\infty h_n(u_1) du_1 \le C_n h_n(u)$,
+    so that 
+    \begin{align*}
+        & \int_0^t
+        \big\langle
+            2 a^N(x, \eta^N_s) \int_u^N h(u_1) du_1
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds
+        \\ & \qquad
+        \le
+        2 C_a C_n \int_0^t \big\langle h_n(u), \lp_s^N(dx, du) \big \rangle .
+    \end{align*}
+    In the next line, the contribution from $a^N(x, \eta^N_s) u^2 h'(u)$ is nonpositive because
+    $a^N \ge 0$ and $h'(u) \le 0$.
+    Similarly, since $b^N(x, \eta_x^N) \le C_b$ for some $C_b < \infty$,
+    and by assumption
+    $- h'(u) \le C_n h(u)$ and $h'(u) = 0$ for $u \ge u_n$,
+    and so
+    \begin{align*}
+        & \int_0^t
+        \big\langle
+            \left(
+                a^N(x, \eta^N_s) u^2
+                - b^N(x, \eta^N_s) u
+            \right)
+            h_n'(u)
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds
+        \le
+        C_b u_n C_n \int_0^t \big\langle h_n(u), \lp_s^N(dx, du) \big \rangle .
+    \end{align*}
+    Putting this together, we have that
+    \begin{align} \label{eqn:hn_bound}
+        \langle h^n, \lp_t^N \rangle
+        &\le
+        \langle h^n, \lp_0^N \rangle
+        + M^{h_n}_t 
+        + (2 C_a + C_b u_n) C_n \int_0^t 
+            \langle h^n, \lp_s^N \rangle
+        ds .
+    \end{align}
+    By Gronwall's inequality, with $C = (2 C_a + C_b u_n) C_n$
+    \begin{align*}
+        \IE\left[ \langle h^n, \lp_t^N \rangle \right]
+        &\le
+        \IE\left[ \langle h^n, \lp_0^N \rangle \right] e^{Ct} .
+    \end{align*}
+
+    Now consider the maximum. By \eqref{eqn:hn_bound},
+    \begin{align*}
+        \sup_{0 \le t \le T} \langle h^n, \lp_t^N \rangle
+        &\le
+        \langle h^n, \lp_0^N \rangle
+        + \sup_{0 \le t \le T} M^{h_n}_t 
+        + C \int_0^t 
+            \sup_{0 \le t \le T} \langle h^n, \lp_s^N \rangle
+        ds .
+    \end{align*}
+    Again since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
+    The Burkholder-Davis-Gundy inequality
+    tells us that there is a $C'$ such that
+    \begin{align*}
+    \IE\left[ \sup_{0 \le t \le T} M^{h_n}_t \right]
+    & \le
+        C'\left( 1 + \IE\left[ [M^{h_n}]_t \right] \right)
+    \\ & \le
+        C' \left( 1 + \int_0^t \IE\left[
+        \langle 2 a^N(x, \eta_s^N) \int_u^N h(u_1)^2 du_1
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        \right] ds \right) 
+    \\ & \le
+        C' \left( 1 + 2 C_a C_n \int_0^t \IE\left[
+        \langle h_n, \lp_s^N \big \rangle
+        \right] ds \right) 
+    \\ & \le 
+        C' \left( 1 + C'' e^{Ct} \IE[ \langle h^n, \lp_t^N \rangle ] \right) ,
+    \end{align*}
+    where $C'' = 2 C_a C_n / C$.
+    Therefore, 
+    \begin{align*}
+        \IE\left[ \sup_{0 \le t \le T} \langle h^n, \lp_t^N \rangle \right]
+        &\le
+        C' + \IE\left[ \langle h^n, \lp_0^N \rangle \right]( 1 + C'' e^{Ct} )
+        + C \int_0^t 
+            \IE\left[ \sup_{0 \le t \le T} \langle h^n, \lp_s^N \rangle \right]
+        ds ,
+    \end{align*}
+    and so once again by Gronwall's inequality, there is a $C'''$ such that
+    \begin{align*}
+        \IE\left[ \sup_{0 \le t \le T} \langle h^n, \lp_t^N \rangle \right]
+        &\le
+        C'''(1 + \IE[\langle h^n, \lp_0^N \rangle]) e^{2Ct} ,
+    \end{align*}
+    and so
+    \begin{align*}
+        \IP\left\{ \sup_{0 \le t \le T} \langle h^n, \lp_t^N \rangle > K \right\}
+        &\le
+        \frac{
+            C'''(1 + \IE[\langle h^n, \lp_0^N \rangle]) e^{2CT} ,
+        }{ K } .
+    \end{align*}
+\end{proof}
+
 We record for future reference
 the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
+\comment{TODO: reference this elsewhere, if we keep it?}
 
 \begin{theorem}[\citet{rebolledo:1980}]
     \label{thm:aldous_rebolledo}
@@ -5914,7 +6098,7 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
     with c\`adl\`ag paths.
     Suppose that the following conditions are satisfied.
     \begin{enumerate}
-        \item For each fixed $t$, $\{Y_t^(n)\}_{n \ge 1}$  is tight.
+        \item For each fixed $t$, $\{Y_t^{(n)}\}_{n \ge 1}$  is tight.
         \item Given a sequence of stopping times $\tau_n$, bounded by $T$,
             for each $\epsilon > 0$ there exists $\delta > 0$ and $n_0$ such that
             \begin{align*}
@@ -5927,15 +6111,171 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
                 \le \epsilon .
             \end{align*}
     \end{enumerate}
-    Then the sequence $\{Y^(n)\}_{n \ge 1}$ is tight.
+    Then the sequence $\{Y^{(n)}\}_{n \ge 1}$ is tight.
 \end{theorem}
+
+\begin{lemma}
+    \label{lem:product_tightness}
+    Let $\{X^{(n)}\}_{n \ge 1}$ and $\{Y^{(n)}\}_{n \ge 1}$ sequences of jointly defined
+    real-valued processes with c\`adl\`ag paths
+    satisfying the conditions of Theorem~\ref{thm:aldous_rebolledo}.
+    Then $\{X^{(n)}Y^{(n)}\}_{n \ge 1}$ and $\{X^{(n)} + Y^{(n)}\}_{n \ge 1}$ also
+    satisfy the conditions of Theorem~\ref{thm:aldous_rebolledo}.
+\end{lemma}
+
+By ``jointly defined'' we mean that $X^{(n)}$ and $Y^{(n)}$ are defined on the same
+probability space, so that the products and sums make sense.
+
+\begin{proof}[of Lemma~\ref{lem:product_tightness}]
+    The proof for $X^{(n)} + Y^{(n)}$ is similar to but more straightforward than
+    for $X^{(n)} Y^{(n)}$, so on only prove the Lemma for the latter.
+    First, note that for any $\epsilon > 0$, by tightness of $X^{(n)}_t$ and $Y^{(n)}_t$
+    there is a $K$ such that
+    $\IP\{ X^{(n)}_t > \sqrt{K} \}$ and $\IP\{ Y^{(n)}_t > \sqrt{K} \}$
+    are both less than $\epsilon/2$,
+    and hence
+    \begin{align*}
+        \IP\{
+            X^{(n)}_t Y^{(n)}_t > K
+        \}
+        \le
+        \IP\{
+            X^{(n)}_t > \sqrt{K}
+        \}
+        +
+        \IP\{
+            Y^{(n)}_t > \sqrt{K}
+        \} 
+        \le \epsilon.
+    \end{align*}
+    Therefore, $X^{(n)}_t Y^{(n)}_t$ is tight.
+
+    Next, note that for $0 \le \tau_n \le T$,
+    \begin{align*}
+        &
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            X^{(n)}_{\tau_n + \theta} Y^{(n)}_{\tau_n + \theta} 
+            -
+            X^{(n)}_{\tau_n} Y^{(n)}_{\tau_n} 
+        \right|
+        \\ &\qquad 
+        \le
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left| X^{(n)}_{\tau_n + \theta} \right|
+        \left|
+            Y^{(n)}_{\tau_n + \theta} 
+            -
+            Y^{(n)}_{\tau_n} 
+        \right|
+        +
+        \left|
+            X^{(n)}_{\tau_n + \theta}
+            -
+            X^{(n)}_{\tau_n}
+        \right|
+        \left| Y^{(n)}_{\tau_n} \right|
+        \\ &\qquad 
+        \le
+        \sup_{0 \le t \le T}
+            \left| X^{(n)}_t \right|
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            Y^{(n)}_{\tau_n + \theta} 
+            -
+            Y^{(n)}_{\tau_n} 
+        \right|
+        +
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            X^{(n)}_{\tau_n + \theta}
+            -
+            X^{(n)}_{\tau_n}
+        \right|
+        \sup_{0 \le t \le T}
+        \left| Y^{(n)}_t \right| ,
+    \end{align*}
+    so that for any $C$,
+    \begin{align} \label{eqn:xy_bound}
+        \begin{split}
+        &
+        \IP\left\{
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            X^{(n)}_{\tau_n + \theta} Y^{(n)}_{\tau_n + \theta} 
+            -
+            X^{(n)}_{\tau_n} Y^{(n)}_{\tau_n} 
+        \right|
+        > \epsilon
+        \right\}
+    \\ &\qquad \le
+        \IP\left\{
+            \sup_{0 \le t \le T}
+                \left| X^{(n)}_t \right|
+            > C
+        \right\}
+    +
+        \IP\left\{
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            Y^{(n)}_{\tau_n + \theta} 
+            -
+            Y^{(n)}_{\tau_n} 
+        \right|
+            > \epsilon/C
+        \right\}
+    \\ &\qquad {} +
+        \IP\left\{
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            X^{(n)}_{\tau_n + \theta} 
+            -
+            X^{(n)}_{\tau_n} 
+        \right|
+            > \epsilon/C
+        \right\}
+    +
+        \IP\left\{
+            \sup_{0 \le t \le T}
+                \left| Y^{(n)}_t \right|
+            > C
+        \right\}
+        \end{split}
+    \end{align}
+    Now, since $\max_{0 \le t \le T} X^{(n)}_t$ is tight (and likewise for $Y$)
+    (see, e.g., Remark 3.7.3 in \citet{EK}),
+    we may choose a $C \ge 4$ for which
+    $$
+    \IP\left\{
+        \sup_{0 \le t \le T}
+            \left| X^{(n)}_t \right|
+        > C
+    \right\} \le \frac{\epsilon}{4} .
+    $$
+    Simliarly, by assumption we can choose a $\delta$ for which
+    $$
+        \IP\left\{
+        \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
+        \left|
+            X^{(n)}_{\tau_n + \theta} 
+            -
+            X^{(n)}_{\tau_n} 
+        \right|
+            > \epsilon/C
+        \right\}
+        \le \frac{\epsilon}{C} .
+    $$
+    If we choose $C$ and $\delta$ that do this for both $X^{(n)}$ and $Y^{(n)}$,
+    then each of the terms in equation~\eqref{eqn:xy_bound} are bounded by $\epsilon/4$,
+    and condition (2) is satisfied for the product process.
+\end{proof}
 
 \begin{lemma}
     \label{lem:test_fn_tightness}
     Let $f$ be a bounded, continuous real-valued function on $\IR^d \times [0, \infty)$
     with uniformly bounded first and second derivatives
     for which there exists a $u_0$ such that if $u > u_0$ then $f(x, u) = 0$.
-    Then, the sequence of real-valued processes $(\langle f, \xi_t^N \rangle)_{t \ge 0}$
+    Then, the sequence of real-valued processes $(\langle f, \lp_t^N \rangle)_{t \ge 0}$
     are tight in the space of c\`adl\`ag processes.
 \end{lemma}
 
@@ -5977,16 +6317,16 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
     that
     \begin{align*}
     \begin{split}
-    M^f_s
+    M^f_t
         &=
-        \langle f, \xi_t^N \rangle
+        \langle f, \lp_t^N \rangle
         -
-        \langle f, \xi_0^N \rangle
+        \langle f, \lp_0^N \rangle
     \\ & \qquad \qquad {}
         -
         \int_0^t
         \big\langle
-            a^N(x, \eta^N_t)
+            a^N(x, \eta^N_s)
             \int_u^N \int_{\IR^d}
             \left(
                 f(y, u_1) + f(x, u_1) + f(y, u) - f(x, u)
@@ -6000,11 +6340,24 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
             \right)
             \frac{d}{du} f(x, u)
         ,
-        \xi_s^N(dx, du) \big \rangle
+        \lp_s^N(dx, du) \big \rangle
         ds
     \end{split}
     \end{align*}
-    is a martingale.
+    is a martingale,
+    with quadratic variation
+    \begin{align*}
+        [M^f]_t
+        &=
+        \int_0^t
+        \langle a^N(x, \eta_s^N) \int_u^N \int_{\IR^d}
+            f(y, u_1)^2 +
+            \left( f(x, u_1) + f(y, u) - f(x, u) \right)^2
+        du_1 q^m(x, dy, \eta^N_s)
+        \lp_s^N(dx, du) \big \rangle
+        ds .
+    \end{align*}
+
     Now we would like to bound the terms in the integral,
     to arrive at a bound using Gronwall's inequality, as before.
 
@@ -6030,7 +6383,7 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
                 - b^N(x, \eta^N_s) u
             \right)
             \frac{d}{du} f(x, u)
-        \xi_s^N(dx, du)
+        \lp_s^N(dx, du)
     \\  & \qquad
     \le
         \int_{\IR^d} \int_0^{u_0}
@@ -6039,10 +6392,10 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
                 + C_b u_0
             \right)
             \left\| \frac{d}{du} f \right\|_\infty
-        \xi_s^N(dx, du) .
+        \lp_s^N(dx, du) .
     \\  & \qquad
     \le
-        C_0 \xi_s^N(\IR^d \times [0, u_0]) .
+        C_0 \lp_s^N(\IR^d \times [0, u_0]) .
     \end{align*}
 
     Next, observe that for any $\eta$,
@@ -6072,13 +6425,53 @@ the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes:
     Putting this together,
     \begin{align*}
         \IE\left[
-            \langle f, \xi_t^N \rangle
+            \langle f, \lp_t^N \rangle
         \right]
         \le
     \end{align*}
 
 
 \end{proof}
+
+
+\subsubsection{OLD STUFF REMOVE}
+
+    To get around this,
+    first note that both $b$ and $c$ are uniformly bounded above 
+    by Lemma~\ref{lem:gamma_bound} and since $\gamma$, $r$, $F$ \comment{(???)}, and $\theta/N$ are.
+    Also note that for any $\delta > 0$ we can find a $K$ such that
+    $$
+    \IP\left\{
+        \sup_{0 \le t \le T} \sup_x \smooth{F} \eta_t(x) < K
+        \right\} < \delta,
+    $$
+    uniformly in $N$ and over a compact set of initial conditions.
+    Since $F$ is uniformly continuous, this implies that $\sup_{0 \le t \le T} \sup_x F(x, \eta_t)$
+    is similarly tight,
+    as well as the rate of downward drift of the level of a line of descent,
+    i.e., there is a $\bar b$ such that $b(x, \eta_t) \le \bar b$
+    on a set of probability at least $1-\delta$ as well.
+    Therefore, if $u_1 \ge u_0 + \bar b T$, then
+    $$
+    \IP\left\{
+        \inf_{0 \le t \le T} U_a(t) \le u_0
+        \;\big|\;
+        U_a(0) > u_1
+    \right\}
+    \le \delta ,
+    $$
+    and so with high probability any lines of descent that had level below $u_0$
+    at some point $0 \le t \le T$
+    are descended from lines of descent with initial level below $u_1$.
+    Since the number of lines of descent with level below $u_1$
+    converges to a Poisson with finite mean,
+    we need only show that the number of offpring lines of descent
+    produced by this initially finite number is also tight.
+    However, this follows immediately
+    since the rate of production of new lines of descent with level below $u_1$
+    of a line of descent at location $x$ and level $u$ is
+    $2 (u_1 - u) N^{-1} \theta \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy)$
+    and therefore uniformly bounded (because we may take $u_1 \le N$).
 
 
 
