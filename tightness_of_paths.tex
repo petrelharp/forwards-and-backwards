@@ -1,0 +1,534 @@
+
+% % % % % % % % % % % % %
+\subsubsection{Tightness of the Lines of Descent}
+    \label{sec:lookdown_tightness_proofs}
+
+In this section,
+we will prove tightness
+of the spatial and level trajectory
+of a line of descent
+(constructed in \S \ref{sec: individual lines of descent})
+as a forward-in-time process.
+
+To prove tightness of the 
+spatial and level locations
+of a typical line of descent,
+we will show that the
+jumps in
+spatial and level locations
+of the line of descent
+in finite time
+can be controlled.
+
+Recall that the lines of descents
+track chains of descendant
+individuals forwards through time following the \textit{levels}.
+
+\subsubsection{Tightness of Spatial Trajectories}
+Before proving tightness of our spatial trajectories, 
+note that for a fixed label
+$a=(a_0,a_1,..,a_k)$,
+the spatial evolution of 
+$X^N_{a}(t)$ for $t \geq \tau^N_{a}$
+is determined
+purely by the last term 
+in Equation \eqref{eq: space_across_lineage}.
+
+As a result, the spatial jumps are 
+driven by 
+an underlying Poisson point process. 
+It is therefore sufficient
+to prove that square of 
+these increments are bounded
+in small time scales.
+
+\begin{lemma} \label{lem: tightness of individual spatial trajectory}
+Assume that the jump kernel $q_\theta^\mathfrak{m}(x, \eta, dy)$ of the form
+$$
+    q_\theta^\mathfrak{m}(x,\eta,  dy)
+    :=
+    \frac{
+        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
+    }{
+        \int r(x, \smooth{r} \eta(z)) q_\theta(x, dz)
+    } 
+$$
+satisfies the inequalities
+\begin{align}
+   \sup_{\theta}\mathbb{E}\left[\limsup_{x, \eta} \theta \left| \int_{\IR^d} (y-x) q^{\mathfrak{m}}_{ \theta}(x,\eta,dy) \right|\right] \leq & \quad \overline{\alpha},\\
+   \sup_{\theta}\mathbb{E}\left[\limsup_{x, \eta} \theta \int_{\IR^d} |y-x|^2 q^{\mathfrak{m}}_{ \theta}(x,\eta,dy)\right]  \leq & \quad \overline{\beta}.
+\end{align}
+Furthermore, assume that the birth rate satisfies 
+$$\sup_{x, \eta}\gamma_{\theta}(x, \varrho_{\gamma}*\eta(x)) < C_G,$$ 
+then for fixed $a=(a_0,a_1,..,a_k)$,
+$\{(X^{N}_{a}(t))_{\tau^{N}_a\leq t < \sigma^{N}_{a}}: N \in \mathbb{N},  \}$ is relatively compact in 
+$D_{\IR^d}[0,\infty )$ where $\IR^d$ is equipped with the standard Euclidean metric. 
+\end{lemma}
+\begin{proof}
+We write $S_{t,r}:=(t,t+r  ]\times [0,\infty )\times \IR^d\times 
+\{0,1\}$ to be the region for the Poisson measure driving $(X^{N}_{a}(t))_{t \geq \tau_a}$ between time $t$ and $(t+r)$ and write $\tilde\Pi_{a}(ds,dv,dz,d\kappa):=\Pi_{a}(ds,dv,dz, d\kappa) - ds\times dv\times dz \times (\frac{1}{2}\delta_{0}+\frac{1}{2}\delta_{1})d\kappa$ to be the compensated Poisson point process of $\Pi_{a}$. 
+For $\tau_a \leq t < t+r < \sigma_a$, we can compute
+\small
+\begin{align*}
+&\mathbb{E}[|X^{N}_{a}(t+r )-X^{N}_{a}(t)|^2|{\cal F}_t^{
+\eta}]\\
+=& \mathbb{E}\left[\left|
+\int_{S_{t,r}}
+(1-\kappa)y(z)
+\ind_{ \{
+        U_{a}(\tau_{a}+s)
+        + \ell(X_{a}(\tau_{a}+s),y(z),\eta_{a}(\tau_{a}+s)) v < N
+        \}
+      } 
+\Pi_{a}(dsdvdzd\kappa)
+\right|^2
+\Bigg|{\cal F}_t^{\eta}\right]\\
+\leq&
+ 2\mathbb{E}\left[
+ \left|
+ \int_{S_{t,r}}
+ {\bf 1}_{\{v < 2  \theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta) \}}{\bf 1}_{\kappa =1}
+y(z)
+\tilde\Pi_{a}(ds,dv,dy,d\kappa )
+\right|^2
+\Bigg|{\cal F}_t^{\eta}
+\right]\\
+&\quad +2\mathbb{E}\left[
+\left|
+\int_{t}^{t+r}\int_{\{v < 2\theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta) \}}
+\frac{1}{2}\left| \int_{\IR^d} (y-X^{N}_{\tau}(s-)) q^{\mathfrak{m}}_{\theta}(X^{N}_{\tau}(s-),\eta^{N}(s-),dy) 
+\right|
+dvds \right|^2
+\Bigg|{\cal F}_t^{\eta}
+\right]\\
+&\leq 
+2\mathbb{E}\left[
+\int_{t}^{(t+r)   }
+(1+C_G) \theta 
+\int_{{\IR}^d}|y-X^{N}_{
+a}(s)|^2q^{\mathfrak{m}}_{\theta}(X^{N}_{a}(s),\eta^{N}(s),dy)ds
+\Bigg|{\cal F}_t^{\eta}\right]\\
+&\quad +2\mathbb{E}\left[
+\left|
+\int_{t}^{(t+r)}
+(1+C_G)\theta 
+\left|
+\int_{{\IR}^d}
+(y-X^{N}_{a}(s))q^{\mathfrak{m}}_{\theta}(X^{N}_{a}(s),
+\eta^{N}(s),dy)
+\right|
+ds
+\right|^2
+\Bigg|{\cal F}_t^{\eta}\right]\\
+\leq& 2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2.
+\end{align*}
+\normalsize
+
+The first inequality uses of the inequality $(A+B)^2 \leq 2A^2+2B^2$ as well as the fact that $(N-U_{a})N^{-1} \leq 1$.
+The second inequality holds 
+because birth events occur
+at rate $2\theta \gamma_{\theta}(x, \eta) r_{\theta}(x + y, \eta)$
+which is bounded above by $2\theta (1+C_G)$. The third inequality holds due to the assumptions on the dispersal kernel.
+
+Finally, since $\eta_0$ has compact support, we can take $t=\tau_u$ and apply Markov inequality to get that for every $\delta>0$, there exists $N_{\delta}>0$ such that
+\begin{equation}\label{eq: Compact Containment Condition for individual spatial motion}
+\sup_{N>N_{\delta}}\sup_{T>0}\mathbb{P}\left[|X^{N}_{a}(\tau_{a}+T)-X^{N}_{a}(\tau_{a})|>N_{\delta}\right]\leq   \frac{2r \overline{\beta}(1+C_G)+2(r \overline{\alpha}(1+C_G))^2}{N_{\delta}^2}  < \delta,
+\end{equation}
+giving us compact containment condition. Relative compactness thus follows by Theorem 3.8.6.
+of \cite{ethier/kurtz:1986}.
+\end{proof}
+\begin{remark}
+Note that if we assume $r \equiv 1$, then 
+$q^{\mathfrak{m}}_{\theta}(x,\eta,dy)=q_{\theta}(x,dy).$
+In particular, if we let $q_{\theta}$ be the standard Gaussian normal, we have the inequalities
+\begin{align}
+   \sup_{\theta}\limsup_{x, \eta} \theta \left| \int_{\IR^d} (y-x) q^{\mathfrak{m}}_{ \theta}(x,\eta,dy) \right| =& \sup_{\theta}\limsup_{x} \theta \left| \int_{\IR^d} (y-x) q_{\theta}(x,dy) \right| =  0,\\
+   \sup_{\theta}\limsup_{x, \eta} \theta \int_{\IR^d} |y-x|^2 q^{\mathfrak{m}}_{ \theta}(x,\eta,dy)  =& \sup_{\theta}\limsup_{x} \theta \int_{\IR^d} |y-x|^2 q_{\theta}(x,dy) =  1,
+\end{align}
+as the last term can be expressed as $\theta \mathbb{E}_{x}[(B_{1/\theta}-x)^2]=1$.
+
+As a result, we have tightness for all populations with unbiased isotropic dispersal.
+
+Furthermore, the assumption on $\gamma$ is natural as we typically assume an uniform upper bound on the total fecundity rate, i.e.
+$\sup_{u \geq 0} u\gamma(x,u) < C$.
+\end{remark}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Tightness of Level Processes}
+We have now proved that the spatial trajectories of a line of descent during its lifetime is relatively compact as $N \to \infty$. However, we will still need to show that the level process is also well controlled, i.e. a line of descent with an initial level smaller than $K << N$ will have a level larger than $N$ in very small time-scale with very low probability. This will then prevent a line of descent from dying instantaneously in the scaling limit.
+
+To make this precise, we must work in the vague topology. Proving tightness of the level process is slightly trickier as the levels of many particles will drift towards infinity in finite time. These particles however will not contribute to the metric associated with the vague topology and thus we will retain relative compactness. The main argument relies on the observation that particles with levels lower than some threshold $\overline{U}_{N, \delta}$  have regulated level increments of order $\epsilon$ over any small time interval of length $r$ given large enough $N$. As a result, we can evaluate our level process against test functions $(g_n)_{n=1,..,N}$ with cut off smaller than $\overline{U}_{N, \delta}$. 
+
+\begin{lemma} \label{lem:tightness of levels} For fixed $a\in \mathcal{U}$, let $U^N_{a}(\tau_a)=U_0$, i.e. the level of the line of descent $a$ at birth is $U_0>0$.
+On top of the assumptions laid out in Lemma \ref{lem: tightness of individual spatial trajectory}, assume that 
+$$
+    \sup_{\theta}\mathbb{E}\left[ \sup_{x, \eta} b_\theta(x, \eta) \right]
+    :=
+    \sup_{\theta}
+    \theta 
+    \mathbb{E}\left[ \sup_{x, \eta} \left(
+    \gamma_\theta(x,\eta) \int_{\IR^d} r_\theta(y, \eta) q_\theta(x, dy)
+    -
+    \mu_\theta(x,\eta)
+    \right)\right] 
+    \leq C_G,
+$$
+and there exists some $C_F \geq 0$ such that
+\begin{align} 
+\begin{split}
+b_{\theta}(x, \eta)
+&=
+    \theta \gamma_{\theta}(x, \eta) \int_{\IR^d} \left( r_{\theta}(y, \eta) - r_{\theta}(x, \eta) \right) q_{\theta}(x, dy)
+    + F_{\theta}(x, \eta) \\
+& \geq - C_F \varrho_F*\eta(x)
+\end{split}
+\end{align}
+for all $x \in \IR^d$ and  $\eta \in \mathcal{M}_{F}(\IR^d)$.
+
+Then
+$\{(U^{N}_{a}(t))_{t \geq \tau_a}, N >0\}$ is relatively compact in 
+$\mathcal{D}_{[0,\infty)}[0,\infty )$, where $[0,\infty)$ is equipped with the vague topology.
+\end{lemma}
+
+
+
+\begin{proof} Recall that for a fixed line of descent, the level process is determined only by the integral equation of the form 
+\begin{align*}
+&U^{N}_{a}(t+r)-U^{N}_{a}(t)\\
+=&\int_{t}^{t+r}
+\left(
+        \frac{\theta}{N} \gamma_{\theta}(X^N_{a}(s),\eta^N_s)
+        \int_{\IR^d} r_{\theta}(z,\eta^N_s) q_{\theta}(X^N_a(s),dz) U^N_a(s)^2
+        -
+        b_{\theta}(X^N_a(s),\eta^N_s) U^N_a(s)
+    \right)
+    ds.
+\end{align*}
+
+To control the level process, we consider two scenarios, one where the local density of the system between $[0,r]$ is never too big, i.e.
+$$h(r)=\sup_{x \in \IR^d}\sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(x) \right\} \leq H_{\epsilon}(r),$$
+and otherwise. 
+
+When the local density is smaller than $H_{\epsilon}$, we will show that the level grows steadily. Consequently, the level grows very fast and hit some level $\overline{U}_{K_{\epsilon}}$ very quickly only when the local density is larger than $H_{\epsilon}$. In this case, the effective increment in levels observed under the vague topology is bounded above by $\overline{U}_{K_{\epsilon}}$. We will first make this statement precise. 
+We will also show that the probability of such event is very small.
+As a result, the level process is tight.
+
+We will first make our convergence statement precise under the vague topology. 
+We will then prove tightness in the high density scenario,
+and finally
+prove tightness in the scenario where population density is well controlled
+with a comparison principle.  
+
+\textbf{Introducing a cutoff range:} 
+By the characterisation of vague topology on $[0,\infty)$,
+it suffices to prove that for all functions $g\in C_{c}([0,\infty), \mathbb{R}])$ (continuous functions with compact support), 
+the real-valued process
+$\{(g(U^{N}_{a}(t)))_{t \geq \tau_a}, N >0\}$ is relatively compact in 
+$\mathcal{D}_{\mathbb{R}}[0,\infty)$,
+where $\mathbb{R}$ is equipped with the Euclidean metric.
+
+It suffices to show that for any $\epsilon > 0$ and for any line of descent $a \in \mathcal{U}$, there exists small enough  $r>0$ such that $\mathbb{E}[|g(U^{N}_{a}(t+r))-g(U^{N}_{a}(t))||{\cal F}_t^{
+\eta}]< \epsilon$. 
+
+Pick $U_{g,\varepsilon}>0$ large enough such that $\text{supp}(g)\subset [0,U_{g,\varepsilon}]$.
+Since we picked $g$ to be continuous and differentiable with compact support, by Mean Value Theorem we have that 
+$$|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))|<C'_{g}(|U^{N}_{a}(t+r)-U^{N}_{a}(t)|\wedge U_{g,\varepsilon}),$$
+for some constant $C'_g$. Note that it suffices to consider $|U^{N}_{a}(t+r)-U^{N}_{a}(t)|\wedge U_{g,\varepsilon}$ because $g_n(u)=g_n(U_{g,\varepsilon})=0$ for all $u > U_{g,\varepsilon}$.
+
+Therefore, it suffices to show that for all $\epsilon > 0$, there exists $r>0$ small enough and $N_0$ large enough such that 
+\begin{equation}
+\mathbb{E}[C'_{g}(|U^{N}_{a}(t+r)-U^{N}_{a}(t)|\wedge U_{g,\varepsilon}) ~|~{\cal F}_t^{
+\eta} ] < \epsilon /2    
+\end{equation}
+uniformly over $N \geq N_0$.
+
+\textbf{Controlling high density events:}
+Recall that in Lemma \ref{lem:eta_compact_containment}, we have established compact containment for the total mass process. Therefore for any $\epsilon>0$ and $r>0$, there exists some large 
+\begin{equation}
+    \label{eq: Mass Bound Constant}
+H_{\epsilon}(r):=\frac{\epsilon}{2||\varrho_F||_{\infty}C(r) }>0    
+\end{equation}
+such that 
+the event 
+$$A_{H_{\epsilon}}:= \left\{ \omega \in \Omega: \sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(t+s)) \right\}(\omega) \geq H_{\epsilon}(r) \right\}$$
+satisfies
+\begin{equation}
+\limsup_{N \to \infty}\mathbb{P}\left[A_{H_{\epsilon}}\right]
+\leq  \frac{||\varrho_F||_{\infty}\mathbb{E}[\sup_{s\in [t,t+r]}\langle 1,  \eta^N_s \rangle ]}{H_{\epsilon}(r)}
+\leq  \frac{||\varrho_F||_{\infty}C(t+r)}{H_{\epsilon}(r)}
+< \frac{\epsilon}{2 U_{g,\varepsilon}C'_g},
+\end{equation}
+where $(C(t))_{t \geq 0}$ is the growth function that bounds the expected value of the running supremum of the total mass in Equation \eqref{eqn:eta_mass_bound}.
+
+As a result, for any $s < r$,
+\begin{equation}
+\mathbb{E}\left[|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))| \mathbbm{1}_{A_{H_{\epsilon}}} ~|~{\cal F}_t^{
+\eta} \right] 
+\leq  \mathbb{E}\left[C'_{g} U_{g,\varepsilon}\mathbbm{1}_{A_{H_{\epsilon}}} \right] \leq  C'_{g} U_{g,\varepsilon}\mathbb{P}\left[A_{H_{\epsilon}} \right] < \varepsilon / 2.
+\end{equation}
+
+\textbf{Controlling bounded density events:}
+We now consider $A_{H_{\epsilon}}^{c}$.
+To control the downward drift of our levels from the quadratic evolution,
+we neglect all positive drift and obtain
+\begin{equation}
+\begin{aligned}
+\mathbb{E}[U^{N}_{a}(t+r)-U^{N}_{a}(t)] \geq   &   - \mathbb{E}\left[\int_{t}^{(t+r)  } b_{\theta}(X^N_a(s),\eta^N_s) U^N_a(s)ds\right]\\
+\geq& - rC_GU_{g,\varepsilon}.
+\end{aligned}    
+\end{equation}
+
+We can also control the upward drift by comparing our process $(U^N_{a}(\tau_a+r))_{r \geq 0}$ with another process $(W^N_a(r))_{r \geq 0}$, where 
+\begin{align*}
+&W^{N}_{a}(r)-W^{N}_{a}(0)\\
+=&\int_{0}^{r}
+\left(
+        \frac{\theta}{N} C_G W^N_a(s)^2
+        +
+        C_F H_{\epsilon}(r) W^N_a(s)
+    \right)
+    ds,
+\end{align*}
+with $H_{\epsilon}(r) > \sup_{s\in [0,r]}\left\{\varrho_F*\eta^N_s(X^N_a(s)) \right\}$,
+and $W^N_a(0)=U^N_a(\tau_a) = U_0 \leq U_{g,\varepsilon}$.
+
+This is because $\gamma_{\theta} \leq C_G$, $r_{\theta} \leq 1$, and $-b_{\theta}(x, \eta) \leq  C_F \varrho_F * \eta(x) < -C_F H_{\epsilon}(r)$. Therefore, the growth rate of the differential equation governing $(U^N_a(t+s))_{s \geq 0}$ is smaller than that of $(W^N_a(s))_{s \geq 0}$ at all time instances.
+
+Note that $(W^N_a(s))_{s \geq 0}$ can be solved explicitly and 
+\begin{equation}
+W^N_a(s) = \frac{C_F H_{\epsilon}(r) U_0 \exp(C_F H_{\epsilon}(r) s)}{C_F H_{\epsilon}(r)+C_G  N^{-1}\theta U_0(1- \exp(C_F H_{\epsilon}(r) s))}\leq U_{g,\varepsilon}    
+\end{equation}
+for 
+\begin{equation}
+    \label{eq: Bound on Level Hitting Time}
+s \leq  \frac{1}{C_F H_{\epsilon}(r)} \log\left\{
+1+
+\frac{C_F H_{\epsilon}(r)
+(U_{g,\varepsilon}
+-U_0)
+}
+{C_F H_{\epsilon}(r)U_0 +C_G  N^{-1}\theta U_{g,\varepsilon}    U_0}
+\right\}.
+\end{equation}
+As $\theta / N $ converges in the limit, we may take some constant $\bar{\alpha}$ such that for large enough $N$,
+the level process $(U^N_{a}(s))_{s \geq 0}$ will not hit  $U_{g,\varepsilon}$ as long as
+\begin{equation}
+s \leq  \frac{1}{C_F H_{\epsilon}(r)} \log\left\{
+1+
+\frac{C_F H_{\epsilon}(r)
+(U_{g,\varepsilon}
+-U_0)
+}
+{C_F H_{\epsilon}(r)U_0 +C_G  \bar{\alpha} \overline{U}_{K_{\epsilon},\epsilon}    U_0}
+\right\}:=T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r).
+\end{equation}
+
+Note that $T$ only depends on the initial level $U_0$, the upper limit $U_{g,\varepsilon}$ and the bound on total mass $C(r)$ at time $r$, and is independent to $N$. 
+In particular, 
+\begin{equation}
+\label{eq: Compact Containment for Levels}
+\limsup_{N \to \infty}
+\mathbb{P}\left[
+\sup_{t \in [0, T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)]}
+U^N_{a}(\tau_a + t)
+\geq \overline{U}_{K_{\epsilon},\epsilon} 
+\right]  
+\leq \mathbb{P}[A_{H_{\epsilon}}]
+< \frac{\epsilon}{2 U_{g,\varepsilon}C'_g},
+\end{equation}
+so we have therefore proven compact containment condition for our level process up to time $T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$.
+
+As a result, for all time $ 0 < t , t+ r \leq T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r),$
+
+\begin{align*}
+W^N_a(t+r)-W^N_a(t) 
+\leq &\int_{t}^{t+r} 
+        \left( \frac{\theta}{N} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}
+        \right)
+        ds\\
+=&\left( \frac{\theta}{N} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}
+        \right) r \\
+\leq&\left( \bar{\alpha} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}
+        \right) r
+\end{align*}
+
+Combining the results together, we have that for any $r > 0$ small enough such that 
+\begin{equation}
+r < \frac{\epsilon  }{4C'_g}\min\left\{\frac{1}{C_G U_{g,\varepsilon}}, \frac{1}{\bar{\alpha} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}}\right\}    
+\end{equation}
+holds, then we have for all $t \leq T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$,
+
+\begin{equation}
+\begin{aligned}
+\mathbb{E}\left[|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))| \mathbbm{1}_{A_{H_{\epsilon}}^c} ~|~{\cal F}_t^{
+\eta} \right] 
+& \leq  \mathbb{E}\left[C'_{g} |U^{N}_{a}(t+r )-U^{N}_{a}(t)|\mathbbm{1}_{A_{H_{\epsilon}}^c} \right] \\
+&\leq r C'_g \max\{ \bar{\alpha} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}
+        , C_G U_{g, \varepsilon}\} \\
+        & < \varepsilon.
+\end{aligned}
+\end{equation}
+
+
+
+\textbf{Conclusion:} Combining all of the above results, for any $\epsilon > 0$, we pick arbitrary $r>0$ and
+generate $T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)$ by 
+Equation \eqref{eq: Bound on Level Hitting Time} and Equation \eqref{eq: Mass Bound Constant}.
+
+We have proven that for all $t \in [0, T(U_0,\overline{U}_{K_{\epsilon},\epsilon},r)]$,
+\begin{equation}
+\begin{aligned}
+& \mathbb{E}[|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))|~|~{\cal F}_t^{
+\eta}]\\
+\leq & \mathbb{E}\left[|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))| \mathbbm{1}_{A_{H_{\epsilon}}} ~|~{\cal F}_t^{
+\eta}\right]+ \mathbb{E}\left[|g(U^{N}_{a}(t+r ))-g(U^{N}_{a}(t))| \mathbbm{1}_{A_{H_{\epsilon}}^c} ~|~{\cal F}_t^{
+\eta}\right] \\
+< & \epsilon + \epsilon = 2\epsilon
+\end{aligned}    
+\end{equation}
+for  
+\begin{equation*}
+r < \frac{\epsilon  }{4C'_g}\min\left\{\frac{1}{C_G U_{g,\varepsilon}}, \frac{1}{\bar{\alpha} C_G U_{g,\varepsilon}^2
+        +
+        C_F H_{\epsilon}(r) U_{g,\varepsilon}}\right\}.    
+\end{equation*}
+
+We have also proven Compact Containment Condition in Equation \eqref{eq: Compact Containment for Levels}.
+
+Therefore we have proved tightness of our level processes by \cite{EK} Theorem 3.8.6.
+\end{proof}
+
+\subsection{Tightness of the Lookdown Representation}
+\begin{lemma}
+The lookdown representation satisfies the compact containment condition, 
+Equation \eqref{eq: vague compact containment condition}, 
+for all $\varepsilon > 0$ and fixed time $T > 0$, there exists $N,K> 0$ such that 
+\begin{equation}
+\liminf_{n \to \infty}\mathbb{P}\{ \xi^n_t \in \Gamma_{N,K} \text{ for all } t\in [0,T]\} > 1-\varepsilon,
+\end{equation}
+where $\Gamma_{N,K}$ is the compact set in Lemma \ref{lem: vague compact sets}
+\end{lemma}
+
+\begin{proof}
+Note that
+\begin{equation}
+\begin{aligned}
+     &1-\mathbb{P}\{ \xi^n_t \in \Gamma_{N,K} \text{ for all } t\in [0,T]\} \\
+     = & \mathbb{P}\left\{ \sup_{t \in[0,T]}\frac{1}{N}\langle 1_{\overline{\mathbb{R}^d}\times [0,N]}, \xi^n_t \rangle \geq K \right\} \\
+ \leq & \frac{\mathbb{E}\left\{ \sup_{t \in[0,T]}\frac{1}{N}\langle 1_{\overline{\mathbb{R}^d}\times [0,N]}, \xi^n_t \rangle\right\}}{K}.
+\end{aligned}
+\end{equation}
+Recall that conditional on 
+$$ \frac{1}{n}\langle 1_{[0,n]}, \xi^n_t \rangle = \eta^n_t,$$
+the level of each individual is independently and uniformly distributed between $[0,n]$.
+Therefore, for $n \geq N$,
+\begin{equation}
+\frac{\mathbb{E}\left\{ \sup_{t \in[0,T]}\frac{1}{N}\langle 1_{\overline{\mathbb{R}^d}\times [0,N]}, \xi^n_t \rangle\right\}}{K}
+= \frac{\mathbb{E}\left\{ \sup_{t\in [0,T]}\langle 1, \eta^n_t \rangle \right\}}{K} < \varepsilon,
+\end{equation}
+for large enough $K>0$. 
+The last inequality is given by Lemma \ref{lem:eta_compact_containment}.
+\end{proof}
+
+It now suffices for us to show that the processes $\{(F_g(\xi^n_t))_{t \geq 0}: n \geq 1\}$ is relatively compact for all test functions $F_g$.
+To do so, we apply Aldous criterion for real-valued processes.
+
+\subsubsection{Tightness of $(F_g(\xi_t))_{t \geq 0}$}
+
+\begin{definition}
+We define $\mathfrak{G}_{\leq 1}$ to be the set of functions $g \in \mathcal{C}(\IR^d \times [0, \infty) \to \IR$ such that 
+$g(\cdot, u) \in \mathcal{C}_{0}(\IR^d)$ for all $u \geq 0$, and there exists some $u_{*}>0$ such that $g(x,u)=1$ for all $u \geq u_{*}$. Furthermore, for $g \in \mathfrak{G}_{\leq 1}$, define $F_g(\xi):= \exp(-\langle \log g, \cdot \rangle )$.
+\end{definition}
+
+To prove tightness of $(\xi_t)_{t \geq 0}$ in the vague topology, it suffices to prove tightness of $(F_g(\xi_t))_{t \geq 0}$ as a real-valued stochastic process. For a proof of this statement refer to Appendix \ref{sec: Topologies on Lookdown}.
+
+\begin{lemma}
+For all $g \in \mathfrak{G}_{\leq 1}$, the processes $\{(F_g(\xi^N_t))_{t \geq 0}: N \in \mathbb{N}\}$ is tight as a real-valued stochastic process.
+\end{lemma}
+\begin{proof}
+Once again, we intend to apply the Aldous Criterion. 
+To do so, we need to prove that for all $\epsilon > 0$,
+there exists $n_0 > 0$ and $\delta > 0$ such that 
+\begin{equation}
+\sup_{n \geq n_0}\sup_{\theta \in [0, \delta]}\mathbb{P}\{|F_g(\xi^n_{\tau+\theta})-F_g(\xi^n_{\tau})| > \epsilon\} < \epsilon
+\end{equation} 
+holds. 
+It suffices to show that for sufficiently small $\delta > 0$,
+$\limsup_{n \to \infty}\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2] < \epsilon$
+for all $\theta \in [0, \delta]$.
+
+First, note that only events happening on particles with levels smaller than $u_g$ at time $\tau_n$ will contribute to the difference $|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|$.
+
+To calculate this difference, we couple $(\xi^n_{\tau_n + s})_{s \in [0,\delta]}$ with the process $(\hat{\xi}^n_{\tau_n + s})_{s \in [0,\delta]}$ which has the same level dynamics as $(\xi^n_{\tau_n + s})_{s \in [0,\delta]}$ but with no birth. 
+With this coupling, 
+we have 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2] \leq 2\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2]+ 2\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]$
+
+We first try to control $\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]$. 
+This difference is simply influenced by the level dynamics. Therefore,
+\begin{equation}
+\begin{aligned}
+ &\mathbb{E}[|F_g(\hat{\xi}^n_{\tau_n + s})-F_g(\xi^n_{\tau_n})|^2]\\
+ \leq &
+ \mathbb{E}\left[ \int_{0}^{\delta} \sum_{(x,u)\in\xi^n_{\tau_n+s}}\,
+    \left|
+        \frac{\theta}{n} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) u^2 -b_{\theta}(x,\eta)u
+    \right|^2 \partial_u g(x,u)^2 ds\right]\\
+ \leq & ||g'||_{\infty}
+ \mathbb{E}\left[ \int_{0}^{\delta} \sum_{(x,u)\in\xi^n_{\tau_n+s}}\,
+    \left| \frac{\theta}{n}  \gamma(x,\eta)  u_g^2 + (2  \gamma(x,\eta) + F(x,\eta))u_g
+    \right|^2  ds\right] + O(1/\theta)\\
+\leq & ||g'||_{\infty}u_g
+ \mathbb{E}_{\eta}\left[ \int_{\tau_n}^{\tau_n+\delta} \int_{\mathbb{R}^d}
+    \left| \frac{\theta}{n}  \gamma(x,\eta^n_{s})  u_g^2 + (2  \gamma(x,\eta^n_{s}) + F(x,\eta^n_{s}))u_g
+    \right|^2 \eta^N_s(dx) ds\right] + O(1/\theta),
+\end{aligned}
+\end{equation}
+so this term can be controlled with Lemma \ref{lem:tightness_for_F}.
+
+We now control 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2]$.
+Note that this difference is purely contributed by the number of birth with both the parent and child having levels below $u_g$,
+and the simple inequality 
+$\mathbb{E}[|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|^2] \leq 4 \mathbb{P}\{|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|>0\}$
+holds. 
+
+Therefore it suffices to prove that within a small interval of length $\delta > 0$,
+the probability of such birth events happening is small.
+
+This term can be controlled by the uniform boundedness of $\gamma(x,m)$.
+For the birth event to contribute to the difference, the parent must have a level below $u_g$, and give birth to a child at level $u + \ell < u_g$.
+Therefore, the total rate of relevant birth events satisfies
+\begin{equation}
+\sum_{(x,u) \in \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})}  \gamma(x,\eta^n_{\tau_n}) \mathbbm{1}_{u+ \ell < u_g }
+\leq C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d}.
+\end{equation}
+Therefore, with an application of Markov inequality, 
+we have
+\begin{equation}
+\begin{aligned}
+\mathbb{P}\{|F_g(\xi^n_{\tau_n + s})-F_g(\hat{\xi}^n_{\tau_n + s})|>0\}
+\leq & \mathbb{P}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s) \geq  1]\\
+\leq & \mathbb{E}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s)]\\
+\leq & \mathbb{E}[Poi(C_{\gamma} \xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})s)]\\
+\leq & C_{\gamma}  \mathbb{E}[\xi^n_{\tau_n}([0,u_g] \times \overline{\mathbb{R}^d})]s\\
+\leq & C_{\gamma}  u_g\mathbb{E}[\eta^n_{\tau_n}(\overline{\mathbb{R}^d})]s\\
+<&  \epsilon.
+\end{aligned}
+\end{equation}
+
+Combining all inequalities above, we have established Aldous Criterion and thus, tightness for the lookdown representation. 
+\end{proof}
+
+
