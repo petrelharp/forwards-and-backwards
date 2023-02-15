@@ -2576,7 +2576,7 @@ $0\leq g(x,u)\leq 1$ and
         \frac{\partial_u g(x, u)}{ g(x,u) }  .
     \end{split} \end{align}
     Write ${\cal C}(\IR^d\times [0,\infty))$ for the point measures on $\IR^d\times [0,\infty)$.
-We say that a ${\cal C}(\IR^d\times [0,\infty))$-valued process $(\xi_t)_{t \ge 0}$
+We say that a ${\cal C}(\IR^d\times [0,\infty))$-valued process $(\lp_t)_{t \ge 0}$
     is a solution to the $(A, \lp_0)$ martingale problem
     if it has initial distribution $\lp_0$
     and $f(\lp_t) - f(\lp_0)-\int_0^t Af(\lp_s) ds$ is a martingale for all 
@@ -5859,7 +5859,6 @@ tightness of the number of lines of descent and the number of births below a fix
 and of the motion of individual lines of descent.
 In other words, the limiting ``line of descent'' construction holds.
 
-
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
     the theorem will follow from tightness and characterization of the limit.
@@ -5868,15 +5867,34 @@ In other words, the limiting ``line of descent'' construction holds.
     (They will in fact be point measures, including the limit,
     but that is a consequence of this theorem.)
 
-    Again, tightness follows from a compact containment condition
-    (Lemma~\ref{lem:compact containment lookdown}),
+    Again, tightness follows from a compact containment condition,
     tightness of one-dimensional distributions,
     and an application of \citet{EK} Theorem~3.9.1.
-    Lines of descent can escape to infinite level in finite time,
-    and so we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
-    i.e., the topology induced by test functions on $\overline{\IR^d} \times [0,\infty)$
+
+    % Lines of descent can escape to infinite level in finite time, and so
+    % we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
+    \comment{Should this be a separate definition (along the lines of Condition 2.1 in \citet{etheridge/kurtz:2018})?}
+    Let $\{h_k\}$ be a separating class of nonnegative functions in $C^1_b([0, \infty))$
+    such that
+    $\int_0^\infty \int_u^\infty h_k(v) dv du$,
+    $\int_0^\infty u^2 |h_k'(u)| du$,
+    and $\int_0^\infty h_k(u)^2 du$
+    are all finite for all $k$,
+    and assume furthermore that $h_0$ is a positive, nonincreasing function 
+    that bounds all other $h_k$, i.e., for any $k$,
+    there is a $c_k$ such that $h_k(u) \le c_k h_0(u)$ for all $u \ge 0$.
+    (For instance, we may take $h_0(u) = e^{-u}$ and the remaining $h_k$
+    to be a separating class of $C^1$ functions with compact support.)
+    Following \citet{etheridge/kurtz:2018} (see Condition 2.1),
+    we endow $\lpmeasures$ with
+    the topology induced by test functions on $\overline{\IR^d} \times [0,\infty)$
     of the form $g(x) h(u)$, where $g \in C_b(\overline{\IR^d})$ is bounded and continuous
-    and $h \in C_c([0,\infty))$ is continuous with compact support.
+    and $h \in \{h_k\}_{k \ge 0}$.
+    This space is completely metrizable,
+    and a subset $K \subset \lpmeasures$ is relatively compact if and only if
+    $\sup_{\lp \in K} \langle h_k, \lp \rangle < \infty$ for each $k$;
+    therefore, compact containment follows from Lemma~\ref{lem:compact containment lookdown}.
+
     Theorem~3.9.1 of \citet{EK} requires that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
     is tight as a sequence of real-valued c\`adl\`ag processes for all $F$ in a subset
     of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$,
@@ -5909,79 +5927,44 @@ In other words, the limiting ``line of descent'' construction holds.
     solving the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
 
-Let $C_c^+$ denote the set of nonnegative continuous functions on $\overline{\IR^d} \times [0, \infty)$
-for which there exists a $u_f \ge 0$ such that $u > u_f$ implies that $f(x, u) = 0$.
-Recall that we are working with the vague topology ``in the level direction'',
-so that $m_n \to m$ in $\lpmeasures$ if and only if $\langle f, m_n \rangle \to \langle f, m \rangle$
-for all $f \in C_c^+$.
-By Theorem~A.23 in \citet{kallenberg1997foundations},
-the space $\lpmeasures$ is separable and metrizable,
-and $K \subset \lpmeasures$ is relatively compact if and only if
-$\sup_{\lp \in K} \langle f, \lp \rangle < \infty$
-for any $f \in C_c^+$.
-% The compact sets we consider are those with bounded total mass of their spatial projection,
-% i.e., of the form
-% $$
-%     K_M = \left\{
-%         \lp \in \lpmeasures \;:\;
-%         \sup_{L \ge 1} \frac{1}{L} \lp\left(\overline{\IR^d} \times [0, L]\right) \le M
-%     \right\} .
-% $$
-% These sets are compact 
-% because if $\lp \in K_M$ and $f \in C_c^+$ then $\langle f, \lp\rangle \le M u_f \|f\|_\infty$.
-Let $\mathcal{H} = \{h_n\}_{n \ge 1}$ be a sequence of
-monotone, nonnegative, compactly supported, differentiable functions
-on $[0, \infty)$ such that there exist sequences $u_n \to \infty$ and $k_n$ such that
-\begin{enumerate}
-    \item $h_n(u) > 1$ for $u \le u_n/2$,
-    \item $h_n(u) = 0$ for $u \ge u_n$,
-    \item $- h_n(u) \le h_n'(u) \le 0$, and
-    \item $\max\left( \int_u^\infty h_n(v) dv, \int_u^\infty h_n(v)^2 dv \right) \le k_n h_n(u)$.
-\end{enumerate}
-For instance, we could take $h_n(u)$ to be a mollified version of $\min(1, e^{-(u-n)})$,
-and then $u_n = k_n = n$.
-\comment{(or we could just take those functions? they are differentiable almost everywhere.)}
-The compact sets we consider are those with uniformly bounded integrals against $\mathcal{H}$,
-i.e., of the form
-$$
-    K_C = \left\{
-        \lp \in \lpmeasures \;:\;
-        \langle h_n, \lp \rangle \le C_n
-        \text{ for all } n \ge 1
-    \right\} ,
-$$
-for some sequence of constants $(C_1, C_2, \ldots)$.
-This set is compact because any $f \in C_c^+$ is bounded by a constant multiple of some $h_n$.
-
 \begin{lemma}[Compact containment for $\lp$]
     \label{lem:compact containment lookdown}
     Under Assumptions~\ref{def:model_setup},
     if $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$
-    \comment{and they are conditionally Poisson},
+    \comment{and they are conditionally Uniform with the limit conditionally Poisson},
     for any $T$ and $\delta > 0$ there exists a sequence
     $(C_1, C_2, \ldots)$ of finite constants such that
     \begin{align} \label{eqn:compact eqn lookdown}
     \limsup_{N \to \infty}
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
-        \text{ for some } n \ge 1
+        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_n
+        \text{ for some } k \ge 1
     \right\}
     < \delta .
     \end{align}
 \end{lemma}
 
-In other words, the processes $\lp^N$ stay in $K_C$ for all $0 \le t \le T$
+In other words, the processes $\lp^N$ stay in 
+the compact set
+$$
+    \left\{
+        \lp \in \lpmeasures \;:\;
+        \langle h_k, \lp \rangle \le C_k
+        \text{ for all } k \ge 1
+    \right\} ,
+$$
+for all $0 \le t \le T$
 with uniformly high probability.
 We will prove this Lemma using the following one:
 
 \begin{lemma}
     \label{lem:compact containment hn}
     Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
-    for any $T$, $M$ and $n$ there exists a constant $K_n$ such that
+    for any $T$ and $k$ there exists a constant $K_k$ such that
     $$ 
-    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > M \right\}
+    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > M \right\}
     <
-    \frac{K_n}{M} .
+    \frac{K_k}{M} .
     $$
 \end{lemma}
 
@@ -5989,39 +5972,37 @@ We will prove this Lemma using the following one:
     By a union bound,
     $$ 
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
-        \text{ for some } n \ge 1
+        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_k
+        \text{ for some } k \ge 1
     \right\}
     \le
-    \sum_{n \ge 1}
+    \sum_{k \ge 1}
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_n, \lp^N_t \rangle > C_n
+        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_k
     \right\} ,
     $$
     so \eqref{eqn:compact eqn lookdown} follows
-    by taking $C_n = 2^{n-1} K_n / \delta$ and using Lemma~\ref{lem:compact containment hn}.
+    by taking $C_k = 2^{k-1} K_k / \delta$ and using Lemma~\ref{lem:compact containment hn}.
 \end{proof}
 
 \begin{proof}[of Lemma~\ref{lem:compact containment hn}]
-    \comment{TODO: just give bounds and say this follows
-        the proof of Lemma~\ref{lem:eta_compact_containment} exactly, otherwise.
-        Or make the basic idea a lemma in the appendix?}
-    Let $h_n \in \mathcal{H}$.
-    It is evident from the description of the process
-    (or, by differentiating in Definition~\ref{defn:lookdown_mgale})
-    that
-    Applied to $f(x, u) = h_n(u)$, the martinagle representation~\eqref{eqn:f_xi_mgale} is
+    \comment{TODO: shorten and make constants have reasonable notation}
+    First note that since $h_k(u) \le c_k h_0(u)$ for all $u$,
+    so $\langle h_k, \lp_t^N \rangle \le c_k \langle h_0, \lp_t^N \rangle$,
+    and so we need only prove the Lemma for $h_0$.
+    Henceforth, let $h = h_0$.
+    Applied to $f(x, u) = h(u)$, the martinagle representation~\eqref{eqn:f_xi_mgale} is
     \begin{align*}
     \begin{split}
-        \langle h_n, \lp_t^N \rangle
+        \langle h, \lp_t^N \rangle
         &=
-        \langle h_n, \lp_0^N \rangle
-        + M^{h_n}_t 
-        \\ & \qquad \qquad {}
+        \langle h, \lp_0^N \rangle
+        + M^{h}_t 
+        \\ & \qquad {}
         +
         \int_0^t
         \big\langle
-            2 a^N(x, \eta^N_s) \int_u^N h_n(u_1) du_1
+            2 c^N(x, \eta^N_s) \int_u^N h(v) dv
         ,
         \lp_s^N(dx, du) \big \rangle
         ds
@@ -6030,129 +6011,134 @@ We will prove this Lemma using the following one:
         \int_0^t
         \big\langle
             \left(
-                a^N(x, \eta^N_s) u^2
+                c^N(x, \eta^N_s) u^2
                 - b^N(x, \eta^N_s) u
             \right)
-            h_n'(u)
+            h'(u)
         ,
         \lp_s^N(dx, du) \big \rangle
         ds ,
     \end{split}
     \end{align*}
-    where $M^{h_n}_t$ is a martingale
+    where $M^{h}_t$ is a martingale
     with quadratic variation
     \begin{align*}
-        [M^{h_n}]_t
+        [M^{h}]_t
         &=
         \int_0^t
-        \langle 2 a^N(x, \eta_s^N) \int_u^N h_n(u_1)^2 du_1
+        \langle 2 c^N(x, \eta_s^N) \int_u^N h(v)^2 dv
         ,
         \lp_s^N(dx, du) \big \rangle
         ds .
     \end{align*}
-    Now, note that $0 \le a^N(x, \eta_x^N) \le C_a$ for some $C_a < \infty$,
-    and we have assumed that $\int_u^\infty h_n(u_1) du_1 \le k_n h_n(u)$,
-    so that 
-    \begin{align*}
-        & \int_0^t
-        \big\langle
-            2 a^N(x, \eta^N_s) \int_u^N h_n(u_1) du_1
-        ,
-        \lp_s^N(dx, du) \big \rangle
-        ds
-        \\ & \qquad
-        \le
-        2 C_a k_n \int_0^t \big\langle h_n(u), \lp_s^N(dx, du) \big \rangle .
-    \end{align*}
-    In the next line, the contribution from $a^N(x, \eta^N_s) u^2 h'(u)$ is nonpositive because
-    $a^N \ge 0$ and $h'(u) \le 0$.
-    Similarly, since $b^N(x, \eta_x^N) \le C_b$ for some $C_b < \infty$,
-    and by assumption
-    $- h_n'(u) \le k_n h_n(u)$ and $h_n'(u) = 0$ for $u \ge u_n$,
-    and so
-    \begin{align*}
-        & \int_0^t
-        \big\langle
-            \left(
-                a^N(x, \eta^N_s) u^2
-                - b^N(x, \eta^N_s) u
-            \right)
-            h_n'(u)
-        ,
-        \lp_s^N(dx, du) \big \rangle
-        ds
-        \le
-        C_b u_n k_n \int_0^t \big\langle h_n(u), \lp_s^N(dx, du) \big \rangle .
-    \end{align*}
-    Putting this together, we have that
-    \begin{align} \label{eqn:hn_bound}
-        \langle h_n, \lp_t^N \rangle
+    Now, note that $0 \le c^N(x, \eta_x^N) \le C_a < \infty$
+    and $b^N(x, \eta_s^N) \le C_b < \infty$,
+    and we have assumed that $h'(u) \le 0$ (since $h_0$ is nonincreasing),
+    so we may bound
+    \begin{align} \label{eqn:hn_bound},
+    \begin{split} 
+        \langle h, \lp_t^N \rangle
         &\le
-        \langle h_n, \lp_0^N \rangle
-        + M^{h_n}_t 
-        + (2 C_a + C_b u_n) k_n \int_0^t 
-            \langle h_n, \lp_s^N \rangle
+        \langle h, \lp_0^N \rangle
+        + M^{h}_t
+        \\ & \qquad {}
+        +
+        \int_0^t
+        \big\langle
+            2 C_a \int_u^\infty h(v) dv
+            + \left( C_a u^2 + C_b u \right) |h'(u)|
+        ,
+        \lp_s^N(dx, du) \big \rangle
         ds .
+    \end{split}
     \end{align}
-    By Gronwall's inequality, with $C = (2 C_a + C_b u_n) k_n$
+    Now, since $\lp_t^N$ is conditionally uniform given $\eta_t^N$,
+    we know that for appropriate $f$,
+    $  \IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}, \eta^N_t \rangle] , $
+    where $\widetilde{f}(x) = \int_0^\infty f(x, u) du$.
+    By our assumptions on $h=h_0$,
+    we know that
+    $$
+        \int_0^\infty \left( 2 C_a \int_u^\infty h(v) dv
+        + \left( C_a u^2 + C_b u \right) |h'(u)| \right) du
+        < C
+    $$
+    for some $C < \infty$, and so
     \begin{align*}
-        \IE\left[ \langle h_n, \lp_t^N \rangle \right]
+    \begin{split}
+        \IE\left[ \langle h, \lp_t^N \rangle \right]
         &\le
-        \IE\left[ \langle h_n, \lp_0^N \rangle \right] e^{Ct} .
+        \IE\left[ \langle h, \lp_0^N \rangle \right]
+        +
+        C
+        \int_0^t
+        \IE\bigg[
+            \big\langle
+            1
+            ,
+            \eta_s^N(dx, du) \big \rangle
+        \bigg]
+        ds ,
+    \end{split}
     \end{align*}
+    which we know by Lemma~\ref{lem:eta_f_bound}
+    is bounded by $C_0 e^{C_1 t}$ for some other constants $C_0$ and $C_1$.
 
     Now consider the maximum. By \eqref{eqn:hn_bound},
     \begin{align*}
-        \sup_{0 \le t \le T} \langle h_n, \lp_t^N \rangle
+        \sup_{0 \le t \le T} \langle h, \lp_t^N \rangle
         &\le
-        \langle h_n, \lp_0^N \rangle
-        + \sup_{0 \le t \le T} M^{h_n}_t 
-        + C \int_0^t 
-            \sup_{0 \le t \le T} \langle h_n, \lp_s^N \rangle
-        ds .
+        \langle h, \lp_0^N \rangle
+        + \sup_{0 \le t \le T} M^{h}_t 
+        \\ & \qquad {}
+        + \int_0^T 
+        \big \langle
+            2 C_a \int_u^\infty h(v) dv
+            + \left( C_a u^2 + C_b u \right) |h'(u)|
+        ,
+        \lp_s^N(dx, du) \big \rangle
+        ds ,
     \end{align*}
+    where there is no supremum before the integral because the integrand is nonnegative.
+
     Again since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
     The Burkholder-Davis-Gundy inequality
     tells us that there is a $C'$ such that
     \begin{align*}
-    \IE\left[ \sup_{0 \le t \le T} M^{h_n}_t \right]
+    \IE\left[ \sup_{0 \le t \le T} M^{h}_t \right]
     & \le
-        C'\left( 1 + \IE\left[ [M^{h_n}]_t \right] \right)
+        C'\left( 1 + \IE\left[ [M^{h}]_T \right] \right)
     \\ & \le
-        C' \left( 1 + \int_0^t \IE\left[
-        \langle 2 a^N(x, \eta_s^N) \int_u^N h_n(u_1)^2 du_1
+        C' \left( 1 + \int_0^T \IE\left[
+        \langle 2 c^N(x, \eta_s^N) \int_u^\infty h(v)^2 dv
         ,
         \lp_s^N(dx, du) \big \rangle
         \right] ds \right) 
+    \\ & =
+        C' \left( 1 + 2 C_a \int_0^\infty h(v)^2 dv
+        \int_0^T \IE\left[
+            \langle 1 , \lp_s^N(dx, du) \big \rangle
+        \right] ds \right)  
     \\ & \le
-        C' \left( 1 + 2 C_a k_n \int_0^t \IE\left[
-        \langle h_n, \lp_s^N \big \rangle
-        \right] ds \right) 
-    \\ & \le 
-        C' \left( 1 + C'' e^{Ct} \IE[ \langle h_n, \lp_t^N \rangle ] \right) ,
+        C'' e^{C_1 T} ,
     \end{align*}
-    where $C'' = 2 C_a k_n / C$.
+    for a constant $C''$ which is finite
+    by our assumption that $\int_0^\infty h_0(v)^2 dv < \infty$.
+
     Therefore, 
     \begin{align*}
-        \IE\left[ \sup_{0 \le t \le T} \langle h_n, \lp_t^N \rangle \right]
+        \IE\left[ \sup_{0 \le t \le T} \langle h, \lp_t^N \rangle \right]
         &\le
-        C' + \IE\left[ \langle h_n, \lp_0^N \rangle \right]( 1 + C'' e^{Ct} )
-        + C \int_0^t 
-            \IE\left[ \sup_{0 \le t \le T} \langle h_n, \lp_s^N \rangle \right]
-        ds ,
-    \end{align*}
-    and so once again by Gronwall's inequality, there is a $C'''$ such that
-    \begin{align*}
-        \IE\left[ \sup_{0 \le t \le T} \langle h_n, \lp_t^N \rangle \right]
-        &\le
-        C'''(1 + \IE[\langle h_n, \lp_0^N \rangle]) e^{2Ct} ,
+        \IE\left[ \langle h, \lp_0^N \rangle \right]
+        + (C'' + C_0 / C_1) e^{C_1 T},
     \end{align*}
     and so
     \begin{align*}
         \IP\left\{ \sup_{0 \le t \le T} \langle h_n, \lp_t^N \rangle > K \right\}
         &\le
         \frac{
-            C'''(1 + \IE[\langle h_n, \lp_0^N \rangle]) e^{2CT} 
+            \IE\left[ \langle h, \lp_0^N \rangle \right]
+            + (C'' + C_0 / C_1) e^{C_1 T}
         }{ K } .
     \end{align*}
 \end{proof}
@@ -6177,10 +6163,8 @@ We will prove this Lemma using the following one:
     of equations~\eqref{eqn:f_xi_mgale} and~\eqref{eqn:f_xi_qv}.
     Indeed, the proof follows exactly as the proof of
     Lemma~\ref{lem:eta_projections_tightness},
-    except that terms are bounded by constant multiples of $\langle h_n, \xi^N_s \rangle$
-    instead of $\langle 1, \eta^N_s \rangle$,
-    where $h_n$ is bounded below on $[0, u_*]$.
-    \comment{(or we could say that $u_n \ge 2 u_*$)}
+    except that terms are bounded by constant multiples of $\langle h_0, \xi^N_s \rangle$
+    instead of $\langle 1, \eta^N_s \rangle$.
     There is only one term that might use explanation,
     which is
     \begin{align*}
@@ -6191,7 +6175,7 @@ We will prove this Lemma using the following one:
         = \left(1 - \frac{u}{N}\right) \theta \int_{\IR^d}
             (f(y, u) - f(x, u)) q^m(x, dy, \eta^N_s) ,
     \end{align*}
-    but this is now clearly bounded by a constant multiple of $h_n(u)$.
+    but this is now bounded as in the proof of Lemma~\ref{lem:eta_f_bound}.
 \end{proof}
 
 % % % % % % % % % % % % %

@@ -1,3 +1,74 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{ntheorem}
+\usepackage{graphics} 
+\usepackage{amsmath}
+\usepackage[color=yellow]{todonotes}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bbm}
+
+\usepackage{natbib}
+
+\newenvironment {proof}{{\noindent\bf Proof }}{\hfill $\Box$ \medskip}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{assumptions}[theorem]{Assumptions}
+\newtheorem{terminology}[theorem]{Terminology}
+\newtheorem*{terminology-non}[theorem]{Terminology}
+
+\renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
+\def \non{{\nonumber}}
+\def \hat{\widehat}
+\def \tilde{\widetilde}
+\def \bar{\overline}
+\newcommand{\IP}{\mathbb P}
+\newcommand{\IQ}{\mathbb Q}
+\newcommand{\IE}{\mathbb E}
+\newcommand{\IR}{\mathbb R}
+\newcommand{\IZ}{\mathbb Z}
+\newcommand{\IN}{\mathbb N}
+\newcommand{\IT}{\mathbb T}
+\newcommand{\IC}{\mathbb C}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\grad}{\nabla}
+\newcommand{\dif}{\mathrm{d}\,}
+
+%%%%%%% notation
+\newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
+\newcommand{\DD}{\mathcal{D}}  % the second-order part of the generator of dispersal
+\newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
+\newcommand{\covq}{C}     % covariance matrix of dispersal, times theta
+\newcommand{\kernel}{\rho}  % interaction kernels
+\newcommand{\smooth}[1]{\kernel_{#1} \! * \!}  % convolution by the interaction kernel
+\newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
+\newcommand{\Lgen}{\mathcal{L}}    % generator of a lineage
+\newcommand{\Pgen}{\mathcal{P}}    % generator of the population process
+\newcommand{\lp}{\xi}              % process with levels
+\newcommand{\labelspace}{\mathcal{I}} % space of labels
+\newcommand{\concat}{\oplus}   % concatenation of labels
+\newcommand{\measures}{\mathcal{M}_F(\IR^d)} % finite measures on Rd
+\newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR^d})} % finite measures on compactified Rd
+\newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on space x level
+
+
+\newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
+\newcommand{\comment}[1]{{\color{blue} \it #1}}
+
+\begin{document}
 
 % % % % % % % % % % % % %
 \subsubsection{Tightness of the Lines of Descent}
@@ -532,3 +603,9 @@ Combining all inequalities above, we have established Aldous Criterion and thus,
 \end{proof}
 
 
+
+\bibliographystyle{plainnat}
+\bibliography{refs.bib,plr_refs.bib}
+
+
+\end{document}
