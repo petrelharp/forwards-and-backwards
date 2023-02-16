@@ -2584,9 +2584,115 @@ test functions $f$
     as defined above.
 \end{definition}
 
-\comment{We talked about having the next paragraph be a Proposition or something?
-I am putting off rewriting this paragraph until I know what has been proved.}
+Elsewhere we have written $\eta^N$ for the spatial projection of the lookdown process $\lp^N$,
+although $\eta^N$ was defined first as a solution to a martingale problem.
+For the purposes of this result --
+the application of the Markov Mapping Theorem \citep[Thm A.2 in][]{etheridge/kurtz:2018} --
+we must disambiguate these, and so define the spatial projection
+maps $\gamma^N: \mathcal{M}(\IR^d \times [0, N]) \to \mathcal{M}(\IR^d)$
+by $\gamma^N(\xi^N)(\cdot) = \xi^N(\cdot \times [0, N]) / N$,
+and $\gamma: \mathcal{M}(\IR^d \times [0, \infty)) \to \mathcal{M}(\IR^d)$
+by $\gamma(\xi)(\cdot) = \lim_{u_0 \to \infty} \xi(\cdot \times [0, u_0]) / u_0$.
+We will also need an inverse notion:
+for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a sigma-field $\mathcal{F}$,
+we say that \emph{$\lp$ is conditionally uniform given $\mathcal{F}$}
+if for all compactly supported $f$,
+\begin{align} \label{eqn:conditionally_uniform}
+    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
+    &=
+    e^{-\langle F_f^N, \gamma(\lp) \rangle} ,
+\end{align}
+where
+$$ F_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
+(In other words, the $[0, N]$ components of $\lp$
+are independent, uniformly distributed on $[0, N]$, and independent of $\gamma(\lp)$.)
+Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
+we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
+if for all compactly supported $f$,
+\begin{align} \label{eqn:conditionally_poisson}
+    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
+    &=
+    e^{-\langle \int_0^\infty (1 - e^{-f(x, u)}) du, \gamma(\lp)(dx) \rangle} .
+\end{align}
+(In other words, $\lp$ is conditionally Poisson with Cox measure $\gamma(\lp) \times \Lambda$.)
 
+\begin{proposition}
+    \label{thm:mmt_application}
+    Let $\mu_0$ be a probability distribution on $\measures$,
+    and $\nu_0^N$ a probability distribution on $\mathcal{M}(\IR^d \times [0, N])$
+    such that a draw $\lp^N_0$ from $\nu_0^N$ is conditionally uniform given $\gamma(\lp^N_0)$
+    in the sense of \eqref{eqn:conditionally_uniform}.
+    If $\tilde \eta^N$ is a solution
+    of the martingale problem of Definition~\ref{defn:mgale_construction}
+    with initial distribution $\mu_0$
+    then there exists a solution $\lp^N$
+    of the martingale problem of Definition~\ref{defn:lookdown_mgale}
+    with initial distribution $\nu_0^N$
+    such that $\eta^N = \gamma \cdot \lp^N$
+    has the same distribution on $D_{\measures}[0, \infty)$
+    as $\tilde \eta^N$.
+    Furthermore, $\lp^N$ is conditionally uniform given given $\mathcal{F}^{\eta}_t$
+    in the sense of \eqref{eqn:conditionally_uniform}.
+
+    \comment{Theorem~\label{thm:nonlocal_convergence}
+        isn't written as ``the $(A, \mu)$ martingale problem is'';
+        rephrase here or there?}
+
+    Similarly,
+    let $\mu_0$ be a probability distribution on $\measures$,
+    and $\nu_0$ a probability distribution on $\mathcal{M}(\IR^d \times [0, \infty))$
+    such that a draw $\lp_0$ from $\nu_0$ is conditionally Poisson given $\gamma(\lp_0)$
+    in the sense of \eqref{eqn:conditionally_poisson}.
+    If $\tilde \eta$ is a solution
+    of the limiting martingale problem of Theorem~\label{thm:nonlocal_convergence}
+    with initial distribution $\mu_0$
+    then there exists a solution $\lp$
+    of the martingale problem of of Definition~\ref{defn:limiting_lookdown_mgale}
+    with initial distribution $\nu_0$
+    such that $\eta = \gamma \cdot \lp$
+    has the same distribution on $D_{\measures}[0, \infty)$
+    as $\tilde \eta$.
+    Furthermore, $\lp_t$ is conditionally Poisson given $\mathcal{F}^{\eta}_t$
+    in the sense of \eqref{eqn:conditionally_poisson}.
+\end{proposition}
+
+\begin{proof}[of Proposition~\ref{thm:mmt_application}]
+    This is the content of the Markov Mapping Theorem applied to our situation,
+    \citet[Thm A.2 in][]{etheridge/kurtz:2018}.
+    In the notation of that theorem, $\gamma$ is as above,
+    $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
+    or as a Poisson process with Lesbegue intensity (in the limiting case),
+    and we need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
+    for all $f \in \mathcal{D}(A^N)$ (and similarly a function $\psi$ for $A$).
+    We also need that applying the lookdown generator to a function and averaging over levels
+    is equivalent to applying the population process generator to the function
+    whose dependence on levels has been averaged out,
+    which we precisely state, and verify, in Appendix~\ref{sec: Markov Mapping Theorem Application}.
+
+    For finite $N$,
+    taking $f(\lp)$ of the form \eqref{eqn:test_functions},
+    we can use $\psi^N(\lp) = \langle C + u |F(x, \eta)|, \lp(dx, du) \rangle$
+    for an appropriate constant $C$.
+    For the scaling limit, recall that the test functions $f$ are of the form
+    $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
+    with $g(x, u) = 1$ for $u \ge u_0$,
+    and so taking for example the mostly troublesome term in $Af(\lp)$,
+    we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
+    \begin{align*}
+        \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
+        & \le
+        \| \partial_u g \|_\infty \sum_{(x, u) \in lp} | F(x, \eta) u \ind_{u \le u_0} | \\
+        & \le
+        \| \partial_u g \|_\infty e^{u_0} \sum_{(x, u) \in lp} | F(x, \eta) u e^{-u} | .
+    \end{align*}
+    The second line would be just what we want,
+    except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
+    So, the third line provides us with the required bound,
+    absorbing $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
+    and $\langle |F(x, \eta u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
+    To do this we must restrict $\lp$ to lie in the space of measures
+    for which this is finite.
+\end{proof}
 
 The lookdown processes have been carefully constructed so that
 past observations about the spatial positions of individuals in 
@@ -5866,33 +5972,19 @@ In other words, the limiting ``line of descent'' construction holds.
     the space of locally finite measures on space $\times$ levels.
     (They will in fact be point measures, including the limit,
     but that is a consequence of this theorem.)
-
     Again, tightness follows from a compact containment condition,
     tightness of one-dimensional distributions,
     and an application of \citet{EK} Theorem~3.9.1.
 
-    % Lines of descent can escape to infinite level in finite time, and so
-    % we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
-    \comment{Should this be a separate definition (along the lines of Condition 2.1 in \citet{etheridge/kurtz:2018})?}
-    Let $\{h_k\}$ be a separating class of nonnegative functions in $C^1_b([0, \infty))$
-    such that
-    $\int_0^\infty \int_u^\infty h_k(v) dv du$,
-    $\int_0^\infty u^2 |h_k'(u)| du$,
-    and $\int_0^\infty h_k(u)^2 du$
-    are all finite for all $k$,
-    and assume furthermore that $h_0$ is a positive, nonincreasing function 
-    that bounds all other $h_k$, i.e., for any $k$,
-    there is a $c_k$ such that $h_k(u) \le c_k h_0(u)$ for all $u \ge 0$.
-    (For instance, we may take $h_0(u) = e^{-u}$ and the remaining $h_k$
-    to be a separating class of $C^1$ functions with compact support.)
-    Following \citet{etheridge/kurtz:2018} (see Condition 2.1),
-    we endow $\lpmeasures$ with
-    the topology induced by test functions on $\overline{\IR^d} \times [0,\infty)$
+    Lines of descent can escape to infinite level in finite time, and so
+    we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
+    induced by test functions on $\overline{\IR^d} \times [0,\infty)$
     of the form $g(x) h(u)$, where $g \in C_b(\overline{\IR^d})$ is bounded and continuous
-    and $h \in \{h_k\}_{k \ge 0}$.
+    and $h \in C_c([0, \infty))$.
     This space is completely metrizable,
-    and a subset $K \subset \lpmeasures$ is relatively compact if and only if
-    $\sup_{\lp \in K} \langle h_k, \lp \rangle < \infty$ for each $k$;
+    and we may choose a countable set of nonnegative, compactly supported $f_k$
+    such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
+    $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$;
     therefore, compact containment follows from Lemma~\ref{lem:compact containment lookdown}.
 
     Theorem~3.9.1 of \citet{EK} requires that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
@@ -5927,6 +6019,58 @@ In other words, the limiting ``line of descent'' construction holds.
     solving the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
 
+What we need for compact containment will come from the following Lemma.
+The generality is unimportant --
+for concreteness one may take $h(u) = e^{-u}$.
+
+\begin{lemma}
+        \label{lem:h_containment}
+    Let $h$ be a positive, continuous, nondecreasing, differentiable function on $[0, \infty)$
+    such that
+    $\int_0^\infty \int_u^\infty h(v) dv du$,
+    $\int_0^\infty u^2 |h'(u)| du$,
+    and $\int_0^\infty h(u)^2 du$
+    are all finite,
+    Then under the assumptions of Lemma~\ref{lem:compact containment lookdown},
+    for any $T$ there exists a constant $K$ such that for all $M > 0$,
+    $$ 
+    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M \right\}
+    <
+    \frac{K}{M} .
+    $$
+\end{lemma}
+
+We postpone the proof of this Lemma to show how it gets us to compact containment.
+First, we show that this implies compact containment for arbitrary
+compactly supported functions.
+
+\begin{lemma}
+    \label{lem:compact containment hn}
+    Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
+    for any $T$ and $k$ there exists a constant $K_k$ such that for all $M > 0$,
+    $$ 
+    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > M \right\}
+    <
+    \frac{K_k}{M} .
+    $$
+\end{lemma}
+
+
+\begin{proof}[of Lemma~\ref{lem:compact containment hn}]
+    Let $h$ be as in Lemma~\ref{lem:h_containment}.
+    For any $f \in C(\bar \IR^d \times [0, \infty))$ with compact support,
+    there is a $c_f < \infty$ such that $f(x, u) \le c_f h(u)$.
+    Therefore, $\langle f, \xi \rangle \le \langle h, \xi \rangle$,
+    and so by Lemma~\ref{lem:h_containment},
+    \begin{align*}
+        \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle f, \lp^N_t \rangle > M \right\}
+        \le
+        \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M/c_f \right\}
+        <
+        \frac{K c_f}{M} .
+    \end{align*}
+\end{proof}
+
 \begin{lemma}[Compact containment for $\lp$]
     \label{lem:compact containment lookdown}
     Under Assumptions~\ref{def:model_setup},
@@ -5955,18 +6099,13 @@ $$
 $$
 for all $0 \le t \le T$
 with uniformly high probability.
-We will prove this Lemma using the following one:
-
-\begin{lemma}
-    \label{lem:compact containment hn}
-    Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
-    for any $T$ and $k$ there exists a constant $K_k$ such that
-    $$ 
-    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > M \right\}
-    <
-    \frac{K_k}{M} .
-    $$
-\end{lemma}
+\comment{
+    Note that we could instead of the vague topology on locally finite measures,
+    take the space of measures with $\langle h, \xi \rangle < \infty$
+    for which $\xi_n \to \xi$ if $\langle f, \xi \rangle < \infty$ for all $f$ for which $f \le c_f h$,
+    which is completely metrizable
+    as in Condition 2.1 of \citet{etheridge/kurtz:2019}.
+}
 
 \begin{proof}[of Lemma~\ref{lem:compact containment lookdown}]
     By a union bound,
@@ -5985,12 +6124,10 @@ We will prove this Lemma using the following one:
     by taking $C_k = 2^{k-1} K_k / \delta$ and using Lemma~\ref{lem:compact containment hn}.
 \end{proof}
 
+Finally, we prove the key lemma.
+
 \begin{proof}[of Lemma~\ref{lem:compact containment hn}]
-    \comment{TODO: shorten and make constants have reasonable notation}
-    First note that since $h_k(u) \le c_k h_0(u)$ for all $u$,
-    so $\langle h_k, \lp_t^N \rangle \le c_k \langle h_0, \lp_t^N \rangle$,
-    and so we need only prove the Lemma for $h_0$.
-    Henceforth, let $h = h_0$.
+    \comment{(TODO: shorten and make constants have reasonable notation)}
     Applied to $f(x, u) = h(u)$, the martinagle representation~\eqref{eqn:f_xi_mgale} is
     \begin{align*}
     \begin{split}
@@ -6033,7 +6170,7 @@ We will prove this Lemma using the following one:
     \end{align*}
     Now, note that $0 \le c^N(x, \eta_x^N) \le C_a < \infty$
     and $b^N(x, \eta_s^N) \le C_b < \infty$,
-    and we have assumed that $h'(u) \le 0$ (since $h_0$ is nonincreasing),
+    and we have assumed that $h'(u) \le 0$ (since $h$ is nonincreasing),
     so we may bound
     \begin{align} \label{eqn:hn_bound},
     \begin{split} 
@@ -6056,7 +6193,7 @@ We will prove this Lemma using the following one:
     we know that for appropriate $f$,
     $  \IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}, \eta^N_t \rangle] , $
     where $\widetilde{f}(x) = \int_0^\infty f(x, u) du$.
-    By our assumptions on $h=h_0$,
+    By our assumptions on $h$,
     we know that
     $$
         \int_0^\infty \left( 2 C_a \int_u^\infty h(v) dv
@@ -6123,7 +6260,7 @@ We will prove this Lemma using the following one:
         C'' e^{C_1 T} ,
     \end{align*}
     for a constant $C''$ which is finite
-    by our assumption that $\int_0^\infty h_0(v)^2 dv < \infty$.
+    by our assumption that $\int_0^\infty h(v)^2 dv < \infty$.
 
     Therefore, 
     \begin{align*}
@@ -6163,7 +6300,7 @@ We will prove this Lemma using the following one:
     of equations~\eqref{eqn:f_xi_mgale} and~\eqref{eqn:f_xi_qv}.
     Indeed, the proof follows exactly as the proof of
     Lemma~\ref{lem:eta_projections_tightness},
-    except that terms are bounded by constant multiples of $\langle h_0, \xi^N_s \rangle$
+    except that terms are bounded by constant multiples of $\langle h, \xi^N_s \rangle$
     instead of $\langle 1, \eta^N_s \rangle$.
     There is only one term that might use explanation,
     which is
@@ -6859,97 +6996,6 @@ which concludes our proof.
 
 
 
-\subsection{Generator of Lookdown Representations}
-
-We now define the generator of the lookdown representations.
-\begin{definition}[Martingale Problem Characterisation]
-    \label{defn:lookdown_mgale}
-For given positive values of $N$ and $\theta$
-and $\lp_0 \in \mathcal{M}_F(\IR^d \times [0,N])$,
-we define $(\lp^{N}_t)_{t \geq 0}$
-to be the unique solution to the martingale problem
-with initial condition $\lp_0$ and generator $A^{N}$ that satisfies
-\begin{equation*}
-\begin{split}
-& A^{N}f(\lp ) \\
-&\quad =
-    f(\lp)
-    \,\sum_{(x,u)\in \lp}\,
-    2 \gamma(x, \eta)
-    \Bigg\{ \frac{1}{2N} \int_u^N g(x,u_1) du_1
-            \frac{
-                \theta \int_{\IR^d}
-                (g(y,u) - g(x,u))
-                r(y, \eta) q_{\theta}(x,dy)
-            }{ g(x,u) }
-        \\
-    &\qquad\qquad\qquad\qquad\qquad\qquad\qquad {} +
-        \frac{\theta}{N} \int_u^N
-        \int_{\IR^d}\left(
-            \frac{ g(y,u_1) + g(x,u_1) }{ 2 } - 1
-        \right)
-        r(y, \eta) q_{\theta}(x,dy)
-        du_1
-    \Bigg\}\\
-    &\qquad\qquad {} +
-    f(\lp) \sum_{(x,u)\in\lp}\,
-    \left(
-        \frac{\theta}{N} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) u^2 -b_{\theta}(x,\eta)u
-    \right)
-    \frac{\partial_u g(x,u)}{g(x,u)}
-    ,
-\end{split}
-\end{equation*}
-for all smooth functions $g \in C^{2}_{0}(\IR^d)$,
-where $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$ as defined in \eqref{eqn:test_functions},
-and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$ is the scaled spatial pushforward of $\lp$,
-as before.
-\end{definition}
-
-Similarly, 
-we define the generator for the lookdown representation of the limiting spatial model.
-
-\begin{definition}[Martingale Problem Characterisation, $N=\infty$]
-    \label{defn:limiting_lookdown_mgale}
-    For a given value of $\alpha \in [0, \infty)$,
-    define the operator $A$ acting on test functions of the form
-    $f(\xi) = \prod_{(x, u) \in \xi} g(x, u)$ with $g \in C_0^2(\IR^d \times [0, \infty))$
-    and for which there exists a $u_0$ with $g(x, u) = 1$ for all $u > u_0$.
-    Then, let $A f$ be
-    \begin{equation}
-    \begin{aligned} \label{eqn:limiting_lookdown_generator}
-    A f(\lp)
-    =&
-        f(\lp)  \sum_{(x, u) \in \xi}
-        \gamma(x, \eta)
-            \frac{
-                \DG(g(\cdot, u) r(\cdot, \eta))(x) - g(x,u) \DG r(x,\eta)
-            }{
-                g(x, u)
-            }
-    \\ &+
-        f(\lp) \sum_{(x, u) \in \xi}
-        2 \alpha \gamma(x,\Xi)r(x,\Xi) \int_u^\infty (g(x, u_1) - 1) du_1
-    \\ &+
-        f(\lp) \sum_{(x, u) \in \xi}
-        \left(
-            \alpha \gamma(x,\Xi)r(x,\Xi) u^2
-            -
-            \left\{
-                \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
-            \right\} u
-        \right)
-        \frac{\partial_u g(x, u)}{ g(x,u) }  .
-    \end{aligned}
-    \end{equation}
-   
-    We say that a $\lpmeasures$-valued process $(\xi_t)_{t \ge 0}$
-    is a solution to the $(A, \lp_0)$ martingale problem
-    if it has initial distribution $\lp_0$
-    and $f(\lp_t) - \int_0^t Af(\lp_s) ds$ is a martingale for all $f$
-    as defined above.
-\end{definition}
-   
 \subsubsection{Exact Statement on Markov Mapping Theorem results}
 
 \begin{theorem}
