@@ -2678,20 +2678,28 @@ if for all compactly supported $f$,
     with $g(x, u) = 1$ for $u \ge u_0$,
     and so taking for example the mostly troublesome term in $Af(\lp)$,
     we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
-    \begin{align*}
+    \begin{align} \label{eqn:part_of_psi}
         \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
         & \le
-        \| \partial_u g \|_\infty \sum_{(x, u) \in lp} | F(x, \eta) u \ind_{u \le u_0} | \\
+        \| \partial_u g \|_\infty \sum_{(x, u) \in \lp} | F(x, \eta) u \ind_{u \le u_0} | \\
         & \le
-        \| \partial_u g \|_\infty e^{u_0} \sum_{(x, u) \in lp} | F(x, \eta) u e^{-u} | .
-    \end{align*}
+        \| \partial_u g \|_\infty e^{u_0} \sum_{(x, u) \in \lp} | F(x, \eta) u e^{-u} | .
+    \end{align}
     The second line would be just what we want,
     except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
     So, the third line provides us with the required bound,
     absorbing $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
-    and $\langle |F(x, \eta u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
+    and $\langle |F(x, \eta) u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
+    Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
+    for a given $\lp$ (and hence $\eta = \gamma(\lp)$),
+    $\sup_x |F(x, \eta)|$ is finite.
+    Therefore, we may bound \eqref{eqn:part_of_psi} by
+    $\sup_x |F(x, \eta)| \langle u e^{-u}, \lp \rangle$.
     To do this we must restrict $\lp$ to lie in the space of measures
-    for which this is finite.
+    for which this is finite;
+    however, this is a completely metrizable space
+    \citep[see Condition 2.1 in][]{etheridge/kurtz:2018},
+    and our processes fall in this space (by conditional uniformity).
 \end{proof}
 
 The lookdown processes have been carefully constructed so that
@@ -6213,7 +6221,7 @@ Finally, we prove the key lemma.
             \big\langle
             1
             ,
-            \eta_s^N(dx, du) \big \rangle
+            \eta_s^N \big \rangle
         \bigg]
         ds ,
     \end{split}
@@ -6302,6 +6310,7 @@ Finally, we prove the key lemma.
     Lemma~\ref{lem:eta_projections_tightness},
     except that terms are bounded by constant multiples of $\langle h, \xi^N_s \rangle$
     instead of $\langle 1, \eta^N_s \rangle$.
+    \comment{Give an example of this.}
     There is only one term that might use explanation,
     which is
     \begin{align*}
