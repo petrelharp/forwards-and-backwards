@@ -52,7 +52,7 @@
 \newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
 \newcommand{\DD}{\mathcal{D}}  % the second-order part of the generator of dispersal
 \newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
-\newcommand{\covq}{C}     % covariance matrix of dispersal, times theta
+\newcommand{\covq}{\mathbf{C}}     % covariance matrix of dispersal, times theta
 \newcommand{\kernel}{\rho}  % interaction kernels
 \newcommand{\smooth}[1]{\kernel_{#1} \! * \!}  % convolution by the interaction kernel
 \newcommand{\wavespeed}{\mathfrak{c}}    % speed (vector) of a wave
@@ -874,7 +874,7 @@ An instructive example is the case where $\gamma \equiv 1$ and $F \equiv 0$, so 
 and the population has all individuals at a single location (so, $\eta = \delta_x$),
 in which case the mean rate of change of the total population size
 is $\int (r(y, N \smooth{r}(y) ) - r(x, N \smooth{r}(x))) q_\theta(x, dy)$;
-the first condition of Lemma~\ref{conditions on r} would ensure this is of order $1/\theta$.
+the first condition of Lemma~\ref{lem:conditions on r} would ensure this is of order $1/\theta$.
 
 If $r(x,m)$ is independent of $m$, then the conditions are easy to 
 satisfy; they just require some regularity of $r$ as a function of $x$. 
@@ -2451,7 +2451,7 @@ the level $u$ of an individual at $x$ evolves according to:
     \theta\mu_\theta(x,\eta) u .
 \end{equation}
 We shall write 
-$$
+\begin{align} \label{b_defn}
     b_\theta(x, \eta)
     :=
     \theta\left(
@@ -2459,14 +2459,14 @@ $$
     -
     \mu_\theta(x,\eta)
     \right) ,
-$$
+\end{align}
 which captures the local net difference between reproduction and death,
 and
-$$
+\begin{align} \label{c_defn}
     c_\theta(x, \eta)
     :=
     \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) ,
-$$
+\end{align}
 which captures the local rate of production of successful offspring.
 Recall from equation~\eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu_\theta(x,\eta))$,
@@ -2607,6 +2607,7 @@ We need some notation.
 Write ${\mathcal C}={\mathcal C}(\IR^d\times [0,\infty)$ for the point measures 
 on $\IR^d\times [0,\infty)$ and ${\mathcal C}_N$ for the subset consisting of 
 counting measures on $\IR^d\times [0,N]$.
+
 \begin{definition}[Martingale Problem Characterisation]
     \label{defn:lookdown_mgale}
 For given positive values of $N$ and $\theta$, define the generator $A^N$
@@ -2714,184 +2715,121 @@ test functions $f$
     as defined above.
 \end{definition}
 
-Elsewhere we have written $\eta^N$ for the spatial projection of the lookdown process $\lp^N$,
-although $\eta^N$ was defined first as a solution to a martingale problem.
-For the purposes of this result --
-the application of the Markov Mapping Theorem \citep[Thm A.2 in][]{etheridge/kurtz:2018} --
-we must disambiguate these, and so define the spatial projection
-maps $\gamma^N: \mathcal{M}(\IR^d \times [0, N]) \to \mathcal{M}(\IR^d)$
-by $\gamma^N(\xi^N)(\cdot) = \xi^N(\cdot \times [0, N]) / N$,
-and $\gamma: \mathcal{M}(\IR^d \times [0, \infty)) \to \mathcal{M}(\IR^d)$
-by $\gamma(\xi)(\cdot) = \lim_{u_0 \to \infty} \xi(\cdot \times [0, u_0]) / u_0$.
-We will also need an inverse notion:
-for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a sigma-field $\mathcal{F}$,
-we say that \emph{$\lp$ is conditionally uniform given $\mathcal{F}$}
-if for all compactly supported $f$,
-\begin{align} \label{eqn:conditionally_uniform}
-    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
-    &=
-    e^{-\langle F_f^N, \gamma(\lp) \rangle} ,
-\end{align}
-where
-$$ F_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
-(In other words, the $[0, N]$ components of $\lp$
-are independent, uniformly distributed on $[0, N]$, and independent of $\gamma(\lp)$.)
-Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
-we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
-if for all compactly supported $f$,
-\begin{align} \label{eqn:conditionally_poisson}
-    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
-    &=
-    e^{-\langle \int_0^\infty (1 - e^{-f(x, u)}) du, \gamma(\lp)(dx) \rangle} .
-\end{align}
-(In other words, $\lp$ is conditionally Poisson with Cox measure $\gamma(\lp) \times \Lambda$.)
-
-\begin{proposition}
-    \label{thm:mmt_application}
-    Let $\mu_0$ be a probability distribution on $\measures$,
-    and $\nu_0^N$ a probability distribution on $\mathcal{M}(\IR^d \times [0, N])$
-    such that a draw $\lp^N_0$ from $\nu_0^N$ is conditionally uniform given $\gamma(\lp^N_0)$
-    in the sense of \eqref{eqn:conditionally_uniform}.
-    If $\tilde \eta^N$ is a solution
-    of the martingale problem of Definition~\ref{defn:mgale_construction}
-    with initial distribution $\mu_0$
-    then there exists a solution $\lp^N$
-    of the martingale problem of Definition~\ref{defn:lookdown_mgale}
-    with initial distribution $\nu_0^N$
-    such that $\eta^N = \gamma \cdot \lp^N$
-    has the same distribution on $D_{\measures}[0, \infty)$
-    as $\tilde \eta^N$.
-    Furthermore, $\lp^N$ is conditionally uniform given given $\mathcal{F}^{\eta}_t$
-    in the sense of \eqref{eqn:conditionally_uniform}.
-
-    \comment{Theorem~\ref{thm:nonlocal_convergence}
-        isn't written as ``the $(A, \mu)$ martingale problem is'';
-        rephrase here or there?}
-
-    Similarly,
-    let $\mu_0$ be a probability distribution on $\measures$,
-    and $\nu_0$ a probability distribution on $\mathcal{M}(\IR^d \times [0, \infty))$
-    such that a draw $\lp_0$ from $\nu_0$ is conditionally Poisson given $\gamma(\lp_0)$
-    in the sense of \eqref{eqn:conditionally_poisson}.
-    If $\tilde \eta$ is a solution
-    of the limiting martingale problem of Theorem~\ref{thm:nonlocal_convergence}
-    with initial distribution $\mu_0$
-    then there exists a solution $\lp$
-    of the martingale problem of of Definition~\ref{defn:limiting_lookdown_mgale}
-    with initial distribution $\nu_0$
-    such that $\eta = \gamma \cdot \lp$
-    has the same distribution on $D_{\measures}[0, \infty)$
-    as $\tilde \eta$.
-    Furthermore, $\lp_t$ is conditionally Poisson given $\mathcal{F}^{\eta}_t$
-    in the sense of \eqref{eqn:conditionally_poisson}.
-\end{proposition}
-
-\begin{proof}[of Proposition~\ref{thm:mmt_application}]
-    This is the content of the Markov Mapping Theorem applied to our situation,
-    \citet[Thm A.2 in][]{etheridge/kurtz:2018}.
-    In the notation of that theorem, $\gamma$ is as above,
-    $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
-    or as a Poisson process with Lesbegue intensity (in the limiting case),
-    and we need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
-    for all $f \in \mathcal{D}(A^N)$ (and similarly a function $\psi$ for $A$).
-    We also need that applying the lookdown generator to a function and averaging over levels
-    is equivalent to applying the population process generator to the function
-    whose dependence on levels has been averaged out,
-    which we precisely state, and verify, in Appendix~\ref{sec: Markov Mapping Theorem Application}.
-
-    For finite $N$,
-    taking $f(\lp)$ of the form \eqref{eqn:test_functions},
-    we can use $\psi^N(\lp) = \langle C + u |F(x, \eta)|, \lp(dx, du) \rangle$
-    for an appropriate constant $C$.
-    For the scaling limit, recall that the test functions $f$ are of the form
-    $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
-    with $g(x, u) = 1$ for $u \ge u_0$,
-    and so taking for example the mostly troublesome term in $Af(\lp)$,
-    we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
-    \begin{align} \label{eqn:part_of_psi}
-        \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
-        & \le
-        \| \partial_u g \|_\infty \sum_{(x, u) \in \lp} | F(x, \eta) u \ind_{u \le u_0} | \\
-        & \le
-        \| \partial_u g \|_\infty e^{u_0} \sum_{(x, u) \in \lp} | F(x, \eta) u e^{-u} | .
-    \end{align}
-    The second line would be just what we want,
-    except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
-    So, the third line provides us with the required bound,
-    absorbing $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
-    and $\langle |F(x, \eta) u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
-    Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
-    for a given $\lp$ (and hence $\eta = \gamma(\lp)$),
-    $\sup_x |F(x, \eta)|$ is finite.
-    Therefore, we may bound \eqref{eqn:part_of_psi} by
-    $\sup_x |F(x, \eta)| \langle u e^{-u}, \lp \rangle$.
-    To do this we must restrict $\lp$ to lie in the space of measures
-    for which this is finite;
-    however, this is a completely metrizable space
-    \citep[see Condition 2.1 in][]{etheridge/kurtz:2018},
-    and our processes fall in this space (by conditional uniformity).
-\end{proof}
-
-\comment{In this section I haven't specified the filtration for the martingale problem.}
-
 The lookdown processes have been carefully constructed so that
-past observations about the spatial positions of individuals in 
+observations about the past spatial positions of individuals in 
 the population do not give us any information about the assignment of 
-individuals to levels. In other words, the dynamics of the lookdown
-process preserve the conditionally uniform (resp.~conditionally Poisson)
-structure.
+individuals to levels.
+In other words, the dynamics of the lookdown
+process preserve the conditionally uniform (or in the limit, conditionally Poisson) structure
+-- if started with uniform levels,
+levels are uniform at all future times.
 Moreover, if we average over levels in the expression for the generator
 (equation~\eqref{eqn:lookdown_generator} or~\eqref{eqn:limiting_lookdown_generator})
 we recover the generator for the population process.
 %(visible in equation~\eqref{eqn:eta_martingale}
 %or~\eqref{eqn:limiting_mgale_problem}, respectively).
 Once this is verified (along with some boundedness conditions)
-in Appendix~\ref{sec: Markov Mapping Theorem Application},
-\comment{Refer more precisely}
 the Markov Mapping Theorem \citep[Thm A.2 in][]{etheridge/kurtz:2019}
-tells us that by ``removing labels'' in this way we recover the Markov
-process describing our population.
-In particular, for any %population process $(\eta^N_t)_{t \ge 0}$
-%(i.e.,
-solution to the martingale problem of Definition~\ref{defn:mgale_construction})
-% of equations~\eqref{eqn:eta_martingale} and \eqref{eqn:prelimit_martingale_variation}
-there is a % lookdown representation $(\lp^N_t)_{t \ge 0}$
-%(i.e., 
-solution to the martingale problem of Definition~\ref{defn:lookdown_mgale})
-for which $\eta^N_t(\cdot) = \lp^N_t(\cdot \times [0, N])/N$
-and such that at each $t$, conditioned on $(\eta^N_s)_{s \le t}$, the levels of $\lp_t^N$
-are independently and uniformly distributed on $[0, N]$.
-Similarly, in the scaling limit:
-for any solution $(\eta_t)_{t \ge 0}$ to the martingale problem of 
-Theorem~\ref{nonlocal_convergence}
-%there is a lookdown process $(\lp^N_t)_{t \ge 0}$
-there is a solution to the martingale problem of Theorem~\ref{lookdown_convergence}
-for which $\eta_t(\cdot) = \lim_{u_0 \to \infty} \frac{1}{u_0} \lp_t(\cdot \times [0, u_0))$
-and such that at each $t$, conditional on $(\eta_s)_{s\leq t}$, 
-$\lp_t$ is conditionally Poisson with mean measure $\eta_t(dx) \times du$.
+tells us that by ``removing labels'' from the lookdown process $\lp$
+we recover the population process $\eta$.
+% In particular, for any
+% solution to the martingale problem of Definition~\ref{defn:mgale_construction}
+% % of equations~\eqref{eqn:eta_martingale} and \eqref{eqn:prelimit_martingale_variation}
+% there is a % lookdown representation $(\lp^N_t)_{t \ge 0}$
+% solution to the martingale problem of Definition~\ref{defn:lookdown_mgale})
+% for which $\eta^N_t(\cdot) = \lp^N_t(\cdot \times [0, N])/N$
+% and such that at each $t$, conditioned on $(\eta^N_s)_{s \le t}$, the levels of $\lp_t^N$
+% are independently and uniformly distributed on $[0, N]$.
+% Similarly, in the scaling limit:
+% for any solution $(\eta_t)_{t \ge 0}$ to the martingale problem of 
+% Theorem~\ref{nonlocal_convergence}
+% %there is a lookdown process $(\lp^N_t)_{t \ge 0}$
+% there is a solution to the martingale problem of Theorem~\ref{lookdown_convergence}
+% for which $\eta_t(\cdot) = \lim_{u_0 \to \infty} \frac{1}{u_0} \lp_t(\cdot \times [0, u_0))$
+% and such that at each $t$, conditional on $(\eta_s)_{s\leq t}$, 
+% $\lp_t$ is conditionally Poisson with mean measure $\eta_t(dx) \times du$.
 Furthermore, convergence of the lookdown processes would imply convergence of the population processes
 \citep[Thm A.9 in][]{kurtz/rodrigues:2011}.
 
-Now that the lookdown process has been defined,
-we can present the main convergence theorem that is analogous
+To make this precise,
+define the spatial projection maps
+$\kappa^N: \mathcal{M}(\IR^d \times [0, N]) \to \mathcal{M}(\IR^d)$
+by $\kappa^N(\xi^N)(\cdot) = \xi^N(\cdot \times [0, N]) / N$,
+and $\kappa: \mathcal{M}(\IR^d \times [0, \infty)) \to \mathcal{M}(\IR^d)$
+by $\kappa(\xi)(\cdot) = \lim_{u_0 \to \infty} \xi(\cdot \times [0, u_0]) / u_0$.
+We will also need an inverse notion:
+for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a sigma-field $\mathcal{F}$,
+we say that \emph{$\lp^N$ is conditionally uniform given $\mathcal{F}$}
+if for all compactly supported $f$,
+\begin{align} \label{eqn:conditionally_uniform}
+    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
+    &=
+    e^{-\langle F_f^N, \kappa(\lp) \rangle} ,
+\end{align}
+where
+$$ F_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
+In other words, the $[0, N]$ components of $\lp$
+are independent, uniformly distributed on $[0, N]$, and independent of $\kappa(\lp)$.
+Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
+we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
+if for all compactly supported $f$,
+\begin{align} \label{eqn:conditionally_poisson}
+    \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
+    &=
+    e^{-\langle \int_0^\infty (1 - e^{-f(x, u)}) du, \kappa(\lp)(dx) \rangle} .
+\end{align}
+In other words, $\lp$ is conditionally Poisson with Cox measure $\kappa(\lp) \times \lambda$,
+where $\lambda$ is Lesbegue measure.
+
+\begin{proposition}
+    \label{thm:mmt_application}
+    If $\tilde \eta^N$ is a solution
+    of the martingale problem of Definition~\ref{defn:mgale_construction}
+    with initial distribution $\eta^N_0$
+    then there exists a solution $\lp^N$
+    of the $(A^N, \lp^N_0)$-martingale problem of Definition~\ref{defn:lookdown_mgale}
+    such that $\eta^N = \kappa \circ \lp^N$
+    has the same distribution on $D_{\measures}[0, \infty)$
+    as $\tilde \eta^N$.
+    Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform given given $\mathcal{F}^{\eta^N}_t$
+    in the sense of \eqref{eqn:conditionally_uniform}.
+
+    Similarly,
+    if $\tilde \eta$ is a solution
+    of the limiting martingale problem of Theorem~\ref{thm:nonlocal_convergence}
+    with initial distribution $\eta_0$
+    then there exists a solution $\lp$
+    of the martingale problem of of Definition~\ref{defn:limiting_lookdown_mgale}
+    such that $\eta = \kappa \circ \lp$
+    has the same distribution on $D_{\measures}[0, \infty)$
+    as $\tilde \eta$.
+    Furthermore, $\lp_t$ is conditionally Poisson given $\mathcal{F}^{\eta}_t$
+    in the sense of \eqref{eqn:conditionally_poisson}.
+\end{proposition}
+
+\comment{In this section I haven't specified the filtration for the martingale problem.}
+
+Now we can present the main convergence theorem that is analogous
 to Theorem~\ref{thm:nonlocal_convergence} for the population process.
 
-\comment{the next theorem needs rewriting along the lines of Thm A.12 in 
-Kurtz and Rodrigues.}
+\comment{the next theorem needs rewriting along the lines of Thm A.12 in Kurtz and Rodrigues.}
+\comment{TODO: it's been rewritten some; but needs checking against that Thm yet}
 
 \begin{theorem}
     \label{thm:lookdown_convergence}
-    Let $(\lp_t^N)$ be as defined in Definition~\ref{defn:lookdown_mgale}
+    Let $(\lp_t^N)$ satisfy Definition~\ref{defn:lookdown_mgale}
     and assume that as $N \to \infty$,
     $\theta \to \infty$ in such a way that $\theta/N \to \alpha$.
-    Suppose also that $\eta^N_0 \to \eta_0$ (as measures on $\IR^d$),
-    and that for each $N$, $\lp^N_0(dx, du)$ is conditionally Poisson on $\IR^d \times [0, N]$
-    with Cox measure $\eta^N_0(dx) \times du$.
+    Let $\eta_0^N = \kappa(\lp_0^N)$ and
+    suppose also that $\eta^N_0 \to \eta_0$ (as finite measures on $\IR^d$),
+    and that for each $N$, $\lp^N_0$ is conditionally uniform given $\eta_0^N$
+    in the sense of \eqref{eqn:conditionally_uniform}.
     Then, the sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
     converges along subsequences in distribution as $N \to \infty$
     to a measure-valued process $(\lp_t)_{t \ge 0}$
-    with $\lp_0$ conditionally Poisson with Cox measure $\eta_0(dx) \times du$,
-    that is a solution to the martingale problem~\ref{defn:limiting_lookdown_mgale}.
+    with $\lp_0$ conditionally Poisson given $\eta_0 = \kappa(\lp_0)$
+    in the sense of \eqref{eqn:conditionally_poisson},
+    that is a solution to the martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}.
 \end{theorem}
 
 
@@ -2904,8 +2842,7 @@ The main interest in using a lookdown construction for our population
 processes is that it allows us to retain information about the 
 relatedness of individuals as we pass to the infinite population limit.
 In order to exploit this, in this section we write down stochastic 
-equations for the locations and levels of individuals in the lookdown
-representation of the prelimiting model.
+equations for the locations and levels of individuals in the prelimiting lookdown model.
 We will then be able to pass to the scaling limit.
 This provides an explicit description of the solution to
 the limiting martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}
@@ -2916,14 +2853,14 @@ recover all the information about genealogies relating individuals
 sampled from the present day population. This idea draws on the notion
 of ``tracers'', popular in statistical physics and used in population
 genetics by a number of authors including 
-\cite{hallatschek/nelson:2008, durrett/fan:2016, biswas/etheridge/klimek:2018}.
+\citet{hallatschek/nelson:2008}, \citet{durrett/fan:2016}, and \citet{biswas/etheridge/klimek:2018}.
 
 We will construct the process using a Ulam-Harris indexing scheme.
-First, we assign each extant individual a unique label from $\IN_{\ge 0}$.
+First, we assign each individual alive at time 0 a unique label from $\IN$.
 Suppose an individual with label $a$ and level $u$ reproduces,
 and as a result there are two individuals, one with level $u$ and one with a new level $u_1 > u$.
 The parent individual, previously labeled $a$, might be assigned either level.
-We will track chains of descendant individuals forwards through time
+We will track chains of descendant individuals forwards through time by
 following levels, rather than individuals, and will call this a \emph{line of descent}.
 So, after reproduction, we give a new label to \emph{only} the individual
 that is given the new level $u_1$,
@@ -2936,9 +2873,8 @@ Concretely, then: for each label $a$ in
 $\labelspace = \bigcup_{k \ge 1} \IN^k$,
 let $\Pi_a$ be an independent Poisson process on 
 $[0, \infty)^2 \times \IR^d \times \{0,1\}$.
-The mean measure of each $\Pi_a$ is a product of Lebesgue 
-measure on the first two coordinates,
-the density of the standard Gaussian $N(0,1)$ on $\IR^d$, and 
+The mean measure of each $\Pi_a$ is a product of Lebesgue measure on $[0, \infty)^2$,
+the density of the standard Gaussian on $\IR^d$, and 
 $(\delta_0 + \delta_1)/2$ on $\{0, 1\}$.
 It will also be convenient
 to suppose that for each label $a$ we have an enumeration of the points in $\Pi_a$,
@@ -2957,6 +2893,13 @@ when it is first assigned,
 and a (possibly infinite) death time $\sigma_a$, when its level first hits $N$.
 For any $\tau_a \le t \le \sigma_a$ we denote by $X_a(t)$ and $U_a(t)$ the spatial location and level
 of the individual carrying label $a$ at time $t$, respectively.
+Furthermore, define
+\begin{align*}
+    \eta^N_t = \frac{1}{N} \sum_{a : \tau_a \le t < \sigma_a} \delta_{X_a(t)}
+    \qquad \text{and} \qquad
+    \lp^N_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} .
+\end{align*}
+
 Now, since we have defined labels so that the level does not jump,
 $U_a$ satisfies~\eqref{differential equation for level}
 	for $\tau_a \le t \le \sigma_a$, i.e.,
@@ -2968,10 +2911,9 @@ $U_a$ satisfies~\eqref{differential equation for level}
 &\qquad {}   
     + \int_{\tau_a}^{t}
     \left(
-        \frac{\theta}{N} \gamma(X_a(s),\eta_s)
-        \int_{\IR^d} r(z,\eta_s) q(X_a(s),dz) U_a(s)^2
+        c_\theta(X_a(s),\eta_s) U_a(s)^2
         -
-        b(X_a(s),\eta_s) U_a(s)
+        b_\theta(X_a(s),\eta_s) U_a(s)
     \right)
     ds ,
 \end{split}
@@ -2979,12 +2921,12 @@ $U_a$ satisfies~\eqref{differential equation for level}
 and, of course, $\sigma_a = \inf\{t \ge \tau_a : U_a(t) > N\}$.
 
 Potential reproduction events occur at times $\tau$
-for each point $(\tau, v, z, \kappa) \in \Pi_a$ with $\tau \ge \tau_a$.
-We say ``potential'' since if the resulting level is greater than $N$,
-the event does not happen.
+for each point $(\tau, v, z, \kappa) \in \Pi_a$ with $\tau_a \le \tau < \sigma_a$.
+(We say ``potential'' since if the level of the resulting offspring is greater than $N$,
+the event does not happen.)
 If this is the $j^\text{th}$ point in $\Pi_a$,
-the new label is $a \concat j$, the (potential) birth time is $\tau_{a \concat j} = \tau$.
-Similarly, the potential birth location is $y(X(\tau-), z)$, where
+the potential new label is $a \concat j$, the birth time is $\tau_{a \concat j} = \tau$,
+and the spatial displacement of the potential ogfspring is $y(X(\tau-), z)$, where
 $$
     y(x, z)
     :=
@@ -3023,7 +2965,7 @@ and, using this, the (potential) new level is
     =
     U_a(\tau)
     +
-    v \ell\big(X_a(\tau-), y(X_a(\tau-), z), \eta(\tau-)\big) .
+    v \ell\big(X_a(\tau-), y(X_a(\tau-), z), \eta_{\tau-} \big) .
 \end{equation*}
 If $U_{a \concat j}(\tau) < N$,
 the new individual labeled $a \concat j$ is produced,
@@ -3051,6 +2993,7 @@ Combining these observations, $X_a$, for $\tau_a \le t < \sigma_a$, solves the e
 \begin{align*}
     X_a(t)
     &=
+    X_a(\tau_a) + 
     \int_{[\tau_a, t) \times [0, \infty) \times \IR \times [0, 1]}
     y(X_a(\tau-), z)
     \kappa
@@ -3072,22 +3015,14 @@ to write down the time evolution of $(X_a(t), U_a(t))$ for all time back
 to $t=0$
 in terms of the driving Poisson processes.
 
-We can now express the population processes using these levels:
-\begin{align*}
-    \eta^N_t = \frac{1}{N} \sum_{a : \tau_a \le t < \sigma_a} \delta_{X_a(t)}
-    \qquad \text{and} \qquad
-    \lp^N_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} .
-\end{align*}
-
 \begin{remark}
-    Although we have a single construction that couples
-    the processes across all $N$, the actual 
-trajectories, $X_a(\cdot)$, do not necessarily coincide for 
-different values of $N$, since they are affected by the whole 
-population process.
-    However, this does suggest approximating the genealogies
-    by simulating up until a sufficiently high level
-    that we have a good approximation to the population process.
+Although we have a single construction that couples the processes across all $N$,
+unlike in \citet{kurtz/rodrigues:2011},
+the actual trajectories, $X_a(\cdot)$, do not necessarily coincide for 
+different values of $N$, since they are affected by the whole population process.
+However, this does suggest approximating the genealogies in the infinite density limit
+by simulating up until a sufficiently high level
+that we have a good approximation to the population process.
 \end{remark}
 
 % % % % % % % % % % % % %  % % %
@@ -3113,14 +3048,14 @@ consider how a line of descent $(X_a(t), U_a(t))$ evolves.
 It throws off a new line of descent at a higher level
 when there is a point $(\tau, v, z, \kappa)$ in $\Pi_a$ with $\tau > \tau_a$ and
 \begin{equation} \label{eqn:line_points}
-    v < 2 \frac{\big(N - U_a(\tau-)\big)}{N} \theta \gamma(X_a(\tau-), \eta_{\tau-}) 
+    v < 2 \frac{\big(N - U_a(\tau)\big)}{N} \theta \gamma(X_a(\tau-), \eta_{\tau-}) 
 	r\Big(X_a(\tau-) + y\big(X_a(\tau-),z\big), \eta_{\tau-}\Big) .
 \end{equation}
 Since the mean measure of the $v$ coordinate is Lebesgue measure,
 $\theta/N \to \alpha$,
 and $q_\theta(x, dy) \to \delta_x(dy)$,
 this corresponds in the limit to new lines of descent being thrown off 
-according to a Poisson Point Process with intensity
+according to a Poisson process with intensity
 $$
 2 \alpha \gamma(X_a(t), \eta_t) r(X_a(t), \eta_t)dt \times du.
 $$
@@ -3162,13 +3097,13 @@ and $\DG(gr)$ are well-defined.
 
 We write out the differential operator above in more detail.
 Recall that $\DG g(x) = \sum_i \meanq_i \partial_i g(x) + \sum_{ij} \covq_{ij} \partial_{ij} g(x)$,
-and for the moment write $r(x)$ for $r(x, \eta)$,
+and for the moment write $r(x)$ for $r(x, \eta)$, $\meanq(x) = \meanq$, and $\covq(x) = \covq$
 so that
 \begin{align}
 \DG(rg)(x) - g(x) \DG(r)(x)
     &= \nonumber
     r(x) \sum_i \meanq_i \partial_i g(x)
-    + 2 \sum_{ij} \meanq_i \partial_i r(x) \covq_{ij} \partial_j g(x)
+    + 2 \sum_{ij} \partial_i r(x) \covq_{ij} \partial_j g(x)
     + r(x) \sum_{ij} \covq_{ij} \partial_{ij} g(x) \\
     &= \label{eqn:limiting_generator}
     r(x) \left\{
@@ -3192,8 +3127,8 @@ We summarize the results in a proposition.
 \begin{proposition}[Line of descent construction]
     \label{prop:limiting_construction}
 Let 
-$J(x,\eta)$ be such that $\gamma(x,\eta)\covq(x) = J(x,\eta) J(x,\eta)^T$, and set
-$\beta(x, \eta) = \gamma(x,\eta)\big(\meanq(x) + 2 \covq(x) \grad \log r(x, \eta)\big).$
+$J(x,\eta)$ be such that $r(x,\eta)\gamma(x,\eta)\covq(x) = J(x,\eta) J(x,\eta)^T$, and set
+$\beta(x, \eta) = r(x,\eta)\gamma(x,\eta)\big(\meanq(x) + 2 \covq(x) \grad \log r(x, \eta)\big).$
 Associate with each label $a \in \labelspace = \cup_{k\geq 1}\IN^k$
 an independent $d$-dimensional Brownian motion $W_a$
 and an independent Poisson process $R_a$ on $[0, \infty)^2$
@@ -3204,13 +3139,13 @@ let $(x_i, u_i)$ be the points of a Poisson process $R_0$
 on $\IR^d \times [0, \infty)$ 
 with mean measure $\eta_0\times \lambda$
 (the product of $\eta_0$ and Lebesgue measure).
-For each point of $R_0$, begin a line of descent
+For each $i$, with $(x_i, u_i)$ the $i^\text{th}$  point of $R_0$, begin a line of descent
 with label $i$, location $X_i(0) = x_i$, 
 level $U_i(0) = u_i$, and birth time $\tau_i = 0$.
 
-We write $\tau_a$ for the birth time of the label $a$ and 
+Write $\tau_a$ for the birth time of the label $a$ and 
 $\sigma_a = \lim_{K \to \infty} \inf\{t \ge 0: U_a(t) > K\}$
-is the first time the level corresponding to the label $a$ exceeds $K$.
+the time the level hits $\infty$.
 Suppose that the spatial locations and level of each line of descent $a$
 solve, for $\tau_a \le t < \sigma_a$,
 \begin{align*}
@@ -3247,8 +3182,9 @@ with birth time $\tau_{a \concat j} = \tau$,
     location $X_{a \concat j}(\tau) = X_a(\tau)$, and level
 $$
     U_{a \concat j}(\tau) = U_a(\tau)
-    + \frac{v}{ 2 \alpha \gamma(X_a(\tau), \eta_\tau) r(X_a(\tau), \eta_\tau) } .
+    + \frac{v}{ 2 \alpha \gamma(X_a(\tau), \eta_\tau) r(X_a(\tau), \eta_\tau) } ,
 $$
+if this is finite.
 For any solution to the equations above, the processes defined by
 \begin{align*}
     \eta_t
@@ -3271,138 +3207,17 @@ and their trace is seen in the
 spatial motion of the line of descent which results from
 the production of these lineages.
 
-\comment{TODO: find the right place for this proof?}
 \begin{proof}[of Proposition~\ref{prop:limiting_construction}]
     The fact that a solution to the system of equations
     is a solution to the martingale problem of Theorem~\ref{thm:lookdown_convergence}
     is an application of It\^o's theorem.
-    The calculations in \comment{XXX} leading to our application
-    of the Markov Mapping Theorem then show that 
+    Theorem~\ref{thm:mmt_application} shows that
     the conditional Poisson property of $\lp_0$ is preserved
     (i.e., holds for $\lp_t$ for all $t$), and so
     $(\eta_t)_{t \ge 0}$ is well-defined,
     and furthermore that $\eta_t$ is a solution
     to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
-
-\comment{Don't we have to state everything in terms of subsequences along which the
-empirical measures converge?}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Motion of ancestral lineages}
-\label{ancestral lineages}
-
-We now show how, in the case in which the scaling limit of the population 
-process is deterministic, one can read off a description of 
-the motion of ancestral lineages from that of 
-the lines of descent derived in the previous subsection.
-
-Consider then a population evolving according to one of our deterministic
-limiting models. There are no births of new levels; 
-changes in population size are reflected only through the motion 
-of levels. 
-
-We shall restrict ourselves
-to the setting in which the population is expanding as a travelling wave
-through $\IR$, with fixed profile $w(x)$ moving at rate $c$. That is 
-$$\Xi_t(x)=w(x-ct),$$
-for some fixed function $w$ and some $c>0$.
-The profile $w$ will satisfy
-\begin{equation}
-\label{profile}
-r\DG^*(\gamma w)+Fw+c\partial_x w=0.
-\end{equation} 
-It is convenient to work in a moving frame so that the wavefront is fixed.
-Let $Y$ denote the diffusion followed by a single line of descent in this frame; 
-i.e.~the diffusion with generator 
-${\cal L}^Yf=\gamma \DG(rf)-\gamma f\DG(r)-c\partial_x f$.
-%\overline{B}(w)\phi-c\phi_x$.
-For the motion of its level, note that 
-$b=\gamma\DG(r)+F$, and,  
-since we are in the deterministic limit, $\alpha=0$.
-
-Informally, the intensity of levels at $y$ at time $t$ that are descended from 
-individuals that were at $x$ at time $0$ is
-\begin{equation}
-\label{formal intensity}
-w(x)\IE_x\left[\exp\left(\int_0^t b(Y_s)ds\right)\ind_{Y_t=y}\right]dy,
-\end{equation}
-where the subscript $x$ in the expectation indicates that $Y_0=x$.
-To see why this should be true, 
-suppose that an ancestor has level $u$. Conditional on its 
-spatial motion $\{Y_s\}_{0\leq s\leq t}$, its level at time $t$ will
-be $u\exp(-\int_0^tb(Y_s)ds)$. This will be less than a given level 
-$\lambda$ if $u<\lambda \exp(\int_0^tb(Y_s)ds)$. 
-The intensity of levels at $y$ that are descended from individuals at
-$x$ can therefore be obtained as the limit as $\lambda\to\infty$ of 
-$1/\lambda$ times the number of levels at $x$ at time zero with
-$u<\lambda \exp(\int_0^tb(Y_s)ds)$ and for which
-the corresponding individual is at $y$ at time $t$, which is 
-precisely the quantity in~(\ref{formal intensity}). 
-
-Note that at time $0$ the expression in~(\ref{formal intensity}) is satisfied, and that
-writing 
-\[
-\psi(t,x)=
-\IE_x\left[\exp\left(\int_0^t b(Y_s)ds\right)\ind_{Y_t=y}\right],
-\]
-and substituting the expressions for ${\cal L}^Y$ and $b$ from above, we have
-\begin{eqnarray*}
-\frac{d}{dt}\int
-w(x)\psi(t,x)dx&=& \int w(x)\Big\{\Big(\gamma\DG(r\psi)-\gamma\psi\DG(r)-c\partial_x\psi\Big)
-+\psi\gamma\DG(r)+\psi F\Big\}dx
-\\
-&=&\int\psi\Big\{r\DG^*(\gamma w)+Fw+c\partial_x w\Big\}dx=0.
-\end{eqnarray*}
-Thus when we integrate~(\ref{formal intensity})
-with respect to $x$ we recover $w(y)dy$. 
-As a consequence of~(\ref{formal intensity}), writing 
-$\mathfrak{p}(t,y,x)$ for
-the probability density that the ancestor at time $t$ units before the present 
-of an individual sampled 
-at $y$ was at $x$, then, still informally,
-\begin{equation}
-\label{ptyx}
-\mathfrak{p}(t,y,x)=\frac{w(x)}{w(y)}\IE_x\left[\exp\left(\int_0^t b(Y_s)ds\right)
-\ind_{Y_t=y}\right].
-\end{equation}
-
-To make~(\ref{ptyx}) meaningful, we multiply by suitable test functions and 
-integrate.
-$$\int\int \psi(y)w(y)\mathfrak{p}(t,y,x)\phi(x)dydx=\int\phi(x)w(x)
-\IE_x\left[\exp\left(\int_0^tb(Y_s)ds\right)\psi(Y_t)\right]dydx.$$
-
-Writing $\hat{T}_t$ for the semigroup corresponding to the motion of 
-ancestral lineages backwards in time (that is the semigroup corresponding
-to $\mathfrak{p}(t,y,x)$), we can write this as 
-$$\int \psi(y)w(y)\hat{T}_t\phi(y)dy=\int\phi(x)w(x)
-\IE_x\left[\exp\left(\int_0^tb(Y_s)ds\right)\psi(Y_t)\right]dx.$$
-Differentiating with respect to $t$ at $t=0$, and writing 
-$\hat{\mathcal L}$ for the generator of $\hat{T}_t$, we find
-\begin{eqnarray*}
-\int \psi(y)w(y)\widehat{\mathcal L}\phi(y)dy&=&
-\int\phi(x)w(x)\left({\mathcal L}^Y+b\right)\psi(x)dx\\
-&=&\int\phi(x)w(x)\left(\gamma\DG(r\psi)-\gamma\psi\DG r -c\nabla\psi 
-+b\psi\right)dx\\
-&=&\int\phi(x)w(x)\left(\gamma\DG(r\psi)-c\nabla\psi+F\psi\right)dx\\
-&=&
-\int\psi(x)\left[r\DG^*(\gamma \phi w)+F\phi w+c\nabla(\phi w)\right]dx.
-\end{eqnarray*}
-Since $\psi$ was arbitrary,
-
-\begin{eqnarray*}
-\hat{\mathcal L}\phi&=&\frac{1}{w}\left[ r\DG^* (\gamma\phi w)+F\phi w
-+c\nabla(\phi w)\right]\\
-&=&\frac{\phi}{w}\left[r\sigma^2\Delta(\gamma w)+Fw+-\meanq \grad(\gamma\phi) w +c\nabla w\right]
-\\
-&& +\frac{1}{w}\left[r\gamma w\sigma^2\Delta \phi +2r\sigma^2\nabla (\gamma w)
-\nabla\phi -\meanq \gamma\phi \grad w+cw\nabla\phi\right]\\
-&=&r\gamma\left(\sigma^2\Delta\phi+2\sigma^2r\frac{\nabla(\gamma w)}{\gamma w}\nabla\phi\right)
--\meanq\gamma\nabla\phi+c\nabla\phi,
-\end{eqnarray*}
-where we have used that $w$ solves~(\ref{profile}), and we have recovered~(\ref{Lgen}).
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3432,14 +3247,14 @@ limit.
 
 \subsection{Preliminaries}
 
-First, we prove Lemma~\ref{conditions on r}.
+First, we prove Lemma~\ref{lem:conditions on r}.
 
-\begin{proof}[of Lemma~\ref{conditions on r}]
+\begin{proof}[of Lemma~\ref{lem:conditions on r}]
     TODO MOVE PROOF HERE
 \end{proof}
 
 % % % % % % % % % % % % %
-\subsection{Proof of Theorem~\ref{thm:nonlocal_convergence}: nonlocal limit points}
+\subsection{Proof of Theorem~\ref{thm:nonlocal_convergence}: limit points for the nonlocal process}
     \label{sec:population_density_proof}
 
 In this section we prove 
@@ -3462,13 +3277,9 @@ processes in $\cmeasures$
 (for which, since we have compactified $\IR^d$,
 it suffices to consider the sequence of total masses); armed with this, 
 %Theorem~3.9.1 of~\cite{ethier/kurtz:1986} tells us that 
-tightness of the population processes 
-in $\mathcal{D}_{\cmeasures}([0,\infty))$
-will follow if we can 
-establish tightness of the 
-real-valued processes $(G(\eta_t))_{t\geq 0}$ for a sufficiently large
-class of test functions $G$, which we check 
-through an application of the
+tightness of the population processes in $\mathcal{D}_{\cmeasures}([0,\infty))$
+follows from tightness of the real-valued processes $(G(\eta_t))_{t\geq 0}$ for a sufficiently large
+class of test functions $G$, which we establish through an application of the
 Aldous-Rebolledo criterion in Lemma~\ref{lem:eta_projections_tightness}.
 These ingredients are gathered together in 
 Proposition~\ref{tightness in one point compactification}
@@ -3652,7 +3463,7 @@ this case
 Under Condition~\ref{control through gamma} of 
 Assumptions~\ref{def:model_setup}, the right hand side is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
-$m^2\gamma(m)$ is bounded. We have shown that $B_f$ is bounded, and so recalling that
+$m^2\gamma(m)$ is bounded. We have shown that $\gamma B_f$ is bounded, and so recalling that
 $F$ is bounded above, we can now conclude that
 under Assumptions~\ref{def:model_setup}
     $\gamma(x, \eta) B_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
@@ -3709,7 +3520,7 @@ independent of $N$,
     $\IE[\langle 1, \eta^N_t \rangle] \le \IE[\langle 1, \eta^N_0 \rangle] e^{Ct}$
     for some $C$ (independent of $N$).
     Now, let $M^*_t(f) = \sup_{0 \le s \le t} M_t(f)$,
-    and as before $[M(f)]_t$ the quadratic variation of $M_t(f)$,
+    and as before let $[M(f)]_t$ be the quadratic variation of $M_t(f)$,
     so that by the Burkholder-Davis-Gundy inequality, there is a $C'$ so that,
 in the notation of Lemma~\ref{lem:eta_f_bound},
     \begin{align*}
@@ -3727,7 +3538,7 @@ in the notation of Lemma~\ref{lem:eta_f_bound},
                 \int_{\IR^d} r(y, \eta^N_s) q_\theta(x, dy)
                 + \mu_\theta(x, \eta^N_s)
             \right\}, \eta_s^N(dx)\Big\rangle
-            dt
+            ds
             \right] \right)
         \\ &=
         C'\left( 1 + \IE\left[
@@ -3738,7 +3549,7 @@ in the notation of Lemma~\ref{lem:eta_f_bound},
 		+ \frac{\gamma(x,\eta_s^N)}{N} 
 		B_1(x, \eta^N_s)-\frac{1}{N}F(x,\eta^N_s)
             \right\}, \eta_s^N(dx) \Big\rangle
-            dt
+            ds
             \right] \right) .
     \end{align*}
 
@@ -3749,7 +3560,7 @@ in the notation of Lemma~\ref{lem:eta_f_bound},
 	\begin{equation}
 		\label{integral of -F}
 \IE\left[\int_0^t \Big\langle -F(x, \eta^N_s), \eta^N_s(dx)
-	\Big\rangle\right]
+	\Big\rangle ds \right]
 	=\IE[\langle 1, \eta^N_0\rangle] -\IE[\langle 1,\eta^N_t\rangle]
 	+\IE\left[\int_0^t\Big\langle %int_{\IR^d}
 \gamma(x,\eta_s^N)
@@ -3808,7 +3619,6 @@ $\langle 1,\eta_t\rangle\geq 0$.
     \end{equation*}
 \end{proof}
 
-\subsubsection{Tightness}
 
 Our next task is to show tightness of 
 $(\langle f,\eta_t^N\rangle)_{t\geq 0}$ for 
@@ -3826,10 +3636,9 @@ as a sequence of c\`adl\`ag, real-valued processes.
 The Aldous-Rebolledo criterion (found in the form we use here in \cite{rebolledo:1980}),
 applied to the semimartingale representation of $\langle f, \eta^N_t\rangle$
 of equation~\eqref{eqn:eta_f_mgale_decomp}, tells us
-that it suffices to show that for each $T>0$, for each fixed 
-$0\leq t\leq T$, the sequence 
-$\{\langle f, \eta^N_t \rangle\}_{N \ge 1}$ is tight, and that
-for any sequence of stopping times $\tau_N$ bounded by $T$,
+that it suffices to show that for each $T>0$,
+(a) for each fixed $0\leq t\leq T$, the sequence $\{\langle f, \eta^N_t \rangle\}_{N \ge 1}$ is tight,
+and (b) for any sequence of stopping times $\tau_N$ bounded by $T$,
 and for each $\nu > 0$, there exist $\delta > 0$ and $N_0 > 0$ such that 
 \begin{gather}
         \label{eqn:eta_projections_goal1}
@@ -3870,15 +3679,19 @@ noting that $\smooth{F}\eta\leq
 \langle 1,\eta\rangle\|\rho_F\|_\infty$,
 and using Lemma~\ref{lem:eta_compact_containment} 
 to choose $N_0$ and $K$ such that
-$$\IP\left[\sup_{0\leq s\leq T}\langle 1, \eta_s^N\rangle\geq K\right]<\nu,$$
+if $N > N_0$, then
+$$
+    \IP\left\{\sup_{0\leq s\leq T}\langle 1, \eta_s^N\rangle\geq K\right\} < \nu,
+$$
 we now choose $\delta_1$ so that
-$$\sup\big\{
-\sup_{x}|F(x,k)|
-: k\leq K\|\rho_F\|_\infty \big\}\delta_1
-<\nu/2,
-\qquad
-\sup_{x,\eta}\gamma(x,\eta)B_f(\,\eta)\delta_1<\nu/2,$$
-and~(\ref{eqn:eta_projections_goal1}) is satisfied.
+$$
+    \delta_1 \|f\|_\infty \sup\big\{ \sup_{x}|F(x,k)| : k\leq K\|\rho_F\|_\infty \big\}
+    <
+    \nu/2,
+    \qquad
+    \sup_{x,\eta}\gamma(x,\eta)B_f(\,\eta)\delta_1<\nu/2,
+$$
+so that~\eqref{eqn:eta_projections_goal1} is satisfied with $\delta = \delta_1$.
 
 Similarly,
 \begin{align*}
@@ -3959,16 +3772,15 @@ $f \in \mathcal{C}^{\infty}_{b}(\overline{\IR}^d)$.
 \end{proof}
 
 
-% % % % % % % % % % % % %
-\subsubsection{Characterisation of the limit points}
-    \label{sec:population_generators_proofs}
-
 We wish to characterise the limit points of
 $\{(\eta^{N}_t)_{t>0}\}_{N\geq 1}$ as solutions to a martingale problem 
 with generator $\Pgen^{\infty}$ which we now identify. Most of the work
 was done in Section~\ref{sec:heuristics}.
+First, we record an equivalent formulation
+of the martingale problem for the limiting process,
+that follows by application of It\^o's lemma.
 
-\begin{definition}
+\begin{lemma}
     \label{def: MP definition of limit}
 For $G \in \mathcal{C}^{\infty}(\IR)$ with $\|G'''\|_\infty<\infty$,
 and 
@@ -4007,14 +3819,20 @@ given by
                   \right\}.
 \end{aligned}    
 \end{equation}
-We say that $(\eta^{\infty}_t)_{t \geq 0}$ is a solution 
-to the $(\Pgen^{\infty}, \eta_0)$-martingale problem if 
-for all such test functions 
-$$M_t:=G_f(\eta^{\infty}_t)-G_f(\eta_0)
--\int_{0}^{t}\Pgen^{\infty}G_f(\eta^{\infty}_s)ds$$
-	is a martingale (with respect to the natural $\sigma$-field). 
-\end{definition}
+A process $(\eta^{\infty}_t)_{t \geq 0}$ 
+is a solution to the $(A, \lp_0)$-martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}
+if and only if it is a solution 
+to the $(\Pgen^{\infty}, \eta_0)$-martingale problem, i.e.,
+if for all such test functions 
+$$
+    M_t :=
+    G_f(\eta^{\infty}_t)-G_f(\eta_0)
+    - \int_{0}^{t}\Pgen^{\infty}G_f(\eta^{\infty}_s)ds
+$$
+is a martingale (with respect to the natural $\sigma$-field). 
+\end{lemma}
 
+\comment{TODO: define $\mathcal{P}^N$.}
 
 \begin{lemma}[Characterisation of limit points]
     \label{lem:limit_mgale}
@@ -4033,7 +3851,7 @@ G \in \mathcal{C}^{\infty}(\IR), \|G'''\|_\infty<\infty,~
 f \in \mathcal{C}_{b}^\infty(\overline{\IR}^d)\}$
 is separating 
 on $\mathcal{M}_F(\overline{\IR}^d)$.
-Therefore, it suffices to show that for any $t>0$,
+Therefore, it suffices to show that for any $t>0$ and $\tau > 0$ that
 \begin{equation}
     \label{eq: Convergence Condition}
 \lim_{N \to \infty}
@@ -4121,7 +3939,7 @@ that $\mu_\theta(x,\eta) \to r(x,\eta)\gamma(x,\eta)$ as $\theta\to\infty$, we h
 pointwise convergence:
 \begin{equation}
 \lim_{N\to \infty} |\mathcal{P}^{N}G(\langle f, \eta \rangle) 
-- \mathcal{P}^{\infty}G(\langle f, \eta \rangle)| = 0,   
+- \mathcal{P}^{\infty}G(\langle f, \eta \rangle)| = 0 .
 \end{equation}
 To conclude convergence of the expectation, 
 we would like to apply the Dominated Convergence 
@@ -4151,14 +3969,14 @@ which concludes our proof.
 
 The last step in the proof of Theorem~\ref{thm:nonlocal_convergence}
 is to check that
-any limit point $(\eta_t)_{t\geq 0}$ of $\{(\eta_t)_{t\geq 0}\}_{N\geq 1}$
-actually takes its values in $\measures$; that is ``no mass has escaped to infinity''.
+any limit point $(\eta_t)_{t\geq 0}$ of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$
+actually takes its values in $\measures$, that is, ``no mass has escaped to infinity''.
 
 \begin{lemma}
 \label{no mass at infty}
 Under the assumptions of Theorem~\ref{thm:nonlocal_convergence},
 let $(\eta_t)_{t\geq 0}$ be a limit point of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$. 
-Given $\delta>0$, 
+For any $\delta>0$, 
 \[
 \IP\big[\eta_t\big(\{\|x\|>R\}\big)>\delta\big]\to 0\qquad\mbox{ as }R\to\infty.
 \]
@@ -4184,16 +4002,20 @@ substituted in~(\ref{special case first moment equation}) and
 expanded the term involving the Laplacian, we obtain
 \begin{multline}
 \label{exponential moment}
-\IE[\langle \exp(\lambda x),\eta_t\rangle]
-=\IE[\langle \exp(\lambda x),\eta_0\rangle]
-+\IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
-\exp(\lambda x)
-\Big\{\lambda^2 r(x, \smooth{r}\eta_s(x))
-\\
-+2\lambda\partial_x\big(r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
-+\partial_{xx} r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
-+F(x,\smooth{F}\eta_s(x))\Big\} ,
-\eta_s(dx)\Big\rangle ds\Big].
+    \IE[\langle \exp(\lambda x),\eta_t\rangle]
+    =
+    \IE[\langle \exp(\lambda x),\eta_0\rangle]
+    +
+    \IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
+    \exp(\lambda x)
+    \Big\{
+        \lambda^2 r(x, \smooth{r}\eta_s(x))
+    \\ {}
+        + 2\lambda\partial_x\big(r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
+        + \partial_{xx} r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
+    \Big\} 
+    + F(x,\smooth{F}\eta_s(x)),
+    \eta_s(dx)\Big\rangle ds\Big] .
 \end{multline} 
 Evidently, in much the same way as in the proof of
 Lemma~\ref{lem:eta_f_bound},
@@ -4221,14 +4043,14 @@ $\rho_r$, $\rho_\gamma$, and $\rho_F$ by setting
 $\rho^\epsilon(\cdot)=\rho(\cdot/\epsilon)/\epsilon$, as $\epsilon\to 0$, the 
 corresponding solutions should converge to a limiting
 population density that solves the corresponding ``classical'' PDE. We verify
-this in two examples; in the first the nonlocal equation is a reaction
-diffusion equation with the ``nonlocality'' only appearing in the 
+this in two examples; in the first the nonlocal equation is a reaction-- diffusion equation
+with the ``nonlocality'' only appearing in the 
 reaction term; in the second the nonlocal PDE is a special 
 case of a nonlinear porous medium equation. These, in particular,
 capture the examples that we explored in 
 Section~\ref{ancestral lineages for travelling waves}.
 
-\subsubsection{Reaction diffusion equation limits}
+\subsubsection{Reaction--diffusion equation limits}
 \label{two-step convergence to FKPP}
 
 In this subsection we prove Proposition~\ref{prop:nonlocal_to_local}. {\em The conditions of the
@@ -4265,6 +4087,7 @@ K  \frac{\|x-y\|}{\sqrt{t}},
 \end{align*}
 which proves the result.
 \end{proof}
+
 \begin{lemma} \label{regularityForX2}
 Fix $T>0$. Let $x,y \in \mathbb{R}^d$, $t \in [0,T]$. Let us denote by 
 $(Z_t^y)_{t\geq 0}$ and $(Z_t^x)_{t\geq 0}$ independent copies of the 
@@ -4297,7 +4120,7 @@ Brownian motion started from the origin,
 Substituting (\ref{eq:ExpDif2}) in (\ref{eq:ExpDif1}) gives the result.
 \end{proof}
 
-We use the representations:
+We use the representations of the solutions to equations \eqref{localPDE} and \eqref{nonlocalPDEv1} respectively:
 \begin{align}
 \varphi_t(x) &= \IE_x\Big[\varphi_0(Z_t) 
 + \int_0^t \varphi_s(Z_s)F(\varphi_s(Z_s)) ds\Big], \label{FK:varphi} \\
@@ -4308,9 +4131,10 @@ from which
 \begin{equation} 
 \varphi_t(x) - \varphi^\epsilon_t(x) = 
 \IE_x\left[ \int_0^t \Big(\varphi_s(Z_s)F\big(\varphi_s(Z_s)\big)
--\varphi^\epsilon_s(Z_s)F\big(\rho_\epsilon*\varphi^\epsilon_s(Z_s)\big)\Big) ds \right]. 
+-\varphi^\epsilon_s(Z_s)F\big(\rho_\epsilon*\varphi^\epsilon_s(Z_s)\big)\Big) ds \right] ,
 \label{FK:diferencesVarphis}
 \end{equation}
+where $\IE_x$ denotes expectation for $Z$ with $Z_0 = x$.
 The key to our proof of Proposition~\ref{prop:nonlocal_to_local}
 will be to replace $F(\varphi_s(Z_s))$ by $F(\rho^\epsilon_F*\varphi_s(Z_s))$ 
 in this expression. 
@@ -4332,8 +4156,8 @@ representation~(\ref{FK:varphi}), we have
 \varphi_t(x) \leq \| \varphi_0 \|_\infty + 
 K \IE\Big[\int_0^t \varphi_s(Z_s) ds\Big].
 \end{align*}
-In particular, since $\varphi_s$ is non-negative,
-\[ \| \varphi_t(\cdot) \|_\infty \leq \| \varphi_0 \| 
+In particular, % since $\varphi_s$ is non-negative,
+\[ \| \varphi_t(\cdot) \|_\infty \leq \| \varphi_0 \|_\infty
 +  K \int_0^t \| \varphi_s(\cdot) \|_\infty ds, \]
 so, by Gronwall's inequality,
 \[ \| \varphi_t(\cdot) \|_\infty \leq \| \varphi_0 \|_\infty \exp\left( K T \right). \]
@@ -4355,11 +4179,12 @@ for all $0 < \delta<\delta_0$ and $0 \leq t \leq T$,
 \begin{proof}
 First we need some notation. 
 Fix $T>0$ and write $M$ for the corresponding constant from 
-Proposition~\ref{BoundednessVarphis}. Let 
-$\| F \|_{M} = \sup_{x \in [0,M]} |F(x)|$. We reserve $\widehat{K}$ for 
-the constant on the right hand side of 
-equation~(\ref{eq:boundDensityXt}), and 
-we write $K_{\varphi_0}$ for the Lipschitz constant of 
+Proposition~\ref{BoundednessVarphis}.
+Let $\| F \|_{M} = \sup_{m \in [0,M]} |F(m)|$.
+We reserve $\widehat{K}$ for the constant on the right hand side of 
+equation~(\ref{eq:boundDensityXt})
+and $\widetilde{K}$ for the constant in Lemma~\ref{regularityForX2},
+and write $K_{\varphi_0}$ for the Lipschitz constant of 
 $\varphi_0$. Set 
 \[ 
 \delta_0=\min\Big( \frac{1}{\| F \|_M^{2}},\frac{1}{M e\big(2\| F \|_{M}+ \widehat{K}\big)}, 
@@ -4375,17 +4200,16 @@ Lemma~\ref{BoundednessVarphis}, we can write:
 \begin{align*}
 |\varphi_t(x)- \varphi_t(y)| 
 &\leq \big|\IE_x[\varphi_0(Z_t)]-\IE_y[\varphi_0(Z_t)]\big| 
-+ 2 \| F \|_M M t 
-\\ 
+    + 2 \| F \|_M M t \\ 
 & \leq \IE[|\varphi_0(Z_t^x)-\varphi_0(Z_t^y)|] 
-+ 2 \| F \|_M M t  \\ 
+    + 2 \| F \|_M M t  \\ 
 &\leq K_{\varphi_0}  \IE[\|Z_t^x-Z_t^y\|] 
-+ 2 \| F \|_M M t \\ 
-& \leq K_{\varphi_0}  (\sqrt{t} + \|y-x\|) 
-+ 2 \| F \|_M M t \\ 
-& \leq K_{\varphi_0} (\delta + \delta^3) 
-+ 2 \| F \|_M M \delta^2 
-\leq (K_{\varphi_0} +1)\delta,
+    + 2 \| F \|_M M t \\ 
+& \leq \widetilde{K} K_{\varphi_0}  (\sqrt{t} + \|y-x\|) 
+    + 2 \| F \|_M M t \\ 
+& \leq \widetilde{K} K_{\varphi_0} (\delta + \delta^3) 
+    + 2 \| F \|_M M \delta^2 
+\leq (\widetilde{K} K_{\varphi_0} +1)\delta,
 \end{align*}
 where we have used Lemma~\ref{regularityForX2} in the fourth inequality and the definition of $\delta_0$ in the last inequality.
 
@@ -4397,7 +4221,7 @@ representation for $\varphi_t(x)$: for any $t'<t$,
 \varphi_t(x) = \IE_x\Big[ \varphi_{t-t'}(Z_{t'}) 
 \exp\big( \int_0^{t'} F(\varphi_{t-s}(Z_s)) ds \big) \Big]. 
 \]
-Therefore, setting $t'=\delta^2$, for all $z$,
+Therefore, setting $t'=\delta^2$ and using Lemma~\ref{BoundednessVarPhis}, for all $z$,
 \[ 
 e^{-\delta^2\| F \|_{M}}\IE_z\big[ \varphi_{t-\delta^2}(Z_{\delta^2})\big] 
 \leq  
@@ -4425,9 +4249,8 @@ We can then deduce that
 &\leq e^{\delta^2\| F \|_{M}} 
 \Big(\IE_x\big[ \varphi_{t-\delta^2}(Z_{\delta^2})\big]- 
 \IE_y\big[ \varphi_{t-\delta^2}(Z_{\delta^2})\big]) 
-+ M\big(e^{\delta^2\| F \|_{M}}-e^{-\delta^2\| F \|_{M}}\big),
++ M\big(e^{\delta^2\| F \|_{M}}-e^{-\delta^2\| F \|_{M}}\big) .
 \end{align}
-where the last line follows from Lemma~\ref{BoundednessVarphis}. 
 
 To bound the differences of the expected values in the last equation 
 note that, by using again Lemma~\ref{BoundednessVarphis},
@@ -4439,7 +4262,7 @@ note that, by using again Lemma~\ref{BoundednessVarphis},
 &\leq M \widehat{K} \frac{\|x-y\|}{\delta}  
 \leq M \widehat{K} \delta^2, 
 \end{align*}
-where in the first inequality we have used Lemma~\ref{regularityForX1}. 
+where we have used Lemma~\ref{regularityForX1} and that $\|x-y\| < \delta^3$.
 Substituting in~(\ref{difference}),
 \begin{align*}
 \varphi_t(x)-\varphi_t(y)
@@ -4597,14 +4420,14 @@ $\int_{-1}^1\psi_t^\epsilon(x)\log\psi_t^\epsilon(x) dx$ is bounded below.
 Now consider 
 \begin{multline}
 \frac{d}{dt}\int \exp(\lambda x) \psi_t^\epsilon (x)dx
-	=\int \exp(\lambda x)\Delta \big(\psi_t^\epsilon \, \rho^{\epsilon}*\psi_t^\epsilon\big)(x) dx
+	= \int \exp(\lambda x)\Delta \big(\psi_t^\epsilon \, \rho^{\epsilon}*\psi_t^\epsilon\big)(x) dx
 	\\
-	+\int \exp(\lambda x)\psi_t^\epsilon(x)\big(1-\rho^{\epsilon}*\psi_t^\epsilon(x)\big) dx\\
-	=\int (\lambda^2-1)\exp(\lambda x) \psi_t^\epsilon(x) \rho^{\epsilon}*
-	\psi_t^\epsilon(x) dx 
-	+\int \exp(\lambda x)\psi_t^\epsilon(x) dx\\
-\leq
-	\int \exp(\lambda x)\psi_t^\epsilon(x) dx,
+	+ \int \exp(\lambda x)\psi_t^\epsilon(x)\big(1-\rho^{\epsilon}*\psi_t^\epsilon(x)\big) dx
+    \\
+	= \int (\lambda^2-1)\exp(\lambda x) \psi_t^\epsilon(x) \smooth{\epsilon}* \psi_t^\epsilon(x) dx 
+	+ \int \exp(\lambda x)\psi_t^\epsilon(x) dx
+    \\
+    \leq \int \exp(\lambda x)\psi_t^\epsilon(x) dx,
 \end{multline}
 and so, by Gronwall's inequality, 
 $\int \exp(\lambda x)\psi_t^\epsilon (x)dx$ is uniformly bounded on $[0,T]$.
@@ -4663,7 +4486,7 @@ Now note that
  \int \psi_t^\epsilon (x) d x
 	-\int \big(\zeta^{\epsilon}*\psi_t^\epsilon(x)\big)^2  dx.
 \end{eqnarray*}
-Thus $\int \psi_t^\epsilon(x) dx$ is uniformly bounded above in
+Thus, Gronwall's inequality implies that $\int \psi_t^\epsilon(x) dx$ is uniformly bounded above in
 $\epsilon$ and $t\in [0,T]$. Note that this also then gives a uniform
 bound on the rate of change of $\int \psi_t^\epsilon (x) d x$, and since
 we are working on $[0,T]$ this will be enough to give continuity in time of the
@@ -4721,8 +4544,13 @@ saw that the $L^1$ norm
 of $\psi_t^\epsilon$ is uniformly bounded.
 %
 Moreover, since $\psi_t^\epsilon\log \psi_t^\epsilon$ is uniformly bounded below,
-$$-\int \psi_t^\epsilon \log \psi_t^\epsilon \, \rho^{\epsilon}*\psi_t^\epsilon d x
-\leq C\int \rho^{\epsilon}*\psi_t^\epsilon d x=\int \psi_t^\epsilon dx.$$
+$$
+    -\int \psi_t^\epsilon \log \psi_t^\epsilon \, \rho^{\epsilon}*\psi_t^\epsilon dx
+    \leq
+    C\int \rho^{\epsilon}*\psi_t^\epsilon dx
+    =
+    C \int \psi_t^\epsilon dx.
+$$
 From this and~(\ref{change in ulogu}),
 we see immediately that $\int \psi_t^\epsilon \log \psi_t^\epsilon dx$
 is uniformly bounded
@@ -4730,7 +4558,7 @@ above in $\epsilon$ and $t\in [0,T]$.
 Combining with Lemma~\ref{lower bound on ulogu},
 we deduce that
 we have a uniform bound on $\int \psi_s^\epsilon(x)|\log \psi_s^\epsilon(x)| d x$.
-This in turn means that both
+From \eqref{change in ulogu}, this in turn means that both
 $\int_0^t \int(\zeta^{\epsilon}*\psi_s^\epsilon(x))^2  dx ds$ and
 $\int_0^t \int \big(\nabla (\zeta^{\epsilon}*\psi_s^\epsilon(x))\big)^2  dx ds$
 are uniformly bounded in
@@ -4930,6 +4758,8 @@ $\psi_0^{\epsilon,x}(y) = \rho_\epsilon(y-x) =p_{\epsilon^2}(x,y)$.
     Fix $t>0$,
     let $(\Pi(s))_{s \ge 0}$ be a rate one Poisson process,
     and let $T(t) = \Pi(\theta t) / \theta$.
+    \comment{Suppose also that $\theta \epsilon^2$ is bounded below.
+    (We could alternatively put a $1/\theta\epsilon^2$ term in the lemma.)}
     Then
     \[
         \psi^{\epsilon,x}_t(y)
@@ -4967,48 +4797,51 @@ $\{ \tau(t) \ge -(\epsilon^2 + t)/2 \}$ and its complement,
         \IP\left\{
             \tau(t) < - (\epsilon^2 + t) / 2
         \right\} \label{eqn:psi_infty_bound}
-    \end{align}
-    Now, observe that since $\IE[e^{-\Pi(\theta t)}] = \exp(-\theta t (1 - e^{-1}))$,
-    by Markov's inequality,
-    \begin{align}
-        \IP\left\{
-            \tau(t) < - \frac{\epsilon^2 + t}{2}
-        \right\}
-        &=
-        \IP\left\{
-            e^{-\Pi(\theta t)} > e^{-\theta (t - \epsilon^2) / 2}
-        \right\}
+\end{align}
+Now, observe that since $\IE[e^{-\Pi(\theta t)}] = \exp(-\theta t (1 - e^{-1}))$,
+by Markov's inequality,
+\begin{align}
+    \IP\left\{
+        \tau(t) < - \frac{\epsilon^2 + t}{2}
+    \right\}
+    &=
+    \IP\left\{
+        e^{-\Pi(\theta t)} > e^{-\theta (t - \epsilon^2) / 2}
+    \right\}
 \nonumber
 \\
 &\leq \frac{\IE[\exp\big(-\Pi(\theta t)\big)]}{\exp\big(-\theta(t-\epsilon^2)/2\big)}
 \nonumber
-        \\&=
-        \frac{
-            \exp(- \theta t(1 - e^{-1}))
-        }{
-            \exp(- \theta (t - \epsilon^2) / 2)
-        }
+    \\&=
+    \frac{
+        \exp(- \theta t(1 - e^{-1}))
+    }{
+        \exp(- \theta (t - \epsilon^2) / 2)
+    }
 \nonumber
-        \\&=
-        \exp\left\{ - \delta \theta t - \frac{\theta \epsilon^2}{2} \right\} ,
+    \\&=
+    \exp\left\{ - \delta \theta t - \frac{\theta \epsilon^2}{2} \right\} ,
 \label{bound for negative tau}
-    \end{align}
-    where $\delta = 1/2 - e^{-1} > 0$.
-    The second term in \eqref{eqn:psi_infty_bound} is therefore bounded by
-    \[
-        C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\delta \theta t - \epsilon^2 \theta / 2}
-        \frac{1}{(\epsilon^2 + t)^{d/2}} .
-    \]
-    Now observe that the derivative (with respect to $t$) of 
+\end{align}
+where $\delta = 1/2 - e^{-1} > 0$.
+The second term in \eqref{eqn:psi_infty_bound} is therefore bounded by
+\[
+    C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\delta \theta t - \epsilon^2 \theta / 2}
+    \frac{1}{(\epsilon^2 + t)^{d/2}} .
+\]
+Now observe that the derivative (with respect to $t$) of 
 $e^{-\delta \theta t - \epsilon^2 \theta / 2} (1 + t/\epsilon^2)^{d/2}$ 
 is
-    \[
-        \left( \frac{d}{2 \epsilon^2} - \left(1 + \frac{t}{\epsilon^2}\right) \delta \theta \right)
-        \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\delta \theta t - \epsilon^2 \theta / 2} ,
-    \]
-    which is negative if $\theta(\epsilon^2 + t) > d/2 \delta$,
-so that
-the second term in \eqref{eqn:psi_infty_bound} 
+\[
+    \left( \frac{d}{2 \epsilon^2} - \left(1 + \frac{t}{\epsilon^2}\right) \delta \theta \right)
+    \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\delta \theta t - \epsilon^2 \theta / 2} ,
+\]
+which is negative if $\theta(\epsilon^2 + t) > d/2 \delta$.
+At the maximum, $(\epsilon^2 + t) = d \delta / (2 \theta)$,
+so $(1 + t/\epsilon^2) = d \delta/(2 \theta \epsilon^2)$,
+and so this quantity is bounded uniformly over only $t$ but also $\epsilon$.
+\comment{That's where we use bounded-below-ness of $\theta \epsilon^2$.}
+Therefore, the second term in \eqref{eqn:psi_infty_bound} 
 is bounded by $C / (\epsilon^2 + t)^{d/2}$
 (for a different constant $C$).
 Substituting this into \eqref{eqn:psi_infty_bound} yields the result.
@@ -5069,7 +4902,7 @@ Poisson($t$) distribution,
         \frac{1}{\theta} \log
         \IP\left\{
             \frac{\Pi(\theta t)}{\theta}
-            > A(\epsilon^2 + t)
+            > t + A(\epsilon^2 + t)
         \right\}
     &\le
         - \Lambda^*(t + A(\epsilon^2 + t))
@@ -6383,6 +6216,61 @@ is complete.
 
 \comment{I haven't turned the $\mu$ into $\mu_\theta$ below this point.}
 
+% % % % % % % % % % % % %
+\section{Lookdown Proofs}
+
+Now we turn to results about the lookdown process,
+first establishing the basic connection between the processes, Proposition~\ref{thm:mmt_application},
+and then in the next section, convergence of the lookdown process itself.
+
+\begin{proof}[of Proposition~\ref{thm:mmt_application}]
+    This proposition is the content of the Markov Mapping Theorem,
+    Theorem A.2 in \citet{etheridge/kurtz:2019},
+    applied to our situation.
+    In the notation of that theorem, $\gamma$ is what we have called $\kappa$ above,
+    $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
+    or as a Poisson process with Lesbegue intensity (in the limiting case),
+    and we need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
+    for all $f \in \mathcal{D}(A^N)$ (and similarly a function $\psi$ for $A$).
+    We also need that applying the lookdown generator to a function and averaging over levels
+    is equivalent to applying the population process generator to the function
+    whose dependence on levels has been averaged out,
+    a condition which we precisely state, and verify,
+    in Appendix~\ref{sec: Markov Mapping Theorem Application}.
+
+    For finite $N$,
+    taking $f(\lp)$ of the form \eqref{eqn:test_functions},
+    we can use $\psi^N(\lp) = \langle C (1+ + u |F(x, \eta)|), \lp(dx, du) \rangle$
+    for an appropriate constant $C$.
+    For the scaling limit, recall that the test functions $f$ are of the form
+    $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
+    with $g(x, u) = 1$ for $u \ge u_0$,
+    and so taking for example the most troublesome term in $Af(\lp)$,
+    we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
+    \begin{align*} % \label{eqn:part_of_psi}
+        \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
+        & \le
+        \| \partial_u g \|_\infty \sum_{(x, u) \in \lp} | F(x, \eta) u \ind_{u \le u_0} | \\
+        & \le
+        \| \partial_u g \|_\infty e^{u_0} \sum_{(x, u) \in \lp} | F(x, \eta) u e^{-u} | .
+    \end{align*}
+    The first line would be just what we want,
+    except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
+    So, the second line provides us with the required bound,
+    absorbing $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
+    and $\langle |F(x, \eta) u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
+    % Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
+    % for a given $\lp$ (and hence $\eta = \kappa(\lp)$),
+    % $\sup_x |F(x, \eta)|$ is finite.
+    % Therefore, we may bound \eqref{eqn:part_of_psi} by
+    % $\sup_x |F(x, \eta)| \langle u e^{-u}, \lp \rangle$.
+    % To do this we must restrict $\lp$ to lie in the space of measures
+    % for which this is finite;
+    % however, this is a completely metrizable space
+    % \citep[see Condition 2.1 in][]{etheridge/kurtz:2018},
+    % and our processes fall in this space (by conditional uniformity).
+\end{proof}
+
 
 % % % % % % % % % % % % %
 \subsection{Tightness of the Lookdown Process}
@@ -6398,32 +6286,19 @@ The process we consider is similar to the state-dependent branching processes
 of \citet{KR}, so one might expect that the proofs there would carry over with little change.
 However, there is an important difference:
 Recall that the level $U_a(t)$ of a line of descent evolves as
-\comment{TODO: harmonize notation with above}
 $$
-\dot u 
-=
-c^N(x, \eta)
-u^2
-- b^N(x, \eta)
-u,
+\dot u = c_\theta(x, \eta) u^2 - b_\theta(x, \eta) u,
 $$
-where
-\begin{align*}
-    c^N(x, \eta) &= \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q(x, dy) \\
-    \text{and}\qquad
-    b^N(x, \eta)
-    &=
-    \theta \gamma(x, \eta) \int_{\IR^d} \left(r(y, \eta) - r(x, \eta)\right) q(x, dy)
-    + F(x, \eta) 
-\end{align*}
-(see equations \eqref{eqn:level_generator} and \eqref{eqn:b_limit}), where
-$c^N(x, \eta) \ge 0$ and $b^N(x, \eta)$ may take either sign.
-Assumptions~\ref{def:model_setup} imply that $c^N(x, \eta)$ is bounded
-and $b^N(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
+where $b_\theta(x, \eta)$ and $c_\theta(x, \eta)$ are defined in \eqref{b_defn}
+and \eqref{c_defn} respectively.
+Note that $c_\theta(x, \eta) \ge 0$ and $b_\theta(x, \eta)$ may take either sign.
+Assumptions~\ref{def:model_setup} imply that $c^N(x, \eta)$ is bounded,
+while $b^N(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
 In \citet{kurtz/rodrigues:2011}, $b^N$ was bounded above and $c^N$ was bounded away from zero,
-so they noted that if $U_a(t) \ge b^N/c^N$
-lines of descent would only move upwards from that time onwards.
-This allows the processes to be jointly and simultaneously constructed
+so they noted that if $U_a(t) \ge b^N/c^N$ for some label $a$,
+that line of descent would only move upwards from that time onwards.
+Furthermore, coefficients did not depend on the state of the process (i.e., on $\eta$),
+thus allowing the processes to be jointly and simultaneously constructed
 for all values of $N$, with a pointwise embedding
 of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b^N/c^N < N < M$.
 In other words, individuals with levels above $N > b^N/c^N$ at time $t_0$
@@ -6439,12 +6314,10 @@ Furthermore, in the deterministic case $\theta/N$ and hence $c$ converge to zero
 and so lines of descent with arbitrarily high level may drift back downwards.
 Indeed, this must be the case if the population persists,
 since in the deterministic case there is no branching.
-In our case $b^N$ and $c^N$ depend on the state of the population,
-so we have no such monotonicity.
 
 To complete the description of the process,
 each line of descent
-gives birth to lines at higher levels at rate $2 (N - u) c^N(x, \eta)$,
+gives birth to lines at higher levels at rate $2 (N - u) c_\theta(x, \eta)$,
 and each such new line chooses a level uniformly from $[u, N]$,
 a spatial location $y$ from the kernel
 $$
@@ -6472,7 +6345,7 @@ that
         \left(
             f(y, u_1) + f(x, u_1) + f(y, u) - f(x, u)
         \right)
-        du_1 q^m(x, dy, \eta^N_s)
+        q^m(x, dy, \eta^N_s) du_1 
 \\ & \qquad \qquad \qquad \qquad {}
         +
         \left(
@@ -6488,6 +6361,7 @@ that
 where $M^f$ is a martingale
 with quadratic variation
 \begin{align} \label{eqn:f_xi_qv}
+    \begin{split}
     [M^f]_t
     &=
     \int_0^t
@@ -6499,7 +6373,7 @@ with quadratic variation
     ,
     \lp_s^N(dx, du) \bigg \rangle
     ds .
-\end{align}
+\end{split}\end{align}
 
 In addition to tightness of the measure-values processes $\lp^N$,
 the bounds used in the proofs below also imply
@@ -6522,15 +6396,15 @@ In other words, the limiting ``line of descent'' construction holds.
     we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
     induced by test functions on $\overline{\IR^d} \times [0,\infty)$
     of the form $g(x) h(u)$, where $g \in C_b(\overline{\IR^d})$ is bounded and continuous
-    and $h \in C_c([0, \infty))$.
+    and $h \in C_c([0, \infty))$ is compactly supported.
     This space is completely metrizable,
     and we may choose a countable set of nonnegative, compactly supported $f_k$
     such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
     $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$;
-    therefore, compact containment follows from Lemma~\ref{lem:compact containment lookdown}.
+    therefore, compact containment will follow from Lemma~\ref{lem:compact containment lookdown}.
 
-    Theorem~3.9.1 of \citet{EK} requires that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
-    is tight as a sequence of real-valued c\`adl\`ag processes for all $F$ in a subset
+    We require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
+    is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
     of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$,
     that is dense with respect to uniform convergence on compact subsets.
     Lemma~\ref{lem:test_fn_tightness} shows that $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
@@ -6539,17 +6413,18 @@ In other words, the limiting ``line of descent'' construction holds.
     The functions $\lp \mapsto \langle f, \lp \rangle$
     do not form not a dense subset of $\bar C(\lpmeasures)$,
     but they do separate points and vanish nowhere, so
-    by the Stone-Weierstrass theorem, the algebra they generate is dense in $C_0(\lpmeasures)$,
-    the continuous functions that vanish at infinity
-    (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
-    Since $C_0(\lpmeasures)$ is dense in $\bar C(\lpmeasures)$
-    with respect to uniform convergence on compact subsets,
-    it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
+    by the Stone-Weierstrass theorem, the algebra they generate is dense
+    % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
+    % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
+    % Since $C_0(\lpmeasures)$ is dense
+    in $\bar C(\lpmeasures)$ (with respect to uniform convergence on compact subsets).
+    So, it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
     extends to finite sums and products of these processes,
     which is shown in Lemma~\ref{lem:product_tightness}.
 
     We show that the martingale properties are preserved in the limit
     in Section~\ref{sec:lookdown_generator_proofs}.
+    \comment{TODO: refer to correct thing}
     Finally, we must show that the limiting lookdown process $\lp$
     projects to the limiting process $\eta$, i.e., a solution of the martingale
     problem in Theorem~\ref{thm:nonlocal_convergence}.
@@ -6574,11 +6449,11 @@ for concreteness one may take $h(u) = e^{-u}$.
     and $\int_0^\infty h(u)^2 du$
     are all finite,
     Then under the assumptions of Lemma~\ref{lem:compact containment lookdown},
-    for any $T$ there exists a constant $K$ such that for all $M > 0$,
+    for any $T$ there exists a constant $K(T)$ such that for all $M > 0$,
     $$ 
     \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M \right\}
     <
-    \frac{K}{M} .
+    \frac{K(T)}{M} .
     $$
 \end{lemma}
 
@@ -6588,20 +6463,21 @@ compactly supported functions.
 
 \begin{lemma}
     \label{lem:compact containment hn}
+    Suppose $f \in C(\bar \IR^d \times [0, \infty))$ and there is a $u_f$ such that
+    $f(x, u) = 0$ for all $x$ and $u \ge u_f$.
     Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
-    for any $T$ and $k$ there exists a constant $K_k$ such that for all $M > 0$,
+    for any $T$ there exists a constant $K(f,T)$ such that for all $M > 0$,
     $$ 
-    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > M \right\}
+    \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle f, \lp^N_t \rangle > M \right\}
     <
-    \frac{K_k}{M} .
+    \frac{K(f,T)}{M} .
     $$
 \end{lemma}
 
 
 \begin{proof}[of Lemma~\ref{lem:compact containment hn}]
-    Let $h$ be as in Lemma~\ref{lem:h_containment}.
-    For any $f \in C(\bar \IR^d \times [0, \infty))$ with compact support,
-    there is a $c_f < \infty$ such that $f(x, u) \le c_f h(u)$.
+    Let $h$ be as in Lemma~\ref{lem:h_containment},
+    so there is a $c_f < \infty$ such that $f(x, u) \le c_f h(u)$ for all $x$ and $u$.
     Therefore, $\langle f, \xi \rangle \le \langle h, \xi \rangle$,
     and so by Lemma~\ref{lem:h_containment},
     \begin{align*}
@@ -6609,21 +6485,25 @@ compactly supported functions.
         \le
         \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M/c_f \right\}
         <
-        \frac{K c_f}{M} .
+        \frac{K(T) c_f}{M} .
     \end{align*}
 \end{proof}
 
-\begin{lemma}[Compact containment for $\lp$]
-    \label{lem:compact containment lookdown}
+\begin{lemma}[Compact containment for $\lp$] \label{lem:compact containment lookdown}
+    Let $f_1, f_2, \ldots$ be a sequence of functions each satisfying the conditions
+    of Lemma~\ref{lem:compact containment hn}.
     Under Assumptions~\ref{def:model_setup},
-    if $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$
-    \comment{and they are conditionally Uniform with the limit conditionally Poisson},
-    for any $T$ and $\delta > 0$ there exists a sequence
+    if $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
+    where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
+    in the sense of \eqref{eqn:conditionally_uniform}
+    and $\lp_0$ is conditionally uniform given $\eta_0$
+    in the sense of \eqref{eqn:conditionally_poisson},
+    then for any $T$ and $\delta > 0$ there exists a sequence
     $(C_1, C_2, \ldots)$ of finite constants such that
     \begin{align} \label{eqn:compact eqn lookdown}
     \limsup_{N \to \infty}
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_n
+        \sup_{0 \le t \le T} \langle f_k, \lp^N_t \rangle > C_k
         \text{ for some } k \ge 1
     \right\}
     < \delta .
@@ -6631,7 +6511,7 @@ compactly supported functions.
 \end{lemma}
 
 In other words, the processes $\lp^N$ stay in 
-the compact set
+the set
 $$
     \left\{
         \lp \in \lpmeasures \;:\;
@@ -6640,36 +6520,36 @@ $$
     \right\} ,
 $$
 for all $0 \le t \le T$
-with uniformly high probability.
-\comment{
-    Note that we could instead of the vague topology on locally finite measures,
-    take the space of measures with $\langle h, \xi \rangle < \infty$
-    for which $\xi_n \to \xi$ if $\langle f, \xi \rangle < \infty$ for all $f$ for which $f \le c_f h$,
-    which is completely metrizable
-    as in Condition 2.1 of \citet{etheridge/kurtz:2019}.
-}
+with uniformly high probability,
+a set which is compact if we choose $\{f_k\}$ appropriately.
+% \comment{
+%     Note that we could instead of the vague topology on locally finite measures,
+%     take the space of measures with $\langle h, \xi \rangle < \infty$
+%     for which $\xi_n \to \xi$ if $\langle f, \xi \rangle < \infty$ for all $f$ for which $f \le c_f h$,
+%     which is completely metrizable
+%     as in Condition 2.1 of \citet{etheridge/kurtz:2019}.
+% }
 
 \begin{proof}[of Lemma~\ref{lem:compact containment lookdown}]
     By a union bound,
     $$ 
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_k
+        \sup_{0 \le t \le T} \langle f_k, \lp^N_t \rangle > C_k
         \text{ for some } k \ge 1
     \right\}
     \le
     \sum_{k \ge 1}
     \IP\left\{
-        \sup_{0 \le t \le T} \langle h_k, \lp^N_t \rangle > C_k
+        \sup_{0 \le t \le T} \langle f_k, \lp^N_t \rangle > C_k
     \right\} ,
     $$
     so \eqref{eqn:compact eqn lookdown} follows
-    by taking $C_k = 2^{k-1} K_k / \delta$ and using Lemma~\ref{lem:compact containment hn}.
+    by taking $C_k = 2^{k-1} K(f_k, T) / \delta$ and using Lemma~\ref{lem:compact containment hn}.
 \end{proof}
 
 Finally, we prove the key lemma.
 
 \begin{proof}[of Lemma~\ref{lem:compact containment hn}]
-    \comment{(TODO: shorten and make constants have reasonable notation)}
     Applied to $f(x, u) = h(u)$, the martinagle representation~\eqref{eqn:f_xi_mgale} is
     \begin{align*}
     \begin{split}
@@ -6764,6 +6644,7 @@ Finally, we prove the key lemma.
     is bounded by $C_0 e^{C_1 t}$ for some other constants $C_0$ and $C_1$.
 
     Now consider the maximum. By \eqref{eqn:hn_bound},
+    using that the integrand is nonnegative,
     \begin{align*}
         \sup_{0 \le t \le T} \langle h, \lp_t^N \rangle
         &\le
@@ -6776,12 +6657,11 @@ Finally, we prove the key lemma.
             + \left( C_a u^2 + C_b u \right) |h'(u)|
         ,
         \lp_s^N(dx, du) \big \rangle
-        ds ,
+        ds .
     \end{align*}
-    where there is no supremum before the integral because the integrand is nonnegative.
 
     Again since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
-    The Burkholder-Davis-Gundy inequality
+    the Burkholder-Davis-Gundy inequality
     tells us that there is a $C'$ such that
     \begin{align*}
     \IE\left[ \sup_{0 \le t \le T} M^{h}_t \right]
@@ -6793,15 +6673,15 @@ Finally, we prove the key lemma.
         ,
         \lp_s^N(dx, du) \big \rangle
         \right] ds \right) 
-    \\ & =
+    \\ & \le
         C' \left( 1 + 2 C_a \int_0^\infty h(v)^2 dv
         \int_0^T \IE\left[
             \langle 1 , \lp_s^N(dx, du) \big \rangle
         \right] ds \right)  
     \\ & \le
-        C'' e^{C_1 T} ,
+        C_2 e^{C_1 T} ,
     \end{align*}
-    for a constant $C''$ which is finite
+    for a constant $C_2$ which is finite
     by our assumption that $\int_0^\infty h(v)^2 dv < \infty$.
 
     Therefore, 
@@ -6809,7 +6689,7 @@ Finally, we prove the key lemma.
         \IE\left[ \sup_{0 \le t \le T} \langle h, \lp_t^N \rangle \right]
         &\le
         \IE\left[ \langle h, \lp_0^N \rangle \right]
-        + (C'' + C_0 / C_1) e^{C_1 T},
+        + (C_2 + C_0 / C_1) e^{C_1 T},
     \end{align*}
     and so
     \begin{align*}
@@ -6817,7 +6697,7 @@ Finally, we prove the key lemma.
         &\le
         \frac{
             \IE\left[ \langle h, \lp_0^N \rangle \right]
-            + (C'' + C_0 / C_1) e^{C_1 T}
+            + (C_2 + C_0 / C_1) e^{C_1 T}
         }{ K } .
     \end{align*}
 \end{proof}
@@ -7388,16 +7268,16 @@ is a martingale, with initial condition distributed as a Poisson measure with me
 
 \subsubsection{Convergence of the Generators for the Spatial Models}
 
-Here, just as a sanity check, 
-we make sure that the limiting generator is indeed the limit of the generators.
+\comment{This is a duplicate with Lemma~\ref{lem:limit_mgale}; compare and remove this one.}
 
 \begin{lemma}[Identifying the limit as a solution to the martingale problem]
-    \label{lem:limit_mgale}
+    \label{lem:limit_mgale2}
 As $N \to \infty$,
 $(\eta^{N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\IR^d))$
 to $(\eta^{N}(t))_{t \geq 0}$.
 \end{lemma}
-\begin{proof}
+
+\begin{proof}[of Lemma~\ref{lem:limit_mgale2}
 We use Theorem 4.8.10 in \cite{EK}.
 First of all, the set of functions
 $\{F_f(\eta):= F(\langle f, \eta \rangle ),~
