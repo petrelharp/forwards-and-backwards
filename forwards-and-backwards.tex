@@ -6340,7 +6340,7 @@ that
     +
     \int_0^t
     \big\langle
-        c^N(x, \eta^N_s)
+        c_\theta(x, \eta^N_s)
         \int_u^N \int_{\IR^d}
         \left(
             f(y, u_1) + f(x, u_1) + f(y, u) - f(x, u)
@@ -6349,8 +6349,8 @@ that
 \\ & \qquad \qquad \qquad \qquad {}
         +
         \left(
-            c^N(x, \eta^N_s) u^2
-            - b^N(x, \eta^N_s) u
+            c_\theta(x, \eta^N_s) u^2
+            - b_\theta(x, \eta^N_s) u
         \right)
         \frac{d}{du} f(x, u)
     ,
@@ -6365,7 +6365,7 @@ with quadratic variation
     [M^f]_t
     &=
     \int_0^t
-    \bigg \langle c^N(x, \eta_s^N) \int_u^N \int_{\IR^d}
+    \bigg \langle c_\theta(x, \eta_s^N) \int_u^N \int_{\IR^d}
         \big[ f(y, u_1)^2
 \\&\qquad \qquad {}
         + \left( f(x, u_1) + f(y, u) - f(x, u) \right)^2 \big]
@@ -6720,22 +6720,47 @@ Finally, we prove the key lemma.
     and \eqref{eqn:eta_projections_goal2}
     applied to the martingale representation
     of equations~\eqref{eqn:f_xi_mgale} and~\eqref{eqn:f_xi_qv}.
-    Indeed, the proof follows exactly as the proof of
-    Lemma~\ref{lem:eta_projections_tightness},
-    except that terms are bounded by constant multiples of $\langle h, \xi^N_s \rangle$
-    instead of $\langle 1, \eta^N_s \rangle$.
-    \comment{Give an example of this.}
-    There is only one term that might use explanation,
-    which is
+    Rewriting~\eqref{eqn:f_xi_mgale} with $c_\theta = c_\theta(x, \eta_s)$,
     \begin{align*}
-        &
-        \frac{\theta}{N} \int_{\IR^d} \int_u^N (f(y, u) - f(x, u)) du_1 q^m(x, dy, \eta^N_s)
-        \\ &\qquad
-        % = \frac{\theta}{N} (N - u) \int_{\IR^d} (f(y, u) - f(x, u)) q^m(x, dy, \eta^N_s) \\ &\qquad
-        = \left(1 - \frac{u}{N}\right) \theta \int_{\IR^d}
-            (f(y, u) - f(x, u)) q^m(x, dy, \eta^N_s) ,
+        \langle f, \lp_t \rangle
+        &=
+        \langle f, \lp_0 \rangle
+        + M^f_t
+        + \int_0^t \Big\langle
+            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x, dy) du_1
+        \\ {} &\qquad
+            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x, dy)
+            + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
+            \lp_s
+        \Big\rangle ds
+        &\le
+        \langle f, \lp_0 \rangle
+        + M^f_t
+        + \int_0^t \Big\langle
+            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x, dy) du_1
+        \\ {} &\qquad
+            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x, dy)
+            + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
+            \lp_s
+        \Big\rangle ds
     \end{align*}
-    but this is now bounded as in the proof of Lemma~\ref{lem:eta_f_bound}.
+    The bounds analogous to \eqref{eqn:eta_projections_goal1} and \eqref{eqn:eta_projections_goal2}
+    follow as in the proof of Lemma~\ref{lem:eta_projections_tightness}:
+    for instance, observe that using that $c_\theta \le C_0$ for some $C_0$,
+    the predictable part of this semimartingale decomposition is bounded by
+    \begin{align*}
+        \Big\langle
+            2 C_0 \|f\|_\infty u_f
+            + (1 - u/N) \gamma B_f
+            + (C_0 u^2 - b_\theta u) \frac{d}{du} f,
+            \lp_s
+        \Big\rangle
+        &\le
+        \langle
+            C_0 u_f^2 + \sup_x |b_\theta(x, \eta_s)| u_f \|\frac{d}{du} f\|_\infty
+        \rangle ,
+    \end{align*}
+    which can be bounded as we did for \eqref{eqn:eta_projections_goal1}.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -6746,11 +6771,7 @@ The argument follows directly from the discussion in Section \ref{sec:limiting_l
 
 \begin{proof}[of Theorem~\ref{thm:lineages}]
 
-\comment{(TODO: Use notation for the motion of a lineage introduced in statement of theorem.)}
-
-Here
-\comment{(and in the statement of the theorem)}
-we take the high-density, deterministic limit
+Here we have taken the high-density, deterministic limit
 (so, $\theta, N \to \infty$ and $\theta/N \to 0$)
 and so suppose that the limiting process has density $\varphi_t(x)$
 at location $x$ and time $t$.
@@ -6758,10 +6779,13 @@ Let $Y$ denote the spatial motion followed by a single line of descent.
 Above equation~\eqref{eqn:limiting_generator},
 we showed that $Y$ is a diffusion with generator at time $s$
 $$
-    \mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) ) .
+    \mathcal{L}^Y_s g(x) = \gamma ( \DG(r(\cdot,\eta_s) g(\cdot))(x) - g(x) \DG r(x,\eta_s) ) .
 $$
+% (This is $\mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) )$ in shorter but more cryptic notation.)
 The diffusion is time-inhomogeneous if the density is not constant with time
 (since recall that the coefficients $\gamma$ and $r$ depend on the density).
+Let $\varphi_t(x)$ be the limiting density, which solves \eqref{general deterministic limit},
+$\partial_t \varphi = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
 Formally, the intensity of levels at $y$ at time $t$
 that are descended from individuals that were at $x$ at time $s$
 (with $s < t$) is
@@ -6776,14 +6800,14 @@ that are descended from individuals that were at $x$ at time $s$
 \end{equation}
 where the subscript $s, x$ in the expectation indicates that $Y_s = x$.
 To see why this should be true, 
-suppose that an ancestor has level $v$. Conditional on its 
+suppose that an ancestor at time $s$ has level $v$. Conditional on its 
 spatial motion $\{Y_u\}_{s\leq u\leq t}$, its level at time $t$ will
 be $v \exp(-\int_s^t(F+\gamma\Delta r)(Y_u)du)$. This will be less than a given level 
-$N$ if $v < N \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$. 
+$\lambda$ if $v < \lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$. 
 The intensity of levels at $y$ that are descended from individuals at
-$x$ can therefore be obtained as the limit as $N\to\infty$ of 
-$1/N$ times the number of levels at $x$ at time zero with
-$u<N \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$ and for which
+$x$ can therefore be obtained as the limit as $\lambda\to\infty$ of 
+$1/\lambda$ times the number of levels at $x$ at time zero with
+$u<\lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$ and for which
 the corresponding individual is at $y$ at time $t$, which is 
 precisely the quantity in~\eqref{eqn:formal_intensity}. 
 
@@ -6885,7 +6909,7 @@ This is equation \eqref{eqn:lineage_generator}.
 
 
 To simplify to equation \eqref{eqn:lineage_generator2},
-this, first define
+first define
 $
     \DD f(x) = \sum_{ij} \covq_{ij} \partial_{ij} f(x),
 $
@@ -6949,93 +6973,7 @@ So, with $f = \gamma \varphi_s$,
         - \meanq \cdot \grad g
     \right] ,
 \end{eqnarray*}
-which is equation \eqref{eqn:lineage_generator}.
-
-\end{proof}
-
-
-\begin{proof}[of Corollary \ref{cor:lineages_simple}]
-
-In this section, we need only
-simplify equation \eqref{eqn:lineage_generator}
-in the case where $\covq = \sigma^2 I$.
-
-    \comment{TODO}
-
-\end{proof}
-
-\begin{proof}[of Corollary~\ref{cor:wavefront}
-    \comment{
-        TODO make non-redundant with proof of Theorem \ref{thm:lineages}.
-    }
-
-Let $Y$ denote the diffusion followed by following a single descendent line in this frame; 
-i.e.~the diffusion with generator ${\cal L}^Y\phi=\gamma\Delta(r\phi)-\gamma\phi\Delta r -\mathfrak{c}\nabla\phi $. Note in particular here we take $\mathcal{B}=\Delta$. We start by expressing the evolution of a singles ancestry line in terms of the descendent line $Y$.
-
-Formally, the intensity of levels at $y$ at time $t$ that are descended from 
-individuals that were at $x$ at time $0$ is
-\begin{equation}
-\label{formal intensity [1]}
-w(x)\IE_x\left[\exp\left(\int_0^t (F+\gamma \Delta r)(Y_s)ds\right)\ind_{Y_t=y}\right]dy,
-\end{equation}
-where the subscript $x$ in the expectation indicates that $Y_0=x$.
-To see why this should be true, 
-suppose that an ancestor has level $u$. Conditional on its 
-spatial motion $\{Y_s\}_{0\leq s\leq t}$, its level at time $t$ will
-be $u\exp(-\int_0^t(F+\gamma\Delta r)(Y_s)ds)$. This will be less than a given level 
-$N$ if $u<N \exp(\int_0^t(F+\gamma\Delta r)(Y_s)ds)$. 
-The intensity of levels at $y$ that are descended from individuals at
-$x$ can therefore be obtained as the limit as $N\to\infty$ of 
-$1/N$ times the number of levels at $x$ at time zero with
-$u<N \exp(\int_0^t(F+\gamma\Delta r)(Y_s)ds)$ and for which
-the corresponding individual is at $y$ at time $t$, which is 
-precisely the quantity in~(\ref{formal intensity}). 
-
-It is easy to check that when we integrate~(\ref{formal intensity})
-with respect to $x$ we recover $w(y)dy$. 
-As a consequence of~(\ref{formal intensity}), writing $p(t,y,x)$ for
-the probability density that the ancestor $t$ units in 
-the past of an individual sampled 
-at $y$ was at $x$, then, still formally,
-\begin{equation}
-\label{ptyx}
-p(t,y,x)=\frac{w(x)}{w(y)}\IE_x\left[\exp\left(\int_0^t (F+\gamma\Delta r)(Y_s)ds\right)
-\ind_{Y_t=y}\right].
-\end{equation}
-
-To make~(\ref{ptyx}) meaningful, we multiply by suitable test functions and 
-integrate.
-$$\int\int \psi(y)w(y)p(t,y,x)\phi(x)dydx=\int\phi(x)w(x)
-\IE_x\left[\exp\left(\int_0^t(F+\gamma\Delta r)(Y_s)ds\right)\psi(Y_t)\right]dydx.$$
-
-Writing $\hat{T}_t$ for the semigroup corresponding to the motion of 
-ancestral lineages backwards in time (that is the semigroup corresponding
-to $p(t,x,y)$), we can write this as 
-$$\int \psi(y)w(y)\hat{T}_t\phi(y)dy=\int\phi(x)w(x)
-\IE_x\left[\exp\left(\int_0^t(F+\gamma\Delta r)(Y_s)ds\right)\psi(Y_t)\right]dx.$$
-Differentiating with respect to $t$ at $t=0$, and writing 
-$\hat{\mathcal L}$ for the generator of $\hat{T}_t$, we find
-\begin{eqnarray*}
-\int \psi(y)w(y)\widehat{\mathcal L}\phi(y)dy&=&
-\int\phi(x)w(x)\left({\mathcal L}^Y\psi(x)+\psi(x)(F+\gamma\Delta r)\psi(x)\right)dx\\
-&=&\int\phi(x)w(x)\left(\gamma\Delta(r\psi)-\gamma\psi\Delta r -\mathfrak{c}\nabla\psi 
-+(F+\gamma\Delta r)(\psi)\right)dx\\
-&=&\int\phi(x)w(x)\left(\gamma\Delta(r\psi)-\mathfrak{c}\nabla\psi+F(\psi)\right)dx\\
-&=&
-\int\psi(x)\left[r\Delta(\gamma \phi w)+F\phi w+\mathfrak{c}\nabla(\phi w)\right]dx.
-\end{eqnarray*}
-Since $\psi$ was arbitrary,
-\begin{eqnarray*}
-\hat{\mathcal L}\phi&=&\frac{1}{w}\left[ r\Delta (\gamma\phi w)+F\phi w
-+\mathfrak{c}\nabla(\phi w)\right]\\
-&=&\frac{\phi}{w}\left[r\Delta(\gamma w)+Fw+\mathfrak{c}\nabla w\right]
-+\frac{1}{w}\left[r\gamma w\Delta \phi +2\nabla (\gamma w)
-\nabla\phi+\mathfrak{c}w\nabla\phi\right]\\
-&=&r\gamma\left(\Delta\phi+2\frac{\nabla(\gamma w)}{\gamma w}\nabla\phi\right)
-+\mathfrak{c}\nabla\phi,
-\end{eqnarray*}
-where we have used that $w$ solves~(\ref{profile}).
-
+which is equation \eqref{eqn:lineage_generator2},
 \end{proof}
 
 
