@@ -1495,8 +1495,8 @@ in Section~\ref{ancestral lineages}.
 
 \begin{corollary} \label{cor:lineages_simple}
     In addition to the assumptions of Theorem~\ref{thm:lineages},
-    if the dispersal process is isotropic
-    (i.e., $\covq = \sigma^2 I$ and $\meanq$ is constant),
+    if the covariance of the dispersal process is isotropic
+    (i.e., $\covq = \sigma^2 I$),
     then
     \begin{equation}
         \Lgen_\varphi f
@@ -1512,23 +1512,40 @@ in Section~\ref{ancestral lineages}.
             \cdot \grad f
         \right) .
     \end{equation}
+    (However, $\meanq$ can still depend on location.)
 \end{corollary}
 
 In other words, 
 the lineage behaves as a diffusion driven by Brownian motion 
 run at speed $\sigma^2$ multiplied by the local per-capita production of 
-mature offspring 
-($r \gamma$)
-in a potential equal to the local output of juveniles tilted by migration bias
-($\varphi_s \gamma \exp(-\meanq \cdot x / 2 \sigma^2)$). In particular,
-lineages are drawn to regions of high fecundity (production of juveniles), but their
+mature offspring ($r \gamma$)
+in a potential tilted by migration bias
+($(\varphi_s \gamma)^2 \exp(-\meanq \cdot x / \sigma^2)$).
+In particular, lineages are drawn to regions of high fecundity (production of juveniles), but their
 speed is determined by the rate of production of mature offspring.
 This can be compared to Remark~\ref{ancestral lineages: first guess}.
 
-\begin{corollary}
-    \comment{TODO: write corollary saying what's in the previous sentence 
-    and what the stationary distribution is?}
+\begin{corollary} \label{cor:stationary_dist}
+    In addition to the assumptions of Corollary~\ref{cor:lineages_simple},
+    the population process is stationary (so $\varphi_t \equiv \varphi$),
+    and $\meanq(x) = \grad h(x)$ for some function $h$,
+    then $Y$ is reversible with respect to
+    \begin{align}
+        \pi(x)
+        =
+        \frac{\gamma}{r} \varphi(x)^2 e^{-h(x) / \sigma^2} .
+    \end{align}
 \end{corollary}
+
+\comment{I'm a bit surprised by the factor of 2 (that manifests as $\varphi^2$),
+    but I've checked where it comes from pretty carefully, and don't see anything wrong.}
+Long-term fitness of an individual
+is proportional to the fraction of lineages from the distant future that pass through the individual,
+and hence the total long-term fitness at a location is proportional to
+the stationary distribution of $Y$ there, if it exists.
+Therefore,
+if $\pi$ is integrable then the per-capita long-term fitness of an individual at $x$
+is proportional to $\pi(x) / \varphi(x)$.
 
 \begin{corollary} \label{cor:wavefront}
     In addition to the assumptions of Corollary~\ref{cor:lineages_simple},
@@ -6974,6 +6991,40 @@ So, with $f = \gamma \varphi_s$,
     \right] ,
 \end{eqnarray*}
 which is equation \eqref{eqn:lineage_generator2},
+\end{proof}
+
+\begin{proof}[of Corollary~\ref{cor:stationary_dist}]
+For the moment, we will write $r(x)$ for $r(x, \eta)$
+and similarly for $\gamma(x)$.
+First, note that in this case
+$$
+    \Lgen f = \sigma^2 r \gamma \left(
+        \Delta f
+        + \grad ( 2 \log(\gamma \varphi) - h ) \cdot \grad f
+    \right) ,
+$$
+and that
+$$
+    \int_{\IR^d} e^{H(x)} f(x) (\Delta + \grad H(x) \cdot \grad) g(x) dx
+    =
+    - \int_{\IR^d} e^{H(x)} \left\{
+        \grad f(x) \cdot \grad g(x)
+    \right\} dx .
+$$
+Therefore, by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)$
+and
+$$ \pi(x)
+    = e^{H(x)} / (\sigma^2 r(x) \gamma(x))
+    = \frac{\gamma(x) \varphi(x)^2 e^{-h(x)}}{\sigma^2 r(x)} ,
+$$
+we have that
+$$
+    \int_{\IR^d} \pi(x) f(x) \Lgen g(x) dx
+    =
+    - \int_{\IR^d} e^{H(x)} \grad f(x) \cdot \grad g(x) dx .
+$$
+Since this is symmetric, the process $Y$ is reversible with respect to $\pi$;
+the constant factor of $\sigma^2$ does not affect the result.
 \end{proof}
 
 
