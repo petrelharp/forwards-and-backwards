@@ -816,16 +816,17 @@ We assume that
 We assume that 
 \begin{enumerate}
 \item The function $F(x,m)$ satisfies 
-\begin{enumerate}
-\item $F(x,m)$ is locally Lipschitz in $m$;
-\item $F(x,m)$ is uniformly bounded above (but not necessarily below);
-\item for each fixed $m$, $\sup_{x\in\IR^d}\sup_{k\leq m}|F(x,k)|<\infty$;
-\end{enumerate}
+    \begin{enumerate}
+    \item $F(x,m)$ is locally Lipschitz in $m$;
+    \item $F(x,m)$ is uniformly bounded above (but not necessarily below);
+    \item for each fixed $m$, $\sup_{x\in\IR^d}\sup_{k\leq m}|F(x,k)|<\infty$;
+    \end{enumerate}
 \item The functions $r(x,m)$, $\gamma(x,m)$ have bounded first and second 
 derivatives in both arguments;
 \item $\gamma(x,m)$ is uniformly bounded;
 \item $|\gamma(x, \smooth{\gamma} \eta(x)) \theta \int (r(y, \smooth{r} \eta(y)) - r(x, \smooth{r} \eta(x))) q_\theta(x, dy)|$
     is uniformly bounded for $x \in \IR^d$ and $\eta \in \measures$.
+        \label{gamma_B_condition}
 \end{enumerate}
 
 To keep expressions manageable, we shall also assume that 
@@ -1629,19 +1630,24 @@ but to compensate, death rates increase slightly faster (also linearly),
 as shown in Figure~\ref{fig:pme_waves}.
 Alert readers will notice that
 the condition from Assumptions~\ref{def:model_setup} 
-that $\gamma (x,m)$ be uniformly bounded 
+that $\gamma(x,m)$ be uniformly bounded 
 is violated.
 This can be corrected by use of a cut-off, and in fact the downwards drift
 provided by the logistic control of the population size prevents $m$ from 
 getting too big. 
-In practice in our simulations we choose a suitably small value for $\beta$, define
+In practice in our simulations we
+take discrete time steps of length $dt$ (with $dt$ suitably small),
+and have each individual with local density $m$ reproduce and die, respectively, with probabilities
 \begin{align*}
-    \gamma(x, m) = (1 - \exp(- \beta m)) / \beta, \qquad
-    F(x, m) = \exp(- \beta m) / \beta ,
+    p_\text{birth}(m) = \left(1 - e^{- m dt}\right)
+    \qquad 
+    p_\text{death}(m) = \left(1 - e^{- (m (1+1/\theta) - 1/\theta) dt} \right) ,
 \end{align*}
-and set $\mu_\theta(x, m) = \max(0, \gamma - F / \theta)$.
-\comment{I don't understand this - something has gone wrong.}
-\comment{TODO: peter to look into this}
+so that $\gamma(x, m) = p_\text{birth}(m)/dt \approx m$
+and
+\begin{align*}
+    F(x, m) = \theta(\gamma(x, m) - \mu(x, m)) / dt \approx 1 - m .
+\end{align*}
 Birth and death rates are equal at density $m = 1$,
 corresponding to an unscaled density of $N$ individuals per unit area.
 
@@ -2825,13 +2831,8 @@ where $\lambda$ is Lesbegue measure.
     in the sense of \eqref{eqn:conditionally_poisson}.
 \end{proposition}
 
-\comment{In this section I haven't specified the filtration for the martingale problem.}
-
 Now we can present the main convergence theorem that is analogous
 to Theorem~\ref{thm:nonlocal_convergence} for the population process.
-
-\comment{the next theorem needs rewriting along the lines of Thm A.12 in Kurtz and Rodrigues.}
-\comment{TODO: it's been rewritten some; but needs checking against that Thm yet}
 
 \begin{theorem}
     \label{thm:lookdown_convergence}
@@ -3265,10 +3266,101 @@ limit.
 
 \subsection{Preliminaries}
 
+Below we will have frequent use for the quantity
+\begin{equation}
+\label{generator Bf}
+    B_f(x, \eta) = \theta \int_{\IR^d} (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
+\end{equation}
+
 First, we prove Lemma~\ref{lem:conditions on r}.
 
 \begin{proof}[of Lemma~\ref{lem:conditions on r}]
-    TODO MOVE PROOF HERE
+Here, we need to prove that $|\gamma(x, \eta) B_1(x, \eta)|$ is bounded,
+uniformly over $x$ and $\eta$.
+First suppose that
+Condition~\ref{control through r} of  
+Lemma~\ref{lem:conditions on r} is satisfied.
+We write
+\begin{align*}
+    r\big(y,\rho_r*\eta(y)\big) - r\big(x,\rho_r*\eta(x)\big)
+    &=
+    \sum_i (y_i - x_i) \partial_{x_i} \Big(r\big(x,\rho_r*\eta(x)\big)\Big) 
+    \\ &\qquad {}
+    +
+    \frac{1}{2} \sum_{ij} (y_i - x_i)(y_j - x_j)
+        \partial_{x_i x_j} \Big(r\big(\smooth{r}\eta(z)\big)\Big) ,
+\end{align*}
+where $z = \kappa x + (1-\kappa) y$ for some $0 \le \kappa \le 1$.
+Condition~\ref{control through r} 
+gives uniform bounds on the derivatives of $r(x, \rho_r*\eta(x))$ 
+in this expression and so we have a bound of the form
+\begin{multline*}
+\Big| r\big(y,\rho_r*\eta(y)\big) - r\big(x,\rho_r*\eta(x)\big) \Big|
+\\
+\leq
+        K_1 \left|
+            \theta \int_{\IR^d} \sum_i (y_i - x_i) q_\theta(x, dy)
+        \right|
+        +
+        K_2 \left|
+            \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
+        \right| 
+\end{multline*}
+for suitable constants $K_1$, $K_2$.
+This is bounded uniformly because
+$q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
+and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
+are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
+u implies that $|B_1|$ is uniformly bounded;
+since $\gamma$ is bounded as well, so is $|\gamma B_1|$.
+
+Now suppose that instead
+Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
+is satisfied.
+First note that
+\begin{multline*}
+    r(x, \smooth{r}\eta(y)) - r(x, \smooth{r}\eta(x))
+    \\
+=
+    (\smooth{r}\eta(y) - \smooth{r}\eta(x)) r'(x,\smooth{r}\eta(x))
+    + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 r''(x, \overline{m}),
+\end{multline*}
+where $\overline{m}= \kappa'\smooth{r}\eta(x) +(1-\kappa') 
+\smooth{r}\eta(y)$ for some $0\leq \kappa'\leq 1$, and
+we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
+with respect to the second argument.
+So, in this case
+\begin{align*}
+&
+\left| \theta 
+    \int_{\IR^n} 
+        \big\{
+            r\big(x,\smooth{r}\eta(y)\big)
+            -
+            r\big(x,\smooth{r}\eta(x)\big)
+        \big\}
+    q_{\theta}(x,dy) 
+\right| 
+\\ &\qquad
+\le
+   \|r'\|_\infty
+    \left|
+        \theta \int_{\IR^d}
+            (\smooth{r}\eta(y) - \smooth{r}\eta(x))
+        q_\theta(x, dy)
+    \right|
+    +
+   \|r''\|_\infty
+    \left|
+        \theta \int_{\IR^d}
+            (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
+        q_\theta(x, dy)
+    \right| .
+\end{align*}
+Therefore,
+under Condition~\ref{control through gamma}, $|B_1(x,\eta)|$ is bounded by 
+a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$;
+since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B_1(x,\eta)$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -3344,147 +3436,78 @@ of the net per-capita reproduction rate.
 \end{lemma}
 
 \begin{proof}
-    Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingale}:
-    \begin{align} \label{eqn:eta_f_mgale_decomp}
-        \langle f, \eta^N_t \rangle
-        &=
-        \langle f, \eta^N_0 \rangle
-        + \int_0^t \int_{\IR^d} \big\{
-            \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
-            + f(x) F(x, \eta^N_s)
-            \big\} \eta^N_s(dx) ds
-        + M^N_t(f) ,
-    \end{align}
-    where $M^N_t(f)$ is a martingale and, for the moment, we are defining
-    \begin{equation}
-\label{generator Bf}
-        B_f(x, \eta) = \int_{\IR^d} \theta (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
-    \end{equation}
+Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingale}:
+\begin{align} \label{eqn:eta_f_mgale_decomp}
+    \langle f, \eta^N_t \rangle
+    &=
+    \langle f, \eta^N_0 \rangle
+    + \int_0^t \int_{\IR^d} \big\{
+        \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+        + f(x) F(x, \eta^N_s)
+        \big\} \eta^N_s(dx) ds
+    + M^N_t(f) ,
+\end{align}
+where $M^N_t(f)$ is a martingale.
+% and we are defining
+% \begin{equation}
+% \label{generator Bf}
+%     B_f(x, \eta) = \int_{\IR^d} \theta (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
+% \end{equation}
 
-\comment{TODO MOVE SOME OF THIS TO PROOF OF LEMMA~\ref{lem:conditions on r}}
-We need a bound on $\gamma(x,\eta)B_f(x,\eta)+F$.
-First suppose that
-Condition~\ref{control through r} of  
-Assumptions~\ref{def:model_setup} is satisfied.
-We write
-    \begin{align*}
-        f(y)r\big(y,\rho_r*\eta(y)\big) - f(x)r\big(x,\rho_r*\eta(x)\big)
-        &=
-        \sum_i (y_i - x_i) \partial_{x_i} \Big(f(x)r\big(x,\rho_r*\eta(x)\big)\Big) 
-        \\ &\qquad {}
-        +
-        \frac{1}{2} \sum_{ij} (y_i - x_i)(y_j - x_j)
-            \partial_{x_i x_j} \Big(f(z)r\big(\smooth{r}\eta(z)\big)\Big) ,
-    \end{align*}
-    where $z = \kappa x + (1-\kappa) y$ for some $0 \le \kappa \le 1$. Condition~\ref{control through r} 
-gives uniform bounds on the derivatives of $r(x, \rho_r*\eta(x))$ 
-in this expression and so, provided $f$ also has uniformly bounded first
-and second derivatives, we have a bound of the form
-\begin{multline*}
-\Big| f(y)r\big(y,\rho_r*\eta(y)\big) - f(x)r\big(x,\rho_r*\eta(x)\big) \Big|
-\\
-\leq
-        K_1 \left|
-            \theta \int_{\IR^d} \sum_i (y_i - x_i) q_\theta(x, dy)
-        \right|
-        +
-        K_2 \left|
-            \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
-        \right| 
-\end{multline*}
-for suitable constants $K_1$, $K_2$.
-This is bounded uniformly because
-$q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
-and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
-are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
-
-Now suppose that instead
-Condition~\ref{control through gamma} of Assumptions~\ref{def:model_setup}
-is satisfied.
-First note that,  
-    \begin{align}
-	    \nonumber
-    &
-        \left| \theta 
-            \int_{\IR^n} 
-                \big\{
-                    f(y) r\big(y,\smooth{r}\eta(y)\big)
-                    -
-                    f(x) r\big(x, \smooth{r}\eta(x)\big)
-                \big\}
-            q_{\theta}(x,dy)
-        \right|
-    \\ 
- \label{eqn:q_bound_split}
-	    &\qquad {} \leq
-        \left| \theta 
-            \int_{\IR^n} 
-                \big\{
-                    f(y) r\big(y, \smooth{r}\eta(y)\big)
-                    -
-                    f(x) r\big(x,\smooth{r}\eta(y)\big)
-                \big\}
-            q_{\theta}(x,dy)
-        \right|
-    \\ 
+We need a bound on $\gamma(x,\eta)B_f(x,\eta)+fF$.
+First note that we may rewrite $B_f(x, \eta)$ as
+\begin{align}
+    \nonumber
+&
+    \left| \theta 
+        \int_{\IR^n} 
+            \big\{
+                f(y) r\big(y,\smooth{r}\eta(y)\big)
+                -
+                f(x) r\big(x, \smooth{r}\eta(x)\big)
+            \big\}
+        q_{\theta}(x,dy)
+    \right|
+\\ 
+    &\qquad {} =
+    \Big| \theta 
+        \int_{\IR^n} 
+            ( f(y) - f(x) )
+            r\big(y, \smooth{r}\eta(y)\big)
+        q_{\theta}(x,dy)
+\\ 
 \nonumber
-	    &\qquad \qquad {}  +
-        \left| \theta 
-            \int_{\IR^n} 
-                \big\{
-                    f(x) r\big(x,\smooth{r}\eta(y)\big)
-                    -
-                    f(x) r\big(x,\smooth{r}\eta(x)\big)
-                \big\}
-            q_{\theta}(x,dy) 
-        \right| .
-    \end{align}
-
- Writing
-    $K_3 = \sup_{x,m} \max_i |\partial_{x_i} f(x)r(x, m)|$
-    and 
-    $K_4 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x)r(x, m)|$, since
-\[\big|\partial_{x_i}\big(f(x)r(x,\rho_r*\eta(y))\big|\leq K_3\]
-and
-\[\big|\partial_{x_ix_j}\big(f(x)r(x,\rho_r*\eta(y))\big|\leq K_4,\]
-the first term
-is bounded exactly as above. For the second, 
-    \begin{multline*}
-        r(x, \smooth{r}\eta(y)) - r(x, \smooth{r}\eta(x))
-        \\
-=
-        (\smooth{r}\eta(y) - \smooth{r}\eta(x)) r'(x,\smooth{r}\eta(x))
-        + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 r''(x, \overline{m}),
-    \end{multline*}
-    where $\overline{m}= \kappa'\smooth{r}\eta(x) +(1-\kappa') 
-\smooth{r}\eta(y)$ for some $0\leq \kappa'\leq 1$, and
-    we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
-with respect to the second argument.
-    So, writing $K_5=\|f\|_\infty\|r'\|_\infty$ and $K_6=\|f\|_\infty\|r''\|_\infty$, in
-this case 
-    the term in~\eqref{eqn:q_bound_split} is bounded by
-    \begin{align*}
-       K_5
-        \left|
-            \theta \int_{\IR^d}
-                (\smooth{r}\eta(y) - \smooth{r}\eta(x))
-            q_\theta(x, dy)
-        \right|
-        +
-       K_6
-        \left|
-            \theta \int_{\IR^d}
-                (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
-            q_\theta(x, dy)
-        \right| .
-    \end{align*}
-Under Condition~\ref{control through gamma} of 
-Assumptions~\ref{def:model_setup}, the right hand side is bounded by 
-a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
-$m^2\gamma(m)$ is bounded. We have shown that $\gamma B_f$ is bounded, and so recalling that
-$F$ is bounded above, we can now conclude that
+    &\qquad \qquad {}  +
+    \theta 
+            f(x)
+        \int_{\IR^n} 
+            \big\{
+                r\big(y,\smooth{r}\eta(y)\big)
+                -
+                r\big(x,\smooth{r}\eta(x)\big)
+            \big\}
+        q_{\theta}(x,dy) 
+    \Big| 
+\\ 
+    &\qquad {} \leq
+    \left| \theta 
+        \int_{\IR^n} 
+            ( f(y) - f(x) )
+        q_{\theta}(x,dy)
+    \right|
+    +
+    \|f\|_\infty |B_1(x, \eta)| .
+\end{align}
+The first term is bounded uniformly
+because $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
+and covariance $\covq(x)/\theta$,
+and both $\meanq(x)$ and $\covq(x)$
+are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
+Furthermore, Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
+stipulates that $|\gamma(x, \eta) B_1(x, \eta)|$ is uniformly bounded,
+and so recalling that $F$ is bounded above, we can now conclude that
 under Assumptions~\ref{def:model_setup}
-    $\gamma(x, \eta) B_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
+$\gamma(x, \eta) B_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
 
 Taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
     \begin{align}
