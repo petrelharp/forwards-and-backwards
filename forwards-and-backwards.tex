@@ -166,6 +166,7 @@ medium equation with logistic growth.
 \vspace{.1in}
 
 	\comment{Need to thank KAVLI, Paris Cit\'e, various funders}
+    \comment{make notation for $\mathcal{D}$ consistent}
 
 \vspace{.1in}
 
@@ -279,7 +280,7 @@ we can also scale the ``width'' of the
 region over which we measure local population density. 
 When the population follows~(\ref{general deterministic limit}), 
 we expect that if we take a second limit of $\epsilon \to 0$,
-thus scaling the kernels appearing in $r$, $\gamma$, and $F$ and making interactions are pointwise,
+thus scaling the kernels appearing in $r$, $\gamma$, and $F$ and making interactions pointwise,
 we should recover a nonlinear PDE.
 We verify that this is indeed the case in two important examples:
 a special case of the porous medium equation with a logistic growth term, in which we 
@@ -323,8 +324,8 @@ considered in~\cite{flandoli/huang:2021} is different from that considered
 below. In their language we consider only `moderate interactions', meaning that
 the number of individuals in the neighbourhood over which we measure local
 population density tends to infinity, whereas they also consider the situation in which
-that number remains finite; furthermore.
-On the other hand, we shall consider a scaling in which 
+that number remains finite;
+furthermore we shall consider a scaling in which 
 the reproduction mechanism is near-critical and look at large timescales,
 while \citet{flandoli/huang:2021} only scale the number of
 particles in the system and the size of the neighbourhood over which indivduals interact. 
@@ -425,7 +426,8 @@ relative to the wavefront in the deterministic models. In
 Section~\ref{ancestral lineages for travelling waves}
 we shall see that in our framework, even with logistic growth, the nonlinear diffusion 
 corresponding to the porous medium equation results
-in a stationary distribution that is concentrated behind the wavefront, leading 
+in a stationary distribution for the ancestral lineage
+that is concentrated behind the wavefront, leading 
 us to conjecture that in the stochastic equation
 the cooperative behaviour captured by the nonlinear diffusion will also 
 result in a qualitatively different pattern of coalescence to that seen under the 
@@ -537,7 +539,7 @@ In particular, the total rate of production of mature offspring by an individual
 \[
 	\gamma\big(x,\smooth{\gamma}X(x)/N\big)\int r\big(y, \smooth{r}X(y)/N\big)q_{\theta}(x,dy).
 \]
-Nonetheless it will be convenient to define the death rate $\mu_\theta$ in terms of 
+Nonetheless, it will be convenient to define the death rate $\mu_\theta$ in terms of 
 its deviation from $r\gamma$. 
 To this end, we define
 the death rate of an individual at $x$ to be
@@ -550,8 +552,12 @@ the death rate of an individual at $x$ to be
     \right\} ,
 \end{align}
 where this equation defines $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR$,
-the net per capita reproductive rate, scaled by $\theta$,
 and $\rho_F$ is again a smooth kernel. 
+\comment{FIX UP THIS, REFER FORWARD}
+The function $F$ is nearly
+the net per capita reproductive rate, scaled by $\theta$,
+and would be equal to it in a nonspatial model;
+but 
 It will be convenient to work with $F$ instead of $\mu$.
 
 Note that each of the three demographic parameters $r$, $\gamma$, $F$,
@@ -604,7 +610,6 @@ When convenient, we may also suppress the arguments completely,
 writing simply $\gamma$, $r$, $F$, and $\mu_\theta$ for these quantities.
 \end{notation}
 
-\comment{Do we need a "Terminology" heading for this?}
 \begin{terminology*}
 In our prelimiting model,
 the population is represented by a point measure in which each
@@ -653,16 +658,17 @@ M^N_t(f)
         -\langle f, \eta^N_0 \rangle
  \\ &\qquad {}
  -  \int_{0}^{t}\bigg\{
-        \int\left( \int \theta
+        \bigg\langle \left( \int \theta
              \left(
                 f(z)r(z, \eta^N_{s})
                 - f(x)r(x, \eta^N_{s})
             \right)
         q_\theta(x,dz) \right)
 %\\ & \qquad \qquad \qquad \qquad {}
-         \gamma(x, \eta^N_{s}) \eta^N_{s}(dx)
+         \gamma(x, \eta^N_{s}), \eta^N_{s}(dx) \bigg\rangle
 \\ & \qquad \qquad \qquad \qquad \qquad {}
-    + \int f(x) F(x, \eta^N_{s}) \eta^N_{s}(dx)
+    + \bigg\langle f(x) F(x, \eta^N_{s}),
+    \eta^N_{s}(dx) \bigg\rangle
     \bigg\} ds
 \end{aligned}    
 \end{equation}
@@ -840,7 +846,7 @@ that is, this expression is non-negative so that there is no need to take the ma
 	sufficiently large $\theta$.)
 \end{assumptions}
 
-We give two more concrete conditions under which the fourth condition is satisfied.
+We give two concrete situations in which the fourth condition is satisfied.
 
 \begin{lemma}
     \label{lem:conditions on r}
@@ -874,19 +880,19 @@ is order $1/\theta$. As remarked above,
 because of the non-local reproduction mechanism, it no longer suffices to assume that 
 $r(x,\smooth{r}\eta(x))\gamma(x, \smooth{\gamma}\eta(x))-\mu_\theta(x)$ is of order $1/\theta$.
 An instructive example is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
-and the population has all individuals at a single location (so, $\eta = \delta_x$),
+and $\eta = \delta_x$
+(i.e., the population has all individuals at a single location)
 in which case the mean rate of change of the total population size
 is $\int (r(y, N \smooth{r}(y) ) - r(x, N \smooth{r}(x))) q_\theta(x, dy)$;
 the first condition of Lemma~\ref{lem:conditions on r} would ensure this is of order $1/\theta$.
 
 If $r(x,m)$ is independent of $m$, then the conditions are easy to 
 satisfy; they just require some regularity of $r$ as a function of $x$. 
-Condition~\ref{control through r} is satisfied if 
+Condition~\ref{control through r} is also satisfied if for example
 $\|\nabla\rho_r\|\leq C\rho_r$ 
 and $m\partial_mr(x,m)$, $m^2\partial_{mm}r(x,m)$ are bounded.
-This will be satsified, for example, if $\rho_r$ decays 
-exponentially.
-On the other hand, it might, for example, seem more natural to take $\rho_r$ to be a Gaussian 
+This is the case, for instance, if $\rho_r$ decays exponentially.
+On the other hand, it might seem more natural to take $\rho_r$ to be a Gaussian 
 density with parameter $\sigma_r$, say. Then, 
 as we check in Lemma~\ref{old 6.1}, \comment{this is referring to the
 old Lemma 6.1, now to go in Appendix,}
@@ -906,7 +912,7 @@ Is the limiting process deterministic or a (generalized) superprocess?
 And, are interactions pointwise in the limit or nonlocal?
 Below we have results for deterministic limits with pointwise and nonlocal interactions,
 and for superprocess limits with nonlocal interactions.
-See Figure \ref{fig:super_vs_det_2d} for illustrative simulations,
+See Figure \ref{fig:super_vs_det_2d} for snapshots of the population
 from direct simulation of the process using SLiM \citep{haller_slim_2019}.
 
 
@@ -925,12 +931,12 @@ from direct simulation of the process using SLiM \citep{haller_slim_2019}.
         Other parameters were the same:
         dispersal and interactions distance were set to 1,
         and the equilibrium density is 10 individuals per unit area.
+        Blue curves are contours from a kernel density estimate.
         \label{fig:super_vs_det_2d}
     }
 \end{figure}
 
 \paragraph{Scaling limits with nonlocal interactions:}
-
 Recall that the process $(\eta_t^N)_{t\geq 0}$ takes its values in the space
 ${\cal D}([0,\infty),\measures)$ of c\`adl\`ag
 paths on $\measures$. We endow $\measures$ with the topology of weak convergence
@@ -954,7 +960,7 @@ characterises limit points as solutions to a martingale problem.
     remain fixed.) 
 Suppose that Assumptions~\ref{def:model_setup} hold and, 
 further, that $\{\eta_0^N\}_{N\geq 1}$ is a sequence of 
-purely atomic measures, with $\eta^N$ comprised of atoms of mass $1/N$, which is
+purely atomic measures, with $\eta_0^N$ comprised of atoms of mass $1/N$, which is
 tight 
 in $\measures$ and such that there exists $\lambda>0$ for 
 which $\langle e^{\lambda\|x\|}, \eta_0^N(dx)\rangle<C<\infty$
@@ -1025,7 +1031,8 @@ to that solution
 When $\alpha>0$, the limit points can be thought of as interacting superprocesses. For
 example, when $r$ and $\gamma$ are constant, and 
 $F(x,\eta_s)=1-\smooth{F} \eta_s(x)$,
-we recover the superprocess with nonlinear death rates corresponding to logistic growth.
+we recover a superprocess with nonlinear death rates corresponding to logistic growth
+that is a continuous limit of the Bolker-Pacala model \citep{bolker/pacala:1997,bolker/pacala:1999}.
 We are not aware of a general result to determine when we will have uniqueness of 
 solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
 when $\alpha>0$.
@@ -1311,9 +1318,6 @@ but we prove such ``diagonal'' convergence in the following situation.
 
 \begin{theorem}[Convergence to a PDE]
     \label{thm:local_convergence}
-\comment{Need to add conditions on initial condition}
-
-
     Let $(\eta^N_t)_{t \geq 0}$
     be as defined in Definition~\ref{defn:mgale_construction} with
 $r(x,m)\equiv 1\equiv \gamma(r,m)$, $F(x,m)\equiv F(m)$, 
@@ -1347,9 +1351,10 @@ that solves
         \partial_t \varphi(t, x)=\Delta \varphi (t,x) +\varphi(t,x) F(\varphi(t,x)).
 \end{align}
 \end{theorem}
+
 \begin{remark}
 In fact,
-our proof goes through without significant change under that conditions that
+our proof goes through without significant change under the conditions that
 $F(m)\ind_{m\geq 0}$ is bounded above (but not necessarily below), and that
 for all $m,n\in[0,\infty)$
 \[
@@ -1408,13 +1413,12 @@ and trace its line of descent.
 This will, in principle, allow us to calculate, for each $y\in\IR^d$, the proportion of
 the population at location $x$ in the present day population that are descended from 
 a parent who was at location $y$ at time $t$ in the past. To make
-sense of this in our framework, in Section~\ref{ancestral lineages}, 
+sense of this in our framework, in Section~\ref{sec:lineages_proof}, 
 we justify a weak reformulation of this idea.
 
 We are interested in two questions.
 First, when is the motion of an ancestral 
-lineage, given complete knowledge of the population process,
- a well-defined Markov process?
+lineage, given complete knowledge of the population process, a well-defined process?
 In other words, is knowledge of the process $(\eta_t)_{t=0}^T$ that records 
 numbers of individuals
 but not their ancestry sufficient to define the distribution of $(L_t)_{t=0}^T$?
@@ -1493,7 +1497,7 @@ or $r(x, \smooth{r} \eta(x))$ (in the nonlocal case).
 Moreover, we haven't proved any regularity of the population density process $\varphi$,
 so, as written, the generator~(\ref{eqn:lineage_generator})
 may not make sense. Instead, it should be interpreted in a weak sense which is made precise
-in Section~\ref{ancestral lineages}.
+in Section~\ref{sec:lineages_proof}.
 \end{remark}
 
 \begin{corollary} \label{cor:lineages_simple}
@@ -1530,7 +1534,7 @@ This can be compared to Remark~\ref{ancestral lineages: first guess}.
 
 \begin{corollary} \label{cor:stationary_dist}
     In addition to the assumptions of Corollary~\ref{cor:lineages_simple},
-    the population process is stationary (so $\varphi_t \equiv \varphi$),
+    if the population process is stationary (so $\varphi_t \equiv \varphi$),
     and $\meanq(x) = \grad h(x)$ for some function $h$,
     then $Y$ is reversible with respect to
     \begin{align}
@@ -1662,7 +1666,7 @@ corresponding to an unscaled density of $N$ individuals per unit area.
 porous medium equation with logistic growth~(\ref{PME}), comparing the simulated
         profile to the analytical solution;
         $\theta/N$ not small on left; small on right.
-        (Note: noisier wave should move slower, we'll see this.)
+        % (Note: noisier wave should move slower, although maybe not much since it's pushed.)
         \label{fig:pme_waves}
     }
 \end{figure}
@@ -1694,25 +1698,26 @@ mass happens behind the wavefront.}
 \subsection{Ancestry in different types of travelling waves}
 \label{ancestral lineages for travelling waves}
 
-\begin{figure}
-    \begin{center}
-        \includegraphics{figures/ex3_fkpp/fkpp_123.lineages}
-        \includegraphics{figures/ex3_fkpp/fkpp_123.lineagehist}
-        \includegraphics{figures/ex3_pme/pme_123.lineages}
-        \includegraphics{figures/ex3_pme/pme_123.lineagehist}
-        \includegraphics{figures/ex3_allen-cahn/allen-cahn_123.lineages}
-        \includegraphics{figures/ex3_allen-cahn/allen-cahn_123.lineagehist}
-    \end{center}
-    \caption{
-        Six panels: one pair for FKPP, one for the porous medium 
-equation with logistic growth~(\ref{PME}), and one for 
-the Allen-Cahn equation~(\ref{eqn:allen_cahn}).
-        Each pair shows (top) lineage traced back in wavefront,
-        and (bottom) stationary distribution of lineage location,
-        compared to analytical solution for the porous medium case.
-        \label{fig:pme_vs_fkpp}
-    }
-\end{figure}
+% \begin{figure}
+%     \begin{center}
+%         \includegraphics{figures/ex3_fkpp/fkpp_123.lineages}
+%         \includegraphics{figures/ex3_fkpp/fkpp_123.lineagehist}
+%         \includegraphics{figures/ex3_pme/pme_123.lineages}
+%         \includegraphics{figures/ex3_pme/pme_123.lineagehist}
+%         \includegraphics{figures/ex3_allen-cahn/allen-cahn_123.lineages}
+%         \includegraphics{figures/ex3_allen-cahn/allen-cahn_123.lineagehist}
+%     \end{center}
+%     \caption{
+%         Six panels: one pair for FKPP, one for the porous medium 
+% equation with logistic growth~(\ref{PME}), and one for 
+% the Allen-Cahn equation~(\ref{eqn:allen_cahn}).
+%     \comment{clarify this is in a moving frame of reference}
+%         Each pair shows (top) lineage traced back in wavefront,
+%         and (bottom) stationary distribution of lineage location,
+%         compared to analytical solution for the porous medium case.
+%         \label{fig:pme_vs_fkpp}
+%     }
+% \end{figure}
 
 Although it remains challenging to establish the distribution of genealogical
 trees relating individuals sampled from our population model, as described in
@@ -1741,7 +1746,7 @@ The equation has non-negative travelling wave solutions of
 speed $c$ for all $c \geq 2$, 
 but, started from any compact perturbation of a Heaviside function, the 
 solution will converge to the profile $w^F$ with the minimal wavespeed, $c=2$
-\citep{kolmogorov/petrovsky/piscounov:1937,bramson:1983}.
+\citep{kolmogorov/petrovsky/piscounov:1937,fife1977approach,bramson:1983}.
 No matter what initial condition,
 for any $t>0$ the support of the 
 solution will be the whole real line. 
@@ -1877,8 +1882,8 @@ one sooner or later comes upon a strange observation:
 with certain parameter combinations, the population spontaneously forms a regular grid
 of more or less dicrete patches, separated by areas with nearly no individuals.
 The phenomenon is discussed in Section~16.10 of \citet{haller2022evolutionary},
-and has been described in similar models, e.g., by \citet{sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive}.
-\comment{TODO: add traveling wave citations}
+and has been described in similar models, e.g.,
+by \citet{britton1990spatial,sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive,berestycki2009nonlocal}.
 Heuristically, this can occur if density-dependent effects of individuals
 extend sufficiently farther than the typical dispersal distance:
 the patches are stable because new offspring landing between two clumps
@@ -1919,9 +1924,9 @@ Letting $\hat \psi(u) = \int e^{2\pi i u x} \psi(x) dx$,
     \right) \hat \psi(u) .
 \end{align*}
 Since $F'_0 < 0$, the last two terms are negative,
-but on the other hand we expect $\gamma_0' < 0$
+but on the other hand if we take $\gamma_0' < 0$
 (i.e., per capita birth rate decreases with density near equilibrium),
-and so the stability of the constant solution $\varphi \equiv \varphi_0$
+then the stability of the constant solution $\varphi \equiv \varphi_0$
 depends on the balance between the first and latter two terms.
 Writing
 $A_1 = - \sigma^2 \varphi_0 r_0 \gamma'_0$,
@@ -2629,7 +2634,7 @@ explicitly as a solution to a martingale problem,
 whose generator is just the sum of
 \eqref{eqn:birth_generator} and \eqref{eqn:level_generator}.
 We need some notation. 
-Write ${\mathcal C}={\mathcal C}(\IR^d\times [0,\infty)$ for the point measures 
+Write ${\mathcal C}={\mathcal C}(\IR^d\times [0,\infty)$ for the counting measures 
 on $\IR^d\times [0,\infty)$ and ${\mathcal C}_N$ for the subset consisting of 
 counting measures on $\IR^d\times [0,N]$.
 
@@ -2685,15 +2690,13 @@ test functions $f$
 
 The martingale problem for finite $N$ has a unique solution.
 Next we state the limiting martingale problem,
-for which we do not have uniqueness.
-\comment{Do we not have uniqueness, or not know if there is uniqueness?}
+for which we do not necessarily have uniqueness.
 As before, the parameter $\alpha$ will correspond to 
 $\lim_{N\to\infty}\theta(N)/N$. Whereas for finite $N$, conditional
 on the population process $\eta_t^N$, the levels of particles are
 independent and 
 uniformly distributed on $[0,N]$, in the infinite population limit, 
-conditional on $\eta_t$ the process $\xi_t$ is 
-Poisson distributed on 
+conditional on $\eta_t$, the process $\xi_t$ is Poisson distributed on 
 $\IR^d\times [0,\infty)$ with mean measure $\eta_t\times\lambda$, where 
 $\lambda$ %%%place changed notation for Lebesgue measure
 is Lebesgue measure.
@@ -2731,7 +2734,7 @@ $0\leq g(x,u)\leq 1$ and
         \right)
         \frac{\partial_u g(x, u)}{ g(x,u) }  .
     \end{split} \end{align}
-We say that a ${\cal C}(\IR^d\times [0,\infty))$-valued process $(\xi_t)_{t \ge 0}$
+    We say that a ${\cal D}([0,\infty), \mathcal{C})$-valued process $(\xi_t)_{t \ge 0}$
     is a solution to the $(A, \lp_0)$ martingale problem
     if it has initial distribution $\lp_0$
     and $f(\lp_t) - f(\lp_0)-\int_0^t Af(\lp_s) ds$ is a martingale (with
@@ -2789,10 +2792,10 @@ if for all compactly supported $f$,
 \begin{align} \label{eqn:conditionally_uniform}
     \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
     &=
-    e^{-\langle F_f^N, \kappa(\lp) \rangle} ,
+    e^{-\langle H_f^N, \kappa^N(\lp) \rangle} ,
 \end{align}
 where
-$$ F_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
+$$ H_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
 In other words, the $[0, N]$ components of $\lp$
 are independent, uniformly distributed on $[0, N]$, and independent of $\kappa(\lp)$.
 Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
@@ -2813,7 +2816,7 @@ where $\lambda$ is Lesbegue measure.
     with initial distribution $\eta^N_0$
     then there exists a solution $\lp^N$
     of the $(A^N, \lp^N_0)$-martingale problem of Definition~\ref{defn:lookdown_mgale}
-    such that $\eta^N = \kappa \circ \lp^N$
+    such that $\eta^N = \kappa^N \circ \lp^N$
     has the same distribution on $D_{\measures}[0, \infty)$
     as $\tilde \eta^N$.
     Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform given given $\mathcal{F}^{\eta^N}_t$
@@ -2844,8 +2847,8 @@ to Theorem~\ref{thm:nonlocal_convergence} for the population process.
     suppose also that $\eta^N_0 \to \eta_0$ (as finite measures on $\IR^d$),
     and that for each $N$, $\lp^N_0$ is conditionally uniform given $\eta_0^N$
     in the sense of \eqref{eqn:conditionally_uniform}.
-    Then, the sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
-    converges along subsequences in distribution as $N \to \infty$
+    Then, any sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
+    has a subsequence which converges in distribution as $N \to \infty$
     to a measure-valued process $(\lp_t)_{t \ge 0}$
     with $\lp_0$ conditionally Poisson given $\eta_0 = \kappa(\lp_0)$
     in the sense of \eqref{eqn:conditionally_poisson},
@@ -3229,9 +3232,10 @@ the production of these lineages.
 
 \begin{proof}[of Proposition~\ref{prop:limiting_construction}]
     The fact that a solution to the system of equations
+    \comment{label the system and refer to it}
     is a solution to the martingale problem of Theorem~\ref{thm:lookdown_convergence}
     is an application of It\^o's theorem.
-    Theorem~\ref{thm:mmt_application} shows that
+    Furthermore, in Proposition~\ref{thm:mmt_application} we showed that
     the conditional Poisson property of $\lp_0$ is preserved
     (i.e., holds for $\lp_t$ for all $t$), and so
     $(\eta_t)_{t \ge 0}$ is well-defined,
@@ -3312,6 +3316,7 @@ This is bounded uniformly because
 $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
 are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
+\comment{typo}
 u implies that $|B_1|$ is uniformly bounded;
 since $\gamma$ is bounded as well, so is $|\gamma B_1|$.
 
@@ -3389,8 +3394,8 @@ processes in $\cmeasures$
 it suffices to consider the sequence of total masses); armed with this, 
 %Theorem~3.9.1 of~\cite{ethier/kurtz:1986} tells us that 
 tightness of the population processes in $\mathcal{D}_{\cmeasures}([0,\infty))$
-follows from tightness of the real-valued processes $(G(\eta_t))_{t\geq 0}$ for a sufficiently large
-class of test functions $G$, which we establish through an application of the
+follows from tightness of the real-valued processes $(H(\eta_t))_{t\geq 0}$ for a sufficiently large
+class of test functions $H$, which we establish through an application of the
 Aldous-Rebolledo criterion in Lemma~\ref{lem:eta_projections_tightness}.
 These ingredients are gathered together in 
 Proposition~\ref{tightness in one point compactification}
@@ -3494,12 +3499,48 @@ First note that we may rewrite $B_f(x, \eta)$ as
     \left| \theta 
         \int_{\IR^n} 
             ( f(y) - f(x) )
+            r(y, \smooth{r}\eta(y))
         q_{\theta}(x,dy)
     \right|
     +
     \|f\|_\infty |B_1(x, \eta)| .
 \end{align}
-The first term is bounded uniformly
+\comment{TODO FIX THIS}
+Using the intermediate value theorem,
+then the fact that $0 \le r \le 1$,
+there is a $\kappa$ in $[0, 1]$ such that the first term is
+\begin{align*}
+    &
+    \left| \theta 
+        \int_{\IR^n} 
+            ( f(y) - f(x) )
+            r(y, \eta)
+        q_{\theta}(x,dy)
+    \right|
+    \\ &\qquad =
+    \left| \theta 
+        \int_{\IR^n} 
+            \left(
+                \sum_i (y-x)_i \partial_{x_i} f(x)
+                +
+                \frac{1}{2} \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(x + \kappa(y-x))
+            \right)
+            r(y, \eta)
+        q_{\theta}(x,dy)
+    \right|
+    \\ &\qquad \leq
+    \|f'\|_\infty \left| \theta 
+        \int_{\IR^n} 
+            (y-x) r(y, \eta)
+        q_{\theta}(x,dy)
+    \right|
+    + \frac{1}{2} \|f''\|_\infty \left| \theta 
+        \int_{\IR^n} 
+            (y-x)^2
+        q_{\theta}(x,dy)
+    \right|
+\end{align*}
+bounded uniformly
 because $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$,
 and both $\meanq(x)$ and $\covq(x)$
@@ -3819,11 +3860,12 @@ $\{(\eta^{N}_t)_{t>0}\}_{N\geq 1}$ as solutions to a martingale problem
 with generator $\Pgen^{\infty}$ which we now identify. Most of the work
 was done in Section~\ref{sec:heuristics}.
 First, we record an equivalent formulation
-of the martingale problem for the limiting process,
-that follows by application of It\^o's lemma.
+of the martingale problems.
+% that follows by application of Dynkin's formula.
 
 \begin{lemma}
     \label{def: MP definition of limit}
+\comment{TODO: define $\mathcal{P}^N$ also here.}
 For $G \in \mathcal{C}^{\infty}(\IR)$ with $\|G'''\|_\infty<\infty$,
 and 
 $f \in \mathcal{C}_{b}^\infty(\overline{\IR}^d)$, define the 
@@ -3874,8 +3916,6 @@ $$
 is a martingale (with respect to the natural $\sigma$-field). 
 \end{lemma}
 
-\comment{TODO: define $\mathcal{P}^N$.}
-
 \begin{lemma}[Characterisation of limit points]
     \label{lem:limit_mgale}
 Suppose that $(\eta^{N}_0)_{N\geq 1}$ converges weakly to $\eta_0$ as 
@@ -3905,8 +3945,10 @@ G_f(\eta^{N}_{t+\tau})-G_f(\eta^{N}_t)
 \prod_{i=1}^{k} h_i(\eta^{N}_{t_i})
 \right]=0
 \end{equation}
-for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
-and $h_1,...,h_k \in \mathcal{C}_{b}(\cmeasures)$.
+for all $k\geq 0$, $0\leq t_1<t_2<\ldots,t_k \leq t < t+\tau$,
+and 
+bounded continuous functions 
+$h_1,\ldots,h_k$ on $\cmeasures$.
 
 Since $(\eta^N_t)_{t\geq 0}$ is Markov, the tower property gives that,
 for each choice of $G_f$ and for each $N$,
@@ -3937,7 +3979,7 @@ ds
 \prod_{i=1}^{k}h_i(\eta^{N}_{t_i})
 \right]=0,
 \end{equation}
-and again using the tower property, since the functions $h_i$ are
+and, again using the tower property, since the functions $h_i$ are
 bounded, this will follow if
 \begin{equation}
 \lim_{N \to \infty}
@@ -4098,7 +4140,7 @@ Section~\ref{ancestral lineages for travelling waves}.
 In this subsection we prove Proposition~\ref{prop:nonlocal_to_local}. {\em The conditions of the
 proposition are in force throughout this subsection.} 
 The proof rests on a Feynman-Kac representation.
-We write $(Z_t)_{t\geq 0}$ for a diffusion with generator $\DG^*$ and denotes 
+We write $(Z_t)_{t\geq 0}$ for a diffusion with generator $\DG^*$ and denote 
 its transition density by $f_t(x,y)$. The first step is a regularity
 result for this density.
 
@@ -4466,7 +4508,7 @@ Now consider
 	\\
 	+ \int \exp(\lambda x)\psi_t^\epsilon(x)\big(1-\rho^{\epsilon}*\psi_t^\epsilon(x)\big) dx
     \\
-	= \int (\lambda^2-1)\exp(\lambda x) \psi_t^\epsilon(x) \smooth{\epsilon}* \psi_t^\epsilon(x) dx 
+	= \int (\lambda^2-1)\exp(\lambda x) \psi_t^\epsilon(x) \smooth{\epsilon} \psi_t^\epsilon(x) dx 
 	+ \int \exp(\lambda x)\psi_t^\epsilon(x) dx
     \\
     \leq \int \exp(\lambda x)\psi_t^\epsilon(x) dx,
@@ -4724,13 +4766,13 @@ to equation~(\ref{PME})
 and, so, therefore, does $\psi^\epsilon$. In fact, strong convergence, that is
 $\int |\psi^\epsilon -\psi|\phi dx \to 0$, follows from the
 uniform integrability of $\psi^\epsilon$ that we
-deduce from the uniform control of
+can deduce from the uniform control of
 $\int \psi^\epsilon|\log \psi^\epsilon| d x$ that we proved above.
 \end{proof}
 
 
 % % % % % % % % % % % % %
-\subsection{Simultaneous scaling with interaction distance}
+\section{Simultaneous scaling with interaction distance}
 \label{subsec:one step convergence proof}
 
 
@@ -4777,7 +4819,7 @@ Subsection~\ref{bounds on rhoepsilon},
 and we identify the limit points in Subsection~\ref{limit in onestep case}.
 
 
-\subsubsection{Continuity estimates for a Gaussian random walk}
+\subsection{Continuity estimates for a Gaussian random walk}
 \label{continuity for random walk}
 
 Let us write $\mathcal{L}^\theta f(x) := \theta \int (f(y)-f(x))q_\theta(x,y) dy$ 
@@ -4800,15 +4842,15 @@ $\psi_0^{\epsilon,x}(y) = \rho_\epsilon(y-x) =p_{\epsilon^2}(x,y)$.
     Fix $t>0$,
     let $(\Pi(s))_{s \ge 0}$ be a rate one Poisson process,
     and let $T(t) = \Pi(\theta t) / \theta$.
-    \comment{Suppose also that $\theta \epsilon^2$ is bounded below.
-    (We could alternatively put a $1/\theta\epsilon^2$ term in the lemma.)}
     Then
     \[
         \psi^{\epsilon,x}_t(y)
         =
         \IE\left[ p_{\epsilon^2+T(t)}(x,y)\right],
     \]
-    and, moreover, there is a $C$ independent of $\epsilon$ or $t$ such that
+    and, moreover,
+    since under our assumptions $\theta \epsilon^2$ is bounded below,
+    there is a $C$ independent of $\epsilon$ or $t$ such that
     \[
         \| \psi^{\epsilon,x}_t \|_\infty
         \leq
@@ -5242,7 +5284,7 @@ Intermediate Value Theorem and take the modulus to bound this expression by
 
 
 
-\subsubsection{Moment bounds for $\rho_\epsilon*\eta$}
+\subsection{Moment bounds for $\rho_\epsilon*\eta$}
 \label{bounds on rhoepsilon}
 
 
@@ -5706,7 +5748,7 @@ A union bound gives that
 \IP\Big[\max_i\|f\|_\infty\int_{t_{i-1}}^{t_i}
 \big\langle \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
 \eta_u^N(dx)\big\rangle du \geq \frac{\nu}{3}\Big]
-\leq C\frac{\delta}{T\nu^2}.
+\leq C\frac{T\delta}{\nu^2}.
 \end{equation}
 Now using Markov's inequality, we can choose $K$ so that
 \[
@@ -5714,11 +5756,11 @@ Now using Markov's inequality, we can choose $K$ so that
 >K\Big]<\frac{\nu}{3}, 
 \]
 and so choosing $\delta$ so that $K\delta<\nu/3$ in this 
-expression and $C\delta<T\nu^3/3$ in~(\ref{union bound}),
+expression and $C\delta<\nu^3/3T$ in~(\ref{union bound}),
 combining with~(\ref{martingale term to zero}), the result follows.
 \end{proof}
 
-\subsubsection{Identification of the limit}
+\subsection{Identification of the limit}
 \label{limit in onestep case}
 
 
@@ -5739,7 +5781,7 @@ By a Taylor expansion, writing $\{T_t\}_{t\geq 0}$ for the heat semigroup,
 	\big\rangle ds + \mathcal{O}\Big(\frac{1}{\theta}\Big).
 \end{align*}
 Thus, from weak convergence we can deduce that under our scaling,
-for any convergent subsequence $\{\rho_\epsilon*\eta^N(x)dx\}_{N\geq 1}$,
+for any (weakly) convergent subsequence $\{\rho_\epsilon*\eta^N(x)dx\}_{N\geq 1}$,
 \[ 
 \int_0^t \big\langle \mathcal{L}^\theta T_{\epsilon^2} f, 
 \eta_s^N(dx)\big\rangle ds 
@@ -6269,6 +6311,7 @@ and then in the next section, convergence of the lookdown process itself.
     This proposition is the content of the Markov Mapping Theorem,
     Theorem A.2 in \citet{etheridge/kurtz:2019},
     applied to our situation.
+    \comment{TODO: copy the MMT into our appendix and refer to it}
     In the notation of that theorem, $\gamma$ is what we have called $\kappa$ above,
     $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
     or as a Poisson process with Lesbegue intensity (in the limiting case),
@@ -6282,7 +6325,7 @@ and then in the next section, convergence of the lookdown process itself.
 
     For finite $N$,
     taking $f(\lp)$ of the form \eqref{eqn:test_functions},
-    we can use $\psi^N(\lp) = \langle C (1+ + u |F(x, \eta)|), \lp(dx, du) \rangle$
+    we can use $\psi^N(\lp) = \langle C (1 + u |F(x, \eta)|), \lp(dx, du) \rangle$
     for an appropriate constant $C$.
     For the scaling limit, recall that the test functions $f$ are of the form
     $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
@@ -6298,9 +6341,9 @@ and then in the next section, convergence of the lookdown process itself.
     \end{align*}
     The first line would be just what we want,
     except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
-    So, the second line provides us with the required bound,
-    absorbing $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
-    and $\langle |F(x, \eta) u e^{-u}|, \lp \rangle$ into $\psi(\lp)$.
+    So, the second line provides us with the required bound:
+    we absorb $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
+    and take $\psi(\lp) = \langle F(x, \eta) u e^{-u}, \lp(dx, du) \rangle$.
     % Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
     % for a given $\lp$ (and hence $\eta = \kappa(\lp)$),
     % $\sup_x |F(x, \eta)|$ is finite.
@@ -6320,10 +6363,10 @@ and then in the next section, convergence of the lookdown process itself.
 
 Now we turn to the main theorem on convergence of the lookdown process, 
 Theorem~\ref{thm:lookdown_convergence}, whose proof
-follows a similar pattern as the the proofs of convergence for the population process
+follows a similar pattern to those of convergence for the population processes
 in Section~\ref{sec:population_density_proof}.
 
-
+\begin{remark}
 The process we consider is similar to the state-dependent branching processes
 of \citet{KR}, so one might expect that the proofs there would carry over with little change.
 However, there is an important difference:
@@ -6352,10 +6395,11 @@ joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines 
 it does not have this monotonicity:
 for one thing, $b^N$ and $c^N$ depend on the population process $\eta$
 and so all individuals can affect all other ones (even those with lower levels).
-Furthermore, in the deterministic case $\theta/N$ and hence $c$ converge to zero,
+Furthermore, in the deterministic case $\theta/N$, and hence $c$, converges to zero,
 and so lines of descent with arbitrarily high level may drift back downwards.
 Indeed, this must be the case if the population persists,
 since in the deterministic case there is no branching.
+\end{remark}
 
 To complete the description of the process,
 each line of descent
@@ -6443,7 +6487,7 @@ In other words, the limiting ``line of descent'' construction holds.
     and we may choose a countable set of nonnegative, compactly supported $f_k$
     such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
     $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$;
-    therefore, compact containment will follow from Lemma~\ref{lem:compact containment lookdown}.
+    below, Lemma~\ref{lem:compact containment lookdown} proves exatly this, and therefore compact containment.
 
     We require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
     is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
@@ -6464,17 +6508,18 @@ In other words, the limiting ``line of descent'' construction holds.
     extends to finite sums and products of these processes,
     which is shown in Lemma~\ref{lem:product_tightness}.
 
-    We show that the martingale properties are preserved in the limit
-    in Section~\ref{sec:lookdown_generator_proofs}.
+    The analogue of Lemma~\ref{lem:limit_mgale},
+    in particular that the martingale properties are preserved under passage to the limit,
+    are proved in Section~\ref{sec:lookdown_generator_proofs}.
     \comment{TODO: refer to correct thing}
     Finally, we must show that the limiting lookdown process $\lp$
     projects to the limiting process $\eta$, i.e., a solution of the martingale
     problem in Theorem~\ref{thm:nonlocal_convergence}.
     Let $N_k \to \infty$ be a sequence along which $\lp^{N_k}$ converges.
-    However, by Theorem~\ref{thm:nonlocal_convergence},
+    By Theorem~\ref{thm:nonlocal_convergence},
     there is a subsequence $N_{k(j)}$ along which the projected population processes
     $\eta^{N_{k(j)}}$ converge, and the limit solves the martingale problem.
-    This implies that any limit of $\lp^N$ projects to a population process $\eta$
+    Thus any limit point of $\lp^N$ projects to a population process $\eta$
     solving the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
 
@@ -6484,13 +6529,14 @@ for concreteness one may take $h(u) = e^{-u}$.
 
 \begin{lemma}
         \label{lem:h_containment}
-    Let $h$ be a positive, continuous, nondecreasing, differentiable function on $[0, \infty)$
+    Let $h$ be a positive, continuous, nonincreasing, differentiable function on $[0, \infty)$
     such that
     $\int_0^\infty \int_u^\infty h(v) dv du$,
     $\int_0^\infty u^2 |h'(u)| du$,
     and $\int_0^\infty h(u)^2 du$
     are all finite,
     Then under the assumptions of Lemma~\ref{lem:compact containment lookdown},
+    \comment{MOVE ASSUMPTIONS HERE}
     for any $T$ there exists a constant $K(T)$ such that for all $M > 0$,
     $$ 
     \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M \right\}
@@ -6591,7 +6637,7 @@ a set which is compact if we choose $\{f_k\}$ appropriately.
 
 Finally, we prove the key lemma.
 
-\begin{proof}[of Lemma~\ref{lem:compact containment hn}]
+\begin{proof}[of Lemma~\ref{lem:h_containment}]
     Applied to $f(x, u) = h(u)$, the martinagle representation~\eqref{eqn:f_xi_mgale} is
     \begin{align*}
     \begin{split}
@@ -6775,7 +6821,7 @@ Finally, we prove the key lemma.
             + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
         \Big\rangle ds
-        &\le
+        \\ &\le
         \langle f, \lp_0 \rangle
         + M^f_t
         + \int_0^t \Big\langle
@@ -6807,6 +6853,7 @@ Finally, we prove the key lemma.
 
 % % % % % % % % % % % % %
 \subsection{Motion of ancestral lineages}
+\label{sec:lineages_proof}
 
 In this section we prove Theorem~\ref{thm:lineages}.
 The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}.
@@ -7048,7 +7095,7 @@ $$
     =
     - \int_{\IR^d} e^{H(x)} \grad f(x) \cdot \grad g(x) dx .
 $$
-Since this is symmetric, the process $Y$ is reversible with respect to $\pi$;
+Since this is symmetric in $f$ and $g$, the process $Y$ is reversible with respect to $\pi$;
 the constant factor of $\sigma^2$ does not affect the result.
 \end{proof}
 
@@ -8470,7 +8517,7 @@ probability space, so that the products and sums make sense.
 
 
 \bibliographystyle{plainnat}
-\bibliography{refs.bib,plr_refs.bib}
+\bibliography{refs,plr_refs,MendeleyIan}
 
 
 \end{document}
