@@ -639,6 +639,7 @@ It is convenient to characterise the process as a solution to a martingale probl
 We write $C_b^\infty(\IR^d)$ for the space of bounded smooth functions on $\IR^d$, and, where
 convenient, we
 write $\langle f, \eta \rangle = \int_{\IR^d} f(x) \eta(dx)$.
+
 \begin{definition}[Martingale Problem Characterisation]
     \label{defn:mgale_construction}
 	For each value of $N$ and $\theta$, and each purely atomic 
@@ -3245,10 +3246,8 @@ the production of these lineages.
 \section{Proofs}
 \label{sec:proofs}
 
-In this section we present formal proofs of our 
-three
-scaling limits. In
-Subsection~\ref{sec:population_density_proof} 
+In the following sections we present formal proofs of our three scaling limits.
+In Subsection~\ref{sec:population_density_proof} 
 we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain a limit in
 which interactions between individuals in the population are nonlocal.
 In Subsection~\ref{subsec:nonlocal to local}
@@ -3257,14 +3256,14 @@ limit is respectively a deterministic solution to a non-local equation of
 reaction diffusion type and a deterministic solution to a nonlocal 
 porous medium equation with an additional logistic growth term, 
 one can pass to a further 
-limit to obtain a classical PDE. In 
-Subsection~\ref{subsec:one step convergence proof}
+limit to obtain a classical PDE.
+In Section~\ref{subsec:one step convergence proof}
 we prove our third scaling limit, in which 
 we pass from our population model 
-directly to a reaction diffusion equation without going via a nonlocal
-limit.
+directly to a reaction diffusion equation without going via a nonlocal limit.
+Finally, in Section~\ref{sec:lookdown_proofs} we prove our results concerning both convergence of the lookdown representation
+and characterization of the lineage process in the deterministic case.
 
-\comment{TODO add sentences about the sections Peter is editing}
 
 \subsection{Preliminaries}
 
@@ -3450,13 +3449,7 @@ Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingal
         \big\} \eta^N_s(dx) ds
     + M^N_t(f) ,
 \end{align}
-where $M^N_t(f)$ is a martingale
-and $B_f$ is defined in \comment{TODO REFER}.
-% and we are defining
-% \begin{equation}
-% \label{generator Bf}
-%     B_f(x, \eta) = \int_{\IR^d} \theta (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
-% \end{equation}
+where $M^N_t(f)$ is a martingale and $B_f$ is defined in \ref{generator Bf}.
 
 We need a bound on $\gamma(x,\eta)B_f(x,\eta)+fF$.
 First note that we may rewrite $B_f(x, \eta)$ as
@@ -3858,23 +3851,55 @@ $\{(\eta^{N}_t)_{t>0}\}_{N\geq 1}$ as solutions to a martingale problem
 with generator $\Pgen^{\infty}$ which we now identify. Most of the work
 was done in Section~\ref{sec:heuristics}.
 First, we record an equivalent formulation
-of the martingale problems.
+of the martingale problems,
+which were essentially laid out in Subsection~\ref{sec:population_heuristics}.
 % that follows by application of Dynkin's formula.
 
 \begin{lemma}
     \label{def: MP definition of limit}
-\comment{TODO: define $\mathcal{P}^N$ also here.}
 For $G \in \mathcal{C}^{\infty}(\IR)$ with $\|G'''\|_\infty<\infty$,
 and 
 $f \in \mathcal{C}_{b}^\infty(\overline{\IR}^d)$, define the 
 function $G_f$ by 
 $G_f(\eta):=G (\langle f, \eta \rangle)$.
-Let $\Pgen^\infty$ be the generator
-given by
+Let $\Pgen^N$ be the generator given by
+\begin{equation}
+\begin{aligned}
+    \Pgen^N G_f(\eta)
+    &:=
+    G'(\langle f, \eta \rangle)
+        \theta \bigg\langle
+        \gamma(x, \eta)
+            \int f(z) r(z,\eta) q_\theta(x,dz)
+        -
+        f(x)\mu_\theta(x, \eta),
+        \eta(dx) \bigg\rangle
+    \\&\qquad {}
+    + \frac{1}{2} G''(\langle f, \eta \rangle)
+    \frac{\theta}{N}
+    \bigg\langle
+        \gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta),
+    \eta(dx) \bigg\rangle .
+\end{aligned}
+\end{equation}
+A process $(\eta^N_t)_{t \geq 0}$ 
+satisfies the martingale characterization of Definition~\ref{defn:mgale_construction}
+if and only if it is a solution 
+to the $(\Pgen^N, \eta_0)$-martingale problem, i.e.,
+if for all such test functions 
+$$
+    M_t :=
+    G_f(\eta^N_t) - G_f(\eta^N_0)
+    - \int_{0}^{t}\Pgen^N G_f(\eta^N_s)ds
+$$
+is a martingale (with respect to the natural $\sigma$-field). 
+
+Furthermore, let $\Pgen^\infty$ be the generator given by
 \begin{equation}
     \label{eq: Limit Generator Definition}
 \begin{aligned}
-\Pgen^{\infty} G_f(\eta):=& G'(\langle f, \eta \rangle)
+\Pgen^{\infty} G_f(\eta)
+    &:= G'(\langle f, \eta \rangle)
                    %\times 
 \left\{
                    \big\langle
@@ -3888,7 +3913,8 @@ given by
                         \eta(dx)
                     \big\rangle
                    \right\}\\
-                &+ \frac{\alpha}{2} G''(\langle f, \eta \rangle)
+               &\qquad {}
+               + \frac{\alpha}{2} G''(\langle f, \eta \rangle)
                   %\times 
 \left\{
                   \big\langle
@@ -3902,13 +3928,14 @@ given by
 \end{aligned}    
 \end{equation}
 A process $(\eta^{\infty}_t)_{t \geq 0}$ 
-is a solution to the $(A, \lp_0)$-martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}
+satisifes the martingale characterization of equations~\ref{eqn:limiting_mgale_problem}
+and~\ref{eqn:limiting_mgale_variation}
 if and only if it is a solution 
-to the $(\Pgen^{\infty}, \eta_0)$-martingale problem, i.e.,
+to the $(\Pgen^{\infty}, \eta^\infty_0)$-martingale problem, i.e.,
 if for all such test functions 
 $$
     M_t :=
-    G_f(\eta^{\infty}_t)-G_f(\eta_0)
+    G_f(\eta^{\infty}_t) - G_f(\eta^\infty_0)
     - \int_{0}^{t}\Pgen^{\infty}G_f(\eta^{\infty}_s)ds
 $$
 is a martingale (with respect to the natural $\sigma$-field). 
@@ -6296,10 +6323,10 @@ of) equation~(\ref{target equation in local convergence}).
 Since $\tau$ was arbitrary, the proof of Theorem~\ref{thm:local_convergence}
 is complete.
 
-\comment{I haven't turned the $\mu$ into $\mu_\theta$ below this point.}
 
 % % % % % % % % % % % % %
 \section{Lookdown Proofs}
+    \label{sec:lookdown_proofs}
 
 Now we turn to results about the lookdown process,
 first establishing the basic connection between the processes, Proposition~\ref{thm:mmt_application},
@@ -6533,9 +6560,13 @@ for concreteness one may take $h(u) = e^{-u}$.
     $\int_0^\infty u^2 |h'(u)| du$,
     and $\int_0^\infty h(u)^2 du$
     are all finite,
-    Then under the assumptions of Lemma~\ref{lem:compact containment lookdown},
-    \comment{MOVE ASSUMPTIONS HERE}
-    for any $T$ there exists a constant $K(T)$ such that for all $M > 0$,
+    Suppose that Assumptions~\ref{def:model_setup} hold,
+    and that $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
+    where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
+    in the sense of \eqref{eqn:conditionally_uniform}
+    and $\lp_0$ is conditionally uniform given $\eta_0$
+    in the sense of \eqref{eqn:conditionally_poisson}.
+    Then for any $T$ there exists a constant $K(T)$ such that for all $M > 0$,
     $$ 
     \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp^N_t \rangle > M \right\}
     <
@@ -6551,7 +6582,7 @@ compactly supported functions.
     \label{lem:compact containment hn}
     Suppose $f \in C(\bar \IR^d \times [0, \infty))$ and there is a $u_f$ such that
     $f(x, u) = 0$ for all $x$ and $u \ge u_f$.
-    Under the assumptions of Lemma~\ref{lem:compact containment lookdown},
+    Under the assumptions of Lemma~\ref{lem:h_containment},
     for any $T$ there exists a constant $K(f,T)$ such that for all $M > 0$,
     $$ 
     \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle f, \lp^N_t \rangle > M \right\}
@@ -6578,13 +6609,8 @@ compactly supported functions.
 \begin{lemma}[Compact containment for $\lp$] \label{lem:compact containment lookdown}
     Let $f_1, f_2, \ldots$ be a sequence of functions each satisfying the conditions
     of Lemma~\ref{lem:compact containment hn}.
-    Under Assumptions~\ref{def:model_setup},
-    if $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
-    where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
-    in the sense of \eqref{eqn:conditionally_uniform}
-    and $\lp_0$ is conditionally uniform given $\eta_0$
-    in the sense of \eqref{eqn:conditionally_poisson},
-    then for any $T$ and $\delta > 0$ there exists a sequence
+    Under the assumptions of Lemma~\ref{lem:h_containment},
+    for any $T$ and $\delta > 0$ there exists a sequence
     $(C_1, C_2, \ldots)$ of finite constants such that
     \begin{align} \label{eqn:compact eqn lookdown}
     \limsup_{N \to \infty}
@@ -7259,7 +7285,7 @@ such that
 \begin{equation}
 \begin{aligned}
 \Pgen^{N} F_f(\eta):=& \int_{\IR^d} \theta\gamma(x, \eta) \left\{\int_{\IR^d} \left\{F(\langle f, \eta \rangle + f(y)/N )-F(\langle f, \eta \rangle )\right\}r(y, \eta)q_{\theta}(x,dy)\right\}N\eta(dx)\\
-&+\int_{\IR^d} \theta \mu(x, \eta) \left\{F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\right\}N\eta(dx).
+&+\int_{\IR^d} \theta \mu_\theta(x, \eta) \left\{F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\right\}N\eta(dx).
 \end{aligned}    
 \end{equation}
 In this case, our pre-limit model $(\eta^{N}(t))_{t \geq 0}$ is the solution to the Martingale Problem $(\Pgen^{N}, \eta_0)$, i.e. 
@@ -7425,11 +7451,11 @@ We may now rewrite $\mathcal{P}^NF(\langle f, \eta \rangle)$ as
 \begin{equation} 
     \label{eq: Pre-Limit Generator Expanded}
 \begin{aligned}
-\Pgen^{N} F_f(\eta):=& F'(\langle f, \eta \rangle)\int_{\IR^d}  \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu(x, \eta)\right\}q_{\theta}(x,dy)\right\}\eta(dx)\\
+\Pgen^{N} F_f(\eta):=& F'(\langle f, \eta \rangle)\int_{\IR^d}  \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu_\theta(x, \eta)\right\}q_{\theta}(x,dy)\right\}\eta(dx)\\
 &+\frac{1}{2}\frac{\theta}{N}F''(\langle f, \eta \rangle)\int_{\IR^d} 
- \left\{\gamma(x, \eta)\int_{\IR^d} \left\{f^2(y) r(y,\eta) \right\}q_{\theta}(x,dy)+f^2(x)\mu(x, \eta)\right\}\eta(dx)\\
+ \left\{\gamma(x, \eta)\int_{\IR^d} \left\{f^2(y) r(y,\eta) \right\}q_{\theta}(x,dy)+f^2(x)\mu_\theta(x, \eta)\right\}\eta(dx)\\
 &+\frac{1}{6}\frac{\theta}{N^2}\int_{\IR^d}\left\{ 
-F'''(w) \left\{\gamma(x, \eta)\int_{\IR^d} f^3(y) r(y,\eta) q_{\theta}(x,dy)\right\}-F'''(v)f^3(x)\mu(x, \eta)\right\}\eta(dx)
+F'''(w) \left\{\gamma(x, \eta)\int_{\IR^d} f^3(y) r(y,\eta) q_{\theta}(x,dy)\right\}-F'''(v)f^3(x)\mu_\theta(x, \eta)\right\}\eta(dx)
 \end{aligned}    
 \end{equation}
 \normalsize
@@ -7445,8 +7471,8 @@ the third term in Equation \eqref{eq: Pre-Limit Generator Expanded} vanishes
 while the second term converges to
 that of Equation \eqref{eq: Limit Generator Definition}.
 Furthermore,
-$\mu(x,\eta) = r(x,\eta)\gamma(x,\eta)-\frac{1}{\theta}F(x,\eta) \to r(x,\eta)\gamma(x,\eta),$
-so $f^2(x)\mu(x,\eta) \to r(x,\eta)\gamma(x,\eta) f^2(x)$.
+$\mu_\theta(x,\eta) = r(x,\eta)\gamma(x,\eta)-\frac{1}{\theta}F(x,\eta) \to r(x,\eta)\gamma(x,\eta),$
+so $f^2(x)\mu_\theta(x,\eta) \to r(x,\eta)\gamma(x,\eta) f^2(x)$.
 
 
 
@@ -7457,7 +7483,7 @@ Finally, by Equation \eqref{mean measure},
 \eqref{limit of mean measure equation},
 we have 
 \begin{multline}
- \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu(x, \eta)\right\}q_{\theta}(x,dy)\right\}
+ \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu_\theta(x, \eta)\right\}q_{\theta}(x,dy)\right\}
  \\
 \to \gamma(x, \eta)                           \mathcal{B}\left(
                             f(\cdot) r(\cdot, \eta)
