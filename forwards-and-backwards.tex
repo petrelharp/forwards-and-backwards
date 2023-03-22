@@ -1,4 +1,3 @@
-
 \documentclass[12pt]{article}
 \usepackage{fullpage}
 \usepackage{amssymb}
@@ -166,7 +165,6 @@ medium equation with logistic growth.
 \vspace{.1in}
 
 	\comment{Need to thank KAVLI, Paris Cit\'e, various funders}
-    \comment{make notation for $\mathcal{D}$ consistent}
 
 \vspace{.1in}
 
@@ -2678,7 +2676,7 @@ where $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$ is as defined in \eqref{eqn:test
 and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$
 as before. 
 Given $\lp_0 \in {\mathcal C}_N$, 
-we say that a ${\mathcal D}([0,\infty), {\mathcal C}_N)$-valued process 
+we say that a ${\mathcal D}_{[0,\infty)}({\mathcal C}_N)$-valued process 
 $(\xi_t)_{t \ge 0}$
    is a solution to the $(A^N, \lp_0)$ martingale problem
     if 
@@ -3393,21 +3391,21 @@ processes in $\cmeasures$
 (for which, since we have compactified $\IR^d$,
 it suffices to consider the sequence of total masses); armed with this, 
 %Theorem~3.9.1 of~\cite{ethier/kurtz:1986} tells us that 
-tightness of the population processes in $\mathcal{D}_{\cmeasures}([0,\infty))$
+tightness of the population processes in $\mathcal{D}_{[0,\infty)}(\cmeasures)$
 follows from tightness of the real-valued processes $(H(\eta_t))_{t\geq 0}$ for a sufficiently large
 class of test functions $H$, which we establish through an application of the
 Aldous-Rebolledo criterion in Lemma~\ref{lem:eta_projections_tightness}.
 These ingredients are gathered together in 
 Proposition~\ref{tightness in one point compactification}
 to deduce tightness of the scaled population processes in 
-the larger space $\mathcal{D}_{\cmeasures}([0,\infty))$.
+the larger space $\mathcal{D}_{[0,\infty)}(\cmeasures)$.
 
 We then characterise
 limit points as solutions to a martingale problem in
 Lemma~\ref{lem:limit_mgale}; finally in Lemma~\ref{no mass at infty}
 we check that 
 in the process of passing to the limit, no mass `escaped to infinity', so that
-in fact the limit points take values in $\mathcal{D}_{\measures}([0,\infty))$.
+in fact the limit points take values in $\mathcal{D}_{[0,\infty)}(\measures)$.
 \end{proof}
 
 
@@ -3453,7 +3451,8 @@ Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingal
         \big\} \eta^N_s(dx) ds
     + M^N_t(f) ,
 \end{align}
-where $M^N_t(f)$ is a martingale.
+where $M^N_t(f)$ is a martingale
+and $B_f$ is defined in \comment{TODO REFER}.
 % and we are defining
 % \begin{equation}
 % \label{generator Bf}
@@ -6316,7 +6315,7 @@ and then in the next section, convergence of the lookdown process itself.
     $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
     or as a Poisson process with Lesbegue intensity (in the limiting case),
     and we need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
-    for all $f \in \mathcal{D}(A^N)$ (and similarly a function $\psi$ for $A$).
+    for all $f$ in the domain of $A^N$ (and similarly a function $\psi$ for $A$).
     We also need that applying the lookdown generator to a function and averaging over levels
     is equivalent to applying the population process generator to the function
     whose dependence on levels has been averaged out,
@@ -7489,7 +7488,7 @@ there exists a solution $(\lp^N_t)_{t \geq 0}$ to the $(A^N, \lp^N_0)$ martingal
 Furthermore, if we define $\Xi^N_t = \frac{1}{N}\lp^N_t(dx \times [0,N])$ for $t \geq 0$,
 then the pre-limiting model $(\eta^N_t(dx))_{t \geq 0}$ defined in Definition \ref{defn:mgale_construction}
 and $(\Xi^N_t(dx))_{t \geq 0}$
-shares the same distribution on $\mathcal{D}_{\mathcal{M}(\mathbb{R}^d)}[0,\infty)$.
+shares the same distribution on $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$.
 
 Finally, 
 for all $h\in \mathcal{C}(\mathbb{R}^d \times [0, N])$
@@ -7515,7 +7514,7 @@ There exists a solution $(\lp_t)_{t \geq 0}$ to the $(A, \lp_0)$ martingale prob
 Furthermore, if we define $\Xi_t = \lim_{u_0 \to \infty} \frac{1}{u_0}\lp_t(dx \times [0,u_0])$,
 then the limit model $(\eta_t(dx))_{t \geq 0}$ defined in Theorem \ref{thm:nonlocal_convergence}
 and $(\Xi_t(dx))_{t \geq 0}$
-shares the same distribution on $\mathcal{D}_{\mathcal{M}(\mathbb{R}^d)}[0,\infty)$.
+shares the same distribution on $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$.
 
 Finally, 
 for all $h\in \mathcal{C}(\mathbb{R}^d)$ and for all $K>0$,
@@ -7658,7 +7657,7 @@ we can apply Markov Mapping Theorem to establish the following statements:
     such that 
     $M^N_t:=    f(\xi^N_t)-   f(\xi^N_0)-\int_{0}^{t}  A^Nf(\xi^N_s)ds$ is a martingale for all $f\in D(A^N)$,
     \item The process $(\gamma_M \circ \xi^N_t)_{t \geq 0}= \left(\Xi^N_t\right)_{t \geq 0}$ 
-    has the same distribution in $\mathcal{D}_{\mathcal{M}(\mathbb{R}^d)}[0,\infty)$ as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{def: MP definition of pre-limit}.
+    has the same distribution in $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$ as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{def: MP definition of pre-limit}.
     \item $\mathbb{P}\{\xi^N_t \in B | \mathcal{F}^{\Xi^N}_t\}=\alpha_M(\Xi^N(t),B), ~~~B \in \mathcal{B}(\mathcal{M}(\IR^d \times [0,N])).$
 \end{enumerate}
 Note that in particular,
