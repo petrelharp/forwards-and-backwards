@@ -113,6 +113,8 @@ terence.tsui@sjc.ox.ac.uk &      \\
 \date{\today}
 \maketitle
 
+\comment{get equations to restart numbering in sections}
+
 
 \begin{abstract}
 
@@ -850,6 +852,7 @@ We give two concrete situations in which the fourth condition is satisfied.
 \begin{lemma}
     \label{lem:conditions on r}
 If either
+    \comment{which assumptions from 2.7 are in force? since in (1) we need $\gamma$ to be bounded, which is condition 3 above}
 \begin{enumerate}
 \item
 \label{control through r} 
@@ -930,6 +933,7 @@ from direct simulation of the process using SLiM \citep{haller_slim_2019}.
         dispersal and interactions distance were set to 1,
         and the equilibrium density is 10 individuals per unit area.
         Blue curves are contours from a kernel density estimate.
+        \comment{remove blue curves}
         \label{fig:super_vs_det_2d}
     }
 \end{figure}
@@ -1030,6 +1034,7 @@ When $\alpha>0$, the limit points can be thought of as interacting superprocesse
 example, when $r$ and $\gamma$ are constant, and 
 $F(x,\eta_s)=1-\smooth{F} \eta_s(x)$,
 we recover a superprocess with nonlinear death rates corresponding to logistic growth
+\comment{cite Etheridge 2004}
 that is a continuous limit of the Bolker-Pacala model \citep{bolker/pacala:1997,bolker/pacala:1999}.
 We are not aware of a general result to determine when we will have uniqueness of 
 solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
@@ -1998,6 +2003,7 @@ establishment of new individuals are higher.
 As a result, lineages in the second model spend more time in areas with $\lambda < 1$,
 i.e., those areas have higher reproductive value, %long-term fitness
 something that is, in principle, discernible from genetic data.
+\comment{clarify why: smaller $N_e$}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2774,8 +2780,8 @@ we recover the population process $\eta$.
 % for which $\eta_t(\cdot) = \lim_{u_0 \to \infty} \frac{1}{u_0} \lp_t(\cdot \times [0, u_0))$
 % and such that at each $t$, conditional on $(\eta_s)_{s\leq t}$, 
 % $\lp_t$ is conditionally Poisson with mean measure $\eta_t(dx) \times du$.
-Furthermore, convergence of the lookdown processes would imply convergence of the population processes
-\citep[Thm A.9 in][]{kurtz/rodrigues:2011}.
+% Furthermore, convergence of the lookdown processes would imply convergence of the population processes
+% \citep[Thm A.9 in][]{kurtz/rodrigues:2011}.
 
 To make this precise,
 define the spatial projection maps
@@ -2842,7 +2848,7 @@ to Theorem~\ref{thm:nonlocal_convergence} for the population process.
     and assume that as $N \to \infty$,
     $\theta \to \infty$ in such a way that $\theta/N \to \alpha$.
     Let $\eta_0^N = \kappa(\lp_0^N)$ and
-    suppose also that $\eta^N_0 \to \eta_0$ (as finite measures on $\IR^d$),
+    suppose also that $\eta^N_0 \to \eta_0$ in $\measures$,
     and that for each $N$, $\lp^N_0$ is conditionally uniform given $\eta_0^N$
     in the sense of \eqref{eqn:conditionally_uniform}.
     Then, any sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
@@ -3246,6 +3252,8 @@ the production of these lineages.
 \section{Proofs}
 \label{sec:proofs}
 
+\comment{this section (6) is no long just "proofs" since they're in section 7 and 8 too}
+\comment{make sure this reads okay and describes just this section (6); the end-of-the-intro paragraph describes structure}
 In the following sections we present formal proofs of our three scaling limits.
 In Subsection~\ref{sec:population_density_proof} 
 we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain a limit in
@@ -3268,6 +3276,7 @@ and characterization of the lineage process in the deterministic case.
 \subsection{Preliminaries}
 
 Below we will have frequent use for the quantity
+\comment{perhaps $B$ should have a superscript $\theta$}
 \begin{equation}
 \label{generator Bf}
     B_f(x, \eta) = \theta \int_{\IR^d} (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
@@ -3362,7 +3371,7 @@ So, in this case
 Therefore,
 under Condition~\ref{control through gamma}, $|B_1(x,\eta)|$ is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$;
-since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B_1(x,\eta)$.
+since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B_1(x,\eta)|$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -4126,6 +4135,7 @@ expanded the term involving the Laplacian, we obtain
     + F(x,\smooth{F}\eta_s(x)),
     \eta_s(dx)\Big\rangle ds\Big] .
 \end{multline} 
+    \comment{alison to look at this again; check whether it depends on just bounding $B_1$}
 Evidently, in much the same way as in the proof of
 Lemma~\ref{lem:eta_f_bound},
 our conditions on $r$ and $F$ ensure
@@ -4800,6 +4810,7 @@ $\int \psi^\epsilon|\log \psi^\epsilon| d x$ that we proved above.
 \section{Simultaneous scaling with interaction distance}
 \label{subsec:one step convergence proof}
 
+\comment{below $\eta_s^N$ stops having  an $N$ at some point}
 
 
 In this section we prove Theorem~\ref{thm:local_convergence},
@@ -4948,8 +4959,8 @@ is
 which is negative if $\theta(\epsilon^2 + t) > d/2 \delta$.
 At the maximum, $(\epsilon^2 + t) = d \delta / (2 \theta)$,
 so $(1 + t/\epsilon^2) = d \delta/(2 \theta \epsilon^2)$,
-and so this quantity is bounded uniformly over only $t$ but also $\epsilon$.
-\comment{That's where we use bounded-below-ness of $\theta \epsilon^2$.}
+and so this quantity is bounded uniformly over not only $t$ but also $\epsilon$.
+\comment{explain that's where we use bounded-below-ness of $\theta \epsilon^2$.}
 Therefore, the second term in \eqref{eqn:psi_infty_bound} 
 is bounded by $C / (\epsilon^2 + t)^{d/2}$
 (for a different constant $C$).
@@ -5927,6 +5938,8 @@ applying the tower property and our moment bounds from
 Lemma~\ref{bounds on moments} and 
 Corollary~\ref{alternative form moment bounds}.
 
+\comment{perhaps explain: the next proposition is useful because we'll want to use weak convergence of $\smooth{\epsilon}\eta_s$; but in the martingale we have the term on the left in the proposition; probably there are other ways to do this.}
+\comment{ACTUALLY BETTER we want to transfer $T_\epsilon^2$ over onto $\eta$; this happens in two steps, first this proposition; next using that $T_{\epsilon^2}f - f$ is small}
 
 \begin{proposition} 
 \label{CuadraticApprox}
@@ -5941,6 +5954,7 @@ F(\rho_\epsilon * \eta_s(y)), \rho_\epsilon * \eta_s(y) dy
 =0.
 \end{equation}
 \end{proposition}
+
 \begin{proof}
 In fact we are going to fix $\delta>0$, and show that
 the expression on the left hand side of~\eqref{replacing nonlinear term} is
@@ -5990,7 +6004,7 @@ that $F(a)-F(b)= (a-b)\sum_{k=1}^{n-1}b_kx^ky^{n-1-k}$ and so
 |F(\rho_\epsilon*\eta_s(y))-F(\rho_\epsilon*\eta_s(w))|
 \leq 
 |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)|
-\sum_{k=1}^{n-1}|b_k|\left(\rho_\epsilon*\eta_s(y)^k+\rho_\epsilon*\eta_s(w)^k\right).
+\sum_{k=1}^{n-1}|b_k|\left(\rho_\epsilon*\eta_s(y)^{n-1}+\rho_\epsilon*\eta_s(w)^{n-1}\right).
 \]
 
 Combining the above, we have reduced the problem to showing that 
@@ -6000,8 +6014,9 @@ Combining the above, we have reduced the problem to showing that
 	\int_0^t\big\langle \int |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)|
 \left(\rho_\epsilon*\eta_s(y))^k+\rho_\epsilon*\eta_s(w)^k\right)
 p_{\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle ds
-=0.
+=0,
 \end{equation}
+\comment{which we prove by showing the expectation of this positive quantity goes to zero; e.g. see Lemma 7.5(?)}.
 
 We are going to use the estimate~(\ref{difference in rhos}).
 First note that by Lemma~\ref{bounds on moments}
@@ -6185,6 +6200,7 @@ Corollary~\ref{alternative form moment bounds} to reduce to a form to which
 we can apply H\"older's inequality.
 
 \comment{Probably should put a bit more detail in here?}
+\comment{key bit is that we can always write $M_s(w)$ as a convolution of $p_{\epsilon^2/}$ with something}
 
 Control of the terms arising from approximating $\psi^{\epsilon,x}$
 by the heat kernel follows in an entirely analogous way.
