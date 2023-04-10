@@ -13,7 +13,7 @@ do
     then
         slim -s 123 ../fkpp.slim
     fi
-    ../lineage_plotting/plot_density.py fkpp_123.trees 3
+    ../lineage_plotting/plot_density.py fkpp_123.trees 3 pdf 3 0.0
     popd
 done
 
