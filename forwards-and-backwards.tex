@@ -187,7 +187,6 @@ Fisher-KPP equation
 \tableofcontents
 \newpage
 
-\comment{TODO: cite \citet{lam2023introduction,cantrell2004spatial}}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -296,6 +295,9 @@ and a wide class of semi-linear PDEs of the form
 \partial_t \varphi = \DG^*\varphi+ \varphi F(\varphi),
 \end{equation}
 which includes the Fisher-KPP equation and the Allen-Cahn equation.
+Equations of this form have been studied extensively
+in the context of spatial ecology;
+see for instance \citet{lam2023introduction} and \citet{cantrell2004spatial}.
 
 It is of interest to understand under what conditions we can replace the two-step limiting
 process described above by one in which we simultaneously scale the 
@@ -553,12 +555,13 @@ the death rate of an individual at $x$ to be
 \end{align}
 where this equation defines $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR$,
 and $\rho_F$ is again a smooth kernel. 
-\comment{FIX UP THIS, REFER FORWARD}
 The function $F$ is nearly
 the net per capita reproductive rate, scaled by $\theta$,
 and would be equal to it in a nonspatial model;
-but 
-It will be convenient to work with $F$ instead of $\mu$.
+but, as discussed later,
+differs because offsprings' establishment probability is measured at their new location
+rather than their parents', and so differs from $r(x)$.
+For the most part, we work with $F$ instead of $\mu$.
 
 Note that each of the three demographic parameters $r$, $\gamma$, $F$,
 depends on local density,
@@ -1034,7 +1037,7 @@ When $\alpha>0$, the limit points can be thought of as interacting superprocesse
 example, when $r$ and $\gamma$ are constant, and 
 $F(x,\eta_s)=1-\smooth{F} \eta_s(x)$,
 we recover a superprocess with nonlinear death rates corresponding to logistic growth
-\comment{cite Etheridge 2004}
+\citep{etheridge:2004}
 that is a continuous limit of the Bolker-Pacala model \citep{bolker/pacala:1997,bolker/pacala:1999}.
 We are not aware of a general result to determine when we will have uniqueness of 
 solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
@@ -1691,6 +1694,7 @@ described above. They
 display travelling wave solutions
 similar to numerical solutions of~(\ref{PME}),
 with increasingly good agreement for larger $\theta$ and $N$.
+\comment{TODO: does it?}
 As expected, noise slows down the wave.
 \comment{Not sure that noise will slow things drastically because the 
 biggest production of
@@ -2002,8 +2006,9 @@ if $\lambda(x) > 1$, then at $x$ both the death rate and probability of
 establishment of new individuals are higher.
 As a result, lineages in the second model spend more time in areas with $\lambda < 1$,
 i.e., those areas have higher reproductive value, %long-term fitness
-something that is, in principle, discernible from genetic data.
-\comment{clarify why: smaller $N_e$}
+something that is, in principle, discernible from genetic data
+(because, for instance, making reproductive value less evenly distributed
+reduces long-term genetic diversity).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3175,7 +3180,9 @@ $\sigma_a = \lim_{K \to \infty} \inf\{t \ge 0: U_a(t) > K\}$
 the time the level hits $\infty$.
 Suppose that the spatial locations and level of each line of descent $a$
 solve, for $\tau_a \le t < \sigma_a$,
-\begin{align*}
+\begin{align}
+    \label{eqn:limiting_construction}
+    \begin{split}
 X_a(t)
     &=
     X_a(\tau_a)
@@ -3200,7 +3207,8 @@ U_a(t)
         U_a(s)
     \bigg)
     ds .
-\end{align*}
+    \end{split}
+\end{align}
 Each point in each $R_a$ denotes a potential birth time for $a$:
 if the $j^\text{th}$ point in $R_a$ is $(\tau, v)$, with 
 $\tau_a \le \tau < \sigma_a$,
@@ -3235,8 +3243,7 @@ spatial motion of the line of descent which results from
 the production of these lineages.
 
 \begin{proof}[of Proposition~\ref{prop:limiting_construction}]
-    The fact that a solution to the system of equations
-    \comment{label the system and refer to it}
+    The fact that a solution to the system of equations~\eqref{eqn:limiting_construction}
     is a solution to the martingale problem of Theorem~\ref{thm:lookdown_convergence}
     is an application of It\^o's theorem.
     Furthermore, in Proposition~\ref{thm:mmt_application} we showed that
@@ -3249,11 +3256,9 @@ the production of these lineages.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proofs}
+\section{Proofs of convergence for nonlocal models}
 \label{sec:proofs}
 
-\comment{this section (6) is no long just "proofs" since they're in section 7 and 8 too}
-\comment{make sure this reads okay and describes just this section (6); the end-of-the-intro paragraph describes structure}
 In the following sections we present formal proofs of our three scaling limits.
 In Subsection~\ref{sec:population_density_proof} 
 we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain a limit in
@@ -3265,27 +3270,27 @@ reaction diffusion type and a deterministic solution to a nonlocal
 porous medium equation with an additional logistic growth term, 
 one can pass to a further 
 limit to obtain a classical PDE.
-In Section~\ref{subsec:one step convergence proof}
+In subsequent sections (Sections~\ref{subsec:one step convergence proof} and~\ref{sec:lookdown_proofs})
 we prove our third scaling limit, in which 
 we pass from our population model 
-directly to a reaction diffusion equation without going via a nonlocal limit.
-Finally, in Section~\ref{sec:lookdown_proofs} we prove our results concerning both convergence of the lookdown representation
+directly to a reaction diffusion equation without going via a nonlocal limit,
+and finally our results concerning both convergence of the lookdown representation
 and characterization of the lineage process in the deterministic case.
+\comment{TODO: revisit this paragraph}
 
 
 \subsection{Preliminaries}
 
 Below we will have frequent use for the quantity
-\comment{perhaps $B$ should have a superscript $\theta$}
 \begin{equation}
 \label{generator Bf}
-    B_f(x, \eta) = \theta \int_{\IR^d} (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
+    B^\theta_f(x, \eta) = \theta \int_{\IR^d} (f(y) r(y, \eta) - f(x) r(x, \eta)) q_\theta(x, dy) .
 \end{equation}
 
 First, we prove Lemma~\ref{lem:conditions on r}.
 
 \begin{proof}[of Lemma~\ref{lem:conditions on r}]
-Here, we need to prove that $|\gamma(x, \eta) B_1(x, \eta)|$ is bounded,
+Here, we need to prove that $|\gamma(x, \eta) B^\theta_1(x, \eta)|$ is bounded,
 uniformly over $x$ and $\eta$.
 First suppose that
 Condition~\ref{control through r} of  
@@ -3322,8 +3327,8 @@ $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
 are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
 \comment{typo}
-u implies that $|B_1|$ is uniformly bounded;
-since $\gamma$ is bounded as well, so is $|\gamma B_1|$.
+u implies that $|B^\theta_1|$ is uniformly bounded;
+since $\gamma$ is bounded as well, so is $|\gamma B^\theta_1|$.
 
 Now suppose that instead
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
@@ -3369,9 +3374,9 @@ So, in this case
     \right| .
 \end{align*}
 Therefore,
-under Condition~\ref{control through gamma}, $|B_1(x,\eta)|$ is bounded by 
+under Condition~\ref{control through gamma}, $|B^\theta_1(x,\eta)|$ is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$;
-since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B_1(x,\eta)|$.
+since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B^\theta_1(x,\eta)|$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -3453,15 +3458,15 @@ Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingal
     &=
     \langle f, \eta^N_0 \rangle
     + \int_0^t \int_{\IR^d} \big\{
-        \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+        \gamma(x, \eta^N_s) B^\theta_f(x, \eta^N_s)
         + f(x) F(x, \eta^N_s)
         \big\} \eta^N_s(dx) ds
     + M^N_t(f) ,
 \end{align}
-where $M^N_t(f)$ is a martingale and $B_f$ is defined in \ref{generator Bf}.
+where $M^N_t(f)$ is a martingale and $B^\theta_f$ is defined in \ref{generator Bf}.
 
-We need a bound on $\gamma(x,\eta)B_f(x,\eta)+fF$.
-First note that we may rewrite $B_f(x, \eta)$ as
+We need a bound on $\gamma(x,\eta)B^\theta_f(x,\eta)+fF$.
+First note that we may rewrite $B^\theta_f(x, \eta)$ as
 \begin{align}
     \nonumber
 &
@@ -3503,7 +3508,7 @@ First note that we may rewrite $B_f(x, \eta)$ as
         q_{\theta}(x,dy)
     \right|
     +
-    \|f\|_\infty |B_1(x, \eta)| .
+    \|f\|_\infty |B^\theta_1(x, \eta)| .
 \end{align}
 \comment{TODO FIX THIS}
 Using the intermediate value theorem,
@@ -3546,10 +3551,10 @@ and covariance $\covq(x)/\theta$,
 and both $\meanq(x)$ and $\covq(x)$
 are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
 Furthermore, Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
-stipulates that $|\gamma(x, \eta) B_1(x, \eta)|$ is uniformly bounded,
+stipulates that $|\gamma(x, \eta) B^\theta_1(x, \eta)|$ is uniformly bounded,
 and so recalling that $F$ is bounded above, we can now conclude that
 under Assumptions~\ref{def:model_setup}
-$\gamma(x, \eta) B_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
+$\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
 
 Taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
     \begin{align}
@@ -3630,7 +3635,7 @@ in the notation of Lemma~\ref{lem:eta_f_bound},
 	    \Big\langle\left\{
                 \frac{2\theta}{N} \gamma(x, \eta^N_s) r(x, \eta^N_s)
 		+ \frac{\gamma(x,\eta_s^N)}{N} 
-		B_1(x, \eta^N_s)-\frac{1}{N}F(x,\eta^N_s)
+		B^\theta_1(x, \eta^N_s)-\frac{1}{N}F(x,\eta^N_s)
             \right\}, \eta_s^N(dx) \Big\rangle
             ds
             \right] \right) .
@@ -3647,9 +3652,9 @@ in the notation of Lemma~\ref{lem:eta_f_bound},
 	=\IE[\langle 1, \eta^N_0\rangle] -\IE[\langle 1,\eta^N_t\rangle]
 	+\IE\left[\int_0^t\Big\langle %int_{\IR^d}
 \gamma(x,\eta_s^N)
-	B_1(x, \eta_s^N),\eta_s^N(dx)\Big\rangle ds\right],
+	B^\theta_1(x, \eta_s^N),\eta_s^N(dx)\Big\rangle ds\right],
 	\end{equation}
-which is bounded since $\gamma (x,\eta)$ and $B_1(x,\eta)$ are both bounded and 
+which is bounded since $\gamma (x,\eta)$ and $B^\theta_1(x,\eta)$ are both bounded and 
 $\langle 1,\eta_t\rangle\geq 0$. 
     Since $\theta/N \to \alpha < \infty$,
     combining constants, we obtain that
@@ -3659,7 +3664,7 @@ $\langle 1,\eta_t\rangle\geq 0$.
         C' + C'' \IE[ \langle 1, \eta_0^N \rangle ] e^{tC} .
     \end{align*}
     Taking suprema and expectations on both sides of equation~\eqref{eqn:eta_f_mgale_decomp},
-    then again using the fact that $\gamma(x, \eta) B_1(x, \eta) + F(x, \eta) \le C$,
+    then again using the fact that $\gamma(x, \eta) B^\theta_1(x, \eta) + F(x, \eta) \le C$,
     \begin{align*}
         \IE\left[\sup_{0 \le s \le t} \langle 1, \eta^N_s \rangle \right]
         &\le
@@ -3670,7 +3675,7 @@ $\langle 1,\eta_t\rangle\geq 0$.
 	    %\int_{\IR^d} 
 	    \Big\langle\left\{
                 \gamma(x, \eta^N_s)
-                B_1(x, \eta^N_s)
+                B^\theta_1(x, \eta^N_s)
                 + F(x, \eta^N_s)
             \right\}, \eta^N_s(dx) \Big\rangle ds
         \right]
@@ -3731,7 +3736,7 @@ and for each $\nu > 0$, there exist $\delta > 0$ and $N_0 > 0$ such that
             \int_\tau^{\tau + t}
             \int_{\IR^d}
             \left\{
-                \gamma(x, \eta^N_s) B_f(x, \eta^N_s)
+                \gamma(x, \eta^N_s) B^\theta_f(x, \eta^N_s)
                 + f(x) F(x, \eta^N_s)
             \right\} 
             \eta^N_s(dx)
@@ -3754,7 +3759,7 @@ follows from Lemma~\ref{lem:eta_f_bound} and Markov's inequality,
 so we focus on the remaining conditions.
 
 The proof of Lemma~\ref{lem:eta_f_bound}
-provides a uniform bound on $\gamma B_f$, but we only know
+provides a uniform bound on $\gamma B^\theta_f$, but we only know
 that $F$ is bounded above. However, since, by 
 assumption, for each fixed value of
 $m$, $\sup_{k\leq m}|F(x,k)|$ is uniformly bounded as a function of $x$, 
@@ -3772,7 +3777,7 @@ $$
     <
     \nu/2,
     \qquad
-    \sup_{x,\eta}\gamma(x,\eta)B_f(\,\eta)\delta_1<\nu/2,
+    \sup_{x,\eta}\gamma(x,\eta)B^\theta_f(\,\eta)\delta_1<\nu/2,
 $$
 so that~\eqref{eqn:eta_projections_goal1} is satisfied with $\delta = \delta_1$.
 
@@ -3802,7 +3807,7 @@ Similarly,
             \left(
                 2 f^2(x) r(x, \eta^N_s)
                 +
-                B_{f^2}(x, \eta^N_s)
+                B^\theta_{f^2}(x, \eta^N_s)
             \right)
             -
             f^2(x) \frac{F(x, \eta^N_s)}{ \theta}
@@ -4064,7 +4069,7 @@ we would like to apply the Dominated Convergence
 Theorem in~(\ref{eq: Convergence of Spatial Generator}).
 Recall that $f$ and $G$ and their derivatives are bounded, $\gamma(x,\eta)$ is
 bounded, and, in the notation of Lemma~\ref{lem:eta_f_bound}
-$\gamma(x,\eta) B_f(x,\eta)$ is bounded. Moreover $\theta/N^2\to 0$ as $N\to\infty$. Thus we can 
+$\gamma(x,\eta) B^\theta_f(x,\eta)$ is bounded. Moreover $\theta/N^2\to 0$ as $N\to\infty$. Thus we can 
 dominate 
 $\left|
 \Pgen^{N}G_f(\eta^{N}_s)
@@ -4135,7 +4140,7 @@ expanded the term involving the Laplacian, we obtain
     + F(x,\smooth{F}\eta_s(x)),
     \eta_s(dx)\Big\rangle ds\Big] .
 \end{multline} 
-    \comment{alison to look at this again; check whether it depends on just bounding $B_1$}
+    \comment{alison to look at this again; check whether it depends on just bounding $B^\theta_1$}
 Evidently, in much the same way as in the proof of
 Lemma~\ref{lem:eta_f_bound},
 our conditions on $r$ and $F$ ensure
@@ -4959,8 +4964,8 @@ is
 which is negative if $\theta(\epsilon^2 + t) > d/2 \delta$.
 At the maximum, $(\epsilon^2 + t) = d \delta / (2 \theta)$,
 so $(1 + t/\epsilon^2) = d \delta/(2 \theta \epsilon^2)$,
-and so this quantity is bounded uniformly over not only $t$ but also $\epsilon$.
-\comment{explain that's where we use bounded-below-ness of $\theta \epsilon^2$.}
+and so this quantity is bounded uniformly over not only $t$ but also $\epsilon$
+(since we've assumed that $\theta \epsilon^2$ is bounded below).
 Therefore, the second term in \eqref{eqn:psi_infty_bound} 
 is bounded by $C / (\epsilon^2 + t)^{d/2}$
 (for a different constant $C$).
@@ -6879,7 +6884,7 @@ Finally, we prove the key lemma.
     \begin{align*}
         \Big\langle
             2 C_0 \|f\|_\infty u_f
-            + (1 - u/N) \gamma B_f
+            + (1 - u/N) \gamma B^\theta_f
             + (C_0 u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
         \Big\rangle
@@ -7143,6 +7148,8 @@ the constant factor of $\sigma^2$ does not affect the result.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \appendix
+
+\comment{TODO copy in the MMT and refer to it earlier}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results on Lookdown Representations}
