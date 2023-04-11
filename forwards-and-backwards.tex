@@ -807,6 +807,7 @@ that this is not in fact the case.
 \end{remark}
 In order to pass to a scaling limit, we will need to impose some 
 conditions on the parameters of our model.
+
 \begin{assumptions}%[Assumptions]
 \label{def:model_setup}
 We shall make the following assumptions on the parameters of our model.
@@ -823,7 +824,6 @@ We assume that
 \end{enumerate}
 
 {\bf Reproduction parameters:}
-
 We assume that 
 \begin{enumerate}
 \item The function $F(x,m)$ satisfies 
@@ -833,10 +833,15 @@ We assume that
     \item for each fixed $m$, $\sup_{x\in\IR^d}\sup_{k\leq m}|F(x,k)|<\infty$;
     \end{enumerate}
 \item The functions $r(x,m)$, $\gamma(x,m)$ have bounded first and second 
-derivatives in both arguments;
+    derivatives in both arguments;
+    \label{r_gamma_derivs_condition}
 \item $\gamma(x,m)$ is uniformly bounded;
-\item $|\gamma(x, \smooth{\gamma} \eta(x)) \theta \int (r(y, \smooth{r} \eta(y)) - r(x, \smooth{r} \eta(x))) q_\theta(x, dy)|$
-    is uniformly bounded for $x \in \IR^d$ and $\eta \in \measures$.
+    \label{gamma_bounded_condition}
+\item For each $f \in C_b^2(\IR^d)$, there is a $C_f$ such that
+    $$ |\gamma(x, \smooth{\gamma} \eta(x)) \theta \int 
+    (r(y, \smooth{r} \eta(y)) f(y) - r(x, \smooth{r} \eta(x)) f(x))
+    q_\theta(x, dy)| \le C_f $$
+    for all $x \in \IR^d$ and $\eta \in \measures$.
         \label{gamma_B_condition}
 \end{enumerate}
 
@@ -854,8 +859,9 @@ We give two concrete situations in which the fourth condition is satisfied.
 
 \begin{lemma}
     \label{lem:conditions on r}
-If either
-    \comment{which assumptions from 2.7 are in force? since in (1) we need $\gamma$ to be bounded, which is condition 3 above}
+    Assume that Conditions~\ref{def:model_setup} are satisfied,
+    except for condition~\ref{gamma_B_condition}.
+    If either
 \begin{enumerate}
 \item
 \label{control through r} 
@@ -871,12 +877,10 @@ If either
     \]
     and
     \[\theta\int\big(\smooth{r}\eta(y)-\smooth{r}\eta(x)\big)^2q_\theta(x,dy)
-    \leq C(\smooth{\gamma}\eta(x))^2.
+    \leq C(\smooth{\gamma}\eta(x))^2 ,
     \]
 \end{enumerate} 
-then
-$|\gamma(x, \smooth{\gamma} \eta(x)) \theta \int (r(y, \smooth{r} \eta(y)) - r(x, \smooth{r} \eta(x))) q_\theta(x, dy)|$
-is uniformly bounded for $x \in \IR^d$ and $\eta \in \measures$.
+    then condition~\ref{gamma_B_condition} is also satisfied.
 \end{lemma}
 
 The purpose of the conditions that we have placed on the reproduction parameters is to 
@@ -3289,28 +3293,28 @@ Below we will have frequent use for the quantity
 First, we prove Lemma~\ref{lem:conditions on r}.
 
 \begin{proof}[of Lemma~\ref{lem:conditions on r}]
-Here, we need to prove that $|\gamma(x, \eta) B^\theta_1(x, \eta)|$ is bounded,
+Here, we need to prove that $|\gamma(x, \eta) B^\theta_f(x, \eta)|$ is bounded,
 uniformly over $x$ and $\eta$.
 First suppose that
 Condition~\ref{control through r} of  
 Lemma~\ref{lem:conditions on r} is satisfied.
 We write
 \begin{align*}
-    r\big(y,\rho_r*\eta(y)\big) - r\big(x,\rho_r*\eta(x)\big)
+    r\big(y,\rho_r*\eta(y)\big) f(y) - r\big(x,\rho_r*\eta(x)\big) f(x)
     &=
-    \sum_i (y_i - x_i) \partial_{x_i} \Big(r\big(x,\rho_r*\eta(x)\big)\Big) 
+    \sum_i (y_i - x_i) \partial_{x_i} \Big( r\big(x,\rho_r*\eta(x)\big) f(x) \Big) 
     \\ &\qquad {}
     +
     \frac{1}{2} \sum_{ij} (y_i - x_i)(y_j - x_j)
-        \partial_{x_i x_j} \Big(r\big(\smooth{r}\eta(z)\big)\Big) ,
+        \partial_{x_i x_j} \Big( r\big(z, \smooth{r}\eta(z)\big) f(z) \Big) ,
 \end{align*}
 where $z = \kappa x + (1-\kappa) y$ for some $0 \le \kappa \le 1$.
 Condition~\ref{control through r} 
-gives uniform bounds on the derivatives of $r(x, \rho_r*\eta(x))$ 
-in this expression and so we have a bound of the form
+gives uniform bounds on the derivatives of $r(x, \rho_r*\eta(x))$
+in this expression and so, provided $f$ also has uniformly bounded first and second derivatives,
+we have a bound of the form
 \begin{multline*}
-\Big| r\big(y,\rho_r*\eta(y)\big) - r\big(x,\rho_r*\eta(x)\big) \Big|
-\\
+|B^\theta_f|
 \leq
         K_1 \left|
             \theta \int_{\IR^d} \sum_i (y_i - x_i) q_\theta(x, dy)
@@ -3325,57 +3329,90 @@ This is bounded uniformly because
 $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
 are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
-\comment{typo}
-u implies that $|B^\theta_1|$ is uniformly bounded;
-since $\gamma$ is bounded as well, so is $|\gamma B^\theta_1|$.
+Since $\gamma$ is bounded as well, so is $|\gamma B^\theta_f|$.
 
 Now suppose that instead
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
-is satisfied.
 First note that
-\begin{multline*}
-    r(x, \smooth{r}\eta(y)) - r(x, \smooth{r}\eta(x))
-    \\
+    \begin{align}
+	    \nonumber
+    & |B_f^\theta| =
+        \left| \theta 
+            \int_{\IR^n} 
+                \big\{
+                    f(y) r\big(y,\smooth{r}\eta(y)\big)
+                    -
+                    f(x) r\big(x, \smooth{r}\eta(x)\big)
+                \big\}
+            q_{\theta}(x,dy)
+        \right|
+    \\ 
+ \label{eqn:q_bound_split}
+	    &\qquad {} \leq
+        \left| \theta 
+            \int_{\IR^n} 
+                \big\{
+                    f(y) r\big(y, \smooth{r}\eta(y)\big)
+                    -
+                    f(x) r\big(x,\smooth{r}\eta(y)\big)
+                \big\}
+            q_{\theta}(x,dy)
+        \right|
+    \\ 
+\nonumber
+	    &\qquad \qquad {}  +
+        \left| \theta 
+            \int_{\IR^n} 
+                \big\{
+                    f(x) r\big(x,\smooth{r}\eta(y)\big)
+                    -
+                    f(x) r\big(x,\smooth{r}\eta(x)\big)
+                \big\}
+            q_{\theta}(x,dy) 
+        \right| .
+    \end{align}
+
+ Writing
+    $K_3 = \sup_{x,m} \max_i |\partial_{x_i} f(x)r(x, m)|$
+    and 
+    $K_4 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x)r(x, m)|$, since
+\[\big|\partial_{x_i}\big(f(x)r(x,\rho_r*\eta(y))\big|\leq K_3\]
+and
+\[\big|\partial_{x_ix_j}\big(f(x)r(x,\rho_r*\eta(y))\big|\leq K_4,\]
+the first term
+is bounded exactly as above. For the second, 
+    \begin{multline*}
+        r(x, \smooth{r}\eta(y)) - r(x, \smooth{r}\eta(x))
+        \\
 =
-    (\smooth{r}\eta(y) - \smooth{r}\eta(x)) r'(x,\smooth{r}\eta(x))
-    + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 r''(x, \overline{m}),
-\end{multline*}
-where $\overline{m}= \kappa'\smooth{r}\eta(x) +(1-\kappa') 
+        (\smooth{r}\eta(y) - \smooth{r}\eta(x)) r'(x,\smooth{r}\eta(x))
+        + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 r''(x, \overline{m}),
+    \end{multline*}
+    where $\overline{m}= \kappa'\smooth{r}\eta(x) +(1-\kappa') 
 \smooth{r}\eta(y)$ for some $0\leq \kappa'\leq 1$, and
-we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
+    we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
 with respect to the second argument.
-So, in this case
-\begin{align*}
-&
-\left| \theta 
-    \int_{\IR^n} 
-        \big\{
-            r\big(x,\smooth{r}\eta(y)\big)
-            -
-            r\big(x,\smooth{r}\eta(x)\big)
-        \big\}
-    q_{\theta}(x,dy) 
-\right| 
-\\ &\qquad
-\le
-   \|r'\|_\infty
-    \left|
-        \theta \int_{\IR^d}
-            (\smooth{r}\eta(y) - \smooth{r}\eta(x))
-        q_\theta(x, dy)
-    \right|
-    +
-   \|r''\|_\infty
-    \left|
-        \theta \int_{\IR^d}
-            (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
-        q_\theta(x, dy)
-    \right| .
-\end{align*}
-Therefore,
-under Condition~\ref{control through gamma}, $|B^\theta_1(x,\eta)|$ is bounded by 
-a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$;
-since $m^2\gamma(m)$ is bounded, so is $|\gamma(x,\eta) B^\theta_1(x,\eta)|$.
+    So, writing $K_5=\|f\|_\infty\|r'\|_\infty$ and $K_6=\|f\|_\infty\|r''\|_\infty$,
+    the second term in~\eqref{eqn:q_bound_split} is bounded by
+    \begin{align*}
+       K_5
+        \left|
+            \theta \int_{\IR^d}
+                (\smooth{r}\eta(y) - \smooth{r}\eta(x))
+            q_\theta(x, dy)
+        \right|
+        +
+       K_6
+        \left|
+            \theta \int_{\IR^d}
+                (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
+            q_\theta(x, dy)
+        \right| .
+    \end{align*}
+Under Condition~\ref{control through gamma} of 
+Assumptions~\ref{def:model_setup}, the right hand side is bounded by 
+a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
+$m^2\gamma(m)$ is bounded, so therefore $|\gamma B^\theta_f|$ is bounded.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -3463,99 +3500,13 @@ Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingal
     + M^N_t(f) ,
 \end{align}
 where $M^N_t(f)$ is a martingale and $B^\theta_f$ is defined in \ref{generator Bf}.
-
-We need a bound on $\gamma(x,\eta)B^\theta_f(x,\eta)+fF$.
-First note that we may rewrite $B^\theta_f(x, \eta)$ as
-\begin{align}
-    \nonumber
-&
-    \left| \theta 
-        \int_{\IR^n} 
-            \big\{
-                f(y) r\big(y,\smooth{r}\eta(y)\big)
-                -
-                f(x) r\big(x, \smooth{r}\eta(x)\big)
-            \big\}
-        q_{\theta}(x,dy)
-    \right|
-\\ 
-    &\qquad {} =
-    \Big| \theta 
-        \int_{\IR^n} 
-            ( f(y) - f(x) )
-            r\big(y, \smooth{r}\eta(y)\big)
-        q_{\theta}(x,dy)
-\\ 
-\nonumber
-    &\qquad \qquad {}  +
-    \theta 
-            f(x)
-        \int_{\IR^n} 
-            \big\{
-                r\big(y,\smooth{r}\eta(y)\big)
-                -
-                r\big(x,\smooth{r}\eta(x)\big)
-            \big\}
-        q_{\theta}(x,dy) 
-    \Big| 
-\\ 
-    &\qquad {} \leq
-    \left| \theta 
-        \int_{\IR^n} 
-            ( f(y) - f(x) )
-            r(y, \smooth{r}\eta(y))
-        q_{\theta}(x,dy)
-    \right|
-    +
-    \|f\|_\infty |B^\theta_1(x, \eta)| .
-\end{align}
-\comment{TODO FIX THIS}
-Using the intermediate value theorem,
-then the fact that $0 \le r \le 1$,
-there is a $\kappa$ in $[0, 1]$ such that the first term is
-\begin{align*}
-    &
-    \left| \theta 
-        \int_{\IR^n} 
-            ( f(y) - f(x) )
-            r(y, \eta)
-        q_{\theta}(x,dy)
-    \right|
-    \\ &\qquad =
-    \left| \theta 
-        \int_{\IR^n} 
-            \left(
-                \sum_i (y-x)_i \partial_{x_i} f(x)
-                +
-                \frac{1}{2} \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(x + \kappa(y-x))
-            \right)
-            r(y, \eta)
-        q_{\theta}(x,dy)
-    \right|
-    \\ &\qquad \leq
-    \|f'\|_\infty \left| \theta 
-        \int_{\IR^n} 
-            (y-x) r(y, \eta)
-        q_{\theta}(x,dy)
-    \right|
-    + \frac{1}{2} \|f''\|_\infty \left| \theta 
-        \int_{\IR^n} 
-            (y-x)^2
-        q_{\theta}(x,dy)
-    \right|
-\end{align*}
-bounded uniformly
-because $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
-and covariance $\covq(x)/\theta$,
-and both $\meanq(x)$ and $\covq(x)$
-are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
-Furthermore, Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
-stipulates that $|\gamma(x, \eta) B^\theta_1(x, \eta)|$ is uniformly bounded,
+First note that Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
+stipulates that $|\gamma B^\theta_f|$ is uniformly bounded,
 and so recalling that $F$ is bounded above, we can now conclude that
 under Assumptions~\ref{def:model_setup}
 $\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
 
-Taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
+Now, taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
     \begin{align}
 \label{bound on intfdeta}
         \IE\left[ \langle f, \eta^N_t \rangle \right]
