@@ -1,0 +1,15 @@
+{
+    "LAMBDA": 3,
+    "K": 9,
+    "SURVIVAL": 0.7,
+    "ESTABLISHMENT": 0.7,
+    "SIGMA": 3.0,
+    "DISPERSAL_SIGMA": 0.2,
+    "WIDTH": 30,
+    "HEIGHT": 7,
+    "RUNTIME": 1000,
+    "DT" : 1.0,
+    "INIT_PROP": 0.1,
+    "DIMENSION": 1
+}
+

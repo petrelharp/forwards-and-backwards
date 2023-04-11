@@ -92,8 +92,8 @@ initialize() {
 }
 
 1 first() {
-	sim.rescheduleScriptBlock(s98, generations=unique(asInteger(seq(1 + BURNIN / DT, (BURNIN + RUNTIME) / DT - 1, length=NUM_SNAPSHOTS))));
-	sim.rescheduleScriptBlock(s99, generations=asInteger((BURNIN + RUNTIME) / DT)); // end
+	community.rescheduleScriptBlock(s98, ticks=unique(asInteger(seq(1 + BURNIN / DT, (BURNIN + RUNTIME) / DT - 1, length=NUM_SNAPSHOTS))));
+	community.rescheduleScriptBlock(s99, ticks=asInteger((BURNIN + RUNTIME) / DT)); // end
 }
 
 1 late() {
@@ -109,8 +109,8 @@ initialize() {
 }
 
 late() {
-	i1.evaluate();
-	i2.evaluate();
+	i1.evaluate(sim.subpopulations);
+	i2.evaluate(sim.subpopulations);
 	inds = p1.individuals;
 	inds.tagF = i1.localPopulationDensity(inds) / K;
 }
@@ -147,7 +147,7 @@ reproduction() {
 
 late() {
 	if (p1.individualCount == 0) {
-		catn("The population has died out, in generation " + sim.generation);
+		catn("The population has died out, in tick " + sim.tick);
 		sim.simulationFinished();
 	}
 	if (DEBUG & p1.individualCount > 0) { // color individuals
@@ -158,7 +158,7 @@ late() {
 }
 
 late() {
-	if ((sim.generation >= BURNIN / DT) & !DEBUG)
+	if ((community.tick >= BURNIN / DT) & !DEBUG)
 		sim.treeSeqRememberIndividuals(p1.individuals, permanent=T);
 }
 
@@ -179,6 +179,6 @@ s98 2000 late() {
 			operation="length(individuals);"
 		);
 		patch_map = Image(patches / max(patches));
-		patch_map.write(IMAGEPATH + format("%05.0f", sim.generation * DT) + ".png");
+		patch_map.write(IMAGEPATH + format("%05.0f", community.tick * DT) + ".png");
 	}
 }

@@ -42,3 +42,24 @@ do
     ../lineage_plotting/plot_1d_lineages.py ${MODEL}_123.trees 3 1 3 3
     popd
 done
+
+# clumpiness
+DIR="clumpy_2d"
+MODEL="clumpy"
+pushd $DIR
+if [ ! -e ${MODEL}_123.trees ]
+then
+    slim -s 123 ../${MODEL}.slim
+    ../lineage_plotting/plot_density.py ${MODEL}_123.trees 3 pdf 3 0.0
+fi
+popd
+DIR="clumpy_1d"
+MODEL="clumpy"
+pushd $DIR
+if [ ! -e ${MODEL}_123.trees ]
+then
+    slim -s 123 ../${MODEL}.slim
+    ../lineage_plotting/plot_density.py ${MODEL}_123.trees 3 pdf 3 0.0
+    ../plot_wave.py ${MODEL}_123.trees 100 600 12
+fi
+popd

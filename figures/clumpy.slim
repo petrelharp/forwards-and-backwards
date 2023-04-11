@@ -1,0 +1,135 @@
+initialize() {
+	// define to load from an existing file
+	// defineConstant("RESTART_FILE", "sim_1798394982614.trees");
+
+	// These are default params that can be modified with -d at runtime
+	// or read in from "params.slim" (NOTE: params.slim will override these!)
+	// The file params.slim will be read from the working directory, or
+	// from OUTDIR if this is defined on the command line.
+	defaults = Dictionary(	
+      "LAMBDA", 3, // maximum birth rate
+      "K", 9,      // carrying capacity per unit area
+      "SURVIVAL", 0.7, // maximum survival prob
+      "ESTABLISHMENT", 0.7, // maximum prob of establishment
+      "SIGMA", 3.0,  // maximum interaction distance
+      "DISPERSAL_SIGMA", 0.2,  // parent-offspring distance
+      "WIDTH", 20,   // width in real units
+      "HEIGHT", 10,   // width in real units
+      "RUNTIME", 200, // total number of ticks to run for
+		"DT", 1, // discretization factor for time
+		"INIT_PROP", 0.2, // proportion of range where the initial population lives
+      "PERIODICITY", "",
+	  "OUTDIR", exists("OUTDIR") ? OUTDIR else "."
+    );
+	paramfile = defaults.getValue("OUTDIR") + "/" + "params.json";
+	if (fileExists(paramfile)) {
+		local_params = Dictionary(paste(readFile(paramfile), sep="\n"));
+		defaults.addKeysAndValuesFrom(local_params);
+		defaults.setValue("read_from_paramfile", paramfile);
+	}	
+	defaults.setValue("OUTPATH", defaults.getValue("OUTDIR") + "/clumpy_" + getSeed() + ".trees");
+	defaults.setValue("LOGPATH", defaults.getValue("OUTDIR") + "/clumpy_" + getSeed() + ".log");
+	catn("-------------\n");
+	for (k in defaults.allKeys) {
+		if (!exists(k)) {
+			defineConstant(k, defaults.getValue(k));
+		} else {
+			defaults.setValue(k, executeLambda(paste(c(k, ";"), sep='')));
+		}
+		if (k != "README")
+			catn("  " + k + ": " + defaults.getValue(k));
+	}
+	catn("-------------\n");
+	defineGlobal("params", defaults);
+
+	initializeSLiMModelType("nonWF");
+	initializeSLiMOptions(dimensionality="xy");
+	initializeTreeSeq();
+	initializeMutationRate(0.0);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 1e8-1);
+	initializeRecombinationRate(1e-8);
+	
+
+	// spatial interaction for local competition
+	// NOTE: it is ONLY in the x direction if DIMENSION is 1
+	initializeInteractionType("i1",
+		(DIMENSION == 1) ? "x" else "xy",
+		reciprocal=T,
+		maxDistance = 2 * SIGMA);
+	i1.setInteractionFunction("n", 1.0/sqrt(2*PI*SIGMA^2), SIGMA);
+}
+
+
+// set up logging
+1 early() {
+	if (exists("OUTPATH")) {
+		log = community.createLogFile(LOGPATH);
+		log.setLogInterval(20);
+		log.addTick();
+		log.addCycleStage();
+		log.addPopulationSize();
+		log.addMeanSDColumns("neighbor_density", "i1.totalOfNeighborStrengths(p1.individuals);");
+	}
+	defineGlobal("TOTAL_SO_FAR", 0);
+}
+
+1 early() {
+	community.rescheduleScriptBlock(s99, ticks=asInteger(RUNTIME/DT));
+}
+
+1 early() {
+	sim.addSubpop("p1", asInteger(INIT_PROP * (LAMBDA*ESTABLISHMENT/(1-SURVIVAL)-1)*K)*WIDTH*HEIGHT);
+	p1.setSpatialBounds(c(0.0, 0.0, WIDTH, HEIGHT));
+	for (ind in p1.individuals) {
+		ind.setSpatialPosition(p1.pointUniform() * c(INIT_PROP, 1));
+	}
+}
+
+reproduction() {
+	// density-dependent fecundity
+	neighbor_density = i1.totalOfNeighborStrengths(individual);
+	num_offspring = rpois(1, DT * LAMBDA / (1 + neighbor_density / K));
+	mate = i1.drawByStrength(individual, 1);  // single mating
+	for (k in seqLen(num_offspring)) {
+		if (runif(1) < ESTABLISHMENT) {
+			if (size(mate) > 0) {
+				offspring = p1.addCrossed(individual, mate);
+			} else {
+				offspring = p1.addSelfed(individual);
+			}
+			pos = individual.spatialPosition + rnorm(2, c(0,0), DISPERSAL_SIGMA);
+			offspring.setSpatialPosition(p1.pointReflected(pos));
+		}
+	}
+}
+
+early() { // survival probabilities
+	inds = p1.individuals;
+	inds.fitnessScaling = 1 - (1 - SURVIVAL) * DT;
+}
+
+late() {
+	i1.evaluate(sim.subpopulations);
+	inds = p1.individuals;
+	neighbor_density = i1.totalOfNeighborStrengths(inds);
+	//inds.color = colors(neighbor_density/max(neighbor_density), "jet");
+}
+
+late() {
+	if (p1.individualCount == 0) {
+		stop("The population has died out, in tick " + community.tick);
+	}
+	defineGlobal("TOTAL_SO_FAR", TOTAL_SO_FAR + p1.individualCount);
+	//catn("density: " + p1.individualCount / (WIDTH * HEIGHT) + " mean so far: " + TOTAL_SO_FAR / (WIDTH * HEIGHT * community.tick));
+	catn((community.tick * DT) + ": " + p1.individualCount / (WIDTH * HEIGHT) + "," + mean(i1.totalOfNeighborStrengths(p1.individuals)));
+}
+
+s99 2000 late() {
+	if (exists("OUTPATH")) sim.treeSeqOutput(OUTPATH, metadata=params);
+	community.outputUsage();
+	catn("Done.");
+	sim.simulationFinished();
+}
+
