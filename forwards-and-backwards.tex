@@ -62,7 +62,8 @@
 \newcommand{\concat}{\oplus}   % concatenation of labels
 \newcommand{\measures}{\mathcal{M}_F(\IR^d)} % finite measures on Rd
 \newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR}^d)} % finite measures on compactified Rd
-\newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on space x level
+\newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on (compactified space) x level
+\newcommand{\flpmeasures}{\mathcal{M}(\IR^d \times [0,\infty))} % locally finite measures on space x level
 
 
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
@@ -1962,8 +1963,8 @@ that oscillate with frequency around $\sqrt{v_*}$.
 
 \begin{figure}
     \begin{center}
-        \comment{TODO} FIGURE
         \includegraphics[width=0.45\textwidth]{figures/clumpy_2d/clumpy_123.density.3.0}
+        \comment{TODO} FIGURE
     \end{center}
     \caption{
         Two panels: left is 2D picture of clumped population;
@@ -3820,16 +3821,10 @@ of the martingale problems,
 which were essentially laid out in Subsection~\ref{sec:population_heuristics}.
 % that follows by application of Dynkin's formula.
 
-\begin{lemma}
-    \label{def: MP definition of limit}
-For $G \in \mathcal{C}^{\infty}(\IR)$ with $\|G'''\|_\infty<\infty$,
-and 
-$f \in \mathcal{C}_{b}^\infty(\overline{\IR}^d)$, define the 
-function $G_f$ by 
-$G_f(\eta):=G (\langle f, \eta \rangle)$.
-Let $\Pgen^N$ be the generator given by
+\comment{TODO: the previous definition of $\Pgen^N$ was the following wrong thing; fixup below}
 \begin{equation}
 \begin{aligned}
+    \text{ONLY RIGHT TO $O(1/N)$} \qquad
     \Pgen^N G_f(\eta)
     &:=
     G'(\langle f, \eta \rangle)
@@ -3844,6 +3839,30 @@ Let $\Pgen^N$ be the generator given by
     \frac{\theta}{N}
     \bigg\langle
         \gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta),
+    \eta(dx) \bigg\rangle .
+\end{aligned}
+\end{equation}
+
+\begin{lemma}
+    \label{def: MP definition of limit}
+For $G \in \mathcal{C}^{\infty}(\IR)$ with $\|G'''\|_\infty<\infty$,
+and 
+$f \in \mathcal{C}_{b}^\infty(\overline{\IR}^d)$, define the 
+function $G_f$ by 
+$G_f(\eta):=G (\langle f, \eta \rangle)$.
+Let $\Pgen^N$ be the generator given by
+\begin{equation}
+\begin{aligned}
+    \Pgen^N G_f(\eta)
+    &:=
+    \theta \bigg\langle
+    \gamma(x, \eta)
+        \int 
+        \left(G(\langle f, \eta \rangle + f(z)/N) - G(\langle f, \eta \rangle)\right)
+        r(z,\eta) q_\theta(x,dz)
+    +
+    \left(G(\langle f, \eta \rangle - f(x)/N) - G(\langle f, \eta \rangle)\right)
+    \mu_\theta(x, \eta),
     \eta(dx) \bigg\rangle .
 \end{aligned}
 \end{equation}
@@ -7102,8 +7121,120 @@ the constant factor of $\sigma^2$ does not affect the result.
 
 \comment{TODO copy in the MMT and refer to it earlier}
 
+% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %%
+\section{Markov Mapping Theorem}
+
+\comment{TODO copy in the MMT and refer to it earlier}
+
+% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %%
+\subsection{Lookdown Generators}
+
+In this section we verify one of the conditions of the Markov Mapping Theorem,
+namely, that ``integrating out levels'' in the generator of the lookdown process
+we obtain the generator of the projected process.
+We will work with test functions of the form
+$$  f(\lp) = \prod_{(x, u) \in \lp} g(x, u) = \exp\left(\langle \log g, \lp \rangle \right) . $$
+Furthermore, recall that $\kappa^N(\lp)(\cdot) = \lp(\cdot \times [0, N)) / N$
+is the ``spatial projection operator'',
+and define the probability kernel $\Gamma^N : \measures \to \mathcal{M}(\IR^d \times [0,N))$
+so that for $\eta \in \measures$, if $\hat g(x) = \int_0^N g(x, u) du / N$, then
+\begin{align*}
+    F^N_g(\eta)
+    &:=
+    \int f(\lp) \Gamma^N(\eta, d\lp) \\
+    &=
+    \exp\left(
+        N \left\langle
+            \log \frac{1}{N} \int_0^N g(x, u) du, \eta(dx)
+        \right\rangle
+    \right) \\
+    &=
+    \exp\left(
+        N \left\langle \log \hat g(x) \eta(dx) \right\rangle
+    \right) ,
+\end{align*}
+i.e., $\Gamma^N$ assigns independent labels on $[0, N]$ to each of the points in $\eta$.
+It follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
+\comment{(beware the different definition of $f$ to that lemma)}
+the generator of $\eta^N_t$ is
+\begin{align}
+    \Pgen^N F^N_g(\eta)
+    &=
+    F^N_g(\eta)
+    \theta \bigg\langle
+        \gamma(x, \eta) \int r(z, \eta) \left( \hat g(z) - 1 \right) q_\theta(x, dz)
+        +
+        \mu_\theta(x, \eta) \left( \frac{1}{\hat g(x)} - 1 \right)
+        ,
+        \eta(dx)
+    \bigg\rangle
+\end{align}
+The generator of $\lp^N_t$ is $A^N$, defined in equation~\label{eqn:lookdown_generator}.
+
+\begin{lemma}
+    \label{lem:averaged_generators}
+    For all finite counting measures $\eta$ on $\IR^d$,
+    \begin{align}
+        \int A^N f(\lp) \Gamma^N(\eta, d\lp)
+        &=
+        \Pgen^N F^N_g(\eta) .
+    \end{align}
+\end{lemma}
+
+For the limiting process,
+we now require test functions such that $g(x,u) = 1$ for all $u$ larger than some $u_0$;
+As before, recall that $\kappa(\lp)(\cdot) = \lim_{u \to \infty} \lp(\cdot \times [0, u)) / u$
+is the ``spatial projection operator'',
+and define the probability kernel $\Gamma : \measures \to \flpmeasures$
+so that for $\eta \in \measures$,
+defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
+\begin{align*}
+    F_g(\eta)
+    &:=
+    \int f(\lp) \Gamma(\eta, d\lp) \\
+    &=
+    \exp\left(
+        \big \langle
+            \int_0^\infty (g(x, u) - 1) du,
+            \eta(dx)
+        \big \rangle
+    \right) \\
+    &=
+    e^{ \langle h(x), \eta(dx) \rangle } .
+\end{align*}
+i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
+with intensity a product of $\eta$ and Lebesgue measure.
+It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
+\comment{(beware the different definition of $f$ to that lemma)}
+the generator of $\eta_t$ is
+\begin{align}
+    \Pgen^\infty F_g(\eta)
+    &=
+    F_g(\eta)
+    \left\langle
+        \gamma(x, \eta)
+        \DG( h(\cdot) r(\cdot) )(x)
+        + F(x, \eta) h(x)
+        + \alpha \gamma(x, \eta) r(x, \eta) h^2(x)
+        ,
+        \eta(dx)
+    \right\rangle .
+\end{align}
+The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdown_generator},
+
+\begin{lemma}
+    \label{lem:averaged_generators_limit}
+    For all $\eta \in \measures$,
+    \begin{align}
+        \int A f(\lp) \Gamma(\eta, d\lp)
+        &=
+        \Pgen^\infty F_g(\eta) .
+    \end{align}
+\end{lemma}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results on Lookdown Representations}
+\section{OLDER STUFF Results on Lookdown Representations}
     \label{sec: Markov Mapping Theorem Application}
 
 % % % % % % % % % % % % %
