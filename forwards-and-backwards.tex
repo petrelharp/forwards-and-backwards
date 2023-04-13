@@ -3855,11 +3855,12 @@ Let $\Pgen^N$ be the generator given by
 \begin{aligned}
     \Pgen^N G_f(\eta)
     &:=
-    \theta \bigg\langle
+    \theta N \bigg\langle
     \gamma(x, \eta)
         \int 
         \left(G(\langle f, \eta \rangle + f(z)/N) - G(\langle f, \eta \rangle)\right)
         r(z,\eta) q_\theta(x,dz)
+    \\ & \qquad \qquad {}
     +
     \left(G(\langle f, \eta \rangle - f(x)/N) - G(\langle f, \eta \rangle)\right)
     \mu_\theta(x, \eta),
@@ -6422,11 +6423,11 @@ each line of descent
 gives birth to lines at higher levels at rate $2 (N - u) c_\theta(x, \eta)$,
 and each such new line chooses a level uniformly from $[u, N]$,
 a spatial location $y$ from the kernel
-$$
+\begin{equation} \label{eqn:qm_defn}
     q^m(x, dy, \eta)
     =
     r(y, \eta) q(x, dy) / \int_{\IR^d} r(y, \eta) q(x, dy),
-$$
+\end{equation}
 and the two lines swap spatial locations with probability 1/2.
 
 It is evident from the description of the process
@@ -6830,9 +6831,9 @@ Finally, we prove the key lemma.
         \langle f, \lp_0 \rangle
         + M^f_t
         + \int_0^t \Big\langle
-            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x, dy) du_1
+            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x,dy,\eta) du_1
         \\ {} &\qquad
-            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x, dy)
+            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x,dy,\eta)
             + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
         \Big\rangle ds
@@ -6840,9 +6841,9 @@ Finally, we prove the key lemma.
         \langle f, \lp_0 \rangle
         + M^f_t
         + \int_0^t \Big\langle
-            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x, dy) du_1
+            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x,dy,\eta) du_1
         \\ {} &\qquad
-            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x, dy)
+            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x,dy,\eta)
             + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
         \Big\rangle ds
@@ -7150,26 +7151,29 @@ so that for $\eta \in \measures$, if $\hat g(x) = \int_0^N g(x, u) du / N$, then
     \right) \\
     &=
     \exp\left(
-        N \left\langle \log \hat g(x) \eta(dx) \right\rangle
+        N \left\langle \log \hat g(x), \eta(dx) \right\rangle
     \right) ,
 \end{align*}
 i.e., $\Gamma^N$ assigns independent labels on $[0, N]$ to each of the points in $\eta$.
 It follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
 \comment{(beware the different definition of $f$ to that lemma)}
 the generator of $\eta^N_t$ is
-\begin{align}
+\begin{align} \label{eqn:pgen_defn_again}
+    \begin{split}
     \Pgen^N F^N_g(\eta)
-    &=
+    =
     F^N_g(\eta)
-    \theta \bigg\langle
+        N \theta & \bigg\langle
         \gamma(x, \eta) \int r(z, \eta) \left( \hat g(z) - 1 \right) q_\theta(x, dz)
+    \\ &\qquad \qquad {}
         +
         \mu_\theta(x, \eta) \left( \frac{1}{\hat g(x)} - 1 \right)
         ,
         \eta(dx)
     \bigg\rangle
+    \end{split}
 \end{align}
-The generator of $\lp^N_t$ is $A^N$, defined in equation~\label{eqn:lookdown_generator}.
+The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_generator}.
 
 \begin{lemma}
     \label{lem:averaged_generators}
@@ -7231,6 +7235,153 @@ The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdow
         \Pgen^\infty F_g(\eta) .
     \end{align}
 \end{lemma}
+
+\begin{proof}[of Lemma~\ref{lem:averaged_generators}]
+First, break the generator $A^N$ into three parts, 
+\begin{align*}
+    A^N_1f(\lp)
+    &=
+    f(\lp) \sum_{(x,u)\in\lp} 2 c_\theta(x,\eta)
+    \int_u^{N}\Bigg(
+        \frac{1}{2}\frac{g(x,v_1)}{g(x,u)}
+        \int_{\IR^d} (g(y,u)-g(x,u))q^m_{\theta}(x,dy,\eta)
+    \Bigg)dv_1 ,
+    \\
+    A^N_2f(\lp)
+    &=
+    f(\lp) \sum_{(x,u)\in\lp} 2 c_\theta(x,\eta)
+    \int_u^{N}\Bigg(
+        \frac{1}{2}\int_{\IR^d}
+            \left(\frac{g(y,v_1) + g(x,v_1)}{2} - 1\right)
+        q^m_{\theta}(x,dy,\eta)
+    \Bigg)dv_1 ,
+    \\
+    A^N_3f(\lp)
+    &=
+    f(\lp) \sum_{(x,u)\in\lp}\,
+    \left( c_\theta(x,\eta) u^2 - b_{\theta}(x,\eta)u \right) \frac{\partial_u g(x,u)}{g(x,u)},
+\end{align*}
+where $q^m$ was defined in equation~\eqref{eqn:qm_defn},
+so that 
+$$ A^Nf(\lp) = A^N_1f(\lp) + A^N_2f(\lp) + A^N_3f(\lp). $$
+
+We now integrate each piece against $\Gamma^N$.
+First note that by the product form of $f$,
+$$
+    \int f(\lp) \sum_{(x,u)\in\lp} \frac{h(x,u)}{g(x,u)} \Gamma^N(\eta,d\lp)
+    =
+    F_g^N(\eta) \bigg\langle
+        \frac{1}{N \hat g(x)} \int_0^N h(x,u) du,
+        N \eta(dx)
+    \bigg\rangle .
+$$
+Therefore,
+\footnotesize
+\begin{align*}
+&
+    \int A^N_1f(\lp) \Gamma^N(\eta,d\lp) 
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle \frac{c_\theta(x,\eta)}{\hat g(x)} \int_0^N \Bigg\{
+        \int_u^N \Bigg(
+            \frac{1}{2} g(x,v_1) \int_{\IR^d}(g(y,u)-g(x,u))q^m_{\theta}(x,dy,\eta)
+        \Bigg) dv_1
+    \Bigg\} du, \eta(dx) \bigg \rangle
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle \frac{c_\theta(x,\eta)}{\hat g(x)} \Bigg\{
+    \int_{\IR^d} \left\{
+        \int_{0}^{N} \int_u^N g(x,v_1) (g(y,u)-g(x,u)) dv_1 du
+    \right\} q^m_{\theta}(x,dy,\eta)
+    , \eta(dx) \bigg \rangle .
+\end{align*}
+\normalsize
+For the second generator, we have
+\footnotesize
+\begin{align*}
+&
+    \int A^N_2 f(\lp) \Gamma^N(\eta, d\lp)
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle \frac{c_\theta(x,\eta)}{\hat g(x)} \int_0^N g(x, u) \Bigg\{
+        \int_u^N\Bigg(\int_{\IR^d}
+        \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right) q^m_{\theta}(x,dy,\eta)
+        \Bigg)dv_1 \Bigg\}
+    , \eta(dx) \bigg\rangle
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle \frac{c_\theta(x,\eta)}{\hat g(x)}
+    \int_{\IR^d}\Bigg\{ \int_{0}^{N}
+    \int_u^N g(x,u) \left(
+        g(y,v_1)+g(x,v_1)-2
+    \right) dv_1 du\Bigg\} q^m_{\theta}(x,dy,\eta)
+    , \eta(dx) \bigg\rangle .
+\end{align*}  
+\normalsize
+For the third generator we have that, since $g(x,N) = 1$,
+\footnotesize
+\begin{align*}
+&
+    \int A^N_3f(\xi)\Gamma^N(\eta,d\lp)
+\\ & \qquad =
+    F_g^N(\eta) \bigg\langle \frac{1}{\hat g(x)}
+    \int_0^N
+        \left( c_\theta(x,\eta) u^2 - b_\theta(x,\eta) u \right) \partial_u g(x,u)
+    du
+    , \eta(dx) \bigg\rangle 
+\\ & \qquad =
+    F_g^N(\eta) \bigg\langle \frac{1}{\hat g(x)}
+    \int_0^N
+        \left( b_\theta(x,\eta) - 2 c_\theta(x,\eta) u \right) (g(x,u) - 1)
+    du
+    , \eta(dx) \bigg\rangle .
+\end{align*}
+\normalsize
+
+Note that $2 \int_0^N \int_u^N g(x,v_1) g(y,u) dv_1 du = N^2 \hat g(x) \hat g(y)$,
+and so
+\footnotesize
+\begin{align*}
+&
+    \int_{0}^{N} \int_u^N g(x,v_1) (g(y,u)-g(x,u)) dv_1 du
+    + \int_{0}^{N} \int_u^N g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du
+\\ &\qquad = 
+    N^2 \hat{g}(x)(\hat{g}(y) - 2) + 2\int_{0}^{N} u g(x,u) du.
+\end{align*}
+\normalsize
+
+Combining the last equations,
+and using the fact that
+$N c_\theta(x,\eta) - b_\theta(x,\eta) = \theta \mu_\theta(x,\eta)$,
+we have 
+\begin{align*}
+&
+    \int \Bigg( A^N_1 f(\xi) + A^N_2 f(\xi) + A^N_3 f(\xi) \Bigg) \Gamma^N(\eta,d\lp)
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle
+        c_\theta(x,\eta) N^2 \int_{\IR^d} (\hat g(y) - 2) q^m(x,dy,\eta)
+        +
+        \frac{1}{\hat g(x)} c_\theta(x,\eta) \int_0^N 2u du
+\\ &\qquad \qquad \qquad {}
+        +
+        \frac{1}{\hat g(x)} b_\theta(x,\eta) \int_0^N (g(x,u) - 1) du
+    , \eta(dx) \bigg\rangle 
+\\ &\qquad =
+    F_g^N(\eta) \bigg\langle
+        c_\theta(x,\eta) N^2 \int_{\IR^d} (\hat g(y) - 1) q^m(x,dy,\eta)
+        +
+        N^2 c_\theta(x,\eta) \left(\frac{1}{\hat g(x)} - 1\right)
+\\ &\qquad \qquad \qquad {}
+        +
+        N b_\theta(x,\eta) \left(1 - \frac{1}{\hat g(x)}\right)
+    , \eta(dx) \bigg\rangle 
+\\ &\qquad =
+    F_g^N(\eta) N \bigg\langle
+        N c_\theta(x,\eta) \int_{\IR^d} (\hat g(y) - 1) q^m(x,dy,\eta)
+        +
+        \theta \mu_\theta(x,\eta) \left(\frac{1}{\hat g(x)} - 1\right)
+    , \eta(dx) \bigg\rangle  .
+\end{align*}
+This matches equation~\eqref{eqn:pgen_defn_again}, as desired,
+because $N c_\theta(x,\eta) q_m(x,dy,\eta) = \theta \gamma(x,\eta) q_\theta(x,dy)$.
+\end{proof}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -7842,7 +7993,7 @@ N}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\IR^d} (g(y,u)-g(x,u))q^{\mathfrak{
 &+f(\xi )\sum_{(x,u)\in\xi}\,\left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
 \end{align}
 where $f(\xi) =\prod_{(x,u) \in \xi}g(x,u)$.
- 
+
 For easier computation,
 we break the generator into three parts, 
 \begin{equation}
