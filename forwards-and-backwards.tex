@@ -3888,14 +3888,13 @@ Furthermore, let $\Pgen^\infty$ be the generator given by
                    %\times 
 \left\{
                    \big\langle
-                        \gamma(x, \smooth{\gamma} \eta(x))
+                        \gamma(x, \eta)
                             \mathcal{B}\left(
-                            f(\cdot) r(\cdot, \smooth{r} \eta(\cdot))
+                            f(\cdot) r(\cdot, \eta)
                             \right)(x)
                     +
-                    f(x)
-                        F(x, \smooth{F} \eta(x)),
-                        \eta(dx)
+                    f(x) F(x, \eta),
+                    \eta(dx)
                     \big\rangle
                    \right\}\\
                &\qquad {}
@@ -7185,47 +7184,6 @@ The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_gen
     \end{align}
 \end{lemma}
 
-For the limiting process,
-we now require test functions such that $g(x,u) = 1$ for all $u$ larger than some $u_0$;
-As before, recall that $\kappa(\lp)(\cdot) = \lim_{u \to \infty} \lp(\cdot \times [0, u)) / u$
-is the ``spatial projection operator'',
-and define the probability kernel $\Gamma : \measures \to \flpmeasures$
-so that for $\eta \in \measures$,
-defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
-\begin{align*}
-    F_g(\eta)
-    &:=
-    \int f(\lp) \Gamma(\eta, d\lp) \\
-    &=
-    \exp\left(
-        \big \langle
-            \int_0^\infty (g(x, u) - 1) du,
-            \eta(dx)
-        \big \rangle
-    \right) \\
-    &=
-    e^{ \langle h(x), \eta(dx) \rangle } .
-\end{align*}
-i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
-with intensity a product of $\eta$ and Lebesgue measure.
-It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-\comment{(beware the different definition of $f$ to that lemma)}
-the generator of $\eta_t$ is
-\begin{align}
-    \Pgen^\infty F_g(\eta)
-    &=
-    F_g(\eta)
-    \left\langle
-        \gamma(x, \eta)
-        \DG( h(\cdot) r(\cdot) )(x)
-        + F(x, \eta) h(x)
-        + \alpha \gamma(x, \eta) r(x, \eta) h^2(x)
-        ,
-        \eta(dx)
-    \right\rangle .
-\end{align}
-The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdown_generator},
-
 \begin{lemma}
     \label{lem:averaged_generators_limit}
     For all $\eta \in \measures$,
@@ -7235,6 +7193,7 @@ The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdow
         \Pgen^\infty F_g(\eta) .
     \end{align}
 \end{lemma}
+
 
 \begin{proof}[of Lemma~\ref{lem:averaged_generators}]
 First, break the generator $A^N$ into three parts, 
@@ -7268,10 +7227,10 @@ $$ A^Nf(\lp) = A^N_1f(\lp) + A^N_2f(\lp) + A^N_3f(\lp). $$
 We now integrate each piece against $\Gamma^N$.
 First note that by the product form of $f$,
 $$
-    \int f(\lp) \sum_{(x,u)\in\lp} \frac{h(x,u)}{g(x,u)} \Gamma^N(\eta,d\lp)
+    \int f(\lp) \sum_{(x,u)\in\lp} \frac{\ell(x,u)}{g(x,u)} \Gamma^N(\eta,d\lp)
     =
     F_g^N(\eta) \bigg\langle
-        \frac{1}{N \hat g(x)} \int_0^N h(x,u) du,
+        \frac{1}{N \hat g(x)} \int_0^N \ell(x,u) du,
         N \eta(dx)
     \bigg\rangle .
 $$
@@ -7382,6 +7341,151 @@ This matches equation~\eqref{eqn:pgen_defn_again}, as desired,
 because $N c_\theta(x,\eta) q_m(x,dy,\eta) = \theta \gamma(x,\eta) q_\theta(x,dy)$.
 \end{proof}
 
+For the limiting process,
+we now require test functions such that $g(x,u) = 1$ for all $u$ larger than some $u_0$;
+As before, recall that $\kappa(\lp)(\cdot) = \lim_{u \to \infty} \lp(\cdot \times [0, u)) / u$
+is the ``spatial projection operator'',
+and define the probability kernel $\Gamma : \measures \to \flpmeasures$
+so that for $\eta \in \measures$,
+defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
+\begin{align*}
+    F_g(\eta)
+    &:=
+    \int f(\lp) \Gamma(\eta, d\lp) \\
+    &=
+    \exp\left(
+        \big \langle
+            \int_0^\infty (g(x, u) - 1) du,
+            \eta(dx)
+        \big \rangle
+    \right) \\
+    &=
+    e^{ \langle h(x), \eta(dx) \rangle } .
+\end{align*}
+i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
+with intensity a product of $\eta$ and Lebesgue measure.
+It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
+\comment{(beware the different definition of $f$ to that lemma)}
+the generator of $\eta_t$ is
+\begin{align} \label{eqn:pgen_infty}
+    \Pgen^\infty F_g(\eta)
+    &=
+    F_g(\eta)
+    \left\langle
+        \gamma(x, \eta)
+        \DG( h(\cdot) r(\cdot) )(x)
+        + F(x, \eta) h(x)
+        + \alpha \gamma(x, \eta) r(x, \eta) h^2(x)
+        ,
+        \eta(dx)
+    \right\rangle .
+\end{align}
+The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdown_generator}.
+
+Before proving Lemma~\ref{lem:averaged_generators_limit},
+we recall an important equality for conditionally
+Poisson point processes (\cite{kurtz/rodrigues:2011} Lemma A.3).
+
+\begin{lemma} \label{lem:poisson_eqn}
+If $\lp = \sum_{i}\delta_{Z_i}$ is a Poisson random measure with mean measure $\nu$, 
+then for $\ell \in L^{1}(\nu)$ and $g\geq0$ with $\log g \in L^{1}(\nu)$,
+\begin{equation}
+\IE\left[\sum_{j} \ell(Z_j) \prod_{i}g(Z_i)\right] = \int \ell g d\nu e^{\int (g-1) d \nu}.
+\end{equation}
+\end{lemma}
+
+
+\begin{proof}[of Lemma~\ref{lem:averaged_generators_limit}]
+By Lemma~\ref{lem:poisson_eqn},
+$$
+    \int f(\lp) \sum_{(x,u)\in\lp} \frac{\ell(x,u)}{g(x,u)} \Gamma(\eta, \lp)
+    =
+    F_g(\eta) \bigg\langle \int_0^\infty \ell(x,u) du , \eta(dx) \bigg\rangle .
+$$
+Comparing this to the definition of $A$
+(equation~\eqref{eqn:limiting_lookdown_generator}),
+we see that
+\begin{align*}
+    \int Af(\lp) \Gamma(\eta,d\lp)
+    &=
+    F_g(\eta) \bigg\langle
+        \int_0^\infty
+        (\ell_1(x,u) + \ell_2(x,u) + \ell_3(x,u))
+        du, \eta(dx)
+    \bigg\rangle ,
+\end{align*}
+where
+\begin{align*}
+    \ell_1(x,u)
+    &=
+    \gamma(x,\eta)\left(
+        \DG(g(\cdot,u) r(\cdot,\eta))(x) - g(x,u) \DG r(x,\eta)
+    \right) \\
+    &=
+    \gamma(x,\eta)\left(
+        \DG((g(\cdot,u)-1) r(\cdot,\eta))(x) - (g(x,u)-1) \DG r(x,\eta)
+    \right)
+\end{align*}
+and
+\begin{align*}
+    \ell_2(x,u)
+    =
+    2 g(x,u) \alpha \gamma(x,\eta) r(x,\eta) \int_u^\infty(g(x,v) - 1)dv
+\end{align*}
+and
+\begin{align*}
+    \ell_3(x,u)
+    =
+    \left( \alpha \gamma(x,\eta)r(x,\eta)u^2 - \{\gamma(x,\eta)\DG r(x,\eta) + F(x,\eta)\} u \right)
+    \partial_u g(x,u) .
+\end{align*}
+
+First note that since $\DG$ acts on space, it commutes with the integral over levels, and so
+\begin{align*}
+    \int_0^\infty \ell_1(x,u) du
+    &=
+    \gamma(x,\eta)\left(
+        \DG(h(\cdot) r(\cdot,\eta))(x) - h(x) \DG r(x,\eta)
+    \right) ,
+\end{align*}
+since $h(x) = \int_0^\infty (g(x,u) - 1) du$.
+Next,
+\begin{align*}
+    \int_0^\infty \ell_2(x,u) du
+    &=
+    \alpha \gamma(x,\eta) r(x,\eta) 2\int_0^\infty g(x,u) \int_u^\infty (g(x,v)-1) dv du .
+\end{align*}
+Finally, integrating by parts,
+\begin{align*}
+    \int_0^\infty \ell_3(x,u) du
+    &=
+    - \alpha \gamma(x,\eta) r(x,\eta) \int_0^\infty 2u(g(x,u) - 1) du
+    \\ & \qquad {}
+    + \{ \gamma(x,\eta) \DG r(x,\eta) + F(x,\eta) \} h(x)
+\end{align*}
+Now, note that
+\begin{align*}
+&
+    \int_0^\infty g(x,u) \int_u^\infty (g(x,v)-1) dv du - \int_0^\infty u(g(x,u)-1)du
+\\ & \qquad =
+    \int_0^\infty g(x,u) \int_u^\infty (g(x,v)-1) dv du - \int_0^\infty \int_v^\infty (g(x,u) -1) du dv
+\\ & \qquad =
+    \int_0^\infty (g(x,u)-1) \int_u^\infty (g(x,v)-1) dv du
+\\ & \qquad =
+    h(x)^2/2 .
+\end{align*}
+
+Adding these together, we get that
+\begin{align*}
+    &
+    \int_0^\infty (\ell_1(x,u) + \ell_2(x,u) + \ell_3(x,u)) du
+    \\ &\qquad=
+    \gamma(x,\eta) \DG(h(\cdot)r(\cdot,\eta))(x)
+    + F(x,\eta) h(x) 
+    + \alpha \gamma(x,\eta) r(x,\eta) h(x)^2 ,
+\end{align*}
+which agrees with \eqref{eqn:pgen_infty}, as desired.
+\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
