@@ -1,0 +1,991 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{OLDER STUFF Results on Lookdown Representations}
+    \label{sec: Markov Mapping Theorem Application}
+
+% % % % % % % % % % % % %
+\subsubsection{Convergence of generators for the lookdown process}
+    \label{sec:lookdown_generator_proofs}
+
+
+\comment{
+    I did this informal writeup of convergence of the lookdown generator
+    without looking at the previous version
+    mostly to double-check what we have there
+    (which is probably better).
+}
+
+In Definition~\ref{defn:lookdown_mgale} we saw that the generator
+of $(\lp_t)_{t \ge 0}$ is the sum of two parts,
+equations \eqref{eqn:birth_generator} and \eqref{eqn:level_generator}.
+Assume that there is a $u_*$ such that $g(x, u) = 1$ for all $u \ge u_*$.
+We consider these two in turn.
+
+First, the contribution from births is
+\begin{align*}
+\begin{split}
+f(\lp)
+&\mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    2 \gamma(x, \eta)
+    \bigg\{
+        \frac{1}{2 N}
+        \int_u^N
+        g(x, u_1) du_1
+        \frac{
+            \theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy)
+        }{
+            g(x, u)
+        }
+    \\ & \qquad \qquad \qquad {}
+        + \frac{\theta}{N}
+        \int_u^N \int_{\IR^d}
+        \left( \frac{g(y, u_1) + g(x, u_1)}{2} - 1 \right)
+        r(y, \eta) q(x, dy)
+    \bigg\}
+    .
+    \end{split}
+\end{align*}
+We have that
+\begin{align*}
+    &\theta \int_{\IR^d} (g(y, u) - g(x, u)) r(y, \eta) q(x, dy) \\
+    &\qquad =
+    \theta \int_{\IR^d} (r(y, \eta) g(y, u) - r(x, \eta) g(x, u)) q(x, dy)
+    - \theta \int_{\IR^d} g(x, u) (r(y, \eta) - r(x, \eta)) q(x, dy) \\
+    &\qquad \to
+    \DG(gr)(x) - g(x) \DG r(x) \qquad \text{as }N \to \infty.
+\end{align*}
+i.e., to
+$\DG\left(g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+- g(\cdot, u) \DG\left(r(\cdot, \smooth{r}\eta(\cdot))\right)(x)$.
+Furthermore, by our assumption on $g$,
+$\int_u^N g(x, u_1) du_1 / N \to 1$ for all $x$ and $u$,
+so the first term here converges to
+\begin{align*}
+    \gamma(x, \eta)
+        \frac{
+            \DG\left( g(\cdot, u) r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+            -
+            g(\cdot, x) \DG\left( r(\cdot, \smooth{r}\eta(\cdot))\right)(x)
+        }{
+            g(x, u)
+        } .
+\end{align*}
+This corresponds to each particle moving according to the motion induced by
+$g \mapsto \gamma \DG(gr) - g \DG r$.
+\comment{TODO: explain the $r$-tilted $\DG$ motion somewhere earlier, introducing notation for it.}
+As for the second term,
+since $\int g(y, u_1) q(x, dy) \to g(x, u_1)$
+and $\theta/N \to \alpha$,
+it converges to
+\begin{align*}
+    2 \alpha
+    \gamma(x, \eta)
+    r(x, \eta) 
+    \int_u^\infty
+    \left( g(x, u_1) - 1 \right)
+    du_1
+\end{align*}
+This corresponds to births at higher levels at rate $2 \alpha \gamma r$.
+
+
+The remaining term is \eqref{eqn:level_generator}:
+\begin{align*}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    \left(
+    \theta
+        N^{-1} \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        b(x, \eta)u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)} .
+\end{align*}
+The first part only uses the fact that $\theta/N \to \alpha$,
+while as noted in \eqref{eqn:b_limit}, $b$ converges to $\gamma \DG r + F$,
+so in total this term converges to
+\begin{align*}
+    f(\lp)
+    \mapsto
+    f(\lp)
+    \sum_{(x, u) \in \lp}
+    \left(
+    \alpha
+        \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        \left\{
+            \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
+        \right\} u
+    \right)
+    \frac{\partial_u g(x,u)}{g(x,u)} .
+\end{align*}
+In other words, the level of a particle at $x$ evolves according to
+\begin{align*}
+    \dot u
+    =
+    \alpha
+        \gamma(x,\eta) \int_{\IR^d} r(y, \eta) q(x, dy) u^2
+        -
+        \left\{
+            \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
+        \right\} u .
+\end{align*}
+
+
+
+\subsection{Generators for the spatial processes}
+Before defining the generator of the lookdown representations, 
+we recall the generator of the spatial processes.
+
+We first define our pre-limit
+$(\eta^{N}(t))_{t>0}$ as a solution
+to a Martingale Problem
+with generator $\Pgen^{N}$.
+
+
+\begin{definition}
+    \label{def2: MP definition of pre-limit}
+Let $F \in \mathcal{C}^{2}(\IR)$ and $f \in \mathcal{C}_{0}(\IR^d)$.
+We define $\Pgen^N$ to be a generator
+acting on test functions of the form
+$F_f(\eta):=F (\langle f, \eta \rangle)$
+such that 
+\begin{equation}
+\begin{aligned}
+\Pgen^{N} F_f(\eta):=& \int_{\IR^d} \theta\gamma(x, \eta) \left\{\int_{\IR^d} \left\{F(\langle f, \eta \rangle + f(y)/N )-F(\langle f, \eta \rangle )\right\}r(y, \eta)q_{\theta}(x,dy)\right\}N\eta(dx)\\
+&+\int_{\IR^d} \theta \mu_\theta(x, \eta) \left\{F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\right\}N\eta(dx).
+\end{aligned}    
+\end{equation}
+In this case, our pre-limit model $(\eta^{N}(t))_{t \geq 0}$ is the solution to the Martingale Problem $(\Pgen^{N}, \eta_0)$, i.e. 
+for all $F \in \mathcal{C}^{2}(\IR)$
+and $f \in \mathcal{C}_{0}(\IR^d)$,
+$$M_t:=F_f(\eta^{N}_t)-F_f(\eta_0)
+-\int_{0}^{t}\Pgen^{N}F_f(\eta^{N}_s)ds$$
+is a martingale, and the initial condition is distributed as a Poisson measure with mean measure $\eta_0$.
+\end{definition}
+
+\begin{remark}
+Taking $F(x)=x$ and $F(x)=x^2$, we can recover Equation \eqref{eqn:limiting_mgale_problem} and \eqref{eqn:limiting_mgale_variation} for the limit.
+Similarly, we can recover
+Definition \ref{defn:mgale_construction},
+an equivalent characterisation
+of our pre-limit model.
+\end{remark}
+
+We now write the candidate generator for the limiting object.
+
+\begin{definition}
+    \label{def2: MP definition of limit}
+Let $F \in \mathcal{C}^{2}(\IR)$ and $f \in \mathcal{C}_{0}(\IR^d)$.
+We define $\Pgen$ to be a generator
+acting on test functions of the form
+$F_f(\eta):=F (\langle f, \eta \rangle)$
+such that 
+\begin{equation}
+    \label{eq: Limit Generator Definition}
+\begin{aligned}
+\Pgen^{\infty} F_f(\eta):=& F'(\langle f, \eta \rangle)
+                   \times \left\{
+                   \big\langle
+                        \gamma(x, \smooth{\gamma} \eta(x))
+                            \mathcal{B}\left(
+                            f(\cdot) r(\cdot, \smooth{r} \eta(\cdot))
+                            \right)(x)
+                    +
+                    f(x)
+                        F(x, \smooth{F} \eta(x)),
+                        \eta(dx)
+                    \big\rangle
+                   \right\}\\
+                &+ \alpha F''(\langle f, \eta \rangle)
+                  \times \left\{
+                  \big\langle
+                    \gamma \left( x, \eta \right)
+                    r\left(x,\eta \right)
+                    f^2(x),
+                    \eta (dx)
+                    \big\rangle 
+                  \right\}.
+\end{aligned}    
+\end{equation}
+We define $(\eta^{\infty}(t))_{t \geq 0}$ to be the solution to the Martingale Problem $(\Pgen^{\infty}, \eta_0)$, i.e. 
+for all $F \in \mathcal{C}^{2}(\IR)$
+and $f \in \mathcal{C}_{0}(\IR^d)$,
+$$M_t:=F_f(\eta^{\infty}_t)-F_f(\eta_0)
+-\int_{0}^{t}\Pgen^{\infty}F_f(\eta^{\infty}_s)ds$$
+is a martingale, with initial condition distributed as a Poisson measure with mean measure $\eta_0$.
+\end{definition}
+
+
+
+
+\subsubsection{Convergence of the Generators for the Spatial Models}
+
+\comment{This is a duplicate with Lemma~\ref{lem:limit_mgale}; compare and remove this one.}
+
+\begin{lemma}[Identifying the limit as a solution to the martingale problem]
+    \label{lem:limit_mgale2}
+As $N \to \infty$,
+$(\eta^{N}_t)_{t \geq 0}$ converges in $\mathcal{D}_{[0,\infty)}(\mathcal{M}_f(\IR^d))$
+to $(\eta^{N}(t))_{t \geq 0}$.
+\end{lemma}
+
+\begin{proof}[of Lemma~\ref{lem:limit_mgale2}
+We use Theorem 4.8.10 in \cite{EK}.
+First of all, the set of functions
+$\{F_f(\eta):= F(\langle f, \eta \rangle ),~
+F \in \mathcal{C}^{2}(\IR), ~
+f \in \mathcal{C}_{0}(\IR^d)\}$
+is a dense and convergence-determining 
+subset of functions in $\mathcal{M}_f(\IR^d)$.
+Therefore, it suffices to show that for any $t>0$,
+\begin{equation}
+    \label{eq: Convergence Condition}
+\lim_{N \to \infty}
+\mathbb{E}\left[
+\left(
+F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
+-\int_{t}^{t+\tau}\Pgen^{\infty}F_f(\eta^{N}_s)ds
+\right)
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
+\right]=0
+\end{equation}
+for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
+and $h_1,...,h_k \in \mathcal{C}_{0}(\IR^d)$.
+
+To prove this,
+we make use of the Martingale Problem characterisation
+of $(\eta^{N}_t)_{t \geq 0}$.
+From Definition \ref{def: MP definition of pre-limit},
+we can apply Tower Law
+and obtain that
+\begin{equation}
+    \label{eq: Prelimit MP Application}
+\lim_{N \to \infty}
+\mathbb{E}\left[
+\left(
+F_f(\eta^{N}_{t+\tau})-F_f(\eta^{N}_t)
+-\int_{t}^{t+\tau}\Pgen^{N}F_f(\eta^{N}_s)ds
+\right)
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
+\right]=0
+\end{equation}
+for all $k\geq 0$, $0\leq t_1<t_2<...,t_k \leq t < t+\tau$,
+and $h_1,...,h_k \in \mathcal{C}_{0}(\IR^d)$.
+
+Therefore, it suffices to show that 
+\begin{equation}
+    \label{eq: Convergence of Spatial Generator}
+\lim_{N \to \infty}
+\mathbb{E}\left[
+\int_{t}^{t+\tau}
+\left|
+\Pgen^{N}F_f(\eta^{N}_s)
+-\Pgen^{\infty}F_f(\eta^{N}_s)
+\right|
+ds
+\times 
+\prod_{i=1}^{k}\langle h_i,\eta^{N}_{t_i} \rangle
+\right]=0
+\end{equation}
+We apply Taylor Expansion
+around the term $F(\langle f, \eta \rangle )$
+up to third order.
+This gives
+\begin{equation}
+    \label{eq: Taylor Expansion calculations i}
+\begin{aligned}
+&F(\langle f, \eta \rangle + f(y)/N )-F(\langle f, \eta \rangle )\\
+=& F'(\langle f, \eta \rangle ) \frac{f(y)}{N}
++\frac{1}{2}F''(\langle f, \eta \rangle ) \frac{f^2(y)}{N^2}
++\frac{1}{6}F'''(w ) \frac{f^3(y)}{N^3}
+\end{aligned}
+\end{equation}
+for some $w \in [\langle f, \eta \rangle, \langle f, \eta \rangle+ ||f||/N]$.
+Similarly,
+\begin{equation}
+    \label{eq: Taylor Expansion calculations ii}
+\begin{aligned}
+&F(\langle f, \eta \rangle - f(x)/N )-F(\langle f, \eta \rangle )\\
+=& - F'(\langle f, \eta \rangle ) \frac{f(x)}{N}
++\frac{1}{2}F''(\langle f, \eta \rangle ) \frac{f^2(x)}{N^2}
+-\frac{1}{6}F'''(v ) \frac{f^3(x)}{N^3}
+\end{aligned}
+\end{equation}
+for some $v \in [\langle f, \eta \rangle - ||f||/N, \langle f, \eta \rangle ]$.
+
+We may now rewrite $\mathcal{P}^NF(\langle f, \eta \rangle)$ as 
+\small
+\begin{equation} 
+    \label{eq: Pre-Limit Generator Expanded}
+\begin{aligned}
+\Pgen^{N} F_f(\eta):=& F'(\langle f, \eta \rangle)\int_{\IR^d}  \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu_\theta(x, \eta)\right\}q_{\theta}(x,dy)\right\}\eta(dx)\\
+&+\frac{1}{2}\frac{\theta}{N}F''(\langle f, \eta \rangle)\int_{\IR^d} 
+ \left\{\gamma(x, \eta)\int_{\IR^d} \left\{f^2(y) r(y,\eta) \right\}q_{\theta}(x,dy)+f^2(x)\mu_\theta(x, \eta)\right\}\eta(dx)\\
+&+\frac{1}{6}\frac{\theta}{N^2}\int_{\IR^d}\left\{ 
+F'''(w) \left\{\gamma(x, \eta)\int_{\IR^d} f^3(y) r(y,\eta) q_{\theta}(x,dy)\right\}-F'''(v)f^3(x)\mu_\theta(x, \eta)\right\}\eta(dx)
+\end{aligned}    
+\end{equation}
+\normalsize
+for some $w,v \in [\langle f,\eta \rangle - ||f||/N, \langle f,\eta \rangle + ||f||/N]$.
+
+As $N\to \infty$, 
+$\theta/N \to \alpha$, 
+$\theta/N^2 \to 0$,
+and 
+$$\int_{\IR^d} f^m(y) r(y,\eta) q_{\theta}(x,dy) \to f^m(x)r(x, \eta)$$
+for $m=2,3$,
+the third term in Equation \eqref{eq: Pre-Limit Generator Expanded} vanishes
+while the second term converges to
+that of Equation \eqref{eq: Limit Generator Definition}.
+Furthermore,
+$\mu_\theta(x,\eta) = r(x,\eta)\gamma(x,\eta)-\frac{1}{\theta}F(x,\eta) \to r(x,\eta)\gamma(x,\eta),$
+so $f^2(x)\mu_\theta(x,\eta) \to r(x,\eta)\gamma(x,\eta) f^2(x)$.
+
+
+
+
+
+Finally, by Equation \eqref{mean measure},
+\eqref{eqn:rewritten mean measure}, \eqref{eqn:near_critical} and
+\eqref{limit of mean measure equation},
+we have 
+\begin{multline}
+ \theta\left\{\int_{\IR^d} \left\{f(y)\gamma(x, \eta) r(y,\eta) -f(x)\mu_\theta(x, \eta)\right\}q_{\theta}(x,dy)\right\}
+ \\
+\to \gamma(x, \eta)                           \mathcal{B}\left(
+                            f(\cdot) r(\cdot, \eta)
+                            \right)(x)
+                    +
+                    f(x)
+                        F(x, \eta),
+\end{multline}
+so comparing terms we have
+\begin{equation}
+\lim_{N\to \infty} |\mathcal{P}^{N}F\langle f, \eta \rangle - \mathcal{P}^{\infty}F\langle f, \eta \rangle| \to 0,   
+\end{equation}
+and so by Dominated Convergence Theorem,
+we establish Equation 
+\eqref{eq: Convergence of Spatial Generator}
+which concludes our proof.
+\end{proof}
+
+
+
+\subsubsection{Exact Statement on Markov Mapping Theorem results}
+
+\begin{theorem}
+\label{teo: lookdown on pre-limit well defined}
+For each $N \in \mathbb{N}$,
+there exists a solution $(\lp^N_t)_{t \geq 0}$ to the $(A^N, \lp^N_0)$ martingale problem.
+Furthermore, if we define $\Xi^N_t = \frac{1}{N}\lp^N_t(dx \times [0,N])$ for $t \geq 0$,
+then the pre-limiting model $(\eta^N_t(dx))_{t \geq 0}$ defined in Definition \ref{defn:mgale_construction}
+and $(\Xi^N_t(dx))_{t \geq 0}$
+shares the same distribution on $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$.
+
+Finally, 
+for all $h\in \mathcal{C}(\mathbb{R}^d \times [0, N])$
+\begin{equation}\label{Markov Mapping Theorem Cox Condition}
+\mathbb{E}\left[e^{-\int_{\mathbb{R}^d \times [0,N]} h(x,u) \xi^{N}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{N}}_t\right]=e^{-\int F^{N}_h(x) \Xi^{N}_t(dx)},
+\end{equation}
+where 
+$$F^{\epsilon,\theta,N}_h(x):=-N\log \left(\frac{1}{N}\int_{0}^{N}e^{-h(x,u)}du\right)=-N\log \left(1-\frac{1}{N}\int_{0}^{N}(1-e^{-h(x,u)})du\right).$$
+In other words,
+conditioned on the spatial configuration $\Xi^N_t$,
+the levels of the particles must be i.i.d uniformly between $[0,N]$.
+
+\end{theorem}
+
+The statement for the limiting case is similar,
+with the only difference being the conditional distribution 
+of the levels given the spatial projection.
+
+\begin{theorem}
+\label{teo: lookdown on limit well defined}
+There exists a solution $(\lp_t)_{t \geq 0}$ to the $(A, \lp_0)$ martingale problem.
+
+Furthermore, if we define $\Xi_t = \lim_{u_0 \to \infty} \frac{1}{u_0}\lp_t(dx \times [0,u_0])$,
+then the limit model $(\eta_t(dx))_{t \geq 0}$ defined in Theorem \ref{thm:nonlocal_convergence}
+and $(\Xi_t(dx))_{t \geq 0}$
+shares the same distribution on $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$.
+
+Finally, 
+for all $h\in \mathcal{C}(\mathbb{R}^d)$ and for all $K>0$,
+\begin{equation}\label{Markov Mapping Theorem Cox Condition limit}
+\mathbb{E}\left[e^{-\int_{\mathbb{R}^d \times [0,K]} h(x) \xi(dx \times du)}\bigg| \mathcal{F}^{\Xi}_t\right]=e^{- K \int_{\mathbb{R^d}}(1-e^{h(x)}) \Xi_t(dx)}.
+\end{equation}
+In other words,
+conditionally on $(\Xi_s)_{0\leq s \leq t}$
+for each $s \in[0,t]$,
+$\xi_s$ is conditionally Poisson with Cox measure $\Xi_s(dx) \times du$.
+\end{theorem}
+    
+
+\subsection{Markov Mapping Theorem Application on Generator $A^{N}$}\label{sec: Markov Mapping Theorem Application - Prelimit}
+
+We now introduce some notations to simplify our calculations.
+For a finite atomic measure $\xi=\sum \delta_{(x_i,u_i)} \in \mathcal{M}(\mathbb{R}^d \times [0,N])$,
+we introduce the test functions
+ $$f_g(\xi)= \prod_{(x_i,u_i)\in \xi} g(x_i,u_i) = \exp (\langle \log g, \xi \rangle),$$
+ where $g \in \mathcal{C}(\mathbb{R}^d \times [0,\infty))$ and $g(x,u)=1$ for all $u \geq N$.
+ 
+ To avoid any ambiguities in the proofs,
+ we will strictly use the notation $\Xi^N$  
+to represent the scaled push-forward measure of $\lp$,
+i.e. $\Xi^N := \frac{1}{N}\sum_{(x,u) \in \lp} \delta_x$,
+and only use $(\eta^N_t)_{t \geq 0}$
+to refer to the PDE solutions defined in Definition  \ref{defn:mgale_construction}.
+
+ 
+We also write $\textbf{x}=(x_1,x_2,...), \textbf{u}=(u_1,u_2,...)$ to be the collections of particles locations and levels respectively.
+With this notation we will write $f_g(\xi), f_g(\textbf{x},\textbf{u})$ interchangeably.
+
+We write $\Gamma^N (d\textbf{u})$ as the probability kernel
+that corresponds to assigning each particle an i.i.d. uniform $[0,N]$-level, i.e.
+$$\int f_g(\textbf{x},\textbf{u})\Gamma^N (d\textbf{u})=\frac{1}{N^{|\xi|}}\int_{[0,N]^{|\xi|}}f_g(\textbf{x},\textbf{u})d\textbf{u},$$
+and we denote
+$$\hat{g}(x):=\frac{1}{N}\int_{0}^{N}g(x,u)du,
+ ~~\hat{f}_g(\xi)=\int f_g(\xi) \Gamma (d\textbf{u})$$ 
+to be the spatial test functions with averaged level.
+By independence of the levels of the particles,
+ we have that
+ \begin{align*}
+\hat{f}_g(\xi)
+=&\int \prod_{(x,u) \in \xi}g(x,u) \Gamma(d\textbf{u})\\
+=&\prod_{(x,u)\in \xi}\frac{1}{N}\int_{0}^{N} g(x,u) du\\
+=&\prod_{(x_i,u_i)\in \xi }\hat{g}(x_i)\\
+=& \exp(N\log \hat{g},\Xi^N).
+ \end{align*}
+
+Furthermore,
+when expressed as a function of $\Xi^N$ explicitly,
+we use the notation $F_{\hat{g},N}(\Xi^N):=\hat{f}_g(\xi)$.
+
+
+We will now apply Markov Mapping Theorem
+while keeping notations consistent to that introduced in Section A.5 in \cite{kurtz/rodrigues:2011}
+with the aid of Table \ref{Markov Mapping Theorem Notation Table}.
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{c|c}
+    Notation in \cite{kurtz/rodrigues:2011} & Notation in this proof \\
+    \hline\\
+      $S$   &  $\mathcal{M}(\IR^d \times [0, N])$\\\\
+       $S_0$  &  $\mathcal{M}(\IR^d)$\\\\
+       $A$ & $A^{N}$\\\\
+       $(X_t)_{t \geq 0}$ & $(\xi^N_t)_{t \geq 0}$\\\\
+       $\mu_0$ & $\eta^N_0 \in \mathcal{M}(\IR^d)$\\\\
+       $\nu_0$ & $\xi^N_0 \in \mathcal{M}(\IR^d \times [0,N])$\\\\
+       $f(\xi)$ & $f_g(\xi) := \prod_{(x,u) \in \xi} g(x,u)$\\\\
+        $\gamma_M$ & $ \mathcal{M}(\IR^d \times [0, N]) \ni \xi \to \frac{1}{N}\sum_{(x,u) \in \lp(\cdot, [0,N))} \delta_{x} \in \mathcal{M}(\IR^d)$\\\\
+       $\alpha_M$ & $ \alpha_M(\Xi^N,d \lp) =     \begin{cases}
+      0 & \text{if } \frac{1}{N}\sum_{(x,u) \in \lp(\cdot, [0,N))} \delta_x \neq \Xi^N\\
+       \prod_{(u_i,x_i) \in \nu} \frac{1}{N} \ind_{[0,N]}du_i & \text{if } \frac{1}{N}\sum_{(x,u) \in \lp(\cdot, [0,N))} \delta_x = \Xi^N,\\
+    \end{cases} $\\
+&      where $du_i$ is the standard Lebesgue measure.
+    \end{tabular}
+    \caption{Markov Mapping Theorem Correspondence}
+    \label{Markov Mapping Theorem Notation Table}
+\end{table}
+
+\begin{remark}
+Note that $\gamma,\alpha$ in \cite{kurtz/rodrigues:2011}
+is replaced with $\gamma_M,\alpha_M$ to avoid confusion with the $\gamma, \alpha$ used in previous sections.
+\end{remark}
+
+First of all,
+note that $\gamma_M$ is Borel-measurable
+and $\alpha_M$ is a transition function from $\mathcal{M}(\IR^d \times [0, N))$ to $\mathcal{M}(\IR^d)$.
+
+More importantly, we have the following simplified expression
+for an integral against $\alpha_M$:
+\begin{equation}
+\int_{\mathcal{M}(\IR^d\times [0,N])}A^{N}f(\xi)\alpha_M(\Xi^N, d\lp)
+= \int   A^Nf(\textbf{x},\textbf{u})\Gamma^N(d\textbf{u}). 
+\end{equation}
+
+As a result, we can establish that
+\begin{equation}
+\begin{aligned}
+\alpha_M(\Xi^N,\gamma^{-1}(\Xi^N)) 
+&= \int_{\lp \in \gamma^{-1}(y)}\alpha_M (\Xi^N, d\lp) \\
+&= \int_{\{\lp: \sum_{(x,u) \in \lp }\delta_x = N\Xi^N \} }\alpha_M (\Xi^N, d\lp)\\
+&= \prod_{x_i \in N\Xi^N}\frac{1}{N}\int_{0}^{N} du_i =1
+\end{aligned}
+\end{equation}
+With the simplified integral, it now suffices to show that the Martingale Problem 
+\begin{equation}\label{Markov Mapping Theorem Martingale Condition Simplified}
+C = \left\{\left(\int   f(\textbf{x},\textbf{u})\Gamma^N(d\textbf{u}),\int   A^Nf(\textbf{x},\textbf{u})\Gamma^N(d\textbf{u})\right)\right\}    
+\end{equation}
+has a solution.
+
+We now claim the following lemma.
+
+\begin{lemma}
+\label{lem: representation of lookdown generator - pre-limit}
+Let $\xi$ be a finite atomic measure on $\mathbb{R}^d \times [0,N]$.
+For test functions of the form 
+$$f_g(\xi)= \prod_{(x_i,u_i)\in \xi} g(x_i,u_i) = \exp (\langle \log g, \xi \rangle),$$
+we have the equality
+\begin{equation}
+\int   A^Nf(\textbf{x},\textbf{u})\Gamma^N(d\textbf{u})
+= \int \Pgen^N F_{\hat{g},N}(\Xi^N),
+\end{equation}
+where $\Pgen^N$ is the generator of the spatial process defined in Definition \ref{def2: MP definition of pre-limit}.
+ \end{lemma}
+
+With lemma \ref{lem: representation of lookdown generator - pre-limit},
+the martingale problem can then be re-written as 
+\begin{equation}\label{Markov Mapping Theorem Martingale Condition, projection form}
+C = \left\{\left(\int F_{\hat{g},N}(\Xi^N), \int \Pgen^N F_{\hat{g},N}(\Xi^N)\right)\right\}    
+\end{equation}
+which has $(\eta^N_t)_{t \geq 0}$,
+our spatial population process,
+as a solution. 
+
+As a result,
+we can apply Markov Mapping Theorem to establish the following statements:
+\begin{enumerate}
+    \item There exists a $\mathcal{M}_F(\mathbb{R}^d\times[0,N])$-valued process $(\lp^N_t)_{t \geq 0}$
+    such that 
+    $M^N_t:=    f(\xi^N_t)-   f(\xi^N_0)-\int_{0}^{t}  A^Nf(\xi^N_s)ds$ is a martingale for all $f\in D(A^N)$,
+    \item The process $(\gamma_M \circ \xi^N_t)_{t \geq 0}= \left(\Xi^N_t\right)_{t \geq 0}$ 
+    has the same distribution in $\mathcal{D}_{[0,\infty)}(\mathcal{M}(\mathbb{R}^d))$ as $(\eta^N_t)_{t \geq 0}$ defined in Definition \ref{def: MP definition of pre-limit}.
+    \item $\mathbb{P}\{\xi^N_t \in B | \mathcal{F}^{\Xi^N}_t\}=\alpha_M(\Xi^N(t),B), ~~~B \in \mathcal{B}(\mathcal{M}(\IR^d \times [0,N])).$
+\end{enumerate}
+Note that in particular,
+from the third statement,
+we can establish that for $h(x,u) \in \mathcal{C}_{c}(\mathbb{R}^d \times[0,N])$ and $h \geq 0$,
+
+\begin{equation}\label{Markov Mapping Theorem Cox Condition}
+\begin{aligned}
+\mathbb{E}\left[e^{-\int_{S \times [0,N]} h(x,u) \xi^{N}(dx \times du)}\bigg| \mathcal{F}^{\Xi^{N}}_t\right]
+&=\mathbb{E}\left[\prod_{(x,u)\in\xi^N_t}e^{-h(x,u)}\bigg| \mathcal{F}^{\Xi^{N}}_t\right]\\
+&=\prod_{x \in N\Xi^N_t} \frac{1}{N} \int_{0}^N. e^{-h(x_i,u_i)} du_i
+&= e^{-\langle F^N_h(x), \Xi^N(dx)\rangle},
+\end{aligned}
+\end{equation}
+where 
+$$F^{N}_h(x):=-N\log \left(\frac{1}{N}\int_{0}^{N}e^{-h(x,u)}du\right)=-N\log \left(1-\frac{1}{N}\int_{0}^{N}(1-e^{-h(x,u)})du\right).$$
+
+Therefore we only need to prove lemma \ref{lem: representation of lookdown generator - pre-limit}.
+The procedure to prove Lemman \ref{lem: representation of lookdown generator - pre-limit}
+is rather standard and set out in \cite{kurtz/rodrigues:2011},
+albeit we will face more technicalities for this setting.
+
+For tidy computations in this proof, 
+we recall the notation that an individual at $x$ gives birth at rate
+$$
+    \gamma^{\mathfrak{m}}_{\theta}(x,\eta) := \theta \gamma(x, \smooth{\gamma} \eta(x))
+    \int r(y, \smooth{r} \eta(y)) q_{\theta}(x, dy) ,
+$$
+and that offspring disperse according to the kernel
+$$
+    q_\theta^\mathfrak{m}(x,\eta,  dy)
+    :=
+    \frac{
+        r(y, \smooth{r} \eta(y)) q_\theta(x, dy)
+    }{
+        \int r(z, \smooth{r} \eta(z)) q_\theta(x, dz)
+    } .
+$$
+
+We will also write $\Xi, \Gamma$ instead of $\Xi^N, \Gamma^N$,
+bearing in mind the dependence of $\Xi, \Gamma$ on $N$.
+
+\begin{proof}[Proof to Lemma \ref{lem: representation of lookdown generator - pre-limit}]
+
+Recall that the lookdown generator of our spatial-level process satisfies
+\begin{align}
+A^Nf(\xi)=&
+f(\xi)\sum_{(x,u)\in\xi}2N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
+\int_u^{
+N}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\IR^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy) \nonumber \\
+& \qquad \qquad \qquad \qquad +\int_{\IR^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\Xi,dy)\Bigg)dv_1 \nonumber\\
+&+f(\xi )\sum_{(x,u)\in\xi}\,\left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+\end{align}
+where $f(\xi) =\prod_{(x,u) \in \xi}g(x,u)$.
+
+For easier computation,
+we break the generator into three parts, 
+\begin{equation}
+\begin{aligned}
+A^N_1f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
+\int_u^{
+N}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\IR^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy)\Bigg)dv_1,\\
+A^N_2f(\xi)=&f(\xi)\sum_{(x,u)\in\xi}2N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
+\int_u^{
+N}\Bigg(\frac{1}{2}\int_{\IR^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\Xi,dy)\Bigg)dv_1,\\
+A^N_3f(\xi)=&f(\xi )\sum_{(x,u)\in\xi}\,\left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)},
+\end{aligned}
+\end{equation}
+such that 
+$$A^Nf(\xi)=A^N_1f(\xi)+A^N_2f(\xi)+A^N_3f(\xi).$$
+
+We now calculate each generator evaluated under our probability kernel $\Gamma$.
+\footnotesize 
+\begin{align*}
+&\int A^N_1f(\xi) \Gamma(d\mathbf{u})\\ &=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
+\int_u^{
+N}\Bigg(\frac 12\frac{g(x,v_1)}{g(x,u)}\int_{\IR^d}(g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi} \int \Bigg\{\frac{f(\xi)}{g(x,u)}2N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)
+\int_u^{
+N}\Bigg(\frac 12 g(x,v_1)\int_{\IR^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\int_{0}^{N}\left\{
+\int_u^{
+N} g(x,v_1)dv_1\times \int_{\IR^d} (g(y,u)-g(x,u))q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy)\right\}du\\
+&=\sum_{(x,u)\in\xi}N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\int_{\IR^d} \left\{\int_{0}^{N}
+\int_u^{
+N} g(x,v_1) (g(y,u)-g(x,u))dv_1du\right\}q^{\mathfrak{m}}_{\theta}(x,\Xi ,dy)
+\end{align*}
+
+\normalsize
+For the second generator, we have
+\footnotesize
+\begin{align*}
+&\int A^N_2f(\xi) \Gamma(d\mathbf{u})\\&=\int \Bigg\{f(\xi)\sum_{(x,u)\in\xi}2N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\times
+\int_u^{
+N}\Bigg(\int_{\IR^d} \left(\frac{g(y,v_1)+g(x,v_1)}{2}-1\right)q^{\mathfrak{m}}_{\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\int \Bigg\{f(\xi)\times
+\int_u^{
+N}\Bigg(\int_{\IR^d}\left(g(y,v_1)+g(x,v_1)-2\right)q^{\mathfrak{m}}_{\theta}(x,\Xi,dy)\Bigg)dv_1\Bigg\} \Gamma(d\mathbf{u})\\
+&=\sum_{(x,u)\in\xi}N^{-1}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i) \frac{1}{N}\int_{\IR^d}\Bigg\{\int_{0}^{N}
+\int_u^{
+N}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du\Bigg\} q^{\mathfrak{m}}_{\theta}(x,\Xi,dy).
+\end{align*}  
+
+\normalsize
+For the third generator we have that 
+\begin{align*}
+ &\int A^N_3f(\xi)\Gamma(d\mathbf{u})\\
+ =&\int f(\xi )\,\left(N^{-1} \sum_{(x,u)\in\xi}\theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\frac {\partial_u g(x,u)}{g(x,u)}\Gamma(d\mathbf{u}) \\
+ =&\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\int_{0}^{N}  \left(N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) u^2 -b_{\theta}(x,\Xi)u\right)\partial_u g(x,u)du \\
+ =&-\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\int_{0}^{N}  \left(2uN^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi) -b_{\theta}(x,\Xi)\right)\left(g(x,u)-1\right)du \\
+ =&-\sum_{(x,u)\in\xi}N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\int_{0}^{N}   2ug(x,u)du \\
+ &+\sum_{(x,u)\in\xi}N^{-1} \theta \gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)\frac{1}{N}\times N^2+\sum_{(x,u)\in\xi}\prod_{(x_i,u_i)\neq (x,u)}\hat{g}(x_i)b_{\theta}(x,\Xi)(\hat{g}(x)-1)
+\end{align*}
+
+By symmetry, we have
+\begin{align*}
+&\int_{0}^{N}
+\int_u^{
+N} g(x,v_1) (g(y,u)-g(x,u))dv_1du+\int_{0}^{N}
+\int_u^{
+N}g(x,u) \left(g(y,v_1)+g(x,v_1)-2\right)dv_1 du
+\\&= \int_{0}^{N}
+\int_u^{
+N}g(x,u)g(y,v_1)+g(y,u)g(x,v_1)-2g(x,u) dv_1 du\\
+&=\frac{1}{2}\int_{0}^{N}\int_{0}^{N}g(x,u)g(y,v_1)+g(y,u)g(x,v_1)dv_1 du - 2 \int_{0}^{N}(N-u)g(x,u)du\\
+&=N^2 \hat{g}(x)\hat{g}(y) -2N^2 \hat{g}(x)+2\int_{0}^{N}ug(x,u)du.
+\end{align*}
+
+Combining the last equations,
+we have 
+\begin{align*}
+&\int \Bigg(A^N_1f(\xi)+A^N_2f(\xi)+A^N_3f(\xi)\Bigg)\Gamma(d\mathbf{u})\\
+=&  \sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)\prod_{(x_i,u_i)}\hat{g}(x_i) \left( \int_{\IR^n} \hat{g}(y) q^{\mathfrak{m}}_{\theta}(x,\Xi,dy) - 2+\frac{1}{\hat{g}(x)}\right)\\
+&+\sum_{(x,u) \in \xi } \prod_{(x_i,u_i)}\hat{g}(x_i)b_{\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
+=&  \hat{f}(\xi)\sum_{(x,u)\in\xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\IR^n} \hat{g}(y) q^{\mathfrak{m}}_{\theta}(x,\Xi,dy) -1\right)\\
+&+\hat{f}(\xi)\sum_{(x,u) \in \xi } (b_{\theta}(x,\Xi)-\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi))\left(1-\frac{1}{\hat{g}(x)}\right)\\
+=&  F_{\hat{g},N}(\Xi^N)\sum_{x \in \Xi}\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi) \left(\int_{\IR^n} \hat{g}(y) q^{\mathfrak{m}}_{\theta}(x,\Xi,dy) -1\right) \\
+&-F_{\hat{g},N}(\Xi^N)\sum_{x \in \Xi } \theta \mu_{\epsilon,\theta}(x,\Xi)\left(1-\frac{1}{\hat{g}(x)}\right)\\
+=& \Pgen^N F_{\hat{g},N}(\Xi^N).
+\end{align*}
+
+The last equality holds
+as the second last expression corresponds to a spatial-branching process
+that branches at rate $\theta\gamma^{\mathfrak{m}}_{\theta}(x,\Xi)$,
+leaving offspring around with kernel $ q^{\mathfrak{m}}_{\theta}(x,\Xi,dy)$,
+with each particle having death rate given by $\theta \mu_{\epsilon,\theta}(x,\Xi)$.
+This is precisely the martingale problem in Definition \ref{def: MP definition of pre-limit}.
+
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%
+\subsection{Markov Mapping Theorem Application on Generator $A$}\label{sec: Markov Mapping Theorem application - limit}
+
+Now,
+we turn to the generator for the limiting case,
+which has the form
+    \begin{equation}
+    \begin{aligned}
+    A f(\lp)
+    =&
+        f(\lp)  \sum_{(x, u) \in \xi}
+        \gamma(x, \eta)
+            \frac{
+                \DG(g(\cdot, u) r(\cdot, \eta))(x) - g(x,u) \DG r(x,\eta)
+            }{
+                g(x, u)
+            }
+    \\ &+
+        f(\lp) \sum_{(x, u) \in \xi}
+        2 \alpha \gamma(x, \Xi) r(x, \Xi ) \int_u^\infty (g(x, u_1) - 1) du_1
+    \\ &+
+        f(\lp) \sum_{(x, u) \in \xi}
+        \left(
+            \alpha \gamma(x, \Xi) r(x, \Xi ) u^2
+            -
+            \left\{
+                \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
+            \right\} u
+        \right)
+        \frac{\partial_u g(x, u)}{ g(x,u) }  .
+    \end{aligned}
+    \end{equation}
+
+To apply Markov Mapping Theorem,
+we consider Table \ref{Markov Mapping Theorem Notation Table Limit}.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{c|c}
+    Notation in \cite{kurtz/rodrigues:2011} & Notation in this proof \\
+    \hline\\
+      $S$   &  $\mathcal{M}(\IR^d \times [0, \infty])$\\\\
+       $S_0$  &  $\mathcal{M}(\IR^d)$\\\\
+       $A$ & $A$\\\\
+       $(X_t)_{t \geq 0}$ & $(\xi_t)_{t \geq 0}$\\\\
+       $\mu_0$ & $\xi_0 \in \mathcal{M}(\IR^d)$\\\\
+       $\nu_0$ & $\xi_0 \in \mathcal{M}(\IR^d \times [0,\infty])$\\\\
+       $f(\xi)$ & $f_g(\xi) := \prod_{(x,u) \in \xi} g(x,u)$\\\\
+        $\gamma_M$ & $ \mathcal{M}(\IR^d \times [0, \infty]) \ni \xi \to \lim_{u_0 \to \infty}\frac{1}{u_0}\sum_{(x,u) \in \lp(\cdot, [0,u_0))} \delta_{x} \in \mathcal{M}(\IR^d)$\\\\
+       $\alpha_M$ & $ \Gamma^M(\Xi,d \lp) \sim PP(\Xi(dx)\times \Lambda(du)) ~~ \text{if } \gamma_M(\xi)=\Xi$,\\
+       &      where $\Lambda(du)$ is the standard Lebesgue measure on $[0,\infty)$.
+    \end{tabular}
+    \caption{Markov Mapping Theorem Correspondence}
+    \label{Markov Mapping Theorem Notation Table Limit}
+\end{table}
+
+Once again,
+we need to find solutions to the Martingale Problem 
+\begin{equation}
+C = \left(\int f_g(\xi) \Gamma^M(\cdot, d\xi), \int Af_g(\xi) \Gamma^M(\cdot, d\xi))\right),
+\end{equation}
+where $\Gamma^M(\Xi, d\lp)$ is the law of $\xi$,
+which is conditionally Poisson with Cox measure $\Xi(dx) \times \Lambda(du)$.
+
+Since we impose that $\xi$ is conditionally Poisson with Cox measure $\Xi(dx) \times \Lambda(du)$,
+for any test function $l(x,u) > 0$,
+\begin{equation}
+\mathbb{E}\left[e^{-\int_{\mathbb{R}^d \times [0,\infty]} l(x,u) \xi(dx,du)}\big| \Xi \right] = e^{-\int_{\mathbb{R}^d} \int_{0}^{\infty} (1-e^{-l(x,u)}) du \Xi(dx)}.
+\end{equation}
+
+Note that 
+$\prod_{(x,u) \in \xi} g(x,u) = e^{-\int_{\mathbb{R}^d \times [0,\infty]} -\log g(x,u) \xi(dx,du)},$
+so taking $l(x,u)= -\log g(x,u)$ and $h(x,u)= \int_{0}^{\infty} (1 -g(x,u))du$,
+we have the equation
+\begin{equation}
+\begin{aligned}
+\int f_g(\xi) \alpha_M(\Xi, d\xi) 
+=&  e^{-\int_{\mathbb{R}^d} \int_{0}^{\infty} (1-e^{-l(x,u)}) du \Xi(dx)}\\
+=&  e^{-\int_{\mathbb{R}^d} \int_{0}^{\infty} (1-g(x,u)) du \Xi(dx)}\\
+=& \exp(\langle -h(x), \Xi(dx)\rangle),
+\end{aligned}
+\end{equation}
+and we will denote the last term as $\mathcal{E}_{-h}(\Xi)$.
+Note that this notation is consistent to the test function
+$F_f(\eta)$ laid out in \ref{def: MP definition of limit},
+if we take $F(\cdot)=\mathcal{E}(\cdot) := \exp(\cdot)$ and $f=-h$.
+
+We now state the crucial lemma that allows us to apply Markov Mapping Theorem.
+\begin{lemma}
+\label{lem: MMT for limit}
+Let $\lp$ be a finite measure on $\mathbb{R}^d \times [0,\infty)$,
+$\Xi$ be a finite measure on $\mathbb{R}^d$,
+and $\Lambda(dx)$ be the Lesbesgue measure on  $[0,\infty)$.
+
+We consider test functions 
+$f(\xi):= \prod_{(x_i,u_i) \in \xi} g(x_i,u_i)$
+with $g \in C^2_{0}(\mathbb{R}^d \times[0,\infty))$
+and for which there exists $u_0$ with 
+$g(x,u)=1$ for all $u>u_0$.
+Furthermore, we define 
+$h(x,u)= \int_{0}^{\infty} (1 -g(x,u))du$
+and $\mathcal{E}_{-h}(\Xi)= \exp(\langle -h(x), \Xi(dx)\rangle)$.
+
+We write $\Gamma^{\Xi}(d\lp)$ to be the law
+on $\mathcal{M}(\mathbb{R}^d \times[0,\infty))$ 
+for a conditionally Poisson random measure $\lp$
+on $\IR^d\times [0,\infty)$
+with Cox measure $\Xi(dx)\times \Lambda(du)$.
+
+Then,
+for generator $A$ defined in Equation \eqref{eqn:limiting_lookdown_generator},
+\begin{equation}
+\int Af(\lp) \Gamma^{\Xi}(d\lp) = \Pgen \mathcal{E}_{-h}(\Xi),
+\end{equation}
+where $\Pgen$ is defined in Definition \ref{def2: MP definition of limit}.
+\end{lemma}
+
+Given the above lemma, 
+the following three statements hold true.
+\begin{enumerate}
+    \item There exists a $\mathcal{M}_F(\mathbb{R}^d\times[0,\infty])$-valued process $(\lp_t)_{t \geq 0}$
+    such that 
+    $M_t:=    f(\xi_t)-   f(\xi_0)-\int_{0}^{t}  Af(\xi_s)ds$ is a martingale for all $f\in D(A)$,
+    \item The process $(\gamma_M \circ \xi_t)_{t \geq 0}= \left( \lim_{u_0 \to \infty}\frac{1}{u_0}\sum_{(x,u) \in \lp_t(\cdot, [0,u_0))} \delta_{x} \right)_{t \geq 0}$ 
+    has the same distribution in $\mathcal{D}_{\mathcal{M}(\mathbb{R}^d)}[0,\infty)$ as $(\eta_t)_{t \geq 0}$ defined in Definition \ref{def: MP definition of limit}.
+    \item $\mathbb{P}\{\xi_t \in B | \mathcal{F}^{\Xi_t}\}=\Gamma^{\Xi_t}(B), ~~~B \in \mathcal{B}(\mathcal{M}(\IR^d \times [0,\infty])).$
+\end{enumerate}
+
+Finally,
+we recall an important equality for conditionally Poisson point processes (\cite{kurtz/rodrigues:2011} Lemma A.3.)
+which will be used extensively in the upcoming proof. 
+
+\begin{lemma}
+Let $\lp =\sum_{i}\delta_{Z_i}$ be a Poisson random measure with mean measure $\nu$, 
+then for $\ell \in L^{1}(\nu)$ and $g\geq0$ with $\log g \in L^{1}(\nu)$,
+\begin{equation}
+\mathbb{E}[\sum_{j} \ell(Z_j) \prod_{i}g(Z_i)] = \int \ell g d\nu e^{\int (g-1) d \nu}.
+\end{equation}
+\end{lemma}
+
+In particular,
+taking $\nu(dx,du)=\Xi(dx) \times \Lambda(du)$,
+we have the equation 
+\begin{equation}
+\label{eq: cond_poi_sum_prod}
+\begin{aligned}
+\int f(\xi) \sum_{(x,u)\in \xi} \ell(x,u)\Gamma^{\Xi}(d\xi)
+=& \mathbb{E}_{\xi \sim PP(\Xi \times \Lambda)}\left[\sum_{(x_j,u_j)\in \xi} \ell(x_j,u_j) \prod_{(x_i,u_i) \in \xi}g(x_i,u_i)\right]\\
+ =& \left \langle \int_{0}^{\infty} \ell(x,u) g(x,u) du ,\Xi(dx) \right\rangle \exp(\langle -h(x), \Xi(dx) \rangle) \\
+ =& \left \langle \int_{0}^{\infty} \ell(x,u) g(x,u) du ,\Xi(dx) \right\rangle \mathcal{E}_{-h}(\Xi)
+\end{aligned}
+\end{equation}
+where $h(x)=\int_{0}^{\infty}(1-g(x,u))du$.
+
+We are now ready to prove Lemma \ref{lem: MMT for limit}.
+
+\begin{proof}[Proof to Lemma \ref{lem: MMT for limit}]
+We write
+$$ Af(\xi)=A_1f(\xi)+A_2f(\xi)+A_3f(\xi),$$
+where the first term is
+\begin{equation}
+\begin{aligned}
+A_1f(\xi) =&
+        f(\lp)  \sum_{(x, u) \in \xi}
+             \frac{
+            	\gamma(x, \Xi)
+                \left(\DG(g(\cdot, u) r(\cdot, \Xi))(x) - g(x,u) \DG r(x,\Xi)\right)
+            }{
+                g(x, u)
+            }\\
+            = & f(\lp)  \sum_{(x, u) \in \xi} \frac{\ell_1(x,u)}{g(x,u)},
+\end{aligned}    
+\end{equation}
+the second term is
+\begin{equation}
+\begin{aligned}
+A_2f(\xi)  = &
+  f(\lp) \sum_{(x, u) \in \xi}
+        2 \alpha \gamma(x, \Xi) r(x, \Xi ) \int_u^\infty (g(x, u_1) - 1) du_1\\
+         =&  f(\lp)  \sum_{(x, u) \in \xi} \ell_2(x,u),
+\end{aligned}    
+\end{equation}
+and the final term satisfies
+\begin{equation}
+\begin{aligned}
+A_3f(\xi)  =&f(\lp) \sum_{(x, u) \in \xi}
+                \frac{\left(
+            \alpha \gamma(x, \Xi) r(x, \Xi ) u^2
+            -
+            \left\{
+                \gamma(x, \Xi) \DG r(x, \Xi) + F(x, \Xi)
+            \right\} u
+        \right)
+        \partial_u g(x, u)}{ g(x,u) }\\
+        =& f(\lp) \sum_{(x, u) \in \xi} \frac{\ell_3(x,u)}{g(x,u)}  .
+\end{aligned}    
+\end{equation}
+
+Applying Equation \eqref{eq: cond_poi_sum_prod}
+to the above expressions give 
+\begin{equation}
+\int Af(\xi)\Gamma^{\Xi}(d\xi)
+= \left \langle \int_{0}^{\infty}\left(\ell_1(x,u) + \ell_2(x,u) g(x,u) + \ell_3(x,u)\right)du ,\Xi(dx) \right\rangle \mathcal{E}_{-h}(\Xi)
+\end{equation}
+
+First of all, 
+the operator $\DG$ acts on space while the integral is over levels,
+so we can commute the two operators to obtain
+\begin{equation}
+\begin{aligned}
+\int_{0}^{\infty} \ell_1(x,u) du 
+=& \int_{0}^{\infty} \gamma(x, \Xi)( \DG((g(\cdot, u)-1) r(\cdot, \Xi))(x) - (g(x,u)-1) \DG r(x,\Xi))  du \\
+=& \gamma(x, \Xi)\left\{ \DG\left(\int_{0}^{\infty} (g(\cdot, u)-1)du \times r(\cdot, \Xi)\right)(x) - \int_{0}^{\infty} (g(x,u)-1)du \DG r(x,\Xi)\right\} \\
+=& -\gamma(x, \Xi)\{ \DG(h(\cdot) r(\cdot, \Xi))(x) - h(x) \DG r(x,\Xi)\},
+\end{aligned}
+\end{equation}
+as $h(x,u)= \int_{0}^{\infty} (1 -g(x,u))du$.
+
+Similarly,
+\begin{equation}
+\begin{aligned}
+\int_{0}^{\infty} \ell_2(x,u)g(x,u) du
+=&  \alpha\gamma(x, \Xi) r(x, \Xi ) \times 2 \int_{0}^{\infty} g(x,u)  \int_u^\infty (g(x, u_1) - 1) du_1  du\\
+=&  \alpha\gamma(x, \Xi) r(x, \Xi ) \times I_1.
+\end{aligned}
+\end{equation}
+
+Finally,
+integrating $\ell_3$ by parts, 
+we have
+\begin{equation}
+\begin{aligned}
+\int_{0}^{\infty} \ell_3(x,u)du
+=& \int_{0}^{\infty} \left(
+            \alpha \gamma(x, \Xi) r(x, \Xi ) u^2
+            -
+            \left\{
+                \gamma(x, \Xi) \DG r(x, \Xi) + F(x, \Xi)
+            \right\} u
+        \right)
+        \partial_u g(x, u) du\\
+=& - \alpha\gamma(x, \Xi) r(x, \Xi ) \int_{0}^{\infty} 2u (g(x, u)-1) du\\
+  &+ \left\{\gamma(x, \Xi) \DG r(x, \Xi) + F(x, \Xi) \right\} \int_{0}^{\infty}(g(x,u)-1) du\\
+  =&  - \alpha \gamma(x, \Xi) r(x, \Xi ) I_2 - \left\{\gamma(x, \Xi) \DG r(x, \Xi) + F(x, \Xi) \right\} h(x).
+\end{aligned}
+\end{equation}
+
+Note that $I_1-I_2$ satisfies
+\begin{equation}
+\begin{aligned}
+I_1-I_2 
+=& 2 \int_{0}^{\infty} g(x,u)  \int_u^\infty (g(x, u_1) - 1) du_1  du - 2 \int_{0}^{\infty} u (g(x, u)-1) du\\
+=& 2 \int_{0}^{\infty} g(x,u)  \int_u^\infty (g(x, u_1) - 1) du_1  du - 2 \int_{0}^{\infty} (g(x, u)-1) \int_{0}^{u}dv  du\\
+=& 2 \int_{0}^{\infty} g(x,v)  \int_v^\infty (g(x, u) - 1) du  dv - 2 \int_{0}^{\infty} \int_{v}^{\infty}(g(x, u)-1)  dudv\\
+=& 2 \int_{0}^{\infty} (g(x,v)-1)  \int_v^\infty (g(x, u) - 1) du  dv \\
+=& h^2(x)
+\end{aligned}
+\end{equation}
+
+Combining all the Equations above, 
+we have 
+\begin{equation}
+\begin{aligned}
+& \int_{0}^{\infty}\left(\ell_1(x,u) + \ell_2(x,u) g(x,u) + \ell_3(x,u)\right)du \\
+=& -\gamma(x, \Xi)\DG(h(\cdot) r(\cdot, \Xi))(x) + \gamma(x, \Xi) h(x) \DG r(x,\Xi) -  \gamma(x, \Xi) \DG r(x, \Xi)h(x) - F(x, \Xi)  h(x) \\
+& +\alpha\gamma(x, \Xi) r(x, \Xi )(I_1-I_2)\\
+=&\alpha \gamma(x, \Xi) r(x, \Xi ) h^2(x) -\gamma(x, \Xi)\DG(h(\cdot) r(\cdot, \Xi))(x)  - F(x, \Xi)  h(x).
+\end{aligned}
+\end{equation}
+
+To conclude, 
+\begin{equation}
+\begin{aligned}
+&\int Af(\xi)\Gamma^{\Xi}(d\xi)\\
+= & \left(\alpha \gamma(x, \Xi) r(x, \Xi ) h^2(x) -\gamma(x, \Xi)\DG(h(\cdot) r(\cdot, \Xi))(x)  - F(x, \Xi)  h(x)\right)\mathcal{E}_{-h}(\Xi)\\
+= & \left(\gamma(x, \Xi)\DG(-h(\cdot) r(\cdot, \Xi))(x)  + F(x, \Xi)  (-h(x))\right)\mathcal{E}'(\langle -h, \Xi \rangle )\\
+   &+ \left(\alpha \gamma(x, \Xi) r(x, \Xi ) h^2(x) \right)\mathcal{E}''(\langle -h, \Xi \rangle )\\
+=& \Pgen \mathcal{E}_{-h}(\Xi),
+\end{aligned}
+\end{equation}
+so we have established our equality. 
+\end{proof}
+
