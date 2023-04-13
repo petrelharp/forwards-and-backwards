@@ -69,6 +69,8 @@
 \newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
 \newcommand{\comment}[1]{{\color{blue} \it #1}}
 
+\numberwithin{equation}{section}
+
 \begin{document}
 
 \title{\large{\bf
@@ -3820,28 +3822,6 @@ First, we record an equivalent formulation
 of the martingale problems,
 which were essentially laid out in Subsection~\ref{sec:population_heuristics}.
 % that follows by application of Dynkin's formula.
-
-\comment{TODO: the previous definition of $\Pgen^N$ was the following wrong thing; fixup below}
-\begin{equation}
-\begin{aligned}
-    \text{ONLY RIGHT TO $O(1/N)$} \qquad
-    \Pgen^N G_f(\eta)
-    &:=
-    G'(\langle f, \eta \rangle)
-        \theta \bigg\langle
-        \gamma(x, \eta)
-            \int f(z) r(z,\eta) q_\theta(x,dz)
-        -
-        f(x)\mu_\theta(x, \eta),
-        \eta(dx) \bigg\rangle
-    \\&\qquad {}
-    + \frac{1}{2} G''(\langle f, \eta \rangle)
-    \frac{\theta}{N}
-    \bigg\langle
-        \gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta),
-    \eta(dx) \bigg\rangle .
-\end{aligned}
-\end{equation}
 
 \begin{lemma}
     \label{def: MP definition of limit}
