@@ -319,7 +319,8 @@ emerges as a special case.
 We remark that such results on (one-step) convergence to reaction diffusion 
 equation limits have been
 achieved for a variety of interacting particle systems. The vast majority of these
-results concern spin systems \comment{REFs}. However,~\cite{flandoli/huang:2021} 
+results concern spin systems \comment{TODO REFs obtained from Flandoli/Huang etc: Alison}.
+However,~\cite{flandoli/huang:2021} 
 obtain the Fisher-KPP equation
 as a scaling limit of interacting diffusions in
 $\IR^d$. In that setting a major challenge (also apparent in our models), not
@@ -442,7 +443,7 @@ show that in an appropriate limit one recovers a Kingman coalescent.
 % % % % % % % % % % % % % %
 \paragraph{Structure of the paper}
 
-\comment{This paragraph to be rewritten last}
+\comment{TODO: This paragraph to be rewritten last PETER}
 
 In this paper we study scaling limits of spatial population models,
 obtaining convergence of both the population process
@@ -858,6 +859,8 @@ that is, this expression is non-negative so that there is no need to take the ma
 	sufficiently large $\theta$.)
 \end{assumptions}
 
+\comment{TODO: modify condition (4) to say that the $C_f$ only depends on $\|f\|_\infty$, $\|\partial f\|$ and $\|\partial^2 f\|$: PETER}
+
 We give two concrete situations in which the fourth condition is satisfied.
 
 \begin{lemma}
@@ -942,7 +945,6 @@ from direct simulation of the process using SLiM \citep{haller_slim_2019}.
         Other parameters were the same:
         dispersal and interactions distance were set to 1,
         and the equilibrium density is 10 individuals per unit area.
-        Blue curves are contours from a kernel density estimate.
         \label{fig:super_vs_det_2d}
     }
 \end{figure}
@@ -1556,8 +1558,8 @@ This can be compared to Remark~\ref{ancestral lineages: first guess}.
     \end{align}
 \end{corollary}
 
-\comment{I'm a bit surprised by the factor of 2 (that manifests as $\varphi^2$),
-    but I've checked where it comes from pretty carefully, and don't see anything wrong.}
+% \comment{I'm a bit surprised by the factor of 2 (that manifests as $\varphi^2$),
+%     but I've checked where it comes from pretty carefully, and don't see anything wrong.}
 Long-term fitness of an individual
 is proportional to the fraction of lineages from the distant future that pass through the individual,
 and hence the total long-term fitness at a location is proportional to
@@ -1606,7 +1608,6 @@ We now turn to some examples and applications.
 \subsection{Beyond linear diffusion}
 \label{beyond linear diffusion}
 
-\comment{Maybe check for more recent references for paragraph below.}
 Equation~(\ref{eqn:nonlocal_pde}) is a nonlocal version of a reaction diffusion equation with nonlinear
 diffusion; in other words the diffusivity of the population depends on the population
 density. Passing to the classical limit, we recover equations
@@ -1674,6 +1675,7 @@ corresponding to an unscaled density of $N$ individuals per unit area.
         \includegraphics[width=0.45\textwidth]{figures/ex2b/pme_123.steps}
     \end{center}
     \caption{
+        \comment{TODO PETER; maybe remove dotted lines}
         Two panels, showing simulated 1D populations under a
 porous medium equation with logistic growth~(\ref{PME}), comparing the simulated
         profile to the analytical solution;
@@ -1961,6 +1963,7 @@ that oscillate with frequency around $\sqrt{v_*}$.
     We might say more by linearizing the exponential term,
     which gives $v_* = (A_1 - A_2 + A_3 \epsilon^2/2)/(A_1 \epsilon^2)$,
     although the resulting expression isn't terribly helpful.
+    TODO ALISON
 }
 
 
@@ -1974,7 +1977,7 @@ that oscillate with frequency around $\sqrt{v_*}$.
         in which the constant density is unstable
         and a stable, periodic pattern forms.
         \textbf{Right:} Population density in an expanding wave in a one-dimensional simulation
-        forming a period pattern;
+        forming a periodic pattern;
         each panel shows the wave front in three periods of time;
         within each period of time the wave front at earlier times is shown in blue
         and later times in pink.
@@ -3293,7 +3296,7 @@ we pass from our population model
 directly to a reaction diffusion equation without going via a nonlocal limit,
 and finally our results concerning both convergence of the lookdown representation
 and characterization of the lineage process in the deterministic case.
-\comment{TODO: revisit this paragraph}
+\comment{TODO: check/improve this paragraph: ALISON}
 
 
 \subsection{Preliminaries}
@@ -3685,7 +3688,7 @@ for $N = 1, 2, \ldots$ is tight
 as a sequence of c\`adl\`ag, real-valued processes.
 \end{lemma}
 \begin{proof}
-The Aldous-Rebolledo criterion (found in the form we use here in \cite{rebolledo:1980}),
+The Aldous-Rebolledo criterion (Theorem~\ref{thm:aldous_rebolledo})
 applied to the semimartingale representation of $\langle f, \eta^N_t\rangle$
 of equation~\eqref{eqn:eta_f_mgale_decomp}, tells us
 that it suffices to show that for each $T>0$,
@@ -4064,7 +4067,9 @@ For any $\delta>0$,
 \IP\big[\eta_t\big(\{\|x\|>R\}\big)>\delta\big]\to 0\qquad\mbox{ as }R\to\infty.
 \]
 \end{lemma}
+
 \begin{proof}[Sketch]
+    \comment{Change this to a sequence $f_n$ of smooth things with uniformly bounded derivs that increase 1; follows from condition 4. PETER}
 To avoid the idea being buried in notation, we sketch the proof in the 
 special case of $d=1$ and $\DG=\Delta$.
 For any $f\in C_b^\infty(\IR)$,
@@ -4100,7 +4105,6 @@ expanded the term involving the Laplacian, we obtain
     + F(x,\smooth{F}\eta_s(x)),
     \eta_s(dx)\Big\rangle ds\Big] .
 \end{multline} 
-    \comment{alison to look at this again; check whether it depends on just bounding $B^\theta_1$}
 Evidently, in much the same way as in the proof of
 Lemma~\ref{lem:eta_f_bound},
 our conditions on $r$ and $F$ ensure
@@ -4775,8 +4779,7 @@ $\int \psi^\epsilon|\log \psi^\epsilon| d x$ that we proved above.
 \section{Simultaneous scaling with interaction distance}
 \label{subsec:one step convergence proof}
 
-\comment{below $\eta_s^N$ stops having  an $N$ at some point}
-
+\comment{TODO: check that $\eta_s^N$ having an $N$ or not is okay}
 
 In this section we prove Theorem~\ref{thm:local_convergence},
 which simultaneously scales the parameters $\theta$ and $N$ and the interaction 
@@ -5904,7 +5907,7 @@ Lemma~\ref{bounds on moments} and
 Corollary~\ref{alternative form moment bounds}.
 
 \comment{perhaps explain: the next proposition is useful because we'll want to use weak convergence of $\smooth{\epsilon}\eta_s$; but in the martingale we have the term on the left in the proposition; probably there are other ways to do this.}
-\comment{ACTUALLY BETTER we want to transfer $T_\epsilon^2$ over onto $\eta$; this happens in two steps, first this proposition; next using that $T_{\epsilon^2}f - f$ is small}
+\comment{ACTUALLY BETTER we want to transfer $T_\epsilon^2$ over onto $\eta$; this happens in two steps, first this proposition; next using that $T_{\epsilon^2}f - f$ is small; ALISON}
 
 \begin{proposition} 
 \label{CuadraticApprox}
@@ -5981,7 +5984,7 @@ Combining the above, we have reduced the problem to showing that
 p_{\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle ds
 =0,
 \end{equation}
-\comment{which we prove by showing the expectation of this positive quantity goes to zero; e.g. see Lemma 7.5(?)}.
+\comment{check this: which we prove by showing the expectation of this positive quantity goes to zero; e.g., see Lemma 7.5(?): ALISON}.
 
 We are going to use the estimate~(\ref{difference in rhos}).
 First note that by Lemma~\ref{bounds on moments}
@@ -6165,7 +6168,7 @@ Corollary~\ref{alternative form moment bounds} to reduce to a form to which
 we can apply H\"older's inequality.
 
 \comment{Probably should put a bit more detail in here?}
-\comment{key bit is that we can always write $M_s(w)$ as a convolution of $p_{\epsilon^2/}$ with something}
+\comment{key bit is that we can always write $M_s(w)$ as a convolution of $p_{\epsilon^2/2}$ with something: ALISON}
 
 Control of the terms arising from approximating $\psi^{\epsilon,x}$
 by the heat kernel follows in an entirely analogous way.
@@ -6517,7 +6520,7 @@ In other words, the limiting ``line of descent'' construction holds.
     The analogue of Lemma~\ref{lem:limit_mgale},
     in particular that the martingale properties are preserved under passage to the limit,
     are proved in Section~\ref{sec:lookdown_generator_proofs}.
-    \comment{TODO: refer to correct thing}
+    \comment{TODO: refer to correct thing or just say "like in 6.6": PETER}
     Finally, we must show that the limiting lookdown process $\lp$
     projects to the limiting process $\eta$, i.e., a solution of the martingale
     problem in Theorem~\ref{thm:nonlocal_convergence}.
@@ -6555,7 +6558,7 @@ for concreteness one may take $h(u) = e^{-u}$.
     $$
 \end{lemma}
 
-We postpone the proof of this Lemma to show how it gets us to compact containment.
+We postpone the proof of this Lemma until we have shown how it yields to compact containment.
 First, we show that this implies compact containment for arbitrary
 compactly supported functions.
 
@@ -6608,7 +6611,7 @@ the set
 $$
     \left\{
         \lp \in \lpmeasures \;:\;
-        \langle h_k, \lp \rangle \le C_k
+        \langle f_k, \lp \rangle \le C_k
         \text{ for all } k \ge 1
     \right\} ,
 $$
@@ -6687,7 +6690,7 @@ Finally, we prove the key lemma.
     and $b^N(x, \eta_s^N) \le C_b < \infty$,
     and we have assumed that $h'(u) \le 0$ (since $h$ is nonincreasing),
     so we may bound
-    \begin{align} \label{eqn:hn_bound},
+    \begin{align} \label{eqn:hn_bound}
     \begin{split} 
         \langle h, \lp_t^N \rangle
         &\le
@@ -6698,8 +6701,7 @@ Finally, we prove the key lemma.
         \int_0^t
         \big\langle
             2 C_a \int_u^\infty h(v) dv
-            + \left( C_a u^2 + C_b u \right) |h'(u)|
-        ,
+            + \left( C_a u^2 + C_b u \right) |h'(u)|,
         \lp_s^N(dx, du) \big \rangle
         ds .
     \end{split}
@@ -6868,7 +6870,9 @@ The argument follows directly from the discussion in Section \ref{sec:limiting_l
 Here we have taken the high-density, deterministic limit
 (so, $\theta, N \to \infty$ and $\theta/N \to 0$)
 and so suppose that the limiting process has density $\varphi_t(x)$
-at location $x$ and time $t$.
+at location $x$ and time $t$ (which may only exist almost everywhere).
+We first proceed informally, as if the density exists everywhere,
+and follow this with an integration against test functions to make the argument rigorous.
 Let $Y$ denote the spatial motion followed by a single line of descent.
 Above equation~\eqref{eqn:limiting_generator},
 we showed that $Y$ is a diffusion with generator at time $s$
@@ -7215,7 +7219,7 @@ so that for $\eta \in \measures$, if $\hat g(x) = \int_0^N g(x, u) du / N$, then
 \end{align*}
 i.e., $\Gamma^N$ assigns independent labels on $[0, N]$ to each of the points in $\eta$.
 It follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-\comment{(beware the different definition of $f$ to that lemma)}
+\comment{(TODO beware the different definition of $f$ to that lemma) PETER ``in order to adhere to standard notation in the literature''}
 the generator of $\eta^N_t$ is
 \begin{align} \label{eqn:pgen_defn_again}
     \begin{split}
@@ -7233,6 +7237,8 @@ the generator of $\eta^N_t$ is
     \end{split}
 \end{align}
 The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_generator}.
+
+\comment{TODO: conditions on $f$}
 
 \begin{lemma}
     \label{lem:averaged_generators}
@@ -7334,7 +7340,6 @@ For the second generator, we have
 \end{align*}  
 \normalsize
 For the third generator we have that, since $g(x,N) = 1$,
-\footnotesize
 \begin{align*}
 &
     \int A^N_3f(\xi)\Gamma^N(\eta,d\lp)
@@ -7351,11 +7356,9 @@ For the third generator we have that, since $g(x,N) = 1$,
     du
     , \eta(dx) \bigg\rangle .
 \end{align*}
-\normalsize
 
 Note that $2 \int_0^N \int_u^N g(x,v_1) g(y,u) dv_1 du = N^2 \hat g(x) \hat g(y)$,
 and so
-\footnotesize
 \begin{align*}
 &
     \int_{0}^{N} \int_u^N g(x,v_1) (g(y,u)-g(x,u)) dv_1 du
@@ -7363,7 +7366,6 @@ and so
 \\ &\qquad = 
     N^2 \hat{g}(x)(\hat{g}(y) - 2) + 2\int_{0}^{N} u g(x,u) du.
 \end{align*}
-\normalsize
 
 Combining the last equations,
 and using the fact that
@@ -7425,7 +7427,7 @@ defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
 i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
 with intensity a product of $\eta$ and Lebesgue measure.
 It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-\comment{(beware the different definition of $f$ to that lemma)}
+\comment{(TODO beware the different definition of $f$ to that lemma) PETER}
 the generator of $\eta_t$ is
 \begin{align} \label{eqn:pgen_infty}
     \Pgen^\infty F_g(\eta)
@@ -7787,7 +7789,7 @@ Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equ
 
 \begin{lemma}
     \label{lem:gamma_bound}
-\comment{TODO; REWRITE TO SAY THAT STHG IMPLIES CONDITION 2 OF LEMMA \ref{lem:conditions on r} (see reference on p.13)}
+\comment{TODO; REWRITE TO SAY THAT STHG IMPLIES CONDITION 2 OF LEMMA \ref{lem:conditions on r} (see reference on p.13) PETER}
     Under the assumptions of Definition~\ref{def:model_setup},
     for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times [0,\infty))$,
     there exists a $K_f < \infty$ such that
@@ -7833,7 +7835,7 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
         C_f \left( 1 + \smooth{\gamma} \eta(x)^2 \right) .
     \end{equation*}
     To do this, first note that 
-    \begin{align} \label{eqn:q_bound_split}
+    \begin{align} \label{eqn:q_bound_split2}
     &
         \left| \theta 
             \int_{\IR^n} 
@@ -7907,7 +7909,7 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
     for some $\smooth{r}\eta(x) \le m \le \smooth{r}\eta(y)$,
     where $f'$ and $f''$ denote the first and second derivatives with respect to the second argument.
     So,
-    the second term in~\eqref{eqn:q_bound_split} is bounded by
+    the second term in~\eqref{eqn:q_bound_split2} is bounded by
     \begin{align*}
         % note that the f' term does not depend on x, just y,
         % so can come out of the integral
@@ -8169,14 +8171,14 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
 \subsection{Tightness of processes}
 \label{apx:aldous rebolledo}
 
-We record for reference above
+\comment{TODO: explain what this section is doing (tightness of products) PETER}
+We record for reference
 one version of the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes
 (as it appears in \citet{etheridge2000introduction}):
-\comment{TODO: reference this elsewhere, if we keep it?}
 
 \begin{theorem}[\citet{rebolledo:1980}]
     \label{thm:aldous_rebolledo}
-    Let $\{Y^(n)\}_{n \ge 1}$ be a sequence of real-valued processes
+    Let $\{Y^{(n)}\}_{n \ge 1}$ be a sequence of real-valued processes
     with c\`adl\`ag paths.
     Suppose that the following conditions are satisfied.
     \begin{enumerate}

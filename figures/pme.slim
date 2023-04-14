@@ -29,7 +29,7 @@ initialize() {
 		"INIT_PROP", 0.2, // proportion of range where the initial population lives
 		"OUTDIR", exists("OUTDIR") ? OUTDIR else ".",
 		"NUM_SNAPSHOTS", 21, // number of times at which to output pngs of the population
-		"RUNTIME", 1000, // amount of time to run for (so, RUNTIME/DT 'generations')
+		"RUNTIME", 1000, // amount of time to run for (so, RUNTIME/DT ticks)
 		"BURNIN", 0, // time to run for before starting to record things
 		"DEBUG", exists("slimgui")  // whether to compute expensive debugging things and not record tree sequences
 	);
@@ -90,19 +90,19 @@ initialize() {
 // set up logging
 1 first() {
 	if (!DEBUG) {
-		log = sim.createLogFile(OUTPATH + ".log");
+		log = community.createLogFile(OUTPATH + ".log");
 		log.setLogInterval(20);
-		log.addGeneration();
-		log.addGenerationStage();
+		log.addTick();
+		log.addCycleStage();
 		log.addPopulationSize();
-		log.addCustomColumn("time", "sim.generation * DT;");
+		log.addCustomColumn("time", "community.tick * DT;");
 		log.addMeanSDColumns("neighbor_density", "i1.localPopulationDensity(p1.individuals);");
 	}
 }
 
 1 first() {
-	sim.rescheduleScriptBlock(s98, generations=unique(asInteger(seq(1 + BURNIN / DT, (BURNIN + RUNTIME) / DT - 1, length=NUM_SNAPSHOTS))));
-	sim.rescheduleScriptBlock(s99, generations=asInteger((BURNIN + RUNTIME) / DT)); // end
+	community.rescheduleScriptBlock(s98, ticks=unique(asInteger(seq(1 + BURNIN / DT, (BURNIN + RUNTIME) / DT - 1, length=NUM_SNAPSHOTS))));
+	community.rescheduleScriptBlock(s99, ticks=asInteger((BURNIN + RUNTIME) / DT)); // end
 }
 
 1 late() {
@@ -118,8 +118,8 @@ initialize() {
 }
 
 late() {
-	i1.evaluate();
-	i2.evaluate();
+	i1.evaluate(p1);
+	i2.evaluate(p1);
 	inds = p1.individuals;
 	inds.tagF = i1.localPopulationDensity(inds) / K;
 }
@@ -157,7 +157,7 @@ reproduction() {
 
 late() {
 	if (p1.individualCount == 0) {
-		catn("The population has died out, in generation " + sim.generation);
+		catn("The population has died out, in tick " + community.tick);
 		sim.simulationFinished();
 	}
 	if (DEBUG & p1.individualCount > 0) { // color individuals
@@ -168,15 +168,15 @@ late() {
 }
 
 late() {
-	if ((sim.generation >= BURNIN / DT) & !DEBUG)
+	if ((community.tick >= BURNIN / DT) & !DEBUG)
 		sim.treeSeqRememberIndividuals(p1.individuals, permanent=T);
 }
 
 s99 2000 late() {
 	if (!DEBUG) sim.treeSeqOutput(OUTPATH, metadata=params);
-	sim.outputUsage();
+	community.outputUsage();
 	catn("Done, written output to " + OUTPATH);
-	sim.simulationFinished();
+	community.simulationFinished();
 }
 
 // Output map of population
@@ -189,6 +189,6 @@ s98 2000 late() {
 			operation="length(individuals);"
 		);
 		patch_map = Image(patches / max(patches));
-		patch_map.write(IMAGEPATH + format("%05.0f", sim.generation * DT) + ".png");
+		patch_map.write(IMAGEPATH + format("%05.0f", community.tick * DT) + ".png");
 	}
 }

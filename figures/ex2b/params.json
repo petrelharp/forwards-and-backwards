@@ -1,6 +1,6 @@
 {
 		"THETA" : 100,
-		"K" : 100,
+		"K" : 400,
 		"DT" : 0.1,
 		"EPSILON" : 1.0,
 		"DISPERSAL_SIGMA" : 1.0,
