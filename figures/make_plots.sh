@@ -60,6 +60,6 @@ if [ ! -e ${MODEL}_123.trees ]
 then
     slim -s 123 ../${MODEL}.slim
     ../lineage_plotting/plot_density.py ${MODEL}_123.trees 3 pdf 3 0.0
-    ../plot_wave.py ${MODEL}_123.trees 100 600 12
+    ../plot_wave.py ${MODEL}_123.trees
 fi
 popd

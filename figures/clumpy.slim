@@ -19,6 +19,7 @@ initialize() {
 		"DT", 1, // discretization factor for time
 		"INIT_PROP", 0.2, // proportion of range where the initial population lives
       "PERIODICITY", "",
+      "NUM_SNAPSHOTS", 0, // number of times to remember everyone along the way
 	  "OUTDIR", exists("OUTDIR") ? OUTDIR else "."
     );
 	paramfile = defaults.getValue("OUTDIR") + "/" + "params.json";
@@ -29,6 +30,8 @@ initialize() {
 	}	
 	defaults.setValue("OUTPATH", defaults.getValue("OUTDIR") + "/clumpy_" + getSeed() + ".trees");
 	defaults.setValue("LOGPATH", defaults.getValue("OUTDIR") + "/clumpy_" + getSeed() + ".log");
+	defaults.setValue("REMEMBER_TIMES",
+        asInteger(unique(seq(0, defaults.getValue("RUNTIME") / defaults.getValue("DT"), length=defaults.getValue("NUM_SNAPSHOTS")+1)))[0:(defaults.getValue("NUM_SNAPSHOTS")-1)]);
 	catn("-------------\n");
 	for (k in defaults.allKeys) {
 		if (!exists(k)) {
@@ -124,6 +127,11 @@ late() {
 	defineGlobal("TOTAL_SO_FAR", TOTAL_SO_FAR + p1.individualCount);
 	//catn("density: " + p1.individualCount / (WIDTH * HEIGHT) + " mean so far: " + TOTAL_SO_FAR / (WIDTH * HEIGHT * community.tick));
 	catn((community.tick * DT) + ": " + p1.individualCount / (WIDTH * HEIGHT) + "," + mean(i1.totalOfNeighborStrengths(p1.individuals)));
+}
+
+late() {
+	if (match(community.tick, REMEMBER_TIMES) >= 0)
+		sim.treeSeqRememberIndividuals(p1.individuals);
 }
 
 s99 2000 late() {

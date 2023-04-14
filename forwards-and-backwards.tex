@@ -1893,7 +1893,8 @@ suggesting a different genealogy.
 Simulating these processes and exploring parameter space,
 one sooner or later comes upon a strange observation:
 with certain parameter combinations, the population spontaneously forms a regular grid
-of more or less dicrete patches, separated by areas with nearly no individuals.
+of more or less dicrete patches, separated by areas with nearly no individuals,
+as shown in Figure~\ref{fig:clumping}.
 The phenomenon is discussed in Section~16.10 of \citet{haller2022evolutionary},
 and has been described in similar models, e.g.,
 by \citet{britton1990spatial,sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive,berestycki2009nonlocal}.
@@ -1966,11 +1967,20 @@ that oscillate with frequency around $\sqrt{v_*}$.
 \begin{figure}
     \begin{center}
         \includegraphics[width=0.45\textwidth]{figures/clumpy_2d/clumpy_123.density.3.0}
-        \comment{TODO} FIGURE
+        \includegraphics[width=0.45\textwidth]{figures/clumpy_1d/clumpy_123.steps}
     \end{center}
     \caption{
-        Two panels: left is 2D picture of clumped population;
-        right is a bumpy expanding wavefront.
+        \textbf{Left:} A snapshot of individual locations in a two-dimensional simulation
+        in which the constant density is unstable
+        and a stable, periodic pattern forms.
+        \textbf{Right:} Population density in an expanding wave in a one-dimensional simulation
+        forming a period pattern;
+        each panel shows the wave front in three periods of time;
+        within each period of time the wave front at earlier times is shown in blue
+        and later times in pink.
+        In both cases, $\gamma(m) = 3/(1 + m)$, $\mu \equiv 0.3$, and $r \equiv 1$;
+        dispersal is Gaussian with $\sigma=0.2$ and density is measured with $\rho_\gamma(x) = p_9(x)$,
+        i.e., using a Gaussian kernel with standard deviation 3.
         \label{fig:clumping}
     }
 \end{figure}
