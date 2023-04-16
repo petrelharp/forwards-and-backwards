@@ -1,0 +1,232 @@
+
+\subsection{Gaussian Kernel Estimates}
+
+\begin{lemma}\label{eq: Gaussin density estimates}
+\begin{equation}
+ \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
+\end{equation}
+where
+$$H_{\theta}(x,w)=\int_{\IR^d}
+    \left(
+        \frac{\rho_r(y-w)}{\rho_r(x-w)}
+        -
+        1
+    \right)^2
+q_{\theta}(x,dy).$$
+\end{lemma}
+\begin{proof}
+   
+Writing out $H$,
+\begin{align}
+H_\theta(x, w)
+=
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                ||y - w||^2 - ||x - w||^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta (y - x-\meanq)^{T}\covq^{-1}(y - x-\meanq)  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dy.
+\end{align}
+Writing $z=y-x-\meanq$, we have that 
+\begin{equation}
+\begin{aligned}
+||y - w||^2 - ||x - w||^2 
+=& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
+=&||x+z+ \meanq||^2-||x||^2-2 \langle z+ \meanq, w\rangle\\
+=&2\langle x, z+ \meanq \rangle + ||z+ \meanq||^2-2 \langle z+ \meanq, w\rangle \\
+=& 2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2\\
+=& 2\langle x-w+ \meanq,\meanq \rangle + 2\langle x-w+ \meanq, z \rangle +||z||^2
+\end{aligned}
+\end{equation}
+As a result, we have 
+\begin{align}
+H_\theta(x, w)
+=&
+\int
+    \left(
+        \exp\left(
+            - \frac{1}{2\epsilon_r^2}
+            \left\{
+                2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2
+            \right\}
+        \right)
+        -
+        1
+    \right)^2
+    \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\exp\left(-\frac{2}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
+& \times \int
+        \frac{
+        \exp\left(
+            - \frac{2}{\epsilon_r^2} \langle x-w+ \meanq, z \rangle
+            - \frac{1}{\epsilon_r^2} ||z||^2
+            \right)
+            e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\ \label{eq: Second moment term matrix calculation}
+&-2\exp\left(-\frac{1}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
+& \qquad \qquad \times     \int
+    \frac{ \exp\left(
+             -\frac{1}{\epsilon_r^2}\langle x-w+ \meanq, z \rangle
+              -\frac{1}{2\epsilon_r^2} ||z||^2
+            \right)e^{-\theta z^{T}\covq^{-1}z  / 2}
+        }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2} \label{eq: first moment term matrix calculation}
+    }
+dz\\
+&+1.
+\end{align}
+We now consider the integral of the form 
+\begin{equation}
+\int \exp(v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz   
+\end{equation}
+for $v \in \IR^d$ and $C>0$. 
+We have 
+\begin{equation}
+\begin{aligned}
+&\int \exp(v^{T}z-C||z||^2) \frac{
+        e^{-\theta z^{T}\covq^{-1}z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
+    }
+dz\\
+=&\frac{1}{|\covq|^{1/2}|  |\covq^{-1}(I+2C\covq/\theta )|^{1/2}  }\int \exp(v^{T}z) \frac{
+        e^{-\theta z^{T}\covq^{-1}(I+2C\covq/\theta )z  / 2}
+    }{
+        (2 \pi/ \theta)^{d/2}|\covq^{-1}(I+2C\covq/\theta )|^{-1/2} 
+    }
+dz\\
+=& \frac{1}{|I+2C\covq/\theta |^{1/2}} \mathbb{E}_{Z}[\exp (v^{T}Z)]\\
+=&\frac{1}{|I+2C\covq/\theta |^{1/2}}
+\exp 
+\left(
+\frac{1}{2}v^{T}\covq/\theta(I+2C\covq/\theta )^{-1}v
+\right),
+\end{aligned}
+\end{equation}
+where $Z \sim N(0, \covq/\theta \times (I+2C\covq/\theta )^{-1})$.
+
+Now writing $v=\frac{2}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: Second moment term matrix calculation} is 
+$$\frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+Similarly, writing $v=\frac{1}{\epsilon_r^2}( w-x-\meanq)$
+and $C=\frac{1}{2\epsilon_r^2}$,
+we have the expression in Equation
+\eqref{eq: first moment term matrix calculation} is 
+$$\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq\left(I+\covq/\theta/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right).$$
+As a result, we have 
+\begin{align*}
+&H_{\theta}(x,w)\\
+=& \frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1.
+\end{align*}
+If we write $F(1/\theta)=H_{\theta}(x,w)$, i.e.
+\begin{align*}
+&F(s)\\
+=& \frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&-2\frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
+\exp 
+\left(
+\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
+\right)\\
+&+1\\
+&=G_1(s)+2G_2(s)+1
+\end{align*}
+we can check that $F(0)=0$.
+As a result, 
+$$\theta H_{\theta}(x,w)\rho_r(x-w)= \theta F(1/\theta)\rho_r(x-w)=F'(s)\rho_r(x-w),$$
+for some $s \in [0, 1/\theta]$.
+
+In Equation \eqref{eq: gamma-r convolution comparison}, we have established that 
+$\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
+with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
+Therefore it suffices to show that for all $x,w \in \IR^d$ and $s \in [0, 1/\theta]$, 
+\begin{align}\label{eqn:goal3}
+    F'(s) \exp\left(-A (x-w)^2 \right) \le C .
+\end{align}
+
+We consider how to differentiate function $G$ of the form 
+$$G(s):=\frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),$$
+where $A,B,C$ are matrices with non-negative entries and $I$ is the identity matrix.
+
+Since 
+\begin{equation}
+\begin{aligned}
+G'(s)=& - \frac{|A|}{2|I+As|^{3/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & + \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
+      & \qquad \times \left\{ v^{T}B(I+Cs)^{-1}v
+                            - sv^{T}BC(I+Cs)^{-2}v
+                    \right\}\\
+      &=\left(- \frac{|A|}{2|I+As|}+v^{T}B(I+Cs)^{-2}v
+        \right)\\
+      & \qquad \times
+        \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),
+\end{aligned}
+\end{equation}
+using non-negativity of $A,B,C$ we have
+\begin{equation}
+\label{eq: bounds on G'}
+|G'(s)| \leq (|A|+||B||_{2}||v||_2^2)G(s).    
+\end{equation}
+As a result, we have that 
+\begin{equation}
+\label{eq: bounds on G}
+G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}, ~~   G'(s)(|A|+||B||_{2}||v||_2^2)K e^{|A|+||B||_{2}||v||_2^2)s}.  
+\end{equation}
+
+Finally note that, 
+$$F'(s) \leq G_1'(s)+2G_2'(s),$$
+where 
+$$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
+and 
+$$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
+Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
+ 
+\end{proof}
+

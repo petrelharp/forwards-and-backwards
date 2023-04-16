@@ -25,7 +25,7 @@ do
     then
         slim -s 123 ../pme.slim
     fi
-    ../lineage_plotting/plot_1d_lineages.py pme_123.trees 3 1 3 3
+    # ../lineage_plotting/plot_1d_lineages.py pme_123.trees 3 1 3 3
     ../lineage_plotting/pme/plot_pme_density.py pme_123.trees 45 55 6
     popd
 done

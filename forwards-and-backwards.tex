@@ -841,14 +841,18 @@ We assume that
     \label{r_gamma_derivs_condition}
 \item $\gamma(x,m)$ is uniformly bounded;
     \label{gamma_bounded_condition}
-\item For each $f \in C_b^2(\IR^d)$, there is a $C_f$ such that
+\item For each $f \in C_b^2(\IR^d)$,
+    there is a $C_f$ such that
     $$ |\gamma(x, \smooth{\gamma} \eta(x)) \theta \int 
     (r(y, \smooth{r} \eta(y)) f(y) - r(x, \smooth{r} \eta(x)) f(x))
     q_\theta(x, dy)| \le C_f $$
     for all $x \in \IR^d$ and $\eta \in \measures$.
-        \label{gamma_B_condition}
+    Furthermore, $C_f$ only depends on the norm of $f$ and it's first two derivatives,
+    i.e., 
+    \[
+        C_f = C(\sup_x \max_{ij} \max(f(x), \partial_{x_i} f(x), \partial_{x_i} \partial_{x_j} f(x))) .
+    \] \label{gamma_B_condition}
 \end{enumerate}
-
 To keep expressions manageable, we shall also assume that 
 \[
 \mu_\theta(x) = r(x, \smooth{r} X(x) / N) \gamma(x, \smooth{\gamma} X(x) / N)
@@ -858,8 +862,6 @@ that is, this expression is non-negative so that there is no need to take the ma
 	with zero in~(\ref{eqn:mu_defn}). (This is anyway true for 
 	sufficiently large $\theta$.)
 \end{assumptions}
-
-\comment{TODO: modify condition (4) to say that the $C_f$ only depends on $\|f\|_\infty$, $\|\partial f\|$ and $\|\partial^2 f\|$: PETER}
 
 We give two concrete situations in which the fourth condition is satisfied.
 
@@ -903,14 +905,15 @@ the first condition of Lemma~\ref{lem:conditions on r} would ensure this is of o
 
 If $r(x,m)$ is independent of $m$, then the conditions are easy to 
 satisfy; they just require some regularity of $r$ as a function of $x$. 
-Condition~\ref{control through r} is also satisfied if for example
+Condition~\ref{control through r} of Lemma~\ref{lem:conditions on r} is also satisfied if for example
 $\|\nabla\rho_r\|\leq C\rho_r$ 
 and $m\partial_mr(x,m)$, $m^2\partial_{mm}r(x,m)$ are bounded.
 This is the case, for instance, if $\rho_r$ decays exponentially.
 On the other hand, it might seem more natural to take $\rho_r$ to be a Gaussian 
 density with parameter $\sigma_r$, say. Then, 
 as we check in Lemma~\ref{lem:gamma_bound},
-Condition~\ref{control through gamma} is satisfied if $\rho_\gamma$ is also
+Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r}
+is satisfied if $\rho_\gamma$ is also
 Gaussian with parameter $\sigma_\gamma$ and $\sigma_\gamma>\sigma_r$. For large enough
 $\theta$, this condition guarantees that 
 $\sigma_r+1/\theta <\sigma_\gamma$, so that the establishment probability of a juvenile
@@ -3430,6 +3433,10 @@ Under Condition~\ref{control through gamma} of
 Assumptions~\ref{def:model_setup}, the right hand side is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
 $m^2\gamma(m)$ is bounded, so therefore $|\gamma B^\theta_f|$ is bounded.
+
+Finally, note that all bounds depended only on $\|f\|_\infty$,
+$\max_i \|\partial_{x_i} f\|_\infty$, or 
+$\max_{ij} \|\partial_{x_i} \partial_{x_j} f\|_\infty$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -4069,55 +4076,44 @@ For any $\delta>0$,
 \end{lemma}
 
 \begin{proof}[Sketch]
-    \comment{Change this to a sequence $f_n$ of smooth things with uniformly bounded derivs that increase 1; follows from condition 4. PETER}
 To avoid the idea being buried in notation, we sketch the proof in the 
 special case of $d=1$ and $\DG=\Delta$.
 For any $f\in C_b^\infty(\IR)$,
 \begin{multline}
 \label{special case first moment equation}
 \IE[\langle f,\eta_t\rangle] 
-=\IE[\langle f,\eta_0\rangle]
-\\
-+\IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
-\Delta \big(f(\cdot)r(\cdot,\smooth{r}\eta_s(\cdot))\big)(x)
-+F(x,\smooth{F}\eta_s(x)) f(x),
-\eta_s(dx)\Big\rangle ds\Big].
+    =\IE[\langle f,\eta_0\rangle]
+    + \IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
+    \Delta \big(f(\cdot)r(\cdot,\smooth{r}\eta_s(\cdot))\big)(x)
+    \\ \qquad 
+    +F(x,\smooth{F}\eta_s(x)) f(x),
+    \eta_s(dx)\Big\rangle ds\Big].
 \end{multline} 
-We take a sequence of test functions $f_n$ increasing to
-$\exp(\lambda x)$, with $\lambda>0$. Having passed
-to the limit,
-substituted in~(\ref{special case first moment equation}) and 
-expanded the term involving the Laplacian, we obtain
-\begin{multline}
-\label{exponential moment}
-    \IE[\langle \exp(\lambda x),\eta_t\rangle]
-    =
-    \IE[\langle \exp(\lambda x),\eta_0\rangle]
+We take a sequence of test functions $f_n$ increasing to the constant function 1,
+and having uniformly bounded first and second derivatives
+so that there is a (single) $C_1$
+from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
+such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C$ for all $x$, $\eta$, and $f_n$.
+This implies that $\gamma(x,\eta) \Delta(f_n(\cdot) r(\cdot,\eta))(x) \le C_1$
+for all $n$, and so in the limit, since $F$ is also bounded above,
+there is a $C$ such that
+\begin{align*}
+    \IE[\langle 1, \eta_t\rangle]
+    &=
+    \IE[\langle 1, \eta_0\rangle]
     +
-    \IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
-    \exp(\lambda x)
-    \Big\{
-        \lambda^2 r(x, \smooth{r}\eta_s(x))
-    \\ {}
-        + 2\lambda\partial_x\big(r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
-        + \partial_{xx} r(\cdot,\smooth{r}\eta_s(\cdot)\big)(x)
-    \Big\} 
-    + F(x,\smooth{F}\eta_s(x)),
+    \IE\Big[\int_0^t \Big\langle \gamma(x,\eta_s) \Delta r(x,\eta_s) + F(x,\eta_s) ,
     \eta_s(dx)\Big\rangle ds\Big] .
-\end{multline} 
-Evidently, in much the same way as in the proof of
-Lemma~\ref{lem:eta_f_bound},
-our conditions on $r$ and $F$ ensure
-that the integrand on the right hand side 
-of~(\ref{exponential moment})
-is bounded by $C\langle\exp(\lambda x),\eta_s(dx)\rangle$ for some constant
-$C$. Gronwall's inequality then implies that 
-$\IE[\langle\exp(\lambda x),\eta_t(dx)\rangle]$ 
+    \\ &\le
+    \IE[\langle 1, \eta_0\rangle]
+    +
+    C \IE\Big[\int_0^t \Big\langle 1, \eta_s(dx)\Big\rangle ds\Big] .
+\end{align*}
+Gronwall's inequality then implies that 
+$\IE[\langle 1, \eta_t(dx)\rangle]$ 
 is uniformly bounded for $t\in [0,T]$, and an application of Markov's inequality
 tells us that for any $\delta >0$,
-$\IP[\eta_t([R,\infty])>\delta]\to 0$ as $R\to\infty$. A symmetric argument
-yields the corresponding bound for $\IP[\eta_t([-\infty, -R])>\delta$ and the 
-result is proved.
+$\IP[\eta_t([R,\infty])>\delta]\to 0$ as $R\to\infty$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -6516,11 +6512,9 @@ In other words, the limiting ``line of descent'' construction holds.
     So, it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
     extends to finite sums and products of these processes,
     which is shown in Lemma~\ref{lem:product_tightness}.
-
-    The analogue of Lemma~\ref{lem:limit_mgale},
-    in particular that the martingale properties are preserved under passage to the limit,
-    are proved in Section~\ref{sec:lookdown_generator_proofs}.
-    \comment{TODO: refer to correct thing or just say "like in 6.6": PETER}
+    The fact that martingale properties are preserved under passage to the limit
+    is straightforward, and can be proved in a way analgous to Lemma~\ref{lem:limit_mgale};
+    we omit the proof.
     Finally, we must show that the limiting lookdown process $\lp$
     projects to the limiting process $\eta$, i.e., a solution of the martingale
     problem in Theorem~\ref{thm:nonlocal_convergence}.
@@ -7219,7 +7213,6 @@ so that for $\eta \in \measures$, if $\hat g(x) = \int_0^N g(x, u) du / N$, then
 \end{align*}
 i.e., $\Gamma^N$ assigns independent labels on $[0, N]$ to each of the points in $\eta$.
 It follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-\comment{(TODO beware the different definition of $f$ to that lemma) PETER ``in order to adhere to standard notation in the literature''}
 the generator of $\eta^N_t$ is
 \begin{align} \label{eqn:pgen_defn_again}
     \begin{split}
@@ -7233,9 +7226,11 @@ the generator of $\eta^N_t$ is
         \mu_\theta(x, \eta) \left( \frac{1}{\hat g(x)} - 1 \right)
         ,
         \eta(dx)
-    \bigg\rangle
+    \bigg\rangle .
     \end{split}
 \end{align}
+(Note that $f$ here differs from the $f$ used in Lemma~\ref{def: MP definition of limit}
+so as to agree with standard usage in the literature on lookdown processes.)
 The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_generator}.
 
 \comment{TODO: conditions on $f$}
@@ -7427,7 +7422,6 @@ defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
 i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
 with intensity a product of $\eta$ and Lebesgue measure.
 It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-\comment{(TODO beware the different definition of $f$ to that lemma) PETER}
 the generator of $\eta_t$ is
 \begin{align} \label{eqn:pgen_infty}
     \Pgen^\infty F_g(\eta)
@@ -7551,390 +7545,26 @@ which agrees with \eqref{eqn:pgen_infty}, as desired.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Technical Lemmas}
-
-\subsection{Gaussian Kernel Estimates}
-
-\begin{lemma}\label{eq: Gaussin density estimates}
-\begin{equation}
- \theta H_{\theta}(x,w)\rho_r(x-w)\leq \rho_{\gamma}(x-w),
-\end{equation}
-where
-$$H_{\theta}(x,w)=\int_{\IR^d}
-    \left(
-        \frac{\rho_r(y-w)}{\rho_r(x-w)}
-        -
-        1
-    \right)^2
-q_{\theta}(x,dy).$$
-\end{lemma}
-\begin{proof}
-   
-Writing out $H$,
-\begin{align}
-H_\theta(x, w)
-=
-\int
-    \left(
-        \exp\left(
-            - \frac{1}{2\epsilon_r^2}
-            \left\{
-                ||y - w||^2 - ||x - w||^2
-            \right\}
-        \right)
-        -
-        1
-    \right)^2
-    \frac{
-        e^{-\theta (y - x-\meanq)^{T}\covq^{-1}(y - x-\meanq)  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dy.
-\end{align}
-Writing $z=y-x-\meanq$, we have that 
-\begin{equation}
-\begin{aligned}
-||y - w||^2 - ||x - w||^2 
-=& ||y||^2-||x||^2 -2\langle y-x, w\rangle \\
-=&||x+z+ \meanq||^2-||x||^2-2 \langle z+ \meanq, w\rangle\\
-=&2\langle x, z+ \meanq \rangle + ||z+ \meanq||^2-2 \langle z+ \meanq, w\rangle \\
-=& 2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2\\
-=& 2\langle x-w+ \meanq,\meanq \rangle + 2\langle x-w+ \meanq, z \rangle +||z||^2
-\end{aligned}
-\end{equation}
-As a result, we have 
-\begin{align}
-H_\theta(x, w)
-=&
-\int
-    \left(
-        \exp\left(
-            - \frac{1}{2\epsilon_r^2}
-            \left\{
-                2 \langle x-w, z+ \meanq \rangle + ||z+ \meanq||^2
-            \right\}
-        \right)
-        -
-        1
-    \right)^2
-    \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\
-=&\exp\left(-\frac{2}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
-& \times \int
-        \frac{
-        \exp\left(
-            - \frac{2}{\epsilon_r^2} \langle x-w+ \meanq, z \rangle
-            - \frac{1}{\epsilon_r^2} ||z||^2
-            \right)
-            e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\ \label{eq: Second moment term matrix calculation}
-&-2\exp\left(-\frac{1}{\epsilon_r^2}\langle x-w+ \meanq,\meanq \rangle \right)\\
-& \qquad \qquad \times     \int
-    \frac{ \exp\left(
-             -\frac{1}{\epsilon_r^2}\langle x-w+ \meanq, z \rangle
-              -\frac{1}{2\epsilon_r^2} ||z||^2
-            \right)e^{-\theta z^{T}\covq^{-1}z  / 2}
-        }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2} \label{eq: first moment term matrix calculation}
-    }
-dz\\
-&+1.
-\end{align}
-We now consider the integral of the form 
-\begin{equation}
-\int \exp(v^{T}z-C||z||^2) \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz   
-\end{equation}
-for $v \in \IR^d$ and $C>0$. 
-We have 
-\begin{equation}
-\begin{aligned}
-&\int \exp(v^{T}z-C||z||^2) \frac{
-        e^{-\theta z^{T}\covq^{-1}z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2} |\covq|^{1/2}
-    }
-dz\\
-=&\frac{1}{|\covq|^{1/2}|  |\covq^{-1}(I+2C\covq/\theta )|^{1/2}  }\int \exp(v^{T}z) \frac{
-        e^{-\theta z^{T}\covq^{-1}(I+2C\covq/\theta )z  / 2}
-    }{
-        (2 \pi/ \theta)^{d/2}|\covq^{-1}(I+2C\covq/\theta )|^{-1/2} 
-    }
-dz\\
-=& \frac{1}{|I+2C\covq/\theta |^{1/2}} \mathbb{E}_{Z}[\exp (v^{T}Z)]\\
-=&\frac{1}{|I+2C\covq/\theta |^{1/2}}
-\exp 
-\left(
-\frac{1}{2}v^{T}\covq/\theta(I+2C\covq/\theta )^{-1}v
-\right),
-\end{aligned}
-\end{equation}
-where $Z \sim N(0, \covq/\theta \times (I+2C\covq/\theta )^{-1})$.
-
-Now writing $v=\frac{2}{\epsilon_r^2}( w-x-\meanq)$
-and $C=\frac{1}{\epsilon_r^2}$,
-we have the expression in Equation
-\eqref{eq: Second moment term matrix calculation} is 
-$$\frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right).$$
-Similarly, writing $v=\frac{1}{\epsilon_r^2}( w-x-\meanq)$
-and $C=\frac{1}{2\epsilon_r^2}$,
-we have the expression in Equation
-\eqref{eq: first moment term matrix calculation} is 
-$$\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq\left(I+\covq/\theta/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right).$$
-As a result, we have 
-\begin{align*}
-&H_{\theta}(x,w)\\
-=& \frac{1}{|I+2\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+2\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right)\\
-&-2\frac{1}{|I+\covq/(\epsilon_r^2\theta) |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq/\theta\left(I+\covq/(\epsilon_r^2\theta)\right)^{-1}( w-x-\meanq)
-\right)\\
-&+1.
-\end{align*}
-If we write $F(1/\theta)=H_{\theta}(x,w)$, i.e.
-\begin{align*}
-&F(s)\\
-=& \frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
-\exp 
-\left(
-\frac{2}{\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
-\right)\\
-&-2\frac{1}{|I+2/\epsilon_r^2 \covq s |^{1/2}}
-\exp 
-\left(
-\frac{1}{2\epsilon_r^4}( w-x-\meanq)^{T}\covq s \left(I+2/\epsilon_r^2 \covq s\right)^{-1}( w-x-\meanq)
-\right)\\
-&+1\\
-&=G_1(s)+2G_2(s)+1
-\end{align*}
-we can check that $F(0)=0$.
-As a result, 
-$$\theta H_{\theta}(x,w)\rho_r(x-w)= \theta F(1/\theta)\rho_r(x-w)=F'(s)\rho_r(x-w),$$
-for some $s \in [0, 1/\theta]$.
-
-In Equation \eqref{eq: gamma-r convolution comparison}, we have established that 
-$\rho_r(x-w) / \rho_\gamma(x-w) = C' \exp(-K (x-w)^2 / 2)$
-with $K = \frac{1}{\epsilon_r^2} - \frac{1}{\epsilon_\gamma^2}$.
-Therefore it suffices to show that for all $x,w \in \IR^d$ and $s \in [0, 1/\theta]$, 
-\begin{align}\label{eqn:goal3}
-    F'(s) \exp\left(-A (x-w)^2 \right) \le C .
-\end{align}
-
-We consider how to differentiate function $G$ of the form 
-$$G(s):=\frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),$$
-where $A,B,C$ are matrices with non-negative entries and $I$ is the identity matrix.
-
-Since 
-\begin{equation}
-\begin{aligned}
-G'(s)=& - \frac{|A|}{2|I+As|^{3/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
-      & + \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v)\\
-      & \qquad \times \left\{ v^{T}B(I+Cs)^{-1}v
-                            - sv^{T}BC(I+Cs)^{-2}v
-                    \right\}\\
-      &=\left(- \frac{|A|}{2|I+As|}+v^{T}B(I+Cs)^{-2}v
-        \right)\\
-      & \qquad \times
-        \frac{1}{|I+As|^{1/2}}\exp(v^{T}Bs(I+Cs)^{-1}v),
-\end{aligned}
-\end{equation}
-using non-negativity of $A,B,C$ we have
-\begin{equation}
-\label{eq: bounds on G'}
-|G'(s)| \leq (|A|+||B||_{2}||v||_2^2)G(s).    
-\end{equation}
-As a result, we have that 
-\begin{equation}
-\label{eq: bounds on G}
-G(s) \leq K e^{|A|+||B||_{2}||v||_2^2)s}, ~~   G'(s)(|A|+||B||_{2}||v||_2^2)K e^{|A|+||B||_{2}||v||_2^2)s}.  
-\end{equation}
-
-Finally note that, 
-$$F'(s) \leq G_1'(s)+2G_2'(s),$$
-where 
-$$A_1= 2\epsilon_r^{-2} \covq, ~ v_1=\epsilon_r^{-2}(w-x-\meanq), ~B_1 = 2\covq, ~C_1=2\epsilon_r^{-2} \covq,$$
-and 
-$$A_2= 2\epsilon_r^{-2} \covq, ~ v_2=\epsilon_r^{-2}(w-x-\meanq), ~B_2 = \covq/2, ~C_2=2\epsilon_r^{-2} \covq,$$
-Substituting these quantities on Equation \eqref{eq: bounds on G} shows that Equation \eqref{eqn:goal3} is satisfied as long as $\epsilon_r < \epsilon_\gamma$.
- 
-\end{proof}
 
 \subsection{Constraints on kernel widths}
 
 \begin{lemma}
     \label{lem:gamma_bound}
-\comment{TODO; REWRITE TO SAY THAT STHG IMPLIES CONDITION 2 OF LEMMA \ref{lem:conditions on r} (see reference on p.13) PETER}
-    Under the assumptions of Definition~\ref{def:model_setup},
-    for all $f \in \mathcal{C}^{2}_{0}(\IR^d \times [0,\infty))$,
-    there exists a $K_f < \infty$ such that
-    for all $\theta > 0$ and all $\eta \in \measures$,
-    \begin{equation} \label{eqn:gamma_bound}
-    \gamma\big(x,\smooth{\gamma} \eta(x)\big)
-    \left| \theta 
-        \int_{\IR^n} 
-            \left\{
-                f(y, \smooth{r} \eta(y)) - f(x, \smooth{r} \eta(x))
-            \right\}
-        q_{\theta}(x,dy)
-    \right|
-    \leq C_f     .
-    \end{equation}
-\end{lemma}
-
-The key assumption here from Definition~\ref{def:model_setup}
-will be that the spatial scale over which local density affects birth rate
-is larger than the scale over which it affects establishment:
-concretely, that $\epsilon_{r}^2 + \frac{2\lambda}{\theta} < \epsilon_{\gamma}^2$,
-where $\lambda = \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y$
-is the largest eigenvalue of $\covq(x)$ across all $x$.
-In the simple case of $\meanq = 0$ and $\covq = \sigma^2 I$,
-the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamma^2$.
-
-\begin{proof}[of Lemma \ref{lem:gamma_bound}]
-
-    Since we have assumed that there is a $K$ for which $m^2 \gamma(x, m) < K$
-    for all $x \in \IR^d$ and $m \ge 0$,
-    equation~\eqref{eqn:gamma_bound} will follow if we can show that
-    \begin{equation*}
-        \left| \theta 
-            \int_{\IR^n} 
-                \left\{
-                    f\left(y, \smooth{r}\eta(y)\right)
-                    -
-                    f\left(x, \smooth{r}\eta(x)\right)
-                \right\}
-            q_{\theta}(x,dy)
-        \right|
-        \leq
-        C_f \left( 1 + \smooth{\gamma} \eta(x)^2 \right) .
-    \end{equation*}
-    To do this, first note that 
-    \begin{align} \label{eqn:q_bound_split2}
-    &
-        \left| \theta 
-            \int_{\IR^n} 
-                \left\{
-                    f\left(y, \smooth{r}\eta(y)\right)
-                    -
-                    f\left(x, \smooth{r}\eta(x)\right)
-                \right\}
-            q_{\theta}(x,dy)
-        \right|
-    \\ &\qquad {} \leq
-        \left| \theta 
-            \int_{\IR^n} 
-                \left\{
-                    f\left(y, \smooth{r}\eta(y)\right)
-                    -
-                    f\left(x, \smooth{r}\eta(y)\right)
-                \right\}
-            q_{\theta}(x,dy)
-        \right|
-    \\ &\qquad \qquad {}  +
-        \left| \theta 
-            \int_{\IR^n} 
-                \left\{
-                    f\left(x, \smooth{r}\eta(y)\right)
-                    -
-                    f\left(x, \smooth{r}\eta(x)\right)
-                \right\}
-            q_{\theta}(x,dy) 
-        \right| .
-    \end{align}
-
-    Since 
-    \begin{align*}
-        f\left(y, \smooth{r}\eta(y)\right) - f\left(x, \smooth{r}\eta(y)\right)
-        &=
-        \sum_i (y_i - x_i) \partial_{x_i} f \left(x, \smooth{r}\eta(y)\right) 
-        \\ &\qquad {}
-        +
-        \frac{1}{2} \sum_{ij} (y_i - x_i)(y_j - x_j)
-            \partial_{x_i x_j} f \left(z, \smooth{r}\eta(y)\right) 
-    \end{align*}
-    where $z = t x + (1-t) y$ for some $0 \le t \le 1$,
-    writing
-    $K_1 = \sup_{x,m} \max_i |\partial_{x_i} f(x, m)|$
-    and 
-    $K_2 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x, m)|$
-    for the bounds on the spatial derivatives of $f$,
-    the first term is bounded by
-    \begin{align*}
-        K_1 \left|
-            \theta \int_{\IR^d} \sum_i (y_i - x_i) q_\theta(x, dy)
-        \right|
-        +
-        K_2 \left|
-            \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
-        \right| .
-    \end{align*}
-    This is bounded uniformly because
-    $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
-    and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
-    are bounded uniformly in $x$.
-
-    Similarly, 
-    \begin{align*}
-        f(x, \smooth{r}\eta(y)) - f(x, \smooth{r}\eta(x))
-        &=
-        (\smooth{r}\eta(y) - \smooth{r}\eta(x)) f'(x, \smooth{r}\eta(x))
-        + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 f''(x, m)
-    \end{align*}
-    for some $\smooth{r}\eta(x) \le m \le \smooth{r}\eta(y)$,
-    where $f'$ and $f''$ denote the first and second derivatives with respect to the second argument.
-    So,
-    the second term in~\eqref{eqn:q_bound_split2} is bounded by
-    \begin{align*}
-        % note that the f' term does not depend on x, just y,
-        % so can come out of the integral
-        \|f'\|_\infty
-        \left|
-            \theta \int_{\IR^d}
-                (\smooth{r}\eta(y) - \smooth{r}\eta(x))
-            q_\theta(x, dy)
-        \right|
-        +
-        \|f''\|_\infty
-        \left|
-            \theta \int_{\IR^d}
-                (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2
-            q_\theta(x, dy)
-        \right| .
-    \end{align*}
-    Therefore, it suffices to show that there is a $K < \infty$ such that
-    for all $\eta \in \measures$ and $x \in \IR^d$,
+    Suppose the first three conditions of Assumptions~\ref{def:model_setup} hold,
+    and furthermore the kernels $\rho_r = p_{\epsilon_r^2}$ and $\rho_\gamma = p_{\epsilon_\gamma^2}$
+    are each Gaussian with standard deviations $\epsilon_r$ and $\epsilon_\gamma$ respectively.
+    Let $\lambda = \sup_x \sup_{y : \|y\| = 1} y^T \covq(x) y$ be the largest eigenvalue of $\covq(x)$
+    across all $x$.
+    If $\epsilon_{r}^2 + \frac{2\lambda}{\theta} < \epsilon_{\gamma}^2$, then 
+    there is a $C < \infty$ such that
+    for all $x\in\IR^d$, $\eta\in\measures$,
     \begin{equation}
         \label{eqn:first_moment_rho}
         \left|\theta \int_{\IR^d}
             ( \smooth{r} \eta(y)-\smooth{r} \eta(x) )
         q_\theta(x,dy)\right|
-        \leq K \smooth{\gamma} \eta(x)
+        \leq C \smooth{\gamma} \eta(x)
     \end{equation}
     and
     \begin{equation}
@@ -7942,10 +7572,21 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
         \theta \int_{\IR^d}
                 \left( \smooth{r} \eta(y) - \smooth{r} \eta(x) \right)^2
         q_\theta(x,dy)
-        \leq K \left(\smooth{\gamma}\eta(x) \right)^2 .
+        \leq C \left(\smooth{\gamma}\eta(x) \right)^2 .
     \end{equation}
-    Note that the right hand side of each is the average density
-    over a wider region (since $\epsilon_\gamma > \epsilon_r$).
+\end{lemma}
+
+Note that the right hand side of each is the average density
+over a wider region (since $\epsilon_\gamma > \epsilon_r$).
+The key assumption here 
+is that the spatial scale over which local density affects birth rate
+is larger than the scale over which it affects establishment.
+In the simple case of $\meanq = 0$ and $\covq = \sigma^2 I$,
+the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamma^2$.
+This gives a yet more concrete situation in which 
+Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
+
+\begin{proof}[of Lemma \ref{lem:gamma_bound}]
 
     First we prove \eqref{eqn:first_moment_rho}.
     Recall that $\smooth{r} \eta(x) = \int p_{\epsilon^2_r}(x - w) \eta(dw)$,
@@ -8001,16 +7642,16 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
     \begin{align*}
         \partial_s p_{s, x}(z)
         &=
-        \left(
+        \bigg(
             \meanq(x)^T \Gamma(s,x)^{-1} (z - s \meanq)
             +
             (z - s \meanq(x))^T
             \Gamma(s,x)^{-1} \covq(x) \Gamma(s,x)^{-1}
             (z - s \meanq(x))
-        \right. \\ & \qquad \qquad \qquad \left. {}
+        \\ & \qquad \qquad \qquad {}
             -
             \sum_i \frac{\lambda_i}{\epsilon_r^2 + s \lambda_i}
-        \right)
+        \bigg)
         p_{s, x}(z) ,
     \end{align*}
     where $z^T$ is the transpose of $z$.
@@ -8171,8 +7812,10 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
 \subsection{Tightness of processes}
 \label{apx:aldous rebolledo}
 
-\comment{TODO: explain what this section is doing (tightness of products) PETER}
-We record for reference
+Here we record, for completeness, the fact used above
+that tightness for a family of processes, if determined by the Aldous-Rebolledo criterion,
+extends to sums and products of those processes.
+We first record for reference
 one version of the Aldous-Rebolledo criteria for tightness of a sequence real-valued processes
 (as it appears in \citet{etheridge2000introduction}):
 
