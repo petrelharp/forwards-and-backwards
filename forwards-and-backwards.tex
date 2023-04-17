@@ -7186,7 +7186,10 @@ In this section we verify one of the conditions of the Markov Mapping Theorem,
 namely, that ``integrating out levels'' in the generator of the lookdown process
 we obtain the generator of the projected process.
 We will work with test functions of the form
-$$  f(\lp) = \prod_{(x, u) \in \lp} g(x, u) = \exp\left(\langle \log g, \lp \rangle \right) . $$
+\begin{equation} \label{eqn:f_defn}
+    f(\lp) = \prod_{(x, u) \in \lp} g(x, u) = \exp\left(\langle \log g, \lp \rangle \right) ,
+\end{equation}
+where $0 \le g \le 1$ and $g(x,u) = 1$ for all $u \ge u_g$ for some $u_g < \infty$.
 Furthermore, recall that $\kappa^N(\lp)(\cdot) = \lp(\cdot \times [0, N)) / N$
 is the ``spatial projection operator'',
 and define the probability kernel $\Gamma^N : \measures \to \mathcal{M}(\IR^d \times [0,N))$
@@ -7228,11 +7231,10 @@ the generator of $\eta^N_t$ is
 so as to agree with standard usage in the literature on lookdown processes.)
 The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_generator}.
 
-\comment{TODO: conditions on $f$}
-
 \begin{lemma}
     \label{lem:averaged_generators}
     For all finite counting measures $\eta$ on $\IR^d$,
+    if $f$ is of the form~\eqref{eqn:f_defn}, then
     \begin{align}
         \int A^N f(\lp) \Gamma^N(\eta, d\lp)
         &=
@@ -7243,6 +7245,7 @@ The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_gen
 \begin{lemma}
     \label{lem:averaged_generators_limit}
     For all $\eta \in \measures$,
+    if $f$ is of the form~\eqref{eqn:f_defn}, then
     \begin{align}
         \int A f(\lp) \Gamma(\eta, d\lp)
         &=
