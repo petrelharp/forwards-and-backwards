@@ -21,12 +21,12 @@ done
 for DIR in ex2a ex2b
 do
     pushd $DIR
-    if [ ! -e pme_123.trees ]
+    if [ ! -e pme_1234.trees ]
     then
-        slim -s 123 ../pme.slim
+        slim -s 1234 ../pme.slim
     fi
-    # ../lineage_plotting/plot_1d_lineages.py pme_123.trees 3 1 3 3
-    ../lineage_plotting/pme/plot_pme_density.py pme_123.trees 45 55 6
+    # ../lineage_plotting/plot_1d_lineages.py pme_1234.trees 3 1 3 3
+    ../lineage_plotting/pme/plot_pme_density.py pme_1234.trees 10 50 6
     popd
 done
 

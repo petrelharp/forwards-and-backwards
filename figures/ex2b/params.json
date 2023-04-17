@@ -1,6 +1,6 @@
 {
 		"THETA" : 100,
-		"K" : 400,
+		"K" : 1000,
 		"DT" : 0.1,
 		"EPSILON" : 1.0,
 		"DISPERSAL_SIGMA" : 1.0,
@@ -8,6 +8,7 @@
 		"HEIGHT" : 4,
 		"RUNTIME" : 1000,
         "INIT_PROP" : 0.1,
-        "DIMENSION" : 1
+        "DIMENSION" : 1,
+        "TREES" : false
 }
 

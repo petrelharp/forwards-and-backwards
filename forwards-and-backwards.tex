@@ -1674,16 +1674,17 @@ corresponding to an unscaled density of $N$ individuals per unit area.
 
 \begin{figure}
     \begin{center}
-        \includegraphics[width=0.45\textwidth]{figures/ex2a/pme_123.steps}
-        \includegraphics[width=0.45\textwidth]{figures/ex2b/pme_123.steps}
+        \includegraphics[width=0.45\textwidth]{figures/ex2a/pme_1234.steps}
+        \includegraphics[width=0.45\textwidth]{figures/ex2b/pme_1234.steps}
     \end{center}
     \caption{
-        \comment{TODO PETER; maybe remove dotted lines}
-        Two panels, showing simulated 1D populations under a
-porous medium equation with logistic growth~(\ref{PME}), comparing the simulated
-        profile to the analytical solution;
-        $\theta/N$ not small on left; small on right.
-        % (Note: noisier wave should move slower, although maybe not much since it's pushed.)
+        Two panels, showing simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}),
+        % comparing the simulated profile to the analytical solution;
+        $\theta/N$ small on the left; large on the right.
+        Simulation is with $\gamma(m) = m$ and $\mu(m) = (1+1/\theta) m - 1/\theta$
+        (implemented by choosing a small $dt$ taking reproduction probability per time step
+        to be $1 - \exp(- dt m)$
+        and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$).
         \label{fig:pme_waves}
     }
 \end{figure}
