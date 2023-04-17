@@ -1678,13 +1678,14 @@ corresponding to an unscaled density of $N$ individuals per unit area.
         \includegraphics[width=0.45\textwidth]{figures/ex2b/pme_1234.steps}
     \end{center}
     \caption{
-        Two panels, showing simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}),
+        Two panels, showing simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
         % comparing the simulated profile to the analytical solution;
-        $\theta/N$ small on the left; large on the right.
+        $\theta$ small on the left; large on the right.
         Simulation is with $\gamma(m) = m$ and $\mu(m) = (1+1/\theta) m - 1/\theta$
         (implemented by choosing a small $dt$ taking reproduction probability per time step
         to be $1 - \exp(- dt m)$
-        and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$).
+        and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$);
+        values of $\theta$ are 1 and 100, respectively.
         \label{fig:pme_waves}
     }
 \end{figure}
@@ -1701,10 +1702,8 @@ which lack this property.
 However, for initial conditions that decay sufficiently rapidly at infinity,
 such as one might use in modelling a population invading new territory,
 the solution converges to \eqref{eqn:pme_wave} \citep{kamin/rosenau:2004}.
-In Figure~\ref{fig:pme_waves} we show simulations of the individual based model
-described above. They
-display travelling wave solutions
-similar to numerical solutions of~(\ref{PME}),
+In Figure~\ref{fig:pme_waves} we show simulations of the individual based model described above.
+They display travelling wave solutions qualitatively similar to solutions of~(\ref{PME}),
 with increasingly good agreement for larger $\theta$ and $N$.
 \comment{TODO: does it?}
 As expected, noise slows down the wave.
