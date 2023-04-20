@@ -74,7 +74,7 @@
 \begin{document}
 
 \title{\large{\bf
-Looking forwards and backwards through locally regulated populations
+Looking forwards and backwards: dynamics and genealogies of locally regulated populations
 }}
 
 \author{ \begin{small}
@@ -542,9 +542,9 @@ Here, because production of juveniles and their establishment are
 mediated by population density measured relative to different points, 
 the net reproductive rate will take a more complicated form. 
 In particular, the total rate of production of mature offspring by an individual at $x$ will be
-\[
+\begin{equation} \label{eqn:total_repro}
 	\gamma\big(x,\smooth{\gamma}X(x)/N\big)\int r\big(y, \smooth{r}X(y)/N\big)q_{\theta}(x,dy).
-\]
+\end{equation}
 Nonetheless, it will be convenient to define the death rate $\mu_\theta$ in terms of 
 its deviation from $r\gamma$. 
 To this end, we define
@@ -562,9 +562,9 @@ and $\rho_F$ is again a smooth kernel.
 The function $F$ is nearly
 the net per capita reproductive rate, scaled by $\theta$,
 and would be equal to it in a nonspatial model;
-but, as discussed later,
-differs because offsprings' establishment probability is measured at their new location
-rather than their parents', and so differs from $r(x)$.
+but, as can be seen from \eqref{eqn:total_repro},
+differs because an offspring's establishment probability is measured at their new location
+rather than that of their parent.
 For the most part, we work with $F$ instead of $\mu$.
 
 Note that each of the three demographic parameters $r$, $\gamma$, $F$,
@@ -719,7 +719,7 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
     to be the density of a multivariate Gaussian
     with mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
     (although often we omit the dependence of $\meanq$ and $\covq$ on $x$).
-    This implies that if we define, for $f : \IR^d \to \IR$,
+    This implies that if we define, for $f \in C_b^\infty(\IR^d)$,
     \begin{align}
     \DG f(x)
         =
@@ -1110,10 +1110,9 @@ Recall that the Wasserstein metric, defined by
 \[\rho (\nu_1,\nu_2)=\sup\Big\{\Big|\int fd\nu_1-\int fd\nu_2\Big|:\sup_x|f(x
 )|\leq 1,|f(x)-f(y)|\leq \|x-y\|\Big\},\]
 determines the topology of weak convergence on $\measures$.
-
 We write 
-$r(x,\eta) \gamma(x,\eta) C(x) = J(x,\eta) J(x,\eta)^T$, and 
-$\beta(x,\eta) = r(x,\eta) \gamma(x,\eta) \big(\meanq(x)+2C(x)\nabla\log r(x,\eta)\big)$
+$r(x,\eta) \gamma(x,\eta) \covq(x) = J(x,\eta) J(x,\eta)^T$, and 
+$\beta(x,\eta) = r(x,\eta) \gamma(x,\eta) \big(\meanq(x)+2\covq(x)\nabla\log r(x,\eta)\big)$
 (quantities that will appear in Proposition~\ref{prop:limiting_construction}).
 If $J$, $\beta$, and $F$ are bounded and Lipschitz in the sense 
 that
@@ -1221,7 +1220,7 @@ and that $\varphi$ is a weak solution to the equation
 also with initial condition $\varphi_0(\cdot)$.
 %Assume $\varphi_0\in L^2(\IR)$ is a positive, Lipschitz, and uniformly bounded function; 
 Suppose further that $F$ is a Lipschitz function which is bounded above, and that
-$b(x)$ and $C(x)$, the drift and 
+$\meanq(x)$ and $\covq(x)$, the drift and 
 covariance matrix of $\DG$, satisfy the conditions of 
 Assumptions~\ref{def:model_setup}.
 Then, for all $T>0$ there exists a constant $K=K(T, \Vert \varphi_0 \Vert_\infty)>0$,
@@ -1583,7 +1582,7 @@ velocity $\wavespeed$,
 r\sigma^2\Delta (\gamma w) -\meanq \cdot\grad (\gamma w) +\wavespeed \cdot \grad w =0 .
     \end{align*}
     Then the semigroup $Q_s$
-    of the motion of a lineages in this population 
+    of the motion of a lineages in frame that is moving at speed $\wavespeed$
     is time-homogeneous with generator
     \begin{align}
 \label{Lgen}
@@ -1658,13 +1657,14 @@ provided by the logistic control of the population size prevents $m$ from
 getting too big. 
 In practice in our simulations we
 take discrete time steps of length $dt$ (with $dt$ suitably small),
-and have each individual with local density $m$ reproduce and die, respectively, with probabilities
+and have each individual reproduce and die with probabilities, respectively,
 \begin{align*}
     p_\text{birth}(m) = \left(1 - e^{- m dt}\right)
     \qquad 
     p_\text{death}(m) = \left(1 - e^{- (m (1+1/\theta) - 1/\theta) dt} \right) ,
 \end{align*}
-so that $\gamma(x, m) = p_\text{birth}(m)/dt \approx m$
+where $m$ is the local density at their location.
+This makes $\gamma(x, m) = p_\text{birth}(m)/dt \approx m$
 and
 \begin{align*}
     F(x, m) = \theta(\gamma(x, m) - \mu(x, m)) / dt \approx 1 - m .
@@ -1674,18 +1674,18 @@ corresponding to an unscaled density of $N$ individuals per unit area.
 
 \begin{figure}
     \begin{center}
-        \includegraphics[width=0.45\textwidth]{figures/ex2a/pme_1234.steps}
-        \includegraphics[width=0.45\textwidth]{figures/ex2b/pme_1234.steps}
+        \includegraphics[width=0.7\textwidth]{figures/ex2a/pme_1234.steps}
+        \includegraphics[width=0.7\textwidth]{figures/ex2b/pme_1234.steps}
     \end{center}
     \caption{
-        Two panels, showing simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
+        Simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
         % comparing the simulated profile to the analytical solution;
-        $\theta$ small on the left; large on the right.
+        $\theta/N$ small on the left; large on the right.
         Simulation is with $\gamma(m) = m$ and $\mu(m) = (1+1/\theta) m - 1/\theta$
         (implemented by choosing a small $dt$ taking reproduction probability per time step
         to be $1 - \exp(- dt m)$
         and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$);
-        values of $\theta$ are 1 and 100, respectively.
+        values of $\theta$ are 1 and 100, respectively, and both values of $N$ are the same.
         \label{fig:pme_waves}
     }
 \end{figure}
@@ -1704,7 +1704,8 @@ such as one might use in modelling a population invading new territory,
 the solution converges to \eqref{eqn:pme_wave} \citep{kamin/rosenau:2004}.
 In Figure~\ref{fig:pme_waves} we show simulations of the individual based model described above.
 They display travelling wave solutions qualitatively similar to solutions of~(\ref{PME}),
-with better agreement for larger $\theta$ and $N$.
+with better agreement for smaller $\theta/N$
+(but in both cases, $N$ is reasonably large).
 
 
 % % % % % % % % % % % %
@@ -1819,7 +1820,7 @@ we find that the generator of an ancestral lineage is now,
     s \partial_xf,
 \end{align*}
 so lineages in the tip are pushed leftwards into the bulk of the 
-wave at a rate $-2e^x/(1+e^{x})$.
+wave at a rate $s-2e^x/(1+e^{x})$.
 The strength of this drift decreases exponentially as $x\to -\infty$.
 The density of the speed measure for this diffusion is
 $$
@@ -1843,7 +1844,7 @@ with $c=1$,
 $\gamma(x, m) = m$,
 $r(x,w) = 1$,
 and $F(x, m) = (1 - m)$,
-the generator of the diffusion governing the position of the ancestral lineage 
+the generator of the diffusion governing the position of the ancestral lineage relative to the wavefront
 is, for $x < 0$,
 %with $f_x$ denoting the spatial derivative of $f$,
 \begin{align*}
@@ -1976,8 +1977,8 @@ that oscillate with frequency around $\sqrt{v_*}$.
         and a stable, periodic pattern forms.
         \textbf{Right:} Population density in an expanding wave in a one-dimensional simulation
         forming a periodic pattern;
-        each panel shows the wave front in three periods of time;
-        within each period of time the wave front at earlier times is shown in blue
+        each panel shows the wavefront in three periods of time;
+        within each period of time the wavefront at earlier times is shown in blue
         and later times in pink.
         In both cases, $\gamma(m) = 3/(1 + m)$, $\mu \equiv 0.3$, and $r \equiv 1$;
         dispersal is Gaussian with $\sigma=0.2$ and density is measured with $\rho_\gamma(x) = p_9(x)$,
@@ -3328,7 +3329,7 @@ Condition~\ref{control through r}
 gives uniform bounds on the derivatives of $r(x, \rho_r*\eta(x))$
 in this expression and so, provided $f$ also has uniformly bounded first and second derivatives,
 we have a bound of the form
-\begin{multline*}
+\begin{align*}
 |B^\theta_f|
 \leq
         K_1 \left|
@@ -3338,7 +3339,7 @@ we have a bound of the form
         K_2 \left|
             \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
         \right| 
-\end{multline*}
+\end{align*}
 for suitable constants $K_1$, $K_2$.
 This is bounded uniformly because
 $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
@@ -4071,6 +4072,17 @@ For any $\delta>0$,
 \end{lemma}
 
 \begin{proof}[Sketch]
+To avoid the idea being buried in notation, we sketch the proof in the 
+special case of $d=1$.
+We take a sequence of test functions $f_n$ increasing to the function $f(x)=x$
+and having uniformly bounded first and second derivatives.
+Examining the proof of Lemma~\ref{lem:conditions on r},
+so that there is a (single) $C_1$
+from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
+such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C$ for all $x$, $\eta$, and $f_n$.
+
+
+
 To avoid the idea being buried in notation, we sketch the proof in the 
 special case of $d=1$ and $\DG=\Delta$.
 For any $f\in C_b^\infty(\IR)$,
