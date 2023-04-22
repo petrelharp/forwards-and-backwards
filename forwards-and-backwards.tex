@@ -809,6 +809,7 @@ would be described (in the limit) by the adjoint of this generator.
 However, we will see in Section~\ref{sec:ancestral lineages}
 that this is not in fact the case.
 \end{remark}
+
 In order to pass to a scaling limit, we will need to impose some 
 conditions on the parameters of our model.
 
@@ -843,14 +844,16 @@ We assume that
     \label{gamma_bounded_condition}
 \item For each $f \in C_b^2(\IR^d)$,
     there is a $C_f$ such that
-    $$ |\gamma(x, \smooth{\gamma} \eta(x)) \theta \int 
-    (r(y, \smooth{r} \eta(y)) f(y) - r(x, \smooth{r} \eta(x)) f(x))
-    q_\theta(x, dy)| \le C_f $$
+    $$
+        |\gamma(x, \smooth{\gamma} \eta(x)) \theta \int 
+        (r(y, \smooth{r} \eta(y)) f(y) - r(x, \smooth{r} \eta(x)) f(x))
+        q_\theta(x, dy)| \le C_f (1 + |f(x)|)
+    $$
     for all $x \in \IR^d$ and $\eta \in \measures$.
-    Furthermore, $C_f$ only depends on the norm of $f$ and it's first two derivatives,
+    Furthermore, $C_f$ only depends on the norm of the first two derivatives of $f$,
     i.e., 
     \[
-        C_f = C(\sup_x \max_{ij} \max(f(x), \partial_{x_i} f(x), \partial_{x_i} \partial_{x_j} f(x))) .
+        C_f = C(\sup_x \sup_{\|z\|=1} \max( \sum_i z_i \partial_{x_i} f(x), \sum_{ij} z_i z_j \partial_{x_i x_j} f(x))) .
     \] \label{gamma_B_condition}
 \end{enumerate}
 To keep expressions manageable, we shall also assume that 
@@ -863,7 +866,12 @@ that is, this expression is non-negative so that there is no need to take the ma
 	sufficiently large $\theta$.)
 \end{assumptions}
 
-We give two concrete situations in which the fourth condition is satisfied.
+Since we take bounded $f$,
+for most situations the bound $C_f(1+f(x))$ in condition~\ref{gamma_B_condition} above
+can be safely replaced simply by $C_f$;
+however, this will be useful
+in certain situations where we consider a sequence of $f$ with increasing upper bounds.
+We now give two concrete situations in which the fourth condition is satisfied.
 
 \begin{lemma}
     \label{lem:conditions on r}
@@ -974,13 +982,12 @@ characterises limit points as solutions to a martingale problem.
 	in such a way that $\theta(N)/N \to \alpha$.
     (However, the kernels $\rho_r$, $\rho_\gamma$, and $\rho_F$
     remain fixed.) 
-Suppose that Assumptions~\ref{def:model_setup} hold and, 
-further, that $\{\eta_0^N\}_{N\geq 1}$ is a sequence of 
-purely atomic measures, with $\eta_0^N$ comprised of atoms of mass $1/N$, which is
-tight 
-in $\measures$ and such that there exists $\lambda>0$ for 
-which $\langle e^{\lambda\|x\|}, \eta_0^N(dx)\rangle<C<\infty$
-with $C$ independent of $N$.
+    Suppose that Assumptions~\ref{def:model_setup} hold and, 
+    further, that $\{\eta_0^N\}_{N\geq 1}$ is a sequence of 
+    purely atomic measures, with $\eta_0^N$ comprised of atoms of mass $1/N$,
+    which is tight in $\measures$ and such that
+    $\langle |x|, \eta_0^N(dx)\rangle<C<\infty$
+    with $C$ independent of $N$.
     Then the sequence of processes
     $(\eta^N_t)_{t \geq 0}$ is tight, and for any limit point
     $(\eta_t)_{t \geq 0}$, for every $f \in C^\infty_b(\IR^d)$,
@@ -3314,6 +3321,75 @@ uniformly over $x$ and $\eta$.
 First suppose that
 Condition~\ref{control through r} of  
 Lemma~\ref{lem:conditions on r} is satisfied.
+\comment{BEGIN NEW VERSION}
+We write
+\begin{align*}
+    r(y,\eta) f(y) - r(x,\eta) f(x)
+&=
+    r(y,\eta) (f(y) - f(x))
+    + (r(y,\eta) - r(x,\eta)) f(x) 
+\\ &=
+    r(y,\eta) \left(
+        \sum_i (y-x)_i \partial_{x_i} f(x)
+        + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(z_1)
+    \right)
+\\ &\qquad {}
+    + f(x) \left(
+        \sum_i (y-x)_i \partial_{x_i} r(x,\eta)
+        + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} r(z_2,\eta)
+    \right)
+ \\ &=
+    \left( r(x,\eta) + \sum_j (y-x)_j \partial_{x_j} r(z_3,\eta) \right)
+    \left(
+        \sum_i (y-x)_i \partial_{x_i} f(x)
+    \right)
+\\ &\qquad {}
+    + r(y,\eta) 
+        \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(z_1)
+\\ &\qquad {}
+    + f(x) \left(
+        \sum_i (y-x)_i \partial_{x_i} r(x,\eta)
+        + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} r(z_2,\eta)
+    \right) ,
+\end{align*}
+for some $z_i = \kappa_i x + (1-\kappa_i) y$.
+Integrating this against $q(x, dy)$, we get that
+\begin{align*}
+& \bigg| \theta \int \left(
+    r(y,\eta) f(y) - r(x,\eta) f(x)
+\right) q_\theta(x, dy) \bigg|
+\\ &\qquad \le
+    \bigg| \sum_i \left( r(x,\eta) \partial_{x_i} f(x) + f(x) \partial_{x_i} r(x,\eta) \right)
+    \theta \int (y-x)_i q_\theta(x, dy) \bigg|
+\\ &\qquad \qquad {} +
+    \bigg| f(x) 
+    \theta \int \sum_{ij} \partial_{x_i x_j} r(z_2,\eta) (y-x)_i (y-x)_j q_\theta(x, dy) \bigg|
+\\ &\qquad \qquad {} +
+    \bigg| \theta \int \sum_{ij} (y-x)_i (y-x)_j 
+        \left(
+            \partial_{x_i} f(x) \partial_{x_j} r(z_3,\eta)
+            + r(y,\eta) \partial_{x_ix_j} f(z_1)
+        \right) q_\theta(x, dy) \bigg|
+\end{align*}
+Since $q_\theta(x,dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
+and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$ are uniformly bounded,
+so that $\theta \int (y-x)_i q_\theta(x,dy)$ is bounded as well.
+Furthermore, a change of variables that diagonalizes $\covq(x)$
+shows for any $g : \IR^d \to \IR^{d + d}$,
+that if $C_g = \sup_y \sup_{\|z\| = 1} \sum_{ij} g(y)_{ij} z_i z_j$
+and $\lambda_* = \sup_y \sup_{\|z\|=1} \sum_{ij} \covq(y)_{ij} z_i z_j$
+then
+$$ \theta \int \sum_{ij} g(y)_{ij} (y-x)_i (y-x)_j q_\theta(x, dy) \le C_g \lambda_* .  $$
+Condition~\ref{control through r} 
+gives uniform bounds on the derivatives of $r(x,\eta) = r(x,\rho_r*\eta(x))$
+in this expression and so, provided $f$ also has uniformly bounded first and second derivatives,
+we have a bound of the form
+\begin{align*}
+    |B^\theta_f| \leq K_1 + K_2 |f(x)| ,
+\end{align*}
+for suitable constants $K_1$, $K_2$ that depend only on the derivatives of $f$.
+
+\comment{BEGIN PREVIOUS VERSION}
 We write
 \begin{align*}
     r\big(y,\rho_r*\eta(y)\big) f(y) - r\big(x,\rho_r*\eta(x)\big) f(x)
@@ -3340,12 +3416,16 @@ we have a bound of the form
             \theta \int_{\IR^d} \sum_{ij} (y_i - x_i) (y_j - x_j)  q_\theta(x, dy)
         \right| 
 \end{align*}
-for suitable constants $K_1$, $K_2$.
+for suitable constants $K_1$, $K_2$
+that depend on $f$ only through 
+$\max_i \|\partial_{x_i} f\|_\infty$ and
+$\max_{ij} \|\partial_{x_i} \partial_{x_j} f\|_\infty$.
 This is bounded uniformly because
 $q_\theta(x, dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$
 are bounded uniformly in $x$ under Assumptions~\ref{def:model_setup}.
 Since $\gamma$ is bounded as well, so is $|\gamma B^\theta_f|$.
+\comment{END OLD VERSION}
 
 Now suppose that instead
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
@@ -3408,8 +3488,8 @@ is bounded exactly as above. For the second,
 \smooth{r}\eta(y)$ for some $0\leq \kappa'\leq 1$, and
     we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
 with respect to the second argument.
-    So, writing $K_5=\|f\|_\infty\|r'\|_\infty$ and $K_6=\|f\|_\infty\|r''\|_\infty$,
-    the second term in~\eqref{eqn:q_bound_split} is bounded by
+    So, writing $K_5=\|r'\|_\infty$ and $K_6=\|r''\|_\infty$,
+    the second term in~\eqref{eqn:q_bound_split} is bounded by $f(x)$ multiplied by
     \begin{align*}
        K_5
         \left|
@@ -3426,14 +3506,14 @@ with respect to the second argument.
         \right| .
     \end{align*}
 Under Condition~\ref{control through gamma} of 
-Assumptions~\ref{def:model_setup}, the right hand side is bounded by 
+Assumptions~\ref{def:model_setup}, this is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
-$m^2\gamma(m)$ is bounded, so therefore $|\gamma B^\theta_f|$ is bounded.
-
-Finally, note that all bounds depended only on $\|f\|_\infty$,
-$\max_i \|\partial_{x_i} f\|_\infty$, or 
-$\max_{ij} \|\partial_{x_i} \partial_{x_j} f\|_\infty$.
+$\sup_x m^2\gamma(x, m)$ is bounded,
+so therefore $|\gamma(x,\eta) B^\theta_f(x,\eta)| \le K_7 + K_8 f(x)$,
+where $K_7$ comes from $K_3$, $K_4$, and the supremum of $\gamma$,
+while $K_8$ comes from $K_5$, $K_6$, and the supremum of $m^2 \gamma(x,m)$.
 \end{proof}
+
 
 % % % % % % % % % % % % %
 \subsection{Proof of Theorem~\ref{thm:nonlocal_convergence}: limit points for the nonlocal process}
@@ -3521,10 +3601,10 @@ Consider the semimartingale decomposition from equation~\eqref{eqn:eta_martingal
 \end{align}
 where $M^N_t(f)$ is a martingale and $B^\theta_f$ is defined in \ref{generator Bf}.
 First note that Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
-stipulates that $|\gamma B^\theta_f|$ is uniformly bounded,
-and so recalling that $F$ is bounded above, we can now conclude that
+stipulates that $|\gamma B^\theta_f|$ is uniformly bounded by a contant times $1 + f$,
+and so recalling that $F$ is bounded above, we conclude that
 under Assumptions~\ref{def:model_setup}
-$\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f $ for some $C_f$.
+$\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f (1 + f(x))$ for some $C_f$.
 
 Now, taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
     \begin{align}
@@ -3532,7 +3612,7 @@ Now, taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
         \IE\left[ \langle f, \eta^N_t \rangle \right]
         &\le
         \IE\left[ \langle f, \eta^N_0 \rangle \right]
-        + C_f \int_0^t \IE\left[ \langle 1, \eta^N_s \rangle \right] dt .
+        + C_f \int_0^t \IE\left[ \langle 1 + f, \eta^N_s \rangle \right] dt .
     \end{align}
 The bound~(\ref{eta_f_bound}) then follows by first applying Gronwall's
 inequality in the case $f=1$, which yields
@@ -4075,52 +4155,29 @@ For any $\delta>0$,
 To avoid the idea being buried in notation, we sketch the proof in the 
 special case of $d=1$.
 We take a sequence of test functions $f_n$ increasing to the function $f(x)=x$
-and having uniformly bounded first and second derivatives.
-Examining the proof of Lemma~\ref{lem:conditions on r},
-so that there is a (single) $C_1$
+and having uniformly bounded first and second derivatives,
+so that there is a (single) $C$
 from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
-such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C$ for all $x$, $\eta$, and $f_n$.
-
-
-
-To avoid the idea being buried in notation, we sketch the proof in the 
-special case of $d=1$ and $\DG=\Delta$.
-For any $f\in C_b^\infty(\IR)$,
-\begin{multline}
-\label{special case first moment equation}
-\IE[\langle f,\eta_t\rangle] 
-    =\IE[\langle f,\eta_0\rangle]
-    + \IE\Big[\int_0^t\Big\langle\gamma(x, \smooth{\gamma}\eta_s(x))
-    \Delta \big(f(\cdot)r(\cdot,\smooth{r}\eta_s(\cdot))\big)(x)
-    \\ \qquad 
-    +F(x,\smooth{F}\eta_s(x)) f(x),
-    \eta_s(dx)\Big\rangle ds\Big].
-\end{multline} 
-We take a sequence of test functions $f_n$ increasing to the constant function 1,
-and having uniformly bounded first and second derivatives
-so that there is a (single) $C_1$
-from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
-such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C$ for all $x$, $\eta$, and $f_n$.
-This implies that $\gamma(x,\eta) \Delta(f_n(\cdot) r(\cdot,\eta))(x) \le C_1$
-for all $n$, and so in the limit, since $F$ is also bounded above,
-there is a $C$ such that
+such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C(1 + f_n(x))$
+for all $x$, $\eta$, and $f_n$.
+Then, just as we arrived at equation~\eqref{bound on intfdeta},
 \begin{align*}
-    \IE[\langle 1, \eta_t\rangle]
-    &=
-    \IE[\langle 1, \eta_0\rangle]
+    \IE[\langle f_n(x), \eta^N_t(dx) \rangle]
+    &\le
+    \IE[\langle f_n(x), \eta^N_0(dx) \rangle]
     +
-    \IE\Big[\int_0^t \Big\langle \gamma(x,\eta_s) \Delta r(x,\eta_s) + F(x,\eta_s) ,
-    \eta_s(dx)\Big\rangle ds\Big] .
-    \\ &\le
-    \IE[\langle 1, \eta_0\rangle]
-    +
-    C \IE\Big[\int_0^t \Big\langle 1, \eta_s(dx)\Big\rangle ds\Big] .
+    C \int_0^t \IE\Big[\Big\langle f_n(x), \eta^N_s(dx) \Big] \Big\rangle ds ,
 \end{align*}
+with the same constant for all $n$ and all $N$.
 Gronwall's inequality then implies that 
-$\IE[\langle 1, \eta_t(dx)\rangle]$ 
-is uniformly bounded for $t\in [0,T]$, and an application of Markov's inequality
-tells us that for any $\delta >0$,
+$\IE[\langle f_n, \eta^N_t\rangle] \le C'$
+for some $C'$ independent of $n$, $N$, and $t \in [0,T]$.
+By first taking $N \to \infty$ and then $n \to \infty$,
+we find that $\IE[\langle x, \eta_t(dx)\rangle] \le C'$
+for $t\in [0,T]$, and an application of Markov's inequality
+tells us that for any $\delta > 0$,
 $\IP[\eta_t([R,\infty])>\delta]\to 0$ as $R\to\infty$.
+The same argument with $f_n(x)$ increasing to $-x$ completes the proof.
 \end{proof}
 
 % % % % % % % % % % % % %
