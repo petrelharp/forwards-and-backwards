@@ -318,23 +318,58 @@ emerges as a special case.
 
 We remark that such results on (one-step) convergence to reaction diffusion 
 equation limits have been
-achieved for a variety of interacting particle systems. The vast majority of these
-results concern spin systems \comment{TODO REFs obtained from Flandoli/Huang etc: Alison}.
-However,~\cite{flandoli/huang:2021} 
-obtain the Fisher-KPP equation
-as a scaling limit of interacting diffusions in
-$\IR^d$. In that setting a major challenge (also apparent in our models), not
-faced in spin systems, is 
-the control of concentration of particles. We also note that the scaling 
-considered in~\cite{flandoli/huang:2021} is different from that considered
-below. In their language we consider only `moderate interactions', meaning that
+achieved for a variety of interacting particle systems. 
+\comment{FROM ALISON: I rewrote the rest of this paragraph. Missing references
+are in the latex file, next to the citation, but commented out}
+Following the now classical contributions 
+of~\citet{demasi/ferrari/lebowitz:1986, demasi/presutti:1991,
+oeschlaeger:1985},
+%@article{demasi/ferrari/lebowitz:1986,
+%  title={Reaction-diffusion equations for interacting particle system},
+%  author={De Masi, A. and Ferrari, P. A. and Lebowitz, J. L.},
+%  journal={J. Stat. Phys.},
+%  year={1986},
+%  volume={44},
+%  pages={589-644},
+%  DOI = {10.1007/BF01011311},
+%}
+% A. De Masi and E. Presutti. Mathematical methods for hydrodynamic limits,
+%volume 1501 of Lecture Notes in Mathematics. Springer-Verlag, Berlin, 1991.
+%
+% K. Oeschl\"ager. A law of large numbers for moderately interacting 
+% diffusion processes. Z. Warsch. Verw. Gebiete. 69(2):279-322, 1985
+much of this work has focused on lattice based models with one particle
+per site, or on systems with a fixed number, $N$,
+of interacting diffusions as $N\to\infty$.
+For systems of proliferating particles,
+as considered for example by 
+\citet{oelschlaeger:1989, flandoli/leimbach/olivera:2019,
+flandoli/huang:2021}, 
+% K. Oeschl\"ager. On the derivation of reaction-diffusion equations as limits
+% of systems of moderately interacting stochastic processes. Probab. Th. Rel.
+% Fields 82, 565--586, (1989)
+%
+% F. Flandoli, M. Leimbach, and C. Olivera. Uniform convergence of 
+%proliferating particles to the FKPP equation. J. Math. Anal. Appl. 473(1):
+%27--52, (2019)
+an additional challenge (also apparent in our models), is 
+the control of concentration of particles. 
+We follow 
+\citet{oelschlaeger:1989, flandoli/leimbach/olivera:2019} in considering
+`moderate interactions', meaning that
 the number of individuals in the neighbourhood over which we measure local
-population density tends to infinity, whereas they also consider the situation in which
-that number remains finite;
-furthermore we shall consider a scaling in which 
-the reproduction mechanism is near-critical and look at large timescales,
-while \citet{flandoli/huang:2021} only scale the number of
-particles in the system and the size of the neighbourhood over which indivduals interact. 
+population density tends to infinity, whereas 
+\citet{flandoli/huang:2021} also consider the situation in which
+that number remains finite. 
+We refer to \citet{flandoli/huang:2021} for a more thorough 
+literature review, 
+but note that both our model and scaling differ from those considered
+in the body of work discussed there: whereas in those settings, the only 
+scalings are the number of particles in the system and the size of the
+neighbourhood over which individuals interact with one another, in
+keeping with the vast literature on continuous state branching models, we 
+also scale time and so must ensure that births are 
+adequately compensated by deaths to prevent the population from exploding. 
 
 The history of a natural population is often only accessible indirectly, 
 through patterns of genetic diversity that have been laid down; from 
@@ -403,6 +438,11 @@ then, for sufficiently large $C$ (strong cooperation),
 the nature of the deterministic
 wave changes from ``pulled'' to ``pushed'', 
 \citep{birzu/hallatschek/korolev:2017, birzu/hallatschek/korolev:2021}.
+\comment{The missing reference is
+ G. Birzu, O. Hallatshcek and K. Korolev. Genealogical structure
+ changes as range expansions transition from pushed to pulled. 
+ PNAS 118(34) (2021) 
+ https://doi.org/10.1073/pnas.2026746118}
 In that setting, the genealogies will be quite different
 from the Fisher-KPP case. 
 %\comment{Could refer to more recent Birzu et al paper here.}
@@ -1693,6 +1733,7 @@ corresponding to an unscaled density of $N$ individuals per unit area.
         to be $1 - \exp(- dt m)$
         and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$);
         values of $\theta$ are 1 and 100, respectively, and both values of $N$ are the same.
+	\comment{FROM ALISON Should we say what N is??}
         \label{fig:pme_waves}
     }
 \end{figure}
@@ -1939,28 +1980,32 @@ as shown in Figure~\ref{fig:clumping}.
 The phenomenon is discussed in Section~16.10 of \citet{haller2022evolutionary},
 and has been described in similar models, e.g.,
 by \citet{britton1990spatial,sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive,berestycki2009nonlocal}.
-Heuristically, this can occur if density-dependent effects of individuals
-extend sufficiently farther than the typical dispersal distance:
-the patches are stable because new offspring landing between two clumps
-effectively compete with \emph{both} neighboring clumps,
-while individuals within a clump effectively compete with only one.
+\comment{FROM ALISON: I rewrote the rest of this section - please check!}
+These patches can be stable. For example, if
+the density-dependent effects of individuals
+extend farther, but not too much farther, than the typical dispersal distance,
+new offspring landing between two clumps
+can effectively find themselves in competition with 
+\emph{both} neighbouring clumps,
+while individuals within a clump compete with only one.
 
-The implication here is that the equilibrium solution to~\eqref{general deterministic limit}
-may not be unique,
-and a stable solution may have oscillations on a scale determined by the interaction distance.
-We can see this easily in the simple case that
-$\DG = \sigma^2 \Delta$,
-the interaction kernels $\rho_r$, $\rho_\gamma$, and $\rho_F$
-are all equal to $p_{\epsilon^2}$ (the heat kernel at time $\epsilon^2$),
-and all parameters are spatially homogeneous,
+More mathematically, consider the case in which
+$\DG = \sigma^2 \Delta$ and all 
+parameters are spatially homogeneous,
 so that $r(x, \eta) = r(\smooth{r}\eta(x))$, and similarly for $\gamma$ and $F$.
-Let $\varphi_0$ be a value so that $F(\varphi_0) = 0$ and $F'(\varphi_0) < 0$,
-so that we would expect $\varphi(x) \equiv \varphi_0$ to be a stable equilibrium solution.
-Let us linearize~\eqref{general deterministic limit} about $\varphi_0$:
+If $\varphi_0$ is such that $F(\varphi_0)=0$ and $F'(\varphi_0)<0$, then the
+constant solution $\varphi\equiv\varphi_0$ is a nontrivial equilibrium
+of~\eqref{general deterministic limit}. However, it may not be unique,
+it may be unstable, and a stable solution may have 
+oscillations on a scale determined by the interaction distance.
+
+To understand the stability of the constant solution $\varphi\equiv\varphi_0$, 
+we
+linearise~\eqref{general deterministic limit} around $\varphi_0$:
 let $\varphi_t(x) = \varphi_0 + \psi_t(x)$,
 and (informally) $r(x) \approx r(\varphi_0) + r'(\varphi_0) \smooth{r} \psi(x)$.
 Writing $r_0 = r(\varphi_0)$ and $r'_0 = r'(\varphi_0)$,
-and similarly for $\gamma$ and $F$,
+with analogous expressions for $\gamma$ and $F$,
 \begin{align*}
     \partial_t \psi
     &\approx
@@ -1968,43 +2013,89 @@ and similarly for $\gamma$ and $F$,
     + \sigma^2 r_0 \gamma_0 \Delta \psi
     + \varphi_0 F'_0 \smooth{F} \psi .
 \end{align*}
-Letting $\hat \psi(u) = \int e^{2\pi i u x} \psi(x) dx$,
-\begin{align*}
+Letting $\hat f(u) = \int e^{2\pi i u x} f(x) dx$ denote the Fourier transform,
+\begin{equation}
+	\label{fourier transform psi}
     \partial_t \hat \psi(u)
-    &\approx
+    \approx
+	\left\{
+	- u^2\sigma^2 \varphi_0 r_0 \gamma_0' \hat{\rho}_\gamma(u) 
+	%e^{-\epsilon^2 u^2 /2}
+        - u^2 \sigma^2 r_0 \gamma_0
+	+ \varphi_0 F'_0 \hat{\rho}_F(u) 
+	%e^{-\epsilon^2 u^2 /2} 
+	\right\} \hat \psi(u) .
+\end{equation}
+In the simplest case, in which $\gamma$ is constant, so $\gamma_0'=0$,
+this reduces to
+\begin{equation} %\begin{align*}
+	\label{simplest FT}
+	\partial_t \hat \psi(u)
+    \approx
     \left(
-        - \sigma^2 \varphi_0 r_0 \gamma_0' u^2 e^{-\epsilon^2 u^2 /2}
-        - \sigma^2 r_0 \gamma_0 u^2
-        + \varphi_0 F'_0 e^{-\epsilon^2 u^2 /2} 
+%	- u^2\sigma^2 \varphi_0 r_0 \gamma_0' \hat{\rho}_\gamma(u) 
+	%e^{-\epsilon^2 u^2 /2}
+        - u^2 \sigma^2 r_0 \gamma_0
+	+ \varphi_0 F'_0 \hat{\rho}_F(u) 
+	%e^{-\epsilon^2 u^2 /2} 
     \right) \hat \psi(u) .
-\end{align*}
-Since $F'_0 < 0$, the last two terms are negative,
-but on the other hand if we take $\gamma_0' < 0$
-(i.e., per capita birth rate decreases with density near equilibrium),
-then the stability of the constant solution $\varphi \equiv \varphi_0$
-depends on the balance between the first and latter two terms.
-Writing
-$A_1 = - \sigma^2 \varphi_0 r_0 \gamma'_0$,
-$A_2 = \sigma^2 r_0 \gamma_0$,
-and $A_3 = - \varphi_0 F'_0$
-(with signs chosen so each is positive),
-and defining
-$$ g(v) = A_1 v - A_2 v e^{\epsilon^2 v /2} - A_3 , $$
-we have $\partial_t \hat \psi(u) = g(u^2) e^{\epsilon^2 u^2 /2} \psi(u)$.
-The term $g(v)$ is maximized at $v_*$ solving
-$e^{\epsilon^2 v_*/2} = A_1 / (A_2 (\epsilon^2 v_*/ 2 + 1))$,
-which is positive if $A_1 > A_2$,
-i.e., if $-\varphi_0 \gamma_0' > \gamma_0$.
-If so, then the constant solution is unstable with respect to perturbations
-that oscillate with frequency around $\sqrt{v_*}$.
-\comment{This seems wrong, since it doesn't involve $\sigma$?
-    But at least note the unstable frequencies scale with $\epsilon$.
-    We might say more by linearizing the exponential term,
-    which gives $v_* = (A_1 - A_2 + A_3 \epsilon^2/2)/(A_1 \epsilon^2)$,
-    although the resulting expression isn't terribly helpful.
-    TODO ALISON
-}
+\end{equation} %\end{align*}
+If we take $\rho_F=p_{\epsilon^2}$, then 
+$\hat{\rho}_F(u)=\exp(-2\pi\epsilon^2 u^2)$ and (recalling 
+that $F_0'<0$) the term in brackets is always negative, and we recover
+the well-known fact that in this case the constant solution is stable.
+If, on the other hand, $\hat{\rho}_F$ changes sign, there may be values of $u$ for which the corresponding quantity is positive. For example, if $d=1$ and
+$\rho_F(x)={\mathbf 1}_{[-\epsilon, \epsilon]}(x)/2\epsilon$, then 
+$\hat{\rho}_F(u)=\sin (2\pi\epsilon u)/(2\pi\epsilon u)$, which is 
+negative for $u\in (1/(2\epsilon), 1/\epsilon)$ (and periodically 
+repeating intervals). Setting $v=\epsilon u$, the bracketed term on 
+the right hand side of~\eqref{simplest FT} becomes 
+\[
+	\varphi_0F_0'\frac{1}{2\pi v}\sin (2\pi v)
+	-\frac{\sigma^2}{\epsilon^2}v^2r_0\gamma_0,
+\]
+and we see that if $\sigma^2/\epsilon^2$ is sufficiently small, there are
+values of $v$ for which this is positive. In other words, in keeping
+with our heuristic above, if dispersal is sufficiently short range relative to
+the range over which individuals interact, there are unstable frequencies that
+scale with the interaction distance $\epsilon$. In two dimensions, replacing 
+the indicator of an interval by that of a ball of radius $\epsilon$, a
+similar analysis applies, except that the sine function is replaced by a 
+Bessel function.
 
+Now suppose that $\gamma$ is not constant. Then, 
+from~\eqref{fourier transform psi},
+if we take 
+$\rho_\gamma=\rho_F=p_\epsilon^2$,
+\begin{equation*}
+	\partial_t \hat \psi(u) = e^{-2\pi^2\epsilon^2 u^2 } 
+	\left\{
+		-\sigma^2\varphi_0 r_0\gamma_0'u^2
+	-\sigma^2r_0\gamma_0u^2e^{2\pi^2\epsilon^2u^2}
+	+\varphi_0 F_0'
+	\right\}
+	\hat{\psi}(u).
+\end{equation*}
+If we make the (reasonable)
+assumption that $\gamma_0'<0$, then we see that even when the Fourier
+transform of $\rho$ does not change sign, there may be parameter values
+for which the constant solution is unstable.
+As before, we set $v=\epsilon u$. The term in brackets becomes
+\[
+	\frac{\sigma^2}{\epsilon^2}v^2\left(-\varphi_0 r_0\gamma_0'
+	-r_0\gamma_0e^{2\pi^2v^2}\right)+\varphi_0F_0',
+\] 
+and, provided $-\varphi_0\gamma_0'/\gamma_0>1$, for sufficiently small $v$ 
+the term in round brackets is positive. We now see that if 
+$\sigma^2/\epsilon^2$ is sufficiently {\em large},
+the equilibrium state $\varphi\equiv\varphi_0$ 
+is unstable. As before, the unstable frequencies will scale with $\epsilon$
+and for given $F$, $r$ and $\gamma$, whether or not such unstable
+frequencies exist will be determined by $\sigma^2/\epsilon^2$, but 
+in this case of Gaussian kernels, 
+it is interaction distance being sufficiently small relative
+to dispersal that will lead to instability.
+	
 
 \begin{figure}
     \begin{center}
@@ -2264,10 +2355,11 @@ above, the second order term in the generator takes the form
 &\qquad
 = \frac{1}{2} G''(\langle f, \eta \rangle)
     \frac{\theta}{N}
-    \int_{\IR^d}
-        \gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta),
+	\int_{\IR^d}\left\{
+		\gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta) \right\}
     \eta(dx) .
 \end{align*}
+\comment{FROM ALISON integral against eta in last line corrected}
 Since $\int f^2(y) r(y, \eta) q_\theta(x, dy) \to f^2(x) r(x, \eta)$
 and $r\gamma  + \mu_\theta = 2 r \gamma  - F / \theta \to 2 r \gamma$
 as $\theta \to \infty$,
@@ -2566,6 +2658,7 @@ and
     \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) ,
 \end{align}
 which captures the local rate of production of successful offspring.
+\comment{FROM ALISON This sort of true because it corresponds to lookdown events, but when I read this again I was confused. Is there a better way to say it?} 
 Recall from equation~\eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu_\theta(x,\eta))$,
 and so 
@@ -2575,7 +2668,7 @@ b_\theta(x, \eta)
 	q_\theta(x, dy)
     + F(x, \eta). 
 \end{equation*}
-Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$
+Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$,
 $c_\theta(x, \eta)$ will tend to $\alpha \gamma(x, \eta) r(x, \eta)$
 and $b_\theta(x, \eta)$ will tend to
 \begin{equation}
@@ -2747,6 +2840,9 @@ and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$
 as before. 
 Given $\lp_0 \in {\mathcal C}_N$, 
 we say that a ${\mathcal D}_{[0,\infty)}({\mathcal C}_N)$-valued process 
+	\comment{FROM ALISON: we have not been consistent in the layout of 
+	the notation for spaces of cadlag paths - it is already different in 
+	the definition below!}
 $(\xi_t)_{t \ge 0}$
    is a solution to the $(A^N, \lp_0)$ martingale problem
     if 
@@ -2854,7 +2950,7 @@ by $\kappa^N(\xi^N)(\cdot) = \xi^N(\cdot \times [0, N]) / N$,
 and $\kappa: \mathcal{M}(\IR^d \times [0, \infty)) \to \mathcal{M}(\IR^d)$
 by $\kappa(\xi)(\cdot) = \lim_{u_0 \to \infty} \xi(\cdot \times [0, u_0]) / u_0$.
 We will also need an inverse notion:
-for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a sigma-field $\mathcal{F}$,
+for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a $\sigma$-field $\mathcal{F}$,
 we say that \emph{$\lp^N$ is conditionally uniform given $\mathcal{F}$}
 if for all compactly supported $f$,
 \begin{align} \label{eqn:conditionally_uniform}
@@ -2865,7 +2961,9 @@ if for all compactly supported $f$,
 where
 $$ H_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
 In other words, the $[0, N]$ components of $\lp$
-are independent, uniformly distributed on $[0, N]$, and independent of $\kappa(\lp)$.
+are independent, uniformly distributed on $[0, N]$, and independent of 
+$\kappa^N(\lp)$.
+\comment{ALISON: added N, also made sigma $\sigma$ above}
 Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
 we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
 if for all compactly supported $f$,
@@ -2887,7 +2985,9 @@ where $\lambda$ is Lesbegue measure.
     such that $\eta^N = \kappa^N \circ \lp^N$
     has the same distribution on $D_{\measures}[0, \infty)$
     as $\tilde \eta^N$.
-    Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform given given $\mathcal{F}^{\eta^N}_t$
+    Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform 
+	\comment{ALISON deleted excess given}
+	given $\mathcal{F}^{\eta^N}_t$
     in the sense of \eqref{eqn:conditionally_uniform}.
 
     Similarly,
@@ -2915,7 +3015,10 @@ to Theorem~\ref{thm:nonlocal_convergence} for the population process.
     suppose also that $\eta^N_0 \to \eta_0$ in $\measures$,
     and that for each $N$, $\lp^N_0$ is conditionally uniform given $\eta_0^N$
     in the sense of \eqref{eqn:conditionally_uniform}.
-    Then, any sequence of stochastic processes $(\lp_t^N)_{t \ge 0}$
+    Then, 
+	\comment{FROM ALISON deleted `any sequence of stochastic processes'
+	which didn't make sense - we want the ones already specified }
+	$(\lp_t^N)_{t \ge 0}$
     has a subsequence which converges in distribution as $N \to \infty$
     to a measure-valued process $(\lp_t)_{t \ge 0}$
     with $\lp_0$ conditionally Poisson given $\eta_0 = \kappa(\lp_0)$
@@ -2923,6 +3026,8 @@ to Theorem~\ref{thm:nonlocal_convergence} for the population process.
     that is a solution to the martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}.
 \end{theorem}
 
+\comment{FROM ALISON: should we signpost that the proofs of these results can 
+be found in section???}
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Explicit construction of lines of descent}
@@ -3017,7 +3122,7 @@ for each point $(\tau, v, z, \kappa) \in \Pi_a$ with $\tau_a \le \tau < \sigma_a
 the event does not happen.)
 If this is the $j^\text{th}$ point in $\Pi_a$,
 the potential new label is $a \concat j$, the birth time is $\tau_{a \concat j} = \tau$,
-and the spatial displacement of the potential ogfspring is $y(X(\tau-), z)$, where
+and the spatial displacement of the potential offspring is $y(X(\tau-), z)$, where
 $$
     y(x, z)
     :=
@@ -3128,7 +3233,7 @@ different values of $N$.
 As a result, if the spatial projections $\eta$ converge, then
 individual lines of descent converge pointwise as $N \to \infty$.
 To see this, first note that if the Poisson processes are fixed
-then the set of events to which a given label $a \in \labelspace$ is associated
+then the set of events with which a given label $a \in \labelspace$ is associated
 is also fixed -- this is the sequence $(\tau_k, v_k, z_k, \kappa_k)$ associated 
 with the label $a$.
 To conclude that the lines of descent converge, 
@@ -3318,9 +3423,12 @@ the production of these lineages.
 \section{Proofs of convergence for nonlocal models}
 \label{sec:proofs}
 
-In the following sections we present formal proofs of our three scaling limits.
+In this section we present formal proofs of the first two of our
+three scaling limits.
+%following sections we present formal proofs of our three scaling limits.
 In Subsection~\ref{sec:population_density_proof} 
-we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain a limit in
+we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain (both
+stochastic and deterministic) limits in
 which interactions between individuals in the population are nonlocal.
 In Subsection~\ref{subsec:nonlocal to local}
 we show how, in two important examples in which the nonlocal
@@ -3329,13 +3437,14 @@ reaction diffusion type and a deterministic solution to a nonlocal
 porous medium equation with an additional logistic growth term, 
 one can pass to a further 
 limit to obtain a classical PDE.
-In subsequent sections (Sections~\ref{subsec:one step convergence proof} and~\ref{sec:lookdown_proofs})
-we prove our third scaling limit, in which 
-we pass from our population model 
-directly to a reaction diffusion equation without going via a nonlocal limit,
-and finally our results concerning both convergence of the lookdown representation
-and characterization of the lineage process in the deterministic case.
-\comment{TODO: check/improve this paragraph: ALISON}
+%In subsequent sections (Sections~\ref{subsec:one step convergence proof} and~\ref{sec:lookdown_proofs})
+%we prove our third scaling limit, in which 
+%we pass from our population model 
+%directly to a reaction diffusion equation without going via a nonlocal limit,
+%and finally our results concerning both convergence of the lookdown representation
+%and characterization of the lineage process in the deterministic case.
+\comment{FROM ALISON: slightly reworded - deleted bit about onestep convergence
+on the basis that we already point to that in the introduction}
 
 
 \subsection{Preliminaries}
@@ -3592,6 +3701,9 @@ in fact the limit points take values in $\mathcal{D}_{[0,\infty)}(\measures)$.
 
 % % % % % % % % % % % % %
 \subsubsection{Compact Containment Condition}
+
+\comment{FROM ALISON Does this merit being a subsubsection - if so I would expect 
+some others too}
 
 As advertised, we work with the one-point compactification of $\IR^d$ and
 consider $(\eta^N_t)_{t\geq 0}$ as a sequence of 
