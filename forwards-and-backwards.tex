@@ -1834,6 +1834,7 @@ $$
     m(x) \propto e^{sx}(1+e^x)^{-2},
 $$
 which is integrable, and so determines the unique stationary distribution.
+% (agreeing with Lemma~\ref{cor:stationary_dist}).
 Thus the position of the ancestral lineage relative to the wavefront will converge to a stationary 
 distribution which is maximised away from the extreme tip of the wave.
 This is consistent with~\cite{etheridge/penington:2022}, who consider an analogous
@@ -1893,6 +1894,38 @@ Notice that even though we have the same reaction term as in the Fisher-KPP equa
 form of nonlinear diffusion, at stationarity
 the lineage will typically be significantly behind the front, 
 suggesting a different genealogy. 
+
+It is interesting to compare the stationary distribution we have obtained here
+to the expression that we'd get by setting $\meanq = -\wavespeed$
+and using Lemma~\ref{cor:stationary_dist},
+i.e., by giving each offspring a mean displacement that offsets the motion of the wave.
+In the Fisher-KPP and Allen-Cahn cases above, we get the same expressions,
+but this is only the case because $r\equiv\gamma\equiv1$ in both.
+For the PME with $\meanq = 1$ we have $\DG^* = \Delta + \grad$ 
+and so the equation solved by the population density is
+$$
+    \partial_t \varphi = \Delta \varphi + 2 \varphi \grad \varphi + \varphi (1 - \varphi) ,
+$$
+which has a traveling wave solution of the same shape but moving at half the speed,
+$\varphi(x,t) = w^{P}(x-t/2)$,
+and a stationary distribution of the lineage relative to the wavefront of
+$\pi(\xi) \propto e^{3\xi/2} (1 - e^{\xi/2})^3$.
+% \comment{Details to back that last statement up, which we probably want to comment out?}
+% (We can see that $w^P(x-t/2)$ is a traveling wave solution by using that
+% $\partial_x w^P = -(1 - w^P)/2$;
+% and then the generator of a linage in the moving frame is
+% $\Lgen_{P'} = \varphi \partial_x^2 + (4 \partial_x \varphi + 1/2 + \varphi) \partial_x$,
+% which has speed measure proportional to
+% $\exp(\int^x 3(1/2 dx + d \log \varphi)) / \varphi$.)
+% \begin{align*}
+% m_{P'}(\xi)
+%     &\propto \frac{1}{2(1-e^{\xi/2})} \exp\left(
+%         \frac{3}{2} \int^\xi \left\{
+%             1 - \frac{e^{x/2}}{1 - e^{x/2}}
+%         \right\}dx
+%     \right) .
+% \end{align*}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -7139,7 +7172,7 @@ First, note that in this case
 $$
     \Lgen f = \sigma^2 r \gamma \left(
         \Delta f
-        + \grad ( 2 \log(\gamma \varphi) - h ) \cdot \grad f
+        + \grad ( 2 \log(\gamma \varphi) - h/\sigma^2 ) \cdot \grad f
     \right) ,
 $$
 and that
@@ -7150,11 +7183,11 @@ $$
         \grad f(x) \cdot \grad g(x)
     \right\} dx .
 $$
-Therefore, by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)$
+Therefore, by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)/\sigma^2$
 and
 $$ \pi(x)
     = e^{H(x)} / (\sigma^2 r(x) \gamma(x))
-    = \frac{\gamma(x) \varphi(x)^2 e^{-h(x)}}{\sigma^2 r(x)} ,
+    = \frac{\gamma(x) \varphi(x)^2 e^{-h(x)/\sigma^2}}{\sigma^2 r(x)} ,
 $$
 we have that
 $$
