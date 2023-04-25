@@ -338,7 +338,7 @@ Such results on (one-step) convergence to reaction diffusion
 equation limits have been
 achieved for a variety of interacting particle systems. 
 Following the now classical contributions 
-of~\citet{demasi/ferrari/lebowitz:1986, demasi/presutti:1991, oeschlaeger:1985},
+of~\citet{demasi/ferrari/lebowitz:1986, demasi/presutti:1991, oelschlaeger:1985},
 much of this work has focused on lattice based models with one particle
 per site, or on systems with a fixed number, $N$,
 of interacting diffusions as $N\to\infty$.
@@ -1374,7 +1374,7 @@ to retain averaging of $r$ in order to obtain a well-defined limit.
 \paragraph{One-step convergence to PDE:}
 
 Theorem \ref{thm:nonlocal_convergence},
-combined with Proposition \ref{prop:nonlocal_to_local} or~\label{nonlocalPME to PME}
+combined with Proposition \ref{prop:nonlocal_to_local} or~\ref{nonlocalPME to PME}
 implies that we can take the limit $N \to \infty$
 followed by the limit $\epsilon \to 0$
 to obtain solutions to the PDE \eqref{localPDE}.
@@ -6461,10 +6461,11 @@ and then in the next section, convergence of the lookdown process itself.
     This proposition is the content of the Markov Mapping Theorem,
     reproduced from \citet{etheridge/kurtz:2019} as Theorem~\ref{thm:mmt},
     applied to our situation.
-    In the notation of that theorem, $\gamma$ is what we have called $\kappa$ above,
-    $\alpha$ is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
-    or as a Poisson process with Lesbegue intensity (in the limiting case),
-    and we need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
+    The function $\gamma$ of that theorem is what we have called $\kappa$ above,
+    and the kernel $\alpha$ of that theorem
+    is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
+    or as a Poisson process with Lesbegue intensity (in the limiting case).
+    We need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
     for all $f$ in the domain of $A^N$ (and similarly a function $\psi$ for $A$).
     We also need that applying the lookdown generator to a function and averaging over levels
     is equivalent to applying the population process generator to the function
@@ -6518,32 +6519,32 @@ in Section~\ref{sec:population_density_proof}.
 
 \begin{remark}
 The process we consider is similar to the state-dependent branching processes
-of \citet{KR}, so one might expect that the proofs there would carry over with little change.
+of \citet{kurtz/rodrigues:2011}, so one might expect that the proofs there would carry over with little change.
 However, there is an important difference:
 Recall that the level $U_a(t)$ of a line of descent evolves as
-$$
+\begin{equation} \label{eqn:u_evolution}
 \dot u = c_\theta(x, \eta) u^2 - b_\theta(x, \eta) u,
-$$
+\end{equation}
 where $b_\theta(x, \eta)$ and $c_\theta(x, \eta)$ are defined in \eqref{b_defn}
 and \eqref{c_defn} respectively.
-Note that $c_\theta(x, \eta) \ge 0$ and $b_\theta(x, \eta)$ may take either sign.
-Assumptions~\ref{def:model_setup} imply that $c^N(x, \eta)$ is bounded,
-while $b^N(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
-In \citet{kurtz/rodrigues:2011}, $b^N$ was bounded above and $c^N$ was bounded away from zero,
-so they noted that if $U_a(t) \ge b^N/c^N$ for some label $a$,
+Note that $c_\theta(x, \eta) \ge 0$, while $b_\theta(x, \eta)$ may take either sign.
+Assumptions~\ref{def:model_setup} imply that $c_\theta(x, \eta)$ is bounded,
+while $b_\theta(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
+In \citet{kurtz/rodrigues:2011}, $b_\theta$ was bounded above and $c_\theta$ was bounded away from zero,
+so they noted that if $U_a(t) \ge b_\theta/c_\theta$ for some label $a$,
 that line of descent would only move upwards from that time onwards.
 Furthermore, coefficients did not depend on the state of the process (i.e., on $\eta$),
 thus allowing the processes to be jointly and simultaneously constructed
 for all values of $N$, with a pointwise embedding
-of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b^N/c^N < N < M$.
-In other words, individuals with levels above $N > b^N/c^N$ at time $t_0$
+of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b_\theta/c_\theta < N < M$.
+In other words, individuals with levels above $N > b_\theta/c_\theta$ at time $t_0$
 do not affect $(\lp^N_t)_{t \ge t_0}$,
 thus allowing a comparison of the number of lines of descent below level $u_0$
 to a branching process.
 Although we have provided a
 joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
 it does not have this monotonicity:
-for one thing, $b^N$ and $c^N$ depend on the population process $\eta$
+for one thing, $b_\theta$ and $c_\theta$ depend on the population process $\eta$
 and so all individuals can affect all other ones (even those with lower levels).
 Furthermore, in the deterministic case $\theta/N$, and hence $c$, converges to zero,
 and so lines of descent with arbitrarily high level may drift back downwards.
@@ -6551,8 +6552,9 @@ Indeed, this must be the case if the population persists,
 since in the deterministic case there is no branching.
 \end{remark}
 
-To complete the description of the process,
-each line of descent
+We first give a description of the lookdown process $\lp^N$ in terms of the lines of descent
+introduced in Section~\ref{sec: individual lines of descent}.
+Each line of descent
 gives birth to lines at higher levels at rate $2 (N - u) c_\theta(x, \eta)$,
 and each such new line chooses a level uniformly from $[u, N]$,
 a spatial location $y$ from the kernel
@@ -6561,7 +6563,8 @@ a spatial location $y$ from the kernel
     =
     r(y, \eta) q(x, dy) / \int_{\IR^d} r(y, \eta) q(x, dy),
 \end{equation}
-and the two lines swap spatial locations with probability 1/2.
+and the two lines swap spatial locations with probability 1/2;
+the level of each line of descent evolves according to equation~\eqref{eqn:u_evolution}.
 
 It is evident from the description of the process
 (or, by differentiating in Definition~\ref{defn:lookdown_mgale})
@@ -6575,7 +6578,7 @@ that
 \\ & \qquad {}
     +
     \int_0^t
-    \big\langle
+    \bigg\langle
         c_\theta(x, \eta^N_s)
         \int_u^N \int_{\IR^d}
         \left(
@@ -6615,7 +6618,8 @@ In addition to tightness of the measure-values processes $\lp^N$,
 the bounds used in the proofs below also imply
 tightness of the number of lines of descent and the number of births below a fixed level,
 and of the motion of individual lines of descent.
-In other words, the limiting ``line of descent'' construction holds.
+In other words, the limiting ``line of descent'' construction
+of Section~\ref{sec: individual lines of descent} holds.
 
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
@@ -6626,7 +6630,7 @@ In other words, the limiting ``line of descent'' construction holds.
     but that is a consequence of this theorem.)
     Again, tightness follows from a compact containment condition,
     tightness of one-dimensional distributions,
-    and an application of \citet{EK} Theorem~3.9.1.
+    and an application of \citet{ethier/kurtz:1986} Theorem~3.9.1.
 
     Lines of descent can escape to infinite level in finite time, and so
     we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
@@ -6687,7 +6691,7 @@ for concreteness one may take $h(u) = e^{-u}$.
     and that $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
     where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
     in the sense of \eqref{eqn:conditionally_uniform}
-    and $\lp_0$ is conditionally uniform given $\eta_0$
+    and $\lp_0$ is conditionally Poisson given $\eta_0$
     in the sense of \eqref{eqn:conditionally_poisson}.
     Then for any $T$ there exists a constant $K(T)$ such that for all $M > 0$,
     $$ 
@@ -6796,7 +6800,7 @@ Finally, we prove the key lemma.
         +
         \int_0^t
         \big\langle
-            2 c^N(x, \eta^N_s) \int_u^N h(v) dv
+            2 c_\theta(x, \eta^N_s) \int_u^N h(v) dv
         ,
         \lp_s^N(dx, du) \big \rangle
         ds
@@ -6805,8 +6809,8 @@ Finally, we prove the key lemma.
         \int_0^t
         \big\langle
             \left(
-                c^N(x, \eta^N_s) u^2
-                - b^N(x, \eta^N_s) u
+                c_\theta(x, \eta^N_s) u^2
+                - b_\theta(x, \eta^N_s) u
             \right)
             h'(u)
         ,
@@ -6820,13 +6824,13 @@ Finally, we prove the key lemma.
         [M^{h}]_t
         &=
         \int_0^t
-        \langle 2 c^N(x, \eta_s^N) \int_u^N h(v)^2 dv
+        \langle 2 c_\theta(x, \eta_s^N) \int_u^N h(v)^2 dv
         ,
         \lp_s^N(dx, du) \big \rangle
         ds .
     \end{align*}
-    Now, note that $0 \le c^N(x, \eta_x^N) \le C_a < \infty$
-    and $b^N(x, \eta_s^N) \le C_b < \infty$,
+    Now, note that $0 \le c_\theta(x, \eta_x^N) \le C_a < \infty$
+    and $b_\theta(x, \eta_s^N) \le C_b < \infty$,
     and we have assumed that $h'(u) \le 0$ (since $h$ is nonincreasing),
     so we may bound
     \begin{align} \label{eqn:hn_bound}
@@ -6903,7 +6907,7 @@ Finally, we prove the key lemma.
         C'\left( 1 + \IE\left[ [M^{h}]_T \right] \right)
     \\ & \le
         C' \left( 1 + \int_0^T \IE\left[
-        \langle 2 c^N(x, \eta_s^N) \int_u^\infty h(v)^2 dv
+        \langle 2 c_\theta(x, \eta_s^N) \int_u^\infty h(v)^2 dv
         ,
         \lp_s^N(dx, du) \big \rangle
         \right] ds \right) 
@@ -6967,31 +6971,23 @@ Finally, we prove the key lemma.
             + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
         \Big\rangle ds
-        \\ &\le
-        \langle f, \lp_0 \rangle
-        + M^f_t
-        + \int_0^t \Big\langle
-            c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x,dy,\eta) du_1
-        \\ {} &\qquad
-            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x,dy,\eta)
-            + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
-            \lp_s
-        \Big\rangle ds
     \end{align*}
     The bounds analogous to \eqref{eqn:eta_projections_goal1} and \eqref{eqn:eta_projections_goal2}
     follow as in the proof of Lemma~\ref{lem:eta_projections_tightness}:
-    for instance, observe that using that $c_\theta \le C_0$ for some $C_0$,
+    for instance, observe that using that $c_\theta \le C_a$ for some $C_a$,
     the predictable part of this semimartingale decomposition is bounded by
     \begin{align*}
         \Big\langle
-            2 C_0 \|f\|_\infty u_f
+            2 C_a \|f\|_\infty u_f
             + (1 - u/N) \gamma B^\theta_f
-            + (C_0 u^2 - b_\theta u) \frac{d}{du} f,
+            + (C_a u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
-        \Big\rangle
-        &\le
+        \Big\rangle ,
+    \end{align*}
+    the last term of which is bounded by
+    \begin{align*}
         \langle
-            C_0 u_f^2 + \sup_x |b_\theta(x, \eta_s)| u_f \|\frac{d}{du} f\|_\infty
+            C_a u_f^2 + \sup_x |b_\theta(x, \eta_s)| u_f \|\frac{d}{du} f\|_\infty
         \rangle ,
     \end{align*}
     which can be bounded as we did for \eqref{eqn:eta_projections_goal1}.
@@ -7005,6 +7001,7 @@ In this section we prove Theorem~\ref{thm:lineages}.
 The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}.
 
 \begin{proof}[of Theorem~\ref{thm:lineages}]
+For brevity, in the proof we write $\gamma(x)$ or $\gamma$ for $\gamma(x,\eta)$.
 
 Here we have taken the high-density, deterministic limit
 (so, $\theta, N \to \infty$ and $\theta/N \to 0$)
@@ -7016,14 +7013,13 @@ Let $Y$ denote the spatial motion followed by a single line of descent.
 Above equation~\eqref{eqn:limiting_generator},
 we showed that $Y$ is a diffusion with generator at time $s$
 $$
-    \mathcal{L}^Y_s g(x) = \gamma ( \DG(r(\cdot,\eta_s) g(\cdot))(x) - g(x) \DG r(x,\eta_s) ) .
+    \mathcal{L}^Y_s g(x) = \gamma(x,\eta_s) ( \DG(r(\cdot,\eta_s) g(\cdot))(x) - g(x) \DG r(x,\eta_s) ) .
 $$
 % (This is $\mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) )$ in shorter but more cryptic notation.)
-The diffusion is time-inhomogeneous if the density is not constant with time
-(since recall that the coefficients $\gamma$ and $r$ depend on the density).
+The diffusion is time-inhomogeneous if the density is not constant with time.
 Let $\varphi_t(x)$ be the limiting density, which solves \eqref{general deterministic limit},
 $\partial_t \varphi = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
-Formally, the intensity of levels at $y$ at time $t$
+Formally, the intensity of individuals at $y$ at time $t$
 that are descended from individuals that were at $x$ at time $s$
 (with $s < t$) is
 \begin{equation} \label{eqn:formal_intensity}
@@ -7039,12 +7035,12 @@ where the subscript $s, x$ in the expectation indicates that $Y_s = x$.
 To see why this should be true, 
 suppose that an ancestor at time $s$ has level $v$. Conditional on its 
 spatial motion $\{Y_u\}_{s\leq u\leq t}$, its level at time $t$ will
-be $v \exp(-\int_s^t(F+\gamma\Delta r)(Y_u)du)$. This will be less than a given level 
-$\lambda$ if $v < \lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$. 
+be $v \exp(-\int_s^t(F+\gamma\DG r)(Y_u)du)$. This will be less than a given level 
+$\lambda$ if $v < \lambda \exp(\int_s^t(F+\gamma\DG r)(Y_u)du)$. 
 The intensity of levels at $y$ that are descended from individuals at
 $x$ can therefore be obtained as the limit as $\lambda\to\infty$ of 
-$1/\lambda$ times the number of levels at $x$ at time zero with
-$u<\lambda \exp(\int_s^t(F+\gamma\Delta r)(Y_u)du)$ and for which
+$1/\lambda$ times the number of levels at $x$ at time $s$ with
+$u<\lambda \exp(\int_s^t(F+\gamma\DG r)(Y_u)du)$ and for which
 the corresponding individual is at $y$ at time $t$, which is 
 precisely the quantity in~\eqref{eqn:formal_intensity}. 
 
@@ -7126,7 +7122,7 @@ Since $f$ was arbitrary,
         - r g \DG^*(\gamma \varphi_s)
     \right] .
 \end{eqnarray*}
-(Note that the $\phi_s F g$ terms have cancelled.)
+(Note that the $\varphi_s F g$ terms have cancelled.)
 Since the adjoint of ${\mathcal L}^Y_s$ is
 \begin{align*}
     ({\mathcal L}^Y_s)^* f
@@ -7183,10 +7179,10 @@ Note that $\DD^*$ satisfies the following identity:
     &=
     g \DD^* f
     + 2 f \vec{c} \cdot \grad g
-    + 2 (C \grad f) \cdot \grad g
+    + 2 (\covq \grad f) \cdot \grad g
     + f \DD g ,
 \end{align*}
-where $\vec{c}_j = \sum_i \partial_j C_{ij}$.
+where $\vec{c}_j = \sum_i \partial_j \covq_{ij}$.
 So, with $f = \gamma \varphi_s$,
 \begin{eqnarray*}
 \Lgen_s g
@@ -7199,18 +7195,18 @@ So, with $f = \gamma \varphi_s$,
     \frac{r}{\varphi_s} \left[
         \gamma \varphi_s \DD g
         + 2 \gamma \varphi_s \vec{c} \cdot \grad g
-        + 2 (C \grad (\gamma \varphi_s)) \cdot \grad g
+        + 2 (\covq \grad (\gamma \varphi_s)) \cdot \grad g
         - \gamma \varphi_s \meanq \cdot \grad g
     \right] \\
     &=&
     r \gamma \left[
         \DD g
         + 2 \vec{c} \cdot \grad g
-        + 2 (C \grad \log(\gamma \varphi_s)) \cdot \grad g
+        + 2 (\covq \grad \log(\gamma \varphi_s)) \cdot \grad g
         - \meanq \cdot \grad g
     \right] ,
 \end{eqnarray*}
-which is equation \eqref{eqn:lineage_generator2},
+which is equation \eqref{eqn:lineage_generator2}.
 \end{proof}
 
 \begin{proof}[of Corollary~\ref{cor:stationary_dist}]
@@ -7286,11 +7282,12 @@ For other definitions see \citet{etheridge/kurtz:2019}.
     that is, $\alpha(y,\gamma^{-1}(y)) = 1$.
     Assume that $\tilde \psi(y) \equiv \int_S \psi(z) \alpha(y,dz) < \infty$ for each $y \in S_0$
     and define
-    $$  C = \{
+    \begin{align} \label{eqn:C_defn}
+        C = \{
         \int_S f(z) \alpha(\cdot,dz),
         \int_S Af(z) \alpha(\cdot,dz)
         \; : \; f \in \mathcal{D}(A)
-    \} . $$
+    \} . \end{align}
     Let $\mu_0 \in \mathcal{P}(S_0)$ and define $\nu_0 = \int \alpha(y,\cdot) \mu_0(dy)$.
     \begin{itemize}
         \item[(a)]
@@ -7335,6 +7332,9 @@ and ``$Y$'' is our spatial process, $\eta$.
 In this section we verify one of the conditions of the Markov Mapping Theorem,
 namely, that ``integrating out levels'' in the generator of the lookdown process
 we obtain the generator of the projected process.
+In the notation of the thoerem,
+we are verifying that $C$ defined in~\eqref{eqn:C_defn} is in fact $\Pgen^N$
+(if defined with $A^N$) or $\Pgen^\infty$ (if defined with $A$).
 We will work with test functions of the form
 \begin{equation} \label{eqn:f_defn}
     f(\lp) = \prod_{(x, u) \in \lp} g(x, u) = \exp\left(\langle \log g, \lp \rangle \right) ,
@@ -7342,7 +7342,7 @@ We will work with test functions of the form
 where $0 \le g \le 1$ and $g(x,u) = 1$ for all $u \ge u_g$ for some $u_g < \infty$.
 Furthermore, recall that $\kappa^N(\lp)(\cdot) = \lp(\cdot \times [0, N)) / N$
 is the ``spatial projection operator'',
-and define the probability kernel $\Gamma^N : \measures \to \mathcal{M}(\IR^d \times [0,N))$
+and define the transition function $\Gamma^N : \measures \to \mathcal{M}(\IR^d \times [0,N))$
 so that for $\eta \in \measures$, if $\hat g(x) = \int_0^N g(x, u) du / N$, then
 \begin{align*}
     F^N_g(\eta)
@@ -7391,6 +7391,45 @@ The generator of $\lp^N_t$ is $A^N$, defined in equation~\eqref{eqn:lookdown_gen
         \Pgen^N F^N_g(\eta) .
     \end{align}
 \end{lemma}
+
+For the limiting process,
+recall that $\kappa(\lp)(\cdot) = \lim_{u \to \infty} \lp(\cdot \times [0, u)) / u$
+is the ``spatial projection operator'',
+and define the probability kernel $\Gamma : \measures \to \flpmeasures$
+so that for $\eta \in \measures$,
+defining $\widetilde{g}(x) = \int_0^\infty (g(x, u) - 1) du$,
+\begin{align*}
+    F_g(\eta)
+    &:=
+    \int f(\lp) \Gamma(\eta, d\lp) \\
+    &=
+    \exp\left(
+        \big \langle
+            \int_0^\infty (g(x, u) - 1) du,
+            \eta(dx)
+        \big \rangle
+    \right) \\
+    &=
+    e^{ \langle \widetilde{g}(x), \eta(dx) \rangle } .
+\end{align*}
+i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
+with intensity a product of $\eta$ and Lebesgue measure.
+It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
+the generator of $\eta_t$ is
+\begin{align} \label{eqn:pgen_infty}
+    \Pgen^\infty F_g(\eta)
+    &=
+    F_g(\eta)
+    \left\langle
+        \gamma(x, \eta)
+        \DG( \widetilde{g}(\cdot) r(\cdot) )(x)
+        + F(x, \eta) \widetilde{g}(x)
+        + \alpha \gamma(x, \eta) r(x, \eta) \widetilde{g}^2(x)
+        ,
+        \eta(dx)
+    \right\rangle .
+\end{align}
+The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdown_generator}.
 
 \begin{lemma}
     \label{lem:averaged_generators_limit}
@@ -7546,46 +7585,6 @@ This matches equation~\eqref{eqn:pgen_defn_again}, as desired,
 because $N c_\theta(x,\eta) q_m(x,dy,\eta) = \theta \gamma(x,\eta) q_\theta(x,dy)$.
 \end{proof}
 
-For the limiting process,
-we now require test functions such that $g(x,u) = 1$ for all $u$ larger than some $u_0$;
-As before, recall that $\kappa(\lp)(\cdot) = \lim_{u \to \infty} \lp(\cdot \times [0, u)) / u$
-is the ``spatial projection operator'',
-and define the probability kernel $\Gamma : \measures \to \flpmeasures$
-so that for $\eta \in \measures$,
-defining $h(x) = \int_0^\infty (g(x, u) - 1) du$,
-\begin{align*}
-    F_g(\eta)
-    &:=
-    \int f(\lp) \Gamma(\eta, d\lp) \\
-    &=
-    \exp\left(
-        \big \langle
-            \int_0^\infty (g(x, u) - 1) du,
-            \eta(dx)
-        \big \rangle
-    \right) \\
-    &=
-    e^{ \langle h(x), \eta(dx) \rangle } .
-\end{align*}
-i.e., $\Gamma(\eta, \cdot)$ is the distribution of a conditionally Poisson process
-with intensity a product of $\eta$ and Lebesgue measure.
-It again follows from Lemma~\ref{def: MP definition of limit} that for test functions of this form
-the generator of $\eta_t$ is
-\begin{align} \label{eqn:pgen_infty}
-    \Pgen^\infty F_g(\eta)
-    &=
-    F_g(\eta)
-    \left\langle
-        \gamma(x, \eta)
-        \DG( h(\cdot) r(\cdot) )(x)
-        + F(x, \eta) h(x)
-        + \alpha \gamma(x, \eta) r(x, \eta) h^2(x)
-        ,
-        \eta(dx)
-    \right\rangle .
-\end{align}
-The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdown_generator}.
-
 Before proving Lemma~\ref{lem:averaged_generators_limit},
 we recall an important equality for conditionally
 Poisson point processes (\cite{kurtz/rodrigues:2011} Lemma A.3).
@@ -7649,10 +7648,10 @@ First note that since $\DG$ acts on space, it commutes with the integral over le
     \int_0^\infty \ell_1(x,u) du
     &=
     \gamma(x,\eta)\left(
-        \DG(h(\cdot) r(\cdot,\eta))(x) - h(x) \DG r(x,\eta)
+        \DG(\widetilde{g}(\cdot) r(\cdot,\eta))(x) - \widetilde{g}(x) \DG r(x,\eta)
     \right) ,
 \end{align*}
-since $h(x) = \int_0^\infty (g(x,u) - 1) du$.
+since $\widetilde{g}(x) = \int_0^\infty (g(x,u) - 1) du$.
 Next,
 \begin{align*}
     \int_0^\infty \ell_2(x,u) du
@@ -7665,7 +7664,7 @@ Finally, integrating by parts,
     &=
     - \alpha \gamma(x,\eta) r(x,\eta) \int_0^\infty 2u(g(x,u) - 1) du
     \\ & \qquad {}
-    + \{ \gamma(x,\eta) \DG r(x,\eta) + F(x,\eta) \} h(x)
+    + \{ \gamma(x,\eta) \DG r(x,\eta) + F(x,\eta) \} \widetilde{g}(x)
 \end{align*}
 Now, note that
 \begin{align*}
@@ -7676,7 +7675,7 @@ Now, note that
 \\ & \qquad =
     \int_0^\infty (g(x,u)-1) \int_u^\infty (g(x,v)-1) dv du
 \\ & \qquad =
-    h(x)^2/2 .
+    \widetilde{g}(x)^2/2 .
 \end{align*}
 
 Adding these together, we get that
@@ -7684,9 +7683,9 @@ Adding these together, we get that
     &
     \int_0^\infty (\ell_1(x,u) + \ell_2(x,u) + \ell_3(x,u)) du
     \\ &\qquad=
-    \gamma(x,\eta) \DG(h(\cdot)r(\cdot,\eta))(x)
-    + F(x,\eta) h(x) 
-    + \alpha \gamma(x,\eta) r(x,\eta) h(x)^2 ,
+    \gamma(x,\eta) \DG(\widetilde{g}(\cdot)r(\cdot,\eta))(x)
+    + F(x,\eta) \widetilde{g}(x) 
+    + \alpha \gamma(x,\eta) r(x,\eta) \widetilde{g}(x)^2 ,
 \end{align*}
 which agrees with \eqref{eqn:pgen_infty}, as desired.
 \end{proof}
@@ -7755,7 +7754,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
     so that $\int p_{\epsilon_r^2}(y - w) q_\theta(x, dy) = p_{1/\theta, x}(w-x)$.
     It therefore suffices to show that for all $x$ and $w \in \IR^d$,
     there exists $K$ such that
-    \begin{align} \label{eqn:goal1}
+    \begin{align*}
         \left|
         \theta
             \int_{\IR^d}
@@ -7768,7 +7767,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
         \right|
         \le
         K p_{\epsilon^2_\gamma}(w-x) .
-    \end{align}
+    \end{align*}
     However,
     $\theta( p_{1/\theta, x}(z) - p_{0, x}(z) )
     = \partial_s p_{s, x}(z)$ for some $0 \le s \le 1/\theta$.
@@ -7791,7 +7790,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
         \partial_s p_{s, x}(z)
         &=
         \bigg(
-            \meanq(x)^T \Gamma(s,x)^{-1} (z - s \meanq)
+            \meanq(x)^T \Gamma(s,x)^{-1} (z - s \meanq(x))
             +
             (z - s \meanq(x))^T
             \Gamma(s,x)^{-1} \covq(x) \Gamma(s,x)^{-1}
@@ -7817,20 +7816,17 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
         h(x-w) e^{k(x-w)},
     \end{align*}
     where $h(z)$ and $k(z)$ are quadratic polynomials in $z$
-    whose coefficients depend on $s$ and $x$ but are uniformly bounded for $s \ge 1$
-    and $x \in \IR^d$.
-    Therefore, \eqref{eqn:goal1} holds for some finite $K$
-    if and only if $k(z) < 0$ for all $z$ outside some bounded region.
-    This is
+    whose coefficients depend on $s$ and $x$ but are uniformly bounded,
+    and
     \begin{align*}
         k(z)
         =
         \frac{1}{2\epsilon_\gamma^2} \|z\|^2
         -\frac{1}{2} (z - s\meanq(x))^T \Gamma(s,x)^{-1} (z - s\meanq(x)) ,
     \end{align*}
-    which is negative for all $z$ outside a bounded region.
     Since $\inf_z z^T \Gamma(s,x)^{-1} z / \|z\|^2 = 1 / (s \lambda(x) + \epsilon_r^2)$,
     where $\lambda(x) = \sup z^T \covq(x) z / \|z\|^2$ is the largest eigenvalue of $\covq(x)$,
+    this is negative for all $z$ outside a bounded region, and so
     equation~\eqref{eqn:first_moment_rho} follows from the assumption
     that $\epsilon_r^2 + 2 \sup_x \lambda(x)/\theta < \epsilon_\gamma^2$.
     (Note that we do not yet need the factor of 2.)
@@ -7906,7 +7902,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
         k(z_1, z_2)
         =
         (\|z_1\|^2 + \|z_2\|^2)/(2 \epsilon_\gamma^2)
-            - \frac{1}{2} [z_1, z_2[^T \Gamma(s, t, x)^{-1} [z_1, z_2] ,
+            - \frac{1}{2} [z_1, z_2]^T \Gamma(s, t, x)^{-1} [z_1, z_2] ,
     \end{align*}
     where $[z_1, z_2]$ is the $\IR^{2d}$ vector formed by concatenating $z_1$ and $z_2$,
     and $\Gamma(s, t, x)$ is the block matrix
@@ -7932,7 +7928,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
     \begin{align*}
         &
         (\|z_1\|^2 + \|z_2\|^2) / \epsilon^2_\gamma
-            - [z_1, z_2[^T \Gamma(s, t, x)^{-1} [z_1, z_2]
+            - [z_1, z_2]^T \Gamma(s, t, x)^{-1} [z_1, z_2]
         \\ &\qquad \le
         (\|z_1\|^2 + \|z_2\|^2) \left(
             \frac{1}{\epsilon^2_\gamma}
@@ -7973,12 +7969,12 @@ one version of the Aldous-Rebolledo criteria for tightness of a sequence real-va
     with c\`adl\`ag paths.
     Suppose that the following conditions are satisfied.
     \begin{enumerate}
-        \item For each fixed $t$, $\{Y_t^{(n)}\}_{n \ge 1}$  is tight.
+        \item For each fixed $t \in [0,T]$, $\{Y_t^{(n)}\}_{n \ge 1}$  is tight.
         \item Given a sequence of stopping times $\tau_n$, bounded by $T$,
             for each $\epsilon > 0$ there exists $\delta > 0$ and $n_0$ such that
             \begin{align*}
                 \sup_{n \ge n_0}
-                \sup_{\theta \in [0, \delta]}
+                \sup_{\theta \in [0, \min(\delta,T-\tau_n)]}
                 \IP\left\{ \left|
                     Y^{(n)}_{\tau_n + \theta} - Y^{(n)}_{\tau_n}
                 \right| > \epsilon
@@ -7986,12 +7982,12 @@ one version of the Aldous-Rebolledo criteria for tightness of a sequence real-va
                 \le \epsilon .
             \end{align*}
     \end{enumerate}
-    Then the sequence $\{Y^{(n)}\}_{n \ge 1}$ is tight.
+    Then the sequence $\{(Y^{(n)}_t)_{t=0}^T\}_{n \ge 1}$ is tight.
 \end{theorem}
 
 \begin{lemma}
     \label{lem:product_tightness}
-    Let $\{X^{(n)}\}_{n \ge 1}$ and $\{Y^{(n)}\}_{n \ge 1}$ sequences of jointly defined
+    Let $\{X^{(n)}\}_{n \ge 1}$ and $\{Y^{(n)}\}_{n \ge 1}$ be sequences of jointly defined
     real-valued processes with c\`adl\`ag paths
     satisfying the conditions of Theorem~\ref{thm:aldous_rebolledo}.
     Then $\{X^{(n)}Y^{(n)}\}_{n \ge 1}$ and $\{X^{(n)} + Y^{(n)}\}_{n \ge 1}$ also
@@ -8118,7 +8114,7 @@ probability space, so that the products and sums make sense.
         \end{split}
     \end{align}
     Now, since $\max_{0 \le t \le T} X^{(n)}_t$ is tight (and likewise for $Y$)
-    (see, e.g., Remark 3.7.3 in \citet{EK}),
+    (see, e.g., Remark 3.7.3 in \citet{ethier/kurtz:1986}),
     we may choose a $C \ge 4$ for which
     $$
     \IP\left\{
