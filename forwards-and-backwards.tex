@@ -117,6 +117,8 @@ terence.tsui@sjc.ox.ac.uk &      \\
 \maketitle
 
 
+\comment{TODO: signpost where proofs can be found}
+
 
 \begin{abstract}
 
@@ -991,12 +993,12 @@ and for superprocess limits with nonlocal interactions.
 
 \paragraph{Scaling limits with nonlocal interactions:}
 Recall that the process $(\eta_t^N)_{t\geq 0}$ takes its values in the space
-${\cal D}([0,\infty),\measures)$ of c\`adl\`ag
+${\mathcal D}_{[0,\infty)}(\measures)$ of c\`adl\`ag
 paths on $\measures$. We endow $\measures$ with the topology of weak convergence
 and 
-${\cal D}([0,\infty),\measures)$ with the Skorohod topology.
+${\mathcal D}_{[0,\infty)}(\measures)$ with the Skorohod topology.
 A sequence of processes taking values in 
-${\cal D}([0,\infty),\measures)$ is said to be tight if the corresponding
+${\mathcal D}_{[0,\infty)}(\measures)$ is said to be tight if the corresponding
 sequence of distributions is tight,
 i.e., that any infinite subsequence has a weakly convergent subsubsequence.
 Our first main result establishes tightness of our rescaled population processes in 
@@ -1408,7 +1410,7 @@ and $\epsilon \to 0$ in such a way that
 \frac{1}{\theta\epsilon^2}+\frac{\theta}{N\epsilon^d}\to 0.
 \end{equation}
 Then the sequence of 
-${\cal D}([0,\infty), \measures)$-valued
+    ${\mathcal D}_{[0,\infty)}(\measures)$-valued
 stochastic processes $\big(\rho_F^\epsilon*\eta^N_t(x)dx\big)_{t \ge 0}$
 converges weakly
 to a measure-valued process with a density $\varphi(t, x)$
@@ -1977,7 +1979,6 @@ as shown in Figure~\ref{fig:clumping}.
 The phenomenon is discussed in Section~16.10 of \citet{haller2022evolutionary},
 and has been described in similar models, e.g.,
 by \citet{britton1990spatial,sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive}, and \citet{berestycki2009nonlocal}.
-\comment{FROM ALISON: I rewrote the rest of this section - please check!}
 For example, if the density-dependent effects of individuals extend farther (but not too much farther)
 than the typical dispersal distance,
 then depending on the interaction kernel
@@ -2356,7 +2357,6 @@ above, the second order term in the generator takes the form
 		\gamma(x, \eta) \int f^2(y) r(y, \eta) q_\theta(x, dy) + f^2(x) \mu_\theta(x, \eta)
     \right\} \eta(dx) .
 \end{align*}
-\comment{FROM ALISON integral against eta in last line corrected}
 Since $\int f^2(y) r(y, \eta) q_\theta(x, dy) \to f^2(x) r(x, \eta)$
 and $r\gamma  + \mu_\theta = 2 r \gamma  - F / \theta \to 2 r \gamma$
 as $\theta \to \infty$,
@@ -2656,6 +2656,7 @@ and
 \end{align}
 which captures the local rate of production of successful offspring.
 \comment{FROM ALISON This sort of true because it corresponds to lookdown events, but when I read this again I was confused. Is there a better way to say it?} 
+\comment{PETER: I'm not sure which bit is confusing?}
 Recall from equation~\eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu_\theta(x,\eta))$,
 and so 
@@ -2835,16 +2836,10 @@ and $\eta(\cdot) = \lp(\cdot \times [0, N]) / N$
 as before. 
 Given $\lp_0 \in {\mathcal C}_N$, 
 we say that a ${\mathcal D}_{[0,\infty)}({\mathcal C}_N)$-valued process 
-	\comment{FROM ALISON: we have not been consistent in the layout of 
-	the notation for spaces of cadlag paths - it is already different in 
-	the definition below!}
-$(\xi_t)_{t \ge 0}$
-   is a solution to the $(A^N, \lp_0)$ martingale problem
-    if 
-$f(\lp_t) - f(\lp_0)-\int_0^t A^N f(\lp_s) ds$ is a martingale (with 
+$(\xi_t)_{t \ge 0}$ is a solution to the $(A^N, \lp_0)$ martingale problem
+if $f(\lp_t) - f(\lp_0)-\int_0^t A^N f(\lp_s) ds$ is a martingale (with 
 respect to the natural filtration) for all 
-test functions $f$ 
-    as defined above.
+test functions $f$ as defined above.
 \end{definition}
 
 The martingale problem for finite $N$ has a unique solution.
@@ -2893,7 +2888,7 @@ $0\leq g(x,u)\leq 1$ and
         \right)
         \frac{\partial_u g(x, u)}{ g(x,u) }  .
     \end{split} \end{align}
-    We say that a ${\cal D}([0,\infty), \mathcal{C})$-valued process $(\xi_t)_{t \ge 0}$
+    We say that a ${\mathcal D}_{[0,\infty)}(\mathcal{C})$-valued process $(\xi_t)_{t \ge 0}$
     is a solution to the $(A, \lp_0)$ martingale problem
     if it has initial distribution $\lp_0$
     and $f(\lp_t) - f(\lp_0)-\int_0^t Af(\lp_s) ds$ is a martingale (with
@@ -2958,7 +2953,6 @@ $$ H_f^N(x) = - N \log \frac{1}{N} \int_0^N e^{-f(x, u)} du . $$
 In other words, the $[0, N]$ components of $\lp$
 are independent, uniformly distributed on $[0, N]$, and independent of 
 $\kappa^N(\lp)$.
-\comment{ALISON: added N, also made sigma $\sigma$ above}
 Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
 we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
 if for all compactly supported $f$,
@@ -2981,7 +2975,6 @@ where $\lambda$ is Lesbegue measure.
     has the same distribution on $D_{\measures}[0, \infty)$
     as $\tilde \eta^N$.
     Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform 
-	\comment{ALISON deleted excess given}
 	given $\mathcal{F}^{\eta^N}_t$
     in the sense of \eqref{eqn:conditionally_uniform}.
 
@@ -3434,8 +3427,6 @@ limit to obtain a classical PDE.
 %directly to a reaction-diffusion equation without going via a nonlocal limit,
 %and finally our results concerning both convergence of the lookdown representation
 %and characterization of the lineage process in the deterministic case.
-\comment{FROM ALISON: slightly reworded - deleted bit about onestep convergence
-on the basis that we already point to that in the introduction}
 
 
 \subsection{Preliminaries}
