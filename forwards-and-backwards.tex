@@ -116,11 +116,6 @@ terence.tsui@sjc.ox.ac.uk &      \\
 \date{\today}
 \maketitle
 
-\comment{TODO: ALISON SAYS
-The proof of Lemma 6.7 is now problematic. We'll be hard pushed to find a sequence of functions increasing to x, or indeed -x. Easily fixed of course, but I think that we should anyway change the condition of the theorem to be a bit more general, so say that we assume that $\langle f(x),\eta^N_0(dx)\rangle$  is uniformly bounded for some non-negative, twice differentiable with uniformly bounded first and second derivatives, function $f$ with $f(x)\to\infty$ as $x\to\infty$ and then use Lemma 6.1 and Gronwall to deduce $\langle f,\eta_t\rangle$ has bounded mean for any limit point and so Markov's inequality tells us no mass escaped to infinity.
-}
-
-\comment{``reaction diffusion equation'' or ``reaction-diffusion equation''?}
 
 
 \begin{abstract}
@@ -141,7 +136,7 @@ pass to the nonlocal PDE,
 and then scale the kernel that 
 determines local population density; and 
 in the important special case in which the limit is a 
-reaction diffusion equation, directly 
+reaction-diffusion equation, directly 
 by simultaneously scaling the kernel width,
 timescale and population size in our individual based model.
 
@@ -327,14 +322,14 @@ and the other parameters in
 our population model to arrive at the PDE limit.
 This is mathematically much more challenging, but we establish such 
 one-step convergence in cases for which the limit is a classical 
-reaction diffusion equation of the form~(\ref{semilinear PDE}) with 
+reaction-diffusion equation of the form~(\ref{semilinear PDE}) with 
 $\DG=\Delta$,
 and $\rho_F$ is a Gaussian density. We allow a wide class of reaction terms, $F$, so
 that the Fisher-KPP equation 
 (that is equation~(\ref{semilinear PDE}) with $\DG=\Delta$ and $F(\varphi)=1-\varphi$)
 emerges as a special case.
 
-Such results on (one-step) convergence to reaction diffusion 
+Such results on (one-step) convergence to reaction-diffusion 
 equation limits have been
 achieved for a variety of interacting particle systems. 
 Following the now classical contributions 
@@ -1019,9 +1014,14 @@ characterises limit points as solutions to a martingale problem.
     Suppose that Assumptions~\ref{def:model_setup} hold and, 
     further, that $\{\eta_0^N\}_{N\geq 1}$ is a sequence of 
     purely atomic measures, with $\eta_0^N$ comprised of atoms of mass $1/N$,
-    which is tight in $\measures$ and such that
-    $\langle |x|, \eta_0^N(dx)\rangle<C<\infty$
-    with $C$ independent of $N$.
+    which is tight in $\measures$.
+    Also assume there exists a nonnegative $f_0 \in C(\IR^d)$
+    with uniformly bounded first and second derivatives
+    (i.e., with $\sup_x \sup_{\|z\|=1} \sum_i \partial_{x_i} f_0(x) z_i$
+    and $\sup_x \sup_{\|z\|=1} \sum_{ij} \partial_{x_i x_j} f_0(x) z_i z_j$ both finite)
+    and $f_0(x) \to \infty$ as $|x| \to \infty$ for which
+    $\langle f_0(x), \eta_0^N(dx)\rangle<C<\infty$
+    for some $C$ independent of $N$.
     Then the sequence of processes
     $(\eta^N_t)_{t \geq 0}$ is tight, and for any limit point
     $(\eta_t)_{t \geq 0}$, for every $f \in C^\infty_b(\IR^d)$,
@@ -1233,7 +1233,7 @@ and so we expect that under rather general conditions
 solutions of the nonlocal PDE will be close to the corresponding 
 classical PDE.
 The following propositions provide two concrete situations in which this is true.
-In the first, the PDE is a reaction diffusion equation, and we borrow
+In the first, the PDE is a reaction-diffusion equation, and we borrow
 an idea from~\cite{penington:2017} to express the solutions to both the nonlocal
 equation and the classical PDE through a Feynman-Kac formula. 
 
@@ -1330,13 +1330,13 @@ and $C_t(L^1)$
 will denote functions for which the $L^1$ norm in space is continuous in time.
 \end{notation}
 
-\comment{TODO: restrict to Gaussian case}
 \begin{proposition}
 	\label{nonlocalPME to PME}
 Suppose that
-we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x)$ and
-$\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
-Furthermore, suppose that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
+% we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x)$ and
+% $\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
+$\rho_\gamma = p_{\epsilon^2_\gamma}$,
+and that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
 $\psi_0^\epsilon\geq 0$ is such that
 there exist $\lambda\in (0,1)$ and $C\in (0,\infty)$ (independent
 of $\epsilon$) such that 
@@ -1660,7 +1660,7 @@ We now discuss some consequences of these results.
 \subsection{Beyond linear diffusion}
 \label{beyond linear diffusion}
 
-Equation~(\ref{eqn:nonlocal_pde}) is a nonlocal version of a reaction diffusion equation;
+Equation~(\ref{eqn:nonlocal_pde}) is a nonlocal version of a reaction-diffusion equation;
 the diffusion is nonlinear if $\gamma$ depends on population density:
 in other words, if the diffusivity of the population depends on the population density.
 Passing to the classical limit, we recover equations like~(\ref{PME}).
@@ -3424,14 +3424,14 @@ which interactions between individuals in the population are nonlocal.
 In Subsection~\ref{subsec:nonlocal to local}
 we show how, in two important examples in which the nonlocal
 limit is respectively a deterministic solution to a non-local equation of 
-reaction diffusion type and a deterministic solution to a nonlocal 
+reaction-diffusion type and a deterministic solution to a nonlocal 
 porous medium equation with an additional logistic growth term, 
 one can pass to a further 
 limit to obtain a classical PDE.
 %In subsequent sections (Sections~\ref{subsec:one step convergence proof} and~\ref{sec:lookdown_proofs})
 %we prove our third scaling limit, in which 
 %we pass from our population model 
-%directly to a reaction diffusion equation without going via a nonlocal limit,
+%directly to a reaction-diffusion equation without going via a nonlocal limit,
 %and finally our results concerning both convergence of the lookdown representation
 %and characterization of the lineage process in the deterministic case.
 \comment{FROM ALISON: slightly reworded - deleted bit about onestep convergence
@@ -4230,9 +4230,11 @@ For any $\delta>0$,
 \end{lemma}
 
 \begin{proof}[Sketch]
-To avoid the idea being buried in notation, we sketch the proof in the 
-special case of $d=1$.
-We take a sequence of test functions $f_n$ increasing to the function $f(x)=x$
+Take $f_0(x)$ as in the statement of Theorem~\ref{thm:nonlocal_convergence},
+i.e., $f_0$ is nonnegative, grows to infinity as $x \to \infty$,
+has uniformly bounded first and second derivatives,
+and has $\langle f_0, \eta^N_0\rangle$ uniformly bounded in $N$.
+We take a sequence of test functions $f_n$ that increase to the function $f_0$
 and having uniformly bounded first and second derivatives,
 so that there is a (single) $C$
 from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
@@ -4251,11 +4253,11 @@ Gronwall's inequality then implies that
 $\IE[\langle f_n, \eta^N_t\rangle] \le C'$
 for some $C'$ independent of $n$, $N$, and $t \in [0,T]$.
 By first taking $N \to \infty$ and then $n \to \infty$,
-we find that $\IE[\langle x, \eta_t(dx)\rangle] \le C'$
-for $t\in [0,T]$, and an application of Markov's inequality
+we find that $\IE[\langle f_0, \eta_t(dx)\rangle] \le C'$
+for $t\in [0,T]$, and since $f_0 \to \infty$ as $|x| \to \infty$,
+an application of Markov's inequality
 tells us that for any $\delta > 0$,
-$\IP[\eta_t([R,\infty])>\delta]\to 0$ as $R\to\infty$.
-The same argument with $f_n(x)$ increasing to $-x$ completes the proof.
+$\IP[\eta_t(\{x : \|x\| > R\})>\delta]\to 0$ as $R\to\infty$.
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -4269,7 +4271,7 @@ $\rho_r$, $\rho_\gamma$, and $\rho_F$ by setting
 $\rho^\epsilon(\cdot)=\rho(\cdot/\epsilon)/\epsilon$, as $\epsilon\to 0$, the 
 corresponding solutions should converge to a limiting
 population density that solves the corresponding ``classical'' PDE. We verify
-this in two examples; in the first the nonlocal equation is a reaction diffusion equation
+this in two examples; in the first the nonlocal equation is a reaction-diffusion equation
 with the ``nonlocality'' only appearing in the 
 reaction term; in the second the nonlocal PDE is a special 
 case of a nonlinear porous medium equation. These, in particular,
@@ -4598,8 +4600,11 @@ An application of Gronwall's inequality then yields,
 \subsubsection{Porous Medium Equation}
 
 In this subsection we prove Proposition~\ref{nonlocalPME to PME}.
-To ease notation, we drop the subscript $\gamma$ on $\rho_\gamma$ and we present 
+To ease notation, we present
 the proof in $d=1$ (although we retain the notation $\nabla$).
+However to recall the dependence on $\epsilon$ we write $\rho^\epsilon$ for $\rho_\gamma$
+(which recall for this Proposition we suppose is Gaussian
+and equal to $p_{\epsilon^2_\gamma}$).
 It should be clear that it extends almost without change
 to higher dimensions. 
 
@@ -4609,12 +4614,10 @@ we are concerned with non-negative solutions to the equation~(\ref{mollified equ
 	\partial_t\psi_t^\epsilon(x) =
 	\Delta\left(\psi_t^\epsilon \, \rho^\epsilon *\psi_t^\epsilon\right)(x)
 	+\psi_t^\epsilon(x)\left(1-\rho^\epsilon *\psi_t^\epsilon(x) 
-\right),
+\right) .
 \end{equation*}
-and 
-we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function. 
-The example we have in mind is $\zeta$ (and therefore $\rho$) being the density of
-a mean zero Gaussian random variable.  
+% and we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function. 
+% The example we have in mind is $\zeta$ (and therefore $\rho$) being
 We shall prove that under the 
 assumptions of Proposition~\ref{nonlocalPME to PME},
 as $\epsilon\to 0$, we have
@@ -4630,6 +4633,7 @@ equation~\eqref{PME1}:
 We work on the time interval $[0,T]$.
 We will require a lower bound on $\int \psi_t^\epsilon(x)\log \psi_t^\epsilon(x) dx$ 
 which we record as a lemma.
+
 \begin{lemma}
 \label{lower bound on ulogu}
 	Suppose that there exists $\lambda\in (0,1)$ and $C<\infty$, both independent of
@@ -4686,12 +4690,13 @@ as required.
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{nonlocalPME to PME}]
+Write $\zeta = p_{\epsilon^2_\gamma / 2}$, so that $\rho = \zeta * \zeta$.
 First observe that
 \begin{multline*}
 	\int \psi_t^\epsilon(x)\, \rho^{\epsilon}*\psi_t^\epsilon(x) dx 
 =
 \int\int\int \psi_t^\epsilon(x)\psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-\check{\zeta}^{\epsilon}(z) dz dy dx 
+{\zeta}^{\epsilon}(z) dz dy dx 
 \\
 =
 \int\int\int \psi_t^\epsilon(\tilde{x}-\tilde{z})
@@ -4808,7 +4813,7 @@ For the first term
 \int \nabla(\rho^{\epsilon}*\psi_t^\epsilon)\, \psi_t^\epsilon\, \nabla\phi  dx
 &=&
 \int\int\int\nabla \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-\check{\zeta}^{\epsilon}(z)
+{\zeta}^{\epsilon}(z)
 \psi_t^\epsilon(x)\nabla\phi(x) dz  dy  dx
 \\
 \nonumber
@@ -4854,7 +4859,7 @@ Similarly, for the second term in~(\ref{total equation}),
 \int (\rho^{\epsilon}*\psi_t^\epsilon)\, \nabla \psi_t^\epsilon\, \nabla\phi dx
 &=&
 \int\int\int \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-\check{\zeta}^{\epsilon}(z)\nabla \psi_t^\epsilon(x)\nabla\phi(x) dz dy  dx
+{\zeta}^{\epsilon}(z)\nabla \psi_t^\epsilon(x)\nabla\phi(x) dz dy  dx
 \\
 \nonumber
 &=&
@@ -4927,7 +4932,7 @@ which simultaneously scales the parameters $\theta$ and $N$ and the interaction
 kernel $\rho_F$ in the special case in which $r\equiv 1\equiv\gamma$, $q_{\theta}(x,dy)$
 is isotropic with zero mean, the kernel
 $\rho_F$ is Gaussian, and the scaling 
-limit is a reaction diffusion equation.
+limit is a reaction-diffusion equation.
 
 {\em To simplify notation, in this section we shall write 
 $$\rho_\epsilon*\eta(x)=\rho_F^\epsilon*\eta(x)
