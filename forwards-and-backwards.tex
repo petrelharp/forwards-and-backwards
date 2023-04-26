@@ -4926,8 +4926,6 @@ $\int \psi^\epsilon|\log \psi^\epsilon| d x$ that we proved above.
 \section{Simultaneous scaling with interaction distance}
 \label{subsec:one step convergence proof}
 
-\comment{TODO: check that $\eta_s^N$ having an $N$ or not is okay}
-
 In this section we prove Theorem~\ref{thm:local_convergence},
 which simultaneously scales the parameters $\theta$ and $N$ and the interaction 
 kernel $\rho_F$ in the special case in which $r\equiv 1\equiv\gamma$, $q_{\theta}(x,dy)$
@@ -4957,21 +4955,20 @@ The first part of the proof mirrors that of Theorem~\ref{thm:nonlocal_convergenc
 we establish sufficient bounds on the moments of $\rho_\epsilon*\eta_t(x)$ to
 establish tightness and then apply standard results on 
 convergence of Markov processes from~\cite{ethier/kurtz:1986}. 
+Bounds on the moments of $\rho_\epsilon*\eta_t$
+are established in 
+Subsection~\ref{bounds on rhoepsilon}.
 The challenge
 comes in identifying the limit points. This is much more intricate than the case in 
 which we do not scale the interaction kernel, as weak convergence will no longer
 be sufficient to guarantee the form of the nonlinear terms in the limiting equation.
 Identification of the limit will rest on regularity inherited from continuity 
 estimates for a random walk with Gaussian jumps which we prove in 
-Subsection~\ref{continuity for random walk}.
-Various bounds on the moments of $\rho_\epsilon*\eta_t$, one consequence of 
-which is tightness, are then provided in 
-Subsection~\ref{bounds on rhoepsilon},
-and we identify the limit points in Subsection~\ref{limit in onestep case}.
+Subsection~\ref{continuity for random walk}, before
+identifying the limit points in Subsection~\ref{limit in onestep case}.
 
-
-\subsection{Continuity estimates for a Gaussian random walk}
-\label{continuity for random walk}
+\subsection{Moment bounds for $\rho_\epsilon*\eta$}
+\label{bounds on rhoepsilon}
 
 Let us write $\mathcal{L}^\theta f(x) := \theta \int (f(y)-f(x))q_\theta(x,y) dy$ 
 where $q_\theta$ is a Gaussian kernel of mean $0$ and variance $1/\theta$. 
@@ -5017,7 +5014,7 @@ For the second claim, first define $\tau(t) = T(t)-t$.
 Since if $\tau(t) \ge -(\epsilon^2 + t)/2$,
 then $1/(\epsilon^2 + T(t)) \le 2/(\epsilon^2 + t)$,
 while $\epsilon^2 + T(t) \ge \epsilon^2$ always,
-then partitioning over
+partitioning over
 $\{ \tau(t) \ge -(\epsilon^2 + t)/2 \}$ and its complement,
 \begin{align}
    \| \psi^{\epsilon,x} \|_\infty
@@ -5031,7 +5028,7 @@ $\{ \tau(t) \ge -(\epsilon^2 + t)/2 \}$ and its complement,
         \frac{C}{\epsilon^d}
         \IP\left\{
             \tau(t) < - (\epsilon^2 + t) / 2
-        \right\} \label{eqn:psi_infty_bound}
+        \right\}. \label{eqn:psi_infty_bound}
 \end{align}
 Now, observe that since $\IE[e^{-\Pi(\theta t)}] = \exp(-\theta t (1 - e^{-1}))$,
 by Markov's inequality,
@@ -5055,25 +5052,25 @@ by Markov's inequality,
     }
 \nonumber
     \\&=
-    \exp\left\{ - \delta \theta t - \frac{\theta \epsilon^2}{2} \right\} ,
+    \exp\left\{ - \chi \theta t - \frac{\theta \epsilon^2}{2} \right\} ,
 \label{bound for negative tau}
 \end{align}
-where $\delta = 1/2 - e^{-1} > 0$.
+where $\chi = 1/2 - e^{-1} > 0$.
 The second term in \eqref{eqn:psi_infty_bound} is therefore bounded by
 \[
-    C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\delta \theta t - \epsilon^2 \theta / 2}
+    C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\chi \theta t - \epsilon^2 \theta / 2}
     \frac{1}{(\epsilon^2 + t)^{d/2}} .
 \]
 Now observe that the derivative (with respect to $t$) of 
-$e^{-\delta \theta t - \epsilon^2 \theta / 2} (1 + t/\epsilon^2)^{d/2}$ 
+$e^{-\chi \theta t - \epsilon^2 \theta / 2} (1 + t/\epsilon^2)^{d/2}$ 
 is
 \[
-    \left( \frac{d}{2 \epsilon^2} - \left(1 + \frac{t}{\epsilon^2}\right) \delta \theta \right)
-    \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\delta \theta t - \epsilon^2 \theta / 2} ,
+    \left( \frac{d}{2 \epsilon^2} - \left(1 + \frac{t}{\epsilon^2}\right) \chi \theta \right)
+    \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\chi \theta t - \epsilon^2 \theta / 2} ,
 \]
-which is negative if $\theta(\epsilon^2 + t) > d/2 \delta$.
-At the maximum, $(\epsilon^2 + t) = d \delta / (2 \theta)$,
-so $(1 + t/\epsilon^2) = d \delta/(2 \theta \epsilon^2)$,
+which is negative if $\theta(\epsilon^2 + t) > d/2 \chi$.
+At the maximum, $(\epsilon^2 + t) = d / (2\chi \theta)$,
+so $(1 + t/\epsilon^2) = d /(2\chi \theta \epsilon^2)$,
 and so this quantity is bounded uniformly over not only $t$ but also $\epsilon$
 (since we've assumed that $\theta \epsilon^2$ is bounded below).
 Therefore, the second term in \eqref{eqn:psi_infty_bound} 
@@ -5082,361 +5079,6 @@ is bounded by $C / (\epsilon^2 + t)^{d/2}$
 Substituting this into \eqref{eqn:psi_infty_bound} yields the result.
 \end{proof}
 
-We are going to approximate $\psi_t^{\epsilon,x}(\cdot)$ by $p_{\epsilon^2+t}(x, \cdot)$,
-and to control the error that this introduces we 
-need to control $T(t)-t$. We achieve this through a large deviations bound.
-
-\begin{lemma}
-    \label{lem:poisson_ld}
-    Fix $A > e^3 - 1$ (so that $\log(1 + A) > 3$).
-    In the notation of Lemma~\ref{PsiBoundHS},
-    \begin{align*}
-        \limsup_{\theta \to \infty}
-        \frac{1}{\theta} \log
-        \IP\left\{
-            T(t) - t > A(\epsilon^2 + t)
-        \right\}
-    \le
-        - (\epsilon^2 + t) \frac{A}{2}
-        - \log(1 + A)\left( \frac{t + A(\epsilon^2 + t)}{2} \right) .
-    \end{align*}
-\end{lemma}
-
-\begin{proof}
-    We apply Cram\'er's Theorem.
-    First note that
-    \begin{align*}
-        \IP\left\{
-            T(t) - t > A(\epsilon^2 + t)
-        \right\}
-        =
-        \IP\Big\{
-            \frac{\Pi(\theta t)}{ \theta}
-            >
-            t + A(\epsilon^2 + t)
-        \Big\} .
-    \end{align*}
-For convenience, suppose $\theta$ is an integer,
-and so we may write $\Pi(\theta t) = Z_1(t) + \cdots + Z_\theta(t)$,
-where the $Z_i(t)$ are i.i.d.~Poisson($t$) random variables.
-    To apply Cram\'er's Theorem, we need the rate function for the 
-Poisson($t$) distribution,
-    which is
-    \[
-        \Lambda^*(x) = \sup_{\alpha > 0} \left[ \alpha x - \lambda(\alpha) \right],
-    \]
-    where $\lambda(\alpha) = \log \IE[\exp(\alpha Z_1(t))] = t(e^\alpha - 1)$.
-    Now, the supremum of $\alpha x + t - te^\alpha$ is attained at $x = t e^\alpha$,
-    and so
-    \[
-        \Lambda^*(x) = x \log(x/t) - x + t .
-    \]
-    Cram\'er's Theorem then gives
-    \begin{align*}
-        \limsup_{\theta \to \infty}
-        \frac{1}{\theta} \log
-        \IP\left\{
-            \frac{\Pi(\theta t)}{\theta}
-            > t + A(\epsilon^2 + t)
-        \right\}
-    &\le
-        - \Lambda^*(t + A(\epsilon^2 + t))
-    \\ &=
-        A(\epsilon^2 + t)
-        -
-        \big(t + A(\epsilon^2 + t)\big) \log\left( 1 + \frac{A(\epsilon^2 + t)}{t} \right) 
-    \\ &\le
-        A(\epsilon^2 + t)
-        -
-        \big(t + A(\epsilon^2 + t)\big) \log(1 + A)
-    \\ &\le
-        A(\epsilon^2 + t) \left( 1 - \frac{1}{2} \log(1 + A) \right)
-        -
-        \frac{1}{2} \big(t + A(\epsilon^2 + t)\big) \log(1 + A)  .
-    \end{align*}
-    Since $(1/2) \log(1 + A) > 3/2$, from which $1 - (1/2) \log(1 + A) < - 1/2$,
-    the proof is complete.
-\end{proof}
-
-As advertised, we wish to control the difference between
-$\psi_t^{\epsilon,x}(y)$
-and $p_{\epsilon^2 + t}(x, y)$.
-
-\begin{lemma}
-    \label{Lemma:BoundPsiHS2}
-    In the notation of Lemma~\ref{PsiBoundHS},
-    and with $A$ as in Lemma~\ref{lem:poisson_ld},
-    \begin{multline}
-\label{heat kernel estimate}
-        \left|
-            \psi_t^{\epsilon, x}(y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        \\
-\le
-        \frac{C}{(\epsilon^2 \theta)^{d/2}}
-        p_{2(A+1)(\epsilon^2+t)}(x, y)
-        +
-        C \exp(- \epsilon^2 \theta / 2)
-        +
-        \frac{C}{(\epsilon^2 + t)^{d/2}}
-        \IP\left\{
-            \tau(t) > A(\epsilon^2 + t)
-        \right\} .
-    \end{multline}
-\end{lemma}
-
-\begin{proof}
-    Still using the notation of Lemma~\ref{PsiBoundHS},
-the three terms on the right hand side of 
-equation~(\ref{heat kernel estimate})
-    correspond to bounds obtained by partitioning
-    into three events according to the value of $\tau(t)$.
-    Let $A_1 = \{ \tau(t) < - (\epsilon^2 + t)/2 \}$,
-    $A_2 = \{ \tau(t) > A(\epsilon^2 + t) \}$,
-    and $A_3$ the remaining event, $\{ - (\epsilon^2 + t)/2 \le \tau(t) \le A(\epsilon^2 + t) \}$.
-    Then,
-    \begin{align*}
-        \left|
-            \psi_t^{\epsilon, x}(y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        &=
-        \left|
-        \IE\left[
-            p_{\epsilon^2 + t + \tau(t)}(x, y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right]
-        \right|
-        \\&\le
-        \IE\left[
-            (1_{A_1} + 1_{A_2} + 1_{A_3})
-            \left|
-            p_{\epsilon^2 + t + \tau(t)}(x, y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        \right] .
-    \end{align*}
-    For the first term, note that if $a < b$ then
-    \begin{align*}
-        |p_a(x, y) - p_b(x, y)| 
-        &=
-        \frac{1}{(2\pi)^{d/2}}
-        \left|
-            \frac{1}{a^{d/2}}
-            e^{-\|x - y\|^2 / 2a}
-            -
-            \frac{1}{b^{d/2}}
-            e^{-\|x - y\|^2 / 2b}
-        \right|
-        \\ &=
-        \frac{1}{(2\pi a^2)^{d/2}}
-            e^{-\|x - y\|^2 / 2b}
-        \left|
-            e^{-\|x - y\|^2 \left(\frac{1}{2a} - \frac{1}{2b}\right)}
-            -
-            \left(\frac{a}{b}\right)^{d/2}
-        \right|
-        \\ &\le
-        C \left(\frac{b}{a}\right)^{d/2}
-        p_b(x, y) ,
-    \end{align*}
-    where the inequality follows because both terms under the absolute value 
-are less than 1.
-Since, on the event $A_1$, $\tau(t)<0$, we can  
-apply this with $a = \epsilon^2 + t + \tau(t)$ and $b = \epsilon^2 + t$,
-and, using the bound~(\ref{bound for negative tau}),
-    \begin{align*}
-        \IE\left[
-            1_{A_1} |p_a(x, y) - p_b(x, y)| 
-        \right]
-        & \le
-            C \left(\frac{\epsilon^2 + t}{\epsilon^2}\right)^{d/2}
-            p_{\epsilon^2 + t}(x, y) 
-            \IP\left\{ \tau(t) < - \frac{\epsilon^2 + t}{2} \right\}
-        \\ & \le
-            C \frac{1}{\epsilon^d}
-            \IP\left\{ \tau(t) < - \frac{\epsilon^2 + t}{2} \right\}
-        \\ & \le
-        C \exp\left(-\frac{\theta \epsilon^2}{2} \right) .
-    \end{align*}
-
-    For the third term, we will first collect some facts.
-    Observe that on the event $A_3$,
-    $\epsilon^2 + t + \tau(t)$ is between
-    $(\epsilon^2 + t)/ 2$ and $(A + 1)(\epsilon^2 + t))$,
-    and for any $s$ in this interval,
-    \begin{align}
-        p_{2s}(y)
-        &\le \nonumber
-        \left( \frac{
-            2 (\epsilon^2 + t)(A + 1)
-        }{
-            \epsilon^2 + t
-        } \right)^{d/2}
-        p_{2(A+1)(\epsilon^2 + t)}(x, y)
-        \\ &= \label{eqn:p_bounded_on_interval}
-        (2(A+1))^{d/2}
-        p_{2(A+1)(\epsilon^2 + t)}(x, y) .
-    \end{align}
-    Moreover, since $u e^{-u} \le e^{-1}$ for all $u \ge 0$,
-    \begin{align}
-        \frac{\|x - y\|^2}{s} p_s(x, y)
-        &= \nonumber
-        \frac{4}{(2 \pi s)^{d/2}}
-        e^{- \frac{ \|x-y\|^2 }{ 4s }}
-        \frac{\|x-y\|^2}{4s}
-        e^{- \frac{ \|x-y\|^2 }{ 4s }}
-        \\ &\le \label{eqn:p_deriv_term2}
-        C p_{2s}(x, y) .
-    \end{align}
-    Now, by the Intermediate Value Theorem,
-    \begin{align}
-\label{deduction from IVT}
-        \left|
-            p_{\epsilon^2 + t + \tau(t)}(x, y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        &=
-        \left| \tau(t) \right|
-        \left| \frac{\partial p_s(x, y)}{\partial s} \right|
-    \end{align}
-    for some $s$ between $\epsilon^2 + t + \tau(t)$ and $\epsilon^2 + t$.
-   Since 
-    \begin{align*}
-        \partial_ s p_s(x, y)
-        &=
-        \partial_s
-        \left(
-            \frac{1}{(2 \pi s)^{d/2}}
-            \exp\left( - \frac{\|x - y\|^2}{2 s} \right)
-        \right)
-        \\ &=
-        - \frac{d}{2s} p_s(x, y) + \frac{\|x - y\|^2}{2 s^2} p_s(x, y),
-    \end{align*}
-    applying the inequality~\eqref{eqn:p_deriv_term2},
-    using the fact that $p_s(x, y) \le 2^{d/2} p_{2s}(x,y)$,
-    and then \eqref{eqn:p_bounded_on_interval},
-    we have that for any $s \in ((\epsilon^2 + t)/ 2, (A + 1)(\epsilon^2 + t))$,
-    \begin{align*}
-        \left| \frac{\partial}{\partial s} p_s(x, y) \right|
-        \le
-        \frac{C}{s} p_{2s}(x, y) 
-        \le
-        \frac{C}{\epsilon^2 + t} p_{2(A + 1)(\epsilon^2 + t)}(x, y) .
-    \end{align*}
-    Therefore, recalling that $\IE[\tau(t)^2] = t / \theta$, substituting 
-into~(\ref{deduction from IVT}),
-    \begin{align*}
-        \IE\left[
-            1_{A_3}
-            \left|
-                p_{\epsilon^2 + t + \tau(t)}(x, y)
-                -
-                p_{\epsilon^2 + t}(x, y)
-            \right|
-        \right]
-        &\le
-            \frac{C}{\epsilon^2 + t}
-                p_{2(A + 1)(\epsilon^2 + t)}(x, y)
-            \IE\left[|\tau(t)|\right]
-        \\ &\le
-            \frac{C}{\epsilon^2 + t}
-                p_{2(A + 1)(\epsilon^2 + t)}(x, y)
-            \IE\left[\tau(t)^2\right]^{1/2}
-        \\ &=
-            \left( \frac{Ct}{\theta(\epsilon^2 + t)^2} \right)^{1/2}
-                p_{2(A + 1)(\epsilon^2 + t)}(x, y)
-        \\ &\le
-            \frac{C}{\sqrt{\theta \epsilon^2}}
-                p_{2(A + 1)(\epsilon^2 + t)}(x, y) ,
-    \end{align*}
-    where the last inequality follows from $2 \epsilon^2 t \le (\epsilon^2 + t)^2$.
-
-    Finally, on the event $A_2 = \{\tau(t) > A(\epsilon^2 + t)\}$,
-    we simply use
-    \begin{align*}
-        \left|
-            p_{\epsilon^2 + t + \tau(t)}(x, y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        \le
-        \frac{C}{(\epsilon^2 + t)^{d/2}} ,
-    \end{align*}
-    so that
-    \begin{align*}
-        \IE\left[
-        1_{A_2}
-        \left|
-            p_{\epsilon^2 + t + \tau(t)}(x, y)
-            -
-            p_{\epsilon^2 + t}(x, y)
-        \right|
-        \right]
-        \le
-        \frac{C}{(\epsilon^2 + t)^{d/2}}
-        \IP\left\{
-            \tau(t) > A (\epsilon^2 + t)
-        \right\} .
-    \end{align*}
-\end{proof}
-
-The last result will be useful when combined with the next bound for the heat kernel.
-
-\begin{lemma}
-    \label{Lemma:ContinuityHS}
-Let $s>0$, and $x, y, z\in \IR^d$. The following estimate holds:
-\[
-    |p_s(x,z) - p_s(y,z)|
-    \leq
-    \frac{C\|x-y\|}{\sqrt{s}} \left(p_{2s}(x,z) + p_{2s}(y,z)\right) ,
-\]
-where the constant $C$ does not depend on $x,y,z$ or $s$.
-\end{lemma}
-
-\begin{proof}
-
-    Expanding the difference of two squares,
-    \begin{align*}
-        e^{- \frac{\|y-z\|^2}{2 s}}
-        -
-        e^{- \frac{\|x-z\|^2}{2 s}}
-        &=
-        \left(
-            e^{-\frac{\|y-z\|^2}{4 s}}
-            -
-            e^{-\frac{\|x-z\|^2}{4 s}}
-        \right)
-        \left(
-            e^{-\frac{\|y-z\|^2}{4 s}}
-            +
-            e^{-\frac{\|x-z\|^2}{4 s}}
-        \right) .
-    \end{align*}
-Now, thinking of the first term in brackets as a function of a single variable on
-the line segment $[y,z]$ connecting $y$ to $z$, we can apply the
-Intermediate Value Theorem and take the modulus to bound this expression by 
-    \[
-        \|y-x\|
-        \left( \frac{2\|w-z\|}{4s} \exp\left(-\frac{\|w-z\|^2}{4s}\right)\right)
-        (4 \pi s)^{d/2}
-        \left( p_{2s}(y,z)+p_{2s}(x,z) \right)
-    \]
-    for some $w\in [y,z]$.
-    Using the fact that $x e^{-x^2}$ is uniformly bounded,
-    we can bound the first bracket in the last equation by $C/\sqrt{s}$, and the result follows.
-\end{proof}
-
-
-
-\subsection{Moment bounds for $\rho_\epsilon*\eta$}
-\label{bounds on rhoepsilon}
 
 
 \begin{lemma}
@@ -5570,7 +5212,8 @@ write
 \big\langle \psi^{\epsilon, x}_{t-s}(y),\eta_s(dy)\big\rangle^{k-1}ds
 \Big|{\cal F}_0\Big].
 \end{multline}
-Using that $\sup_s\|\psi^{\epsilon,x}_s(\cdot)\|_\infty=C/\epsilon^d$,
+Using(from Lemma~\ref{PsiBoundHS}) 
+that $\sup_s\|\psi^{\epsilon,x}_s(\cdot)\|_\infty=C/\epsilon^d$,
 $N\epsilon^d>1$,
 and our inductive
 hypothesis, we find
@@ -5742,7 +5385,7 @@ the inductive step is complete.
 \label{lem:density_tightness} 
 Under the assumptions of Theorem~\ref{thm:local_convergence},
 the sequence of measure valued processes $\{ \rho*\eta_t^N(x) dx \}_{t \geq 0}$
-(taking values in $D([0,T], \measures)$ is tight.
+	(taking values in ${\mathcal D}_{[0,T]}(\measures)$) is tight.
 \end{corollary}
 \begin{proof}
 
@@ -5868,11 +5511,11 @@ in terms of sums of terms of the form
 \]
 Now observe that, again using Lemma~\ref{bounds on moments}, 
 \begin{multline*}
-	\int\int\rho_\epsilon*|f|(x)\rho_\epsilon*\eta_u^N(x)^j
-	\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^k dx dy
+	\IE\left[	\int\int\rho_\epsilon*|f|(x)\rho_\epsilon*\eta_u^N(x)^j
+	\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^k dx dy\right]
 	\\
 	\leq
-	\int\int\|f\|_\infty\rho_\epsilon*\eta_u^N(x)^{j+k}
+	\IE\left[\int\int\|f\|_\infty\rho_\epsilon*\eta_u^N(x)^{j+k}
 	\rho_\epsilon*|f|(y)
 	dx dy
 +
@@ -5880,7 +5523,7 @@ Now observe that, again using Lemma~\ref{bounds on moments},
 	\rho_\epsilon*|f|(x)
 	\|f\|_\infty
 	\rho_\epsilon*\eta_u^N(y)^{j+k}
-dx dy
+	dx dy \right]
 	\\ \leq C\int |f|(x)dx.
 \end{multline*}
 Thus the quantity~(\ref{square of F-integral}) 
@@ -5911,16 +5554,519 @@ expression and $C\delta<\nu^3/3T$ in~(\ref{union bound}),
 combining with~(\ref{martingale term to zero}), the result follows.
 \end{proof}
 
+\subsection{Continuity estimates for $\rho_\epsilon*\eta$}
+\label{continuity for random walk}
+
+In order to identify the limit point of any convergent subsequence
+of $\{\rho_\epsilon*\eta^N(x)\}$, 
+we are going to require some control on the spatial continuity of the 
+functions $\rho_\epsilon*\eta^N(x)$. This will be inherited from the regularity
+of the transition density of the 
+Gaussian random walk with generator ${\cal L}^\theta$, which in turn follows
+from its representation
+as that of a Brownian motion evaluated at the random time $T(t)$ defined
+in Lemma~\ref{PsiBoundHS}.
+Our approach will be to 
+approximate $\psi_t^{\epsilon,x}(\cdot)$ by $p_{\epsilon^2+t}(x, \cdot)$,
+and to control the error that this introduces we 
+need to control $T(t)-t$. 
+
+\begin{lemma}
+    \label{lem:poisson_ld}
+    In the notation of Lemma~\ref{PsiBoundHS}, for any $A>1$,
+    \begin{align*}
+        %\limsup_{\theta \to \infty}
+        %\frac{1}{\theta} \log
+        \IP\left\{
+            T(t) - t > A(\epsilon^2 + t)
+        \right\}
+    \le
+	    \exp\left(-\frac{\theta A}{4}\big(\epsilon^2+t\big)
+	    %- (\epsilon^2 + t) \frac{A}{2}
+        %- \log(1 + A)\left( \frac{t + A(\epsilon^2 + t)}{2} 
+	    \right) .
+    \end{align*}
+\end{lemma}
+
+\begin{proof}
+    %We apply Cram\'er's Theorem.
+    %First note that
+    This is just a Chernoff bound. With $\Pi$ a rate one Poisson process as
+	in Lemma~\ref{PsiBoundHS}, for any $A>1$,
+	\begin{align*}
+        \IP\left\{
+            T(t) - t > A(\epsilon^2 + t)
+        \right\}
+&=
+        \IP\Big\{
+            \Pi(\theta t)
+            >
+		\theta\Big( t + A(\epsilon^2 + t)\Big)
+        \Big\} \\
+&\leq\frac{\IE\left[\exp\left(\alpha\Pi(\theta t)\right)\right]}
+		{\exp\left(\alpha\theta\big(t+A(\epsilon^2+t)\big)\right)}
+		\\
+		&=\exp\left(\theta t\big(e^\alpha-1\big)-\alpha\theta\big(t+A(\epsilon^2+t)\big)\right)
+		\\
+		&\leq
+		\exp\left(\theta t\big(e^\alpha-\alpha-1-\frac{A\alpha}{2}\big)
+		-\frac{A\alpha}{2}\theta(\epsilon^2+t)\right).
+    \end{align*}
+	Now set $\alpha=1/2$. Since $A>1$, $e^\alpha-\alpha-1-A\alpha/2<0$ and the 
+	result follows.
+%For convenience, suppose $\theta$ is an integer,
+%and so we may write $\Pi(\theta t) = Z_1(t) + \cdots + Z_\theta(t)$,
+%where the $Z_i(t)$ are i.i.d.~Poisson($t$) random variables.
+%    To apply Cram\'er's Theorem, we need the rate function for the 
+%Poisson($t$) distribution,
+%    which is
+%    \[
+%        \Lambda^*(x) = \sup_{\alpha > 0} \left[ \alpha x - \lambda(\alpha) \right],
+%    \]
+%    where $\lambda(\alpha) = \log \IE[\exp(\alpha Z_1(t))] = t(e^\alpha - 1)$.
+%    Now, the supremum of $\alpha x + t - te^\alpha$ is attained at $x = t e^\alpha$,
+%    and so
+%    \[
+%        \Lambda^*(x) = x \log(x/t) - x + t .
+%    \]
+%    Cram\'er's Theorem then gives
+%    \begin{align*}
+%        \limsup_{\theta \to \infty}
+%        \frac{1}{\theta} \log
+%        \IP\left\{
+%            \frac{\Pi(\theta t)}{\theta}
+%            > t + A(\epsilon^2 + t)
+%        \right\}
+%    &\le
+%        - \Lambda^*(t + A(\epsilon^2 + t))
+%    \\ &=
+%        A(\epsilon^2 + t)
+%        -
+%        \big(t + A(\epsilon^2 + t)\big) \log\left( 1 + \frac{A(\epsilon^2 + t)}{t} \right) 
+%    \\ &\le
+%        A(\epsilon^2 + t)
+%        -
+%        \big(t + A(\epsilon^2 + t)\big) \log(1 + A)
+%    \\ &\le
+%        A(\epsilon^2 + t) \left( 1 - \frac{1}{2} \log(1 + A) \right)
+%        -
+%        \frac{1}{2} \big(t + A(\epsilon^2 + t)\big) \log(1 + A)  .
+%    \end{align*}
+%    Since $(1/2) \log(1 + A) > 3/2$, from which $1 - (1/2) \log(1 + A) < - 1/2$,
+%    the proof is complete.
+\end{proof}
+
+As advertised, we wish to control the difference between
+$\psi_t^{\epsilon,x}(y)$
+and $p_{\epsilon^2 + t}(x, y)$.
+
+\begin{lemma}
+    \label{Lemma:BoundPsiHS2}
+    In the notation of Lemma~\ref{PsiBoundHS},
+    %and with $A$ as in Lemma~\ref{lem:poisson_ld},
+    \begin{multline}
+\label{heat kernel estimate}
+        \left|
+            \psi_t^{\epsilon, x}(y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        \\
+\le
+        \frac{C}{(\epsilon^2 \theta)^{d/2}}
+        p_{6(\epsilon^2+t)}(x, y)
+        +
+	    C \left(1+
+	    \frac{1}{(\epsilon^2 + t)^{d/2}}\right)
+	    \exp(- \epsilon^2 \theta / 2)
+        %+
+        %\frac{C}{(\epsilon^2 + t)^{d/2}}
+        %\IP\left\{
+        %    \tau(t) > A(\epsilon^2 + t)
+        %\right\} 
+	    .
+    \end{multline}
+\end{lemma}
+
+\begin{proof}
+    Still using the notation of Lemma~\ref{PsiBoundHS},
+%the three terms on the right hand side of 
+%equation~(\ref{heat kernel estimate})
+%    correspond to bounds obtained by partitioning
+ we partition into three events according to the value of $\tau(t)$.
+    Let $A_1 = \{ \tau(t) < - (\epsilon^2 + t)/2 \}$,
+    $A_2 = \{ \tau(t) > 2(\epsilon^2 + t) \}$,
+    and $A_3$ the remaining event, $\{ - (\epsilon^2 + t)/2 \le \tau(t) \le 2(\epsilon^2 + t) \}$.
+    Then,
+    \begin{align*}
+        \left|
+            \psi_t^{\epsilon, x}(y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        &=
+        \left|
+        \IE\left[
+            p_{\epsilon^2 + t + \tau(t)}(x, y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right]
+        \right|
+        \\&\le
+        \IE\left[
+            (1_{A_1} + 1_{A_2} + 1_{A_3})
+            \left|
+            p_{\epsilon^2 + t + \tau(t)}(x, y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        \right] .
+    \end{align*}
+    For the first term, note that if $a < b$ then
+    \begin{align*}
+        |p_a(x, y) - p_b(x, y)| 
+        &=
+        \frac{1}{(2\pi)^{d/2}}
+        \left|
+            \frac{1}{a^{d/2}}
+            e^{-\|x - y\|^2 / 2a}
+            -
+            \frac{1}{b^{d/2}}
+            e^{-\|x - y\|^2 / 2b}
+        \right|
+        \\ &=
+        \frac{1}{(2\pi a^2)^{d/2}}
+            e^{-\|x - y\|^2 / 2b}
+        \left|
+            e^{-\|x - y\|^2 \left(\frac{1}{2a} - \frac{1}{2b}\right)}
+            -
+            \left(\frac{a}{b}\right)^{d/2}
+        \right|
+        \\ &\le
+        C \left(\frac{b}{a}\right)^{d/2}
+        p_b(x, y) ,
+    \end{align*}
+    where the inequality follows because both terms under the absolute value 
+are less than 1.
+Since, on the event $A_1$, $\tau(t)<0$, we can  
+apply this with $a = \epsilon^2 + t + \tau(t)$ and $b = \epsilon^2 + t$,
+and, using the bound~(\ref{bound for negative tau}),
+    \begin{align*}
+        \IE\left[
+            1_{A_1} |p_a(x, y) - p_b(x, y)| 
+        \right]
+        & \le
+            C \left(\frac{\epsilon^2 + t}{\epsilon^2}\right)^{d/2}
+            p_{\epsilon^2 + t}(x, y) 
+            \IP\left\{ \tau(t) < - \frac{\epsilon^2 + t}{2} \right\}
+        \\ & \le
+            C \frac{1}{\epsilon^d}
+            \IP\left\{ \tau(t) < - \frac{\epsilon^2 + t}{2} \right\}
+        \\ & \le
+        C \exp\left(-\frac{\theta \epsilon^2}{2} \right) .
+    \end{align*}
+
+    For the third term, we will first collect some facts.
+    Observe that on the event $A_3$,
+    $\epsilon^2 + t + \tau(t)$ is between
+    $(\epsilon^2 + t)/ 2$ and $3(\epsilon^2 + t))$,
+    and for any $s$ in this interval,
+    \begin{align}
+        p_{2s}(y)
+        &\le \nonumber
+        \left( \frac{
+            2 (\epsilon^2 + t)3
+        }{
+            \epsilon^2 + t
+        } \right)^{d/2}
+        p_{6(\epsilon^2 + t)}(x, y)
+        \\ &= \label{eqn:p_bounded_on_interval}
+        6^{d/2}
+        p_{6(\epsilon^2 + t)}(x, y) .
+    \end{align}
+    Moreover, since $u e^{-u} \le e^{-1}$ for all $u \ge 0$,
+    \begin{align}
+        \frac{\|x - y\|^2}{s} p_s(x, y)
+        &= \nonumber
+        \frac{4}{(2 \pi s)^{d/2}}
+        e^{- \frac{ \|x-y\|^2 }{ 4s }}
+        \frac{\|x-y\|^2}{4s}
+        e^{- \frac{ \|x-y\|^2 }{ 4s }}
+        \\ &\le \label{eqn:p_deriv_term2}
+        C p_{2s}(x, y) .
+    \end{align}
+    Now, by the Intermediate Value Theorem,
+    \begin{align}
+\label{deduction from IVT}
+        \left|
+            p_{\epsilon^2 + t + \tau(t)}(x, y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        &=
+        \left| \tau(t) \right|
+        \left| \frac{\partial p_s(x, y)}{\partial s} \right|
+    \end{align}
+    for some $s$ between $\epsilon^2 + t + \tau(t)$ and $\epsilon^2 + t$.
+   Since 
+    \begin{align*}
+        \partial_ s p_s(x, y)
+        &=
+        \partial_s
+        \left(
+            \frac{1}{(2 \pi s)^{d/2}}
+            \exp\left( - \frac{\|x - y\|^2}{2 s} \right)
+        \right)
+        \\ &=
+        - \frac{d}{2s} p_s(x, y) + \frac{\|x - y\|^2}{2 s^2} p_s(x, y),
+    \end{align*}
+    applying the inequality~\eqref{eqn:p_deriv_term2},
+    using the fact that $p_s(x, y) \le 2^{d/2} p_{2s}(x,y)$,
+    and then \eqref{eqn:p_bounded_on_interval},
+    we have that for any $s \in ((\epsilon^2 + t)/ 2, 3(\epsilon^2 + t))$,
+    \begin{align*}
+        \left| \frac{\partial}{\partial s} p_s(x, y) \right|
+        \le
+        \frac{C}{s} p_{2s}(x, y) 
+        \le
+        \frac{C}{\epsilon^2 + t} p_{6(\epsilon^2 + t)}(x, y) .
+    \end{align*}
+    Therefore, recalling that $\IE[\tau(t)^2] = t / \theta$, substituting 
+into~(\ref{deduction from IVT}),
+    \begin{align*}
+        \IE\left[
+            1_{A_3}
+            \left|
+                p_{\epsilon^2 + t + \tau(t)}(x, y)
+                -
+                p_{\epsilon^2 + t}(x, y)
+            \right|
+        \right]
+        &\le
+            \frac{C}{\epsilon^2 + t}
+                p_{6(\epsilon^2 + t)}(x, y)
+            \IE\left[|\tau(t)|\right]
+        \\ &\le
+            \frac{C}{\epsilon^2 + t}
+                p_{6(\epsilon^2 + t)}(x, y)
+            \IE\left[\tau(t)^2\right]^{1/2}
+        \\ &=
+            \left( \frac{Ct}{\theta(\epsilon^2 + t)^2} \right)^{1/2}
+                p_{6(\epsilon^2 + t)}(x, y)
+        \\ &\le
+            \frac{C}{\sqrt{\theta \epsilon^2}}
+                p_{6(\epsilon^2 + t)}(x, y) ,
+    \end{align*}
+    where the last inequality follows from $2 \epsilon^2 t \le (\epsilon^2 + t)^2$.
+
+    Finally, on the event $A_2 = \{\tau(t) > 2(\epsilon^2 + t)\}$,
+    we simply use
+    \begin{align*}
+        \left|
+            p_{\epsilon^2 + t + \tau(t)}(x, y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        \le
+        \frac{C}{(\epsilon^2 + t)^{d/2}} ,
+    \end{align*}
+    so that
+    \begin{align*}
+        \IE\left[
+        1_{A_2}
+        \left|
+            p_{\epsilon^2 + t + \tau(t)}(x, y)
+            -
+            p_{\epsilon^2 + t}(x, y)
+        \right|
+        \right]
+        \le
+        \frac{C}{(\epsilon^2 + t)^{d/2}}
+        \IP\left\{
+            \tau(t) > 2 (\epsilon^2 + t)
+        \right\} ,
+    \end{align*}
+    and apply Lemma~\ref{lem:poisson_ld}
+    with $A=2$.
+\end{proof}
+
+The last result will be useful when combined with the next bound for the heat kernel.
+
+\begin{lemma}
+    \label{Lemma:ContinuityHS}
+Let $s>0$, and $x, y, z\in \IR^d$. The following estimate holds:
+\[
+    |p_s(x,z) - p_s(y,z)|
+    \leq
+    \frac{C\|x-y\|}{\sqrt{s}} \left(p_{2s}(x,z) + p_{2s}(y,z)\right) ,
+\]
+where the constant $C$ does not depend on $x,y,z$ or $s$.
+\end{lemma}
+
+\begin{proof}
+
+    Expanding the difference of two squares,
+    \begin{align*}
+        e^{- \frac{\|y-z\|^2}{2 s}}
+        -
+        e^{- \frac{\|x-z\|^2}{2 s}}
+        &=
+        \left(
+            e^{-\frac{\|y-z\|^2}{4 s}}
+            -
+            e^{-\frac{\|x-z\|^2}{4 s}}
+        \right)
+        \left(
+            e^{-\frac{\|y-z\|^2}{4 s}}
+            +
+            e^{-\frac{\|x-z\|^2}{4 s}}
+        \right) .
+    \end{align*}
+Now, thinking of the first term in brackets as a function of a single variable on
+the line segment $[y,z]$ connecting $y$ to $z$, we can apply the
+Intermediate Value Theorem and take the modulus to bound this expression by 
+    \[
+        \|y-x\|
+        \left( \frac{2\|w-z\|}{4s} \exp\left(-\frac{\|w-z\|^2}{4s}\right)\right)
+        (4 \pi s)^{d/2}
+        \left( p_{2s}(y,z)+p_{2s}(x,z) \right)
+    \]
+    for some $w\in [y,z]$.
+    Using the fact that $x e^{-x^2}$ is uniformly bounded,
+    we can bound the first bracket in the last equation by $C/\sqrt{s}$, and the result follows.
+\end{proof}
+
+We now have the ingredients that we need to write down a continuity 
+estimate on $\rho_\epsilon*\eta$.
+We fix $\delta>0$ and 
+suppose that $s>\delta$.
+Let us write
+\[
+\widehat{\epsilon}(\delta,\epsilon,\theta):=
+e^{-\epsilon^2\theta/2}\left(1+\frac{1}{(\epsilon^2+\delta)^{d/2}}\right),
+%\frac{1}{(A+1)^{\epsilon^2\theta}}e^{-\epsilon^2\theta},
+\]
+and note that under the assumption that $\epsilon^2\theta\to \infty$, for 
+each fixed $\delta>0$,  
+$\lim_{\epsilon\to 0, \theta\to\infty}
+\widehat{\epsilon}(\delta,\epsilon,\theta)=0$. 
+Using the semimartingale decomposition~(\ref{expn rhoepsilon}),
+and Lemmas~\ref{lem:poisson_ld} and~\ref{Lemma:BoundPsiHS2},
+we have
+\begin{align}
+& |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)| \nonumber 
+= |\langle p_{\epsilon^2}(y,z)-p_{\epsilon^2}(w,z),\eta_s(dz) \rangle | 
+\nonumber
+\\ 
+&\leq 
+\big\langle |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(w,z)|, 
+\eta_0(dz)\big\rangle 
+\nonumber
+	\\
+	&+
+\int_0^{s-\delta}
+\big\langle |p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)| 
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz) \big\rangle  dr
+\nonumber
+\\ 
+	&+\frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
+p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z), \eta_0(dz)
+\big\rangle
+	+\widehat{\epsilon}(\delta,\epsilon,\theta)\langle 1,\eta_0(dz)\rangle
+	\nonumber
+	\\
+&+ \int_{s-\delta}^s \big\langle 
+|\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz) \big\rangle  dr
+\nonumber
+	\\ &+
+\frac{C}{(\epsilon^2\theta)^{d/2}}
+\int_0^{s-\delta}
+\big\langle |p_{6(s-r+\epsilon^2)}(y,z)+
+p_{6(s-r+\epsilon^2)}(w,z)|
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz) \big\rangle  dr
+\nonumber
+\\
+&
++|M_s(y)|+|M_s(w)| 
+%+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
+%\big)  
+\nonumber
+\\
+&
+\leq \Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
+\big(p_{2(s+\epsilon^2}(y,z)+p_{2(s+\epsilon^2}(w,z)\big),\eta_0(dz)\Big\rangle
+\nonumber
+\\
+&+
+\int_0^{s-\delta}\Big\langle\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
+\big(p_{2(s-t+\epsilon^2}(y,z)+p_{2(s-r+\epsilon^2}(w,z)\big)
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz)\Big\rangle dr
+\nonumber
+\\
+&
+	+\big\langle \frac{C}{(\theta\epsilon^2)^{d/2}}\Big( 
+	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)+
+	\widehat{\epsilon}(\delta,\epsilon,\theta) , \eta_0(dz)
+\big\rangle
+\nonumber
+\\
+&+
+\int_0^{s-\delta}
+\big\langle \Big\{
+\frac{C}{(\epsilon^2\theta)^{d/2}}
+|p_{6(s-r+\epsilon^2)}(y,z)+
+p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz) \big\rangle  dr
+\nonumber
+\\
+&
++|M_s(y)|+|M_s(w)|. 
+%+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
+%\big) . 
+\label{difference in rhos}
+\end{align} 
+Although this expression is lengthy, we have successfully isolated the
+terms involving $\|y-w\|$, which will control the regularity as we pass to the
+limit. Asymptotically, we 
+don't expect the martingale terms to contribute, since their 
+quadratic variation scales with $\theta/(N\epsilon^d)$, and we can see that 
+under the assumption that $\epsilon^2\theta\to\infty$, for any fixed $\delta>0$,
+the terms arising from 
+approximating the transition 
+density of the Gaussian 
+walk by the heat kernel at a fixed time, will tend to zero. 
+There is some technical work to be done to rigorously identify the
+limit points of $\rho_\epsilon*\eta^N$, but 
+it really amounts to 
+applying the tower property and our moment bounds from 
+Lemma~\ref{bounds on moments} and 
+Corollary~\ref{alternative form moment bounds}.
+
+
 \subsection{Identification of the limit}
 \label{limit in onestep case}
 
 
 We now turn to the identification of the limit points of the sequence 
 $\big\{\big(\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}\big\}_{N\geq 1}$.
-We consider the terms in the semimartingale 
+Writing
+$\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
+\langle \rho_\epsilon*f(x), \eta_t^N(dx)\rangle
+=\langle T_{\epsilon^2}f(x),\eta_t^N(dx)\rangle$,
+where $T_{\cdot}$ denotes the heat semigroup, we proceed
+by examining the terms in the semimartingale
 decomposition~(\ref{eqn:eta_martingale})
-of $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
-\langle \rho_\epsilon*f, \eta_t^N(dx)\rangle$.
+%of $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
+%\langle \rho_\epsilon*f, \eta_t^N(dx)\rangle$.
+when the test function $f$ is replaced by $T_{\epsilon^2}f$.
+
+The linear term is straightforward.
 By a Taylor expansion, writing $\{T_t\}_{t\geq 0}$ for the heat semigroup,
 \begin{align*}
 \int_0^t \big\langle \mathcal{L}^\theta T_{\epsilon^2} f, 
@@ -5940,138 +6086,52 @@ for any (weakly) convergent subsequence $\{\rho_\epsilon*\eta^N(x)dx\}_{N\geq 1}
 \varphi (s,x) dx \big\rangle ds. 
 \]
 
-Since we only know that for every sequence of measures satisfying the
-conditions of Theorem~\ref{thm:local_convergence}
-there is a {\em weakly} convergent subsequence,
-the difficulty is the non-linear term in the martingale problem. 
-The first step is to prove an approximation of the form:
+The nonlinear term in the semimartingale decomposition is more intricate. 
+It takes the form
+%Since we only know that for every sequence of measures satisfying the
+%conditions of Theorem~\ref{thm:local_convergence}
+%there is a {\em weakly} convergent subsequence,
+%the difficulty is the non-linear term in the martingale problem. 
+%The first step is to prove an approximation of the form:
+\[ %\begin{align*}
+\IE\Big[
+\int_0^t\big\langle T_{\epsilon^2} f(y) F\big(\rho_\epsilon *\eta_s(y)\big), 
+\eta_s(dy) \big\rangle ds\Big]
+\]
+and we should like to show that this converges to 
+	\[
+		\int_0^t\int f(y)F(\varphi(s,y))\varphi(s,y)dyds.
+	\]
+	We proceed in stages. First we should like to transfer the 
+	heat semigroup from $T_{\epsilon^2}f$ onto $\eta_s$. 
+	Since $f$ is smooth, this will follow easily if we can show that
 \begin{align*}
 \IE\Big[
 \int_0^t\big\langle T_{\epsilon^2} f(y) F\big(\rho_\epsilon *\eta_s(y)\big), 
 \eta_s(dy) \big\rangle ds\Big]
-\sim 
+	\sim 
 \IE\Big[
 \int_0^t\big\langle T_{\epsilon^2} f(y) F\big(\rho_\epsilon * \eta_s(y)\big), 
 \rho_\epsilon * \eta_s(y) dy \big\rangle ds\Big].
 \end{align*}
-This is the content of Proposition~\ref{CuadraticApprox}, 
-but first we need a continuity 
-estimate on $\rho_\epsilon*\eta$.
-
-We fix $\delta>0$ and 
-suppose that $s>\delta$.
-Let us write
-\[
-\widehat{\epsilon}(\delta,\epsilon,\theta):=
-e^{-\epsilon^2\theta}+\frac{1}{(\epsilon^2+\delta)^{d/2}}
-\frac{1}{(A+1)^{\epsilon^2\theta}}e^{-\epsilon^2\theta},
-\]
-and note that under the assumption that $\epsilon^2\theta\to \infty$, for 
-each fixed $\delta>0$,  
-$\lim_{\epsilon\to 0, \theta\to\infty}
-\widehat{\epsilon}(\delta,\epsilon,\theta)=0$. 
-Using the semimartingale decomposition~(\ref{expn rhoepsilon}),
-and Lemmas~\ref{lem:poisson_ld} and~\ref{Lemma:BoundPsiHS2},
-we have
-\begin{align}
-& |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)| \nonumber 
-= |\langle p_{\epsilon^2}(y,z)-p_{\epsilon^2}(w,z),\eta_s(dz) \rangle | 
-\nonumber
-\\ 
-&\leq 
-\big\langle |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(w,z)|, 
-\eta_0(dz)\big\rangle \nonumber 
-+\frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
-p_{2(A+1)(\epsilon^2+s)}(y,z)+p_{2(A+1)(\epsilon^2+s)}(w,z), \eta_0(dz)
-\big\rangle
-\nonumber
-\\ 
-&+ \int_{s-\delta}^s \big\langle 
-|\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
-\eta_r(dz) \big\rangle  dr
-\nonumber
-\\
-&+
-\int_0^{s-\delta}
-\big\langle |p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)| 
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
-\eta_r(dz) \big\rangle  dr
-\nonumber
-\\
-&+
-\frac{C}{(\epsilon^2\theta)^{d/2}}
-\int_0^{s-\delta}
-\big\langle |p_{2(A+1)(s-r+\epsilon^2)}(y,z)+
-p_{2(A+1)(s-r+\epsilon^2)}(w,z)|
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
-\eta_r(dz) \big\rangle  dr
-\nonumber
-\\
-&
-+|M_s(y)|+|M_s(w)| 
-+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
-\big)  
-\nonumber
-\\
-&
-\leq \Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
-\big(p_{2(s+\epsilon^2}(y,z)+p_{2(s+\epsilon^2}(w,z)\big),\eta_0(dz)\Big\rangle
-\nonumber
-\\
-&+
-\int_0^{s-\delta}\Big\langle\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
-\big(p_{2(s-t+\epsilon^2}(y,z)+p_{2(s-r+\epsilon^2}(w,z)\big)
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
-\eta_r(dz)\Big\rangle dr
-\nonumber
-\\
-&
-+\frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
-p_{2(A+1)(\epsilon^2+s)}(y,z)+p_{2(A+1)(\epsilon^2+s)}(w,z), \eta_0(dz)
-\big\rangle
-\nonumber
-\\
-&+
-\frac{C}{(\epsilon^2\theta)^{d/2}}
-\int_0^{s-\delta}
-\big\langle |p_{2(A+1)(s-r+\epsilon^2)}(y,z)+
-p_{2(A+1)(s-r+\epsilon^2)}(w,z)| 
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
-\eta_r(dz) \big\rangle  dr
-\nonumber
-\\
-&
-+|M_s(y)|+|M_s(w)| 
-+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
-\big) . 
-\label{difference in rhos}
-\end{align} 
-Although this expression is lengthy, when we need to control its 
-contribution to expressions below, it will really just be a matter of
-applying the tower property and our moment bounds from 
-Lemma~\ref{bounds on moments} and 
-Corollary~\ref{alternative form moment bounds}.
-
-\comment{perhaps explain: the next proposition is useful because we'll want to use weak convergence of $\smooth{\epsilon}\eta_s$; but in the martingale we have the term on the left in the proposition; probably there are other ways to do this.}
-\comment{ACTUALLY BETTER we want to transfer $T_\epsilon^2$ over onto $\eta$; this happens in two steps, first this proposition; next using that $T_{\epsilon^2}f - f$ is small; ALISON}
+This is the content of Proposition~\ref{CuadraticApprox}. 
 
 \begin{proposition} 
 \label{CuadraticApprox}
 Under the conditions of Theorem~\ref{thm:local_convergence},
 \begin{equation}
 \label{replacing nonlinear term}
-\lim_{\epsilon\to 0}\Big|\int_0^t \IE\Big[\big\langle T_{\epsilon^2} f(y) 
+\lim_{\epsilon\to 0}\IE\Big[\Big|\int_0^t\big\langle T_{\epsilon^2} f(y) 
 F(\rho_\epsilon *\eta_s(y)), \eta_s(y) \big\rangle 
 - \big\langle T_{\epsilon^2} f(y) 
 F(\rho_\epsilon * \eta_s(y)), \rho_\epsilon * \eta_s(y) dy 
-\big\rangle\Big]ds \Big|
+\big\rangle ds \Big|\Big]
 =0.
 \end{equation}
 \end{proposition}
 
 \begin{proof}
-In fact we are going to fix $\delta>0$, and show that
+In fact we are going to fix $\delta>0$, with $t>\delta$, and show that
 the expression on the left hand side of~\eqref{replacing nonlinear term} is
 less than a constant times $\delta$, with a constant independent of $\delta$,
 $N$, and $\epsilon$. Since $\delta$ is arbitrary, the result will follow.
@@ -6126,13 +6186,11 @@ Combining the above, we have reduced the problem to showing that
 \begin{equation}
 \label{target expression}
 	\lim_{\epsilon\to 0}
-	\int_0^t\big\langle \int |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)|
+	\IE\Big[	\int_0^t\big\langle \int |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)|
 \left(\rho_\epsilon*\eta_s(y))^k+\rho_\epsilon*\eta_s(w)^k\right)
-p_{\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle ds
+	p_{\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle ds\Big]
 =0,
 \end{equation}
-\comment{check this: which we prove by showing the expectation of this positive quantity goes to zero; e.g., see Lemma 7.5(?): ALISON}.
-
 We are going to use the estimate~(\ref{difference in rhos}).
 First note that by Lemma~\ref{bounds on moments}
 the contribution to~(\ref{target expression}) from the integral over
@@ -6143,12 +6201,14 @@ The first term in~(\ref{difference in rhos}) gives
 \begin{multline*}
 \int_\delta^t\IE\Big[\Big\langle\int
 	\big\langle\frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
-\big(p_{2(s+\epsilon^2)}(y,z)+p_{2(s+\epsilon^2)}(w,z)\big),\eta_o(dz)\big\rangle
+\big(p_{2(s+\epsilon^2)}(y,z)+p_{2(s+\epsilon^2)}(w,z)\big),\eta_0(dz)\big\rangle
 \\
 \big(\rho_\epsilon*\eta_s(y)^k+\rho_\epsilon*\eta_s(w)^k\big)
 p_{\epsilon^2}(w,y)dy, \eta_s(dw)\Big\rangle\Big] ds.
 \end{multline*}
-We ``borrow'' from the exponential term in $p_\epsilon^2(w,y)$ to bound
+We ``borrow'' from the exponential term to see that 
+$\|y-w\|p_{\epsilon^2}(w,y)\leq C\epsilon p_{2\epsilon^2}(w,y)$
+and so bound
 this by
 \begin{multline}
 C\int_\delta^t\frac{\epsilon}{\sqrt{s+\epsilon^2}}
@@ -6232,7 +6292,7 @@ from this term of the form
 \[C\epsilon\int_\delta^t\frac{1}{(s+\epsilon^2)^{d/2}}ds.\]
 Note that for fixed $\delta$, this bound tends to zero as $\epsilon\to 0$.
 
-Now consider the contribution to he left hand side of~(\ref{target expression})
+Now consider the contribution to the left hand side of~(\ref{target expression})
 from the second term in~(\ref{difference in rhos}). Since $F$ is a polynomial,
 it is bounded by a sum of terms of the form
 \begin{multline*}
@@ -6288,11 +6348,12 @@ control terms of the form
 This, in turn, is at most
 \begin{multline*}
 \IE\Big[\big\langle \rho_\epsilon*\eta_r(z)^{j+k+1}, \eta_r(dz)\rangle\Big]
-+\IE\Big[\int\int p_{2(s-r)}(y,x)\rho_\epsilon*\eta_r(x)\rho_\epsilon*\eta_r(y)^{k+1} dy dx\Big]
++\IE\Big[\int\int p_{2(s-r)}(y,x)\rho_\epsilon*\eta_r(x)
+	\rho_\epsilon*\eta_r(y)^{j+k+1} dy dx\Big]
 \\
 \leq
 \IE\Big[\big\langle \rho_\epsilon*\eta_r(z)^{j+k+1}, \eta_r(dz)\rangle\Big]
-+2\int\IE\Big[\rho_\epsilon*\eta_r(x)^{k+2}\Big]dx,
++2\int\IE\Big[\rho_\epsilon*\eta_r(x)^{j+k+2}\Big]dx,
 \end{multline*} 
 which is bounded by Lemma~\ref{bounds on moments}.
 
@@ -6305,6 +6366,11 @@ in~(\ref{difference in rhos}):
 \rho_\epsilon*\eta_s(w)^k\big)p_{\epsilon^2}(w,y)dy, \eta_s(dw)\Big\rangle ds
 \Big] .
 \]
+Since $\psi_{t-s}^{\epsilon,x}(y)=p_{T(t-s)+\epsilon^2}(x,y)$, 
+rearranging~(\ref{})
+we see that we can pull a convolution with $p_{\epsilon^2/2}$ out of
+our expressions for $M_s(x)$ and $M_s(w)$ and so all the manipulations 
+that we used to control terms above with still be valid.
 To deal with the two terms in the produce involving $|M_s(y)|$, we write 
 the first as $\int |M_s(y)|\rho_\epsilon*\eta_s(y)^{k+1}dy$ and then use
 H\"older's inequality, Lemma~\ref{bounds on moments}, and the fact
@@ -6314,19 +6380,16 @@ For the second, we use the idea of the proof of
 Corollary~\ref{alternative form moment bounds} to reduce to a form to which
 we can apply H\"older's inequality.
 
-\comment{Probably should put a bit more detail in here?}
-\comment{key bit is that we can always write $M_s(w)$ as a convolution of $p_{\epsilon^2/2}$ with something: ALISON}
-
 Control of the terms arising from approximating $\psi^{\epsilon,x}$
 by the heat kernel follows in an entirely analogous way.
 
 Combining the above, we see that given $\delta>0$, 
 \[
-\lim_{\epsilon\to 0}\Big|\int_0^t \IE\Big[\big\langle T_{\epsilon^2} f(y) 
-F(\rho_\epsilon *\eta_s(y)), \eta_s(y) \big\rangle 
-- \big\langle T_{\epsilon^2} f(y) 
+\lim_{\epsilon\to 0}\IE\Big[\Big|\int_0^t\big\langle T_{\epsilon^2} f(y) 
+F(\rho_\epsilon *\eta_s(y)), \eta_s(y) \big\rangle ds 
+- \int_0^t\big\langle T_{\epsilon^2} f(y) 
 F(\rho_\epsilon * \eta_s(y)), \rho_\epsilon * \eta_s(y) dy 
-\big\rangle\Big]ds\Big|
+\big\rangle ds\Big|\Big]
 <C\delta,
 \]
 where the constant $C$ is independent of $\delta$.
@@ -6335,7 +6398,19 @@ Since $\delta$ was arbitrary, the proof is complete.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-To complete the characterisation of the limit, it remains to show that if we
+Since $f$ is smooth, $T_\epsilon^2f-f$ is ${\mathcal O}(\epsilon)$, 
+with an application of the triangle inquality, 
+\[
+\lim_{\epsilon\to 0}\IE\Big[\Big|\int_0^t\big\langle T_{\epsilon^2} f(y) 
+F(\rho_\epsilon *\eta_s(y)), \eta_s(y) \big\rangle ds 
+- \int_0^t\big\langle f(y) 
+F(\rho_\epsilon * \eta_s(y)), \rho_\epsilon * \eta_s(y) dy 
+\big\rangle ds\Big|\Big]
+<C\delta,
+\]
+now follows immediately.
+Thus to complete the characterisation of the limit, 
+it remains to show that if we
 take a convergent subsequence 
 $\big\{\big(\rho_\epsilon*\eta_t^N(dx)\big)_{t\geq 0}\big\}$ 
 converging to a limit point $\big(\varphi(t,x)dx\big)_{t\geq 0}$, then
@@ -6353,7 +6428,7 @@ To illustrate the approach, we first prove that
 \rightarrow \int_0^t \int f(x) 
 \varphi(s,x)^2 dx ds. 
 \end{equation}
-The converge of higher powers will follow in an entirely analogous manner, but
+The convergence of higher powers will follow in an entirely analogous manner, but
 with more complex expressions.
 
 The approach is standard. We fix $\tau>0$ and, in keeping with
@@ -6410,7 +6485,7 @@ where $C$ is independent of $\tau$.
 First note,
 \begin{align}
 &\int_0^t 
-\mathbb{E}\left[\big| \langle f(y), (\eta_s * \rho_\epsilon(y))^2) dy \rangle 
+\mathbb{E}\left[\big| \langle f(y), (\rho_\epsilon*\eta_s(y))^2) dy \rangle 
 - \int \int f(y) (\rho_\epsilon * \eta_s)(z) \rho_\tau (z-y) 
 (\rho_\epsilon * \eta_s)(y) dz dy \big|\right] ds 
 \nonumber 
@@ -6419,7 +6494,7 @@ First note,
 \Vert f \Vert_\infty \int  \int_0^t  
 \mathbb{E}\left[ \int \left\{ \left|(\rho_\epsilon * \eta_s)(y)
 -(\rho_\epsilon * \eta_s)(z) \right|   \rho_\tau(z-y) dz \right\} 
-(\rho_\epsilon *\eta_s)(y) \right] ds  dy 
+(\rho_\epsilon *\eta_s)(y) \right] ds  dy. 
 \label{b1}
 \end{align}
 Now proceed exactly as in the proof of 
@@ -6443,7 +6518,6 @@ fixed (but arbitrary) $\tau$, one shows that
 	\rho_\epsilon*\eta_s^N(y_1) 
 \prod_{i=2}^{k}\rho_\tau (y_i-y_{i-1})\rho_\epsilon*\eta_s^N(y_i)
 dy_{k}\ldots dy_1 ds\Big| \Big]
-	\\
 	\leq C\tau,
 \end{multline*}
 with a corresponding statement when $\rho_\epsilon*\eta_s^N(x)$ is replaced
