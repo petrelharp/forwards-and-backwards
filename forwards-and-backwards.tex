@@ -1337,10 +1337,9 @@ will denote functions for which the $L^1$ norm in space is continuous in time.
 \begin{proposition}
 	\label{nonlocalPME to PME}
 Suppose that
-% we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x)$ and
-% $\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
-$\rho_\gamma = p_{\epsilon^2_\gamma}$,
-and that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
+we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x)$ and
+$\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
+Furthermore, suppose that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
 $\psi_0^\epsilon\geq 0$ is such that
 there exist $\lambda\in (0,1)$ and $C\in (0,\infty)$ (independent
 of $\epsilon$) such that 
@@ -4603,9 +4602,7 @@ An application of Gronwall's inequality then yields,
 In this subsection we prove Proposition~\ref{nonlocalPME to PME}.
 To ease notation, we present
 the proof in $d=1$ (although we retain the notation $\nabla$).
-However to recall the dependence on $\epsilon$ we write $\rho^\epsilon$ for $\rho_\gamma$
-(which recall for this Proposition we suppose is Gaussian
-and equal to $p_{\epsilon^2_\gamma}$).
+However, to recall the dependence on $\epsilon$ we write $\rho^\epsilon$ for $\rho_\gamma$.
 It should be clear that it extends almost without change
 to higher dimensions. 
 
@@ -4617,8 +4614,10 @@ we are concerned with non-negative solutions to the equation~(\ref{mollified equ
 	+\psi_t^\epsilon(x)\left(1-\rho^\epsilon *\psi_t^\epsilon(x) 
 \right) .
 \end{equation*}
-% and we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function. 
-% The example we have in mind is $\zeta$ (and therefore $\rho$) being
+and 
+we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function. 
+The example we have in mind is $\zeta$ (and therefore $\rho$) being the density of
+a mean zero Gaussian random variable.  
 We shall prove that under the 
 assumptions of Proposition~\ref{nonlocalPME to PME},
 as $\epsilon\to 0$, we have
@@ -4691,13 +4690,12 @@ as required.
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{nonlocalPME to PME}]
-Write $\zeta = p_{\epsilon^2_\gamma / 2}$, so that $\rho = \zeta * \zeta$.
 First observe that
 \begin{multline*}
 	\int \psi_t^\epsilon(x)\, \rho^{\epsilon}*\psi_t^\epsilon(x) dx 
 =
 \int\int\int \psi_t^\epsilon(x)\psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-{\zeta}^{\epsilon}(z) dz dy dx 
+\check{\zeta}^{\epsilon}(z) dz dy dx 
 \\
 =
 \int\int\int \psi_t^\epsilon(\tilde{x}-\tilde{z})
@@ -4814,7 +4812,7 @@ For the first term
 \int \nabla(\rho^{\epsilon}*\psi_t^\epsilon)\, \psi_t^\epsilon\, \nabla\phi  dx
 &=&
 \int\int\int\nabla \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-{\zeta}^{\epsilon}(z)
+\check{\zeta}^{\epsilon}(z)
 \psi_t^\epsilon(x)\nabla\phi(x) dz  dy  dx
 \\
 \nonumber
@@ -4860,7 +4858,7 @@ Similarly, for the second term in~(\ref{total equation}),
 \int (\rho^{\epsilon}*\psi_t^\epsilon)\, \nabla \psi_t^\epsilon\, \nabla\phi dx
 &=&
 \int\int\int \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y-z)
-{\zeta}^{\epsilon}(z)\nabla \psi_t^\epsilon(x)\nabla\phi(x) dz dy  dx
+\check{\zeta}^{\epsilon}(z)\nabla \psi_t^\epsilon(x)\nabla\phi(x) dz dy  dx
 \\
 \nonumber
 &=&
