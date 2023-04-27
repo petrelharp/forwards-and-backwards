@@ -875,8 +875,8 @@ We assume that
 \item For each $f \in C_b^2(\IR^d)$,
     there is a $C_f$ such that
     $$
-        |\gamma(x, \smooth{\gamma} \eta(x)) \theta \int 
-        (r(y, \smooth{r} \eta(y)) f(y) - r(x, \smooth{r} \eta(x)) f(x))
+        |\gamma(x, \eta) \theta \int 
+        (r(y,\eta) f(y) - r(x, \eta) f(x))
         q_\theta(x, dy)| \le C_f (1 + |f(x)|)
     $$
     for all $x \in \IR^d$ and $\eta \in \measures$.
@@ -888,8 +888,7 @@ We assume that
 \end{enumerate}
 To keep expressions manageable, we shall also assume that 
 \[
-\mu_\theta(x) = r(x, \smooth{r} X(x) / N) \gamma(x, \smooth{\gamma} X(x) / N)
-        - \frac{1}{\theta} F(x, \smooth{F} X(x) / N),
+\mu_\theta(x) = r(x,\eta) \gamma(x,\eta) - \frac{1}{\theta} F(x,\eta),
 \]
 that is, this expression is non-negative so that there is no need to take the maximum
 	with zero in~(\ref{eqn:mu_defn}). (This is anyway true for 
@@ -897,7 +896,7 @@ that is, this expression is non-negative so that there is no need to take the ma
 \end{assumptions}
 
 Since we take bounded $f$,
-for most situations the bound $C_f(1+f(x))$ in condition~\ref{gamma_B_condition} above
+for most situations the bound $C_f(1+|f(x)|)$ in condition~\ref{gamma_B_condition} above
 can be safely replaced simply by $C_f$;
 however, this will be useful
 in certain situations where we consider a sequence of $f$ with increasing upper bounds.
@@ -911,8 +910,8 @@ We now give two concrete situations in which condition~\ref{gamma_B_condition} i
 \begin{enumerate}
 \item
 \label{control through r} 
-    $|\partial_{x_i}r(x,\smooth{r}\eta(x))|$ and 
-    $|\partial_{x_ix_j}r(x,\smooth{r}\eta(x))|$
+    $|\partial_{x_i}r(x,\eta)|$ and 
+    $|\partial_{x_ix_j}r(x,\eta)|$
     are uniformly bounded for $x\in\IR^d$, $\eta\in\measures$;
 \item 
 \label{control through gamma}
@@ -933,12 +932,14 @@ The purpose of the conditions that we have placed on the reproduction parameters
 ensure that the net per capita reproduction rate (before time scaling)
 is order $1/\theta$. As remarked above, 
 because of the non-local reproduction mechanism, it no longer suffices to assume that 
-$r(x,\smooth{r}\eta(x))\gamma(x, \smooth{\gamma}\eta(x))-\mu_\theta(x)$ is of order $1/\theta$.
-An instructive example is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
+$r(x,\eta)\gamma(x,\eta)-\mu_\theta(x)$ is of order $1/\theta$.
+Perhaps the simples example in which we can see this
+is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
 and $\eta = \delta_x$
 (i.e., the population has all individuals at a single location),
-in which case the mean rate of change of the total population size
-is $\int (r(y, N \rho_r(y) ) - r(x, N \rho_r(x))) q_\theta(x, dy)$;
+so that $\smooth{r} \eta(y) = \rho_r(y)$.
+In this case, the mean rate of change of the total population size
+is $\int (r(y, \rho_r(y) ) - r(x, \rho_r(x))) q_\theta(x, dy)$;
 the first condition of Lemma~\ref{lem:conditions on r} would ensure this is of order $1/\theta$.
 
 If $r(x,m)$ is independent of $m$, then the conditions are easy to 
@@ -1243,7 +1244,7 @@ equation and the classical PDE through a Feynman-Kac formula.
 
 \begin{proposition}
     \label{prop:nonlocal_to_local}
-Let notation $\rho^\epsilon_F(x)=\rho_F\big(x/\epsilon)/\epsilon^d$.
+Let $\rho^\epsilon_F(x)=\rho_F\big(x/\epsilon)/\epsilon^d$.
 Assume $\varphi_0\in L^2(\IR)$ is a positive, uniformly Lipschitz, and uniformly bounded function. 
 Suppose that $\varphi^\epsilon\in L^2(\IR^d)$ is a weak solution to the equation
 \begin{equation}
@@ -1395,9 +1396,9 @@ The proof is provided in Section~\ref{subsec:one step convergence proof}.
 $r(x,m)\equiv 1\equiv \gamma(r,m)$, $F(x,m)\equiv F(m)$, 
 $\rho^\epsilon_F$ a symmetric Gaussian density with variance
 parameter $\epsilon^2$,
-and $\DG=\Delta$. 
+and $\DG=\Delta/2$. 
 Further suppose that $F(m)$ is a polynomial with $F(m)\ind_{m\geq 0}$ bounded above.
-Assume that $\langle 1,\eta_0\rangle$ is bounded, and that for all 
+Assume that $\langle 1,\eta_0^N\rangle$ is uniformly bounded, and that for all 
 $x\in\IR^d$ and $k\in \IN$,
 	\[
 		\limsup_{\epsilon\to 0} 
@@ -1420,7 +1421,7 @@ to a measure-valued process with a density $\varphi(t, x)$
 that solves
 \begin{align}
 	\label{target equation in local convergence}
-        \partial_t \varphi(t, x)=\Delta \varphi (t,x) +\varphi(t,x) F(\varphi(t,x)).
+        \partial_t \varphi(t,x) = \frac{1}{2} \Delta \varphi(t,x) +\varphi(t,x) F(\varphi(t,x)).
 \end{align}
 \end{theorem}
 
@@ -1639,7 +1640,7 @@ velocity $\wavespeed$,
 r\sigma^2\Delta (\gamma w) -\meanq \cdot\grad (\gamma w) +\wavespeed \cdot \grad w =0 .
     \end{align*}
     Then the semigroup $Q_s$
-    of the motion of a lineages in frame that is moving at speed $\wavespeed$
+    of the motion of a lineage in the frame that is moving at speed $\wavespeed$
     is time-homogeneous with generator
     \begin{align}
 \label{Lgen}
@@ -1682,7 +1683,7 @@ on a thin layer of agar in a Petri dish
 \citep{cohen/golding/kozlovsky/benjacob/ron:1999}. 
 We shall pay particular attention to the case in which the equation can be 
 thought of as modelling the density of an expanding population. 
-We focus instead on the monostable reaction of~(\ref{PME}).
+We focus on the monostable reaction of~(\ref{PME}).
 
 Comparing %\eqref{PME} 
 with \eqref{eqn:nonlocal_pde},
@@ -1703,7 +1704,7 @@ is violated.
 This can be corrected by use of a cut-off, and in fact the downwards drift
 provided by the logistic control of the population size prevents $m$ from 
 getting too big. 
-In practice in our simulations shown in Figure~\ref{fig:pme_waves}
+In practice the simulations shown in Figure~\ref{fig:pme_waves}
 take discrete time steps of length $dt$ (with $dt$ suitably small),
 and have each individual reproduce and die with probabilities, respectively,
 \begin{align*}
@@ -1728,7 +1729,7 @@ corresponding to an unscaled density of $N$ individuals per unit area.
         \includegraphics[width=0.7\textwidth]{figures/fig2b}
     \end{center}
     \caption{
-        Simulated 1D populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
+        Simulated populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
         % comparing the simulated profile to the analytical solution;
         $\theta/N$ small on the left; large on the right.
         % Simulation is with $\gamma(m) = m$ and $\mu(m) = (1+1/\theta) m - 1/\theta$
@@ -1857,7 +1858,7 @@ and shape
 \[ w^A(x) = (1+e^{x})^{-1} , \]
 i.e., $\phi_t(x)=w^A(x-st)$ solves~(\ref{eqn:allen_cahn}).
 Substituting $w^A$ in place of $w^F$ in~(\ref{eqn:fkpp_generator}),
-we find that the generator of an ancestral lineage is now, 
+we find that the generator of an ancestral lineage relative to the wavefront is now, 
 \begin{align*}
 \Lgen_A f
     &=
@@ -1875,7 +1876,6 @@ we find that the generator of an ancestral lineage is now,
 \end{align*}
 so lineages in the tip are pushed leftwards into the bulk of the 
 wave at a rate $s-2e^x/(1+e^{x})$.
-The strength of this drift decreases exponentially as $x\to -\infty$.
 The density of the speed measure for this diffusion is
 $$
     m_A(x) \propto e^{sx}(1+e^x)^{-2},
@@ -2000,7 +2000,8 @@ parameters are spatially homogeneous,
 so that $r(x, \eta) = r(\smooth{r}\eta(x))$, and similarly for $\gamma$ and $F$.
 If $\varphi_0$ is such that $F(\varphi_0)=0$ and $F'(\varphi_0)<0$, then the
 constant solution $\varphi\equiv\varphi_0$ is a nontrivial equilibrium
-of~\eqref{general deterministic limit}. However, it may be not unique and/or unstable,
+of~\eqref{general deterministic limit}.
+However, this constant solution may not be unique, it may be unstable,
 and a stable solution may have oscillations on a scale determined by the interaction distance.
 
 To understand the stability of the constant solution $\varphi\equiv\varphi_0$, 
@@ -2516,9 +2517,9 @@ This agrees with Theorem~\ref{thm:lineages}.
 
 Our characterisation of the motion of lines of descent (from which we establish
 that of ancestral lineages) when we pass
-to the scaling limit in our model will be justified via this construction.
+to the scaling limit in our model will be justified via a lookdown construction.
 In this section 
-we present a lookdown construction for the general population model 
+we present such a construction for the general population model 
 of Definition~\ref{defn:mgale_construction}. It will be
 in the spirit of~\cite{kurtz/rodrigues:2011}. 
 The general set-up is as follows.
@@ -2551,7 +2552,7 @@ The power of this approach is that we can pass to a limit under the
 same scalings as described in Theorem~\ref{thm:nonlocal_convergence}, 
 and 
 the limiting ``spatial-level'' process will still be a point measure,
-and so we explicitly retains the notion of individuals and lineages
+and so we explicitly retain the notion of individuals and lineages
 in the infinite-population limit.
 
 
@@ -2664,8 +2665,6 @@ and
     \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) ,
 \end{align}
 which captures the local rate of production of successful offspring.
-\comment{FROM ALISON This sort of true because it corresponds to lookdown events, but when I read this again I was confused. Is there a better way to say it?} 
-\comment{PETER: I'm not sure which bit is confusing?}
 Recall from equation~\eqref{eqn:mu_defn} that
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu_\theta(x,\eta))$,
 and so 
@@ -2675,7 +2674,7 @@ b_\theta(x, \eta)
 	q_\theta(x, dy)
     + F(x, \eta). 
 \end{equation}
-Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$,
+Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$ and
 $c_\theta(x, \eta)$ will tend to $\alpha \gamma(x, \eta) r(x, \eta)$
 \begin{equation}
 \label{eqn:b_limit}
@@ -4203,7 +4202,7 @@ rearranging as in \eqref{eqn:rewritten mean measure}
 and using the convergence of \eqref{eqn:near_critical},
 we deduce that we can dominate
 $\left| \Pgen^{N}G_f(\eta^{N}_s) -\Pgen^{\infty}G_f(\eta^{N}_s) \right|$
-by a constant multiple of $\langle 1+F(x),\eta_s(dx)\rangle$.
+by a constant multiple of $\langle 1+|F(x)|,\eta_s(dx)\rangle$.
 Since $F$ is bounded above, there is a constant $K$ such that $|F|\leq K-F$ so
 that, exactly as in equation~(\ref{integral of -F}), 
 we can check that
@@ -4680,7 +4679,7 @@ using Jensen's inequality and~(\ref{exp decay of u}),
 \end{equation*}
 Evidently a symmetric argument applies for $x\leq -1$.
 Summing over $x$,
-and using that $\psi \log \psi \ge - \psi |\log \psi| \ind_\psi \le 1$,
+    and using that $\psi \log \psi \ge - \psi |\log \psi| \ind_{\psi \le 1}$,
 we find
 \begin{equation*}
 \int \psi_t^\epsilon (x) \log \psi_t^\epsilon (x) dx
@@ -4950,12 +4949,10 @@ for emphasis, we
 suppress dependence of $\eta$ on $N$.}
 
 The first part of the proof mirrors that of Theorem~\ref{thm:nonlocal_convergence}:
-we establish sufficient bounds on the moments of $\rho_\epsilon*\eta_t(x)$ to
-establish tightness and then apply standard results on 
+in Subsection~\ref{bounds on rhoepsilon}
+we establish bounds on the moments of $\rho_\epsilon*\eta_t(x)$ that are sufficient to
+imply tightness and then apply standard results on 
 convergence of Markov processes from~\cite{ethier/kurtz:1986}. 
-Bounds on the moments of $\rho_\epsilon*\eta_t$
-are established in 
-Subsection~\ref{bounds on rhoepsilon}.
 The challenge
 comes in identifying the limit points. This is much more intricate than the case in 
 which we do not scale the interaction kernel, as weak convergence will no longer
@@ -4983,6 +4980,40 @@ In what follows we write $\psi_t^{\epsilon, x}(y)$ for the solution of
 \end{equation}
 with initial condition 
 $\psi_0^{\epsilon,x}(y) = \rho_\epsilon(y-x) =p_{\epsilon^2}(x,y)$.
+
+To see why $\psi_t^{\epsilon,x}$ is useful,
+first note that for any time-dependent function $\phi_t(x)$
+with time derivative $\dot \phi_t(x) = \partial_t \phi_t(x)$,
+\begin{multline}
+\label{time dep mg prob}
+    \langle \phi_t(x), \eta_t(dx) \rangle
+    = 
+    \langle \phi_0(x), \eta_0(dx) \rangle
+    +
+    M_t(\phi_\cdot(\cdot))
+    +
+    \int_0^t \big\langle \mathcal{L}^\theta \phi_s(x) 
+        + \dot \phi_s(x), \eta_s(dx) \big\rangle ds
+    \\  {}
+    +
+    \int_{0}^t \big\langle \phi_s(x) F(x, \eta_s) , \eta_s(dx) \big\rangle ds ,
+\end{multline}
+where $M_t(\phi_\cdot(\cdot))$ is a martingale (with respect to the natural filtration)
+with quadratic variation given by~\eqref{eqn:prelimit_martingale_variation}
+with $f$ replaced by $\phi_s(\cdot)$.
+So, taking $\phi_s(\cdot)=\psi_{t-s}^{\epsilon,x}(\cdot)$ for $0 \le s \le t$,
+\begin{eqnarray}
+    \nonumber
+    \rho_\epsilon*\eta_t(x)&=&\langle\psi^{\epsilon,x}_0(y),\eta_t(dy)\rangle
+    \\
+    &=&\langle\psi^{\epsilon,x}_t(y),\eta_0(dy)\rangle
+    +\int_0^t\big\langle\psi^{\epsilon,x}_{t-s}(y)
+    F\big(\rho_\epsilon*\eta_s(y)\big), \eta_s(dy)\big\rangle ds
+    +M_t(x),
+    \label{expn rhoepsilon} 
+\end{eqnarray}
+where $M_t(x)$ has mean zero and a second moment we can easily write down.
+
 
 \begin{lemma} \label{PsiBoundHS}
     Fix $t>0$,
@@ -5113,46 +5144,17 @@ quantities on the right hand side of~(\ref{moment bound rhoepsilon})
 and~(\ref{flandoli trick for rhoepsilon}) are both integrable 
 with respect to Lebesgue measure.  
 \end{lemma}
+
 \begin{proof}
 To simplify our expressions, we shall consider the case $u=0$, but
 the proof goes through unchanged for other values of $u$.
 
 We proceed by induction. 
-
-For any time-dependent function $\phi_t(x)$
-with time derivative $\dot \phi_t(x) = \partial_t \phi_t(x)$,
-\begin{multline}
-\label{time dep mg prob}
-    \langle \phi_0(x), \eta_t(dx) \rangle
-    = 
-    \langle \phi_t(x), \eta_0(dx) \rangle
-    +
-    M_t(\phi_\cdot(\cdot))
-    +
-    \int_0^t \big\langle \mathcal{L}^\theta \phi_{t-s}(x) 
-- \dot \phi_{t-s}(x), \eta_s(dx) \big\rangle ds
-    \\  {}
-    +
- \int_{0}^t \big\langle \phi_{t-s}(x) F(x, \eta_s) , \eta_s(dx) \big\rangle ds ,
-\end{multline}
-where $M_t(\phi_\cdot(\cdot))$ is a martingale. 
-Taking $\phi_t(\cdot)=\psi_t^{\epsilon,x}(\cdot)$,
-\begin{eqnarray}
-\nonumber
-\rho_\epsilon*\eta_t(x)&=&\langle\psi^{\epsilon,x}_0(y),\eta_t(dy)\rangle
-\\
-&=&\langle\psi^{\epsilon,x}_t(y),\eta_0(dy)\rangle
-+\int_0^t\big\langle\psi^{\epsilon,x}_{t-s}(y)
-F\big(\rho_\epsilon*\eta_s(y)\big), \eta_s(dy)\big\rangle ds
-+M_t(x),
-\label{expn rhoepsilon}
-\end{eqnarray}
-where $M_t(x)$ is a martingale. 
 Taking expectations in~(\ref{expn rhoepsilon}), using that $F$ is bounded above, and 
 applying Gronwall's inequality to 
 $\langle\psi^{\epsilon,x}_{t-s}, \eta_s\rangle$ 
 we obtain~(\ref{moment bound rhoepsilon})
-in the case $k=1$. 
+(without the second term on the right hand side) in the case $k=1$.
 Moreover, rearranging~(\ref{expn rhoepsilon}) we find 
 \begin{equation}
 -\int_0^t\big\langle\psi^{\epsilon,x}_{t-s}(y)
@@ -5178,9 +5180,9 @@ in the case $k=1$.
 
 Now suppose that we have established~(\ref{moment bound rhoepsilon}) 
 and~(\ref{flandoli trick for rhoepsilon}) for all exponents $j<k$.
-First we calculate the generator $\Pgen^N$ of our scaled population process applied
+First we apply the generator $\Pgen^N$ of our scaled population process
 to functions of the form $\langle f,\eta\rangle^k$.
-Recalling that each jump of the process involves the birth or death or a single 
+Recalling that each jump of the process involves the birth or death of a single 
 individual, and so increments $\langle f,\eta\rangle$ by $\pm f/N$ at the location of
 that individual, we find 
 \begin{multline}
@@ -5210,7 +5212,7 @@ write
 \big\langle \psi^{\epsilon, x}_{t-s}(y),\eta_s(dy)\big\rangle^{k-1}ds
 \Big|{\cal F}_0\Big].
 \end{multline}
-Using(from Lemma~\ref{PsiBoundHS}) 
+Using (from Lemma~\ref{PsiBoundHS}) 
 that $\sup_s\|\psi^{\epsilon,x}_s(\cdot)\|_\infty=C/\epsilon^d$,
 $N\epsilon^d>1$,
 and our inductive
@@ -5273,7 +5275,7 @@ Lemma~\ref{bounds on moments}:
 \begin{corollary}
 \label{alternative form moment bounds}
 Under the assumptions of Theorem~\ref{thm:local_convergence},
-for each $k\geq 1$, $T>0$,
+for each $k\geq 1$, $T>0$, there is a $C(k,T)$ such that
 \begin{equation}
 \label{double integrals with respect to eta}
 \IE\Big[\big\langle (\rho_\epsilon*\eta_t)^{k},\eta_t\big\rangle \Big]
@@ -5382,7 +5384,7 @@ the inductive step is complete.
 \begin{corollary}[Tightness of $\{(\rho_\epsilon*\eta_t^N(x) dx)_{t\geq 0}\}$]
 \label{lem:density_tightness} 
 Under the assumptions of Theorem~\ref{thm:local_convergence},
-the sequence of measure valued processes $\{ \rho*\eta_t^N(x) dx \}_{t \geq 0}$
+the sequence of measure valued processes $\{ \rho_\epsilon*\eta_t^N(x) dx \}_{t \geq 0}$
 	(taking values in ${\mathcal D}_{[0,T]}(\measures)$) is tight.
 \end{corollary}
 \begin{proof}
@@ -5394,9 +5396,8 @@ bounded goes through unchanged, and since
 $\langle 1, \rho_\epsilon*\eta_t^N(x)dx\rangle=\langle 1, \eta_t^N\rangle$,  
 compact containment follows.
  
-As in the nonlocal case, it suffices to prove that for 
-for $T>0$, and any
-$f\in C_b^\infty (\IR^d)$ with bounded second derivatives, the
+As in the nonlocal case, it suffices to prove that for $T>0$,
+and any $f\in C_b^\infty (\IR^d)$ with bounded second derivatives, the
 sequence of real-valued processes 
 $\big\{\big(\int f(x)\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}\big\}_{N\geq 1}$ is tight.  
 Let us temporarily write $X_f^N(t)$ for $\int f(x)\rho_\epsilon*\eta_t^N(x)dx$
@@ -5436,7 +5437,7 @@ We have
 q_{\theta}(x,dy),\eta_u^N(dx)\Big\rangle du
 \right|
 \\
-+\int_s^t\Big\langle |F\big(\rho_\epsilon*\eta_u^N(x)\big)|\rho_\epsilon*f(x), 
++\int_s^t\Big\langle |F\big(\rho_\epsilon*\eta_u^N(x)\big)|\rho_\epsilon*|f|(x), 
 \eta_u^N(dx)\Big\rangle du +2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|,
 \end{multline}
 where $\widehat{M}^N(f)$ is the martingale of~(\ref{eqn:eta_martingale})
@@ -5456,32 +5457,42 @@ q_{\theta}(x,dy) \right|
 \left|\partial_sT_{\epsilon^2+s}f(x)\right|=\left|T_{\epsilon^2+s}\Delta f(x)\right|
 \leq\|\Delta f\|_\infty.
 \end{multline*}
-We therefore have
-\begin{multline*}
-        \left|
-        \langle \rho_{\epsilon} * f, \eta_t^N \rangle
-        -
-        \langle \rho_{\epsilon} * f, \eta_s^N \rangle
-        \right|
-        \leq
-        \| \Delta f \|_\infty |t-s|
-        \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle
-\\
-+
-	\int_s^t
-	\big\langle \rho_\epsilon*|f|(x)\, \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
-\eta_u^N(dx)\big\rangle du +2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|.
-    \end{multline*}
-Using the Burkholder-Davis-Gundy inequality, our
-moment bounds, and Markov's inequality
+The first term in~\eqref{tightness estimate} is therefore bounded by
+$$
+    \| \Delta f \|_\infty |t-s| \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle .
+$$
+% We therefore have
+% \begin{multline*}
+%         \left|
+%         \langle \rho_{\epsilon} * f, \eta_t^N \rangle
+%         -
+%         \langle \rho_{\epsilon} * f, \eta_s^N \rangle
+%         \right|
+%         \leq
+%         \| \Delta f \|_\infty |t-s|
+%         \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle
+% \\
+% +
+% 	\int_s^t
+% 	\big\langle \rho_\epsilon*|f|(x)\, \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
+% \eta_u^N(dx)\big\rangle du +2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|.
+%     \end{multline*}
+By the Burkholder-Davis-Gundy inequality,
+$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C \IE[[\widehat{M}^N(f)]_u]$,
+and so using
+and Markov's inequality and
+our moment bounds,
 \begin{equation}
 \label{martingale term to zero}
-\limsup_{N\to\infty}\IP\Big[
-2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|
->\frac{\nu}{3}
-\Big]\leq \limsup_{N\to\infty}\frac{36}{\nu^2}\IE\big[[\widehat{M}^N(f)]_T\big]
-\leq \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C\theta}{N\epsilon^d} 
-=0. 
+    \limsup_{N\to\infty}\IP\Big[
+        2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|
+        >\frac{\nu}{3}
+    \Big]
+    \leq
+    \limsup_{N\to\infty} \frac{36}{\nu^2} \IE\big[[\widehat{M}^N(f)]_T\big]
+    \leq
+    \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C\theta}{N\epsilon^d} 
+    =0. 
 \end{equation}
 Now consider
 \begin{multline}
@@ -5508,6 +5519,7 @@ in terms of sums of terms of the form
 \int\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^kdydu\Big].
 \]
 Now observe that, again using Lemma~\ref{bounds on moments}, 
+since $a^j b^k \le a^{j+k} b^{j+k}$,
 \begin{multline*}
 	\IE\left[	\int\int\rho_\epsilon*|f|(x)\rho_\epsilon*\eta_u^N(x)^j
 	\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^k dx dy\right]
@@ -5935,7 +5947,7 @@ Intermediate Value Theorem and take the modulus to bound this expression by
 \end{proof}
 
 We now have the ingredients that we need to write down a continuity 
-estimate on $\rho_\epsilon*\eta$.
+estimate for $\rho_\epsilon*\eta$.
 We fix $\delta>0$ and 
 suppose that $s>\delta$.
 Let us write
@@ -5949,37 +5961,39 @@ each fixed $\delta>0$,
 $\lim_{\epsilon\to 0, \theta\to\infty}
 \widehat{\epsilon}(\delta,\epsilon,\theta)=0$. 
 Using the semimartingale decomposition~(\ref{expn rhoepsilon}),
-and Lemmas~\ref{lem:poisson_ld} and~\ref{Lemma:BoundPsiHS2},
+and Lemma~\ref{Lemma:BoundPsiHS2},
 we have
 \begin{align}
 & |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)| \nonumber 
 = |\langle p_{\epsilon^2}(y,z)-p_{\epsilon^2}(w,z),\eta_s(dz) \rangle | 
 \nonumber
 \\ 
-&\leq 
+&\qquad
+    \leq 
 \big\langle |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(w,z)|, 
 \eta_0(dz)\big\rangle 
 \nonumber
-	\\
-	&+
+	\\ &\qquad \qquad {}
+    +
 \int_0^{s-\delta}
 \big\langle |p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)| 
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
-\\ 
-	&+\frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
+    \\ &\qquad \qquad {}
+	+ \frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
 p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z), \eta_0(dz)
 \big\rangle
 	+\widehat{\epsilon}(\delta,\epsilon,\theta)\langle 1,\eta_0(dz)\rangle
 	\nonumber
-	\\
-&+ \int_{s-\delta}^s \big\langle 
+    \\ &\qquad \qquad {}
++ \int_{s-\delta}^s \big\langle 
 |\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
-	\\ &+
+    \\ &\qquad \qquad {}
+    +
 \frac{C}{(\epsilon^2\theta)^{d/2}}
 \int_0^{s-\delta}
 \big\langle |p_{6(s-r+\epsilon^2)}(y,z)+
@@ -5987,33 +6001,30 @@ p_{6(s-r+\epsilon^2)}(w,z)|
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
-\\
-&
-+|M_s(y)|+|M_s(w)| 
+\\ & \qquad \qquad {}
++ |M_s(y)|+|M_s(w)| 
 %+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
 %\big)  
 \nonumber
-\\
-&
+\\ & \qquad 
 \leq \Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
 \big(p_{2(s+\epsilon^2}(y,z)+p_{2(s+\epsilon^2}(w,z)\big),\eta_0(dz)\Big\rangle
 \nonumber
-\\
-&+
+\\ & \qquad \qquad  {}
++
 \int_0^{s-\delta}\Big\langle\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
 \big(p_{2(s-t+\epsilon^2}(y,z)+p_{2(s-r+\epsilon^2}(w,z)\big)
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz)\Big\rangle dr
 \nonumber
-\\
-&
-	+\big\langle \frac{C}{(\theta\epsilon^2)^{d/2}}\Big( 
+\\ & \qquad \qquad  {}
+	+ \big\langle \frac{C}{(\theta\epsilon^2)^{d/2}}\Big( 
 	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)+
 	\widehat{\epsilon}(\delta,\epsilon,\theta) , \eta_0(dz)
 \big\rangle
 \nonumber
-\\
-&+
+\\ & \qquad \qquad  {}
++
 \int_0^{s-\delta}
 \big\langle \Big\{
 \frac{C}{(\epsilon^2\theta)^{d/2}}
@@ -6022,20 +6033,20 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
-\\
-&
-+|M_s(y)|+|M_s(w)|. 
+\\ & \qquad \qquad  {}
++ |M_s(y)|+|M_s(w)|. 
 %+\mathcal{O}\big(\widehat{\epsilon}(\delta,\epsilon,\theta)
 %\big) . 
 \label{difference in rhos}
 \end{align} 
+\comment{MISSING A TERM? the $\int_{s-\delta}^s$ one; and say it's bounded because of the moment bounds}
 Although this expression is lengthy, we have successfully isolated the
 terms involving $\|y-w\|$, which will control the regularity as we pass to the
 limit. Asymptotically, we 
 don't expect the martingale terms to contribute, since their 
-quadratic variation scales with $\theta/(N\epsilon^d)$, and we can see that 
-under the assumption that $\epsilon^2\theta\to\infty$, for any fixed $\delta>0$,
-the terms arising from 
+quadratic variation scales with $\theta/(N\epsilon^d)$, and
+under the assumption that $\epsilon^2\theta\to\infty$,
+for any fixed $\delta>0$, if $s > \delta$ the terms arising from 
 approximating the transition 
 density of the Gaussian 
 walk by the heat kernel at a fixed time, will tend to zero. 
@@ -6050,21 +6061,32 @@ Corollary~\ref{alternative form moment bounds}.
 \subsection{Identification of the limit}
 \label{limit in onestep case}
 
-
 We now turn to the identification of the limit points of the sequence 
 $\big\{\big(\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}\big\}_{N\geq 1}$.
-Writing
+We would like to show that any limit point solves~\eqref{target equation in local convergence}
+in the limit, i.e.,
+\begin{equation}\label{eqn:target PDE weak form}
+    \langle f(x), \varphi(t,x)dx \rangle
+    =
+    \int_0^t
+        \Big\langle
+        \frac{1}{2}\Delta f(x) + f(x) F(\varphi(s,x))
+        ,
+        \varphi(s,x) dx
+        \Big\rangle
+    ds .
+\end{equation}
+Since 
 $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
-\langle \rho_\epsilon*f(x), \eta_t^N(dx)\rangle
-=\langle T_{\epsilon^2}f(x),\eta_t^N(dx)\rangle$,
-where $T_{\cdot}$ denotes the heat semigroup, we proceed
-by examining the terms in the semimartingale
-decomposition~(\ref{eqn:eta_martingale})
-%of $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
-%\langle \rho_\epsilon*f, \eta_t^N(dx)\rangle$.
-when the test function $f$ is replaced by $T_{\epsilon^2}f$.
+\langle \rho_\epsilon*f(x), \eta_t^N(dx)\rangle$,
+this will follow if we can show that each the terms in the semimartingale
+decomposition~(\ref{eqn:eta_martingale}),
+with the test function $f$ replaced by $\rho_\epsilon*f(\cdot)$,
+converges to the corresponding term in~\eqref{eqn:target PDE weak form}.
 
 The linear term is straightforward.
+Write $T_{\cdot}$ for the heat semigroup, so that
+$\rho_\epsilon*f(x) = T_{\epsilon^2}f(x)$.
 By a Taylor expansion, writing $\{T_t\}_{t\geq 0}$ for the heat semigroup,
 \begin{align*}
 \int_0^t \big\langle \mathcal{L}^\theta T_{\epsilon^2} f, 
@@ -6518,7 +6540,7 @@ fixed (but arbitrary) $\tau$, one shows that
 dy_{k}\ldots dy_1 ds\Big| \Big]
 	\leq C\tau,
 \end{multline*}
-with a corresponding statement when $\rho_\epsilon*\eta_s^N(x)$ is replaced
+as well as a corresponding statement with $\rho_\epsilon*\eta_s^N(x)$ replaced
 by $\varphi(s,x)$ and then use weak convergence to see that, up to an error 
 of order $\tau$, any limit point of
 the sequence $\{\rho_\epsilon*\eta^N(x)dx\}$ solves (the weak form 
