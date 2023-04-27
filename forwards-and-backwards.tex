@@ -2141,12 +2141,11 @@ $$
 $$
 It is easy to see that $w$ does not uniquely specify $\gamma$, $F$, and $r$:
 let $\lambda(x)$ be a smooth, nonnegative function on $\IR^d$,
-\comment{TODO Should we worry that we used prime for differentiation before?}
-and let $r'(x, m) = \lambda(x) r(x, m)$ and $F'(x, m) = \lambda(x) F(x, m)$
-(and, let $\gamma' = \gamma$).
+and let $\widetilde{r}(x, m) = \lambda(x) r(x, m)$ and $\widetilde{F}(x, m) = \lambda(x) F(x, m)$
+(and, let $\widetilde{\gamma} = \gamma$).
 Since $\mu = r \gamma - F/\theta$,
 this corresponds to multiplying both establishment probabilities and death rates by $\lambda$.
-Then the population with parameters $\gamma'$, $r'$, and $F'$
+Then the population with parameters $\widetilde{\gamma}$, $\widetilde{r}$, and $\widetilde{F}$
 has the same stationary profile(s) as the original population.
 
 Can these two situations be distinguished from summaries of lineage movement?
@@ -3521,12 +3520,10 @@ we have a bound of the form
 \end{align*}
 for suitable constants $K_1$, $K_2$ that depend only on the derivatives of $f$.
 
-\comment{TODO I think we need to make the notation for $r(y, \rho_r*\eta(y))$ 
-consistent with what we have (now) used elsewhere, namely $r(y,\eta)$?}
 Now suppose instead that
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
 First note that
-    \begin{align}
+\begin{align}
 	    \nonumber
     & |B_f^\theta| =
         \left| \theta 
@@ -3534,7 +3531,7 @@ First note that
                 \big\{
                     f(y) r\big(y,\smooth{r}\eta(y)\big)
                     -
-                    f(x) r\big(x, \smooth{r}\eta(x)\big)
+                    f(x) r\big(x,\smooth{r}\eta(x)\big)
                 \big\}
             q_{\theta}(x,dy)
         \right|
@@ -3544,7 +3541,7 @@ First note that
         \left| \theta 
             \int_{\IR^n} 
                 \big\{
-                    f(y) r\big(y, \smooth{r}\eta(y)\big)
+                    f(y) r\big(y,\smooth{r}\eta(y)\big)
                     -
                     f(x) r\big(x,\smooth{r}\eta(y)\big)
                 \big\}
@@ -3562,12 +3559,16 @@ First note that
                 \big\}
             q_{\theta}(x,dy) 
         \right| .
-    \end{align}
+\end{align}
+(Note the extra term introduced here,
+$r(x,\smooth{r}\eta(y))$, has the two arguments to $r$
+``at different locations'', contrary to the usual pattern.)
 
- Writing
-    $K_3 = \sup_{x,m} \max_i |\partial_{x_i} f(x)r(x, m)|$
-    and 
-    $K_4 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x)r(x, m)|$,
+
+Writing
+$K_3 = \sup_{x,m} \max_i |\partial_{x_i} f(x)r(x, m)|$
+and 
+$K_4 = \sup_{x,m} \max_{i,j} |\partial_{x_i x_j} f(x)r(x, m)|$,
 % since
 % \[\big|\partial_{x_i}\big(f(x)r(x,\rho_r*\eta(y))\big|\leq K_3\]
 % and
@@ -3576,7 +3577,7 @@ the first term is bounded exactly as above. For the second,
     \begin{multline*}
         r(x, \smooth{r}\eta(y)) - r(x, \smooth{r}\eta(x))
         \\
-=
+        =
         (\smooth{r}\eta(y) - \smooth{r}\eta(x)) r'(x,\smooth{r}\eta(x))
         + \frac{1}{2} (\smooth{r}\eta(y) - \smooth{r}\eta(x))^2 r''(x, \overline{m}),
     \end{multline*}
