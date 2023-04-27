@@ -933,7 +933,7 @@ ensure that the net per capita reproduction rate (before time scaling)
 is order $1/\theta$. As remarked above, 
 because of the non-local reproduction mechanism, it no longer suffices to assume that 
 $r(x,\eta)\gamma(x,\eta)-\mu_\theta(x)$ is of order $1/\theta$.
-Perhaps the simples example in which we can see this
+Perhaps the simplest example in which we can see this
 is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
 and $\eta = \delta_x$
 (i.e., the population has all individuals at a single location),
@@ -1944,7 +1944,7 @@ suggesting a different genealogy.
 
 It is interesting to compare the stationary distribution we have obtained here
 to the expression that we'd get by setting $\meanq = -\wavespeed$
-and using Lemma~\ref{cor:stationary_dist},
+and using Corollary~\ref{cor:stationary_dist},
 i.e., by giving each offspring a mean displacement that offsets the motion of the wave.
 In the Fisher-KPP and Allen-Cahn cases above, we get the same expressions,
 but this is only the case because $r\equiv\gamma\equiv1$ in both.
@@ -2141,6 +2141,7 @@ $$
 $$
 It is easy to see that $w$ does not uniquely specify $\gamma$, $F$, and $r$:
 let $\lambda(x)$ be a smooth, nonnegative function on $\IR^d$,
+\comment{TODO Should we worry that we used prime for differentiation before?}
 and let $r'(x, m) = \lambda(x) r(x, m)$ and $F'(x, m) = \lambda(x) F(x, m)$
 (and, let $\gamma' = \gamma$).
 Since $\mu = r \gamma - F/\theta$,
@@ -3520,6 +3521,8 @@ we have a bound of the form
 \end{align*}
 for suitable constants $K_1$, $K_2$ that depend only on the derivatives of $f$.
 
+\comment{TODO I think we need to make the notation for $r(y, \rho_r*\eta(y))$ 
+consistent with what we have (now) used elsewhere, namely $r(y,\eta)$?}
 Now suppose instead that
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
 First note that
@@ -5107,6 +5110,8 @@ is bounded by $C / (\epsilon^2 + t)^{d/2}$
 (for a different constant $C$).
 Substituting this into \eqref{eqn:psi_infty_bound} yields the result.
 \end{proof}
+\comment{ALISON: Actually the last calculation gives a much better bound which we will
+need later. I'll sort this out tomorrow.}
 
 
 
@@ -5461,22 +5466,7 @@ The first term in~\eqref{tightness estimate} is therefore bounded by
 $$
     \| \Delta f \|_\infty |t-s| \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle .
 $$
-% We therefore have
-% \begin{multline*}
-%         \left|
-%         \langle \rho_{\epsilon} * f, \eta_t^N \rangle
-%         -
-%         \langle \rho_{\epsilon} * f, \eta_s^N \rangle
-%         \right|
-%         \leq
-%         \| \Delta f \|_\infty |t-s|
-%         \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle
-% \\
-% +
-% 	\int_s^t
-% 	\big\langle \rho_\epsilon*|f|(x)\, \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
-% \eta_u^N(dx)\big\rangle du +2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|.
-%     \end{multline*}
+
 By the Burkholder-Davis-Gundy inequality,
 $\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C \IE[[\widehat{M}^N(f)]_u]$,
 and so using
@@ -5761,6 +5751,8 @@ are less than 1.
 Since, on the event $A_1$, $\tau(t)<0$, we can  
 apply this with $a = \epsilon^2 + t + \tau(t)$ and $b = \epsilon^2 + t$,
 and, using the bound~(\ref{bound for negative tau}),
+\comment{ALISON: It's actually using the bound derived just below (7.4) which is 
+much stronger than stated there}
     \begin{align*}
         \IE\left[
             1_{A_1} |p_a(x, y) - p_b(x, y)| 
