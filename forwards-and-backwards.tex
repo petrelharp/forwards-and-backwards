@@ -5091,29 +5091,35 @@ by Markov's inequality,
 where $\chi = 1/2 - e^{-1} > 0$.
 The second term in \eqref{eqn:psi_infty_bound} is therefore bounded by
 \[
-    C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\chi \theta t - \epsilon^2 \theta / 2}
-    \frac{1}{(\epsilon^2 + t)^{d/2}} .
+	C \left(1 + \frac{t}{\epsilon^2}\right)^{d/2} e^{-\chi \theta t }%- \epsilon^2 \theta / 2}
+	\frac{1}{(\epsilon^2 + t)^{d/2}}e^{-\epsilon^2 \theta/2} .
 \]
 Now observe that the derivative (with respect to $t$) of 
-$e^{-\chi \theta t - \epsilon^2 \theta / 2} (1 + t/\epsilon^2)^{d/2}$ 
+	$e^{-\chi \theta t} % - \epsilon^2 \theta / 2} 
+	(1 + t/\epsilon^2)^{d/2}$ 
 is
 \[
     \left( \frac{d}{2 \epsilon^2} - \left(1 + \frac{t}{\epsilon^2}\right) \chi \theta \right)
-    \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\chi \theta t - \epsilon^2 \theta / 2} ,
+    \left( 1 + \frac{t}{\epsilon^2} \right)^{d/2 - 1} e^{-\chi \theta t },%- \epsilon^2 \theta / 2} ,
 \]
 which is negative if $\theta(\epsilon^2 + t) > d/2 \chi$.
-At the maximum, $(\epsilon^2 + t) = d / (2\chi \theta)$,
-so $(1 + t/\epsilon^2) = d /(2\chi \theta \epsilon^2)$,
+At the maximum, %$(1+\epsilon^2/t) = d / (2\chi \epsilon^2\theta)$, so
+$(1 + t/\epsilon^2) = d /(2\chi \theta \epsilon^2)$,
 and so this quantity is bounded uniformly over not only $t$ but also $\epsilon$
 (since we've assumed that $\theta \epsilon^2$ is bounded below).
-Therefore, the second term in \eqref{eqn:psi_infty_bound} 
-is bounded by $C / (\epsilon^2 + t)^{d/2}$
-(for a different constant $C$).
+Therefore, 
+we have the bound
+\begin{equation}
+	\label{small tau bound}
+	\frac{1}{\epsilon^d}
+        \IP\left\{
+            \tau(t) < - (\epsilon^2 + t) / 2
+        \right\}
+\leq \frac{C}{(\epsilon^2 + t)^{d/2}} e^{-\epsilon^2\theta/2}.
+\end{equation}
+%(for a different constant $C$).
 Substituting this into \eqref{eqn:psi_infty_bound} yields the result.
 \end{proof}
-\comment{ALISON: Actually the last calculation gives a much better bound which we will
-need later. I'll sort this out tomorrow.}
-
 
 
 \begin{lemma}
@@ -5665,20 +5671,19 @@ and $p_{\epsilon^2 + t}(x, y)$.
     \label{Lemma:BoundPsiHS2}
     In the notation of Lemma~\ref{PsiBoundHS},
     %and with $A$ as in Lemma~\ref{lem:poisson_ld},
-    \begin{multline}
+	\begin{equation}
 \label{heat kernel estimate}
         \left|
             \psi_t^{\epsilon, x}(y)
             -
             p_{\epsilon^2 + t}(x, y)
         \right|
-        \\
+        %\\
 \le
-        \frac{C}{(\epsilon^2 \theta)^{d/2}}
+        \frac{C}{(\epsilon^2 \theta)^{1/2}}
         p_{6(\epsilon^2+t)}(x, y)
         +
-	    C \left(1+
-	    \frac{1}{(\epsilon^2 + t)^{d/2}}\right)
+	    \frac{C}{(\epsilon^2 + t)^{d/2}}
 	    \exp(- \epsilon^2 \theta / 2)
         %+
         %\frac{C}{(\epsilon^2 + t)^{d/2}}
@@ -5686,7 +5691,7 @@ and $p_{\epsilon^2 + t}(x, y)$.
         %    \tau(t) > A(\epsilon^2 + t)
         %\right\} 
 	    .
-    \end{multline}
+	\end{equation}
 \end{lemma}
 
 \begin{proof}
@@ -5752,8 +5757,6 @@ are less than 1.
 Since, on the event $A_1$, $\tau(t)<0$, we can  
 apply this with $a = \epsilon^2 + t + \tau(t)$ and $b = \epsilon^2 + t$,
 and, using the bound~(\ref{bound for negative tau}),
-\comment{ALISON: It's actually using the bound derived just below (7.4) which is 
-much stronger than stated there}
     \begin{align*}
         \IE\left[
             1_{A_1} |p_a(x, y) - p_b(x, y)| 
@@ -5766,13 +5769,13 @@ much stronger than stated there}
             C \frac{1}{\epsilon^d}
             \IP\left\{ \tau(t) < - \frac{\epsilon^2 + t}{2} \right\}
         \\ & \le
-        C \exp\left(-\frac{\theta \epsilon^2}{2} \right) .
+	    \frac{C}{(\epsilon^2+t)^{d/2}} \exp\left(-\frac{\theta \epsilon^2}{2} \right) .
     \end{align*}
 
     For the third term, we will first collect some facts.
     Observe that on the event $A_3$,
     $\epsilon^2 + t + \tau(t)$ is between
-    $(\epsilon^2 + t)/ 2$ and $3(\epsilon^2 + t))$,
+    $(\epsilon^2 + t)/ 2$ and $3(\epsilon^2 + t)$,
     and for any $s$ in this interval,
     \begin{align}
         p_{2s}(y)
@@ -5946,7 +5949,8 @@ suppose that $s>\delta$.
 Let us write
 \[
 \widehat{\epsilon}(\delta,\epsilon,\theta):=
-e^{-\epsilon^2\theta/2}\left(1+\frac{1}{(\epsilon^2+\delta)^{d/2}}\right),
+\frac{1}{(\epsilon^2+\delta)^{d/2}}
+e^{-\epsilon^2\theta/2}, %\left(1+\frac{1}{(\epsilon^2+\delta)^{d/2}}\right),
 %\frac{1}{(A+1)^{\epsilon^2\theta}}e^{-\epsilon^2\theta},
 \]
 and note that under the assumption that $\epsilon^2\theta\to \infty$, for 
@@ -5974,23 +5978,32 @@ we have
 \eta_r(dz) \big\rangle  dr
 \nonumber
     \\ &\qquad \qquad {}
-	+ \frac{C}{(\theta\epsilon^2)^{d/2}}\big\langle 
-p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z), \eta_0(dz)
-\big\rangle
-	+\widehat{\epsilon}(\delta,\epsilon,\theta)\langle 1,\eta_0(dz)\rangle
+	+ \big\langle\frac{C}{(\theta\epsilon^2)^{1/2}} \Big(%\big\langle 
+	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big) %, \eta_0(dz)
+%\big\rangle
+	+\widehat{\epsilon}(\delta,\epsilon,\theta) %\langle 1
+	,\eta_0(dz)\rangle
 	\nonumber
     \\ &\qquad \qquad {}
-+ \int_{s-\delta}^s \big\langle 
-|\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
+    +
+\int_0^{s-\delta}
+\big\langle \Big\{
+\frac{C}{(\epsilon^2\theta)^{1/2}}
+|p_{6(s-r+\epsilon^2)}(y,z)+
+p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
+    %\frac{C}{(\epsilon^2\theta)^{1/2}}
+%\int_0^{s-\delta}
+%\big\langle |p_{6(s-r+\epsilon^2)}(y,z)+
+%p_{6(s-r+\epsilon^2)}(w,z)|
+%\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+%\eta_r(dz) \big\rangle  dr
+%\nonumber
     \\ &\qquad \qquad {}
-    +
-\frac{C}{(\epsilon^2\theta)^{d/2}}
-\int_0^{s-\delta}
-\big\langle |p_{6(s-r+\epsilon^2)}(y,z)+
-p_{6(s-r+\epsilon^2)}(w,z)|
++ \int_{s-\delta}^s \big\langle 
+|\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
@@ -6011,7 +6024,7 @@ p_{6(s-r+\epsilon^2)}(w,z)|
 \eta_r(dz)\Big\rangle dr
 \nonumber
 \\ & \qquad \qquad  {}
-	+ \big\langle \frac{C}{(\theta\epsilon^2)^{d/2}}\Big( 
+	+ \big\langle \frac{C}{(\theta\epsilon^2)^{1/2}}\Big( 
 	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)+
 	\widehat{\epsilon}(\delta,\epsilon,\theta) , \eta_0(dz)
 \big\rangle
@@ -6020,9 +6033,15 @@ p_{6(s-r+\epsilon^2)}(w,z)|
 +
 \int_0^{s-\delta}
 \big\langle \Big\{
-\frac{C}{(\epsilon^2\theta)^{d/2}}
+\frac{C}{(\epsilon^2\theta)^{1/2}}
 |p_{6(s-r+\epsilon^2)}(y,z)+
 p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
+\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+\eta_r(dz) \big\rangle  dr
+\nonumber
+    \\ &\qquad \qquad {}
++ \int_{s-\delta}^s \big\langle 
+|\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
@@ -6032,17 +6051,20 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 %\big) . 
 \label{difference in rhos}
 \end{align} 
-\comment{MISSING A TERM? the $\int_{s-\delta}^s$ one; and say it's bounded because of the moment bounds}
 Although this expression is lengthy, we have successfully isolated the
 terms involving $\|y-w\|$, which will control the regularity as we pass to the
 limit. Asymptotically, we 
 don't expect the martingale terms to contribute, since their 
-quadratic variation scales with $\theta/(N\epsilon^d)$, and
+quadratic variation scales with $\theta/(N\epsilon^d)$; % and
 under the assumption that $\epsilon^2\theta\to\infty$,
-for any fixed $\delta>0$, if $s > \delta$ the terms arising from 
+for any fixed $\delta>0$, %if $s > \delta$ 
+the terms arising from 
 approximating the transition 
-density of the Gaussian 
-walk by the heat kernel at a fixed time, will tend to zero. 
+density $\psi_{s-r}^{\epsilon, \cdot}(\cdot)$ of the Gaussian 
+walk by $p_{s-r+\epsilon^2}(\cdot,\cdot)$ at times 
+with $s-r>\delta$ will tend to zero; and  
+the moment bounds of Lemma~\ref{bounds on moments} 
+will allow us to control the integral over $[s-\delta, s]$.
 There is some technical work to be done to rigorously identify the
 limit points of $\rho_\epsilon*\eta^N$, but 
 it really amounts to 
@@ -6380,11 +6402,11 @@ in~(\ref{difference in rhos}):
 \Big] .
 \]
 Since $\psi_{t-s}^{\epsilon,x}(y)=p_{T(t-s)+\epsilon^2}(x,y)$, 
-rearranging~(\ref{})
+rearranging~(\ref{expn rhoepsilon})
 we see that we can pull a convolution with $p_{\epsilon^2/2}$ out of
 our expressions for $M_s(x)$ and $M_s(w)$ and so all the manipulations 
 that we used to control terms above with still be valid.
-To deal with the two terms in the produce involving $|M_s(y)|$, we write 
+To deal with the two terms in the product involving $|M_s(y)|$, we write 
 the first as $\int |M_s(y)|\rho_\epsilon*\eta_s(y)^{k+1}dy$ and then use
 H\"older's inequality, Lemma~\ref{bounds on moments}, and the fact
 that $\IE\big[|M_s(y)|^2\big]$ is ${\mathcal O}\big(\theta/(N\epsilon^d)\big)$
