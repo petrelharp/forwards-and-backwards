@@ -4928,8 +4928,9 @@ $\int \psi^\epsilon|\log \psi^\epsilon| d x$ that we proved above.
 \label{subsec:one step convergence proof}
 
 In this section we prove Theorem~\ref{thm:local_convergence},
-which simultaneously scales the parameters $\theta$ and $N$ and the interaction 
-kernel $\rho_F$ in the special case in which $r\equiv 1\equiv\gamma$, $q_{\theta}(x,dy)$
+which proves convergence in the case that the width of the interaction kernel $\rho_F$
+simultaneously scales along with the parameters $\theta$ and $N$,
+in the special case in which $r\equiv 1\equiv\gamma$, $q_{\theta}(x,dy)$
 is isotropic with zero mean, the kernel
 $\rho_F$ is Gaussian, and the scaling 
 limit is a reaction-diffusion equation.
@@ -4972,9 +4973,7 @@ identifying the limit points in Subsection~\ref{limit in onestep case}.
 Let us write $\mathcal{L}^\theta f(x) := \theta \int (f(y)-f(x))q_\theta(x,y) dy$ 
 where $q_\theta$ is a Gaussian kernel of mean $0$ and variance $1/\theta$. 
 We note that $\mathcal{L}^\theta$ is the generator of a continuous (time and 
-space) random walk, which makes jumps of mean $0$ and variance $1/\theta$ at
-rate $\theta$.
-
+space) random walk, which makes jumps of mean $0$ and variance $1/\theta$ at rate $\theta$.
 In what follows we write $\psi_t^{\epsilon, x}(y)$ for the solution of
 \begin{equation}
     \partial_t \psi_t^{\epsilon,x}
@@ -4994,7 +4993,7 @@ with time derivative $\dot \phi_t(x) = \partial_t \phi_t(x)$,
     = 
     \langle \phi_0(x), \eta_0(dx) \rangle
     +
-    M_t(\phi_\cdot(\cdot))
+    M_t(\phi)
     +
     \int_0^t \big\langle \mathcal{L}^\theta \phi_s(x) 
         + \dot \phi_s(x), \eta_s(dx) \big\rangle ds
@@ -5002,7 +5001,7 @@ with time derivative $\dot \phi_t(x) = \partial_t \phi_t(x)$,
     +
     \int_{0}^t \big\langle \phi_s(x) F(x, \eta_s) , \eta_s(dx) \big\rangle ds ,
 \end{multline}
-where $M_t(\phi_\cdot(\cdot))$ is a martingale (with respect to the natural filtration)
+where $M_t(\phi)$ is a martingale (with respect to the natural filtration)
 with quadratic variation given by~\eqref{eqn:prelimit_martingale_variation}
 with $f$ replaced by $\phi_s(\cdot)$.
 So, taking $\phi_s(\cdot)=\psi_{t-s}^{\epsilon,x}(\cdot)$ for $0 \le s \le t$,
@@ -5165,8 +5164,9 @@ We proceed by induction.
 Taking expectations in~(\ref{expn rhoepsilon}), using that $F$ is bounded above, and 
 applying Gronwall's inequality to 
 $\langle\psi^{\epsilon,x}_{t-s}, \eta_s\rangle$ 
-we obtain~(\ref{moment bound rhoepsilon})
-(without the second term on the right hand side) in the case $k=1$.
+we obtain 
+$\IE[\langle \psi_0^{\epsilon,x},\eta_t\rangle] \le C \IE[\langle \psi_t^{\epsilon,x},\eta_0\rangle]$,
+which implies~(\ref{moment bound rhoepsilon}) in the case $k=1$.
 Moreover, rearranging~(\ref{expn rhoepsilon}) we find 
 \begin{equation}
 -\int_0^t\big\langle\psi^{\epsilon,x}_{t-s}(y)
@@ -5177,14 +5177,14 @@ F(\rho_\epsilon*\eta_s(y), \eta_s(dy)\big\rangle ds
 and taking expectations again, 
 since $\langle\psi^{\epsilon,x}_0,\eta_t\rangle>0$, and $M_0(x)=0$,
 this yields 
-$$\IE\Big[-\int_0^t\langle\psi^{\epsilon,x}_{t-s}(y)F(\rho_\epsilon*\eta_s(y), 
+$$\IE\Big[-\int_0^t\langle\psi^{\epsilon,x}_{t-s}(y)F(\rho_\epsilon*\eta_s(y)), 
 \eta_s(dy)\rangle ds\Big|{\cal F}_0\Big]
-\leq \widehat{C}\langle\psi^{\epsilon, x}_t(y),\eta_0(dy)\rangle.$$
+\leq \langle\psi^{\epsilon, x}_t(y),\eta_0(dy)\rangle.$$
 Since $F$ is bounded above, there exists a constant $K$ such that $|F|\leq K-F$ and so 
 combined with the bound on $\IE[\langle\psi^{\epsilon, x}_0(y),\eta_t(dy)\rangle]$ just
 obtained, this in turn yields 
 $$\IE\Big[\int_0^t\big\langle\psi^{\epsilon,x}_{t-s}(y)
-|F(\rho_\epsilon*\eta_s(y)|, 
+|F(\rho_\epsilon*\eta_s(y))|, 
 \eta_s(dy)\big\rangle ds\Big|{\cal F}_0\Big]\leq 
 \widetilde{C}\langle\psi^{\epsilon, x}_t(y),\eta_0(dy)\rangle,$$
 which is~(\ref{flandoli trick for rhoepsilon})
@@ -5196,21 +5196,22 @@ First we apply the generator $\Pgen^N$ of our scaled population process
 to functions of the form $\langle f,\eta\rangle^k$.
 Recalling that each jump of the process involves the birth or death of a single 
 individual, and so increments $\langle f,\eta\rangle$ by $\pm f/N$ at the location of
-that individual, we find 
+that individual and that $r \equiv \gamma \equiv 1$, we find 
 \begin{multline}
 \label{pgen applied to kth moment}
 \Pgen^N\Big(\langle f,\eta\rangle^k\Big)
 =
 \Big\langle
-\int\theta N\Big\{k\frac{f(y)}{N}\langle f,\eta\rangle^{k-1}+
-\binom{k}{2}\frac{f(y)^2}{N^2}\langle f,\eta\rangle^{k-2}+\cdots
-+\frac{f(y)^{k}}{N^{k}}\Big\}q_\theta(x,dy),\eta(dx)\Big\rangle
+\int\theta N
+    % \Big\{k\frac{f(y)}{N}\langle f,\eta\rangle^{k-1}+ \binom{k}{2}\frac{f(y)^2}{N^2}\langle f,\eta\rangle^{k-2}+\cdots +\frac{f(y)^{k}}{N^{k}}\Big\}
+    \sum_{j=1}^k \binom{k}{j} \frac{f(y)^j}{N^j} \langle f, \eta\rangle^{k-j}
+    q_\theta(x,dy),\eta(dx)\Big\rangle
 \\
 +
-\Big\langle\theta N\Big(1-\frac{F(\rho_\epsilon*\eta(x))}{\theta}\Big)
-\Big\{-k\frac{f(x)}{N}\langle f,\eta\rangle^{k-1}+
-\binom{k}{2}\frac{f(x)^2}{N^2}\langle f,\eta\rangle^{k-2}+\cdots
-+\frac{(-1)^{k}f(x)^{k}}{N^{k}}\Big\},\eta(dx)\Big\rangle.
+    \Big\langle\theta N\Big(1-\frac{F(\rho_\epsilon*\eta(x))}{\theta}\Big)
+    % \Big\{-k\frac{f(x)}{N}\langle f,\eta\rangle^{k-1}+ \binom{k}{2}\frac{f(x)^2}{N^2}\langle f,\eta\rangle^{k-2}+\cdots +\frac{(-1)^{k}f(x)^{k}}{N^{k}}\Big\}
+    \sum_{j=1}^k \binom{k}{j} (-1)^j \frac{f(x)^j}{N^j} \langle f, \eta\rangle^{k-j}
+    ,\eta(dx)\Big\rangle.
 \end{multline}
 Mimicking what we did above, we set $f(\cdot)=\psi^{\epsilon,x}_t(\cdot)$ and 
 write
@@ -5224,7 +5225,12 @@ write
 \big\langle \psi^{\epsilon, x}_{t-s}(y),\eta_s(dy)\big\rangle^{k-1}ds
 \Big|{\cal F}_0\Big].
 \end{multline}
-Using (from Lemma~\ref{PsiBoundHS}) 
+Since $\dot \psi^{\epsilon,x}_s = \mathcal{L}_\theta \psi^{\epsilon,x}_s$,
+the $j=1$ terms from $\Pgen^N(\langle \psi^{\epsilon,x}_{t-s}(y),\eta_s(dy) \rangle^k)$
+combines with the last term in~\eqref{kth moment for time varying function}
+to obtain 
+$$ \int_0^t k \langle \psi^{\epsilon,x}_{t-s},\eta\rangle^{k-1} \langle F(\rho_\epsilon*\eta_s(y)) \psi^{\epsilon,x}_{t-s}(y), \eta_s(dy) \rangle ds . $$
+As for the remaining terms, using (from Lemma~\ref{PsiBoundHS}) 
 that $\sup_s\|\psi^{\epsilon,x}_s(\cdot)\|_\infty=C/\epsilon^d$,
 $N\epsilon^d>1$,
 and our inductive
@@ -5239,7 +5245,7 @@ q_\theta(y,dz),
 \eta_s(dy)\Big\rangle ds 
 \\
 +
-\int_0^t\theta N\sum_{j=2}^{k}\binom{k}{j}\frac{\psi_{t-s}^{\epsilon,x}(y)^j}{N^j}\langle \psi^{\epsilon,x}_{t-s},\eta_s\rangle^{k-j}
+\Big\langle \int_0^t\theta N\sum_{j=2}^{k}\binom{k}{j}\frac{\psi_{t-s}^{\epsilon,x}(y)^j}{N^j}\langle \psi^{\epsilon,x}_{t-s},\eta_s\rangle^{k-j}
 (-1)^j\Big(1-\frac{F(\rho_\epsilon*\eta_s(y))}{\theta} 
 \Big),
 \eta_s(dy)\Big\rangle ds\Big|{\cal F}_0\Big]
@@ -5339,12 +5345,12 @@ p_{\epsilon^2/2}(x,y_1) p_{\epsilon^2/2}(x,y_2)
 \]
 to rewrite~(\ref{rewrite for inductive step}) as
 \begin{align*}
-&\IE\Big[\int p_{\epsilon^2/2}*\eta_t(y_1)\, p_{\epsilon^2/2}*\eta_t(y_2)\,
-p_{\epsilon^2/4}*\eta_y\big(\frac{y_1+y_2}{2}\big)\, 
+&\IE\Big[\int \int p_{\epsilon^2/2}*\eta_t(y_1)\, p_{\epsilon^2/2}*\eta_t(y_2)\,
+p_{\epsilon^2/4}*\eta_t\big(\frac{y_1+y_2}{2}\big)\, 
 p_{\epsilon^2}(y_1,y_2)dy_1dy_2\Big]
 \\
 &\leq 
-\IE\Big[\int\Big\{
+\IE\Big[\int \int\Big\{
 \big(p_{\epsilon^2/2}*\eta_t(y_1)\big)^3+ \big(p_{\epsilon^2/2}*\eta_t(y_2)\big)^3+
 \big(p_{\epsilon^2/4}*\eta_t\big(\frac{y_1+y_2}{2}\big)\big)^3
 \Big\}p_{\epsilon^2}(y_1,y_2)dy_1dy_2\Big],
@@ -5366,26 +5372,28 @@ p_{t_1}(x,y_1)p_{t_2}(x,y_2)=p_{\frac{t_1t_2}{t_1+t_2}}
 \]
 to write 
 \[
-\prod_{j=1}^k p_{\tau}(x,x_j)
-=\prod_{j=2}^{k}p_{\frac{j\tau}{j-1}}\big(x_j,X_{j-1}\big)
-p_{\frac{\tau}{k}}(x, X_k)
+\prod_{j=1}^k p_{\tau}(y,y_j)
+=\prod_{j=2}^{k}p_{\frac{j\tau}{j-1}}\big(y_j,Y_{j-1}\big)
+p_{\frac{\tau}{k}}(y, Y_k)
 \]
 where
 \[
-X_1=x_1, \qquad X_j=\frac{j-1}{j}x_j+\frac{1}{j}X_{j-1}, \mbox{for }j\geq 2.
+    Y_1=y_1, \qquad Y_j=\frac{j-1}{j}Y_{j-1}+\frac{1}{j}y_j,  \mbox{for }j\geq 2.
 \]
-This yields
+Writing $p_{\epsilon^2}(x,z_j) = \int p_{\epsilon^2/2}(x,y_j) p_{\epsilon^2/2}(y_j,z_j) dy_j$
+and using the above with $\tau = \epsilon^2/2$,
+this yields
 \begin{multline*}
 \big\langle\big(\rho_\epsilon*\eta_t(x)\big)^k,\eta_t(dx)\big\rangle
-=\int\cdots\int\prod_{i=2}^kp_{\epsilon^2 i/(i-1)}(y_,X_i)
-\prod_{i=1}^kp_{\epsilon^2/2}*\eta_t(y_i)p_{\epsilon^2/k}*\eta_t(X_k)
+    =\int\cdots\int \prod_{j=2}^k p_{\epsilon^2 j/2(j-1)}(y_j,Y_{j-1})
+     \prod_{i=1}^k p_{\epsilon^2/2}*\eta_t(y_i)p_{\epsilon^2/2k}*\eta_t(Y_k)
 dy_1\ldots dy_k
 \\
 \leq
 \int\cdots\int 
-\prod_{i=2}^kp_{\epsilon^2 i/(i-1)}(y_i,X_i)
-\Big\{\sum_{i=1}^k\big(p_{\epsilon^2/2}*\eta_t(y_i)\big)^{k+1}
-+\big(p_{\epsilon^2/k}*\eta_t(X_k)\big)^{k+1}\Big\}dy_1\ldots dy_k,
+    \prod_{j=2}^k p_{\epsilon^2 j/2(j-1)}(y_j,Y_{j-1})
+    \Big\{\sum_{i=1}^k\big(p_{\epsilon^2/2}*\eta_t(y_i)\big)^{k+1}
+    + \big(p_{\epsilon^2/2k}*\eta_t(Y_k)\big)^{k+1}\Big\}dy_1\ldots dy_k,
 \end{multline*}
 and once again we can change variables in the integrals and 
 use~(\ref{heat equation at smaller time}) to bound this by a constant 
@@ -5409,13 +5417,13 @@ $\langle 1, \rho_\epsilon*\eta_t^N(x)dx\rangle=\langle 1, \eta_t^N\rangle$,
 compact containment follows.
  
 As in the nonlocal case, it suffices to prove that for $T>0$,
-and any $f\in C_b^\infty (\IR^d)$ with bounded second derivatives, the
-sequence of real-valued processes 
+and any $f\in C_b^\infty (\IR^d)$ with bounded second derivatives
+and $\int|f(x)|dx < \infty$, the sequence of real-valued processes 
 $\big\{\big(\int f(x)\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}\big\}_{N\geq 1}$ is tight.  
 Let us temporarily write $X_f^N(t)$ for $\int f(x)\rho_\epsilon*\eta_t^N(x)dx$
 and set
 \[
-w'\big(X^N,\delta,T\big)= \inf_{\{t_i\}}\max_i\sup_{s,t\in [t_{i-1},t_i)}
+w'\big(X_f^N,\delta,T\big)= \inf_{\{t_i\}}\max_i\sup_{s,t\in [t_{i-1},t_i)}
 \big| X_f^N(t)-X_f^N(s)\big|,
 \]
 where $\{t_i\}$ ranges over all partitions of the form 
@@ -5425,7 +5433,7 @@ Using Corollary~3.7.4 of~\cite{ethier/kurtz:1986},
 to prove tightness
 of the sequence of real-valued processes $X_f^N$
 it suffices to check compact containment of 
-the sequence $\{\rho_\epsilon*\eta_t^N(x)dx\}_{N\geq 1}$ at any rational time $t$ and
+    the sequence $\{\int f(x) \rho_\epsilon*\eta_t^N(x)dx\}_{N\geq 1}$ at any rational time $t$ and
 that for every $\nu>0$ and $T>0$, there exists $\delta>0$ such that
 \[
 \limsup_{N\to\infty}\IP\big[w'\big(X_f^N,\delta,T\big)>\nu\big]<\nu.
@@ -5452,7 +5460,7 @@ q_{\theta}(x,dy),\eta_u^N(dx)\Big\rangle du
 +\int_s^t\Big\langle |F\big(\rho_\epsilon*\eta_u^N(x)\big)|\rho_\epsilon*|f|(x), 
 \eta_u^N(dx)\Big\rangle du +2\sup_{0\leq u\leq T}|\widehat{M}^N(f)_u|,
 \end{multline}
-where $\widehat{M}^N(f)$ is the martingale of~(\ref{eqn:eta_martingale})
+where $\widehat{M}^N(f)$ is the martingale of~(\ref{eqn:eta_f_mgale_decomp})
 with the test function $f$ replaced by $\rho_\epsilon*f$. 
 We control each of the three terms on the right hand side separately.
 
@@ -5474,11 +5482,13 @@ $$
     \| \Delta f \|_\infty |t-s| \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle .
 $$
 
-By the Burkholder-Davis-Gundy inequality,
-$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C \IE[[\widehat{M}^N(f)]_u]$,
-and so using
-and Markov's inequality and
-our moment bounds,
+Consulting~\eqref{eqn:prelimit_martingale_variation},
+the quadratic variation of $\widehat{M}^N(f)$ satisfies
+$ \IE[[\widehat{M}^N_f]_T] \le C (\theta/N) \int_0^T \langle 1, \eta_s \rangle ds \le C' \theta/N$
+for some constants $C$ and $C'$.
+Now, by the Burkholder-Davis-Gundy inequality,
+$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[[\widehat{M}^N(f)]_u]$,
+and so using Markov's inequality,
 \begin{equation}
 \label{martingale term to zero}
     \limsup_{N\to\infty}\IP\Big[
@@ -5486,11 +5496,12 @@ our moment bounds,
         >\frac{\nu}{3}
     \Big]
     \leq
-    \limsup_{N\to\infty} \frac{36}{\nu^2} \IE\big[[\widehat{M}^N(f)]_T\big]
+    \limsup_{N\to\infty} \frac{36}{\nu^2} C'' \IE\big[[\widehat{M}^N(f)]_T\big]
     \leq
-    \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C\theta}{N\epsilon^d} 
+    \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C' C''\theta}{N\epsilon^d} 
     =0. 
 \end{equation}
+
 Now consider
 \begin{multline}
 	\label{square of F-integral}
@@ -5516,7 +5527,7 @@ in terms of sums of terms of the form
 \int\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^kdydu\Big].
 \]
 Now observe that, again using Lemma~\ref{bounds on moments}, 
-since $a^j b^k \le a^{j+k} b^{j+k}$,
+since for nonnegative $a$ and $b$, $a^j b^k \le a^{j+k} + b^{j+k}$,
 \begin{multline*}
 	\IE\left[	\int\int\rho_\epsilon*|f|(x)\rho_\epsilon*\eta_u^N(x)^j
 	\rho_\epsilon*|f|(y)\rho_\epsilon*\eta_u^N(y)^k dx dy\right]
@@ -5534,7 +5545,7 @@ since $a^j b^k \le a^{j+k} b^{j+k}$,
 	\\ \leq C\int |f|(x)dx.
 \end{multline*}
 Thus the quantity~(\ref{square of F-integral}) 
-is bounded by $C(t-s)^2$ for some constant $C$ which we can 
+is bounded by $C(t-s)^2$ for a new constant $C$ which we can 
 take to be independent of $s$, $t$ and $\epsilon$. Markov's inequality 
 then gives
 \[
@@ -6569,7 +6580,9 @@ is complete.
     \label{sec:lookdown_proofs}
 
 Now we turn to results about the lookdown process,
-first establishing the basic connection between the processes, Proposition~\ref{thm:mmt_application},
+first establishing the basic connection between the processes, 
+\comment{which processes?}
+Proposition~\ref{thm:mmt_application},
 and then in the next section, convergence of the lookdown process itself.
 
 \begin{proof}[of Proposition~\ref{thm:mmt_application}]
@@ -6582,6 +6595,8 @@ and then in the next section, convergence of the lookdown process itself.
     or as a Poisson process with Lesbegue intensity (in the limiting case).
     We need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
     for all $f$ in the domain of $A^N$ (and similarly a function $\psi$ for $A$).
+	\comment{technically need $\psi\geq 1$, so usually just add $1$ to 
+	whatever you think $\psi$ should be.} 
     We also need that applying the lookdown generator to a function and averaging over levels
     is equivalent to applying the population process generator to the function
     whose dependence on levels has been averaged out,
@@ -6597,6 +6612,8 @@ and then in the next section, convergence of the lookdown process itself.
     $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
     with $g(x, u) = 1$ for $u \ge u_0$,
     and so taking for example the most troublesome term in $Af(\lp)$,
+	\comment{should we rephrase to say that the most troublesome term is...
+	(because the other one is as above)?}
     we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
     \begin{align*} % \label{eqn:part_of_psi}
         \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
@@ -6610,6 +6627,8 @@ and then in the next section, convergence of the lookdown process itself.
     So, the second line provides us with the required bound:
     we absorb $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
     and take $\psi(\lp) = \langle F(x, \eta) u e^{-u}, \lp(dx, du) \rangle$.
+	\comment{again add one - and inside the integral to deal with
+	the non-troublesome term}
     % Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
     % for a given $\lp$ (and hence $\eta = \kappa(\lp)$),
     % $\sup_x |F(x, \eta)|$ is finite.
@@ -6629,7 +6648,7 @@ and then in the next section, convergence of the lookdown process itself.
 
 Now we turn to the main theorem on convergence of the lookdown process, 
 Theorem~\ref{thm:lookdown_convergence}, whose proof
-follows a similar pattern to those of convergence for the population processes
+follows a similar pattern to those \comment{`that'?} of convergence for the population processes
 in Section~\ref{sec:population_density_proof}.
 
 \begin{remark}
@@ -6735,10 +6754,13 @@ tightness of the number of lines of descent and the number of births below a fix
 and of the motion of individual lines of descent.
 In other words, the limiting ``line of descent'' construction
 of Section~\ref{sec: individual lines of descent} holds.
+	\comment{Is this paragraph really a separate remark that we want to make?}
 
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
     the theorem will follow from tightness and characterization of the limit.
+	\comment{characterisation of limit points (given that we have
+	no uniqueness of the limit)?}
     This time, the processes $\lp^N$ take values in $\lpmeasures$,
     the space of locally finite measures on space $\times$ levels.
     (They will in fact be point measures, including the limit,
@@ -6757,6 +6779,12 @@ of Section~\ref{sec: individual lines of descent} holds.
     such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
     $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$;
     below, Lemma~\ref{lem:compact containment lookdown} proves exactly this, and therefore compact containment.
+	\comment{Do we have a reference for this claim about completely
+	metrizable and these sets being enough to 
+	establish relative compactness? The reader may reasonably
+	ask why we had to add a point at infinity to $\IR^d$ and not one
+	to $[0,\infty)$. Also, maybe spell out that the support of $f_k$ is compact in
+	the product space of $\overline{\IR^d}$ times levels?} 
 
     We require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
     is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
@@ -6767,7 +6795,11 @@ of Section~\ref{sec: individual lines of descent} holds.
     in the level direction.
     The functions $\lp \mapsto \langle f, \lp \rangle$
     do not form not a dense subset of $\bar C(\lpmeasures)$,
-    but they do separate points and vanish nowhere, so
+    but they do separate points and vanish nowhere, 
+	\comment{I don't understand vanish nowhere - I think it may because
+	of the way I am reading the sentence, but it is perfectly possible
+	for $\langle f,\xi\rangle$ to be zero.}
+	so
     by the Stone-Weierstrass theorem, the algebra they generate is dense
     % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
     % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
@@ -6802,6 +6834,7 @@ for concreteness one may take $h(u) = e^{-u}$.
     $\int_0^\infty u^2 |h'(u)| du$,
     and $\int_0^\infty h(u)^2 du$
     are all finite,
+	\comment{Should be a fullstop.}
     Suppose that Assumptions~\ref{def:model_setup} hold,
     and that $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
     where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
@@ -6816,14 +6849,18 @@ for concreteness one may take $h(u) = e^{-u}$.
     $$
 \end{lemma}
 
-We postpone the proof of this Lemma until we have shown how it yields to compact containment.
-First, we show that this implies compact containment for arbitrary
+We postpone the proof of this Lemma until we have shown how it yields 
+\comment{delete `to'} to compact containment.
+First, we show that this implies compact containment
+\comment{compact containment of what?} for arbitrary
 compactly supported functions.
 
 \begin{lemma}
     \label{lem:compact containment hn}
     Suppose $f \in C(\bar \IR^d \times [0, \infty))$ and there is a $u_f$ such that
     $f(x, u) = 0$ for all $x$ and $u \ge u_f$.
+	\comment{sounds like $f$ vanishes for all $x$ irrespective of $u$!
+	Can we reword? `all $(x,u)$ with $u\geq u_f$' or something?}
     Under the assumptions of Lemma~\ref{lem:h_containment},
     for any $T$ there exists a constant $K(f,T)$ such that for all $M > 0$,
     $$ 
@@ -6876,6 +6913,9 @@ $$
 for all $0 \le t \le T$
 with uniformly high probability,
 a set which is compact if we choose $\{f_k\}$ appropriately.
+\comment{Does the reader know how to act `appropriately' in 
+making this choice? Maybe refer back to the right bit above where it 
+is explained.}
 % \comment{
 %     Note that we could instead of the vague topology on locally finite measures,
 %     take the space of measures with $\langle h, \xi \rangle < \infty$
@@ -6965,7 +7005,8 @@ Finally, we prove the key lemma.
     \end{split}
     \end{align}
     Now, since $\lp_t^N$ is conditionally uniform given $\eta_t^N$,
-    we know that for appropriate $f$,
+    we know that for appropriate $f$, \comment{A bit vague... can we be 
+    more specific about what makes a function appropriate?}
     $  \IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}, \eta^N_t \rangle] , $
     where $\widetilde{f}(x) = \int_0^\infty f(x, u) du$.
     By our assumptions on $h$,
@@ -7013,7 +7054,8 @@ Finally, we prove the key lemma.
         ds .
     \end{align*}
 
-    Again since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
+    Again \comment{Only a very alert reader will remember why we say `again'
+    here...} since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
     the Burkholder-Davis-Gundy inequality
     tells us that there is a $C'$ such that
     \begin{align*}
@@ -7061,7 +7103,9 @@ Finally, we prove the key lemma.
     with uniformly bounded first and second derivatives
     for which there exists a $u_0$ such that if $u > u_0$ then $f(x, u) = 0$.
     Then, the sequence of real-valued processes $(\langle f, \lp_t^N \rangle)_{t \ge 0}$
-    are tight in the space of c\`adl\`ag processes.
+	are \comment{`is' - the subject of the sentence is the (single) sequence}
+	tight in the space of \comment{real-valued? or ${\cal D}_\IR$-valued} 
+	c\`adl\`ag processes.
 \end{lemma}
 
 \begin{proof}[of Lemma \ref{lem:test_fn_tightness}]
@@ -7087,6 +7131,7 @@ Finally, we prove the key lemma.
             \lp_s
         \Big\rangle ds
     \end{align*}
+	\comment{limits of integration missing in last integral}
     The bounds analogous to \eqref{eqn:eta_projections_goal1} and \eqref{eqn:eta_projections_goal2}
     follow as in the proof of Lemma~\ref{lem:eta_projections_tightness}:
     for instance, observe that using that $c_\theta \le C_a$ for some $C_a$,
@@ -7122,6 +7167,8 @@ Here we have taken the high-density, deterministic limit
 (so, $\theta, N \to \infty$ and $\theta/N \to 0$)
 and so suppose that the limiting process has density $\varphi_t(x)$
 at location $x$ and time $t$ (which may only exist almost everywhere).
+	\comment{Is it obvious that it exists almost everywhere? 
+	We just need to be able to integrate against it I guess.}
 We first proceed informally, as if the density exists everywhere,
 and follow this with an integration against test functions to make the argument rigorous.
 Let $Y$ denote the spatial motion followed by a single line of descent.
@@ -7131,8 +7178,12 @@ $$
     \mathcal{L}^Y_s g(x) = \gamma(x,\eta_s) ( \DG(r(\cdot,\eta_s) g(\cdot))(x) - g(x) \DG r(x,\eta_s) ) .
 $$
 % (This is $\mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) )$ in shorter but more cryptic notation.)
-The diffusion is time-inhomogeneous if the density is not constant with time.
-Let $\varphi_t(x)$ be the limiting density, which solves \eqref{general deterministic limit},
+The diffusion is time-inhomogeneous if the density is not constant with
+	\comment{this may be an example of being divided by a common
+	language, but I would say `in time'} time.
+Let $\varphi_t(x)$ be the limiting density, which 
+	\comment{is a weak solution to?} 
+	solves \eqref{general deterministic limit},
 $\partial_t \varphi = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
 Formally, the intensity of individuals at $y$ at time $t$
 that are descended from individuals that were at $x$ at time $s$
@@ -7206,7 +7257,14 @@ $$
             \right)f(Y_t)
         \right]dx.
 $$
-Differentiating with respect to $t$ at $t=s$, and writing 
+Differentiating with respect to $t$ at $t=s$,
+\comment{This is a bit confusing. I think it is partly because it says generator
+of $\widehat{T}_{t,s}$ and of course $t$ disappears. But also it is 
+because we are 
+looking for the generator of the ancestral lineage and so it 
+feels like one wants to 
+differentiate with respect to `-s' if you see what I mean.}
+and writing 
 $\Lgen_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
 \begin{align*}
 &
@@ -7328,6 +7386,8 @@ which is equation \eqref{eqn:lineage_generator2}.
 For the moment, we will write $r(x)$ for $r(x, \eta)$
 and similarly for $\gamma(x)$.
 First, note that in this case
+	\comment{Should really define our notation - ${\cal L}_s$ is
+	independent of time, so...}
 $$
     \Lgen f = \sigma^2 r \gamma \left(
         \Delta f
@@ -7369,7 +7429,7 @@ the constant factor of $\sigma^2$ does not affect the result.
 
 The following appears as Theorem A.2 in \citet{etheridge/kurtz:2019},
 specialized slightly to the case that the processes 
-are c\'adl\'ag and have no fixed points of discontinuity.
+are c\`adl\`ag and have no fixed points of discontinuity.
 For an $S_0$-valued, measurable process $Y$, $\hat{\mathcal{F}}^Y_t$
 denotes the completion of the $\sigma$-algebra generated by
 $Y(0)$ and $\{\int_0^r h(Y(s)) ds, r \le t, h \in B(S_0)\}$.
