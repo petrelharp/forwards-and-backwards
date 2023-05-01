@@ -420,7 +420,7 @@ behaviour in the population, such as
 \end{equation}
 then, for sufficiently large $C$ (strong cooperation),
 the nature of the deterministic
-wave changes from ``pulled'' to ``pushed'', 
+wave changes from ``pulled'' to ``pushed'',
 \citep{birzu/hallatschek/korolev:2017, birzu/hallatschek/korolev:2021},
 and so the genealogies will be quite different from the Fisher-KPP case. 
 For example, \citet{etheridge/penington:2022}
@@ -901,6 +901,7 @@ can be safely replaced simply by $C_f$;
 however, this will be useful
 in certain situations where we consider a sequence of $f$ with increasing upper bounds.
 We now give two concrete situations in which condition~\ref{gamma_B_condition} is satisfied.
+The proof is in Section~\ref{sec:preliminary_proofs}.
 
 \begin{lemma}
     \label{lem:conditions on r}
@@ -1074,7 +1075,7 @@ characterises limit points as solutions to a martingale problem.
 Recall when interpreting~\eqref{eqn:limiting_mgale_problem}
 that, for instance, $r(x, \eta_s) = r(x, \smooth{r} \eta_s(x))$,
 and so $\DG(fr)(x) = \DG(f(\cdot) r(\cdot, \smooth{r} \eta_s(\cdot)))(x)$.
-
+The proof of this theorem appears in Section~\ref{sec:population_density_proof}.
 
 Theorem \ref{thm:nonlocal_convergence} provides tightness of the
 rescaled processes. If the limit points are unique, then this
@@ -1238,7 +1239,8 @@ and so we expect that under rather general conditions
 solutions of the nonlocal PDE will be close to the corresponding 
 classical PDE.
 The following propositions provide two concrete situations in which this is true.
-In the first, the PDE is a reaction-diffusion equation, and we borrow
+In the first, the PDE is a reaction-diffusion equation, and
+in the proof in Section~\ref{two-step convergence to FKPP} we borrow
 an idea from~\cite{penington:2017} to express the solutions to both the nonlocal
 equation and the classical PDE through a Feynman-Kac formula. 
 
@@ -1357,8 +1359,8 @@ $\psi^\epsilon\rightharpoonup \psi$ as $\epsilon\to 0$ where
 $\psi\in L_t^2(H^1)\cap C_t(L^1)$, $\int \psi|\log \psi| dx<\infty$, and
 $\psi$ solves~(\ref{PME}) on $[0,T]\times \IR^d$. 
 \end{proposition}
-The example that we have in mind for the kernel $\rho_\gamma$ is a Gaussian
-kernel.
+The example that we have in mind for the kernel $\rho_\gamma$ is a Gaussian kernel.
+For the proof, see Section~\ref{sec:pme}.
 \begin{remark}
 Although it seems hard to formulate an all-encompassing result,
 Propositions~\ref{prop:nonlocal_to_local} and~\ref{nonlocalPME to PME} are by no
@@ -1375,7 +1377,6 @@ will be necessary
 to retain averaging of $r$ in order to obtain a well-defined limit. 
 \end{remark}
 
-Proofs of the results so far, on nonlocal processes, are found in Section~\ref{sec:proofs}.
 
 \paragraph{One-step convergence to PDE:}
 Theorem \ref{thm:nonlocal_convergence},
@@ -3018,8 +3019,7 @@ to Theorem~\ref{thm:nonlocal_convergence} for the population process.
     that is a solution to the martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}.
 \end{theorem}
 
-\comment{FROM ALISON: should we signpost that the proofs of these results can 
-be found in section???}
+Both results are proved in Section~\ref{sec:lookdown_proofs}.
 
 %% %% %% %% %% %% %% %% %% %% %% %%
 \subsection{Explicit construction of lines of descent}
@@ -3438,6 +3438,7 @@ limit to obtain a classical PDE.
 
 
 \subsection{Preliminaries}
+\label{sec:preliminary_proofs}
 
 Below we will have frequent use for the quantity
 \begin{equation}
@@ -3613,11 +3614,10 @@ while $K_8$ comes from $K_5$, $K_6$, and the supremum of $m^2 \gamma(x,m)$.
 
 
 % % % % % % % % % % % % %
-\subsection{Proof of Theorem~\ref{thm:nonlocal_convergence}: limit points for the nonlocal process}
+\subsection{Proof of Theorem~\ref{thm:nonlocal_convergence}: convergence for the nonlocal process}
     \label{sec:population_density_proof}
 
-In this section we prove 
-Theorem~\ref{thm:nonlocal_convergence}.
+In this section we prove Theorem~\ref{thm:nonlocal_convergence}.
 This would be implied by convergence of the lookdown process
 (see \citet{kurtz/rodrigues:2011} and \citet{etheridge/kurtz:2019});
 however in our setting,
@@ -4601,6 +4601,7 @@ An application of Gronwall's inequality then yields,
 
 
 \subsubsection{Porous Medium Equation}
+\label{sec:pme}
 
 In this subsection we prove Proposition~\ref{nonlocalPME to PME}.
 To ease notation, we present
@@ -5575,9 +5576,9 @@ combining with~(\ref{martingale term to zero}), the result follows.
 \subsection{Continuity estimates for $\rho_\epsilon*\eta$}
 \label{continuity for random walk}
 
-In order to identify the limit point of any convergent subsequence
+To identify the limit point of any convergent subsequence
 of $\{\rho_\epsilon*\eta^N(x)\}$, 
-we are going to require some control on the spatial continuity of the 
+we will require some control on the spatial continuity of the 
 functions $\rho_\epsilon*\eta^N(x)$. This will be inherited from the regularity
 of the transition density of the 
 Gaussian random walk with generator ${\cal L}^\theta$, which in turn follows
@@ -5792,7 +5793,7 @@ and, using the bound~(\ref{bound for negative tau}),
         p_{2s}(y)
         &\le \nonumber
         \left( \frac{
-            2 (\epsilon^2 + t)3
+            6 (\epsilon^2 + t)
         }{
             \epsilon^2 + t
         } \right)^{d/2}
@@ -5939,7 +5940,7 @@ where the constant $C$ does not depend on $x,y,z$ or $s$.
             e^{-\frac{\|x-z\|^2}{4 s}}
         \right) .
     \end{align*}
-Now, thinking of the first term in brackets as a function of a single variable on
+Now, thinking of the first term in brackets as a function of a single variable $x$ on
 the line segment $[y,z]$ connecting $y$ to $z$, we can apply the
 Intermediate Value Theorem and take the modulus to bound this expression by 
     \[
@@ -5984,15 +5985,14 @@ we have
 	\\ &\qquad \qquad {}
     +
 \int_0^{s-\delta}
-\big\langle |p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)| 
+\big\langle (p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)|)
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
     \\ &\qquad \qquad {}
-	+ \big\langle\frac{C}{(\theta\epsilon^2)^{1/2}} \Big(%\big\langle 
-	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big) %, \eta_0(dz)
-%\big\rangle
-	+\widehat{\epsilon}(\delta,\epsilon,\theta) %\langle 1
+	+ \big\langle\frac{C}{(\theta\epsilon^2)^{1/2}} \Big(
+	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)
+	+\widehat{\epsilon}(\delta,\epsilon,\theta)
 	,\eta_0(dz)\rangle
 	\nonumber
     \\ &\qquad \qquad {}
@@ -6025,12 +6025,12 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \nonumber
 \\ & \qquad 
 \leq \Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
-\big(p_{2(s+\epsilon^2}(y,z)+p_{2(s+\epsilon^2}(w,z)\big),\eta_0(dz)\Big\rangle
+    \big(p_{2(s+\epsilon^2)}(y,z)+p_{2(s+\epsilon^2)}(w,z)\big),\eta_0(dz)\Big\rangle
 \nonumber
 \\ & \qquad \qquad  {}
 +
 \int_0^{s-\delta}\Big\langle\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
-\big(p_{2(s-t+\epsilon^2}(y,z)+p_{2(s-r+\epsilon^2}(w,z)\big)
+    \big(p_{2(s-t+\epsilon^2)}(y,z)+p_{2(s-r+\epsilon^2)}(w,z)\big)
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz)\Big\rangle dr
 \nonumber
@@ -6045,8 +6045,8 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \int_0^{s-\delta}
 \big\langle \Big\{
 \frac{C}{(\epsilon^2\theta)^{1/2}}
-|p_{6(s-r+\epsilon^2)}(y,z)+
-p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
+(p_{6(s-r+\epsilon^2)}(y,z)+ p_{6(s-r+\epsilon^2)}(w,z))
++\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \cdot |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
@@ -6105,6 +6105,7 @@ in the limit, i.e.,
 Since 
 $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
 \langle \rho_\epsilon*f(x), \eta_t^N(dx)\rangle$,
+and the limit is deterministic,
 this will follow if we can show that each the terms in the semimartingale
 decomposition~(\ref{eqn:eta_martingale}),
 with the test function $f$ replaced by $\rho_\epsilon*f(\cdot)$,
@@ -6113,7 +6114,7 @@ converges to the corresponding term in~\eqref{eqn:target PDE weak form}.
 The linear term is straightforward.
 Write $T_{\cdot}$ for the heat semigroup, so that
 $\rho_\epsilon*f(x) = T_{\epsilon^2}f(x)$.
-By a Taylor expansion, writing $\{T_t\}_{t\geq 0}$ for the heat semigroup,
+By a Taylor expansion,
 \begin{align*}
 \int_0^t \big\langle \mathcal{L}^\theta T_{\epsilon^2} f, 
 	\eta_s^N(dx)\big\rangle ds 
@@ -6220,7 +6221,7 @@ where we have used that
 \]
 Now recall that $F$ is a polynomial of degree $n$, and so 
 there exist real numbers $b_k$ such
-that $F(a)-F(b)= (a-b)\sum_{k=1}^{n-1}b_kx^ky^{n-1-k}$ and so 
+that $F(a)-F(b)= (a-b)\sum_{k=1}^{n-1} b_k a^k b^{n-1-k}$ and so 
 \[
 |F(\rho_\epsilon*\eta_s(y))-F(\rho_\epsilon*\eta_s(w))|
 \leq 
@@ -6228,14 +6229,14 @@ that $F(a)-F(b)= (a-b)\sum_{k=1}^{n-1}b_kx^ky^{n-1-k}$ and so
 \sum_{k=1}^{n-1}|b_k|\left(\rho_\epsilon*\eta_s(y)^{n-1}+\rho_\epsilon*\eta_s(w)^{n-1}\right).
 \]
 
-Combining the above, we have reduced the problem to showing that 
+Combining the above, we have reduced the problem to showing that for any $k \ge 0$,
 \begin{equation}
 \label{target expression}
 	\lim_{\epsilon\to 0}
 	\IE\Big[	\int_0^t\big\langle \int |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)|
 \left(\rho_\epsilon*\eta_s(y))^k+\rho_\epsilon*\eta_s(w)^k\right)
 	p_{\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle ds\Big]
-=0,
+=0 .
 \end{equation}
 We are going to use the estimate~(\ref{difference in rhos}).
 First note that by Lemma~\ref{bounds on moments}
@@ -6293,8 +6294,8 @@ p_{\epsilon^2}(x,y) \rho_\epsilon*\eta_s(x) dy dx ds \Big]
 p_{2(s+\epsilon^2)}(y,z)  
 ,\eta_0(dz)
 \big\rangle
-\big(\rho_\epsilon*\eta_s(y)^{k+1} +\rho_\epsilon*\eta_s(x)^{k+1}\big)\Big]
-p_{\epsilon^2}(x,y) dy dx ds,
+\big(\rho_\epsilon*\eta_s(y)^{k+1} +\rho_\epsilon*\eta_s(x)^{k+1}\big)
+p_{\epsilon^2}(x,y) dy dx \Big] ds,
 \end{multline*}
 and using Lemma~\ref{bounds on moments} and the tower property, and integrating
 with respect to $s$, under our assumptions on $\eta_0$,
@@ -6309,10 +6310,12 @@ p_{2(s+\epsilon^2)}(y,z)
 \\
 \big(\rho_\epsilon*\eta_0(y)+\rho_\epsilon*\eta_0(y)^{k+1} 
 +\rho_\epsilon*\eta_0(x)
-+\rho_\epsilon*\eta_0(x)^{k+1}\big)\Big]
-p_{\epsilon^2}(x,y) dy dx ds 
-={\mathcal O}(\epsilon).
++\rho_\epsilon*\eta_0(x)^{k+1}\big)
+p_{\epsilon^2}(x,y) dy dx \Big] ds 
+\\
+\le C'\epsilon\int_\delta^t\frac{1}{(s+\epsilon^2)^{d/2}}ds .
 \end{multline*}
+For fixed $\delta$, this bound tends to zero as $\epsilon\to 0$.
 The term involving 
 $ 
 \big\langle
@@ -6325,7 +6328,7 @@ is handled similarly.
 
 On the other hand
 \begin{multline*}
-\big\langle\langle p_{2(s+\epsilon^2)}(y,z), \eta_0(dz)\rangle
+\big\langle \int \langle p_{2(s+\epsilon^2)}(y,z), \eta_0(dz)\rangle
 \rho_\epsilon*\eta_s(w)^kp_{2\epsilon^2}(w,y)dy, \eta_s(dw)\big\rangle
 \\
 \leq \frac{C}{(s+\epsilon^2)^{d/2}}\langle 1,\eta_0\rangle\big\langle
@@ -6334,9 +6337,9 @@ On the other hand
 and since $\langle 1,\eta_0\rangle$ is uniformly bounded we apply 
 Corollary~\ref{alternative form moment bounds} to obtain a bound on
 the contribution to~(\ref{contribution from initial condition terms})
-from this term of the form
-\[C\epsilon\int_\delta^t\frac{1}{(s+\epsilon^2)^{d/2}}ds.\]
-Note that for fixed $\delta$, this bound tends to zero as $\epsilon\to 0$.
+from this term of the same form as the others.
+% \[C\epsilon\int_\delta^t\frac{1}{(s+\epsilon^2)^{d/2}}ds.\]
+% Note that for fixed $\delta$, this bound tends to zero as $\epsilon\to 0$.
 
 Now consider the contribution to the left hand side of~(\ref{target expression})
 from the second term in~(\ref{difference in rhos}). Since $F$ is a polynomial,
@@ -6344,10 +6347,10 @@ it is bounded by a sum of terms of the form
 \begin{multline*}
 \int_\delta^t\int_0^{s-\delta}\Big\langle\int\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
 \big\langle\big(p_{2(s-r+\epsilon^2)}(y,z)+ p_{2(s-r+\epsilon^2)}(w,z)\big)
-\rho_\epsilon*\eta_r(z)^j,\eta_r(dz)\big\rangle dr
+\rho_\epsilon*\eta_r(z)^j,\eta_r(dz)\big\rangle
 \\
 \rho_\epsilon*\eta_s(y)^kp_{\epsilon^2}(y,w)dy,\eta_s(dw)
-\Big\rangle ds
+\Big\rangle dr ds
 \\
 \leq C\epsilon
 \int_\delta^t\int_0^{s-\delta}
@@ -6355,10 +6358,10 @@ it is bounded by a sum of terms of the form
 	\Big\langle\int
 \big\langle
 \big(p_{2(s-r+\epsilon^2)}(y,z)+ p_{2(s-r+\epsilon^2)}(w,z)\big)
-\rho_\epsilon*\eta_r(z)^j,\eta_r(dz)\big\rangle dr
+\rho_\epsilon*\eta_r(z)^j,\eta_r(dz)\big\rangle 
 \\
 \rho_\epsilon*\eta_s(y)^kp_{2\epsilon^2}(y,w)dy,\eta_s(dw)
-\Big\rangle ds,
+\Big\rangle dr ds,
 \end{multline*}
 where as usual we have ``borrowed'' from the exponential term in
 $p_\epsilon^2(y,w)$ to replace $\|y-w\|$ by a constant times $\epsilon$.
@@ -6412,10 +6415,10 @@ in~(\ref{difference in rhos}):
 \rho_\epsilon*\eta_s(w)^k\big)p_{\epsilon^2}(w,y)dy, \eta_s(dw)\Big\rangle ds
 \Big] .
 \]
-Since $\psi_{t-s}^{\epsilon,x}(y)=p_{T(t-s)+\epsilon^2}(x,y)$, 
+Since $\psi_{t-s}^{\epsilon,x}(y)=\IE[p_{T(t-s)+\epsilon^2}(x,y)]$, 
 rearranging~(\ref{expn rhoepsilon})
 we see that we can pull a convolution with $p_{\epsilon^2/2}$ out of
-our expressions for $M_s(x)$ and $M_s(w)$ and so all the manipulations 
+our expression for $M_s(w)$ and so all the manipulations 
 that we used to control terms above with still be valid.
 To deal with the two terms in the product involving $|M_s(y)|$, we write 
 the first as $\int |M_s(y)|\rho_\epsilon*\eta_s(y)^{k+1}dy$ and then use
@@ -6576,7 +6579,7 @@ is complete.
 
 
 % % % % % % % % % % % % %
-\section{Lookdown Proofs}
+\section{Proofs of results for the lookdown process and ancestral lineages}
     \label{sec:lookdown_proofs}
 
 Now we turn to results about the lookdown process,
