@@ -1152,7 +1152,7 @@ weak convergence, in the case $\alpha=0$ we can only deduce that
 any limit point $\eta_t$ is a weak solution to this nonlocal PDE.
 
 Specialising the results of 
-\citet{KURTZ1999103} to the deterministic setting
+\citet{kurtz/xiong:1999} to the deterministic setting
 provides general conditions under which we
 have existence and uniqueness of solutions to~(\ref{eqn:nonlocal_pde}) which
 have an $L^2$-density with respect to Lebesgue measure. 
@@ -6580,8 +6580,8 @@ is complete.
     \label{sec:lookdown_proofs}
 
 Now we turn to results about the lookdown process,
-first establishing the basic connection between the processes, 
-\comment{which processes?}
+first establishing the basic connection between the population process $\eta^N$
+and the lookdown process $\lp^N$,
 Proposition~\ref{thm:mmt_application},
 and then in the next section, convergence of the lookdown process itself.
 
@@ -6593,10 +6593,8 @@ and then in the next section, convergence of the lookdown process itself.
     and the kernel $\alpha$ of that theorem
     is the transition function that assigns levels uniformly on $[0, N]$ (in the first case)
     or as a Poisson process with Lesbegue intensity (in the limiting case).
-    We need a continuous $\psi^N(\lp)$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
+    We need a continuous $\psi^N(\lp) \ge 1$ such that $|A^N f(\lp)| \le c_f \psi^N(\lp)$
     for all $f$ in the domain of $A^N$ (and similarly a function $\psi$ for $A$).
-	\comment{technically need $\psi\geq 1$, so usually just add $1$ to 
-	whatever you think $\psi$ should be.} 
     We also need that applying the lookdown generator to a function and averaging over levels
     is equivalent to applying the population process generator to the function
     whose dependence on levels has been averaged out,
@@ -6611,10 +6609,11 @@ and then in the next section, convergence of the lookdown process itself.
     For the scaling limit, recall that the test functions $f$ are of the form
     $f(\lp) = \prod_{(x, u) \in \lp} g(x, u)$
     with $g(x, u) = 1$ for $u \ge u_0$,
-    and so taking for example the most troublesome term in $Af(\lp)$,
-	\comment{should we rephrase to say that the most troublesome term is...
-	(because the other one is as above)?}
-    we see that since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
+    and consulting~\eqref{eqn:limiting_lookdown_generator},
+    we see that most terms in $Af(\lp)$ can be bounded 
+    as above by constant multiples of $\langle 1, \eta \rangle$.
+    However, the term involving $F$ is, as usual, more troublesome.
+    Since $0 \le f(\lp) / g(x, u) \le 1$ for any $(x, u) \in \lp$,
     \begin{align*} % \label{eqn:part_of_psi}
         \big| f(\lp) \sum_{(x, u) \in \lp} F(x, \eta) u \frac{\partial_u g(x, u)}{g(x, u)} \big|
         & \le
@@ -6626,9 +6625,7 @@ and then in the next section, convergence of the lookdown process itself.
     except that $\psi(\lp)$ cannot depend on $f$, and hence neither on $u_0$.
     So, the second line provides us with the required bound:
     we absorb $\| \partial_u g \|_\infty e^{u_0}$ into $c_f$
-    and take $\psi(\lp) = \langle F(x, \eta) u e^{-u}, \lp(dx, du) \rangle$.
-	\comment{again add one - and inside the integral to deal with
-	the non-troublesome term}
+    and take $\psi(\lp) = 1 + \langle 1 + F(x, \eta) u e^{-u}, \lp(dx, du) \rangle$.
     % Furthermore, since $F(x, \eta)$ only depends on spatial location, not level,
     % for a given $\lp$ (and hence $\eta = \kappa(\lp)$),
     % $\sup_x |F(x, \eta)|$ is finite.
@@ -6648,7 +6645,7 @@ and then in the next section, convergence of the lookdown process itself.
 
 Now we turn to the main theorem on convergence of the lookdown process, 
 Theorem~\ref{thm:lookdown_convergence}, whose proof
-follows a similar pattern to those \comment{`that'?} of convergence for the population processes
+follows a similar pattern to that of convergence for the population processes
 in Section~\ref{sec:population_density_proof}.
 
 \begin{remark}
@@ -6755,12 +6752,12 @@ and of the motion of individual lines of descent.
 In other words, the limiting ``line of descent'' construction
 of Section~\ref{sec: individual lines of descent} holds.
 	\comment{Is this paragraph really a separate remark that we want to make?}
+    \comment{PETER: maybe? Figuring out how to make it more concrete/rigorous seems daunting, though -
+        I'm inclined to remove it.}
 
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
-    the theorem will follow from tightness and characterization of the limit.
-	\comment{characterisation of limit points (given that we have
-	no uniqueness of the limit)?}
+    the theorem will follow from tightness and characterization of the limit points.
     This time, the processes $\lp^N$ take values in $\lpmeasures$,
     the space of locally finite measures on space $\times$ levels.
     (They will in fact be point measures, including the limit,
@@ -6773,39 +6770,60 @@ of Section~\ref{sec: individual lines of descent} holds.
     we endow $\lpmeasures$ with the vague topology ``in the level coordinate'',
     induced by test functions on $\overline{\IR^d} \times [0,\infty)$
     of the form $g(x) h(u)$, where $g \in C_b(\overline{\IR^d})$ is bounded and continuous
-    and $h \in C_c([0, \infty))$ is compactly supported.
-    This space is completely metrizable,
-    and we may choose a countable set of nonnegative, compactly supported $f_k$
-    such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
-    $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$;
-    below, Lemma~\ref{lem:compact containment lookdown} proves exactly this, and therefore compact containment.
-	\comment{Do we have a reference for this claim about completely
-	metrizable and these sets being enough to 
-	establish relative compactness? The reader may reasonably
-	ask why we had to add a point at infinity to $\IR^d$ and not one
-	to $[0,\infty)$. Also, maybe spell out that the support of $f_k$ is compact in
-	the product space of $\overline{\IR^d}$ times levels?} 
-
-    We require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
-    is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
-    of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$,
-    that is dense with respect to uniform convergence on compact subsets.
-    Lemma~\ref{lem:test_fn_tightness} shows that $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
-    for any $f: \overline{\IR^d} \times [0,\infty) \to \IR$ with compact support
-    in the level direction.
+    and $h \in C_c([0, \infty))$ is compactly supported
+    (following, e.g., \citet{etheridge/kurtz:2019}, Condition 2.1).
+    % PLR: NEW DETAILS
+    Several places below we require a dense subset
+    of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$.
     The functions $\lp \mapsto \langle f, \lp \rangle$
     do not form not a dense subset of $\bar C(\lpmeasures)$,
     but they do separate points and vanish nowhere, 
-	\comment{I don't understand vanish nowhere - I think it may because
-	of the way I am reading the sentence, but it is perfectly possible
-	for $\langle f,\xi\rangle$ to be zero.}
-	so
+    i.e., for any $\lp_1$ and $\lp_2$ there is an $f$
+    with $\langle f, \lp_1\rangle \neq \langle f, \lp_2\rangle$,
+    and a $g$ such that $\langle g, \lp_1\rangle \neq 0$.
+	Therefore,
     by the Stone-Weierstrass theorem, the algebra they generate is dense
     % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
     % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
     % Since $C_0(\lpmeasures)$ is dense
     in $\bar C(\lpmeasures)$ (with respect to uniform convergence on compact subsets).
-    So, it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
+    % END NEW DETAILS
+    Topologized in this way, the space $\lpmeasures$ completely metrizable,
+    and we may choose a countable set of nonnegative $f_k$,
+    each supported on $\IR^d \times [0,u_k]$ for some $u_k < \infty$,
+    such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
+    $\sup_{\lp \in K} \langle f_k, \lp \rangle < \infty$ for each $k$.
+    (To see this, use Theorem A.2.3 of~\citet{kallenberg1997foundations}
+    and the first argument made in the proof of Lemma~\ref{lem:product_tightness}.)
+    Below, Lemma~\ref{lem:compact containment lookdown} proves exactly this,
+    and therefore compact containment.
+    Here we have compactified $\IR^d$ for convenience
+    (since it turned out to be straightforward to show that mass does not escape to infinity in space);
+    however, we need to use the vague topology ``in the level direction''
+    because \emph{levels} may escape to infinity in finite time in the limit.
+
+    For \citet{ethier/kurtz:1986} Theorem~3.9.1
+    we require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
+    is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
+    of $\bar C(\lpmeasures)$ %, the bounded, continuous functions on $\lpmeasures$,
+    that is dense with respect to uniform convergence on compact subsets.
+    Lemma~\ref{lem:test_fn_tightness} shows that $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
+    for any $f: \overline{\IR^d} \times [0,\infty) \to \IR$ with compact support
+    in the level direction.
+    % The functions $\lp \mapsto \langle f, \lp \rangle$
+    % do not form not a dense subset of $\bar C(\lpmeasures)$,
+    % but they do separate points and vanish nowhere, 
+    % i.e., for any $\lp_1$ and $\lp_2$ there is an $f$
+    % with $\langle f, \lp_1\rangle \neq \langle f, \lp_2\rangle$,
+    % and a $g$ such that $\langle g, \lp_1\rangle \neq 0$.
+	% Therefore,
+    % by the Stone-Weierstrass theorem, the algebra they generate is dense
+    % % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
+    % % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
+    % % Since $C_0(\lpmeasures)$ is dense
+    % in $\bar C(\lpmeasures)$ (with respect to uniform convergence on compact subsets).  So, 
+    Since as above the algebra generated by these are dense in $\bar C(\lpmeasures)$,
+    it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
     extends to finite sums and products of these processes,
     which is shown in Lemma~\ref{lem:product_tightness}.
     The fact that martingale properties are preserved under passage to the limit
@@ -6833,8 +6851,7 @@ for concreteness one may take $h(u) = e^{-u}$.
     $\int_0^\infty \int_u^\infty h(v) dv du$,
     $\int_0^\infty u^2 |h'(u)| du$,
     and $\int_0^\infty h(u)^2 du$
-    are all finite,
-	\comment{Should be a fullstop.}
+    are all finite.
     Suppose that Assumptions~\ref{def:model_setup} hold,
     and that $\theta/N \to \alpha$ and $\lp_0^N \to \lp_0$ weakly as $N \to \infty$,
     where each $\lp_0^N$ is conditionally uniform given $\eta_0^N$
@@ -6849,18 +6866,14 @@ for concreteness one may take $h(u) = e^{-u}$.
     $$
 \end{lemma}
 
-We postpone the proof of this Lemma until we have shown how it yields 
-\comment{delete `to'} to compact containment.
-First, we show that this implies compact containment
-\comment{compact containment of what?} for arbitrary
-compactly supported functions.
+We postpone the proof of this Lemma until we have shown how it yields compact containment.
+First, we show that this implies compact containment of the processes $(\langle f, \lp^N_t \rangle)_{0 \le t \le T}$
+for arbitrary compactly supported $f$.
 
 \begin{lemma}
     \label{lem:compact containment hn}
     Suppose $f \in C(\bar \IR^d \times [0, \infty))$ and there is a $u_f$ such that
-    $f(x, u) = 0$ for all $x$ and $u \ge u_f$.
-	\comment{sounds like $f$ vanishes for all $x$ irrespective of $u$!
-	Can we reword? `all $(x,u)$ with $u\geq u_f$' or something?}
+    if $u \ge u_f$ then $\sup_x f(x, u) = 0$.
     Under the assumptions of Lemma~\ref{lem:h_containment},
     for any $T$ there exists a constant $K(f,T)$ such that for all $M > 0$,
     $$ 
@@ -6912,10 +6925,8 @@ $$
 $$
 for all $0 \le t \le T$
 with uniformly high probability,
-a set which is compact if we choose $\{f_k\}$ appropriately.
-\comment{Does the reader know how to act `appropriately' in 
-making this choice? Maybe refer back to the right bit above where it 
-is explained.}
+a set which (as discussed in the proof of Theorem~\ref{thm:lookdown_convergence})
+is relatively compact by appropriate choice of $\{f_k\}_{k \ge 1}$.
 % \comment{
 %     Note that we could instead of the vague topology on locally finite measures,
 %     take the space of measures with $\langle h, \xi \rangle < \infty$
@@ -7005,10 +7016,10 @@ Finally, we prove the key lemma.
     \end{split}
     \end{align}
     Now, since $\lp_t^N$ is conditionally uniform given $\eta_t^N$,
-    we know that for appropriate $f$, \comment{A bit vague... can we be 
-    more specific about what makes a function appropriate?}
-    $  \IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}, \eta^N_t \rangle] , $
-    where $\widetilde{f}(x) = \int_0^\infty f(x, u) du$.
+    we know that if $f \in C(\IR^d \times [0,\infty))$
+    with $\IE[\langle |f|, \lp^N_t \rangle] < \infty$ then
+    $\IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}_N, \eta^N_t \rangle]$,
+    where $\widetilde{f}_N(x) = \int_0^N f(x,u) du$.
     By our assumptions on $h$,
     we know that
     $$
@@ -7054,8 +7065,7 @@ Finally, we prove the key lemma.
         ds .
     \end{align*}
 
-    Again \comment{Only a very alert reader will remember why we say `again'
-    here...} since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
+    Since $\sqrt{x} \le 1 + x$ for $x \ge 0$,
     the Burkholder-Davis-Gundy inequality
     tells us that there is a $C'$ such that
     \begin{align*}
@@ -7102,10 +7112,8 @@ Finally, we prove the key lemma.
     Let $f$ be a bounded, continuous real-valued function on $\IR^d \times [0, \infty)$
     with uniformly bounded first and second derivatives
     for which there exists a $u_0$ such that if $u > u_0$ then $f(x, u) = 0$.
-    Then, the sequence of real-valued processes $(\langle f, \lp_t^N \rangle)_{t \ge 0}$
-	are \comment{`is' - the subject of the sentence is the (single) sequence}
-	tight in the space of \comment{real-valued? or ${\cal D}_\IR$-valued} 
-	c\`adl\`ag processes.
+    Then, the sequence of real-valued processes $(\langle f, \lp_t^N \rangle)_{t \ge 0}$ for $N \ge 1$
+    is tight in ${\cal D}_{[0\infty)}(\IR)$.
 \end{lemma}
 
 \begin{proof}[of Lemma \ref{lem:test_fn_tightness}]
@@ -7126,12 +7134,11 @@ Finally, we prove the key lemma.
         + \int_0^t \Big\langle
             c_\theta \int_u^N \int (f(y, u_1) + f(x, u_1)) q^m(x,dy,\eta) du_1
         \\ {} &\qquad
-            + c_\theta (N - u) \int (f(y, u) - f(x, u)) q^m(x,dy,\eta)
+            + c_\theta (N - u) \int_0^t (f(y, u) - f(x, u)) q^m(x,dy,\eta)
             + (c_\theta u^2 - b_\theta u) \frac{d}{du} f,
             \lp_s
-        \Big\rangle ds
+        \Big\rangle ds .
     \end{align*}
-	\comment{limits of integration missing in last integral}
     The bounds analogous to \eqref{eqn:eta_projections_goal1} and \eqref{eqn:eta_projections_goal2}
     follow as in the proof of Lemma~\ref{lem:eta_projections_tightness}:
     for instance, observe that using that $c_\theta \le C_a$ for some $C_a$,
@@ -7169,6 +7176,7 @@ and so suppose that the limiting process has density $\varphi_t(x)$
 at location $x$ and time $t$ (which may only exist almost everywhere).
 	\comment{Is it obvious that it exists almost everywhere? 
 	We just need to be able to integrate against it I guess.}
+    \comment{PETER: I think the point here was to remind the reader that it may not exist everywhere?}
 We first proceed informally, as if the density exists everywhere,
 and follow this with an integration against test functions to make the argument rigorous.
 Let $Y$ denote the spatial motion followed by a single line of descent.
@@ -7178,13 +7186,10 @@ $$
     \mathcal{L}^Y_s g(x) = \gamma(x,\eta_s) ( \DG(r(\cdot,\eta_s) g(\cdot))(x) - g(x) \DG r(x,\eta_s) ) .
 $$
 % (This is $\mathcal{L}^Y_s g(x) = \gamma ( \DG(rg)(x) - g \DG r(x) )$ in shorter but more cryptic notation.)
-The diffusion is time-inhomogeneous if the density is not constant with
-	\comment{this may be an example of being divided by a common
-	language, but I would say `in time'} time.
-Let $\varphi_t(x)$ be the limiting density, which 
-	\comment{is a weak solution to?} 
-	solves \eqref{general deterministic limit},
-$\partial_t \varphi = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
+The diffusion is time-inhomogeneous if the density is not constant in time.
+Let $\varphi_t(x)$ be the limiting density,
+which is a weak solution to \eqref{general deterministic limit},
+$\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
 Formally, the intensity of individuals at $y$ at time $t$
 that are descended from individuals that were at $x$ at time $s$
 (with $s < t$) is
@@ -7247,7 +7252,7 @@ Writing $\hat{T}_{t,s}$ for the time-inhomogeneous semigroup
 corresponding to the motion of ancestral lineages backwards in time
 (that is, $\hat{T}_{t,s} f(y) = \int p(t,s,x,y) f(x) dy$),
 we can write this as 
-$$
+\begin{align} \label{eqn:integrated_semigroups}
     \int f(y)\varphi_t(y)\hat{T}_{t,s}g(y)dy
     =
     \int g(x) \varphi_s(x)
@@ -7256,16 +7261,43 @@ $$
                 \int_s^t(F+\gamma\DG r)(Y_u)du
             \right)f(Y_t)
         \right]dx.
-$$
-Differentiating with respect to $t$ at $t=s$,
-\comment{This is a bit confusing. I think it is partly because it says generator
-of $\widehat{T}_{t,s}$ and of course $t$ disappears. But also it is 
-because we are 
-looking for the generator of the ancestral lineage and so it 
-feels like one wants to 
-differentiate with respect to `-s' if you see what I mean.}
-and writing 
-$\Lgen_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
+\end{align}
+Next, we will differentiate this equation with respect to $t$.
+There are two terms in the product on the left-hand side that depend on $t$,
+so if we
+use that $\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi F$
+(in a weak sense),
+and write $\Lgen_u$ for the generator of $\hat{T}_{t,s}$ at time $t=u$
+so that $\partial_t \hat{T}_{t,s} g(y) \Big|_{t=s} = \Lgen_s g(y)$,
+then
+\begin{multline*}
+    \qquad \qquad
+    \frac{d}{dt} 
+    \int f(y)\varphi_t(y)\hat{T}_{t,s}g(y)dy
+    \Big|_{t=s}
+    \\ {}
+    =
+    \int f(y) \left\{
+        \varphi_s(y) \Lgen_s g(y)
+        + \left[
+            r(y) \DG^*(\gamma \varphi_s)(y) + \varphi_s(y) F(y)
+        \right] g(y)
+    \right\} dy .
+\end{multline*}
+As for the right-hand side, since $Y_s=x$ under $\IE_{x,s}$,
+\begin{multline*}
+    \frac{d}{dt}
+        \IE_{x,s}\left[
+            \exp\left(
+                \int_s^t(F+\gamma\DG r)(Y_u)du
+            \right)f(Y_t)
+        \right]
+    \Bigg|_{t=s}
+    =
+        \left[F(x)+\gamma(x) \DG r(x)\right] f(x) + \Lgen^Y_s f(x) .
+\end{multline*}
+Therefore, the derivative of~\eqref{eqn:integrated_semigroups}
+(with respect to $t$, evaluated at $t=s$) is
 \begin{align*}
 &
     \int f(y) \left\{
@@ -7276,21 +7308,21 @@ $\Lgen_s$ for the generator of $\hat{T}_{t,s}$ at time $s$, we find
     \right\} dy \\
 &\qquad =
     \int g(x) \varphi_s(x) \left(
-        {\mathcal L}^Y_s f(x) + (F(x)+\gamma(x) \DG r(x)) f(x)
+        \Lgen^Y_s f(x) + \left[F(x)+\gamma(x) \DG r(x)\right] f(x)
     \right) dx \\
 &\qquad =
     \int f(x) \left(
-        ({\mathcal L}^Y_s)^* (\varphi_s g)(x) + (F(x) + \gamma(x) \DG r(x)) \varphi_s(x) g(x)
+        (\Lgen^Y_s)^* (\varphi_s g)(x) + \left[F(x) + \gamma(x) \DG r(x)\right] \varphi_s(x) g(x)
     \right) dx ,
 \end{align*}
-where $({\mathcal L}^Y_s)^*$ is the adjoint of ${\mathcal L}^Y_s$
-and we have used that $\varphi_s$ solves $\dot \varphi = r \DG^*(\gamma \varphi) + F \varphi$.
+where $(\Lgen^Y_s)^*$ is the adjoint of $\Lgen^Y_s$ .
+% and we have used that $\varphi_s$ solves $\dot \varphi = r \DG^*(\gamma \varphi) + F \varphi$.
 Since $f$ was arbitrary,
 \begin{eqnarray*}
 \Lgen_s g
     &=&
     \frac{1}{\varphi_s} \left[
-        ({\mathcal L}^Y_s)^* (\varphi_s g)
+        (\Lgen^Y_s)^* (\varphi_s g)
         + \gamma \varphi_s g \DG(r)
         - r g \DG^*(\gamma \varphi_s)
     \right] .
@@ -7383,26 +7415,26 @@ which is equation \eqref{eqn:lineage_generator2}.
 \end{proof}
 
 \begin{proof}[of Corollary~\ref{cor:stationary_dist}]
-For the moment, we will write $r(x)$ for $r(x, \eta)$
-and similarly for $\gamma(x)$.
-First, note that in this case
-	\comment{Should really define our notation - ${\cal L}_s$ is
-	independent of time, so...}
+For the moment, we will write $r(x)$ for $r(x,\eta)$
+and $\gamma(x)$ for $\gamma(x,\eta)$.
+First note that
+since in this case the semigroup does not depend on time, 
+we can write $\Lgen = \Lgen_s$, and
 $$
     \Lgen f = \sigma^2 r \gamma \left(
         \Delta f
         + \grad ( 2 \log(\gamma \varphi) - h/\sigma^2 ) \cdot \grad f
-    \right) ,
+    \right) .
 $$
-and that
+Now, observe that
 $$
     \int_{\IR^d} e^{H(x)} f(x) (\Delta + \grad H(x) \cdot \grad) g(x) dx
     =
     - \int_{\IR^d} e^{H(x)} \left\{
         \grad f(x) \cdot \grad g(x)
-    \right\} dx .
+    \right\} dx ,
 $$
-Therefore, by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)/\sigma^2$
+so that by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)/\sigma^2$
 and
 $$ \pi(x)
     = e^{H(x)} / (\sigma^2 r(x) \gamma(x))
