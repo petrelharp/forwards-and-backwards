@@ -261,7 +261,7 @@ it is a (weak) solution of an equation of the form
         r\left(x, \varphi_t \right)
         \DG^* \left[
             \varphi_t(\cdot)
-            \gamma\big( x, \varphi_t \big)
+            \gamma\big(\cdot, \varphi_t \big)
         \right](x)
         +
         \varphi_t(x)
@@ -1173,7 +1173,7 @@ that
 	\leq C(\|x_1-x_2\|+\rho (\nu_ 1,\nu_2))
 \end{equation}
 for some $C>0$,   
-the methods of \cite{KURTZ1999103} show that %under the conditions
+the methods of \citet{kurtz/xiong:1999} show that %under the conditions
 %of Theorem~\ref{thm:kurtzxiong}, 
 if the initial condition $\eta_0$ for our 
 population process has
@@ -2949,7 +2949,8 @@ by $\kappa(\xi)(\cdot) = \lim_{u_0 \to \infty} \xi(\cdot \times [0, u_0]) / u_0$
 We will also need an inverse notion:
 for a measure $\lp^N$ on $\IR^d \times [0, N]$ and a $\sigma$-field $\mathcal{F}$,
 we say that \emph{$\lp^N$ is conditionally uniform given $\mathcal{F}$}
-if for all compactly supported $f$,
+if $\kappa^N(\lp)$ is $\mathcal{F}$-measurable and 
+for all compactly supported $f$,
 \begin{align} \label{eqn:conditionally_uniform}
     \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
     &=
@@ -2962,7 +2963,8 @@ are independent, uniformly distributed on $[0, N]$, and independent of
 $\kappa^N(\lp)$.
 Similarly, for a measure $\lp$ on $\IR^d \times [0, \infty)$
 we say that \emph{$\lp$ is a conditionally Poisson random measure given $\mathcal{F}$}
-if for all compactly supported $f$,
+if $\kappa(\lp)$ is $\mathcal{F}$-measurable and 
+for all compactly supported $f$,
 \begin{align} \label{eqn:conditionally_poisson}
     \IE[ e^{-\langle f, \lp \rangle} \;|\; \mathcal{F} ]
     &=
@@ -5227,7 +5229,7 @@ write
 Since $\dot \psi^{\epsilon,x}_s = \mathcal{L}_\theta \psi^{\epsilon,x}_s$,
 the $j=1$ terms from $\Pgen^N(\langle \psi^{\epsilon,x}_{t-s}(y),\eta_s(dy) \rangle^k)$
 combines with the last term in~\eqref{kth moment for time varying function}
-to obtain 
+to yield 
 $$ \int_0^t k \langle \psi^{\epsilon,x}_{t-s},\eta\rangle^{k-1} \langle F(\rho_\epsilon*\eta_s(y)) \psi^{\epsilon,x}_{t-s}(y), \eta_s(dy) \rangle ds . $$
 As for the remaining terms, using (from Lemma~\ref{PsiBoundHS}) 
 that $\sup_s\|\psi^{\epsilon,x}_s(\cdot)\|_\infty=C/\epsilon^d$,
@@ -5482,8 +5484,9 @@ $$
 $$
 
 Consulting~\eqref{eqn:prelimit_martingale_variation},
+and using the approach of Lemma~\ref{lem:limit_mgale},
 the quadratic variation of $\widehat{M}^N(f)$ satisfies
-$ \IE[[\widehat{M}^N_f]_T] \le C (\theta/N) \int_0^T \langle 1, \eta_s \rangle ds \le C' \theta/N$
+$ \IE[[\widehat{M}^N_f]_T] \le C (\theta/N) \int_0^T \IE[\langle 1, \eta_s \rangle] ds \le C' \theta/N$
 for some constants $C$ and $C'$.
 Now, by the Burkholder-Davis-Gundy inequality,
 $\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[[\widehat{M}^N(f)]_u]$,
@@ -5680,6 +5683,7 @@ and $p_{\epsilon^2 + t}(x, y)$.
 \begin{lemma}
     \label{Lemma:BoundPsiHS2}
     In the notation of Lemma~\ref{PsiBoundHS},
+    there exists a $C < \infty$ such that
     %and with $A$ as in Lemma~\ref{lem:poisson_ld},
 	\begin{equation}
 \label{heat kernel estimate}
@@ -5972,48 +5976,51 @@ and Lemma~\ref{Lemma:BoundPsiHS2},
 we have
 \begin{align}
 & |\rho_\epsilon*\eta_s(y)-\rho_\epsilon*\eta_s(w)| \nonumber 
-= |\langle p_{\epsilon^2}(y,z)-p_{\epsilon^2}(w,z),\eta_s(dz) \rangle | 
+=
+    |\langle p_{\epsilon^2}(y,z)-p_{\epsilon^2}(w,z),\eta_s(dz) \rangle | 
 \nonumber
-\\ 
-&\qquad
-    \leq 
-\big\langle |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(w,z)|, 
-\eta_0(dz)\big\rangle 
+\\ &\qquad
+\leq 
+\big\langle
+    |p_{\epsilon^2+s}(y,z)-p_{\epsilon^2+s}(w,z)|, 
+\eta_0(dz) \big\rangle 
 \nonumber
-	\\ &\qquad \qquad {}
-    +
+\\ &\qquad \qquad {}
++
 \int_0^{s-\delta}
-\big\langle (p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)|)
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+    \big\langle |p_{s-r+\epsilon^2}(y,z)-p_{s-r+\epsilon^2}(w,z)||
+    |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
-    \\ &\qquad \qquad {}
-	+ \big\langle\frac{C}{(\theta\epsilon^2)^{1/2}} \Big(
-	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)
-	+\widehat{\epsilon}(\delta,\epsilon,\theta)
-	,\eta_0(dz)\rangle
-	\nonumber
-    \\ &\qquad \qquad {}
-    +
+\\ &\qquad \qquad {}
++
+\Big\langle
+    \frac{C}{(\theta\epsilon^2)^{1/2}}
+    \Big(p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)
+	+ C\widehat{\epsilon}(\delta,\epsilon,\theta)
+,\eta_0(dz) \Big\rangle
+\nonumber
+\\ &\qquad \qquad {}
++
 \int_0^{s-\delta}
 \big\langle \Big\{
 \frac{C}{(\epsilon^2\theta)^{1/2}}
 |p_{6(s-r+\epsilon^2)}(y,z)+
 p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+|F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
     %\frac{C}{(\epsilon^2\theta)^{1/2}}
 %\int_0^{s-\delta}
 %\big\langle |p_{6(s-r+\epsilon^2)}(y,z)+
 %p_{6(s-r+\epsilon^2)}(w,z)|
-%\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+%|F(\rho_\epsilon*\eta_r(z)|, 
 %\eta_r(dz) \big\rangle  dr
 %\nonumber
     \\ &\qquad \qquad {}
 + \int_{s-\delta}^s \big\langle 
 |\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+|F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
 \\ & \qquad \qquad {}
@@ -6022,21 +6029,23 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 %\big)  
 \nonumber
 \\ & \qquad 
-\leq \Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
+\leq
+\Big\langle \frac{\|y-w\|}{\sqrt{s+\epsilon^2}}
     \big(p_{2(s+\epsilon^2)}(y,z)+p_{2(s+\epsilon^2)}(w,z)\big),\eta_0(dz)\Big\rangle
 \nonumber
 \\ & \qquad \qquad  {}
 +
 \int_0^{s-\delta}\Big\langle\frac{\|y-w\|}{\sqrt{s-r+\epsilon^2}}
     \big(p_{2(s-t+\epsilon^2)}(y,z)+p_{2(s-r+\epsilon^2)}(w,z)\big)
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+    |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz)\Big\rangle dr
 \nonumber
 \\ & \qquad \qquad  {}
-	+ \big\langle \frac{C}{(\theta\epsilon^2)^{1/2}}\Big( 
++
+\Big\langle \frac{C}{(\theta\epsilon^2)^{1/2}}\Big( 
 	p_{6(\epsilon^2+s)}(y,z)+p_{6(\epsilon^2+s)}(w,z)\Big)+
-	\widehat{\epsilon}(\delta,\epsilon,\theta) , \eta_0(dz)
-\big\rangle
+	C \widehat{\epsilon}(\delta,\epsilon,\theta) , \eta_0(dz)
+\Big\rangle
 \nonumber
 \\ & \qquad \qquad  {}
 +
@@ -6045,13 +6054,13 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \frac{C}{(\epsilon^2\theta)^{1/2}}
 (p_{6(s-r+\epsilon^2)}(y,z)+ p_{6(s-r+\epsilon^2)}(w,z))
 +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+|F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
     \\ &\qquad \qquad {}
 + \int_{s-\delta}^s \big\langle 
 |\psi_{s-r}^{\epsilon,y}(z) + \psi_{s-r}^{\epsilon, w}(z) |
-\cdot |F(\rho_\epsilon*\eta_r(z)|, 
+|F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
 \\ & \qquad \qquad  {}
@@ -6104,7 +6113,7 @@ Since
 $\langle f, \rho_\epsilon*\eta_t^N(x)dx\rangle=
 \langle \rho_\epsilon*f(x), \eta_t^N(dx)\rangle$,
 and the limit is deterministic,
-this will follow if we can show that each the terms in the semimartingale
+this will follow if we can show that each of the terms in the semimartingale
 decomposition~(\ref{eqn:eta_martingale}),
 with the test function $f$ replaced by $\rho_\epsilon*f(\cdot)$,
 converges to the corresponding term in~\eqref{eqn:target PDE weak form}.
@@ -6416,7 +6425,7 @@ in~(\ref{difference in rhos}):
 Since $\psi_{t-s}^{\epsilon,x}(y)=\IE[p_{T(t-s)+\epsilon^2}(x,y)]$, 
 rearranging~(\ref{expn rhoepsilon})
 we see that we can pull a convolution with $p_{\epsilon^2/2}$ out of
-our expression for $M_s(w)$ and so all the manipulations 
+our expressions for $M_s(y)$ and $M_s(w)$ and so all the manipulations 
 that we used to control terms above with still be valid.
 To deal with the two terms in the product involving $|M_s(y)|$, we write 
 the first as $\int |M_s(y)|\rho_\epsilon*\eta_s(y)^{k+1}dy$ and then use
@@ -6746,15 +6755,14 @@ with quadratic variation
     ds .
 \end{split}\end{align}
 
+\begin{remark}
 In addition to tightness of the measure-values processes $\lp^N$,
 the bounds used in the proofs below also imply
 tightness of the number of lines of descent and the number of births below a fixed level,
 and of the motion of individual lines of descent.
 In other words, the limiting ``line of descent'' construction
 of Section~\ref{sec: individual lines of descent} holds.
-	\comment{Is this paragraph really a separate remark that we want to make?}
-    \comment{PETER: maybe? Figuring out how to make it more concrete/rigorous seems daunting, though -
-        I'm inclined to remove it.}
+\end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:lookdown_convergence}]
     As in Section~\ref{sec:population_density_proof},
@@ -6774,10 +6782,10 @@ of Section~\ref{sec: individual lines of descent} holds.
     and $h \in C_c([0, \infty))$ is compactly supported
     (following, e.g., \citet{etheridge/kurtz:2019}, Condition 2.1).
     % PLR: NEW DETAILS
-    Several places below we require a dense subset
-    of $\bar C(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$.
+    In several places below we require a dense subset
+    of $C_b(\lpmeasures)$, the bounded, continuous functions on $\lpmeasures$.
     The functions $\lp \mapsto \langle f, \lp \rangle$
-    do not form not a dense subset of $\bar C(\lpmeasures)$,
+    do not form not a dense subset of $C_b(\lpmeasures)$,
     but they do separate points and vanish nowhere, 
     i.e., for any $\lp_1$ and $\lp_2$ there is an $f$
     with $\langle f, \lp_1\rangle \neq \langle f, \lp_2\rangle$,
@@ -6787,9 +6795,9 @@ of Section~\ref{sec: individual lines of descent} holds.
     % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
     % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
     % Since $C_0(\lpmeasures)$ is dense
-    in $\bar C(\lpmeasures)$ (with respect to uniform convergence on compact subsets).
+    in $C_b(\lpmeasures)$ (with respect to uniform convergence on compact subsets).
     % END NEW DETAILS
-    Topologized in this way, the space $\lpmeasures$ completely metrizable,
+    Topologized in this way, the space $\lpmeasures$ is completely metrizable,
     and we may choose a countable set of nonnegative $f_k$,
     each supported on $\IR^d \times [0,u_k]$ for some $u_k < \infty$,
     such that a subset $K \subset \lpmeasures$ is relatively compact if and only if
@@ -6803,16 +6811,16 @@ of Section~\ref{sec: individual lines of descent} holds.
     however, we need to use the vague topology ``in the level direction''
     because \emph{levels} may escape to infinity in finite time in the limit.
 
-    For \citet{ethier/kurtz:1986} Theorem~3.9.1
+    In order to apply \citet{ethier/kurtz:1986} Theorem~3.9.1
     we require that $\{(F(\lp^N_t))_{t \ge 0}\}_N$
     is tight as a sequence of real-valued c\`adl\`ag processes, for all $F$ in a subset
-    of $\bar C(\lpmeasures)$ %, the bounded, continuous functions on $\lpmeasures$,
+    of $C_b(\lpmeasures)$ %, the bounded, continuous functions on $\lpmeasures$,
     that is dense with respect to uniform convergence on compact subsets.
     Lemma~\ref{lem:test_fn_tightness} shows that $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
     for any $f: \overline{\IR^d} \times [0,\infty) \to \IR$ with compact support
     in the level direction.
     % The functions $\lp \mapsto \langle f, \lp \rangle$
-    % do not form not a dense subset of $\bar C(\lpmeasures)$,
+    % do not form not a dense subset of $C_b(\lpmeasures)$,
     % but they do separate points and vanish nowhere, 
     % i.e., for any $\lp_1$ and $\lp_2$ there is an $f$
     % with $\langle f, \lp_1\rangle \neq \langle f, \lp_2\rangle$,
@@ -6822,8 +6830,9 @@ of Section~\ref{sec: individual lines of descent} holds.
     % % in $C_0(\lpmeasures)$, the continuous functions that vanish at infinity
     % % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
     % % Since $C_0(\lpmeasures)$ is dense
-    % in $\bar C(\lpmeasures)$ (with respect to uniform convergence on compact subsets).  So, 
-    Since as above the algebra generated by these are dense in $\bar C(\lpmeasures)$,
+    % in $C_b(\lpmeasures)$ (with respect to uniform convergence on compact subsets).  So, 
+    Since as above the algebra generated by the functions $\lp \mapsto \langle f \lp \rangle$
+    is dense in $C_b(\lpmeasures)$,
     it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
     extends to finite sums and products of these processes,
     which is shown in Lemma~\ref{lem:product_tightness}.
@@ -6927,7 +6936,7 @@ $$
 for all $0 \le t \le T$
 with uniformly high probability,
 a set which (as discussed in the proof of Theorem~\ref{thm:lookdown_convergence})
-is relatively compact by appropriate choice of $\{f_k\}_{k \ge 1}$.
+is relatively compact for an appropriate choice of $\{f_k\}_{k \ge 1}$.
 % \comment{
 %     Note that we could instead of the vague topology on locally finite measures,
 %     take the space of measures with $\langle h, \xi \rangle < \infty$
@@ -7016,9 +7025,9 @@ Finally, we prove the key lemma.
         ds .
     \end{split}
     \end{align}
-    Now, since $\lp_t^N$ is conditionally uniform given $\eta_t^N$,
-    we know that if $f \in C(\IR^d \times [0,\infty))$
-    with $\IE[\langle |f|, \lp^N_t \rangle] < \infty$ then
+    Now, since $\lp_t^N$ is conditionally uniform given $\eta_t^N$
+    in the sense of~\eqref{eqn:conditionally_uniform},
+    we know that for compactly supported $f$,
     $\IE[\langle f, \lp^N_t \rangle] = \IE[\langle \widetilde{f}_N, \eta^N_t \rangle]$,
     where $\widetilde{f}_N(x) = \int_0^N f(x,u) du$.
     By our assumptions on $h$,
@@ -7028,7 +7037,7 @@ Finally, we prove the key lemma.
         + \left( C_a u^2 + C_b u \right) |h'(u)| \right) du
         < C
     $$
-    for some $C < \infty$, and so
+    for some $C < \infty$, and so (by dominated convergence)
     \begin{align*}
     \begin{split}
         \IE\left[ \langle h, \lp_t^N \rangle \right]
@@ -7114,7 +7123,7 @@ Finally, we prove the key lemma.
     with uniformly bounded first and second derivatives
     for which there exists a $u_0$ such that if $u > u_0$ then $f(x, u) = 0$.
     Then, the sequence of real-valued processes $(\langle f, \lp_t^N \rangle)_{t \ge 0}$ for $N \ge 1$
-    is tight in ${\cal D}_{[0\infty)}(\IR)$.
+    is tight in ${\cal D}_{[0,\infty)}(\IR)$.
 \end{lemma}
 
 \begin{proof}[of Lemma \ref{lem:test_fn_tightness}]
@@ -7172,13 +7181,9 @@ The argument follows directly from the discussion in Section \ref{sec:limiting_l
 For brevity, in the proof we write $\gamma(x)$ or $\gamma$ for $\gamma(x,\eta)$.
 
 Here we have taken the high-density, deterministic limit
-(so, $\theta, N \to \infty$ and $\theta/N \to 0$)
-and so suppose that the limiting process has density $\varphi_t(x)$
-at location $x$ and time $t$ (which may only exist almost everywhere).
-	\comment{Is it obvious that it exists almost everywhere? 
-	We just need to be able to integrate against it I guess.}
-    \comment{PETER: I think the point here was to remind the reader that it may not exist everywhere?}
-We first proceed informally, as if the density exists everywhere,
+(so, $\theta, N \to \infty$ and $\theta/N \to 0$).
+We first proceed informally,
+as if the limiting process has a density $\varphi_t(x)$ at location $x$ and time $t$ (which it may not),
 and follow this with an integration against test functions to make the argument rigorous.
 Let $Y$ denote the spatial motion followed by a single line of descent.
 Above equation~\eqref{eqn:limiting_generator},
@@ -7190,7 +7195,7 @@ $$
 The diffusion is time-inhomogeneous if the density is not constant in time.
 Let $\varphi_t(x)$ be the limiting density,
 which is a weak solution to \eqref{general deterministic limit},
-$\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi F$.
+$\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi_t F$.
 Formally, the intensity of individuals at $y$ at time $t$
 that are descended from individuals that were at $x$ at time $s$
 (with $s < t$) is
@@ -7474,7 +7479,7 @@ For other definitions see \citet{etheridge/kurtz:2019}.
 
 \begin{theorem}[Markov Mapping Theorem] \label{thm:mmt}
     Let $(S,d)$ and $(S_0,d_0)$ be complete, separable metric spaces.
-    Let $A \subset \bar C(S) \times C(S)$ and $\psi \in C(S)$, $\psi \ge 1$.
+    Let $A \subset C_b(S) \times C(S)$ and $\psi \in C(S)$, $\psi \ge 1$.
     Suppose that for each $f \in \mathcal{D}(A)$ there exists $c_f$
     such that
     $$ |Af(x)| \le c_f \psi(x), \qquad x \in A, $$

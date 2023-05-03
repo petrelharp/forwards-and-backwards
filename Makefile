@@ -2,7 +2,7 @@
 
 all: forwards-and-backwards.pdf
 
-forwards-and-backwards.pdf : MendeleyIan.bib  plr_refs.bib  refs.bib
+forwards-and-backwards.pdf : refs.bib
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
