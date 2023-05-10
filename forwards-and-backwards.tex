@@ -168,10 +168,6 @@ medium equation with logistic growth.
 
 \vspace{.1in}
 
-	\comment{Need to thank KAVLI, Paris Cit\'e, various funders}
-
-\vspace{.1in}
-
 \noindent {\bf Key words:}  population model, interacting superprocess, 
 lookdown construction, porous medium equation, 
 reaction-diffusion equation, travelling waves, genealogies,
@@ -324,7 +320,7 @@ This is mathematically much more challenging, but we establish such
 one-step convergence in cases for which the limit is a classical 
 reaction-diffusion equation of the form~(\ref{semilinear PDE}) with 
 $\DG=\Delta$,
-and $\rho_F$ is a Gaussian density. We allow a wide class of reaction terms, $F$, so
+and $\rho$ is a Gaussian density. We allow a wide class of reaction terms, $F$, so
 that the Fisher-KPP equation 
 (that is equation~(\ref{semilinear PDE}) with $\DG=\Delta$ and $F(\varphi)=1-\varphi$)
 emerges as a special case.
@@ -489,6 +485,13 @@ The Appendix contains a few more technical and less central lemmas.
 The results are illustrated in a few places with individual-based simulations,
 made using SLiM \citep{haller_slim_2019},
 but these are provided for visualization and we do not embark on numerical study.
+
+
+\section*{Acknowledgements}
+
+\comment{Need to thank KAVLI, Paris Cit\'e, various funders}
+IL is supported by the ANID/Doctorado en el extranjero doctoral scholarship, grant number 2018-72190055.
+TT supported by the EPSRC Centre for Doctoral Training in Mathematics of Random Systems: Analysis, Modelling and Simulation (EP/S023925/1) and the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany's Excellence Strategy, EXC-2047/1-390685813.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -747,22 +750,14 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
     to be the density of a multivariate Gaussian
     with mean $\meanq(x)/\theta$ and covariance matrix $\covq(x)/\theta$
     (although often we omit the dependence of $\meanq$ and $\covq$ on $x$).
-    This implies that if we define, for $f \in C_b^\infty(\IR^d)$,
+    Furthermore, we define for $f \in C_b^\infty(\IR^d)$,
     \begin{align}
     \DG f(x)
         =
         \sum_{ij} \covq(x)_{ij} \partial_{x_i} \partial_{x_j} f(x)
         + \sum_i \meanq(x)_i \partial_{x_i} f(x)
     \end{align}
-    then
-    \begin{align}
-        \theta \int \left(
-            f(y) - f(x)
-        \right) q_\theta(x, dy)
-    \to \DG f(x) 
-        \qquad \text{as } \theta \to \infty .
-    \end{align}
-    We will also denote the adjoint of $\DG$ by
+    and denote the adjoint of $\DG$ by
     \begin{align*}
     \DG^* f(x)
         &=
@@ -786,6 +781,18 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
         \right) f(x) .
     \end{align*}
 \end{definition}
+
+\begin{remark}
+    \label{rem:DG_limit}
+    $\DG$ is defined so that
+    \begin{align*}
+        \theta \int \left(
+            f(y) - f(x)
+        \right) q_\theta(x, dy)
+    \to \DG f(x) 
+        \qquad \text{as } \theta \to \infty .
+    \end{align*}
+\end{remark}
 
 \begin{remark}
 \label{ancestral lineages: first guess}
@@ -850,9 +857,10 @@ We assume that
     \item $\meanq(x)$ and $\covq(x)$ are
         $\alpha$-H\"older continuous for some $\alpha \in (0, 1]$
         and uniformly bounded
-        in each component;
+        in each component, and
     % \item $\meanq(x)$ and $\covq(x)$ are $\alpha$-H\"older continuous in each component, for some $\alpha \in (0,1]$;
-    \item the operator $\DG$ is uniformly strictly elliptic.
+    \item the operator $\DG$ is uniformly strictly elliptic,
+        i.e., $\inf_x \inf_{y:\|y\|=1} \sum_{ij} y_i C(x)_{ij} y_j > 0$.
 \end{enumerate}
 
 {\bf Reproduction parameters:}
@@ -1189,7 +1197,7 @@ which is achieved by obtaining
 $L^2$ bounds on its convolution with the heat semigroup at time $\delta$ and letting 
 $\delta\to 0$.
 We also have the following uniqueness result.
-\begin{theorem}[Special case of \cite{KURTZ1999103}, Theorem~3.5]
+\begin{theorem}[Special case of \citet{kurtz/xiong:1999}, Theorem~3.5]
 	\label{thm:kurtzxiong}
 Suppose  $J$, $\beta$, and $F$ are bounded and Lipschitz in the sense 
 of~(\ref{lipschitz for kurtz xiong}).
@@ -1199,7 +1207,7 @@ exists a unique $L^2({\mathbb R}^d)$-valued
 	Definition~\ref{defn:weak_solutions}.
 \end{theorem}
 \begin{remark}
-\cite{KURTZ1999103} considers an infinite system of stochastic differential equations
+\citet{kurtz/xiong:1999} considers an infinite system of stochastic differential equations
 for the locations and weights of a collection of particles that interact through their 
 weighted empirical measure, which is shown to be the unique solution to a stochastic
 	PDE. As we shall see through our lookdown representation in 
@@ -1600,7 +1608,8 @@ the lineage behaves as a diffusion driven by Brownian motion
 run at speed $\sigma^2$ multiplied by the local per-capita production of 
 mature offspring ($r \gamma$)
 in a potential tilted by migration bias
-($(\varphi_s \gamma)^2 \exp(-\meanq \cdot x / \sigma^2)$).
+($(\varphi_s \gamma)^2 \exp(-\meanq \cdot x / \sigma^2)$,
+whose gradient appears in the drift term of the generator).
 In particular, lineages are drawn to regions of high fecundity (production of juveniles), but their
 speed is determined by the rate of production of mature offspring.
 This can be compared to Remark~\ref{ancestral lineages: first guess}.
@@ -1735,7 +1744,8 @@ corresponding to an unscaled density of $N$ individuals per unit area.
         % (implemented by choosing a small $dt$ taking reproduction probability per time step
         % to be $1 - \exp(- dt m)$
         % and death probability to be $\mu(m) = 1 - \exp(-dt ((1+1/\theta) m - 1/\theta))$);
-        Values of $\theta$ are 1 and 100, respectively, and both have $N$ set
+        Values of $\theta$ in top and bottom figures
+        are 1 and 100, respectively, and both have $N$ set
         so that the density is roughly 100 individuals per unit of habitat
         (as displayed on the vertical axis).
         See text for details of the simulations.
@@ -1933,8 +1943,9 @@ The speed measure corresponding to this diffusion has density
     &\propto
         e^\xi\left(1-e^{\xi/2}\right),
         \quad
-        \text{for } \xi < 0 ,
+        \text{for } \xi < 0 
 \end{align*}
+and $m_P(\xi) = 0$ for $\xi \ge 0$,
 which is integrable and so when suitably normalised gives the unique stationary distribution.
 Notice that even though we have the same reaction term as in the Fisher-KPP equation, with this 
 form of nonlinear diffusion, at stationarity
@@ -2292,7 +2303,7 @@ We have defined $\mu_\theta$ so that the second term is simple:
     \theta \Big( r(x,\eta) \gamma(x,\eta) - \mu_\theta(x,\eta) \Big)
     = F(x, \eta) .
 \end{align*}
-Furthermore, recall from Definition~\ref{def:dispersal_generator} that
+Furthermore, recall from Remark~\ref{rem:DG_limit} that
 \begin{align} \label{eqn:near_critical}
     \int \theta \Big(
         r(z,\eta) f(z)
@@ -2485,7 +2496,7 @@ $q_\theta(x, y)$ for the density of $q_\theta(x,dy)$,
     \end{split}
 \end{align}
 (Note that this integral is with respect to $x$.)
-Referring back to Definition~\ref{def:dispersal_generator},
+Referring back to Remark~\ref{rem:DG_limit},
 a quick calculation shows that as $N \to \infty$,
 \begin{align*}
     &
@@ -3314,9 +3325,11 @@ We summarize the results in a proposition.
 
 \begin{proposition}[Line of descent construction]
     \label{prop:limiting_construction}
-Let 
-$J(x,\eta)$ be such that $r(x,\eta)\gamma(x,\eta)\covq(x) = J(x,\eta) J(x,\eta)^T$, and set
-$\beta(x, \eta) = r(x,\eta)\gamma(x,\eta)\big(\meanq(x) + 2 \covq(x) \grad \log r(x, \eta)\big).$
+Define $J(x,\eta)$ and $\beta(x,\eta)$ by
+\begin{gather*}
+    r(x,\eta)\gamma(x,\eta)\covq(x) = J(x,\eta) J(x,\eta)^T \\
+    \beta(x, \eta) = r(x,\eta)\gamma(x,\eta)\big(\meanq(x) + 2 \covq(x) \grad \log r(x, \eta)\big) .
+\end{gather*}
 Associate with each label $a \in \labelspace = \cup_{k\geq 1}\IN^k$
 an independent $d$-dimensional Brownian motion $W_a$
 and an independent Poisson process $R_a$ on $[0, \infty)^2$
@@ -3409,6 +3422,43 @@ the production of these lineages.
     and furthermore that $\eta_t$ is a solution
     to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
+
+Proofs of the remainder of these results are in Section~\ref{sec:lookdown_proofs}.
+
+\begin{remark}
+The process we consider is similar to the state-dependent branching processes
+of \citet{kurtz/rodrigues:2011}, so one might expect that the proofs there would carry over with little change.
+However, there is an important difference:
+Recall that the level $U_a(t)$ of a line of descent evolves as
+\begin{equation} \label{eqn:u_evolution}
+\dot u = c_\theta(x, \eta) u^2 - b_\theta(x, \eta) u,
+\end{equation}
+where $b_\theta(x, \eta)$ and $c_\theta(x, \eta)$ are defined in \eqref{b_defn}
+and \eqref{c_defn} respectively.
+Note that $c_\theta(x, \eta) \ge 0$, while $b_\theta(x, \eta)$ may take either sign.
+Assumptions~\ref{def:model_setup} imply that $c_\theta(x, \eta)$ is bounded,
+while $b_\theta(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
+In \citet{kurtz/rodrigues:2011}, $b_\theta$ was bounded above and $c_\theta$ was bounded away from zero,
+so they noted that if $U_a(t) \ge b_\theta/c_\theta$ for some label $a$,
+that line of descent would only move upwards from that time onwards.
+Furthermore, coefficients did not depend on the state of the process (i.e., on $\eta$),
+thus allowing the processes to be jointly and simultaneously constructed
+for all values of $N$, with a pointwise embedding
+of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b_\theta/c_\theta < N < M$.
+In other words, individuals with levels above $N > b_\theta/c_\theta$ at time $t_0$
+do not affect $(\lp^N_t)_{t \ge t_0}$,
+thus allowing a comparison of the number of lines of descent below level $u_0$
+to a branching process.
+Although we have provided a
+joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
+it does not have this monotonicity:
+for one thing, $b_\theta$ and $c_\theta$ depend on the population process $\eta$
+and so all individuals can affect all other ones (even those with lower levels).
+Furthermore, in the deterministic case $\theta/N$, and hence $c$, converges to zero,
+and so lines of descent with arbitrarily high level may drift back downwards.
+Indeed, this must be the case if the population persists,
+since in the deterministic case there is no branching.
+\end{remark}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4249,7 +4299,7 @@ Then, just as we arrived at equation~\eqref{bound on intfdeta},
     &\le
     \IE[\langle f_n(x), \eta^N_0(dx) \rangle]
     +
-    C \int_0^t \IE\Big[\Big\langle f_n(x), \eta^N_s(dx) \Big] \Big\rangle ds ,
+    C \int_0^t \IE\Big[\Big\langle f_n(x), \eta^N_s(dx) \Big\rangle \Big] ds ,
 \end{align*}
 with the same constant for all $n$ and all $N$.
 Gronwall's inequality then implies that 
@@ -4260,7 +4310,11 @@ we find that $\IE[\langle f_0, \eta_t(dx)\rangle] \le C'$
 for $t\in [0,T]$, and since $f_0 \to \infty$ as $|x| \to \infty$,
 an application of Markov's inequality
 tells us that for any $\delta > 0$,
-$\IP[\eta_t(\{x : \|x\| > R\})>\delta]\to 0$ as $R\to\infty$.
+$$
+    \IP\big\{ \eta_t(\{x : \|x\| > R\})>\delta \big\}
+    \le \frac{\IE[\langle f_0, \eta_t\rangle]}{\inf_{\{x:\|x\|\ge R\}} f_0(x)}
+    \to 0 \qquad \text{as } R\to\infty .
+$$
 \end{proof}
 
 % % % % % % % % % % % % %
@@ -4619,7 +4673,8 @@ we are concerned with non-negative solutions to the equation~(\ref{mollified equ
 \right) .
 \end{equation*}
 and 
-we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function. 
+we assume that $\rho=\zeta*\check{\zeta}$ with $\zeta$ a rapidly decreasing function
+and $\check{\zeta}(x) = \zeta(-x)$.
 The example we have in mind is $\zeta$ (and therefore $\rho$) being the density of
 a mean zero Gaussian random variable.  
 We shall prove that under the 
@@ -4778,7 +4833,8 @@ The first three terms are negative; and we already
 saw that the $L^1$ norm
 of $\psi_t^\epsilon$ is uniformly bounded.
 %
-Moreover, since $\psi_t^\epsilon\log \psi_t^\epsilon$ is uniformly bounded below,
+Moreover, since $\psi_t^\epsilon\log \psi_t^\epsilon$ is uniformly bounded below
+and $\int \rho^\epsilon(x) dx = 1$,
 $$
     -\int \psi_t^\epsilon \log \psi_t^\epsilon \, \rho^{\epsilon}*\psi_t^\epsilon dx
     \leq
@@ -4901,7 +4957,7 @@ We now have the ingredients that we need.
 The calculations above yield both a uniform (in $\epsilon$) bound on
 $\zeta^{\epsilon}*\psi_t^\epsilon$ in
 $L^1\cap L^2\big([0,T]\times \IR\big)$, and that
-\begin{multline}
+\begin{multline} \label{eqn:weak_approx_pme}
 \int \psi_t^\epsilon(x)\phi(x) dx-\int \psi_0^\epsilon (x)\phi(x) dx
 	=\int_0^t\int (\zeta^{\epsilon}*\psi_s^\epsilon(x))^2\Delta\phi(x) dx
 \\
@@ -4910,12 +4966,16 @@ $L^1\cap L^2\big([0,T]\times \IR\big)$, and that
 \phi(x) dx
 +\mathcal{O}(\epsilon)
 \end{multline}
-(for sufficiently regular $\phi$). Since
-$\int \psi_t^\epsilon(x)\phi(x) d x-
-\int \zeta^{\epsilon}*\psi_t^\epsilon (x)\phi(x) d x$ is order $\epsilon$, we see
-that $\zeta^{\epsilon}*\psi^\epsilon\rightharpoonup \psi$ in $L^1$, where $\psi$ is the (unique)
-solution
-to equation~(\ref{PME})
+(for sufficiently regular $\phi$).
+Since
+$\int \psi_t^\epsilon(x)\phi(x) d x- \int \zeta^{\epsilon}*\psi_t^\epsilon (x)\phi(x) d x$
+is order $\epsilon$,
+if we replace $\psi^\epsilon$ by $\zeta^{\epsilon}*\psi^\epsilon$ on the left hand side,
+then~\eqref{eqn:weak_approx_pme} says that $\zeta^{\epsilon}*\psi^\epsilon$
+solves~\eqref{PME} weakly up to order $\epsilon$.
+Therefore, $\zeta^{\epsilon}*\psi^\epsilon$ converges weakly to $\psi$ in $L^1$,
+where $\psi$ is the (unique)
+solution to equation~(\ref{PME})
 and, so, therefore, does $\psi^\epsilon$. In fact, strong convergence, that is
 $\int |\psi^\epsilon -\psi|\phi dx \to 0$, follows from the
 uniform integrability of $\psi^\epsilon$ that we
@@ -6658,41 +6718,6 @@ Theorem~\ref{thm:lookdown_convergence}, whose proof
 follows a similar pattern to that of convergence for the population processes
 in Section~\ref{sec:population_density_proof}.
 
-\begin{remark}
-The process we consider is similar to the state-dependent branching processes
-of \citet{kurtz/rodrigues:2011}, so one might expect that the proofs there would carry over with little change.
-However, there is an important difference:
-Recall that the level $U_a(t)$ of a line of descent evolves as
-\begin{equation} \label{eqn:u_evolution}
-\dot u = c_\theta(x, \eta) u^2 - b_\theta(x, \eta) u,
-\end{equation}
-where $b_\theta(x, \eta)$ and $c_\theta(x, \eta)$ are defined in \eqref{b_defn}
-and \eqref{c_defn} respectively.
-Note that $c_\theta(x, \eta) \ge 0$, while $b_\theta(x, \eta)$ may take either sign.
-Assumptions~\ref{def:model_setup} imply that $c_\theta(x, \eta)$ is bounded,
-while $b_\theta(x, \eta)$, because of $F(x, \eta)$, is bounded above but not necessarily below.
-In \citet{kurtz/rodrigues:2011}, $b_\theta$ was bounded above and $c_\theta$ was bounded away from zero,
-so they noted that if $U_a(t) \ge b_\theta/c_\theta$ for some label $a$,
-that line of descent would only move upwards from that time onwards.
-Furthermore, coefficients did not depend on the state of the process (i.e., on $\eta$),
-thus allowing the processes to be jointly and simultaneously constructed
-for all values of $N$, with a pointwise embedding
-of $(\lp^N_t)_{t \ge 0}$ within $(\lp^{M})_{t \ge 0}$ for $b_\theta/c_\theta < N < M$.
-In other words, individuals with levels above $N > b_\theta/c_\theta$ at time $t_0$
-do not affect $(\lp^N_t)_{t \ge t_0}$,
-thus allowing a comparison of the number of lines of descent below level $u_0$
-to a branching process.
-Although we have provided a
-joint construction of $\lp^N$ for all $N$ in Section~\ref{sec: individual lines of descent},
-it does not have this monotonicity:
-for one thing, $b_\theta$ and $c_\theta$ depend on the population process $\eta$
-and so all individuals can affect all other ones (even those with lower levels).
-Furthermore, in the deterministic case $\theta/N$, and hence $c$, converges to zero,
-and so lines of descent with arbitrarily high level may drift back downwards.
-Indeed, this must be the case if the population persists,
-since in the deterministic case there is no branching.
-\end{remark}
-
 We first give a description of the lookdown process $\lp^N$ in terms of the lines of descent
 introduced in Section~\ref{sec: individual lines of descent}.
 Each line of descent
@@ -6831,7 +6856,7 @@ of Section~\ref{sec: individual lines of descent} holds.
     % % (i.e., are less than $\epsilon$ outside of a compact set, for any $\epsilon$).
     % % Since $C_0(\lpmeasures)$ is dense
     % in $C_b(\lpmeasures)$ (with respect to uniform convergence on compact subsets).  So, 
-    Since as above the algebra generated by the functions $\lp \mapsto \langle f \lp \rangle$
+    Since as above the algebra generated by the functions $\lp \mapsto \langle f, \lp \rangle$
     is dense in $C_b(\lpmeasures)$,
     it suffices to show that tightness for the processes $\langle f, \lp^N_t\rangle$
     extends to finite sums and products of these processes,
@@ -7108,7 +7133,7 @@ Finally, we prove the key lemma.
     \end{align*}
     and so
     \begin{align*}
-        \IP\left\{ \sup_{0 \le t \le T} \langle h_n, \lp_t^N \rangle > K \right\}
+        \IP\left\{ \sup_{0 \le t \le T} \langle h, \lp_t^N \rangle > K \right\}
         &\le
         \frac{
             \IE\left[ \langle h, \lp_0^N \rangle \right]
