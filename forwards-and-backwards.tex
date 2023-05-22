@@ -294,14 +294,17 @@ and a wide class of semi-linear PDEs of the form
 \end{equation}
 which includes the Fisher-KPP equation and the Allen-Cahn equation.
 Equations of this form have been studied extensively
-in the context of spatial ecology;
-see for instance \citet{lam2023introduction} and \citet{cantrell2004spatial},
+in the context of spatial ecology
+(see for instance \citet{lam2023introduction} and \citet{cantrell2004spatial})
 and in many other fields;
 for instance, \citet{ghosh2022emergent}
 derive a stochastic version of~\eqref{semilinear PDE} to describe abundances of mutant bacteria strains
 along the human gut,
 while \citet{li/buenzli/simpson:2022} study the effects of nonlinear diffusion
 on long-term survival of a lattice-based interacting particle system.
+However, we do not study the effect of movement of adults,
+which can additionally affect the limiting equations:
+see for instance \citet{holmes/lewis/banks/veit:1994} or \citet{potts/borger:2023}.
 % MORE DETAILS:
 % \cite{li/buenzli/simpson:2022} write down an interacting particle
 % system on a hexagonal lattice (with at most one individual per site) that incorporates an effect
@@ -719,10 +722,10 @@ M^N_t(f)
 \end{aligned}    
 \end{equation}
 is a martingale (with respect to the natural filtration), 
-with quadratic variation
+with angle bracket process
     \begin{equation} \label{eqn:prelimit_martingale_variation}
 \begin{aligned} \relax
-[ M^N(f)]_t =& 
+\left\langle M^N(f) \right\rangle_t =& 
 \frac{\theta}{N} \int_{0}^{t}\bigg\{
     \Big\langle \gamma(x, \eta^N_{s})
         \int f^2(z)r(z, \eta^N_{s}) q_\theta(x,dz) 
@@ -734,6 +737,18 @@ with quadratic variation
 \end{aligned}    
 \end{equation}
 \end{definition}
+
+The angle bracket process (or, ``conditional quadratic variation'')
+is the unique previsible process making $(M^N(f)_t)^2 - \langle M^N(f) \rangle_t$ a martingale
+with respect to the natural filtration.
+It differs from the usual quadratic variation
+(usually denoted $[M^N(f)]_t$)
+because the process has jumps;
+for the (continuous) limit the two notions will coincide.
+The use of angle brackets for both integrals and this process
+is unfortunately standard but should not cause confusion,
+since the angle bracket process always carries a subscript for time.
+
 The form of~(\ref{eqn:eta_martingale}) and~(\ref{eqn:prelimit_martingale_variation})
 is explained in Section~\ref{sec:heuristics}.
 Note that since (juvenile) individuals are produced at rate $N \gamma \eta$, but each
@@ -909,17 +924,17 @@ that is, this expression is non-negative so that there is no need to take the ma
 \end{assumptions}
 
 Since we take bounded $f$,
-for most situations the bound $C_f(1+|f(x)|)$ in condition~\ref{gamma_B_condition} above
+for most situations the bound $C_f(1+|f(x)|)$ in Condition~\ref{gamma_B_condition} above
 can be safely replaced simply by $C_f$;
 however, this will be useful
 in certain situations where we consider a sequence of $f$ with increasing upper bounds.
-We now give two concrete situations in which condition~\ref{gamma_B_condition} is satisfied.
+We now give two concrete situations in which Condition~\ref{gamma_B_condition} is satisfied.
 The proof is in Section~\ref{sec:preliminary_proofs}.
 
 \begin{lemma}
     \label{lem:conditions on r}
     Assume that Conditions~\ref{def:model_setup} are satisfied,
-    except for condition~\ref{gamma_B_condition}.
+    except for Condition~\ref{gamma_B_condition}.
     If either
 \begin{enumerate}
 \item
@@ -939,7 +954,7 @@ The proof is in Section~\ref{sec:preliminary_proofs}.
     \leq C(\smooth{\gamma}\eta(x))^2 ,
     \]
 \end{enumerate} 
-    then condition~\ref{gamma_B_condition} is also satisfied.
+    then Condition~\ref{gamma_B_condition} is also satisfied.
 \end{lemma}
 
 The purpose of the conditions that we have placed on the reproduction parameters is to 
@@ -1067,9 +1082,9 @@ characterises limit points as solutions to a martingale problem.
         \end{split}
     \end{align}
     is a martingale (with respect to the natural filtration),
-    with quadratic variation
+    with angle bracket process
     \begin{align} \label{eqn:limiting_mgale_variation}
-        [ M(f) ]_t
+        \left\langle M(f) \right\rangle_t
         =
         \alpha
         \int_0^t
@@ -2344,7 +2359,8 @@ which explains the form of the martingale of Theorem~\ref{thm:nonlocal_convergen
 % Note: this bit in firstversionplus.tex has things written out in detail for
 % the Poisson offspring number case.
 
-We now look at the second order term in~(\ref{generator prelimit}).
+We now look at the second order term in~(\ref{generator prelimit}),
+which will converge to the quadratic variation of the limiting process.
 An individual at location $x$ gives birth 
 to a surviving offspring at $y$ at rate
 $$
@@ -3810,15 +3826,22 @@ independent of $N$,
     $\IE[\langle 1, \eta^N_t \rangle] \le \IE[\langle 1, \eta^N_0 \rangle] e^{Ct}$
     for some $C$ (independent of $N$).
     Now, let $M^{N*}_t(f) = \sup_{0 \le s \le t} M^N_t(f)$,
-    and as before let $[M^N(f)]_t$ be the quadratic variation of $M^N_t(f)$,
-    so that by the Burkholder-Davis-Gundy inequality, there is a $C'$ so that,
-    in the notation of Lemma~\ref{lem:eta_f_bound},
+    and as before let $\langle M^N(f) \rangle_t$ be the angle bracket process of $M^N_t(f)$.
+    The Burkholder-Davis-Gundy inequality says that there is a $K$ for which
+    $\IE\left[ M^{N*}_t(1) \right] \le K \IE[\sqrt{[M^N(1)]_t}]$,
+    where $[M^N(1)]_t$ is the quadratic variation of $M^N(1)$.
+    Furthermore, as discussed by \citet{hernandez/jacka:2022},
+    % for $q \le 1$ there exist universal constants $c_q$ such that
+    % for any local martingale with $M_0=0$, $\IE[[M]^{q}_T] \le c_q \IE[\langle M \rangle^q_T]$
+    the expectation of the quadratic variation of a local martingale
+    is bounded by a (universal) constant multiple of the expectation of its angle bracket process
+    \citep[][Item (4.b'), Table 4.1, p. 162]{barlow/jacka/yor:1986}.
+    Now, since $\sqrt{x} \le 1 + x$,
+    in the notation of Lemma~\ref{lem:eta_f_bound}, there is a $C'$ such that
     \begin{align*}
         \IE\left[ M^{N*}_t(1) \right]
         &\le
-        C' \IE\left[ \sqrt{[M^N(1)]_t} \right]
-        \\ &\le
-        C'\left( 1 + \IE\left[ [M^N(1)]_t \right] \right)
+        C'\left( 1 + \IE\left[ \left\langle M^N(1) \right\rangle_t \right] \right)
         \\ &=
         C'\left( 1 + \frac{\theta}{N} \IE\left[
             \int_0^t
@@ -5070,7 +5093,7 @@ with time derivative $\dot \phi_t(x) = \partial_t \phi_t(x)$,
     \int_{0}^t \big\langle \phi_s(x) F(x, \eta_s) , \eta_s(dx) \big\rangle ds ,
 \end{multline}
 where $M_t(\phi)$ is a martingale (with respect to the natural filtration)
-with quadratic variation given by~\eqref{eqn:prelimit_martingale_variation}
+with angle bracket process given by~\eqref{eqn:prelimit_martingale_variation}
 with $f$ replaced by $\phi_s(\cdot)$.
 So, taking $\phi_s(\cdot)=\psi_{t-s}^{\epsilon,x}(\cdot)$ for $0 \le s \le t$,
 \begin{eqnarray}
@@ -5550,13 +5573,13 @@ $$
     \| \Delta f \|_\infty |t-s| \sup_{0 \leq u \leq T } \langle 1, \eta_u^N \rangle .
 $$
 
+We follow the approach of Lemma~\ref{lem:eta_compact_containment}.
 Consulting~\eqref{eqn:prelimit_martingale_variation},
-and using the approach of Lemma~\ref{lem:limit_mgale},
-the quadratic variation of $\widehat{M}^N(f)$ satisfies
-$ \IE[[\widehat{M}^N_f]_T] \le C (\theta/N) \int_0^T \IE[\langle 1, \eta_s \rangle] ds \le C' \theta/N$
+the angle bracket process of $\widehat{M}^N(f)$ satisfies
+$ \IE[\langle\widehat{M}^N_f\rangle_T] \le C (\theta/N) \int_0^T \IE[\langle 1, \eta_s \rangle] ds \le C' \theta/N$
 for some constants $C$ and $C'$.
-Now, by the Burkholder-Davis-Gundy inequality,
-$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[[\widehat{M}^N(f)]_u]$,
+Now, using the Burkholder-Davis-Gundy inequality and \citet{hernandez/jacka:2022},
+$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[\langle\widehat{M}^N(f)\rangle_u]$,
 and so using Markov's inequality,
 \begin{equation}
 \label{martingale term to zero}
@@ -5565,7 +5588,7 @@ and so using Markov's inequality,
         >\frac{\nu}{3}
     \Big]
     \leq
-    \limsup_{N\to\infty} \frac{36}{\nu^2} C'' \IE\big[[\widehat{M}^N(f)]_T\big]
+    \limsup_{N\to\infty} \frac{36}{\nu^2} C'' \IE\big[\langle\widehat{M}^N(f)\rangle_T\big]
     \leq
     \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C' C''\theta}{N\epsilon^d} 
     =0. 
@@ -6771,10 +6794,10 @@ that
 \end{split}
 \end{align}
 where $M^f$ is a martingale
-with quadratic variation
+with angle bracket process
 \begin{align} \label{eqn:f_xi_qv}
     \begin{split}
-    [M^f]_t
+    \left\langle M^f \right\rangle_t
     &=
     \int_0^t
     \bigg \langle c_\theta(x, \eta_s^N) \int_u^N \int_{\IR^d}
@@ -7027,9 +7050,9 @@ Finally, we prove the key lemma.
     \end{split}
     \end{align*}
     where $M^{h}_t$ is a martingale
-    with quadratic variation
+    with angle bracket process
     \begin{align*}
-        [M^{h}]_t
+        \left\langle M^{h} \right\rangle_t
         &=
         \int_0^t
         \langle 2 c_\theta(x, \eta_s^N) \int_u^N h(v)^2 dv
