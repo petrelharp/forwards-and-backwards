@@ -3975,8 +3975,8 @@ and for each $\nu > 0$, there exist $\delta > 0$ and $N_0 > 0$ such that
     \sup_{N > N_0}
     \sup_{t \in [0, \delta]}
     \IP\left\{\big|
-        [M^{N}(f)]_{\tau + t} 
-            - [M^{N}(f)]_\tau \big|
+        \langle M^{N}(f) \rangle_{\tau + t} 
+            - \langle M^{N}(f) \rangle_\tau \big|
         > \nu
     \right\}
     < \nu.
@@ -4009,8 +4009,8 @@ so that~\eqref{eqn:eta_projections_goal1} is satisfied with $\delta = \delta_1$.
 Similarly,
 \begin{align*}
     &
- \big|   [M^{N}(f)]_{\tau + t} 
-        - [M^{N}(f)]_\tau \big|
+ \big|   \langle M^{N}(f) \rangle_{\tau + t} 
+        - \langle M^{N}(f) \rangle_\tau \big|
     \\ & \qquad =
   \Big|  \int_{\tau}^{\tau + t}
         \frac{\theta}{N}
