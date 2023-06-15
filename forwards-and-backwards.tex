@@ -1,39 +1,157 @@
-\documentclass[12pt]{article}
-\usepackage{fullpage}
-\usepackage{amssymb}
-\usepackage{ntheorem}
-\usepackage{graphics} 
-\usepackage{amsmath}
-\usepackage[color=yellow]{todonotes}
-\usepackage{url}
-\usepackage{xcolor}
-\usepackage{longtable}
-\usepackage[hidelinks]{hyperref}
-\usepackage{bbm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% This is the sample.tex file for the ejpecp document class.    %%
+%% This file is for ejpecp version 1.0                           %%
+%% Please be sure that you are using the lastest version:        %%
+%% https://www.ctan.org/pkg/ejpecp                               %%
+%%                                                               %%
+%% The ejpecp class works *only* with a pdflatex engine.         %%
+%% You need the ejpecp.cls in your current directory or in any   %%
+%% directory scanned for cls files by your pdflatex engine.      %%
+%%                                                               %%
+%% Manual inclusion of page layout commands is useless.          %%
+%%                                                               %%
+%% Note that any complex file will produce delayed publication!  %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{natbib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Journal selection: ECP or EJP.                                %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newenvironment {proof}{{\noindent\bf Proof }}{\hfill $\Box$ \medskip}
+\documentclass[EJP]{ejpecp} % replace ECP by EJP if needed.
 
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{condition}[theorem]{Condition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{remark}[theorem]{Remark}
-\newtheorem{hypothesis}[theorem]{Hypothesis}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{notation}[theorem]{Notation}
-\newtheorem{assumptions}[theorem]{Assumptions}
-\newtheorem{terminology}[theorem]{Terminology}
-\newtheorem*{terminology-non}[theorem]{Terminology}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please uncomment and adapt to your encoding if needed:        %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please add here your own packages (be minimalistic please!):  %%
+%% Please avoid using exotic packages and keep things simple.    %%
+%% It is not necessary to include ams* and graphicx packages     %%
+%% since they are automatically included by the ejpecp class.    %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{enumerate}  % uncomment to use this package
+
+% \usepackage{xcolor}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{bbm}
+% \usepackage{natbib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Shorttitle (please edit and customize for running heading):   %%
+%% Title (please edit and customize):                            %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\SHORTTITLE{
+Dynamics and genealogies of locally regulated populations
+}
+
+\TITLE{
+Looking forwards and backwards: dynamics and genealogies of locally regulated populations
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Authors (please edit and customize):                          %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AUTHORS{%
+    Alison~M.~Etheridge\footnote{Oxford University, UK}
+    \footnote{\EMAIL{etheridge@stats.ox.ac.uk}}
+  \and
+  Thomas~G.~Kurtz\footnote{University of Wisconsin - Madison, USA:
+    \EMAIL{kurtz@math.wisc.edu}}
+  \and
+  Ian~Letter\footnotemark[1]
+  \and
+  Peter~L.~Ralph\footnote{University of Oregon, USA:
+    \EMAIL{plr@uoregon.edu}}
+  \and
+  Terence~Tsui~Ho~Lung\footnotemark[1]
+}%AUTHORS
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please edit and customize the following items:                %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\KEYWORDS{population model ; interacting superprocess ; lookdown construction ; porous medium equation ; reaction-diffusion equation ; travelling waves ; genealogies ; Fisher-KPP equation}
+\AMSSUBJ{60J25 ; 92D10 ; 92D15 ; 92D25 ; 92D40}
+\AMSSUBJSECONDARY{60F05 ; 60G09 ; 60G55 ; 60G57 ; 60H15 ; 60J68}
+
+\SUBMITTED{June 14, 2023} % Edit.
+\ACCEPTED{NA} % Edit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please uncomment and edit if you have an arXiv ID:            %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ARXIVID{2305.14488}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% The following items will be set by the Managing Editor.       %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\VOLUME{0}
+\YEAR{2020}
+\PAPERNUM{0}
+\DOI{10.1214/YY-TN}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please edit and customize the abstract:                       %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ABSTRACT{
+We introduce a broad class of mechanistic spatial models to describe how spatially heterogeneous populations live, die, and reproduce.  Individuals are represented by points of a point measure, whose birth and death rates can depend both on spatial position and local population density, defined at a location to be the convolution of the point measure with a suitable non-negative integrable kernel centred on that location. We pass to three different scaling limits: an interacting superprocess, a nonlocal partial differential equation (PDE), and a classical PDE.  The classical PDE is obtained both by a two-step convergence argument, in which we first scale time and population size and pass to the nonlocal PDE, and then scale the kernel that determines local population density; and in the important special case in which the limit is a reaction-diffusion equation, directly by simultaneously scaling the kernel width, timescale and population size in our individual based model.
+
+A novelty of our model is that we explicitly model a juvenile phase.  The number of juveniles produced by an individual depends on local population density at the location of the parent; these juvenile offspring are thrown off in a (possibly heterogeneous, anisotropic) Gaussian distribution around the location of the parent; they then reach (instant) maturity with a probability that can depend on the local population density at the location at which they land.  Although we only record mature individuals, a trace of this two-step description remains in our population models, resulting in novel limits in which the spatial dynamics are governed by a nonlinear diffusion. 
+
+Using a lookdown representation, we are able to retain information about genealogies relating individuals in our population and, in the case of deterministic limiting models, we use this to deduce the backwards in time motion of the ancestral lineage of an individual sampled from the population. We observe that knowing the history of the population density is not enough to determine the motion of ancestral lineages in our model. We also investigate (and contrast) the behaviour of lineages for three different deterministic models of a population expanding its range as a travelling wave: the Fisher-KPP equation, the Allen-Cahn equation, and a porous medium equation with logistic growth.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% Please add your own macros and environments below:            %%
+%%                                                               %%
+%% If possible, avoid using \def and use instead \newcommand     %%
+%% If possible, avoid defining your own environments, and use    %%
+%% instead the environments already defined by ejpecp:           %%
+%%  assumption, assumptions, claim, condition, conjecture,       %%
+%%  corollary, definition, definitions, example, exercise, fact, %%
+%%  facts, heuristics, hypothesis, hypotheses, lemma, notation,  %%
+%%  notations, problem, proposition, remark, theorem             %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
-\def \non{{\nonumber}}
-\def \hat{\widehat}
-\def \tilde{\widetilde}
-\def \bar{\overline}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\tilde}{\widetilde}
+\renewcommand{\bar}{\overline}
 \newcommand{\IP}{\mathbb P}
 \newcommand{\IQ}{\mathbb Q}
 \newcommand{\IE}{\mathbb E}
@@ -47,7 +165,6 @@
 \newcommand{\grad}{\nabla}
 \newcommand{\dif}{\mathrm{d}\,}
 
-%%%%%%% notation
 \newcommand{\DG}{\mathcal{B}}  % generator of the dispersal process
 \newcommand{\DD}{\mathcal{D}}  % the second-order part of the generator of dispersal
 \newcommand{\meanq}{\vec b}    % mean of dispersal, times theta
@@ -65,126 +182,59 @@
 \newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on (compactified space) x level
 \newcommand{\flpmeasures}{\mathcal{M}(\IR^d \times [0,\infty))} % locally finite measures on space x level
 
+\newcommand{\citet}[1]{\cite{#1}}
+\newcommand{\citep}[1]{\cite{#1}}
 
-\newcommand{\plr}[1]{\todo[inline]{Peter: #1}}
-\newcommand{\comment}[1]{{\color{blue} \it #1}}
-
-\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% No macro definitions below this line please!                  %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-\title{\large{\bf
-Looking forwards and backwards: dynamics and genealogies of locally regulated populations
-}}
-
-\author{ \begin{small}
-\begin{tabular}{ll}                              
-Alison M. Etheridge 
- & Thomas G. Kurtz \\   
-Department of Statistics & Departments of Mathematics and Statistics\\       
-Oxford University & University of Wisconsin - Madison \\                   
-24-29 St Giles & 480 Lincoln Drive\\                                                         
-Oxford OX1 3LB & Madison, WI  53706-1388\\
-UK & USA \\                        
-etheridg@stats.ox.ac.uk & kurtz@math.wisc.edu     \\
-\url{http://www.stats.ox.ac.uk/~etheridg/} & 
-\url{http://www.math.wisc.edu/~kurtz/}  \\       \\
-\\
-Ian Letter&  Peter L. Ralph 
-\\   
-Department of Statistics & Departments of Mathematics and Biology\\
-Oxford University &University of Oregon\\                   
-24-29 St Giles & Fenton Hall\\
-Oxford OX1 3LB & Eugene, OR 97403-1222\\
-UK & USA \\
-restucci@stats.ox.ac.uk  & plr@oregon.edu \\
-\url{https://www.stats.ox.ac.uk/~restucci/}&
-\url{https://math.uoregon.edu/profile/plr} \\
-\\
-Terence Tsui Ho Lung
- &  \\   
-Department of Statistics & \\
-Oxford University & \\                   
-24-29 St Giles& \\
-Oxford OX1 3LB & \\
-UK & \\
-terence.tsui@sjc.ox.ac.uk &      \\
-\url{https://www.maths.ox.ac.uk/people/terence.tsui}&  \\
-\end{tabular}
-\end{small}}
-
-\date{\today}
-\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% No need for \maketitle.                                       %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-\begin{abstract}
-
-We introduce a broad class of mechanistic spatial models to describe how spatially 
-heterogeneous populations live, die, and reproduce.
-Individuals are represented by points of a point measure,
-whose birth and death rates can depend 
-both on spatial position and local population density, defined at a location
-to be the convolution of the point measure
-with a suitable non-negative integrable kernel
-centred on that location. We pass to three different scaling limits:
-an interacting superprocess, a nonlocal partial differential equation (PDE), 
-and a classical PDE. 
-The classical PDE is obtained both by a two-step convergence argument, in which we 
-first scale time and population size and
-pass to the nonlocal PDE, 
-and then scale the kernel that 
-determines local population density; and 
-in the important special case in which the limit is a 
-reaction-diffusion equation, directly 
-by simultaneously scaling the kernel width,
-timescale and population size in our individual based model.
-
-A novelty of our model is that we explicitly model a juvenile phase.
-The number of juveniles produced by an individual depends
-on local population density at the location of the parent;
-these juvenile offspring are 
-thrown off in a (possibly heterogeneous, anisotropic) Gaussian distribution 
-around the location of the parent; they then reach (instant) maturity with a probability
-that can depend on the local population density
-% (possibly measured through convolution with a different kernel from that used in determining fecundity) 
-at the location at which they land. 
-Although we only record mature individuals, a trace of this two-step description 
-remains in our population models, resulting in novel limits in which the spatial
-dynamics are governed by a nonlinear diffusion. 
-
-Using a lookdown representation, we are able to retain information about 
-genealogies relating individuals in our population and, in the case of 
-deterministic limiting models, we use this to deduce 
-the backwards in time motion of the ancestral lineage of an individual
-sampled from the population. We observe that
-knowing the history of the population density is not enough to determine the motion of
-ancestral lineages in our model. We also investigate (and
-contrast) the behaviour of lineages for 
-three different deterministic models of a population expanding its range as a 
-travelling wave: the Fisher-KPP equation, the Allen-Cahn equation, and a porous 
-medium equation with logistic growth.
-
-
-\vspace{.1in}
-
-\noindent {\bf Key words:}  population model, interacting superprocess, 
-lookdown construction, porous medium equation, 
-reaction-diffusion equation, travelling waves, genealogies,
-Fisher-KPP equation
-
-\vspace{.1in}
-
-
-
-\noindent {\bf MSC 20}10 {\bf Subject Classification:}  Primary:  
-%60J25, 92D10, 92D15, 92D25 92D40  
-\\Secondary:   %60F05, 60G09, 60G55, 60G57, 60H15, 60J68
- 
-\end{abstract}
-\tableofcontents
-\newpage
-
+% \author{ \begin{small}
+% \begin{tabular}{ll}                              
+% Alison M. Etheridge 
+%  & Thomas G. Kurtz \\   
+% Department of Statistics & Departments of Mathematics and Statistics\\       
+% Oxford University & University of Wisconsin - Madison \\                   
+% 24-29 St Giles & 480 Lincoln Drive\\                                                         
+% Oxford OX1 3LB & Madison, WI  53706-1388\\
+% UK & USA \\                        
+% etheridg@stats.ox.ac.uk & kurtz@math.wisc.edu     \\
+% \url{http://www.stats.ox.ac.uk/~etheridg/} & 
+% \url{http://www.math.wisc.edu/~kurtz/}  \\       \\
+% \\
+% Ian Letter&  Peter L. Ralph 
+% \\   
+% Department of Statistics & Departments of Mathematics and Biology\\
+% Oxford University &University of Oregon\\                   
+% 24-29 St Giles & Fenton Hall\\
+% Oxford OX1 3LB & Eugene, OR 97403-1222\\
+% UK & USA \\
+% restucci@stats.ox.ac.uk  & plr@oregon.edu \\
+% \url{https://www.stats.ox.ac.uk/~restucci/}&
+% \url{https://math.uoregon.edu/profile/plr} \\
+% \\
+% Terence Tsui Ho Lung
+%  &  \\   
+% Department of Statistics & \\
+% Oxford University & \\                   
+% 24-29 St Giles& \\
+% Oxford OX1 3LB & \\
+% UK & \\
+% terence.tsui@sjc.ox.ac.uk &      \\
+% \url{https://www.maths.ox.ac.uk/people/terence.tsui}&  \\
+% \end{tabular}
+% \end{small}}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -362,7 +412,7 @@ The history of a natural population is often only accessible indirectly,
 through patterns of genetic diversity that have been laid down; from 
 genetic data, one can try to infer the genealogical trees that relate 
 individuals in a sample from the population, and these have been shaped 
-by its history \citep[see e.g.,][]{neigel1993application,kelleher2019inferring}.
+by its history (see e.g., \citep{neigel1993application,kelleher2019inferring}).
 It is therefore of interest to establish information about the distribution of genealogical trees 
 under our population model, which we do with a lookdown construction. 
 Lookdown constructions were first introduced in~\cite{donnelly/kurtz:1996} to provide 
@@ -490,21 +540,6 @@ made using SLiM \citep{haller_slim_2019},
 but these are provided for visualization and we do not embark on numerical study.
 
 
-\paragraph{Acknowledgements:}
-Thanks go to Gilia Patterson for identifying the ``clumping'' phenomenon,
-and to Marcin Bownick and David Levin for useful discussions.
-AME thanks everyone in MAPS at Universit\'e Paris Cit\'e for their hospitality
-during the period in which much of this research took place.
-AME and PLR also thank the Kavli Institute for Theoretical Physics
-for their hospitality and birdwatching opportunities;
-this research was therefore supported in part by the NSF under grant \#PHY-1748958
-and by the Gordon and Betty Moore Foundation grant \#2919.02.
-PLR was supported by the NIH NHGRI (grant \#HG011395),
-IL by the ANID/Doctorado en el extranjero doctoral scholarship, grant \#2018-72190055,
-and TTHL by the EPSRC Centre for Doctoral Training in Mathematics of Random Systems: Analysis, Modelling and Simulation (EP/S023925/1)
-the Deutsche Forschungsgemeinschaft under Germany's Excellence Strategy, EXC-2047/1-390685813,
-the Rhodes Trust and St.~John's College, Oxford.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model and main results}
@@ -626,7 +661,7 @@ there are a number of limitations.
 Perhaps most obviously, to simplify the notation
 individuals give birth to only one offspring at a time,
 although this restriction could be easily lifted
-\citep[as in Section 3.4 of][]{etheridge/kurtz:2019}.
+(as in Section 3.4 of \cite{etheridge/kurtz:2019}).
 Furthermore, individuals do not move during their lifetime,
 and the age of an individual does not affect its fecundity or death rate.
 Finally, there is no notion of mating
@@ -659,7 +694,7 @@ When convenient, we may also suppress the arguments completely,
 writing simply $\gamma$, $r$, $F$, and $\mu_\theta$ for these quantities.
 \end{notation}
 
-\begin{terminology*}
+\begin{remark}
 In our prelimiting model,
 the population is represented by a point measure in which each
 individual is assigned a mass $1/N$. We use the term ``population density'' for
@@ -667,7 +702,7 @@ this process, as it is supposed to measure population size relative to a
 nominal occupancy of $N$ individuals per unit area. There is no implication 
 that the measure representing the population is absolutely continuous with
 respect to Lebesgue measure; indeed in the prelimit it is certainly not.
-\end{terminology*} 
+\end{remark} 
 
 In summary, at each time $t$, $\eta^N_t$ is purely atomic, consisting of atoms of mass $1/N$
 (which are the individuals).
@@ -1008,8 +1043,8 @@ and for superprocess limits with nonlocal interactions.
     \begin{center}
         % \includegraphics{figures/ex1a/fkpp_123.density.3.0}
         % \includegraphics{figures/ex1b/fkpp_123.density.3.0}
-        \includegraphics{figures/fig1a}
-        \includegraphics{figures/fig1b}
+        \includegraphics[width=2.5in]{figures/fig1a}
+        \includegraphics[width=2.5in]{figures/fig1b}
     \end{center}
     \caption{
         Snapshots of two simulations, with small $\alpha=\theta/N$ (left) and large 
@@ -1757,8 +1792,8 @@ corresponding to an unscaled density of $N$ individuals per unit area.
     \begin{center}
         % \includegraphics[width=0.7\textwidth]{figures/ex2a/pme_1234.steps}
         % \includegraphics[width=0.7\textwidth]{figures/ex2b/pme_1234.steps}
-        \includegraphics[width=0.7\textwidth]{figures/fig2a}
-        \includegraphics[width=0.7\textwidth]{figures/fig2b}
+        \includegraphics[width=4.5in]{figures/fig2a}
+        \includegraphics[width=4.5in]{figures/fig2b}
     \end{center}
     \caption{
         Simulated populations under a porous medium equation with logistic growth~(\ref{PME}) in $d=1$,
@@ -2139,8 +2174,8 @@ to dispersal that will lead to instability.
     \begin{center}
         % \includegraphics[width=0.45\textwidth]{figures/clumpy_2d/clumpy_123.density.3.0}
         % \includegraphics[width=0.45\textwidth]{figures/clumpy_1d/clumpy_123.steps}
-        \includegraphics[width=0.45\textwidth]{figures/fig3a}
-        \includegraphics[width=0.45\textwidth]{figures/fig3b}
+        \includegraphics[width=2.5in]{figures/fig3a}
+        \includegraphics[width=2.5in]{figures/fig3b}
     \end{center}
     \caption{
         \textbf{Left:} A snapshot of individual locations in a two-dimensional simulation
@@ -3837,7 +3872,7 @@ independent of $N$,
     % for any local martingale with $M_0=0$, $\IE[[M]^{q}_T] \le c_q \IE[\langle M \rangle^q_T]$
     the expectation of the quadratic variation of a local martingale
     is bounded by a (universal) constant multiple of the expectation of its angle bracket process
-    \citep[][Item (4.b'), Table 4.1, p. 162]{barlow/jacka/yor:1986}.
+    (\cite{barlow/jacka/yor:1986} Item (4.b'), Table 4.1, p. 162).
     Now, since $\sqrt{x} \le 1 + x$,
     in the notation of Lemma~\ref{lem:eta_f_bound}, there is a $C'$ such that
     \begin{align*}
@@ -7515,7 +7550,6 @@ Since this is symmetric in $f$ and $g$, the process $Y$ is reversible with respe
 the constant factor of $\sigma^2$ does not affect the result.
 \end{proof}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \appendix
@@ -8415,8 +8449,329 @@ probability space, so that the products and sums make sense.
 \end{proof}
 
 
-\bibliographystyle{plainnat}
-\bibliography{refs}
+% \bibliographystyle{amsplain}
+% \bibliography{refs}
 
+% add below the content of your .bbl file produced by bibtex.
+
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{10}
+
+\bibitem{barlow/jacka/yor:1986}
+M.~T. Barlow, S.~D. Jacka, and M.~Yor, \emph{Inequalities for a pair of
+  processes stopped at a random time}, Proceedings of the London Mathematical
+  Society \textbf{s3-52} (1986), no.~1, 142--172.
+
+\bibitem{barton:1979}
+N~H Barton, \emph{The dynamics of hybrid zones}, Heredity \textbf{43} (1979),
+  no.~3, 341--359.
+
+\bibitem{berestycki2009nonlocal}
+Henri Berestycki, Gregoire Nadin, Benoit Perthame, and Lenya Ryzhik, \emph{The
+  non-local fisher-kpp equation: travelling waves and steady states},
+  Nonlinearity \textbf{22} (2009), no.~12, 2813--2844.
+
+\bibitem{birzu/hallatschek/korolev:2017}
+Gabriel Birzu, Oskar Hallatschek, and Kirill~S. Korolev, \emph{Fluctuations
+  uncover a distinct class of traveling waves}, Proc. Natl. Acad. Sci. (USA)
+  \textbf{115} (2018), no.~16, 3645--3654.
+
+\bibitem{birzu/hallatschek/korolev:2021}
+Gabriel Birzu, Oskar Hallatschek, and Kirill~S Korolev, \emph{Genealogical
+  structure changes as range expansions transition from pushed to pulled},
+  Proc. Natl. Acad. Sci. (USA) \textbf{118} (2021), no.~34, e2026746118.
+
+\bibitem{biswas/etheridge/klimek:2018}
+Niloy Biswas, Alison Etheridge, and Aleksander Klimek, \emph{The spatial
+  {Lambda}-{Fleming}-{Viot} process with fluctuating selection}, Electron. J.
+  Probab. \textbf{26} (2021), 1 -- 51.
+
+\bibitem{bolker/pacala:1997}
+B~M Bolker and S~W Pacala, \emph{Using moment equations to understand
+  stochastically driven spatial pattern formation in ecological systems},
+  Theor. Pop. Biol. \textbf{52} (1997), no.~3, 179--197.
+
+\bibitem{bolker/pacala:1999}
+\bysame, \emph{Spatial moment equations for plant competition: {Understanding}
+  spatial strategies and the advantages of short dispersal}, American
+  Naturalist \textbf{153} (1999), no.~6, 575--602.
+
+\bibitem{bramson:1983}
+M~Bramson, \emph{{Convergence of solutions of the Kolmogorov equation to
+  travelling waves}}, Mem. Amer. Math. Soc. \textbf{44} (1983), no.~285.
+
+\bibitem{britton1990spatial}
+N.~F. Britton, \emph{Spatial structures and periodic travelling waves in an
+  integro-differential reaction-diffusion population model}, SIAM Journal on
+  Applied Mathematics \textbf{50} (1990), no.~6, 1663--1688.
+
+\bibitem{brunet/derrida/mueller/munier:2006}
+E~Brunet, B~Derrida, A~H Mueller, and S~Munier, \emph{Noisy travelling waves:
+  effect of selection on genealogies}, Europhys. Lett. \textbf{76} (2006),
+  1--7.
+
+\bibitem{cantrell2004spatial}
+Robert~Stephen Cantrell and Chris Cosner, \emph{Spatial ecology via
+  reaction-diffusion equations}, John Wiley \& Sons, 2004.
+
+\bibitem{cohen/golding/kozlovsky/benjacob/ron:1999}
+I~Cohen, I~Golding, Y~Kozlovsky, E~Ben-Jacob, and I~Ron, \emph{Continuous and
+  discrete models of cooperation in complex bacterial colonies}, Fractals
+  \textbf{7} (1999), 235--247.
+
+\bibitem{dawson:1993}
+D~A Dawson, \emph{{Measure-valued Markov processes}}, \'Ecole d'\'et\'e de
+  probabilit\'es de Saint Flour, vol. 1541, Springer-Verlag, 1993.
+
+\bibitem{demasi/ferrari/lebowitz:1986}
+A.~De~Masi, P.~A. Ferrari, and J.~L. Lebowitz, \emph{Reaction-diffusion
+  equations for interacting particle system}, J. Stat. Phys. \textbf{44}
+  (1986), 589--644.
+
+\bibitem{demasi/presutti:1991}
+Anna DeMasi and Errico Presutti, \emph{Mathematical methods for hydrodynamic
+  limits}, Springer, 2006.
+
+\bibitem{donnelly/kurtz:1996}
+P~J Donnelly and T~G Kurtz, \emph{{A countable representation of the
+  Fleming-Viot measure-valued diffusion}}, Ann. Probab. \textbf{24} (1996),
+  698--742.
+
+\bibitem{donnelly/kurtz:1999}
+\bysame, \emph{{Particle representations for measure-valued population
+  models}}, Ann. Probab. \textbf{27} (1999), 166--205.
+
+\bibitem{durrett/fan:2016}
+R~Durrett and W-T Fan, \emph{Genealogies in expanding populations}, Ann. Appl.
+  Probab. \textbf{26} (2016), 3456--3490.
+
+\bibitem{etheridge/gooding/letter:2022}
+A~Etheridge, M~Gooding, and I~Letter, \emph{{On the effects of a wide opening
+  in the domain of the (stochastic) Allen-Cahn equation and the motion of
+  hyrbid zones}}, Electron. J. Probab. \textbf{27} (2022), 1--52.
+
+\bibitem{etheridge/penington:2022}
+A.~Etheridge and S.~Penington, \emph{Genealogies in bistable waves}, Electron.
+  J. Probab. \textbf{27} (2022), no.~121, 1--99.
+
+\bibitem{etheridge:2004}
+A~M Etheridge, \emph{Survival and extinction in a locally regulated
+  population}, Ann. Appl. Probab. \textbf{14} (2004), no.~1, 188--214.
+
+\bibitem{etheridge2000introduction}
+Alison Etheridge, \emph{An introduction to superprocesses}, no.~20, American
+  Mathematical Society, 2000.
+
+\bibitem{etheridge/kurtz:2019}
+Alison~M. Etheridge and Thomas~G. Kurtz, \emph{{Genealogical constructions of
+  population models}}, Ann. Probab. \textbf{47} (2019), no.~4, 1827--1910.
+
+\bibitem{ethier/kurtz:1986}
+Stewart~N. Ethier and Thomas~G. Kurtz, \emph{Markov processes --
+  characterization and convergence}, Wiley Series in Probability and
+  Mathematical Statistics: Probability and Mathematical Statistics, John Wiley
+  \& Sons Inc., New York, 1986. \MR{MR838085 (88a:60130)}
+
+\bibitem{fife1977approach}
+Paul~C. Fife and J.~B. McLeod, \emph{The approach of solutions of nonlinear
+  diffusion equations to travelling front solutions}, Archive for Rational
+  Mechanics and Analysis \textbf{65} (1977), no.~4, 335--361.
+
+\bibitem{flandoli/huang:2021}
+Franco Flandoli and Ruojun Huang, \emph{The {KPP} equation as a scaling limit
+  of locally interacting {Brownian} particles}, J. Differential Equations
+  \textbf{303} (2021), 608--644.
+
+\bibitem{flandoli/leimbach/olivera:2019}
+Franco Flandoli, Matti Leimbach, and Christian Olivera, \emph{Uniform
+  convergence of proliferating particles to the fkpp equation}, Journal of
+  Mathematical Analysis and Applications \textbf{473} (2019), no.~1, 27--52.
+
+\bibitem{ghosh2022emergent}
+Olivia~M. Ghosh and Benjamin~H. Good, \emph{Emergent evolutionary forces in
+  spatial models of microbial growth in the human gut microbiota}, Proc. Natl.
+  Acad. Sci. (USA) \textbf{119} (2022), no.~28, e2114931119.
+
+\bibitem{gilding/kersner:2005}
+B~H Gilding and R~Kersner, \emph{A {Fisher}/{KPP}-type equation with density
+  dependent diffusion and convection: travelling wave solutions}, J. Phys. A:
+  Math. Gen. \textbf{38} (2005), 337--3379.
+
+\bibitem{gooding:2018}
+M.~Gooding, \emph{Long term behaviour of spatial population models with
+  heterozygous or asymmetric homozygous selection}, DPhil thesis, Oxford
+  University, 2018.
+
+\bibitem{hallatschek/nelson:2008}
+O~Hallatschek and D~Nelson, \emph{Gene surfing in expanding populations},
+  Theor. Pop. Biol. \textbf{73} (2008), 158--170.
+
+\bibitem{haller_slim_2019}
+Benjamin~C. Haller and Philipp~W. Messer, \emph{{SLiM} 3: {Forward} genetic
+  simulations beyond the {Wright}-{Fisher} model}, Mol. Biol. Evol. \textbf{36}
+  (2019), no.~3, 632--637.
+
+\bibitem{haller2022evolutionary}
+\bysame, \emph{{SLiM}: An evolutionary simulation framework}, 2022.
+
+\bibitem{hernandezgarcia2004clustering}
+Emilio Hern\'andez-Garc\'{\i}a and Crist\'obal L\'opez, \emph{Clustering,
+  advection, and patterns in a model of population dynamics with
+  neighborhood-dependent rates}, Phys. Rev. E \textbf{70} (2004), no.~1,
+  016216.
+
+\bibitem{hernandez/jacka:2022}
+Ma.~Elena Hern{\'{a}}ndez-Hern{\'{a}}ndez and Saul~D. Jacka, \emph{A
+  generalisation of the burkholder-davis-gundy inequalities}, Electronic
+  Communications in Probability \textbf{27} (2022), no.~none.
+
+\bibitem{holmes/lewis/banks/veit:1994}
+E.~E. Holmes, M.~A. Lewis, J.~E. Banks, and R.~R. Veit, \emph{Partial
+  differential equations in ecology: Spatial interactions and population
+  dynamics}, Ecology \textbf{75} (1994), no.~1, 17--29.
+
+\bibitem{jacod/shiryaev:2013}
+Jean Jacod and Albert Shiryaev, \emph{Limit theorems for stochastic processes},
+  vol. 288, Springer Science \& Business Media, 2013.
+
+\bibitem{kallenberg1997foundations}
+Olav Kallenberg, \emph{Foundations of modern probability}, vol.~2, Springer,
+  1997.
+
+\bibitem{kamin/rosenau:2004}
+S~Kamin and P~Rosenau, \emph{Emergence of waves in a nonlinear
+  convection-reaction-diffusion equation}, Adv. Nonlinear Stud. \textbf{4}
+  (2004), 251--272.
+
+\bibitem{kelleher2019inferring}
+Jerome Kelleher, Yan Wong, Anthony~W. Wohns, Chaimaa Fadil, Patrick~K. Albers,
+  and Gil McVean, \emph{Inferring whole-genome histories in large population
+  datasets}, Nature Genetics \textbf{51} (2019), no.~9, 1330--1338.
+
+\bibitem{kolmogorov/petrovsky/piscounov:1937}
+A~Kolomogorov, I~Petrovsky, and N~Piscounov, \emph{{\'Etude de l'equation de la
+  diffusion avec croissance de la quantit\'e de mati\`ere et son application
+  \`a un probl\`eme biologique}}, Moscow Univ. Math. Bull. \textbf{1} (1937),
+  1--25.
+
+\bibitem{kurtz/rodrigues:2011}
+Thomas~G. Kurtz and Eliane~R. Rodrigues, \emph{Poisson representations of
+  branching {Markov} and measure-valued branching processes}, Ann. Probab.
+  \textbf{39} (2011), no.~3, 939--984.
+
+\bibitem{kurtz/xiong:1999}
+Thomas~G. Kurtz and Jie Xiong, \emph{Particle representations for a class of
+  nonlinear spdes}, Stoch. Proc. Appl. \textbf{83} (1999), no.~1, 103--126.
+
+\bibitem{lam2023introduction}
+King-Yeung Lam and Yuan Lou, \emph{Introduction to reaction-diffusion
+  equations: Theory and applications to spatial ecology and evolutionary
+  biology}, Springer International Publishing AG, 2023.
+
+\bibitem{li/buenzli/simpson:2022}
+Y~Li, P~Buenzli, and M~Simpson, \emph{Interpreting how nonlinear diffusion
+  affects the fate of bistable populations using a discrete modelling
+  framework}, Proc. Roy. Soc. A \textbf{478} (2022).
+
+\bibitem{lions/mas-gallic:2001}
+P-L Lions and S~Mas-Gallic, \emph{{Une m\'ethode particulaire d\'eterministe
+  pour des \'equations diffusives non lin\'eaires}}, C. R. Acad. Sci. Paris
+  \textbf{332, S\'erie I} (2001), 369--376.
+
+\bibitem{neigel1993application}
+J~E Neigel and J~C Avise, \emph{Application of a random walk model to
+  geographic distributions of animal mitochondrial {DNA} variation}, Genetics
+  \textbf{135} (1993), no.~4, 1209--1220.
+
+\bibitem{oelschlaeger:1985}
+Karl Oelschl{\"a}ger, \emph{A law of large numbers for moderately interacting
+  diffusion processes}, Z. Wahrsch. verw. Geb. \textbf{69} (1985), no.~2,
+  279--322.
+
+\bibitem{oelschlaeger:1989}
+\bysame, \emph{On the derivation of reaction-diffusion equations as limit
+  dynamics of systems of moderately interacting stochastic processes}, Prob.
+  Theor. Rel. Fields \textbf{82} (1989), no.~4, 565--586.
+
+\bibitem{penington:2017}
+S~Penington, \emph{{The spreading speed of solutions of the non-local
+  Fisher-KPP equation}}, J. Functional Anal. \textbf{275} (2017), no.~12,
+  3259--3302.
+
+\bibitem{perkins:1992}
+E~A Perkins, \emph{{Measure-valued branching diffusions with spatial
+  interactions}}, Prob. Th. Rel. Fields \textbf{94} (1992), 189--245.
+
+\bibitem{potts/borger:2023}
+Jonathan~R. Potts and Luca Börger, \emph{How to scale up from animal movement
+  decisions to spatiotemporal patterns: An approach via step selection},
+  Journal of Animal Ecology \textbf{92} (2023), no.~1, 16--29.
+
+\bibitem{rebolledo:1980}
+R~Rebolledo, \emph{{Sur l'existence de solutions \'a certains probl\`emes de
+  semimartingales}}, C. R. Acad. Sci. Paris \textbf{290} (1980).
+
+\bibitem{sasaki1997clumped}
+Akira Sasaki, \emph{Clumped distribution by neighbourhood competition}, J.
+  Theor. Biol. \textbf{186} (1997), no.~4, 415--430.
+
+\bibitem{sherratt:2010}
+J~A Sherratt, \emph{On the form of smooth-front travelling waves in a
+  reaction-diffusion equation with degenerate nonlinear diffusion}, Math.
+  Model. Nat. Phenom. \textbf{5} (2010), no.~5, 64--79.
+
+\bibitem{sheu:1991}
+S~J Sheu, \emph{{Some estimates of the transition density of a nondegenerate
+  diffusion Markov process}}, Ann. Probab. \textbf{19} (1991), no.~2, 538--561.
+
+\bibitem{young2001reproductive}
+W.~R. Young, A.~J. Roberts, and G.~Stuhne, \emph{Reproductive pair correlations
+  and the clustering of organisms}, Nature \textbf{412} (2001), no.~6844,
+  328--331.
+
+\end{thebibliography}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% You may add acknowledgments (optional).                       %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{acks}
+Thanks go to Gilia Patterson for identifying the ``clumping'' phenomenon,
+and to Marcin Bownick and David Levin for useful discussions.
+AME thanks everyone in MAPS at Universit\'e Paris Cit\'e for their hospitality
+during the period in which much of this research took place.
+AME and PLR also thank the Kavli Institute for Theoretical Physics
+for their hospitality and birdwatching opportunities;
+this research was therefore supported in part by the NSF under grant \#PHY-1748958
+and by the Gordon and Betty Moore Foundation grant \#2919.02.
+PLR was supported by the NIH NHGRI (grant \#HG011395),
+IL by the ANID/Doctorado en el extranjero doctoral scholarship, grant \#2018-72190055,
+and TTHL by the EPSRC Centre for Doctoral Training in Mathematics of Random Systems: Analysis, Modelling and Simulation (EP/S023925/1)
+the Deutsche Forschungsgemeinschaft under Germany's Excellence Strategy, EXC-2047/1-390685813,
+the Rhodes Trust and St.~John's College, Oxford.
+\end{acks}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% You have reached the end of your document.                    %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                               %%
+%% You may put below funny messages to the Managing Editor:      %%
+%%                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% EOF
