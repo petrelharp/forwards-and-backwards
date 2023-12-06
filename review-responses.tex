@@ -1,0 +1,392 @@
+%%%%%%
+%%
+%%  Don't reorder the reviewer points; that'll mess up the automatic referencing!
+%%
+%%%%%
+
+\begin{minipage}[b]{2.5in}
+  Resubmission Cover Letter \\
+  {\it Theoretical Population Biology}
+\end{minipage}
+\hfill
+\begin{minipage}[b]{2.5in}
+    Peter Ralph \\
+  \today
+\end{minipage}
+ 
+\vskip 2em
+ 
+\noindent
+{\bf To the Editor(s) -- }
+ 
+\vskip 1em
+
+We are writing to submit a revised version of our manuscript,
+ETCETERA
+
+\vskip 2em
+
+\noindent \hspace{4em}
+\begin{minipage}{3in}
+\noindent
+{\bf Sincerely,}
+
+\vskip 2em
+
+{\bf 
+Peter Ralph
+}\\
+on behalf of \\
+{\bf 
+Alison Etheridge,
+Tom Kurtz,
+Ian Letter,
+and Terence Tsui Ho Lung.
+}\\
+\end{minipage}
+
+\vskip 4em
+
+\pagebreak
+
+%%%%%%%%%%%%%%
+\section*{AE comments:}
+
+
+%%%%%%%%%%%%%%
+\reviewersection{1}
+
+\begin{quote}
+The authors introduced a class of spatial population models in which individuals have locations
+in the continuum space $\IR^d$. The population dynamics is controlled by three quantities: birth,
+establishment and death, each of which can depend on the spatial location and local population
+density. For a fixed time $t$, the population can be represented by a point measure $\eta_t^N$ in which
+each individual is assigned a mass $1/N$, where $N$ is a parameter such that initially there are $O(N)$
+individuals per unit volume in $\IR^d$. The population dynamics is represented by a continuous-time
+Markov process $(\eta_t^N)_{t\ge0}$. The key feature of this model is that it distinguishes between juveniles
+and adults. The authors obtained three different scaling limits for the model $(\eta_t^N)_{t\ge0}$ as $N \to \infty$,
+which are super-processes, non-local differential equation and reaction-diffusion type PDE. The
+author also obtained a description of the dynamics of a single lineage as $N \to \infty$, when the
+limiting population dynamics is deterministic.
+
+A main contribution of this paper is the rigorous derivation of lineage dynamics through the
+lookdown construction. The convergence of the population dynamics to super-processes, non-
+local PDE and PDE are also significant, as they inform us of not only the limiting object that are
+expected to be robust against model perturbation, but also of the corresponding scaling regimes
+and parameter combinations for model reduction. The one-step convergence presents a usual technical
+challenge about identifying the limit. The authors overcame the challenge masterfully by
+establishing continuity estimates that guarantee good agreement for the nonlinear terms between
+the limiting PDE and the stochastic model, under high mixing rate and a high density assumption.
+Overall, this is a very high quality paper that contains many interesting and novel results to merit
+publication in EJP, after minor revision.
+\end{quote}
+
+Thanks ETCETERA
+
+\subsection*{Major comments}
+
+\begin{point}{\revref}
+The first paragraph seems sloppy. For example, this expression [for $\mu_\theta(x)$] is non-negative for
+what range of values for $(x, \eta)$? Why ``anyway true for sufficiently large $\theta$''? Perhaps this
+assumption should be labeled and called upon whenever is it being referred to.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Definition \ref{def:lineage_generator}, Proposition 2.23: I think these may need to be rewritten/rephrased. Up
+to Proposition \ref{thm:lineages}, it is not clear what ``that individual'' is in the limiting model. Therefore,
+it is not clear what $L_s$ is. While the definition of the process $L^N$ maybe clear, what is the
+precise definition of $L_s$ ? I think these need to be defined through the finite-$N$ models. It may
+be good to explain why the process $L$ is Markovian, or at least point out that it is Markovian,
+before talking about semigroup. Probably Section \ref{sec:lineage_motion} will need to be modified accordingly.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+The two conditions in equation \eqref{conditions for one step} are crucial for the one-step convergence.
+It would be great to mention exactly where each of them are used in Section \ref{subsec:one step convergence proof}.
+A brief explanation about these conditions would also be nice. For example, it seems the first (high
+migration/mixing rate) condition in \eqref{conditions for one step},
+but not the second (high density) condition, is used
+to guarantees that $\psi_t^{\epsilon,x}$ is close to a heat kernel?
+\end{point}
+
+\reply{
+}
+
+\subsection*{Minor comments}
+
+\begin{point}{\revref}
+\eqref{eqn:mu_defn}: The authors mentioned ``define the death rate'' and ``where this equation defines F'',
+which is confusing. What is being defined here? Please clarify. It seems to me that one has
+to first choose $F$, then define $µ_\theta(x)$ as in \eqref{eqn:mu_defn}.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P7, paragraph after Remark 2.3:
+``and once there establishes...'' It maybe better to split this
+long sentence into two complete sentences.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P7, paragraph after Remark 2.3:
+$\meanq(x)$ and $\covq(x)$ did not appear before. Perhaps mention they
+are given/chosen, or simply delete them here, and mention them in Definition \ref{def:dispersal_generator}.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Remark \ref{ancestral lineages: first guess}
+Why use $m$ in the superscript of $q_\theta^m(x, \eta, dy)$?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+Assumptions \ref{def:model_setup}: Should it be ``Assumption 2.8'' instead? Also, $\alpha$ in condition 1 was
+used in $\alpha = lim_{N \to \infty} \theta(N)/N$ on Page 8, Figure 1, etc.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P9 last line:
+    Should the ``$C$'' on the right hand side of the equal sign [in the equation for $C_f$] be deleted ?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P10 paragraph below Lemma 2.9:
+    Why ``no longer suffices'', and why this is true? . Please
+explain. I don’t seem to find this explained in any remark before this.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+Figure 1: What is $N$, the time and other parameters (e.g. $\rho_r$ , $\rho_\gamma$) in the simulations? Same
+for other figures. Please at least specify the range of values.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P12 paragraph after Corollary 2.11:
+A more precise reference, or explanation for why
+uniqueness holds for this special case would be helpful, as the references you ave are all
+quite extensive.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+Proposition \ref{nonlocalPME to PME}:
+    It seems the constant $C$ is not needed. Perhaps just say the supremum
+of the first displayed expression over $\epsilon$ finite?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+Remark \ref{remark_on_nonlocal_to_local}: Can you explain a bit more why it will be necessary to retain averaging of r?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P16: Second paragraph:
+The notation $L_t$ seems to first appear here and was not yet defined.
+\end{point}
+
+\reply{
+    (Note: they said ``P16: Second paragraph''; I think they just missed it on the previous page.)
+}
+
+\begin{point}{}
+% P19-20:
+    The equations for the lineage dynamics for the three examples [i.e., Fisher-KPP \revref, Allen-Cahn, and Porous Medium] are interesting.
+Which is/are new in this paper, and which was/were known before (and related references)?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+This maybe out of the scope of this paper, but it is related. As the authors pointed out, two
+lineages probably will not coalesce in the limiting model. However, they will coalesce in
+the finite-$N$ model, though it may take a very long time. I wonder if the authors have a
+feeling about whether the description of the lineage dynamics in the limit still be a good
+approximation for that of the finite model for such a long time.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+The subtitle of section \ref{sec:nonunique_lineage} does not match the actual content in that section. Please
+update the subtitle. Also, can you give a reference for the claim in the last sentence in this
+section \revref?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+specify ``this process'' in the line below the first displayed equation in
+Section 5.1.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Paragraph starting with ``Levels never cross below 0'': Should it be instead ``Levels never
+go above $N$''? If so, what particles are regarded as dead? Perhaps those exit the interval
+$[0, N]$? Note that equation \eqref{eqn:dot_u} suggests that levels can now go above $N$.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+``Recall from equation~\eqref{eqn:mu_defn}''
+does not seem correct, as there is a max in \eqref{eqn:mu_defn}. Please
+correct this.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Please give a precise reference/explanation to why uniqueness holds for the martingale problem for finite $N$.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P32 third line in Section 5.3:
+    Pointwise in time?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Proposition \ref{prop:limiting_construction}: In ``For any solution to the equation above'', what is a ``solution''? Is it
+a solution for all time? Also, be specific to ``the equations above'' by labeling and referring
+to the precise equations including the unlabeled displayed equation below \eqref{eqn:limiting_construction}.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+The word ``Proof'' is missing in ``Proof of Proposition 5.6''. This word is also
+missing in other places in Sections 6-8.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+``Proof of Proposition \ref{prop:limiting_construction}'': Do you also need the unlabeled displayed equation below
+\eqref{eqn:limiting_construction}? The solution is for all time.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Be specific about ``these results'' in ``Proof of the remainder of these results...'' Also, at the
+very beginning of Remark \ref{remark_on_branching}, Be specific about what ``The process'' is.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+``Condition 1'' here is that for Lemma 2.9, not that for Assumptions 2.8. Please specify.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+Perhaps give a reference to the ``familiar pattern''.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P40 first displayed equation:
+Mention $M_t$ is a martingale for all such test functions.
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+%    P48:
+    The notation $\mathcal{O}(\epsilon)$ seems to first appear here. Please explain its meaning. Do they
+depend on x?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P54: near the bottom:
+    Can you be more specific what in paper \citet{barlow/jacka/yor:1986} is being used here?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P60:
+The notation $\mathcal{O}(\delta)$ seems to first appear here. Please explain its meaning. Do they
+depend on x?
+\end{point}
+
+\reply{
+}
+
+\begin{point}{\revref}
+% P65: Remark 8.1:
+measure-values processes $\to$ measure-valued processes
+\end{point}
+
+\reply{
+}
+
+\begin{point}{}
+Section \ref{sec:lineages_proof}8.2 may nned to be modified also based on the second point in ``Major
+comments'' above.
+\end{point}
+
+\reply{
+}
+

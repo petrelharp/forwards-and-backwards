@@ -185,6 +185,44 @@ Using a lookdown representation, we are able to retain information about genealo
 \newcommand{\citet}[1]{\cite{#1}}
 \newcommand{\citep}[1]{\cite{#1}}
 
+\newif\ifsubmission
+\submissiontrue
+% \submissionfalse
+\ifsubmission
+    % % stuff for submission
+    \usepackage{lineno}
+    % allow line numbers around math environments
+    % from https://tex.stackexchange.com/questions/43648/why-doesnt-lineno-number-a-paragraph-when-it-is-followed-by-an-align-equation
+        \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+          \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+          \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+          \renewenvironment{#1}%
+             {\linenomath\csname old#1\endcsname}%
+             {\csname oldend#1\endcsname\endlinenomath}}% 
+        \newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+          \patchAmsMathEnvironmentForLineno{#1}%
+          \patchAmsMathEnvironmentForLineno{#1*}}%
+        \AtBeginDocument{%
+        \patchBothAmsMathEnvironmentsForLineno{equation}%
+        \patchBothAmsMathEnvironmentsForLineno{align}%
+        \patchBothAmsMathEnvironmentsForLineno{flalign}%
+        \patchBothAmsMathEnvironmentsForLineno{alignat}%
+        \patchBothAmsMathEnvironmentsForLineno{gather}%
+        \patchBothAmsMathEnvironmentsForLineno{multline}%
+        }
+\else
+    % for the nice version
+\fi
+
+% Responses to reviews
+\input{review-response-commands}
+% set this to show line numbers and include responses to reviews or not
+\newif\ifreviewresponses
+\reviewresponsestrue  % include them
+% \reviewresponsesfalse  % don't include them
+\newcommand{\responsefile}{review-responses}  % name of the review responses file
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                               %%
 %% No macro definitions below this line please!                  %%
@@ -624,7 +662,7 @@ In particular, the total rate of production of mature offspring by an individual
 Nonetheless, it will be convenient to define the death rate $\mu_\theta$ in terms of 
 its deviation from $r\gamma$. 
 To this end, we define
-the death rate of an individual at $x$ to be
+the death rate of an individual at $x$ to be \revpoint{1}{4}
 \begin{align} \label{eqn:mu_defn}
     \mu_\theta(x)
     =
@@ -709,8 +747,9 @@ In summary, at each time $t$, $\eta^N_t$ is purely atomic, consisting of atoms o
 At instantaneous rate $\theta \gamma(x, \eta^N_t) N \eta^N_t(dx)$ an offspring of mass $1/N$ is 
 produced at location $x$; it disperses to 
 a location $y$ offset from $x$
-by an independent Gaussian random variable with mean $\meanq(x) / \theta$
-and covariance matrix $\covq(x) / \theta$, and once there establishes instantaneously
+by an independent Gaussian random variable with mean $\meanq(x) / \theta$ \revpoint{1}{6}
+and covariance matrix $\covq(x) / \theta$,
+and once there establishes instantaneously \revpoint{1}{5}
 with probability $r(y, \eta^N_t)$, or else dies. 
 At instantaneous rate $\theta \mu_\theta(x, \eta^N_t) N \eta^N_t(dx)$ an individual at location 
 $x$ dies.
@@ -854,7 +893,7 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
 \end{remark}
 
 \begin{remark}
-\label{ancestral lineages: first guess}
+\label{ancestral lineages: first guess} \revpoint{1}{7}
 An equivalent way to describe the model would be to say that
 when the state of the population is $\eta$,
 an individual at $x$ gives birth at rate
@@ -949,9 +988,9 @@ We assume that
     i.e., 
     \[
         C_f = C(\sup_x \sup_{\|z\|=1} \max( \sum_i z_i \partial_{x_i} f(x), \sum_{ij} z_i z_j \partial_{x_i x_j} f(x))) .
-    \] \label{gamma_B_condition}
+    \] \label{gamma_B_condition} \revpoint{1}{9}
 \end{enumerate}
-To keep expressions manageable, we shall also assume that 
+To keep expressions manageable, we shall also assume that  \revpoint{1}{1}
 \[
 \mu_\theta(x) = r(x,\eta) \gamma(x,\eta) - \frac{1}{\theta} F(x,\eta),
 \]
@@ -997,7 +1036,8 @@ The proof is in Section~\ref{sec:preliminary_proofs}.
 The purpose of the conditions that we have placed on the reproduction parameters is to 
 ensure that the net per capita reproduction rate (before time scaling)
 is order $1/\theta$. As remarked above, 
-because of the non-local reproduction mechanism, it no longer suffices to assume that 
+because of the non-local reproduction mechanism, it no longer suffices \revpoint{1}{10}
+to assume that 
 $r(x,\eta)\gamma(x,\eta)-\mu_\theta(x)$ is of order $1/\theta$.
 Perhaps the simplest example in which we can see this
 is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
@@ -1165,8 +1205,8 @@ that is a continuous limit of the Bolker-Pacala model \citep{bolker/pacala:1997,
 We are not aware of a general result to determine when we will have uniqueness of 
 solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
 when $\alpha>0$.
-However, the Dawson--Girsanov transform tells us that we have uniqueness in this special 
-case of the superprocess with nonlinear death rates, and 
+However, the Dawson--Girsanov transform tells us that we have uniqueness \revpoint{1}{12}
+in this special case of the superprocess with nonlinear death rates, and 
 Perkins stochastic calculus (and its adaptation to a 
 lookdown setting) provides uniqueness for cases with interactions in the 
 dispersal mechanism of
@@ -1424,9 +1464,11 @@ $\psi^\epsilon\rightharpoonup \psi$ as $\epsilon\to 0$ where
 $\psi\in L_t^2(H^1)\cap C_t(L^1)$, $\int \psi|\log \psi| dx<\infty$, and
 $\psi$ solves~(\ref{PME}) on $[0,T]\times \IR^d$. 
 \end{proposition}
+
 The example that we have in mind for the kernel $\rho_\gamma$ is a Gaussian kernel.
 For the proof, see Section~\ref{sec:pme}.
-\begin{remark}
+
+\begin{remark} \label{remark_on_nonlocal_to_local}
 Although it seems hard to formulate an all-encompassing result,
 Propositions~\ref{prop:nonlocal_to_local} and~\ref{nonlocalPME to PME} are by no
 means exhaustive. When the scaling limit is deterministic, one can 
@@ -1559,7 +1601,7 @@ First, when is the motion of an ancestral
 lineage, given complete knowledge of the population process, a well-defined process?
 In other words, is knowledge of the process $(\eta_t)_{t=0}^T$ that records 
 numbers of individuals
-but not their ancestry sufficient to define the distribution of $(L_t)_{t=0}^T$?
+but not their ancestry sufficient to define the distribution of $(L_t)_{t=0}^T$? \revpoint{1}{15}
 Second, does the process have a tractable description?
 
 We focus on the simplest situation, that in which the population process is deterministic.
@@ -1574,7 +1616,7 @@ be seen as a first step towards understanding genealogies for high population de
 Proofs of results in this section are found in Section~\ref{sec:lookdown_proofs}.
 
 \begin{definition}[Ancestral lineage] 
-\label{def:lineage_generator}
+\label{def:lineage_generator} \revpoint{1}{2}
     Let $(\varphi_t(x))_{0 \le t \le T}$
     denote the density of the scaling limit of our population model, 
 solving \eqref{eqn:nonlocal_pde},
@@ -1871,7 +1913,7 @@ and take $\sigma^2 = 1$ and $\meanq = 0$.
 %%%%%%%%%%
 
 %%%%%%%%%%
-\paragraph{Fisher-KPP equation:}
+\paragraph{Fisher-KPP equation:} \revpoint{1}{16}
 Consider the classical Fisher-KPP equation,
 \begin{align} \label{eqn:fkpp}
     \partial_t\varphi = \partial_{xx}\varphi + \varphi (1-\varphi) .
@@ -2196,6 +2238,7 @@ to dispersal that will lead to instability.
 
 % % % % % % % % % % % % % % % %
 \subsection{Lineage motion is not uniquely determined by population density}
+\label{sec:nonunique_lineage}
 
 It is natural for applications to wonder about identifiability:
 when can the observed quantities like population density
@@ -2235,7 +2278,7 @@ As a result, lineages in the second model spend more time in areas with $\lambda
 i.e., those areas have higher reproductive value,
 something that is, in principle, discernible from genetic data
 (because, for instance, making reproductive value less evenly distributed
-reduces long-term genetic diversity).
+reduces long-term genetic diversity). \revpoint{1}{18}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2503,6 +2546,7 @@ take $\theta/(N\epsilon^d)\to 0$.
 
 % % % % % % % % % % % % % % % % % %
 \subsection{Motion of ancestral lineages}
+\label{sec:lineage_motion}
 
 Although our proof of Theorem~\ref{thm:lineages}
 uses an explicit representation in terms of the lookdown process,
@@ -2646,7 +2690,8 @@ $$
     \eta_t(\cdot) = \frac{1}{N} \lp_t(\cdot \times [0, N])  .
 $$
 A nontrivial consequence of the way we define $\lp_t$ will be that
-this process has the same distribution as the process $(\eta_t)_{t \ge 0}$ 
+this process \revpoint{1}{19}
+has the same distribution as the process $(\eta_t)_{t \ge 0}$ 
 of Definition~\ref{defn:mgale_construction}.
 (This provides our justification for using the same notation for both.)
 
@@ -2695,7 +2740,7 @@ $$
 Since $v \in [0, N]$, this moves levels down;
 see~\cite{etheridge/kurtz:2019}, Section~3.4 for a detailed explanation.
 
-Levels never cross below 0,
+Levels never cross below 0, \revpoint{1}{20}
 while particles whose levels move above $N$ are regarded as dead
 (and are removed from the population).
 Therefore, in order to incorporate death,
@@ -2735,7 +2780,7 @@ and
     \frac{\theta}{N} \gamma(x, \eta) \int_{\IR^d} r(y, \eta) q_\theta(x, dy) ,
 \end{align}
 which captures the local rate of production of successful offspring.
-Recall from equation~\eqref{eqn:mu_defn} that
+Recall from equation~\eqref{eqn:mu_defn} that \revpoint{1}{21}
 $F(x,\eta) = \theta(r(x,\eta)\gamma(x,\eta) - \mu_\theta(x,\eta))$,
 and so 
 \begin{equation}  \label{b_defn}
@@ -2920,7 +2965,7 @@ respect to the natural filtration) for all
 test functions $f$ as defined above.
 \end{definition}
 
-The martingale problem for finite $N$ has a unique solution.
+The martingale problem for finite $N$ has a unique solution. \revpoint{1}{22}
 Next we state the limiting martingale problem,
 for which we do not necessarily have uniqueness.
 As before, the parameter $\alpha$ will correspond to 
@@ -3294,7 +3339,7 @@ The previous section constructed the lookdown process
 using the same underlying Poisson processes $\{\Pi_a\}_{a \in \labelspace}$ for
 different values of $N$.
 As a result, if the spatial projections $\eta$ converge, then
-individual lines of descent converge pointwise as $N \to \infty$.
+individual lines of descent converge pointwise as $N \to \infty$. \revpoint{1}{23}
 To see this, first note that if the Poisson processes are fixed
 then the set of events with which a given label $a \in \labelspace$ is associated
 is also fixed -- this is the sequence $(\tau_k, v_k, z_k, \kappa_k)$ associated 
@@ -3449,7 +3494,8 @@ $$
     + \frac{v}{ 2 \alpha \gamma(X_a(\tau), \eta_\tau) r(X_a(\tau), \eta_\tau) } ,
 $$
 if this is finite.
-For any solution to the equations above, the processes defined by
+For any solution to the equations above, \revpoint{1}{24}
+the processes defined by
 \begin{align*}
     \eta_t
     =
@@ -3471,7 +3517,7 @@ and their trace is seen in the
 spatial motion of the line of descent which results from
 the production of these lineages.
 
-\begin{proof}[of Proposition~\ref{prop:limiting_construction}]
+\begin{proof}[of Proposition~\ref{prop:limiting_construction}] \revpoint{1}{25}
     The fact that a solution to the system of equations~\eqref{eqn:limiting_construction}
     is a solution to the martingale problem of Theorem~\ref{thm:lookdown_convergence}
     is an application of It\^o's theorem.
@@ -3483,9 +3529,9 @@ the production of these lineages.
     to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proof}
 
-Proofs of the remainder of these results are in Section~\ref{sec:lookdown_proofs}.
+Proofs of the remainder of these results are in Section~\ref{sec:lookdown_proofs}. \revpoint{1}{27}
 
-\begin{remark}
+\begin{remark} \label{remark_on_branching}
 The process we consider is similar to the state-dependent branching processes
 of \citet{kurtz/rodrigues:2011}, so one might expect that the proofs there would carry over with little change.
 However, there is an important difference:
@@ -3563,7 +3609,7 @@ Here, we need to prove that $|\gamma(x, \eta) B^\theta_f(x, \eta)|$ is bounded,
 uniformly over $x$ and $\eta$.
 First suppose that
 Condition~\ref{control through r} of  
-Lemma~\ref{lem:conditions on r} is satisfied.
+Lemma~\ref{lem:conditions on r} is satisfied. \revpoint{1}{28}
 We write
 \begin{align*}
     r(y,\eta) f(y) - r(x,\eta) f(x)
@@ -3737,7 +3783,8 @@ we actually use tightness of the sequence of population processes
 in the proofs of tightness for the corresponding lookdown processes.
 
 \begin{proof}[Proof of Theorem~\ref{thm:nonlocal_convergence}.]
-The proof follows a familiar pattern. First we extend $\IR^d$ 
+The proof follows a familiar pattern. \revpoint{1}{29}
+First we extend $\IR^d$ 
 to its one-point compactification $\overline{\IR}^d$ and 
 establish, in Lemma~\ref{lem:eta_compact_containment},
 compact containment of the 
@@ -4158,6 +4205,7 @@ Let $\Pgen^N$ be the generator given by
 \end{equation}
 The process $(\eta^N_t)_{t \geq 0}$ of Definition~\ref{defn:mgale_construction}
 is the unique solution to the $(\Pgen^N, \eta_0)$-martingale problem, i.e., if
+\revpoint{1}{30}
 $$
     M_t :=
     G_f(\eta^N_t) - G_f(\eta^N_0)
@@ -5033,6 +5081,7 @@ $L^1\cap L^2\big([0,T]\times \IR\big)$, and that
 \phi(x) dx
 +\mathcal{O}(\epsilon)
 \end{multline}
+    \revpoint{1}{31}
 (for sufficiently regular $\phi$).
 Since
 $\int \psi_t^\epsilon(x)\phi(x) d x- \int \zeta^{\epsilon}*\psi_t^\epsilon (x)\phi(x) d x$
@@ -5068,9 +5117,9 @@ $$\rho_\epsilon*\eta(x)=\rho_F^\epsilon*\eta(x)
 =\langle p_{\epsilon^2}(x,y),\eta(dy)\rangle,$$
 where $p_t(x,y)$ denotes the heat semigroup. 
 The assumptions of Theorem~\ref{thm:local_convergence} will be in 
-force throughout, in particular,
+force throughout, in particular, \revpoint{1}{3}
 \begin{equation}
-	\label{conditions for one step}
+    \label{conditions for one step}
 	\epsilon^2\theta\to\infty, \qquad\mbox{and }\frac{\theta}{N\epsilon^d}\to 0.
 \end{equation}
 That $N, \theta\to \infty$ and $\epsilon\to 0$ simultaneously will be 
@@ -5615,7 +5664,7 @@ Consulting~\eqref{eqn:prelimit_martingale_variation},
 the angle bracket process of $\widehat{M}^N(f)$ satisfies
 $ \IE[\langle\widehat{M}^N_f\rangle_T] \le C (\theta/N) \int_0^T \IE[\langle 1, \eta_s \rangle] ds \le C' \theta/N$
 for some constants $C$ and $C'$.
-Now, using the Burkholder-Davis-Gundy inequality and \citet{barlow/jacka/yor:1986},
+Now, using the Burkholder-Davis-Gundy inequality and \citet{barlow/jacka/yor:1986}, \revpoint{1}{32}
 $\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[\langle\widehat{M}^N(f)\rangle_u]$,
 and so using Markov's inequality,
 \begin{equation}
@@ -6375,7 +6424,8 @@ Combining the above, we have reduced the problem to showing that for any $k \ge 
 We are going to use the estimate~(\ref{difference in rhos}).
 First note that by Lemma~\ref{bounds on moments}
 the contribution to~(\ref{target expression}) from the integral over
-the time interval $[0,\delta]$ is ${\mathcal O}(\delta)$. We focus instead
+the time interval $[0,\delta]$ is ${\mathcal O}(\delta)$. \revpoint{1}{33}
+We focus instead
 on the interval $(\delta, t]$.
 
 The first term in~(\ref{difference in rhos}) gives
@@ -6848,7 +6898,7 @@ with angle bracket process
 \end{split}\end{align}
 
 \begin{remark}
-In addition to tightness of the measure-values processes $\lp^N$,
+In addition to tightness of the measure-values processes $\lp^N$, \revpoint{1}{34}
 the bounds used in the proofs below also imply
 tightness of the number of lines of descent and the number of births below a fixed level,
 and of the motion of individual lines of descent.
@@ -8766,6 +8816,9 @@ the Rhodes Trust and St.~John's College, Oxford.
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% reviews here if toggled above
+\includereviews
+
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8773,5 +8826,7 @@ the Rhodes Trust and St.~John's College, Oxford.
 %% You may put below funny messages to the Managing Editor:      %%
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Hallooooo, kind Managing Editor! 
 
 %% EOF
