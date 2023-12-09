@@ -7,11 +7,11 @@ forwards-and-backwards.pdf : refs.bib review-responses.tex
 clean: 
 	-rm *.aux *.log *.bbl *.blg
 
-diff-to-submission.pdf : writeup-diffc8561ba72d021df4d4f08e4e97b5b023853053d5.pdf
+diff-to-submission.pdf : forwards-and-backwards-diff55fcac38e3f62d98542a20fd49380eb980927714.pdf
 	cp $< $@
 
-writeup-diff%.tex : writeup.tex refs.bib review-responses.tex
-	latexdiff-git -r $* --force writeup.tex
+forwards-and-backwards-diff%.tex : forwards-and-backwards.tex refs.bib review-responses.tex
+	latexdiff-git -r $* --force forwards-and-backwards.tex
 
 %.pdf : %.tex %.bbl
 	while ( pdflatex -shell-escape $<;  grep -q "Rerun to get" $*.log ) do true ; done
