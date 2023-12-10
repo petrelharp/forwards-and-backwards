@@ -21,6 +21,7 @@
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\RequirePackage{xcolor}
 \documentclass[EJP]{ejpecp} % replace ECP by EJP if needed.
 
 
@@ -147,7 +148,6 @@ Using a lookdown representation, we are able to retain information about genealo
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
 \renewcommand{\hat}{\widehat}
 \renewcommand{\tilde}{\widetilde}
@@ -181,6 +181,7 @@ Using a lookdown representation, we are able to retain information about genealo
 \newcommand{\cmeasures}{\mathcal{M}_F(\overline{\IR}^d)} % finite measures on compactified Rd
 \newcommand{\lpmeasures}{\mathcal{M}(\overline{\IR^d} \times [0,\infty))} % locally finite measures on (compactified space) x level
 \newcommand{\flpmeasures}{\mathcal{M}(\IR^d \times [0,\infty))} % locally finite measures on space x level
+\newcommand{\comment}[1]{{\color{blue} \it #1}}
 
 \newcommand{\citet}[1]{\cite{#1}}
 \newcommand{\citep}[1]{\cite{#1}}
@@ -893,7 +894,7 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
 \end{remark}
 
 \begin{remark}
-\label{ancestral lineages: first guess} \revpoint{1}{7}
+\label{ancestral lineages: first guess}
 An equivalent way to describe the model would be to say that
 when the state of the population is $\eta$,
 an individual at $x$ gives birth at rate
@@ -902,6 +903,8 @@ $$
     \int r(y, \eta) q(x, dy) ,
 $$
 and that offspring disperse according to the kernel
+$q_\theta^\mathfrak{m}$ (with superscript $\mathfrak{m}$ because it is post-\textbf{m}ortality),
+defined by: \revpoint{1}{7}
 $$
     q_\theta^\mathfrak{m}(x,\eta,dy)
     :=
@@ -925,7 +928,7 @@ it is interesting to write down the limiting generator:
         - 
         f(x) \DG\left[ r(\cdot, \eta) \right](x)
     }{
-        r(x, \eta^{N})
+        r(x, \eta)
     } .
 \end{align}
 In the simplest case of unbiased isotropic dispersal
@@ -1377,10 +1380,10 @@ and that $\varphi$ is a weak solution to the equation
 \end{equation}
 also with initial condition $\varphi_0(\cdot)$.
 %Assume $\varphi_0\in L^2(\IR)$ is a positive, Lipschitz, and uniformly bounded function; 
-Suppose further that $F$ is a Lipschitz function which is bounded above, and that
-$\meanq(x)$ and $\covq(x)$, the drift and 
-covariance matrix of $\DG$, satisfy the conditions of 
-Assumptions~\ref{def:model_setup}.
+Suppose further that $F$ is a Lipschitz function which is bounded above,
+and that $\meanq(x)$ and $\covq(x)$, the drift and covariance matrix of $\DG$,
+satisfy the conditions of Assumptions~\ref{def:model_setup}
+and are such that $\DG^* 1 = 0$ (see Definition~\ref{def:dispersal_generator}).
 Then, for all $T>0$ there exists a constant $K=K(T, \Vert \varphi_0 \Vert_\infty) < \infty$
 and a function $\delta(\epsilon)$ (dependent on $\rho_F$) with $\delta(\epsilon)\to 0$ 
 as $\epsilon\to 0$,
@@ -1395,6 +1398,17 @@ uniformly in compact intervals of time to $\varphi$.
 \begin{remark}
 Note that Theorem~\ref{thm:kurtzxiong} guarantees uniqueness of solutions
 to equation~(\ref{nonlocalPDEv1}). 
+\end{remark}
+
+\begin{remark}
+    Instead of putting the fairly strong constraint that $\DG^* 1(x) = 0$ for all $x$,
+    it would be enough to assume instead that $\DG^* 1(x)$ is uniformly bounded,
+    so that $f \mapsto \DG^*f - f \DG^* 1$ is the generator of a conservative diffusion.
+    Since then $\varphi$ solves
+    $$ \partial_t \varphi = (\DG^* \varphi - \varphi \DG^* 1) + \varphi (F(\varphi) + \DG^* 1) , $$
+    the proof goes through essentially unchanged,
+    with only $F(\varphi(x))$ replaced with $F(\varphi(x)) + \DG^*1(x)$,
+    a bounded perturbation.
 \end{remark}
 
 Our second example 
@@ -3485,9 +3499,16 @@ U_a(t)
         \big\}
         U_a(s)
     \bigg)
-    ds .
+    ds ,
     \end{split}
 \end{align}
+where
+\begin{align*}
+    \eta_t
+    :=
+    \lim_{u_0 \to \infty} \frac{1}{u_0}
+        \sum_{a : \tau_a \le t < \sigma_a \; ; \; U_a(t) < u_0} \delta_{X_a(t)} .
+\end{align*}
 Each point in each $R_a$ denotes a potential birth time for $a$:
 if the $j^\text{th}$ point in $R_a$ is $(\tau, v)$, with 
 $\tau_a \le \tau < \sigma_a$,
@@ -3500,18 +3521,14 @@ $$
 $$
 if this is finite.
 For any solution to the equations above, \revpoint{1}{24}
-the processes defined by
+the process $\eta_t$
+is a solution to the martingale problem of Theorem~\ref{thm:nonlocal_convergence},
+and the process
 \begin{align*}
-    \eta_t
-    =
-    \lim_{u_0 \to \infty} \frac{1}{u_0}
-        \sum_{a : \tau_a \le t < \sigma_a \; ; \; U_a(t) < u_0} \delta_{X_a(t)}
-    \qquad \text{and} \qquad
     \lp_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} 
 \end{align*}
-are solutions to the martingale problems of
-Theorems~\ref{thm:nonlocal_convergence} and~\ref{thm:lookdown_convergence},
-respectively.
+is a solution to the martingale problem of
+Theorem~\ref{thm:lookdown_convergence}.
 \end{proposition}
 
 In particular, note that if $\alpha=0$,
@@ -3521,6 +3538,8 @@ they are produced, but ``at infinity'',
 and their trace is seen in the 
 spatial motion of the line of descent which results from
 the production of these lineages.
+
+\comment{TODO: add note about well-definedness of $\eta_t$.}
 
 \begin{proof}[of Proposition~\ref{prop:limiting_construction}] \revpoint{1}{25}
     The fact that a solution to the system of equations~\eqref{eqn:limiting_construction}
@@ -3924,7 +3943,7 @@ independent of $N$,
     % for any local martingale with $M_0=0$, $\IE[[M]^{q}_T] \le c_q \IE[\langle M \rangle^q_T]$
     the expectation of the quadratic variation of a local martingale
     is bounded by a (universal) constant multiple of the expectation of its angle bracket process
-    (\cite{barlow/jacka/yor:1986} Item (4.b'), Table 4.1, p. 162).
+    (\cite{barlow/jacka/yor:1986}, Item (4.b'), Table 4.1, p. 162).
     Now, since $\sqrt{x} \le 1 + x$,
     in the notation of Lemma~\ref{lem:eta_f_bound}, there is a $C'$ such that
     \begin{align*}
@@ -4245,9 +4264,9 @@ Furthermore, let $\Pgen^\infty$ be the generator given by
 \end{aligned}    
 \end{equation}
 A process $(\eta^{\infty}_t)_{t \geq 0}$ 
-satisifes the martingale characterization of equations~\eqref{eqn:limiting_mgale_problem}
+satisfies the martingale characterization of equations~\eqref{eqn:limiting_mgale_problem}
 and~\eqref{eqn:limiting_mgale_variation}
-if and only if it is a solution 
+if it is a solution % "and only if" requires continuity
 to the $(\Pgen^{\infty}, \eta^\infty_0)$-martingale problem, i.e.,
 if for all such test functions 
 $$
@@ -4257,6 +4276,11 @@ $$
 $$
 is a martingale (with respect to the natural $\sigma$-field). 
 \end{lemma}
+
+The converse -- that any solution to equations~\eqref{eqn:limiting_mgale_problem}
+and~\eqref{eqn:limiting_mgale_variation}
+is a solution to the $(\Pgen^{\infty}, \eta^\infty_0)$-martingale problem --
+requires continuity, which we expect to be true, but have not proved.
 
 \begin{lemma}[Characterisation of limit points]
     \label{lem:limit_mgale}
@@ -4395,10 +4419,12 @@ actually takes its values in $\measures$, that is, ``no mass has escaped to infi
 \begin{lemma}
 \label{no mass at infty}
 Under the assumptions of Theorem~\ref{thm:nonlocal_convergence},
-let $(\eta_t)_{t\geq 0}$ be a limit point of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$. 
-For any $\delta>0$, 
+if $(\eta_t)_{t\geq 0}$ be a limit point of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$,
+then for any $\delta>0$ and $T>0$,
 \[
-\IP\big[\eta_t\big(\{\|x\|>R\}\big)>\delta\big]\to 0\qquad\mbox{ as }R\to\infty.
+\IP\bigg[
+    \sup_{0 \le t \le T} \eta_t\big(\{\|x\|>R\}\big)>\delta
+\bigg]\to 0\qquad\mbox{ as }R\to\infty.
 \]
 \end{lemma}
 
@@ -4415,9 +4441,9 @@ such that $\gamma(x,\eta) B_{f_n}^\theta(x,\eta) \le C(1 + f_n(x))$
 for all $x$, $\eta$, and $f_n$.
 Then, just as we arrived at equation~\eqref{bound on intfdeta},
 \begin{align*}
-    \IE[\langle f_n(x), \eta^N_t(dx) \rangle]
+    \IE\left[\left\langle f_n(x), \eta^N_t(dx) \right\rangle\right]
     &\le
-    \IE[\langle f_n(x), \eta^N_0(dx) \rangle]
+    \IE\left[\left\langle f_n(x), \eta^N_0(dx) \right\rangle\right]
     +
     C \int_0^t \IE\Big[\Big\langle f_n(x), \eta^N_s(dx) \Big\rangle \Big] ds ,
 \end{align*}
@@ -4426,13 +4452,20 @@ Gronwall's inequality then implies that
 $\IE[\langle f_n, \eta^N_t\rangle] \le C'$
 for some $C'$ independent of $n$, $N$, and $t \in [0,T]$.
 By first taking $N \to \infty$ and then $n \to \infty$,
-we find that $\IE[\langle f_0, \eta_t(dx)\rangle] \le C'$
-for $t\in [0,T]$, and since $f_0 \to \infty$ as $|x| \to \infty$,
+we find that $\IE[\langle f_0, \eta_t(dx)\rangle] \le C'$ for $t\in [0,T]$.
+However, this is for a single time --
+we would like instead to uniformly bound
+$\IE[\sup_{0 \le t \le T} \langle f_0, \eta_t(dx)\rangle]$.
+This can be done in a similar but lengthier manner,
+following the proof of Lemma~\ref{lem:eta_compact_containment}
+and observing that bounds can be taken independent of $n$ and $N$.
+
+Finally, since $f_0 \to \infty$ as $|x| \to \infty$,
 an application of Markov's inequality
 tells us that for any $\delta > 0$,
 $$
-    \IP\big\{ \eta_t(\{x : \|x\| > R\})>\delta \big\}
-    \le \frac{\IE[\langle f_0, \eta_t\rangle]}{\inf_{\{x:\|x\|\ge R\}} f_0(x)}
+    \IP\bigg\{ \sup_{0 \le t \le T} \eta_t(\{x : \|x\| > R\})>\delta \bigg\}
+    \le \frac{\IE[\sup_{0 \le t \le T} \langle f_0, \eta_t\rangle]}{\delta \inf_{\{x:\|x\|\ge R\}} f_0(x)}
     \to 0 \qquad \text{as } R\to\infty .
 $$
 \end{proof}
@@ -8362,7 +8395,7 @@ probability space, so that the products and sums make sense.
     The proof for $X^{(n)} + Y^{(n)}$ is similar to but more straightforward than
     for $X^{(n)} Y^{(n)}$, so on only prove the Lemma for the latter.
 
-    First, note that for any $\epsilon > 0$, by tightness of ${X^{(n)}_t}_{n\ge0}$ and ${Y^{(n)}_t}_{n\ge0}$
+    First, note that for any $\epsilon > 0$, by tightness of $(X^{(n)}_t)_{n\ge0}$ and $(Y^{(n)}_t)_{n\ge0}$
     there is a $K$ such that
     $\IP\{ X^{(n)}_t > \sqrt{K} \}$ and $\IP\{ Y^{(n)}_t > \sqrt{K} \}$
     are both less than $\epsilon/2$,
@@ -8381,7 +8414,7 @@ probability space, so that the products and sums make sense.
         \} 
         \le \epsilon.
     \end{align*}
-    Therefore, ${X^{(n)}_t Y^{(n)}_t}_{n \ge 0}$ is tight.
+    Therefore, $(X^{(n)}_t Y^{(n)}_t)_{n \ge 0}$ is tight.
 
     Next, note that for $0 \le \tau_n \le T$,
     \begin{align*}

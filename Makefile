@@ -14,12 +14,12 @@ forwards-and-backwards-diff%.tex : forwards-and-backwards.tex refs.bib review-re
 	latexdiff-git -r $* --force forwards-and-backwards.tex
 
 %.pdf : %.tex %.bbl
-	while ( pdflatex -shell-escape $<;  grep -q "Rerun to get" $*.log ) do true ; done
+	while ( pdflatex -nonstopmode -shell-escape $<;  grep -q "Rerun to get" $*.log ) do true ; done
 	touch $*.bbl
 	touch $@
 
 %.aux : %.tex
-	-pdflatex -shell-escape $<
+	-pdflatex -nonstopmode -shell-escape $<
 
 %.bbl : %.aux refs.bib
 	bibtex $<
