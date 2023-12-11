@@ -5058,18 +5058,31 @@ d x\\
 \end{eqnarray}
 where, as before, we have substituted $\tilde{x}=x-z$, $\tilde{y}=y-z$,
 $\tilde{z}=-z$.
-To control the term~(\ref{error 1})
+We are going to bound the square of the $L^2$-norm of the term in square brackets 
+in~(\ref{error 1}) by the product of its $L^1$-norm (which is bounded
+by a constant times the $L^1$-norm of $\psi_t^\epsilon$) and its $L^\infty$-norm.
+To control the $L^\infty$-norm,
 we use the Intermediate Value Theorem to see that
 \begin{multline*}
 \left|\int\left[\psi_t^\epsilon(x-y)\nabla\phi(x-y)\zeta^{\epsilon}(y)-
 \nabla\phi(x)\psi_t^\epsilon(x-y)\zeta^{\epsilon}(y)
 \right] dy\right|
 \\
-\leq C\|\Delta\phi\|_\infty\int \psi_t^\epsilon (x-y)y\zeta^{\epsilon}(y) d y.
+	\leq C\|\Delta\phi\|_\infty\int \psi_t^\epsilon (x-y)
+	\epsilon\frac{|y|}{\epsilon}\zeta^{\epsilon}(y) d y
+	\leq C\|\Delta\phi\|_\infty\epsilon \|z\zeta(z)\|_\infty\int \psi_t^\epsilon (x-y) dy.
+	%|y|\zeta^{\epsilon}(y) d y
 \end{multline*}
-Since $\zeta\in\mathcal{S}(\IR)$, 
-the integral in this expression is
+Since $\zeta\in\mathcal{S}(\IR)$, and as we checked above $\psi_t^\epsilon$ is 
+uniformly bounded in $L^1$ over $[0,T]$,
+this expression is
 $\mathcal{O}(\epsilon)$.  \revpoint{1}{31}
+
+We can now apply the Cauchy-Schwarz inequality to~(\ref{error 1}) to bound
+it by the square root of
+\begin{equation}
+	C\epsilon\int \big(\nabla(\zeta^\epsilon*\psi_t^\epsilon(x))\big)^2 dx.
+\end{equation}
 
 Similarly, for the second term in~(\ref{total equation}),
 \begin{eqnarray}
@@ -5097,25 +5110,43 @@ Similarly, for the second term in~(\ref{total equation}),
 &&+
 \int (\zeta^{\epsilon}*\psi_t^\epsilon)
 \left[\zeta^{\epsilon}*(\nabla \psi_t^\epsilon\, \nabla\phi)-
-\nabla\phi\,(\nabla \zeta^{\epsilon}*\psi_t^\epsilon)\right] dx,
+\nabla\phi\,(\nabla \zeta^{\epsilon}*\psi_t^\epsilon)\right] dx.
 \end{eqnarray}
-and~(\ref{error 2}) is controlled in the same way as~(\ref{error 1}):
-using the Intermediate Value Theorem,
+The term in square brackets in~(\ref{error 2}) is %controlled in the same way as~(\ref{error 1}):
+%using the Intermediate Value Theorem,
 \begin{multline*}
 \left|\int\left[\nabla \psi_t^\epsilon(x-y)\nabla\phi(x-y)\zeta^{\epsilon}(y)
 -\nabla\phi(x)\nabla \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y)
 \right] dy\right|
 \\
-\leq C\|\Delta\phi\|_\infty\left|\int \nabla \psi_t^\epsilon(x-y)
-y \zeta^{\epsilon}(y)
-d y\right|,
+=
+	\left|\int\left[\psi_t^\epsilon(x-y)
+	\nabla\big((\nabla\phi(x-y)-\nabla\phi(x))\zeta^{\epsilon}(y)\big)
+%-\nabla\phi(x)\nabla \psi_t^\epsilon(x-y)\zeta^{\epsilon}(y)
+\right] dy\right|,
+%\leq C\|\Delta\phi\|_\infty\left|\int \nabla \psi_t^\epsilon(x-y)
+%y \zeta^{\epsilon}(y)
+%d y\right|,
 \end{multline*}
-which again is $\mathcal{O}(\epsilon)$.
+and expanding $\nabla\phi$ in a Taylor series about $x$ and once again using that
+$\zeta\in \mathcal{S}(\IR)$, we see that the $L^\infty$ norm of this quantity is
+$\mathcal{O}(\epsilon)$.
 
-We now have the ingredients that we need.
-The calculations above yield both a uniform (in $\epsilon$) bound on
+We can now apply the Cauchy-Schwarz inequality to~(\ref{error 2}) to bound
+it by the square root of
+\begin{equation}
+	C\epsilon\int \big(\zeta^\epsilon*\psi_t^\epsilon(x)\big)^2 dx.
+\end{equation}
+
+We now have the ingredients that we need. Recalling that 
+$\int_0^t \int(\zeta^{\epsilon}*\psi_s^\epsilon(x))^2  dx ds$ and
+$\int_0^t \int \big(\nabla (\zeta^{\epsilon}*\psi_s^\epsilon(x))\big)^2  dx ds$
+are uniformly bounded in
+$\epsilon$ and $t\in [0,T]$,
+the calculations above yield both a uniform (in $\epsilon$) bound on
 $\zeta^{\epsilon}*\psi_t^\epsilon$ in
-$L^1\cap L^2\big([0,T]\times \IR\big)$, and that
+$L^1\cap L^2\big([0,T]\times \IR\big)$, and (with another application of 
+Cauchy-Schwarz, this time applied to the time integral, to control the error terms) that
 \begin{multline} \label{eqn:weak_approx_pme}
 \int \psi_t^\epsilon(x)\phi(x) dx-\int \psi_0^\epsilon (x)\phi(x) dx
 	=\int_0^t\int (\zeta^{\epsilon}*\psi_s^\epsilon(x))^2\Delta\phi(x) dx
@@ -5123,7 +5154,7 @@ $L^1\cap L^2\big([0,T]\times \IR\big)$, and that
 	+\int_0^t \int \zeta^{\epsilon}*\psi_s^\epsilon(x)
 	\left(1- \zeta^{\epsilon}*\psi_s^\epsilon(x)\right)
 \phi(x) dx
-+\mathcal{O}(\epsilon)
+	+\mathcal{O}(\sqrt{\epsilon})
 \end{multline}
 (for sufficiently regular $\phi$).
 Since
