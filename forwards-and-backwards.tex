@@ -275,6 +275,9 @@ Using a lookdown representation, we are able to retain information about genealo
 % \end{tabular}
 % \end{small}}
 
+\comment{TODO: double-check $\langle \cdot \rangle$ versus $[\cdot]$}
+\comment{TODO: check factor of 2}
+
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{introduction}
@@ -305,6 +308,9 @@ in continuous space in which
 birth, death, and establishment may all depend on local population density
 as well as on spatial location,
 allowing for stable populations through density-dependent feedback.
+The model generalizes those introduced to the ecology literature by
+\citet{bolker/pacala:1997} and \citet{law/murrell/dieckmann:2003},
+and subsequently studied, e.g., by \citet{etheridge:2004} and \citet{fournier2004microscopic}.
 
 Although it is often mathematically convenient to assume that individuals follow
 Brownian motion during their lifetime, 
@@ -2130,10 +2136,10 @@ However, this constant solution may not be unique, it may be unstable,
 and a stable solution may have oscillations on a scale determined by the interaction distance.
 
 To understand the stability of the constant solution $\varphi\equiv\varphi_0$, 
-we
-linearise~\eqref{general deterministic limit} around $\varphi_0$:
+we linearise~\eqref{general deterministic limit} around $\varphi_0$:
 let $\varphi_t(x) = \varphi_0 + \psi_t(x)$,
 and (informally) $r(x) \approx r(\varphi_0) + r'(\varphi_0) \smooth{r} \psi(x)$.
+Recall that in this section we are in $d=1$.
 Writing $r_0 = r(\varphi_0)$ and $r'_0 = r'(\varphi_0)$,
 with analogous expressions for $\gamma$ and $F$,
 \begin{align*}
@@ -2177,7 +2183,7 @@ the well-known fact that in this case the constant solution is stable.
 If, on the other hand, $\hat{\rho}_F$ changes sign, there may be values of $u$ for which the corresponding quantity is positive. For example, if $d=1$ and
 $\rho_F(x)={\mathbf 1}_{[-\epsilon, \epsilon]}(x)/2\epsilon$, then 
 $\hat{\rho}_F(u)=\sin(\epsilon u)/(\sqrt{2\pi}\epsilon u)$, which is 
-negative for $u\in (\pi/epsilon, 2\pi/\epsilon)$ (and periodically 
+negative for $u\in (\pi/\epsilon, 2\pi/\epsilon)$ (and periodically 
 repeating intervals). Setting $v=\epsilon u$, the bracketed term on 
 the right hand side of~\eqref{simplest FT} becomes 
 \[
@@ -4419,7 +4425,7 @@ actually takes its values in $\measures$, that is, ``no mass has escaped to infi
 \begin{lemma}
 \label{no mass at infty}
 Under the assumptions of Theorem~\ref{thm:nonlocal_convergence},
-if $(\eta_t)_{t\geq 0}$ be a limit point of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$,
+if $(\eta_t)_{t\geq 0}$ is a limit point of $\{(\eta^N_t)_{t\geq 0}\}_{N\geq 1}$,
 then for any $\delta>0$ and $T>0$,
 \[
 \IP\bigg[
