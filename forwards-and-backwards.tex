@@ -1226,12 +1226,13 @@ We are not aware of a general result to determine when we will have uniqueness o
 solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
 when $\alpha>0$.
 However, the Dawson--Girsanov transform tells us that we have uniqueness \revpoint{1}{12}
-in this special case of the superprocess with nonlinear death rates, and 
-Perkins stochastic calculus (and its adaptation to a 
-lookdown setting) provides uniqueness for cases with interactions in the 
-dispersal mechanism of
-the superprocess. We refer 
-to~\cite{dawson:1993, perkins:1992}, and \cite{donnelly/kurtz:1999} 
+in this special case of the superprocess with nonlinear death rates \cite{dawson:1993}.
+The Perkins stochastic calculus
+(and its adaptation to a lookdown setting \cite{donnelly/kurtz:1999})
+provides uniqueness for a different but related class of processes,
+in which interactions affect the dispersal mechanism
+(rather than reproduction) of the superprocess \cite{perkins:1992}.
+We refer to~\cite{dawson:1993, perkins:1992}, and \cite{donnelly/kurtz:1999} 
 for approaches to showing that these sorts of martingale problems are well-posed.
 
 For the deterministic case of $\alpha=0$,
@@ -1641,11 +1642,17 @@ Second, does the process have a tractable description?
 We focus on the simplest situation, that in which the population process is deterministic.
 However, the results here apply when the population process solves 
 either a nonlocal or a classical PDE.
-There will be no 
-coalescence of ancestral lineages in the deterministic limit,
+There will be no coalescence of ancestral lineages in the deterministic limit,
 but understanding motion of single lineages is useful in practice,
 and our results can
 be seen as a first step towards understanding genealogies for high population densities. 
+Since the time scale on which coalescence occurs \revpoint{1}{17}
+goes to infinity in the deterministic limit,
+an important question to answer will be whether this description of lineage motion
+is a good approximation over such a long time scale.
+Other information may be important -- for instance, in \citet{etheridge/pennington:2022}
+the form of the coalescent that is obtained depends
+on fluctuations happening on a longer time scale than the mixing time of a lineage.
 
 Proofs of results in this section are found in Section~\ref{sec:lookdown_proofs}.
 
