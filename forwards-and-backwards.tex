@@ -275,8 +275,7 @@ Using a lookdown representation, we are able to retain information about genealo
 % \end{tabular}
 % \end{small}}
 
-\comment{TODO: double-check $\langle \cdot \rangle$ versus $[\cdot]$}
-\comment{TODO: check factor of 2}
+\comment{TODO: insert statement that one might be worried about $\eta_t$ being well-defined as a process, in e.g., Def'n 5.2 and following?}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -284,8 +283,8 @@ Using a lookdown representation, we are able to retain information about genealo
 
 As one takes a journey, long or short, the landscape changes:
 forests thicken or thin or change their composition;
-even in flat plains
-springtime grasslands host intergrading mosaics of different types of flowers.
+even in flat plains,
+springtime prairies host intergrading mosaics of different types of flowers.
 The aim of this paper is to introduce and study
 a broad class of mechanistic spatial models
 that might describe how spatially heterogeneous populations live, die, and reproduce.
@@ -310,7 +309,8 @@ as well as on spatial location,
 allowing for stable populations through density-dependent feedback.
 The model generalizes those introduced to the ecology literature by
 \citet{bolker/pacala:1997} and \citet{law/murrell/dieckmann:2003},
-and subsequently studied, e.g., by \citet{etheridge:2004} and \citet{fournier2004microscopic}.
+and our work follows various others in the mathematical literature
+(e.g., \citet{etheridge:2004,fournier2004microscopic}).
 
 Although it is often mathematically convenient to assume that individuals follow
 Brownian motion during their lifetime, 
@@ -454,9 +454,9 @@ also scale time and so must ensure that births are
 adequately compensated by deaths to prevent the population from exploding. 
 
 The history of a natural population is often only accessible indirectly, 
-through patterns of genetic diversity that have been laid down; from 
-genetic data, one can try to infer the genealogical trees that relate 
-individuals in a sample from the population, and these have been shaped 
+through patterns of genetic diversity:
+from genetic data, one can try to infer the genealogical trees that describe how
+individuals in a sample from the population are related, and these have been shaped 
 by its history (see e.g., \citep{neigel1993application,kelleher2019inferring}).
 It is therefore of interest to establish information about the distribution of genealogical trees 
 under our population model, which we do with a lookdown construction. 
@@ -669,17 +669,19 @@ In particular, the total rate of production of mature offspring by an individual
 Nonetheless, it will be convenient to define the death rate $\mu_\theta$ in terms of 
 its deviation from $r\gamma$. 
 To this end, we define
-the death rate of an individual at $x$ to be \revpoint{1}{4}
+the death rate of an individual at $x$,  \revpoint{1}{4}
+using a function $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR$,
+as
 \begin{align} \label{eqn:mu_defn}
     \mu_\theta(x, X/N)
     =
-    \max\left\{0, 
         r(x, \smooth{r} X(x) / N) \gamma(x, \smooth{\gamma} X(x) / N)
         - \frac{1}{\theta} F(x, \smooth{F} X(x) / N)
-    \right\} ,
+    ,
 \end{align}
-where this equation also introduces $F(x, m) : \IR^d \times \IR_{\ge 0} \to \IR$,
-and $\rho_F$ is again a smooth kernel. 
+where $\rho_F$ is again a smooth kernel. 
+(We will also assume that parameters are chosen so that this is always nonnegative,
+a point we return to later.)
 The function $F$ is nearly
 the net per capita reproductive rate, scaled by $\theta$,
 and would be equal to it in a nonspatial model;
@@ -752,12 +754,14 @@ respect to Lebesgue measure; indeed in the prelimit it is certainly not.
 In summary, at each time $t$, $\eta^N_t$ is purely atomic, consisting of atoms of mass $1/N$
 (which are the individuals).
 At instantaneous rate $\theta \gamma(x, \eta^N_t) N \eta^N_t(dx)$ an offspring of mass $1/N$ is 
-produced at location $x$; it disperses to 
-a location $y$ offset from $x$
-by an independent Gaussian random variable with mean $\meanq(x) / \theta$ \revpoint{1}{6}
-and covariance matrix $\covq(x) / \theta$,
+produced at location $x$, which
+immediately disperses to a location $y$ offset from $x$
+by an independent Gaussian random variable,
 and once there establishes instantaneously \revpoint{1}{5}
 with probability $r(y, \eta^N_t)$, or else dies. 
+The distribution of the dispersal displacement (i.e., $y-x$) may depend on $x$,
+and is specified by functions defining the mean $\meanq(x) / \theta$ \revpoint{1}{6}
+and covariance matrix $\covq(x) / \theta$.
 At instantaneous rate $\theta \mu_\theta(x, \eta^N_t) N \eta^N_t(dx)$ an individual at location 
 $x$ dies.
 Note that the process 
@@ -859,28 +863,28 @@ limit of a random walk with jump distribution determined by $q_\theta(x,dy)$.
     \begin{align}
     \DG f(x)
         =
-        \sum_{ij} \covq(x)_{ij} \partial_{x_i} \partial_{x_j} f(x)
+        \frac{1}{2} \sum_{ij} \covq(x)_{ij} \partial_{x_i} \partial_{x_j} f(x)
         + \sum_i \meanq(x)_i \partial_{x_i} f(x)
     \end{align}
     and denote the adjoint of $\DG$ by
     \begin{align*}
     \DG^* f(x)
         &=
-        \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
+        \frac{1}{2} \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
         - \sum_i \partial_{x_i} (f(x) \meanq(x)_i) 
         \\
 	    % \label{drift in adjoint}
         % &=
-        % \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
+        % \frac{1}{2} \sum_{ij} \partial_{x_i} \partial_{x_j} (\covq(x)_{ij} f(x))
 	    % -\nabla f(x)\cdot \meanq(x)-f(x)\nabla\cdot\meanq(x).
         &=
-        \sum_{ij} C_{ij}(x) \partial_{x_i} \partial_{x_j} f(x)
+        \frac{1}{2} \sum_{ij} C_{ij}(x) \partial_{x_i} \partial_{x_j} f(x)
         + \sum_i \left(
-            \sum_j \partial_{x_j} C_{ij}(x) - \meanq_i(x)
+            \frac{1}{2} \sum_j \partial_{x_j} C_{ij}(x) - \meanq_i(x)
         \right) \partial_{x_i} f(x)
         \\ & \qquad {}
         + \left(
-            \sum_{ij} \partial_{x_i} \partial_{x_j} C_{ij}(x)
+            \frac{1}{2} \sum_{ij} \partial_{x_i} \partial_{x_j} C_{ij}(x)
             -
             \sum_i \partial_{x_i} \meanq_i(x)
         \right) f(x) .
@@ -938,10 +942,10 @@ it is interesting to write down the limiting generator:
     } .
 \end{align}
 In the simplest case of unbiased isotropic dispersal
-(i.e.,~$\meanq = 0$ and $\covq = I$), $\DG = \Delta$,
+(i.e.,~$\meanq = 0$ and $\covq = I$), $\DG = \Delta/2$,
 and so~(\ref{weighted dispersal}) is equal to
 \begin{align*}
-    \Delta f(x) + 2 \grad f(x) \cdot \grad \log r(\cdot, \smooth{r} \eta(\cdot))(x) .
+    \frac{1}{2} \Delta f(x) + \grad f(x) \cdot \grad \log r(\cdot, \smooth{r} \eta(\cdot))(x) .
 \end{align*}
 One might guess that the spatial motion described by following  
 the ancestral lineage of an individual 
@@ -962,7 +966,7 @@ We shall make the following assumptions on the parameters of our model.
 We assume that
 \begin{enumerate}
     \item $\meanq(x)$ and $\covq(x)$ are
-        $\alpha$-H\"older continuous for some $\alpha \in (0, 1]$
+        $\beta$-H\"older continuous for some $\beta \in (0, 1]$
         and uniformly bounded
         in each component, and
     % \item $\meanq(x)$ and $\covq(x)$ are $\alpha$-H\"older continuous in each component, for some $\alpha \in (0,1]$;
@@ -998,15 +1002,19 @@ We assume that
     \[
         C_f = C(\sup_x \sup_{\|z\|=1} \max( \sum_i z_i \partial_{x_i} f(x), \sum_{ij} z_i z_j \partial_{x_i x_j} f(x))) .
     \] \label{gamma_B_condition} \revpoint{1}{9}
+\item To keep expressions manageable, we shall also assume that  \revpoint{1}{1}
+    the death rate (as defined in~\eqref{eqn:mu_defn}) is nonnegative, i.e., that
+    \[
+    \mu_\theta(x) = r(x,\eta) \gamma(x,\eta) - \frac{1}{\theta} F(x,\eta) \ge 0 .
+    \]
 \end{enumerate}
-To keep expressions manageable, we shall also assume that  \revpoint{1}{1}
-\[
-\mu_\theta(x) = r(x,\eta) \gamma(x,\eta) - \frac{1}{\theta} F(x,\eta),
-\]
-that is, this expression is non-negative so that there is no need to take the maximum
-	with zero in~(\ref{eqn:mu_defn}). (This is anyway true for 
-	sufficiently large $\theta$.)
 \end{assumptions}
+
+Since $F$ is bounded above,
+the final assumption that $\mu_\theta \ge 0$ --
+or, equivalently, that $F(x,\eta) \le \theta r(x,\eta) \gamma(x,\eta)$ --
+will always be true, for instance, for large enough $\theta$ 
+as long as $r$ and $\gamma$ are bounded away from zero.
 
 Since we take bounded $f$,
 for most situations the bound $C_f(1+|f(x)|)$ in Condition~\ref{gamma_B_condition} above
@@ -1048,8 +1056,9 @@ is order $1/\theta$. As remarked above,
 because of the non-local reproduction mechanism, it no longer suffices \revpoint{1}{10}
 to assume that 
 $r(x,\eta)\gamma(x,\eta)-\mu_\theta(x)$ is of order $1/\theta$.
-Perhaps the simplest example in which we can see this
-is the case where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
+Perhaps the simplest example in which we can see
+that non-local reproduction can lead to rapid growth even when $r\gamma=\mu$
+is where $\gamma \equiv 1$ and $F \equiv 0$, so that $\mu_\theta = r$,
 and $\eta = \delta_x$
 (i.e., the population has all individuals at a single location),
 so that $\smooth{r} \eta(y) = \rho_r(y)$.
@@ -1097,14 +1106,16 @@ and for superprocess limits with nonlocal interactions.
     \end{center}
     \caption{
         Snapshots of two simulations, with small $\alpha=\theta/N$ (left) and large 
-	$\alpha =\theta/N$ (right).
+	$\alpha = \theta/N$ (right).
         Simulations are run with a Fisher-KPP-like parameterization:
         birth and establishment are constant, while death increases linearly with density,
         at slope $1/\theta$.
         Left: $\alpha=0.1$. Right: $\alpha=10$.
         Other parameters were the same:
-        dispersal and interactions distance were set to 1,
-        and the equilibrium density is 10 individuals per unit area.
+        dispersal ($q_\theta$) and interactions (here, only $\rho_F$)
+        are Gaussian with standard deviation 1,
+        and the equilibrium density (also, $N$) is 10 individuals per unit area.
+        The remaining parameters are constant: $r \equiv \gamma \equiv 1$.
         \label{fig:super_vs_det_2d}
     }
 \end{figure}
@@ -1469,11 +1480,10 @@ we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x
 $\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
 Furthermore, suppose that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
 $\psi_0^\epsilon\geq 0$ is such that
-there exist $\lambda\in (0,1)$ and $C\in (0,\infty)$ (independent
-of $\epsilon$) such that 
+there exists $\lambda\in (0,1)$
 \begin{equation*}
-\int\exp(\lambda \|x\|)\psi_0^\epsilon(x)dx<C,\quad\mbox{ and }
-\sup_\epsilon\int \psi_0^\epsilon|\log \psi_0^\epsilon|dx<\infty,
+\sup_\epsilon \int\exp(\lambda \|x\|)\psi_0^\epsilon(x)dx < \infty,\quad\mbox{ and }
+\sup_\epsilon\int \psi_0^\epsilon|\log \psi_0^\epsilon|dx < \infty,
 \end{equation*}
 with
 $\psi_0^\epsilon\rightharpoonup \psi_0$ as $\epsilon\to 0$. Then
@@ -1500,8 +1510,10 @@ expect to be able to make sense of the limit if we scale the kernels in this way
 Moreover, in one dimension, where the classical superprocess does have a density with 
 respect to Lebesgue measure, the form of~(\ref{eqn:limiting_mgale_problem})
 suggests that even if one can remove the local averaging from $\gamma$, it
-will be necessary
-to retain averaging of $r$ in order to obtain a well-defined limit. 
+will be necessary \revpoint{1}{14}
+to retain averaging of $r$ in order to obtain a well-defined limit 
+(since otherwise the term $\DG(f(\cdot)r(\cdot,\eta))(x)$
+may not be well-defined).
 \end{remark}
 
 
@@ -1578,8 +1590,8 @@ i.e., how genealogical ancestry can be traced back across the landscape.
 Informally,
 a \emph{lineage} $(L_t^N)_{t \ge 0}$,
 begun at a spatial location $L_0^N = x$
-where there is a focal individual in the present day
-can be obtained by, for each time $t$,
+where there is a focal individual in the present day,
+can be obtained for each time $t$ by
 setting $L_t^N$ to be the spatial location of the individual alive at time $t$
 before the present from
 whom the focal individual is descended.
@@ -1592,9 +1604,11 @@ for each starting location to which $\eta^N_T$ assigns positive mass.
 It is less clear, however, how to formally retain such information when we 
 pass to the scaling limit.
 
-The \emph{lookdown construction} in Section~\ref{sec:lookdown}
-will enable us to recover information about ancestry in the infinite
-population limit.
+However, the \emph{lookdown construction} in Section~\ref{sec:lookdown}
+does just this -- \llabel{whatis_lineage}
+the construction enables us to recover information about ancestry
+in the infinite population limit,
+and thus give a concrete meaning to $(L_t)_{t \ge 0}$. \llabel{Linf_mention}
 Roughly speaking,
 each particle is assigned a unique ``level'' from $[0,\infty)$
 that functions as a label and thus allows reconstruction of lineages.
@@ -1616,7 +1630,7 @@ a parent who was at location $y$ at time $t$ in the past. To make
 sense of this in our framework, in Section~\ref{sec:lineages_proof}, 
 we justify a weak reformulation of this idea.
 
-We are interested in two questions.
+We are interested in two questions about the limiting process.
 First, when is the motion of an ancestral 
 lineage, given complete knowledge of the population process, a well-defined process?
 In other words, is knowledge of the process $(\eta_t)_{t=0}^T$ that records 
@@ -1636,15 +1650,15 @@ be seen as a first step towards understanding genealogies for high population de
 Proofs of results in this section are found in Section~\ref{sec:lookdown_proofs}.
 
 \begin{definition}[Ancestral lineage] 
-\label{def:lineage_generator} \revpoint{1}{2}
+\label{def:lineage_generator}
     Let $(\varphi_t(x))_{0 \le t \le T}$
     denote the density of the scaling limit of our population model, 
 solving \eqref{eqn:nonlocal_pde},
-    and let $y$ be a point with $\varphi_T(y) > 0$.
+    let $y$ be a point with $\varphi_T(y) > 0$,
+    and suppose we have sampled an individual from location $y$ at time $T$.
     We define $(L_s)_{s=0}^T$,
-    the ancestral lineage of an individual sampled from the
-population at $y$ at time $T$, by setting $L_0=y$ and $L_s$
-    to be the position of the unique ancestor of that individual at time $T - s$.
+    the ancestral lineage of that sampled individual by setting $L_0=y$
+    and $L_s$ to be the position of the unique ancestor of that individual at time $T - s$.
     We define
     $(Q_s)_{s \geq 0}$
     to be the time inhomogeneous semigroup satisfying
@@ -1653,7 +1667,14 @@ population at $y$ at time $T$, by setting $L_0=y$ and $L_s$
     \end{align*}
 \end{definition}
 
-Our next result identifies the ancestral lineage as a diffusion
+The precise sense in which we can look at ``the lineage of a sampled individual'' \revpoint{1}{2}
+in the scaling limit is made clear by the introduction of the lookdown construction,
+in Section~\ref{sec:lookdown}.
+(For now, we can take the definition to refer to the distribution obtained
+from a scaling limit of the finite-$N$ process.)
+It turns out that in the scaling limit,
+the process is Markovian,
+and our next result identifies the ancestral lineage as a diffusion
 by characterizing its generator.
 
 \begin{theorem} \label{thm:lineages}
@@ -1670,7 +1691,7 @@ by characterizing its generator.
         &= \label{eqn:lineage_generator2}
         r\gamma
         \left[
-            \sum_{ij} \covq_{ij} \partial_{x_ix_j} f
+            \frac{1}{2} \sum_{ij} \covq_{ij} \partial_{x_ix_j} f
             + \sum_j \vec{m}_j \partial_{x_j} f
         \right] ,
     \end{align}
@@ -1678,14 +1699,15 @@ by characterizing its generator.
     $$
     \vec{m}_j
     =
-    2 \sum_i C_{ij} \partial_{x_i} \log(\gamma \varphi)
-    + 2 \sum_i \partial_{x_i} C_{ij}
+    \sum_i C_{ij} \partial_{x_i} \log(\gamma \varphi)
+    + \sum_i \partial_{x_i} C_{ij}
     - \meanq_j .
     $$
     Then the generator of the semigroup $Q_s$
     of Definition~\ref{def:lineage_generator} is given by
 	$\partial_sQ_sf(y)= \Lgen_{\varphi_{T-s}}Q_sf(y).$ 
 \end{theorem}
+
 \begin{remark}
 As usual,
 to make the generator readable, we've written it in concise notation,
@@ -1710,13 +1732,14 @@ in Section~\ref{sec:lineages_proof}.
     \begin{equation}
         \Lgen_\varphi f
         =
+        \frac{\sigma^2}{2}
         r \gamma
         \left(
-            \sigma^2 \Delta f
+            \Delta f
             +
             \left(
-                2 \sigma^2 \grad \log(\gamma \varphi)
-                - \meanq
+                2 \grad \log(\gamma \varphi)
+                - \frac{2 \meanq}{\sigma^2}
             \right)
             \cdot \grad f
         \right) .
@@ -1728,9 +1751,7 @@ In other words,
 the lineage behaves as a diffusion driven by Brownian motion 
 run at speed $\sigma^2$ multiplied by the local per-capita production of 
 mature offspring ($r \gamma$)
-in a potential tilted by migration bias
-($(\varphi_s \gamma)^2 \exp(-\meanq \cdot x / \sigma^2)$,
-whose gradient appears in the drift term of the generator).
+with mean displacement in the direction of $\grad \log(\varphi_s \gamma) - \meanq$.
 In particular, lineages are drawn to regions of high fecundity (production of juveniles), but their
 speed is determined by the rate of production of mature offspring.
 This can be compared to Remark~\ref{ancestral lineages: first guess}.
@@ -1743,7 +1764,7 @@ This can be compared to Remark~\ref{ancestral lineages: first guess}.
     \begin{align}
         \pi(x)
         =
-        \frac{\gamma}{r} \varphi(x)^2 e^{-h(x) / \sigma^2} .
+        \frac{\gamma}{r} \varphi(x)^2 e^{-2 h(x) / \sigma^2} .
     \end{align}
 \end{corollary}
 
@@ -1766,7 +1787,7 @@ velocity $\wavespeed$,
     where $w$ solves
     \begin{align*}
         r \DG^* (\gamma w) + w F + \wavespeed \cdot \grad w = 
-r\sigma^2\Delta (\gamma w) -\meanq \cdot\grad (\gamma w) +\wavespeed \cdot \grad w =0 .
+        \frac{1}{2} r\sigma^2\Delta (\gamma w) -\meanq \cdot\grad (\gamma w) +\wavespeed \cdot \grad w =0 .
     \end{align*}
     Then the semigroup $Q_s$
     of the motion of a lineage in the frame that is moving at speed $\wavespeed$
@@ -1775,7 +1796,7 @@ r\sigma^2\Delta (\gamma w) -\meanq \cdot\grad (\gamma w) +\wavespeed \cdot \grad
 \label{Lgen}
         \Lgen f
         &=
-        \sigma^2 r \gamma
+        \frac{1}{2} \sigma^2 r \gamma
         \left(
             \Delta f
             +
@@ -1806,7 +1827,7 @@ motility within a population varies with population density.
 For example, density dependent dispersal is a common feature in spatial
 models in ecology, eukaryotic cell biology, and avascular tumour growth;
 see~\cite{sherratt:2010} and references therein for further discussion. 
-In particular, it has been suggested as a model for
+In particular, such equations have been suggested as a model for
 the expansion of a certain type of bacteria % of the type {\em Paenbacillus dendritiformis}
 on a thin layer of agar in a Petri dish 
 \citep{cohen/golding/kozlovsky/benjacob/ron:1999}. 
@@ -1814,14 +1835,13 @@ We shall pay particular attention to the case in which the equation can be
 thought of as modelling the density of an expanding population. 
 We focus on the monostable reaction of~(\ref{PME}).
 
-Comparing %\eqref{PME} 
-with \eqref{eqn:nonlocal_pde},
+Comparing with \eqref{eqn:nonlocal_pde},
 we see that to set up a limit in which the population density $\varphi$ follows the 
 porous medium equation with logistic growth of~(\ref{PME}),
 we need $r=1$,
 $\gamma = \varphi$, and $F = 1 - \varphi$.
 Consulting equation~\eqref{eqn:mu_defn},
-this implies that $\mu_\theta = \max\big(0, (1 + 1/\theta) \varphi - 1/\theta\big)$.
+this implies that $\mu_\theta = (1 + 1/\theta) \varphi - 1/\theta$.
 In other words,
 establishment is certain
 and birth rates increase linearly with population density,
@@ -1928,7 +1948,7 @@ the Fisher-KPP equation,
 a special case of the Allen-Cahn equation with a bistable nonlinearity,
 and the porous media equation with logistic growth, equation~(\ref{PME}).
 We work here in one dimension,
-and take $\sigma^2 = 1$ and $\meanq = 0$.
+and take $\sigma^2 = 2$ and $\meanq = 0$.
 
 %%%%%%%%%%
 
@@ -2076,7 +2096,8 @@ suggesting a different genealogy.
 It is interesting to compare the stationary distribution we have obtained here
 to the expression that we'd get by setting $\meanq = -\wavespeed$
 and using Corollary~\ref{cor:stationary_dist},
-i.e., by giving each offspring a mean displacement that offsets the motion of the wave.
+i.e., by giving each offspring a mean displacement that offsets the motion of the wave
+(The model is different because this motion only affects offspring, not adults.)
 In the Fisher-KPP and Allen-Cahn cases above, we get the same expressions,
 but this is only the case because $r\equiv\gamma\equiv1$ in both.
 For the PME with $\meanq = 1$ we have $\DG^* = \Delta + \grad$ 
@@ -2114,7 +2135,7 @@ one sooner or later comes upon a strange observation:
 with certain parameter combinations, the population spontaneously forms a regular grid
 of stable, more or less discrete patches, separated by areas with nearly no individuals,
 as shown in Figure~\ref{fig:clumping}.
-The phenomenon is discussed in Section~16.10 of \citet{haller2022evolutionary},
+The phenomenon is discussed in Section~16.15 of \citet{haller2022evolutionary},
 and has been described in similar models, e.g.,
 by \citet{britton1990spatial,sasaki1997clumped,hernandezgarcia2004clustering,young2001reproductive}, and \citet{berestycki2009nonlocal}.
 For example, if the density-dependent effects of individuals extend farther (but not too much farther)
@@ -2126,8 +2147,9 @@ can effectively find themselves in competition with
 while individuals within a clump compete with only one.
 
 More mathematically, consider the case in which
-$\DG = \sigma^2 \Delta$ and all 
-parameters are spatially homogeneous,
+$\DG = \sigma^2 \Delta$
+(so that dispersal variance is $2 \sigma^2$)
+and all parameters are spatially homogeneous,
 so that $r(x, \eta) = r(\smooth{r}\eta(x))$, and similarly for $\gamma$ and $F$.
 If $\varphi_0$ is such that $F(\varphi_0)=0$ and $F'(\varphi_0)<0$, then the
 constant solution $\varphi\equiv\varphi_0$ is a nontrivial equilibrium
@@ -2204,7 +2226,7 @@ from~\eqref{fourier transform psi},
 if we take 
 $\rho_\gamma=\rho_F=p_\epsilon^2$,
 \begin{equation*}
-	\partial_t \hat \psi(u) =
+	\partial_t \hat \psi(u) \approx
     \frac{1}{\sqrt{2\pi}}
     e^{-\epsilon^2 u^2/2} 
 	\left\{
@@ -2262,7 +2284,7 @@ to dispersal that will lead to instability.
 
 
 % % % % % % % % % % % % % % % %
-\subsection{Lineage motion is not uniquely determined by population density}
+\subsection{Lineage motion distinguishes different models with the same equilibrium density}
 \label{sec:nonunique_lineage}
 
 It is natural for applications to wonder about identifiability:
@@ -2303,7 +2325,7 @@ As a result, lineages in the second model spend more time in areas with $\lambda
 i.e., those areas have higher reproductive value,
 something that is, in principle, discernible from genetic data
 (because, for instance, making reproductive value less evenly distributed
-reduces long-term genetic diversity). \revpoint{1}{18}
+reduces long-term genetic diversity \citep{ewens:1982}). \revpoint{1}{18}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2443,7 +2465,7 @@ Furthermore, recall from Remark~\ref{rem:DG_limit} that
 In particular,
 if dispersal is determined by a standard multivariate Gaussian
 with mean zero and covariance $\sigma^2 I / \theta$,
-then $\DG = \sigma^2 \Delta$, where $\Delta$ denotes the Laplacian.
+then $\DG = \sigma^2 \Delta / 2$, where $\Delta$ denotes the Laplacian.
 
 In summary, equation~\eqref{eqn:rewritten mean measure} converges to
 \begin{equation} \label{limit of mean measure equation}
@@ -2543,7 +2565,7 @@ the second order term remains, and we expect a ``generalised superprocess'' limi
 The limiting quadratic variation
 is exactly as seen in Theorem~\ref{thm:nonlocal_convergence}.
 
-\paragraph{One-step convergence:}
+\paragraph{One-step convergence:} \label{sec:one_step_heuristics} \llabel{one_step_heuristics}
 In order to pass directly to a classical PDE limit
 in Theorem~\ref{thm:local_convergence}
 we impose the stronger condition
@@ -2567,6 +2589,10 @@ size. In our setting, the total population size is replaced by the local populat
 size, as measured by convolution with $\rho_{\epsilon}$, which we expect to be 
 of order $N\epsilon^d$, and so in order to ensure a deterministic limit we 
 take $\theta/(N\epsilon^d)\to 0$.
+Concretely,
+since $\|\rho^\epsilon_F\| \propto \epsilon^{-e/2}$,
+the quadratic variation of $F(\rho^\epsilon_F\!*\!\eta(x))$
+is proportional to $\theta/(N\epsilon^d)$.
 
 
 % % % % % % % % % % % % % % % % % %
@@ -2701,7 +2727,7 @@ Definition~\ref{defn:mgale_construction}}
 \label{sec:lookdown_defn}
 
 
-{\em For the remainder of this section, when there is no risk of ambiguity we shall
+{\em For the remainder of this subsection, when there is no risk of ambiguity we shall
 suppress the superscript $N$ on the processes $\eta$ and $\xi$.}
 
 In this subsection,
@@ -2715,10 +2741,10 @@ $$
     \eta_t(\cdot) = \frac{1}{N} \lp_t(\cdot \times [0, N])  .
 $$
 A nontrivial consequence of the way we define $\lp_t$ will be that
-this process \revpoint{1}{19}
+the process $(\eta_t)_{t \ge 0}$ defined in this way \revpoint{1}{19}
 has the same distribution as the process $(\eta_t)_{t \ge 0}$ 
-of Definition~\ref{defn:mgale_construction}.
-(This provides our justification for using the same notation for both.)
+of Definition~\ref{defn:mgale_construction},
+which provides our justification for using the same notation for both.
 
 
 Following~\cite{etheridge/kurtz:2019}, we build the generator step by step
@@ -2765,8 +2791,8 @@ $$
 Since $v \in [0, N]$, this moves levels down;
 see~\cite{etheridge/kurtz:2019}, Section~3.4 for a detailed explanation.
 
-Levels never cross below 0, \revpoint{1}{20}
-while particles whose levels move above $N$ are regarded as dead
+This drift does not allow levels to cross below 0, \revpoint{1}{20}
+while we will declare that particles whose levels move above $N$ are regarded as dead
 (and are removed from the population).
 Therefore, in order to incorporate death,
 the level of the individual at location $x$ with level $u$
@@ -2814,8 +2840,8 @@ b_\theta(x, \eta)
 	q_\theta(x, dy)
     + F(x, \eta). 
 \end{equation}
-Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$ and
-$c_\theta(x, \eta)$ will tend to $\alpha \gamma(x, \eta) r(x, \eta)$
+Under Assumptions~\ref{def:model_setup}, as $\theta \to \infty$,
+$c_\theta(x, \eta)$ will tend to $\alpha \gamma(x, \eta) r(x, \eta)$, and
 \begin{equation}
 \label{eqn:b_limit}
     b_\theta(x, \eta) \to \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta) .
@@ -2990,7 +3016,8 @@ respect to the natural filtration) for all
 test functions $f$ as defined above.
 \end{definition}
 
-The martingale problem for finite $N$ has a unique solution. \revpoint{1}{22}
+The martingale problem for finite $N$ has a unique solution, \revpoint{1}{22}
+since it is a finite-rate jump process.
 Next we state the limiting martingale problem,
 for which we do not necessarily have uniqueness.
 As before, the parameter $\alpha$ will correspond to 
@@ -3034,8 +3061,9 @@ $0\leq g(x,u)\leq 1$ and
                 \gamma(x, \eta) \DG r(x, \eta) + F(x, \eta)
             \right\} u
         \right)
-        \frac{\partial_u g(x, u)}{ g(x,u) }  .
+        \frac{\partial_u g(x, u)}{ g(x,u) }  ,
     \end{split} \end{align}
+    where $\eta(\cdot) = \frac{1}{u} \lim_{u \to \infty} \xi(\cdot \times [0, u])$.
     We say that a ${\mathcal D}_{[0,\infty)}(\mathcal{C})$-valued process $(\xi_t)_{t \ge 0}$
     is a solution to the $(A, \lp_0)$ martingale problem
     if it has initial distribution $\lp_0$
@@ -3364,7 +3392,8 @@ The previous section constructed the lookdown process
 using the same underlying Poisson processes $\{\Pi_a\}_{a \in \labelspace}$ for
 different values of $N$.
 As a result, if the spatial projections $\eta$ converge, then
-individual lines of descent converge pointwise as $N \to \infty$. \revpoint{1}{23}
+individual lines of descent converge pointwise (i.e., for each realization of $\{\Pi_a\}_{a \in \labelspace}$)
+as $N \to \infty$. \revpoint{1}{23}
 To see this, first note that if the Poisson processes are fixed
 then the set of events with which a given label $a \in \labelspace$ is associated
 is also fixed -- this is the sequence $(\tau_k, v_k, z_k, \kappa_k)$ associated 
@@ -3425,25 +3454,25 @@ which is guaranteed to be smooth, so that $\DG(r)$
 and $\DG(gr)$ are well-defined.
 
 We write out the differential operator above in more detail.
-Recall that $\DG g(x) = \sum_i \meanq_i \partial_i g(x) + \sum_{ij} \covq_{ij} \partial_{ij} g(x)$,
+Recall that $\DG g(x) = \sum_i \meanq_i \partial_i g(x) + \frac{1}{2}\sum_{ij} \covq_{ij} \partial_{ij} g(x)$,
 and for the moment write $r(x)$ for $r(x, \eta)$, $\meanq(x) = \meanq$, and $\covq(x) = \covq$
 so that
 \begin{align}
 \DG(rg)(x) - g(x) \DG(r)(x)
     &= \nonumber
     r(x) \sum_i \meanq_i \partial_i g(x)
-    + 2 \sum_{ij} \partial_i r(x) \covq_{ij} \partial_j g(x)
-    + r(x) \sum_{ij} \covq_{ij} \partial_{ij} g(x) \\
+    + \sum_{ij} \partial_i r(x) \covq_{ij} \partial_j g(x)
+    + \frac{1}{2} r(x) \sum_{ij} \covq_{ij} \partial_{ij} g(x) \\
     &= \label{eqn:limiting_generator}
     r(x) \left\{
         \left(
         \meanq
-        + 2 \covq \grad \log r(x)
+        + \covq \grad \log r(x)
         \right)
         \cdot
         \grad g(x)
         +
-        \sum_{ij} \covq_{ij} \partial_{ij} g(x)
+        \frac{1}{2} \sum_{ij} \covq_{ij} \partial_{ij} g(x)
     \right\} .
 \end{align}
 
@@ -3458,7 +3487,7 @@ We summarize the results in a proposition.
 Define $J(x,\eta)$ and $\beta(x,\eta)$ by
 \begin{gather*}
     r(x,\eta)\gamma(x,\eta)\covq(x) = J(x,\eta) J(x,\eta)^T \\
-    \beta(x, \eta) = r(x,\eta)\gamma(x,\eta)\big(\meanq(x) + 2 \covq(x) \grad \log r(x, \eta)\big) .
+    \beta(x, \eta) = r(x,\eta)\gamma(x,\eta)\big(\meanq(x) + \covq(x) \grad \log r(x, \eta)\big) .
 \end{gather*}
 Associate with each label $a \in \labelspace = \cup_{k\geq 1}\IN^k$
 an independent $d$-dimensional Brownian motion $W_a$
@@ -3521,18 +3550,19 @@ $\tau_a \le \tau < \sigma_a$,
 then a new line of descent with label $a \concat j$ is produced,
 with birth time $\tau_{a \concat j} = \tau$,
     location $X_{a \concat j}(\tau) = X_a(\tau)$, and level
-$$
+\begin{align} \label{eqn:limiting_constribution_U}
     U_{a \concat j}(\tau) = U_a(\tau)
     + \frac{v}{ 2 \alpha \gamma(X_a(\tau), \eta_\tau) r(X_a(\tau), \eta_\tau) } ,
-$$
+\end{align}
 if this is finite.
-For any solution to the equations above, \revpoint{1}{24}
+For any solution $\{(X_a(t), U_a(t))_{t \ge 0}: a \in \labelspace \}$  \revpoint{1}{24}
+to~\eqref{eqn:limiting_construction} and~\eqref{eqn:limiting_constribution_U},
 the process $\eta_t$
 is a solution to the martingale problem of Theorem~\ref{thm:nonlocal_convergence},
 and the process
-\begin{align*}
+\begin{align} \label{eqn:lp_defn_XU}
     \lp_t = \sum_{a : \tau_a \le t < \sigma_a} \delta_{(X_a(t), U_a(t))} 
-\end{align*}
+\end{align}
 is a solution to the martingale problem of
 Theorem~\ref{thm:lookdown_convergence}.
 \end{proposition}
@@ -3545,10 +3575,11 @@ and their trace is seen in the
 spatial motion of the line of descent which results from
 the production of these lineages.
 
-\comment{TODO: add note about well-definedness of $\eta_t$.}
-
-\begin{proof}[of Proposition~\ref{prop:limiting_construction}] \revpoint{1}{25}
-    The fact that a solution to the system of equations~\eqref{eqn:limiting_construction}
+\begin{proof}[Proof of Proposition~\ref{prop:limiting_construction}:]
+    Let $(X, U) = \{(X_a(t), U_a(t))_{t \ge 0}: a \in \labelspace \}$ \llabel{XU_clarification}
+    be a solution to the system of equations~\eqref{eqn:limiting_construction}
+    and~\eqref{eqn:limiting_constribution_U}.
+    The fact that $\lp$ defined with these using~\eqref{eqn:lp_defn_XU}
     is a solution to the martingale problem of Theorem~\ref{thm:lookdown_convergence}
     is an application of It\^o's theorem.
     Furthermore, in Proposition~\ref{thm:mmt_application} we showed that
@@ -3557,12 +3588,16 @@ the production of these lineages.
     $(\eta_t)_{t \ge 0}$ is well-defined,
     and furthermore that $\eta_t$ is a solution
     to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
+
+\comment{TODO: add note about well-definedness of $\eta_t$.}
+    However, for this to be valid, one should first make sure that $\eta_t$
+    is a well-defined process.
+    We do know that 
 \end{proof}
 
-Proofs of the remainder of these results are in Section~\ref{sec:lookdown_proofs}. \revpoint{1}{27}
 
 \begin{remark} \label{remark_on_branching}
-The process we consider is similar to the state-dependent branching processes
+The process $\lp$ we consider is similar to the state-dependent branching processes \revpoint{1}{27}
 of \citet{kurtz/rodrigues:2011}, so one might expect that the proofs there would carry over with little change.
 However, there is an important difference:
 Recall that the level $U_a(t)$ of a line of descent evolves as
@@ -3634,11 +3669,11 @@ Below we will have frequent use for the quantity
 
 First, we prove Lemma~\ref{lem:conditions on r}.
 
-\begin{proof}[of Lemma~\ref{lem:conditions on r}]
+\begin{proof}[Proof of Lemma~\ref{lem:conditions on r}:]
 Here, we need to prove that $|\gamma(x, \eta) B^\theta_f(x, \eta)|$ is bounded,
 uniformly over $x$ and $\eta$.
 First suppose that
-Condition~\ref{control through r} of  
+assumption~\ref{control through r} of  
 Lemma~\ref{lem:conditions on r} is satisfied. \revpoint{1}{28}
 We write
 \begin{align*}
@@ -3708,7 +3743,7 @@ we have a bound of the form
 for suitable constants $K_1$, $K_2$ that depend only on the derivatives of $f$.
 
 Now suppose instead that
-Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
+assumption~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} is satisfied.
 First note that
 \begin{align}
 	    \nonumber
@@ -3773,7 +3808,7 @@ the first term is bounded exactly as above. For the second,
     we have used $r'$ and $r''$ to denote the first and second derivatives of $r(x,m)$
 with respect to the second argument.
     So, writing $K_5=\|r'\|_\infty$ and $K_6=\|r''\|_\infty$,
-    the second term in~\eqref{eqn:q_bound_split} is bounded by $f(x)$ multiplied by
+    the second term in~\eqref{eqn:q_bound_split} is bounded by $|f(x)|$ multiplied by
     \begin{align*}
        K_5
         \left|
@@ -3793,7 +3828,7 @@ Under Condition~\ref{control through gamma} of
 Assumptions~\ref{def:model_setup}, this is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
 $\sup_x m^2\gamma(x, m)$ is bounded,
-so therefore $|\gamma(x,\eta) B^\theta_f(x,\eta)| \le K_7 + K_8 f(x)$,
+so therefore $|\gamma(x,\eta) B^\theta_f(x,\eta)| \le K_7 + K_8 |f(x)|$,
 where $K_7$ comes from $K_3$, $K_4$, and the supremum of $\gamma$,
 while $K_8$ comes from $K_5$, $K_6$, and the supremum of $m^2 \gamma(x,m)$.
 \end{proof}
@@ -3813,7 +3848,8 @@ we actually use tightness of the sequence of population processes
 in the proofs of tightness for the corresponding lookdown processes.
 
 \begin{proof}[Proof of Theorem~\ref{thm:nonlocal_convergence}.]
-The proof follows a familiar pattern. \revpoint{1}{29}
+The proof follows a familiar pattern \revpoint{1}{29}
+(see, for instance, Section~1.4 of~\citet{etheridge2000introduction}).
 First we extend $\IR^d$ 
 to its one-point compactification $\overline{\IR}^d$ and 
 establish, in Lemma~\ref{lem:eta_compact_containment},
@@ -3886,7 +3922,7 @@ First note that Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_
 stipulates that $|\gamma B^\theta_f|$ is uniformly bounded by a contant times $1 + f$,
 and so recalling that $F$ is bounded above, we conclude that
 under Assumptions~\ref{def:model_setup}
-$\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f (1 + f(x))$ for some $C_f$.
+$\gamma(x, \eta) B^\theta_f(x, \eta) + f(x) F(x, \eta) \le C_f (1 + |f(x)|)$ for some $C_f$.
 
 Now, taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
     \begin{align}
@@ -3894,14 +3930,14 @@ Now, taking expectations in~(\ref{eqn:eta_f_mgale_decomp}),
         \IE\left[ \langle f, \eta^N_t \rangle \right]
         &\le
         \IE\left[ \langle f, \eta^N_0 \rangle \right]
-        + C_f \int_0^t \IE\left[ \langle 1 + f, \eta^N_s \rangle \right] dt .
+        + C_f \int_0^t \IE\left[ \langle 1 + |f|, \eta^N_s \rangle \right] dt .
     \end{align}
 The bound~(\ref{eta_f_bound}) then follows by first applying Gronwall's
 inequality in the case $f=1$, which yields
 \[
 	\IE\big[\langle 1,\eta_t^N\rangle\big]\leq e^{Ct}\IE\big[\langle 1,\eta_0^N\rangle\big],
 \]
-with $C$ independent of $N$, and then substituting 
+with $C$ independent of $N$, and then using that $F$ is bounded and substituting 
 the resulting bound on $\IE\big[\langle 1,\eta_s^N\rangle\big]$ into the
 expression above.
 \end{proof}
@@ -3936,7 +3972,7 @@ independent of $N$,
 \end{lemma}
 
 \begin{proof}
-    First note that by Lemma~\ref{lem:eta_f_bound},
+    First note that by the proof of Lemma~\ref{lem:eta_f_bound},
     $\IE[\langle 1, \eta^N_t \rangle] \le \IE[\langle 1, \eta^N_0 \rangle] e^{Ct}$
     for some $C$ (independent of $N$).
     Now, let $M^{N*}_t(f) = \sup_{0 \le s \le t} M^N_t(f)$,
@@ -3995,7 +4031,7 @@ independent of $N$,
         \end{split}
 	\end{align}
 which is bounded since $\gamma (x,\eta)$ and $B^\theta_1(x,\eta)$ are both bounded and 
-$\langle 1,\eta_t\rangle\geq 0$. 
+$\langle 1,\eta_t^N \rangle\geq 0$. 
     Since $\theta/N \to \alpha < \infty$,
     combining constants, we obtain that for some $C''$,
     \begin{align*}
@@ -4241,7 +4277,7 @@ $$
     G_f(\eta^N_t) - G_f(\eta^N_0)
     - \int_{0}^{t}\Pgen^N G_f(\eta^N_s)ds
 $$
-is a martingale (with respect to the natural $\sigma$-field). 
+is a martingale for all such test functions (with respect to the natural $\sigma$-field). 
 
 Furthermore, let $\Pgen^\infty$ be the generator given by
 \begin{equation}
@@ -4400,7 +4436,7 @@ To conclude convergence of the expectation,
 we would like to apply the Dominated Convergence 
 Theorem in~(\ref{eq: Convergence of Spatial Generator}).
 Recall that $f$ and $G$ and their derivatives are bounded,
-and so $\gamma(x,\eta)$ is bounded independent of $\theta$.
+and $\gamma(x,\eta)$ is bounded independent of $\theta$.
 Since $\theta/N^2 \to 0$,
 rearranging as in \eqref{eqn:rewritten mean measure}
 and using the convergence of \eqref{eqn:near_critical},
@@ -4439,7 +4475,7 @@ Take $f_0(x)$ as in the statement of Theorem~\ref{thm:nonlocal_convergence},
 i.e., $f_0$ is nonnegative, grows to infinity as $x \to \infty$,
 has uniformly bounded first and second derivatives,
 and has $\langle f_0, \eta^N_0\rangle$ uniformly bounded in $N$.
-We take a sequence of test functions $f_n$ that increase to the function $f_0$
+We take a sequence of nonnegative test functions $f_n$ that increase to the function $f_0$
 and having uniformly bounded first and second derivatives,
 so that there is a (single) $C$
 from Condition~\ref{gamma_B_condition} of Assumptions~\ref{def:model_setup}
@@ -4461,7 +4497,7 @@ By first taking $N \to \infty$ and then $n \to \infty$,
 we find that $\IE[\langle f_0, \eta_t(dx)\rangle] \le C'$ for $t\in [0,T]$.
 However, this is for a single time --
 we would like instead to uniformly bound
-$\IE[\sup_{0 \le t \le T} \langle f_0, \eta_t(dx)\rangle]$.
+$\IE[\sup_{0 \le t \le T} \langle f_n, \eta^N_t(dx)\rangle]$.
 This can be done in a similar but lengthier manner,
 following the proof of Lemma~\ref{lem:eta_compact_containment}
 and observing that bounds can be taken independent of $n$ and $N$.
@@ -4772,7 +4808,7 @@ $M$ still taken from Lemma~\ref{BoundednessVarphis}. Then,
 which proves (\ref{ContinuityConvolution2}). 
 \end{proof}
 
-\begin{proof}[of Proposition \ref{prop:nonlocal_to_local}]
+\begin{proof}[Proof of Proposition \ref{prop:nonlocal_to_local}:]
 Let $\epsilon$ be small enough that Lemma~\ref{ContinuityConvolution} holds. 
 We use the notation $\widehat{\delta}(\epsilon)$ for the quantity on the right hand side 
 of~(\ref{ContinuityConvolution2}).
@@ -5192,11 +5228,11 @@ limit is a reaction-diffusion equation.
 $$\rho_\epsilon*\eta(x)=\rho_F^\epsilon*\eta(x)
 =\langle p_{\epsilon^2}(x,y),\eta(dy)\rangle,$$
 where $p_t(x,y)$ denotes the heat semigroup. 
-The assumptions of Theorem~\ref{thm:local_convergence} will be in 
-force throughout, in particular, \revpoint{1}{3}
+The assumptions of Theorem~\ref{thm:local_convergence} will be in force throughout,
+in particular,
 \begin{equation}
     \label{conditions for one step}
-	\epsilon^2\theta\to\infty, \qquad\mbox{and }\frac{\theta}{N\epsilon^d}\to 0.
+	\epsilon^2\theta\to\infty, \qquad\mbox{and}\quad \frac{\theta}{N\epsilon^d}\to 0.
 \end{equation}
 That $N, \theta\to \infty$ and $\epsilon\to 0$ simultaneously will be 
 implicit, so for example if we write $\lim_{\epsilon\to 0}$, it should be 
@@ -5219,6 +5255,12 @@ Identification of the limit will rest on regularity inherited from continuity
 estimates for a random walk with Gaussian jumps which we prove in 
 Subsection~\ref{continuity for random walk}, before
 identifying the limit points in Subsection~\ref{limit in onestep case}.
+
+Roughly speaking, the assumption that $\theta/N\epsilon^d$ is small \revpoint{1}{3}
+is used in ensuring a well-defined and deterministic limit,
+while the assumption on $\epsilon^2 \theta$ is used in proving continuity.
+For more motivation behind these assumptions,
+see the last part of Section~\ref{sec:one_step_heuristics}.
 
 \subsection{Moment bounds for $\rho_\epsilon*\eta$}
 \label{bounds on rhoepsilon}
@@ -5740,9 +5782,11 @@ Consulting~\eqref{eqn:prelimit_martingale_variation},
 the angle bracket process of $\widehat{M}^N(f)$ satisfies
 $ \IE[\langle\widehat{M}^N_f\rangle_T] \le C (\theta/N) \int_0^T \IE[\langle 1, \eta_s \rangle] ds \le C' \theta/N$
 for some constants $C$ and $C'$.
-Now, using the Burkholder-Davis-Gundy inequality and \citet{barlow/jacka/yor:1986}, \revpoint{1}{32}
+Now, using the Burkholder-Davis-Gundy inequality
+and the same fact as before from \citet{barlow/jacka/yor:1986}, \revpoint{1}{32}
 $\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[\langle\widehat{M}^N(f)\rangle_u]$,
 and so using Markov's inequality,
+% \comment{I think for clarity there should be no $\epsilon^d$ in the denominator of the last expression? (This is harmless, though, as dividing by $\epsilon^d$ only makes this upper bound bigger.)}
 \begin{equation}
 \label{martingale term to zero}
     \limsup_{N\to\infty}\IP\Big[
@@ -5752,9 +5796,10 @@ and so using Markov's inequality,
     \leq
     \limsup_{N\to\infty} \frac{36}{\nu^2} C'' \IE\big[\langle\widehat{M}^N(f)\rangle_T\big]
     \leq
-    \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C' C''\theta}{N\epsilon^d} 
-    =0. 
+    \limsup_{N\to\infty}\frac{36}{\nu^2}\frac{C' C''\theta}{N}
+    = 0 .
 \end{equation}
+
 
 Now consider
 \begin{multline}
@@ -6498,9 +6543,10 @@ Combining the above, we have reduced the problem to showing that for any $k \ge 
 =0 .
 \end{equation}
 We are going to use the estimate~(\ref{difference in rhos}).
-First note that by Lemma~\ref{bounds on moments}
+First note that by Lemma~\ref{bounds on moments} (with $u=0$),
 the contribution to~(\ref{target expression}) from the integral over
-the time interval $[0,\delta]$ is ${\mathcal O}(\delta)$. \revpoint{1}{33}
+the time interval $[0,\delta]$ is bounded by a constant multiple of $\delta$, \revpoint{1}{33}
+with a constant that depends only on $\eta_0$.
 We focus instead
 on the interval $(\delta, t]$.
 
@@ -6679,7 +6725,7 @@ Since $\psi_{t-s}^{\epsilon,x}(y)=\IE[p_{T(t-s)+\epsilon^2}(x,y)]$,
 rearranging~(\ref{expn rhoepsilon})
 we see that we can pull a convolution with $p_{\epsilon^2/2}$ out of
 our expressions for $M_s(y)$ and $M_s(w)$ and so all the manipulations 
-that we used to control terms above with still be valid.
+that we used to control terms above will still be valid.
 To deal with the two terms in the product involving $|M_s(y)|$, we write 
 the first as $\int |M_s(y)|\rho_\epsilon*\eta_s(y)^{k+1}dy$ and then use
 H\"older's inequality, Lemma~\ref{bounds on moments}, and the fact
@@ -6725,7 +6771,7 @@ $\big\{\big(\rho_\epsilon*\eta_t^N(dx)\big)_{t\geq 0}\big\}$
 converging to a limit point $\big(\varphi(t,x)dx\big)_{t\geq 0}$, then
 \[ 
 \int_0^t
-\int f(x) \rho_\epsilon * \eta_s(x) F(\rho_\epsilon * \eta_s^N(x)) dx ds 
+\int f(x) \rho_\epsilon * \eta_s^N(x) F(\rho_\epsilon * \eta_s^N(x)) dx ds 
 \rightarrow \int_0^t\int f(x) \varphi(s,x) F(\varphi(s,x)) dx ds. 
 \]
 Since $F$ is a polynomial, we consider powers of $\rho_\epsilon*\eta$.
@@ -6848,7 +6894,7 @@ and the lookdown process $\lp^N$,
 Proposition~\ref{thm:mmt_application},
 and then in the next section, convergence of the lookdown process itself.
 
-\begin{proof}[of Proposition~\ref{thm:mmt_application}]
+\begin{proof}[Proof of Proposition~\ref{thm:mmt_application}:]
     This proposition is the content of the Markov Mapping Theorem,
     reproduced from \citet{etheridge/kurtz:2019} as Theorem~\ref{thm:mmt},
     applied to our situation.
@@ -6920,7 +6966,7 @@ a spatial location $y$ from the kernel
 \begin{equation} \label{eqn:qm_defn}
     q^m(x, dy, \eta)
     =
-    r(y, \eta) q(x, dy) / \int_{\IR^d} r(y, \eta) q(x, dy),
+    r(y, \eta) q(x, dy) / \int_{\IR^d} r(z, \eta) q(x, dz),
 \end{equation}
 and the two lines swap spatial locations with probability 1/2;
 the level of each line of descent evolves according to equation~\eqref{eqn:u_evolution}.
@@ -7112,7 +7158,7 @@ for arbitrary compactly supported $f$.
 \end{lemma}
 
 
-\begin{proof}[of Lemma~\ref{lem:compact containment hn}]
+\begin{proof}[Proof of Lemma~\ref{lem:compact containment hn}:]
     Let $h$ be as in Lemma~\ref{lem:h_containment},
     so there is a $c_f < \infty$ such that $f(x, u) \le c_f h(u)$ for all $x$ and $u$.
     Therefore, $\langle f, \xi \rangle \le \langle h, \xi \rangle$,
@@ -7163,7 +7209,7 @@ is relatively compact for an appropriate choice of $\{f_k\}_{k \ge 1}$.
 %     as in Condition 2.1 of \citet{etheridge/kurtz:2019}.
 % }
 
-\begin{proof}[of Lemma~\ref{lem:compact containment lookdown}]
+\begin{proof}[Proof of Lemma~\ref{lem:compact containment lookdown}:]
     By a union bound,
     $$ 
     \IP\left\{
@@ -7182,7 +7228,7 @@ is relatively compact for an appropriate choice of $\{f_k\}_{k \ge 1}$.
 
 Finally, we prove the key lemma.
 
-\begin{proof}[of Lemma~\ref{lem:h_containment}]
+\begin{proof}[Proof of Lemma~\ref{lem:h_containment}:]
     Applied to $f(x, u) = h(u)$, the martingale representation~\eqref{eqn:f_xi_mgale} is
     \begin{align*}
     \begin{split}
@@ -7346,7 +7392,7 @@ Finally, we prove the key lemma.
     is tight in ${\cal D}_{[0,\infty)}(\IR)$.
 \end{lemma}
 
-\begin{proof}[of Lemma \ref{lem:test_fn_tightness}]
+\begin{proof}[Proof of Lemma \ref{lem:test_fn_tightness}:]
     Again, we use the Aldous-Rebolledo criterion.
     Tightness of $\langle f, \lp_t \rangle$ for a fixed $t$
     follows from Lemma~\ref{lem:compact containment hn},
@@ -7397,7 +7443,7 @@ Finally, we prove the key lemma.
 In this section we prove Theorem~\ref{thm:lineages}.
 The argument follows directly from the discussion in Section \ref{sec:limiting_lines_of_descent}.
 
-\begin{proof}[of Theorem~\ref{thm:lineages}]
+\begin{proof}[Proof of Theorem~\ref{thm:lineages}:]
 For brevity, in the proof we write $\gamma(x)$ or $\gamma$ for $\gamma(x,\eta)$.
 
 Here we have taken the high-density, deterministic limit
@@ -7491,7 +7537,7 @@ we can write this as
 Next, we will differentiate this equation with respect to $t$.
 There are two terms in the product on the left-hand side that depend on $t$,
 so if we
-use that $\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi F$
+use that $\partial_t \varphi_t = r \DG^*[ \varphi_t \gamma ] + \varphi_t F$
 (in a weak sense),
 and write $\Lgen_u$ for the generator of $\hat{T}_{t,s}$ at time $t=u$
 so that $\partial_t \hat{T}_{t,s} g(y) \Big|_{t=s} = \Lgen_s g(y)$,
@@ -7613,34 +7659,34 @@ Note that $\DD^*$ satisfies the following identity:
     + 2 (\covq \grad f) \cdot \grad g
     + f \DD g ,
 \end{align*}
-where $\vec{c}_j = \sum_i \partial_j \covq_{ij}$.
+where $\vec{c}_j = \sum_i \partial_i \covq_{ij}$.
 So, with $f = \gamma \varphi_s$,
 \begin{eqnarray*}
 \Lgen_s g
     &=&
     \frac{r}{\varphi_s} \left[
-        \DD^*(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
-        - g \DD^*(\gamma \varphi_s) + g \grad \cdot (\gamma \varphi_s \meanq)
+        \frac{1}{2} \DD^*(\gamma \varphi_s g) - \grad \cdot (\gamma \varphi_s g \meanq)
+        - \frac{1}{2} g \DD^*(\gamma \varphi_s) + g \grad \cdot (\gamma \varphi_s \meanq)
     \right] \\
     &=&
     \frac{r}{\varphi_s} \left[
-        \gamma \varphi_s \DD g
-        + 2 \gamma \varphi_s \vec{c} \cdot \grad g
-        + 2 (\covq \grad (\gamma \varphi_s)) \cdot \grad g
+        \frac{1}{2} \gamma \varphi_s \DD g
+        + \gamma \varphi_s \vec{c} \cdot \grad g
+        + (\covq \grad (\gamma \varphi_s)) \cdot \grad g
         - \gamma \varphi_s \meanq \cdot \grad g
     \right] \\
     &=&
     r \gamma \left[
-        \DD g
-        + 2 \vec{c} \cdot \grad g
-        + 2 (\covq \grad \log(\gamma \varphi_s)) \cdot \grad g
+        \frac{1}{2} \DD g
+        + \vec{c} \cdot \grad g
+        + (\covq \grad \log(\gamma \varphi_s)) \cdot \grad g
         - \meanq \cdot \grad g
     \right] ,
 \end{eqnarray*}
 which is equation \eqref{eqn:lineage_generator2}.
 \end{proof}
 
-\begin{proof}[of Corollary~\ref{cor:stationary_dist}]
+\begin{proof}[Proof of Corollary~\ref{cor:stationary_dist}:]
 For the moment, we will write $r(x)$ for $r(x,\eta)$
 and $\gamma(x)$ for $\gamma(x,\eta)$.
 First note that
@@ -7648,8 +7694,8 @@ since in this case the semigroup does not depend on time,
 we can write $\Lgen = \Lgen_s$, and
 $$
     \Lgen f = \sigma^2 r \gamma \left(
-        \Delta f
-        + \grad ( 2 \log(\gamma \varphi) - h/\sigma^2 ) \cdot \grad f
+        \frac{1}{2} \Delta f
+        + \grad ( 2 \log(\gamma \varphi) - 2h/\sigma^2 ) \cdot \grad f
     \right) .
 $$
 Now, observe that
@@ -7660,11 +7706,11 @@ $$
         \grad f(x) \cdot \grad g(x)
     \right\} dx ,
 $$
-so that by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - h(x)/\sigma^2$
+so that by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - 2h(x)/\sigma^2$
 and
 $$ \pi(x)
-    = e^{H(x)} / (\sigma^2 r(x) \gamma(x))
-    = \frac{\gamma(x) \varphi(x)^2 e^{-h(x)/\sigma^2}}{\sigma^2 r(x)} ,
+    = \frac{2e^{H(x)} }{ (\sigma^2 r(x) \gamma(x)) }
+    = \frac{2\gamma(x) \varphi(x)^2 e^{-2h(x)/\sigma^2}}{\sigma^2 r(x)} ,
 $$
 we have that
 $$
@@ -7672,8 +7718,9 @@ $$
     =
     - \int_{\IR^d} e^{H(x)} \grad f(x) \cdot \grad g(x) dx .
 $$
-Since this is symmetric in $f$ and $g$, the process $Y$ is reversible with respect to $\pi$;
-the constant factor of $\sigma^2$ does not affect the result.
+Since this Dirichlet form is symmetric in $f$ and $g$,
+the process $Y$ is reversible with respect to $\pi$
+(and the factor of $\sigma^2$ is constant).
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -7875,7 +7922,7 @@ The generator of $\lp_t$ is $A$, defined in equation~\eqref{eqn:limiting_lookdow
 \end{lemma}
 
 
-\begin{proof}[of Lemma~\ref{lem:averaged_generators}]
+\begin{proof}[Proof of Lemma~\ref{lem:averaged_generators}:]
 First, break the generator $A^N$ into three parts, 
 \begin{align*}
     A^N_1f(\lp)
@@ -8030,7 +8077,7 @@ then for $\ell \in L^{1}(\nu)$ and $g\geq0$ with $\log g \in L^{1}(\nu)$,
 \end{lemma}
 
 
-\begin{proof}[of Lemma~\ref{lem:averaged_generators_limit}]
+\begin{proof}[Proof of Lemma~\ref{lem:averaged_generators_limit}:]
 By Lemma~\ref{lem:poisson_eqn},
 $$
     \int f(\lp) \sum_{(x,u)\in\lp} \frac{\ell(x,u)}{g(x,u)} \Gamma(\eta, \lp)
@@ -8165,7 +8212,7 @@ the condition is simply that $\epsilon_r^2 + 2\sigma^2 / \theta < \epsilon_\gamm
 This gives a yet more concrete situation in which 
 Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
 
-\begin{proof}[of Lemma \ref{lem:gamma_bound}]
+\begin{proof}[Proof of Lemma \ref{lem:gamma_bound}:]
 
     First we prove \eqref{eqn:first_moment_rho}.
     Recall that $\smooth{r} \eta(x) = \int p_{\epsilon^2_r}(x - w) \eta(dw)$,
@@ -8430,7 +8477,7 @@ see also Theorem~4.13 of \citet{jacod/shiryaev:2013}):
 By ``jointly defined'' we mean that $X^{(n)}$ and $Y^{(n)}$ are defined on the same
 probability space, so that the products and sums make sense.
 
-\begin{proof}[of Lemma~\ref{lem:product_tightness}]
+\begin{proof}[Proof of Lemma~\ref{lem:product_tightness}:]
     The proof for $X^{(n)} + Y^{(n)}$ is similar to but more straightforward than
     for $X^{(n)} Y^{(n)}$, so on only prove the Lemma for the latter.
 
@@ -8895,6 +8942,7 @@ the Rhodes Trust and St.~John's College, Oxford.
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\PAGEEND{\thepage}
 % reviews here if toggled above
 \includereviews
 

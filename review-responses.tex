@@ -92,10 +92,14 @@ assumption should be labeled and called upon whenever is it being referred to.
 \end{point}
 
 \reply{
+    We've revised this to remove the $\max$ in Equation~\eqref{eqn:mu_defn},
+    and make the assumption that this is nonnegative more consistently:
+    see \revref{} and the new paragraph following Assumptions~\ref{def:model_setup}.
 }
 
-\begin{point}{\revref}
-Definition \ref{def:lineage_generator}, Proposition 2.23: I think these may need to be rewritten/rephrased. Up
+\begin{point}{}
+    Definition \ref{def:lineage_generator}, Proposition \ref{thm:lineages}:
+    I think these may need to be rewritten/rephrased. Up
 to Proposition \ref{thm:lineages}, it is not clear what ``that individual'' is in the limiting model. Therefore,
 it is not clear what $L_s$ is. While the definition of the process $L^N$ maybe clear, what is the
 precise definition of $L_s$ ? I think these need to be defined through the finite-$N$ models. It may
@@ -104,8 +108,13 @@ before talking about semigroup. Probably Section \ref{sec:lineage_motion} will n
 \end{point}
 
 \reply{
-    Add sentence saying that this is well-defined because we take the finite-$N$ limit.
-    Markovian because it is conditional on the population process, which is deterministic...
+    This is a bit tricky, because really to justify this being a sensible notion
+    we'd like to refer to the lookdown, which has not yet been introduced.
+    To make things more clear we've added a bit to the earlier introductory paragraph
+    \llname{whatis_lineage},
+    reworded Definition~\ref{def:lineage_generator} somewhat,
+    and added some more explanation after the Definition and before the Proposition,
+    which also points out that it is Markovian \revref.
 }
 
 \begin{point}{\revref}
@@ -118,8 +127,9 @@ to guarantees that $\psi_t^{\epsilon,x}$ is close to a heat kernel?
 \end{point}
 
 \reply{
-    Add discussion of that here.
-    (in particular the one condition comes from the crucial lemma 7.2)
+    We've added a bit more here \revref,
+    and also referred the reader back to the (at this point long-ago)
+    discussion earlier \llname{one_step_heuristics}.
 }
 
 \subsection*{Minor comments}
@@ -127,10 +137,11 @@ to guarantees that $\psi_t^{\epsilon,x}$ is close to a heat kernel?
 \begin{point}{\revref}
 \eqref{eqn:mu_defn}: The authors mentioned ``define the death rate'' and ``where this equation defines F'',
 which is confusing. What is being defined here? Please clarify. It seems to me that one has
-to first choose $F$, then define $µ_\theta(x)$ as in \eqref{eqn:mu_defn}.
+to first choose $F$, then define $\mu_\theta(x)$ as in \eqref{eqn:mu_defn}.
 \end{point}
 
 \reply{
+    That's right; we've rearranged this so it's hopefully more clear \revref.
 }
 
 \begin{point}{\revref}
@@ -140,6 +151,7 @@ long sentence into two complete sentences.
 \end{point}
 
 \reply{
+    We've rearranged this to be shorter  \revref.
 }
 
 \begin{point}{\revref}
@@ -149,6 +161,9 @@ are given/chosen, or simply delete them here, and mention them in Definition \re
 \end{point}
 
 \reply{
+    That's right, this bit was supposed to introduce those functions
+    (and we want to keep them here to emphasize the scaling with $1/\theta$).
+    We've rewritten this to make this more clear \revref.
 }
 
 \begin{point}{\revref}
@@ -166,6 +181,10 @@ used in $\alpha = lim_{N \to \infty} \theta(N)/N$ on Page 8, Figure 1, etc.
 \end{point}
 
 \reply{
+    Good question -- it could go either way,
+    but since there's more than one assumption, we'd like to keep it plural?
+    And, good point about re-use of $\alpha$; we've changed it to 
+    ``$\beta$-H\"older continuous for some $\beta \in (0, 1]$''.
 }
 
 \begin{point}{\revref}
@@ -174,6 +193,11 @@ used in $\alpha = lim_{N \to \infty} \theta(N)/N$ on Page 8, Figure 1, etc.
 \end{point}
 
 \reply{
+    The notation there was supposed to convey what exactly about $f$ the constant $C_f$
+    depends on, i.e., it could be defined via a function $C : \IR_{\ge 0} \to \IR_{\ge 0}$
+    whose argument is the stuff in the parentheses.
+    We could write this out explicitly, but think it's fairly standard to write things this way
+    -- if on re-reading it is still confusing, we're happy to change it, though?
 }
 
 \begin{point}{\revref}
@@ -183,14 +207,23 @@ explain. I don’t seem to find this explained in any remark before this.
 \end{point}
 
 \reply{
+    We intended the \emph{next} sentence to explain why this is true;
+    to make this more clear
+    we changed that sentence from
+    \emph{``Perhaps the simplest example in which we can see this is the case''}
+    to
+    \emph{``Perhaps the simplest example in which we can see
+    that non-local reproduction can lead to rapid growth even when $r\gamma=\mu$''}
+    \revref.
 }
 
 \begin{point}{}
-Figure 1: What is $N$, the time and other parameters (e.g. $\rho_r$ , $\rho_\gamma$) in the simulations? Same
+    Figure \ref{fig:super_vs_det_2d}: What is $N$, the time and other parameters (e.g. $\rho_r$ , $\rho_\gamma$) in the simulations? Same
 for other figures. Please at least specify the range of values.
 \end{point}
 
 \reply{
+    We've added some more detail to the caption.
 }
 
 \begin{point}{\revref}
@@ -201,6 +234,8 @@ quite extensive.
 \end{point}
 
 \reply{
+    Perhaps Evans/Perkins 1994 ``Measure-valued branching diffusions'' for Dawson's Girsanov thm?
+    (reproduced as Thm IV.1.6 in Perkins, "Dawson-Watanabe Superprocesses...").
 }
 
 \begin{point}{}
@@ -210,6 +245,7 @@ of the first displayed expression over $\epsilon$ finite?
 \end{point}
 
 \reply{
+    Good point! Done.
 }
 
 \begin{point}{}
@@ -217,16 +253,16 @@ Remark \ref{remark_on_nonlocal_to_local}: Can you explain a bit more why it will
 \end{point}
 
 \reply{
-    Since you need to apply the Laplacian to it.
+    Good idea; done \revref.
 }
 
-\begin{point}{\revref}
-% P16: Second paragraph:
+\begin{point}{}
+P16: Second paragraph:
 The notation $L_t$ seems to first appear here and was not yet defined.
 \end{point}
 
 \reply{
-    (Note: they said ``P16: Second paragraph''; I think they just missed it on the previous page.)
+    Ah, true - now we introduce it (albeit still informally) earlier \llname{Linf_mention}.
 }
 
 \begin{point}{}
@@ -264,6 +300,7 @@ section \revref?
 \end{point}
 
 \reply{
+    We've retitled this section, and added a citation \revref.
 }
 
 \begin{point}{\revref}
@@ -272,6 +309,7 @@ Section 5.1.
 \end{point}
 
 \reply{
+    Done \revref.
 }
 
 \begin{point}{\revref}
@@ -281,6 +319,8 @@ $[0, N]$? Note that equation \eqref{eqn:dot_u} suggests that levels can now go a
 \end{point}
 
 \reply{
+    This was correct as written;
+    we've rephased it to be more clear \revref.
 }
 
 \begin{point}{\revref}
@@ -290,6 +330,7 @@ correct this.
 \end{point}
 
 \reply{
+    We've removed the $\max$ in \eqref{eqn:mu_defn}.
 }
 
 \begin{point}{\revref}
@@ -297,7 +338,7 @@ Please give a precise reference/explanation to why uniqueness holds for the mart
 \end{point}
 
 \reply{
-    ``Since this is a finite-rate jump process...''
+    Done \revref.
 }
 
 \begin{point}{\revref}
@@ -306,7 +347,7 @@ Please give a precise reference/explanation to why uniqueness holds for the mart
 \end{point}
 
 \reply{
-    $\omega$
+    We mean for each $\omega$; now clarified \revref.
 }
 
 \begin{point}{\revref}
@@ -316,15 +357,16 @@ to the precise equations including the unlabeled displayed equation below \eqref
 \end{point}
 
 \reply{
-    Let $X$, $U$ be solutions to 5.20 on $[0,T]$... then $\eta$ is a solution on $[0,T]$...
+    Good suggestion; we've clarified, see \revref and \llname{XU_clarification}.
 }
 
-\begin{point}{\revref}
+\begin{point}{}
 The word ``Proof'' is missing in ``Proof of Proposition 5.6''. This word is also
 missing in other places in Sections 6-8.
 \end{point}
 
 \reply{
+    Whoops! That was due to a \LaTeX format change; now fixed.
 }
 
 \begin{point}{}
@@ -333,6 +375,7 @@ missing in other places in Sections 6-8.
 \end{point}
 
 \reply{
+    We think this was an unedited duplicate of point 1.24 above?
 }
 
 \begin{point}{\revref}
@@ -341,6 +384,8 @@ very beginning of Remark \ref{remark_on_branching}, Be specific about what ``The
 \end{point}
 
 \reply{
+    Happily, there were no remaining results that we hadn't already said where the proofs were,
+    so this line is deleted. We also said that ``the process'' is $\lp$ \revref.
 }
 
 \begin{point}{\revref}
@@ -348,6 +393,8 @@ very beginning of Remark \ref{remark_on_branching}, Be specific about what ``The
 \end{point}
 
 \reply{
+    Good point - these were not called ``conditions'' in Lemma~\ref{lem:conditions on r},
+    so we now refer to them as ``assumptions'' \revref.
 }
 
 \begin{point}{\revref}
@@ -355,7 +402,7 @@ Perhaps give a reference to the ``familiar pattern''.
 \end{point}
 
 \reply{
-    Alison's superprocess book, section 1.4.
+    Done \revref.
 }
 
 \begin{point}{\revref}
@@ -364,7 +411,7 @@ Mention $M_t$ is a martingale for all such test functions.
 \end{point}
 
 \reply{
-    i.e., add ``for all such test functions''
+    Done \revref.
 }
 
 \begin{point}{\revref}
@@ -384,19 +431,19 @@ depend on x?
 \end{point}
 
 \reply{
-    that we can bound the expectation of the quadratic variation by a constant times the expectation of the angle bracket process
-    (AS BEFORE)
+    The fact is that we can bound the expectation of the quadratic variation by a constant times the expectation of the angle bracket process;
+    rather than explain again here we refer to the previous place we used the same argument
+    \revref.
 }
 
 \begin{point}{\revref}
 % P60:
 The notation $\mathcal{O}(\delta)$ seems to first appear here. Please explain its meaning. Do they
-depend on x?
+depend on $x$?
 \end{point}
 
 \reply{
-    Point out we're using 7.2 with $u=0$ and our assumptions about initial conditions.
-    (and maybe write that it's less than a constant times $\delta$;)
+    We've clarified this (but also note that the expression does not depend on $x$) \revref.
 }
 
 \begin{point}{\revref}
@@ -414,5 +461,6 @@ comments'' above.
 \end{point}
 
 \reply{
+    Thanks! We didn't think that any modifications were necessary, though.
 }
 
