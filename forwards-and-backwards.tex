@@ -275,7 +275,6 @@ Using a lookdown representation, we are able to retain information about genealo
 % \end{tabular}
 % \end{small}}
 
-\comment{TODO: insert statement that one might be worried about $\eta_t$ being well-defined as a process, in e.g., Def'n 5.2 and following?}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -395,11 +394,17 @@ and in many other fields;
 for instance, \citet{ghosh2022emergent}
 derive a stochastic version of~\eqref{semilinear PDE} to describe abundances of mutant bacteria strains
 along the human gut,
-while \citet{li/buenzli/simpson:2022} study the effects of nonlinear diffusion
-on long-term survival of a lattice-based interacting particle system.
-However, we do not study the effect of movement of adults,
+\citet{li/buenzli/simpson:2022} study the effects of nonlinear diffusion
+on long-term survival of a lattice-based interacting particle system,
+and \citet{birzu/hallatschek/korolev:2017} describe genetic variation in expanding waves
+using both forwards and backwards-time arguments.
+Most of this work is theoretical; for empirical studies see for instance
+\citet{adler2018interspecific} or \citet{zhu2023density}.
+We do not study the effect of movement of adults,
 which can additionally affect the limiting equations:
-see for instance \citet{holmes/lewis/banks/veit:1994} or \citet{potts/borger:2023}.
+see for instance \citet{holmes/lewis/banks/veit:1994} or \citet{potts/borger:2023},
+especially if movement depends on population density
+(as in \citet{perkins:1992} and \citet{birzu2019genetic}).
 % MORE DETAILS:
 % \cite{li/buenzli/simpson:2022} write down an interacting particle
 % system on a hexagonal lattice (with at most one individual per site) that incorporates an effect
@@ -1013,7 +1018,7 @@ We assume that
 Since $F$ is bounded above,
 the final assumption that $\mu_\theta \ge 0$ --
 or, equivalently, that $F(x,\eta) \le \theta r(x,\eta) \gamma(x,\eta)$ --
-will always be true, for instance, for large enough $\theta$ 
+will always be true for large enough $\theta$ 
 as long as $r$ and $\gamma$ are bounded away from zero.
 
 Since we take bounded $f$,
@@ -1114,7 +1119,7 @@ and for superprocess limits with nonlocal interactions.
         Other parameters were the same:
         dispersal ($q_\theta$) and interactions (here, only $\rho_F$)
         are Gaussian with standard deviation 1,
-        and the equilibrium density (also, $N$) is 10 individuals per unit area.
+        and the equilibrium density ($N$) is 10 individuals per unit area.
         The remaining parameters are constant: $r \equiv \gamma \equiv 1$.
         \label{fig:super_vs_det_2d}
     }
@@ -1216,6 +1221,7 @@ and~\eqref{eqn:limiting_mgale_variation}
 to that solution
     as $N \to \infty$.
 \end{corollary}
+
 When $\alpha>0$, the limit points can be thought of as interacting superprocesses. For
 example, when $r$ and $\gamma$ are constant, and 
 $F(x,\eta_s)=1-\smooth{F} \eta_s(x)$,
@@ -1223,17 +1229,33 @@ we recover a superprocess with nonlinear death rates corresponding to logistic g
 \citep{etheridge:2004}
 that is a continuous limit of the Bolker-Pacala model \citep{bolker/pacala:1997,bolker/pacala:1999}.
 We are not aware of a general result to determine when we will have uniqueness of 
-solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}
-when $\alpha>0$.
-However, the Dawson--Girsanov transform tells us that we have uniqueness \revpoint{1}{12}
-in this special case of the superprocess with nonlinear death rates \cite{dawson:1993}.
-The Perkins stochastic calculus
+solutions to the martingale problem of Theorem~\ref{thm:nonlocal_convergence} when $\alpha>0$.
+We do not address the question of uniqueness here,
+but (as stated below in Proposition~\ref{thm:mmt_application}),
+a consequence of the Markov Mapping Theorem (Theorem~\ref{thm:mmt}) is that 
+uniqueness of the martingale problem for the (yet to be defined) lookdown process would imply
+uniqueness of solutions to this process.
+
+Alternatively, the Dawson--Girsanov transform could be used to show uniqueness \revpoint{1}{12}
+in the special case of a superprocess with nonlinear death rates:
+if $r$ and $\gamma$ only depend on $x$ (not $\eta$),
+then the process with $F=0$ is a heterogeneous branching superprocess
+and hence the corresponding martingale problem is unique (see Section 4.3 of \cite{dawson:1993}).
+Then, the Dawson--Girsanov transform (Theorem 7.2.2 of \cite{dawson:1993},
+extended to measures with nonconstant mass as in Section 10.1.2 of \cite{dawson:1993})
+would provide the Radon-Nikodym derivative of the law of the process with more general $F$
+relative to the law of the process with $F=0$
+under suitable conditions.
+% To do this may require some boundedness assumptions
+% (e.g., $r\gamma$ bounded away from zero and $F$ bounded below).
+
+In a different but related setting, the Perkins stochastic calculus
 (and its adaptation to a lookdown setting \cite{donnelly/kurtz:1999})
 provides uniqueness for a different but related class of processes,
 in which interactions affect the dispersal mechanism
 (rather than reproduction) of the superprocess \cite{perkins:1992}.
-We refer to~\cite{dawson:1993, perkins:1992}, and \cite{donnelly/kurtz:1999} 
-for approaches to showing that these sorts of martingale problems are well-posed.
+% We refer to~\cite{dawson:1993, perkins:1992}, and \cite{donnelly/kurtz:1999} 
+% for approaches to showing that these sorts of martingale problems are well-posed.
 
 For the deterministic case of $\alpha=0$,
 the limiting process is a weak solution to a nonlocal PDE.
@@ -1481,7 +1503,7 @@ we can write $\rho_\gamma=\zeta*\check{\zeta}$, where $\check{\zeta}(x)=\zeta(-x
 $\zeta\in\mathcal{S}(\IR^d)$ (the Schwartz space of rapidly decreasing functions).
 Furthermore, suppose that %$\psi_0^\epsilon\in L^1(\IR^d)$, 
 $\psi_0^\epsilon\geq 0$ is such that
-there exists $\lambda\in (0,1)$
+there exists $\lambda\in (0,1)$ for which
 \begin{equation*}
 \sup_\epsilon \int\exp(\lambda \|x\|)\psi_0^\epsilon(x)dx < \infty,\quad\mbox{ and }
 \sup_\epsilon\int \psi_0^\epsilon|\log \psi_0^\epsilon|dx < \infty,
@@ -1609,7 +1631,7 @@ However, the \emph{lookdown construction} in Section~\ref{sec:lookdown}
 does just this -- \llabel{whatis_lineage}
 the construction enables us to recover information about ancestry
 in the infinite population limit,
-and thus give a concrete meaning to $(L_t)_{t \ge 0}$. \llabel{Linf_mention}
+and thus gives a concrete meaning to $(L_t)_{t \ge 0}$. \llabel{Linf_mention}
 Roughly speaking,
 each particle is assigned a unique ``level'' from $[0,\infty)$
 that functions as a label and thus allows reconstruction of lineages.
@@ -1758,7 +1780,7 @@ In other words,
 the lineage behaves as a diffusion driven by Brownian motion 
 run at speed $\sigma^2$ multiplied by the local per-capita production of 
 mature offspring ($r \gamma$)
-with mean displacement in the direction of $\grad \log(\varphi_s \gamma) - \meanq$.
+with mean displacement in the direction of $\grad \log(\varphi_s \gamma) - \meanq/\sigma^2$.
 In particular, lineages are drawn to regions of high fecundity (production of juveniles), but their
 speed is determined by the rate of production of mature offspring.
 This can be compared to Remark~\ref{ancestral lineages: first guess}.
@@ -1957,10 +1979,21 @@ and the porous media equation with logistic growth, equation~(\ref{PME}).
 We work here in one dimension,
 and take $\sigma^2 = 2$ and $\meanq = 0$.
 
-%%%%%%%%%%
+Ancestry in traveling waves for populations described by reaction-diffusion equations
+has been studied before by various authors, \revpoint{1}{16}
+although most work assumes the diffusion term is linear
+(in our notation, $r$ and $\gamma$ are constant,
+but $F$ can depend on density).
+For instance, following \citet{hallatschek/nelson:2008},
+various authors (e.g., \citet{roques2012allee,birzu/hallatschek/korolev:2017})
+describe genetic diversity
+and ancestry in (possibly noisy) traveling waves for reaction-diffusion equations
+in a situation that covers our first two examples below.
+However, we are not aware of previous work covering the third case 
+with nonlinear diffusive term (the porous medium equation).
 
 %%%%%%%%%%
-\paragraph{Fisher-KPP equation:} \revpoint{1}{16}
+\paragraph{Fisher-KPP equation:}
 Consider the classical Fisher-KPP equation,
 \begin{align} \label{eqn:fkpp}
     \partial_t\varphi = \partial_{xx}\varphi + \varphi (1-\varphi) .
@@ -2541,7 +2574,7 @@ this converges to
 \begin{align*}
 \frac{\alpha}{2} G''(\langle f, \eta \rangle)
     \big\langle
-	2 r(x, \eta) \gamma(x, \eta),
+    2 r(x, \eta) \gamma(x, \eta) f(x)^2,
         \eta(dx)
     \big\rangle .
 \end{align*}
@@ -2597,9 +2630,9 @@ size, as measured by convolution with $\rho_{\epsilon}$, which we expect to be
 of order $N\epsilon^d$, and so in order to ensure a deterministic limit we 
 take $\theta/(N\epsilon^d)\to 0$.
 Concretely,
-since $\|\rho^\epsilon_F\| \propto \epsilon^{-e/2}$,
-the quadratic variation of $F(\rho^\epsilon_F\!*\!\eta(x))$
-is proportional to $\theta/(N\epsilon^d)$.
+since $\|\rho^\epsilon_F\| \propto \epsilon^{-d/2}$,
+the quadratic variation of $\rho^\epsilon_F\!*\!\eta(x)$
+is $\mathcal{O}(\theta/(N\epsilon^d))$.
 
 
 % % % % % % % % % % % % % % % % % %
@@ -3070,7 +3103,7 @@ $0\leq g(x,u)\leq 1$ and
         \right)
         \frac{\partial_u g(x, u)}{ g(x,u) }  ,
     \end{split} \end{align}
-    where $\eta(\cdot) = \frac{1}{u} \lim_{u \to \infty} \xi(\cdot \times [0, u])$.
+    where $\eta(\cdot) = \lim_{u_0 \to \infty} \frac{1}{u_0} \xi(\cdot \times [0, u_0])$.
     We say that a ${\mathcal D}_{[0,\infty)}(\mathcal{C})$-valued process $(\xi_t)_{t \ge 0}$
     is a solution to the $(A, \lp_0)$ martingale problem
     if it has initial distribution $\lp_0$
@@ -3162,6 +3195,9 @@ where $\lambda$ is Lesbegue measure.
     Furthermore, for each $t$, $\lp^N_t$ is conditionally uniform 
 	given $\mathcal{F}^{\eta^N}_t$
     in the sense of \eqref{eqn:conditionally_uniform}.
+    If uniqueness holds for the $(A^N, \lp^N_0)$-martingale problem,
+    then uniqueness also holds
+    for the martingale problem of Definition~\ref{defn:mgale_construction}.
 
     Similarly,
     if $\tilde \eta$ is a solution
@@ -3174,6 +3210,10 @@ where $\lambda$ is Lesbegue measure.
     as $\tilde \eta$.
     Furthermore, $\lp_t$ is conditionally Poisson given $\mathcal{F}^{\eta}_t$
     in the sense of \eqref{eqn:conditionally_poisson}.
+    If uniqueness holds
+    for the martingale problem of Definition~\ref{defn:limiting_lookdown_mgale}
+    then uniqueness also holds for 
+    the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 \end{proposition}
 
 Now we can present the main convergence theorem that is analogous
@@ -3544,11 +3584,11 @@ U_a(t)
     ds ,
     \end{split}
 \end{align}
-where
+where $\eta_t = \lim_{u_0 \to \infty} \eta_t^{[u_0]}$ and
 \begin{align*}
-    \eta_t
+    \eta_t^{[u_0]}
     :=
-    \lim_{u_0 \to \infty} \frac{1}{u_0}
+    \frac{1}{u_0}
         \sum_{a : \tau_a \le t < \sigma_a \; ; \; U_a(t) < u_0} \delta_{X_a(t)} .
 \end{align*}
 Each point in each $R_a$ denotes a potential birth time for $a$:
@@ -3596,10 +3636,9 @@ the production of these lineages.
     and furthermore that $\eta_t$ is a solution
     to the martingale problem of Theorem~\ref{thm:nonlocal_convergence}.
 
-\comment{TODO: add note about well-definedness of $\eta_t$.}
-    However, for this to be valid, one should first make sure that $\eta_t$
-    is a well-defined process.
-    We do know that 
+    For completeness, we should also show that $\eta_t$ defined in this way is c\`adl\`ag.
+    However, this can be verified by 
+    considering $\eta_t$ as a limit of the c\`adl\`ag processes $\eta^{[u_0]}_t$.
 \end{proof}
 
 
@@ -3944,7 +3983,7 @@ inequality in the case $f=1$, which yields
 \[
 	\IE\big[\langle 1,\eta_t^N\rangle\big]\leq e^{Ct}\IE\big[\langle 1,\eta_0^N\rangle\big],
 \]
-with $C$ independent of $N$, and then using that $F$ is bounded and substituting 
+with $C$ independent of $N$, and then using that $F$ is bounded above and substituting 
 the resulting bound on $\IE\big[\langle 1,\eta_s^N\rangle\big]$ into the
 expression above.
 \end{proof}
@@ -4418,15 +4457,15 @@ the error term), we find
 \Pgen^{N} G_f(\eta)
     :=& 
     G'(\langle f, \eta \rangle)\int_{\IR^d}  
-\theta\Big\langle \gamma(x,\eta) \int_{\IR^d} f(y)r(y,\eta) q_{\theta}(x,dy) 
-    - f(x)\mu_\theta(x,\eta), \eta(dx)\Big\rangle\\
+    \theta\Big\{ \gamma(x,\eta) \int_{\IR^d} f(y)r(y,\eta) q_{\theta}(x,dy) 
+    - f(x)\mu_\theta(x,\eta) \Big\} \eta(dx)\\
 &+\frac{1}{2}\frac{\theta}{N}G''(\langle f, \eta \rangle)\int_{\IR^d} 
- \Big\langle\gamma(x, \eta)\int_{\IR^d} f^2(y) r(y,\eta)q_{\theta}(x,dy)+f^2(x)
-\mu_\theta(x, \eta), \eta(dx)\Big\rangle\\
-&+\frac{1}{6}\frac{\theta}{N^2}\Big\langle
-G'''(w) \gamma(x, \eta)\int_{\IR^d} f^3(y) r(y,\eta) 
-q_{\theta}(x,dy)
--G'''(v)f^3(x)\mu_\theta(x, \eta), \eta(dx)\Big\rangle
+    \Big\{\gamma(x, \eta)\int_{\IR^d} f^2(y) r(y,\eta)q_{\theta}(x,dy)+f^2(x)
+    \mu_\theta(x, \eta) \Big\} \eta(dx) \\
+&+\frac{1}{6}\frac{\theta}{N^2}
+    G'''(w) \gamma(x, \eta)\int_{\IR^d} \Big\{ f^3(y) r(y,\eta) 
+    q_{\theta}(x,dy)
+    - G'''(v)f^3(x)\mu_\theta(x, \eta) \Big\} \eta(dx)
 \end{aligned}    
 \end{equation}
 for some $w,v \in [\langle f,\eta \rangle - \|f\|_\infty/N, 
@@ -4494,7 +4533,7 @@ Then, just as we arrived at equation~\eqref{bound on intfdeta},
     &\le
     \IE\left[\left\langle f_n(x), \eta^N_0(dx) \right\rangle\right]
     +
-    C \int_0^t \IE\Big[\Big\langle f_n(x), \eta^N_s(dx) \Big\rangle \Big] ds ,
+    C \int_0^t \IE\left[\left\langle f_n(x), \eta^N_s(dx) \right\rangle \right] ds ,
 \end{align*}
 with the same constant for all $n$ and all $N$.
 Gronwall's inequality then implies that 
@@ -6761,7 +6800,7 @@ Since $\delta$ was arbitrary, the proof is complete.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Since $f$ is smooth, $T_\epsilon^2f-f$ is ${\mathcal O}(\epsilon)$, 
-with an application of the triangle inquality, 
+with an application of the triangle inequality, 
 \[
 \lim_{\epsilon\to 0}\IE\Big[\Big|\int_0^t\big\langle T_{\epsilon^2} f(y) 
 F(\rho_\epsilon *\eta_s(y)), \eta_s(y) \big\rangle ds 
@@ -7089,7 +7128,7 @@ of Section~\ref{sec: individual lines of descent} holds.
     $\{\langle f, \lp^N_t \rangle\}_N$ is a tight sequence
     for any $f: \overline{\IR^d} \times [0,\infty) \to \IR$ with compact support
     in the level direction,
-    and hence so is $\{e^{-\langle f, \lp^N_t \rangle}\}_N$.
+    and hence $\{e^{-\langle f, \lp^N_t \rangle}\}_N$ is tight as well.
     % The functions $\lp \mapsto \langle f, \lp \rangle$
     % do not form not a dense subset of $C_b(\lpmeasures)$,
     % but they do separate points and vanish nowhere, 
@@ -7700,8 +7739,8 @@ First note that
 since in this case the semigroup does not depend on time, 
 we can write $\Lgen = \Lgen_s$, and
 $$
-    \Lgen f = \sigma^2 r \gamma \left(
-        \frac{1}{2} \Delta f
+    \Lgen f = \frac{\sigma^2}{2} r \gamma \left(
+        \Delta f
         + \grad ( 2 \log(\gamma \varphi) - 2h/\sigma^2 ) \cdot \grad f
     \right) .
 $$
@@ -7716,8 +7755,8 @@ $$
 so that by choosing $H(x) = 2 \log(\gamma(x) \varphi(x)) - 2h(x)/\sigma^2$
 and
 $$ \pi(x)
-    = \frac{2e^{H(x)} }{ (\sigma^2 r(x) \gamma(x)) }
-    = \frac{2\gamma(x) \varphi(x)^2 e^{-2h(x)/\sigma^2}}{\sigma^2 r(x)} ,
+    = \frac{e^{H(x)} }{\sigma^2 r(x) \gamma(x)/2}
+    = \frac{\gamma(x) \varphi(x)^2 e^{-2h(x)/\sigma^2}}{\sigma^2 r(x)/2} ,
 $$
 we have that
 $$
@@ -7727,7 +7766,7 @@ $$
 $$
 Since this Dirichlet form is symmetric in $f$ and $g$,
 the process $Y$ is reversible with respect to $\pi$
-(and the factor of $\sigma^2$ is constant).
+(and the factor of $\sigma^2/2$ is constant).
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -7782,7 +7821,7 @@ For other definitions see \citet{etheridge/kurtz:2019}.
             then there exists a solution $X$ of the martingale problem for $(A,\nu_0)$
             such that $\tilde Y$ has the same distribution on $M_{S_0}[0,\infty)$
             as $Y = \gamma \circ X$.
-            If $Y$ and $\tilde Y$ are c\'adl\'ag, then $Y$ and $\tilde Y$ have the same distribution
+            If $Y$ and $\tilde Y$ are c\`adl\`ag, then $Y$ and $\tilde Y$ have the same distribution
             on $D_{S_0}[0,\infty)$.
         \item[(b)]
             For $t \ge 0$,
@@ -8925,7 +8964,7 @@ probability space, so that the products and sums make sense.
 %%                                                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{acks}
-Many thanks to Matthias Birkner, Mattias Winkel, and an anonymous reviewer
+Many thanks to Matthias Birkner, Matthias Winkel, and an anonymous reviewer
 for detailed comments and corrections.
 Thanks go to Gilia Patterson for identifying the ``clumping'' phenomenon,
 and to Marcin Bownick and David Levin for useful discussions.
@@ -8934,7 +8973,7 @@ during the period in which much of this research took place.
 AME and PLR also thank the Kavli Institute for Theoretical Physics
 for their hospitality and birdwatching opportunities;
 this research was therefore supported in part by the NSF under grant \#PHY-1748958
-and by the Gordon and Betty Moore Foundation grant \#2919.02.
+and by the Gordon and Betty Moore Foundation grant \#2919.02, both to KITP.
 PLR was supported by the NIH NHGRI (grant \#HG011395),
 IL by the ANID/Doctorado en el extranjero doctoral scholarship, grant \#2018-72190055,
 and TTHL by the EPSRC Centre for Doctoral Training in Mathematics of Random Systems: Analysis, Modelling and Simulation (EP/S023925/1)
