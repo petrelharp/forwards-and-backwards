@@ -1311,7 +1311,7 @@ Recall that the Wasserstein metric, defined by
 determines the topology of weak convergence on $\measures$.
 We write 
 $r(x,\eta) \gamma(x,\eta) \covq(x) = J(x,\eta) J(x,\eta)^T$, and 
-$\beta(x,\eta) = r(x,\eta) \gamma(x,\eta) \big(\meanq(x)+2\covq(x)\nabla\log r(x,\eta)\big)$
+$\beta(x,\eta) = r(x,\eta) \gamma(x,\eta) \big(\meanq(x)+\covq(x)\nabla\log r(x,\eta)\big)$
 (quantities that will appear in Proposition~\ref{prop:limiting_construction}).
 If $J$, $\beta$, and $F$ are bounded and Lipschitz in the sense 
 that
@@ -4010,8 +4010,8 @@ inequality in the case $f=1$, which yields
 \[
 	\IE\big[\langle 1,\eta_t^N\rangle\big]\leq e^{Ct}\IE\big[\langle 1,\eta_0^N\rangle\big],
 \]
-with $C$ independent of $N$, and then using that $F$ is bounded above and substituting 
-the resulting bound on $\IE\big[\langle 1,\eta_s^N\rangle\big]$ into the
+with $C$ independent of $N$, and then using that $|f|$ is bounded and
+substituting the resulting bound on $\IE\big[\langle 1,\eta_s^N\rangle\big]$ into the
 expression above.
 \end{proof}
 
