@@ -1,8 +1,17 @@
 .PHONY: all, clean
 
-all: forwards-and-backwards.pdf
+all: forwards-and-backwards.pdf submission-version.pdf cover-letter.pdf review-responses.pdf 
 
 forwards-and-backwards.pdf : refs.bib review-responses.tex
+
+submission-version.pdf : forwards-and-backwards.pdf
+	pdfjam --outfile $@ $< 1-83
+
+cover-letter.pdf : forwards-and-backwards.pdf
+	pdfjam --outfile $@ $< 84
+
+review-responses.pdf : forwards-and-backwards.pdf
+	pdfjam --outfile $@ $< 85-
 
 clean: 
 	-rm *.aux *.log *.bbl *.blg
