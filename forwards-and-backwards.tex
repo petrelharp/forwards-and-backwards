@@ -94,7 +94,7 @@ Looking forwards and backwards: dynamics and genealogies of locally regulated po
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\KEYWORDS{population model ; interacting superprocess ; lookdown construction ; porous medium equation ; reaction-diffusion equation ; travelling waves ; genealogies ; Fisher-KPP equation}
+\KEYWORDS{population model; interacting superprocess; lookdown construction; porous medium equation; reaction-diffusion equation; travelling waves; genealogies; Fisher-KPP equation}
 \AMSSUBJ{60J25 ; 92D10 ; 92D15 ; 92D25 ; 92D40}
 \AMSSUBJSECONDARY{60F05 ; 60G09 ; 60G55 ; 60G57 ; 60H15 ; 60J68}
 
@@ -470,7 +470,7 @@ a mechanism for retaining information about genealogical relationships between i
 sampled from a population evolving according to the Moran model when passing to the 
 infinite population limit.
 Since then, they have been extended to a wide range of models. Of particular
-relevance to our work here are the papers of~\cite{kurtz/rodrigues:2011} 
+relevance to our work here are the papers ~\cite{kurtz/rodrigues:2011} 
 and~\cite{etheridge/kurtz:2019}, in which
 lookdown constructions are provided for a wide variety of population models, including
 spatially structured branching processes.
@@ -571,7 +571,7 @@ First, in Section~\ref{sec: Model and main results},
 we describe the model and the main results,
 Theorems~\ref{thm:nonlocal_convergence}, \ref{thm:local_convergence}, and~\ref{thm:lineages}.
 Next, in Section~\ref{sec:applications}, we discuss a few striking consequences of these results
-regarding the behavior of genealogies in traveling waves,
+regarding the behavior of genealogies in travelling waves,
 the appearance of periodic ``clumps'' in seemingly homogeneous population models,
 and identifiability of the underlying dynamics from a stationary population profile.
 In Section~\ref{sec:heuristics}, we provide heuristic explanations
@@ -1134,7 +1134,7 @@ ${\mathcal D}_{[0,\infty)}(\measures)$ with the Skorohod topology.
 A sequence of processes taking values in 
 ${\mathcal D}_{[0,\infty)}(\measures)$ is said to be tight if the corresponding
 sequence of distributions is tight,
-i.e., that any infinite subsequence has a weakly convergent subsubsequence.
+i.e., if any infinite subsequence has a weakly convergent subsubsequence.
 Our first main result establishes tightness of our rescaled population processes in 
 the case in which interactions remain nonlocal under the scaling, and 
 characterises limit points as solutions to a martingale problem. 
@@ -1624,7 +1624,7 @@ it is clear that for finite $N$, since individuals are born one at a time,
 one could construct the lineage $(L_t^N)_{t=0}^T$
 given the history of the population $(\eta^N_t)_{t = 0}^T$,
 for each starting location to which $\eta^N_T$ assigns positive mass.
-It is less clear, however, how to formally retain such information when we 
+It is less clear, however, how to rigorously retain such information when we 
 pass to the scaling limit.
 
 However, the \emph{lookdown construction} in Section~\ref{sec:lookdown}
@@ -1648,7 +1648,7 @@ population limit, we can sample an individual
 from a region (it will be the individual in that region with the lowest level) 
 and trace its line of descent. 
 This will allow us to calculate, for each $x$ and $y\in\IR^d$, the proportion of
-the population at location $x$ in the present day population that are descended from 
+the population at location $x$ in the present day population that is descended from 
 a parent who was at location $y$ at time $t$ in the past. To make
 sense of this in our framework, in Section~\ref{sec:lineages_proof}, 
 we justify a weak reformulation of this idea.
@@ -1979,7 +1979,7 @@ and the porous media equation with logistic growth, equation~(\ref{PME}).
 We work here in one dimension,
 and take $\sigma^2 = 2$ and $\meanq = 0$.
 
-Ancestry in traveling waves for populations described by reaction-diffusion equations
+Ancestry in travelling waves for populations described by reaction-diffusion equations
 has been studied before by various authors, \revpoint{1}{16}
 although most work assumes the diffusion term is linear
 (in our notation, $r$ and $\gamma$ are constant,
@@ -1987,7 +1987,7 @@ but $F$ can depend on density).
 For instance, following \citet{hallatschek/nelson:2008},
 various authors (e.g., \citet{roques2012allee,birzu/hallatschek/korolev:2017})
 describe genetic diversity
-and ancestry in (possibly noisy) traveling waves for reaction-diffusion equations
+and ancestry in (possibly noisy) travelling waves for reaction-diffusion equations
 in a situation that covers our first two examples below.
 However, we are not aware of previous work covering the third case 
 with nonlinear diffusive term (the porous medium equation).
@@ -2133,28 +2133,32 @@ form of nonlinear diffusion, at stationarity
 the lineage will typically be significantly behind the front, 
 suggesting a different genealogy. 
 
-It is interesting to compare the stationary distribution we have obtained here
-to the expression that we'd get by setting $\meanq = -\wavespeed$
-and using Corollary~\ref{cor:stationary_dist},
-i.e., by giving each offspring a mean displacement that offsets the motion of the wave
-(The model is different because this motion only affects offspring, not adults.)
-In the Fisher-KPP and Allen-Cahn cases above, we get the same expressions,
-but this is only the case because $r\equiv\gamma\equiv1$ in both.
-For the PME with $\meanq = 1$ we have $\DG^* = \Delta + \grad$ 
-and so the equation solved by the population density is
-$$
-    \partial_t \varphi = \Delta \varphi + 2 \varphi \grad \varphi + \varphi (1 - \varphi) ,
-$$
-which has a traveling wave solution of the same shape but moving at half the speed,
-$\varphi(x,t) = w^{P}(x-t/2)$,
-and a stationary distribution of the lineage relative to the wavefront of
-$\pi(\xi) \propto e^{3\xi/2} (1 - e^{\xi/2})^3$.
+% % Removing this, since it's not actually that interesting:
+% It is interesting to compare the stationary distribution we have obtained here
+% to the expression that we'd get by setting $\meanq = -\wavespeed$
+% and using Corollary~\ref{cor:stationary_dist},
+% i.e., by giving each offspring a mean displacement that offsets the motion of the wave
+% (The model is different because this motion only affects offspring, not adults.)
+% In the Fisher-KPP and Allen-Cahn cases above, we get the same expressions,
+% but this is only the case because $r\equiv\gamma\equiv1$ in both.
+% For the PME with $\meanq = 1$ we have $\DG^* = \Delta + \grad$ 
+% and so the equation solved by the population density is
+% $$
+%     \partial_t \varphi
+%     =
+%     \Delta (\varphi^2) + \grad (\varphi^2) + \varphi (1 - \varphi) ,
+% $$
+% which has a travelling wave solution of the same shape but moving more slowly,
+% $\varphi(x,t) = w^{P}(a(x-2at))$, with $a=(\sqrt{5}-1)/4$,
+% and a stationary distribution of the lineage relative to the wavefront of
+% (NOT RIGHT:) $\pi(\xi) \propto e^{3\xi/2} (1 - e^{\xi/2})^3$.
+% 
 % \comment{Details to back that last statement up, which we probably want to comment out?}
-% (We can see that $w^P(x-t/2)$ is a traveling wave solution by using that
+% (We can see that $w^P(x-t/2)$ is a travelling wave solution by using that
 % $\partial_x w^P = -(1 - w^P)/2$;
 % and then the generator of a linage in the moving frame is
 % $\Lgen_{P'} = \varphi \partial_x^2 + (4 \partial_x \varphi + 1/2 + \varphi) \partial_x$,
-% which has speed measure proportional to
+% which has speed measure proportional to (NOT RIGHT)
 % $\exp(\int^x 3(1/2 dx + d \log \varphi)) / \varphi$.)
 % \begin{align*}
 % m_{P'}(\xi)
@@ -2164,6 +2168,26 @@ $\pi(\xi) \propto e^{3\xi/2} (1 - e^{\xi/2})^3$.
 %         \right\}dx
 %     \right) .
 % \end{align*}
+% \comment{Alison says:
+%  If one tries a solution of the form $(1-\exp(a(x-ct)))_+$, then we find speed $c=2a$ and $a$ solves $4a^2+2a -1=0$ (I think - at least I got that twice). 
+% }
+% \comment{
+% Checking that:
+% $$(2ff')' + 2 b f f' = 2 f'^2 + 2 ff'' + 2 b f f'$$
+% and so if $f' = -a(1-f)$ and thus $f'' = -a^2(1-f)$ then this is
+% \begin{align*}
+%     (f^2)'' + b (f^2)' + f(1-f)
+%     &= 2 (a^2(1-f)^2 - a^2f(1-f) - abf(1-f)) + f(1-f) \\
+%     &= (1-f) (2a^2(1-f) + (-2a^2-2ab+1)f) \\
+%     &= (1-f) (2a^2 + (-4a^2-2ab+1)f)
+% \end{align*}
+% Now, solutions to $4a^2+2ab-1=0$ are $a_{\pm}=(-b \pm \sqrt{b^2+4})/4$ and for these
+% \begin{align*}
+%     c_\pm 
+%     &= 2a_\pm \\
+%     &= \frac{-b \pm \sqrt{b^2+4}}{2} .
+% \end{align*}
+% }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2333,7 +2357,7 @@ or certain summaries of lineage movement uniquely determine
 the underlying demographic parameters?
 Consider a deterministic,
 continuous population generated by parameters $\gamma$, $r$, and $F$,
-with $\meanq = 0$ and $\covq = I$.
+with $\meanq = 0$ and $\covq = 2I$.
 Suppose it has a stationary profile $w(x)$, that must satisfy
 $$
    r \Delta(\gamma w) + F w = 0 .
@@ -2374,7 +2398,7 @@ reduces long-term genetic diversity \citep{ewens:1982}). \revpoint{1}{18}
 
 In this section we perform some preliminary calculations and use them 
 to provide heuristic arguments for our main results,
-to build intuition before the formal proofs.
+to build intuition before the proofs.
 
 % % % % % % % % % % % % % % % % % %
 \subsection{The population density}
@@ -2609,7 +2633,7 @@ is exactly as seen in Theorem~\ref{thm:nonlocal_convergence}.
 In order to pass directly to a classical PDE limit
 in Theorem~\ref{thm:local_convergence}
 we impose the stronger condition
-that $\theta/N\epsilon^d\to 0$ and also require that
+that $\theta/(N\epsilon^d) \to 0$ and also require that
 $\theta\epsilon^2\to\infty$. 
 Recall that in this case, we take $\rho_F^\epsilon$ 
 to be a symmetric Gaussian density with variance 
@@ -2629,10 +2653,9 @@ size. In our setting, the total population size is replaced by the local populat
 size, as measured by convolution with $\rho_{\epsilon}$, which we expect to be 
 of order $N\epsilon^d$, and so in order to ensure a deterministic limit we 
 take $\theta/(N\epsilon^d)\to 0$.
-Concretely,
-since $\|\rho^\epsilon_F\| \propto \epsilon^{-d/2}$,
-the quadratic variation of $\rho^\epsilon_F\!*\!\eta(x)$
-is $\mathcal{O}(\theta/(N\epsilon^d))$.
+% Concretely,
+% the quadratic variation of $\rho^\epsilon_F\!*\!\eta(x)$
+% is $\mathcal{O}(\theta/(N\epsilon^d))$.
 
 
 % % % % % % % % % % % % % % % % % %
@@ -3682,9 +3705,8 @@ since in the deterministic case there is no branching.
 \section{Proofs of convergence for nonlocal models}
 \label{sec:proofs}
 
-In this section we present formal proofs of the first two of our
+In this section we present proofs of the first two of our
 three scaling limits.
-%following sections we present formal proofs of our three scaling limits.
 In Subsection~\ref{sec:population_density_proof} 
 we prove Theorem~\ref{thm:nonlocal_convergence}, to obtain (both
 stochastic and deterministic) limits in
@@ -3718,6 +3740,11 @@ First, we prove Lemma~\ref{lem:conditions on r}.
 \begin{proof}[Proof of Lemma~\ref{lem:conditions on r}:]
 Here, we need to prove that $|\gamma(x, \eta) B^\theta_f(x, \eta)|$ is bounded,
 uniformly over $x$ and $\eta$.
+Note that Conditions~\ref{def:model_setup} assume nothing about $\eta$,
+and so, for instance, although $r(x,m)$ has uniformly bounded derivatives,
+it might still be the case that $r(x,\eta) = r(x, \smooth{r}\eta(x))$ changes arbitrarily rapidly;
+the additional conditions of the Lemma prevent this from happening.
+
 First suppose that
 assumption~\ref{control through r} of  
 Lemma~\ref{lem:conditions on r} is satisfied. \revpoint{1}{28}
@@ -3768,11 +3795,11 @@ Integrating this against $q(x, dy)$, we get that
         \left(
             \partial_{x_i} f(x) \partial_{x_j} r(z_3,\eta)
             + r(y,\eta) \partial_{x_ix_j} f(z_1)
-        \right) q_\theta(x, dy) \bigg|
+        \right) q_\theta(x, dy) \bigg| .
 \end{align*}
 Since $q_\theta(x,dy)$ is the density of a Gaussian with mean $\meanq(x)/\theta$
 and covariance $\covq(x)/\theta$, and both $\meanq(x)$ and $\covq(x)$ are uniformly bounded,
-so that $\theta \int (y-x)_i q_\theta(x,dy)$ is bounded as well.
+$\theta \int (y-x)_i q_\theta(x,dy)$ is bounded as well.
 Furthermore, a change of variables that diagonalizes $\covq(x)$
 shows for any $g : \IR^d \to \IR^{d + d}$,
 that if $C_g = \sup_y \sup_{\|z\| = 1} \sum_{ij} g(y)_{ij} z_i z_j$
@@ -3871,10 +3898,10 @@ with respect to the second argument.
         \right| .
     \end{align*}
 Under Condition~\ref{control through gamma} of 
-Assumptions~\ref{def:model_setup}, this is bounded by 
+Lemma~\ref{lem:conditions on r}, this is bounded by 
 a constant times $\smooth{\gamma}\eta(x)+(\smooth{\gamma}\eta(x))^2$ and 
-$\sup_x m^2\gamma(x, m)$ is bounded,
-so therefore $|\gamma(x,\eta) B^\theta_f(x,\eta)| \le K_7 + K_8 |f(x)|$,
+$\sup_x m^2\gamma(x, m)$ is bounded.
+Therefore $|\gamma(x,\eta) B^\theta_f(x,\eta)| \le K_7 + K_8 |f(x)|$,
 where $K_7$ comes from $K_3$, $K_4$, and the supremum of $\gamma$,
 while $K_8$ comes from $K_5$, $K_6$, and the supremum of $m^2 \gamma(x,m)$.
 \end{proof}
@@ -4076,7 +4103,7 @@ independent of $N$,
 	+ \IE\left[\int_0^t\Big\langle \gamma(x,\eta_s^N) B^\theta_1(x, \eta_s^N),\eta_s^N(dx)\Big\rangle ds\right],
         \end{split}
 	\end{align}
-which is bounded since $\gamma (x,\eta)$ and $B^\theta_1(x,\eta)$ are both bounded and 
+which is bounded above since $\gamma (x,\eta)$ and $B^\theta_1(x,\eta)$ are both bounded and 
 $\langle 1,\eta_t^N \rangle\geq 0$. 
     Since $\theta/N \to \alpha < \infty$,
     combining constants, we obtain that for some $C''$,
@@ -4154,7 +4181,7 @@ and for each $\nu > 0$, there exist $\delta > 0$ and $N_0 > 0$ such that
     \sup_{N > N_0}
     \sup_{t \in [0, \delta]}
     \IP\left\{\left|
-            \int_\tau^{\tau + t}
+            \int_{\tau_N}^{\tau_N + t}
             \int_{\IR^d}
             \left\{
                 \gamma(x, \eta^N_s) B^\theta_f(x, \eta^N_s)
@@ -4169,8 +4196,8 @@ and for each $\nu > 0$, there exist $\delta > 0$ and $N_0 > 0$ such that
     \sup_{N > N_0}
     \sup_{t \in [0, \delta]}
     \IP\left\{\big|
-        \langle M^{N}(f) \rangle_{\tau + t} 
-            - \langle M^{N}(f) \rangle_\tau \big|
+        \langle M^{N}(f) \rangle_{\tau_N + t} 
+            - \langle M^{N}(f) \rangle_{\tau_N} \big|
         > \nu
     \right\}
     < \nu.
@@ -4203,10 +4230,10 @@ so that~\eqref{eqn:eta_projections_goal1} is satisfied with $\delta = \delta_1$.
 Similarly,
 \begin{align*}
     &
- \big|   \langle M^{N}(f) \rangle_{\tau + t} 
-        - \langle M^{N}(f) \rangle_\tau \big|
+ \big|   \langle M^{N}(f) \rangle_{\tau_N + t} 
+        - \langle M^{N}(f) \rangle_{\tau_N} \big|
     \\ & \qquad =
-  \Big|  \int_{\tau}^{\tau + t}
+  \Big|  \int_{\tau_N}^{\tau_N + t}
         \frac{\theta}{N}
         \int_{\IR^d}
         \left\{
@@ -4218,7 +4245,7 @@ Similarly,
         \eta^N_s(dx)
     ds \Big|
     \\ & \qquad =
-   \Big| \int_{\tau}^{\tau + t}
+   \Big| \int_{\tau_N}^{\tau_N + t}
         \frac{\theta}{N}
         \int_{\IR^d}
         \left\{
@@ -4316,7 +4343,7 @@ Let $\Pgen^N$ be the generator given by
 \end{aligned}
 \end{equation}
 The process $(\eta^N_t)_{t \geq 0}$ of Definition~\ref{defn:mgale_construction}
-is the unique solution to the $(\Pgen^N, \eta_0)$-martingale problem, i.e., if
+is the unique solution to the $(\Pgen^N, \eta_0)$-martingale problem, i.e.,
 \revpoint{1}{30}
 $$
     M_t :=
@@ -4648,20 +4675,20 @@ Substituting (\ref{eq:ExpDif2}) in (\ref{eq:ExpDif1}) gives the result.
 We use the representations of the solutions to equations \eqref{localPDE} and \eqref{nonlocalPDEv1} respectively:
 \begin{align}
 \varphi_t(x) &= \IE_x\Big[\varphi_0(Z_t) 
-+ \int_0^t \varphi_s(Z_s)F(\varphi_s(Z_s)) ds\Big], \label{FK:varphi} \\
+    + \int_0^t \varphi_s(Z_{t-s})F(\varphi_s(Z_{t-s})) ds\Big], \label{FK:varphi} \\
 \varphi^\epsilon_t(x) &= \IE_x\Big[\varphi_0(Z_t) 
-+ \int_0^t \varphi^\epsilon_s(Z_s)F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_s)) ds\Big],
+    + \int_0^t \varphi^\epsilon_s(Z_{t-s})F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_{t-s})) ds\Big],
 \end{align}
 from which
 \begin{equation} 
 \varphi_t(x) - \varphi^\epsilon_t(x) = 
-\IE_x\left[ \int_0^t \Big(\varphi_s(Z_s)F\big(\varphi_s(Z_s)\big)
--\varphi^\epsilon_s(Z_s)F\big(\rho_\epsilon*\varphi^\epsilon_s(Z_s)\big)\Big) ds \right] ,
+    \IE_x\left[ \int_0^t \Big(\varphi_s(Z_{t-s})F\big(\varphi_s(Z_{t-s})\big)
+    -\varphi^\epsilon_s(Z_{t-s})F\big(\rho_\epsilon*\varphi^\epsilon_s(Z_{t-s})\big)\Big) ds \right] ,
 \label{FK:diferencesVarphis}
 \end{equation}
 where $\IE_x$ denotes expectation for $Z$ with $Z_0 = x$.
 The key to our proof of Proposition~\ref{prop:nonlocal_to_local}
-will be to replace $F(\varphi_s(Z_s))$ by $F(\rho^\epsilon_F*\varphi_s(Z_s))$ 
+will be to replace $F(\varphi_s(Z_{t-s}))$ by $F(\rho^\epsilon_F*\varphi_s(Z_{t-s}))$ 
 in this expression. 
 We achieve this through three lemmas.
 
@@ -4679,7 +4706,7 @@ Using that $\varphi_0$ and $F$ are bounded above, from the
 representation~(\ref{FK:varphi}), we have
 \begin{align*}
 \varphi_t(x) \leq \| \varphi_0 \|_\infty + 
-K \IE\Big[\int_0^t \varphi_s(Z_s) ds\Big].
+    K \IE\Big[\int_0^t \varphi_s(Z_{t-s}) ds\Big].
 \end{align*}
 In particular, % since $\varphi_s$ is non-negative,
 \[ \| \varphi_t(\cdot) \|_\infty \leq \| \varphi_0 \|_\infty
@@ -4862,25 +4889,25 @@ Then from the representation~(\ref{FK:diferencesVarphis})
 and Lemma~\ref{ContinuityConvolution} we can write,
 \begin{align*}
 | &\varphi_t(x) - \varphi^\epsilon_t(x)|  \\ 
-& \leq \IE_x\left[ \int_0^t\Big| \varphi_s(Z_s)
-F(\rho^\epsilon_F*\varphi_s(Z_s))
--\varphi^\epsilon_s(Z_s)
-F\big(\rho^\epsilon_F*\varphi^\epsilon_s(Z_s)\big)\Big| ds \right] 
-+M t \widehat{\delta}(\epsilon)   \\ 
-& \leq \IE_x\left[ \int_0^t \big|F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_s))\big|\cdot
-\big|\varphi^\epsilon_s(Z_s)-\varphi_s(Z_s)\big| ds  \right] \\ 
-& \qquad +  \IE_x\left[\int_0^t |\varphi_s(Z_s)| 
-\big|F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_s))
--F(\rho^\epsilon_F*\varphi_s(Z_s))\big| ds \right] 
-+ M t \widehat{\delta}(\epsilon)  \\ 
+& \leq \IE_x\left[ \int_0^t\Big| \varphi_s(Z_{t-s})
+    F(\rho^\epsilon_F*\varphi_s(Z_{t-s}))
+    -\varphi^\epsilon_s(Z_{t-s})
+    F\big(\rho^\epsilon_F*\varphi^\epsilon_s(Z_{t-s})\big)\Big| ds \right] 
+    +M t \widehat{\delta}(\epsilon)   \\ 
+& \leq \IE_x\left[ \int_0^t \big|F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_{t-s}))\big|\cdot
+    \big|\varphi^\epsilon_s(Z_{t-s})-\varphi_s(Z_{t-s})\big| ds  \right] \\ 
+    & \qquad +  \IE_x\left[\int_0^t |\varphi_s(Z_{t-s})| 
+    \big|F(\rho^\epsilon_F*\varphi^\epsilon_s(Z_{t-s}))
+    -F(\rho^\epsilon_F*\varphi_s(Z_{t-s}))\big| ds \right] 
+    + M t \widehat{\delta}(\epsilon)  \\ 
 & \leq \| F \|_M \int_0^t \| \varphi^\epsilon_s(\cdot) 
-- \varphi_s(\cdot) \|_\infty ds
-  + M L_M \int_0^t \| \rho^\epsilon_F*\varphi^\epsilon_s(\cdot)
--\rho^\epsilon_F*\varphi_s(\cdot) \|_\infty ds 
-+  M  t \widehat{\delta}(\epsilon)  \\ 
+    - \varphi_s(\cdot) \|_\infty ds
+      + M L_M \int_0^t \| \rho^\epsilon_F*\varphi^\epsilon_s(\cdot)
+    -\rho^\epsilon_F*\varphi_s(\cdot) \|_\infty ds 
+    +  M  t \widehat{\delta}(\epsilon)  \\ 
 & \leq (\| F \|_M + M L_M) 
-\int_0^t \| \varphi^\epsilon_s(\cdot) - \varphi_s(\cdot) \|_\infty ds 
-+ M  t \widehat{\delta}(\epsilon),
+    \int_0^t \| \varphi^\epsilon_s(\cdot) - \varphi_s(\cdot) \|_\infty ds 
+    + M  t \widehat{\delta}(\epsilon),
 \end{align*}
 where the second inequality is the triangle inequality, 
 and the third is Lemma~\ref{BoundednessVarphis}. 
@@ -5567,7 +5594,7 @@ write
 \Big|{\cal F}_0\Big].
 \end{multline}
 Since $\dot \psi^{\epsilon,x}_s = \mathcal{L}_\theta \psi^{\epsilon,x}_s$,
-the $j=1$ terms from $\Pgen^N(\langle \psi^{\epsilon,x}_{t-s}(y),\eta_s(dy) \rangle^k)$
+the $j=1$ term from $\Pgen^N(\langle \psi^{\epsilon,x}_{t-s}(y),\eta_s(dy) \rangle^k)$
 combines with the last term in~\eqref{kth moment for time varying function}
 to yield 
 $$ \int_0^t k \langle \psi^{\epsilon,x}_{t-s},\eta\rangle^{k-1} \langle F(\rho_\epsilon*\eta_s(y)) \psi^{\epsilon,x}_{t-s}(y), \eta_s(dy) \rangle ds . $$
@@ -5830,7 +5857,7 @@ $ \IE[\langle\widehat{M}^N_f\rangle_T] \le C (\theta/N) \int_0^T \IE[\langle 1, 
 for some constants $C$ and $C'$.
 Now, using the Burkholder-Davis-Gundy inequality
 and the same fact as before from \citet{barlow/jacka/yor:1986}, \revpoint{1}{32}
-$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[\langle\widehat{M}^N(f)\rangle_u]$,
+$\IE[\sup_{0 \le u \le T} |\widehat{M}^N(f)_u|^2] \le C'' \IE[\langle\widehat{M}^N(f)\rangle_T]$,
 and so using Markov's inequality,
 % \comment{I think for clarity there should be no $\epsilon^d$ in the denominator of the last expression? (This is harmless, though, as dividing by $\epsilon^d$ only makes this upper bound bigger.)}
 \begin{equation}
@@ -7207,7 +7234,7 @@ for arbitrary compactly supported $f$.
 \begin{proof}[Proof of Lemma~\ref{lem:compact containment hn}:]
     Let $h$ be as in Lemma~\ref{lem:h_containment},
     so there is a $c_f < \infty$ such that $f(x, u) \le c_f h(u)$ for all $x$ and $u$.
-    Therefore, $\langle f, \xi \rangle \le \langle h, \xi \rangle$,
+    Therefore, $\langle f, \xi \rangle \le c_f \langle h, \xi \rangle$,
     and so by Lemma~\ref{lem:h_containment},
     \begin{align*}
         \limsup_{N \to \infty} \IP\left\{ \sup_{0 \le t \le T} \langle f, \lp^N_t \rangle > M \right\}
@@ -8699,7 +8726,7 @@ probability space, so that the products and sums make sense.
 % 
 % \bibitem{birzu/hallatschek/korolev:2017}
 % Gabriel Birzu, Oskar Hallatschek, and Kirill~S. Korolev, \emph{Fluctuations
-%   uncover a distinct class of traveling waves}, Proc. Natl. Acad. Sci. (USA)
+%   uncover a distinct class of travelling waves}, Proc. Natl. Acad. Sci. (USA)
 %   \textbf{115} (2018), no.~16, 3645--3654.
 % 
 % \bibitem{birzu/hallatschek/korolev:2021}
