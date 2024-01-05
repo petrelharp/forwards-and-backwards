@@ -5897,16 +5897,16 @@ and so using Markov's inequality,
 Now consider
 \begin{multline}
 	\label{square of F-integral}
-    &\IE\Big[
+    \IE\Big[
 	\Big(\int_s^t\big\langle\rho_\epsilon*|f|(x) \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
 \eta_u^N(dx)\big\rangle du\Big)^2\Big]
 \\
-    &\hspace{4em}=
+    =
 2\IE\Big[
 	\int_s^t\big\langle\rho_\epsilon*|f|(x) \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
 \eta_u^N(dx)\big\rangle 
-    \\&\hspace{8em}
-	\int_u^t\big\langle \rho_\epsilon*|f|(x)\big|F\big(\rho_\epsilon*\eta_r^N(x)\big)\big|,
+    \\\hspace{8em}
+	\times \int_u^t\big\langle \rho_\epsilon*|f|(x)\big|F\big(\rho_\epsilon*\eta_r^N(x)\big)\big|,
 \eta_r^N(dx)\big\rangle dr
 du\Big].
 \end{multline}
@@ -6360,8 +6360,9 @@ e^{-\epsilon^2\theta/2}, %\left(1+\frac{1}{(\epsilon^2+\delta)^{d/2}}\right),
 \]
 and note that under the assumption that $\epsilon^2\theta\to \infty$, for 
 each fixed $\delta>0$,  
-$\lim_{\epsilon\to 0, \theta\to\infty}
-\widehat{\epsilon}(\delta,\epsilon,\theta)=0$. 
+% $\lim_{\epsilon\to 0, \theta\to\infty} \widehat{\epsilon}(\delta,\epsilon,\theta)=0$. 
+$\widehat{\epsilon}(\delta,\epsilon,\theta) \to 0$
+as $\epsilon\to 0$ and $\theta\to\infty$.
 Using the semimartingale decomposition~(\ref{expn rhoepsilon}),
 and Lemma~\ref{Lemma:BoundPsiHS2},
 we have
@@ -6398,6 +6399,7 @@ we have
 \frac{C}{(\epsilon^2\theta)^{1/2}}
 |p_{6(s-r+\epsilon^2)}(y,z)+
 p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
+\nonumber \\ &\qquad \qquad {} \hspace{24em} \times
 |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
@@ -6445,6 +6447,7 @@ p_{6(s-r+\epsilon^2)}(w,z)| +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
 \frac{C}{(\epsilon^2\theta)^{1/2}}
 (p_{6(s-r+\epsilon^2)}(y,z)+ p_{6(s-r+\epsilon^2)}(w,z))
 +\widehat{\epsilon}(\delta,\epsilon,\theta)\Big\}
+\nonumber \\ &\qquad \qquad {} \hspace{24em} \times
 |F(\rho_\epsilon*\eta_r(z)|, 
 \eta_r(dz) \big\rangle  dr
 \nonumber
@@ -6486,7 +6489,8 @@ Corollary~\ref{alternative form moment bounds}.
 \label{limit in onestep case}
 
 We now turn to the identification of the limit points of the sequence 
-$\big\{\big(\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}\big\}_{N\geq 1}$.
+of measure-valued processes
+$\big(\rho_\epsilon*\eta_t^N(x)dx\big)_{t\geq 0}$.
 We would like to show that any limit point solves~\eqref{target equation in local convergence}
 in the limit, i.e.,
 \begin{equation}\label{eqn:target PDE weak form}
@@ -6605,8 +6609,9 @@ F(\rho_\epsilon*\eta_s(w))\} \rho_\epsilon(w-y)dy, \]
 and note that $|I|$ is bounded by
 \begin{align}
 & \int 
-\Big\{ |F(\rho_\epsilon*\eta_s(y))-F(\rho_\epsilon*\eta_s(w))|T_{\epsilon^2}f(y)+
-F(\rho_\epsilon*\eta_s(w))|T_{\epsilon^2}f(y)-T_{\epsilon^2}f(w))|\Big\} 
+\Big\{ |F(\rho_\epsilon*\eta_s(y))-F(\rho_\epsilon*\eta_s(w))|T_{\epsilon^2}f(y)
+    \nonumber \\ & \hspace{12em} {} +
+F(\rho_\epsilon*\eta_s(w))|T_{\epsilon^2}f(y)-T_{\epsilon^2}f(w)|\Big\} 
 \rho_{\epsilon}(w-y)dy
 \nonumber \\ &\leq \int \| f\|_{\infty} 
 \big|F(\rho_\epsilon*\eta_s(y))-F(\rho_\epsilon*\eta_s(w))\big| \rho_\epsilon(w-y)dy + 
@@ -6681,7 +6686,7 @@ p_{2\epsilon^2}(w,y)dy, \eta_s(dw)\Big\rangle  \Big] ds
 can be rewritten as
 \begin{multline*}
 \int_\delta^t\frac{\epsilon}{\sqrt{s+\epsilon^2}}
-\IE\Big[\int\int\big\langle
+\IE\Big[\int\!\!\int\big\langle
 p_{2(s+\epsilon^2)}(y,z)  
 ,\eta_0(dz)
 \big\rangle
@@ -6690,12 +6695,12 @@ p_{\epsilon^2}(x,y) \rho_\epsilon*\eta_s(x) dy dx ds \Big]
 \\
 \leq
 \int_\delta^t\frac{\epsilon}{\sqrt{s+\epsilon^2}}
-\IE\Big[\int\int\big\langle
+\IE\Big[\int\!\!\int\big\langle
 p_{2(s+\epsilon^2)}(y,z)  
 ,\eta_0(dz)
 \big\rangle
 \big(\rho_\epsilon*\eta_s(y)^{k+1} +\rho_\epsilon*\eta_s(x)^{k+1}\big)
-p_{\epsilon^2}(x,y) dy dx \Big] ds,
+p_{\epsilon^2}(x,y) dy dx \Big] ds
 \end{multline*}
 and using Lemma~\ref{bounds on moments} and the tower property, and integrating
 with respect to $s$, under our assumptions on $\eta_0$,
@@ -6716,14 +6721,9 @@ p_{\epsilon^2}(x,y) dy dx \Big] ds
 \le C'\epsilon\int_\delta^t\frac{1}{(s+\epsilon^2)^{d/2}}ds .
 \end{multline*}
 For fixed $\delta$, this bound tends to zero as $\epsilon\to 0$.
-The term involving 
-$ 
-\big\langle
-p_{2(s+\epsilon^2)}(w,z)   
-,\eta_0(dz)
-\big\rangle
-\rho_\epsilon*\eta_s(w)^k
-$ 
+The term involving  the product of
+$\big\langle p_{2(s+\epsilon^2)}(w,z),\eta_0(dz)\big\rangle$
+and $\rho_\epsilon*\eta_s(w)^k$ 
 is handled similarly.
 
 On the other hand
@@ -6904,12 +6904,14 @@ On the other hand,
 weak convergence of $\rho_\epsilon * \eta$ 
 (plus continuity of the mapping $(z,y) \rightarrow f(z) \rho_\tau(z-y)$) 
 gives that 
-\begin{equation}
+\begin{align*}
+&
 \int_0^t\int \int f(z) (\rho_\epsilon * \eta_s)(z) 
 \rho_\tau (z-y) (\rho_\epsilon * \eta_s)(y) dz dy ds
+\\ & \qquad
 \to \int_0^t \int \int f(z) \varphi(s,z) 
 \rho_\tau (z-y) \varphi(s,y) dz dy ds.
-\end{equation}
+\end{align*}
 Since $\tau$ is arbitrary, the 
 convergence~(\ref{eq:QuadConvergence})
 will follow.
@@ -7006,7 +7008,7 @@ and then in the next section, convergence of the lookdown process itself.
     of the Appendix.
 
     For finite $N$,
-    taking $f(\lp)$ of the form \eqref{eqn:test_functions},
+    if we take $f(\lp)$ to be of the form \eqref{eqn:test_functions},
     we can use $\psi^N(\lp) = \langle C (1 + u |F(x, \eta)|), \lp(dx, du) \rangle$
     for an appropriate constant $C$.
     For the scaling limit, recall that the test functions $f$ are of the form
@@ -7070,11 +7072,11 @@ It is evident from the description of the process
 that
 \begin{align} \label{eqn:f_xi_mgale}
 \begin{split}
-    \langle f, \lp_t^N \rangle
-    &=
+    &\langle f, \lp_t^N \rangle
+    =
     \langle f, \lp_0^N \rangle
     + M^f_t
-\\ & \qquad {}
+\\ & {}
     +
     \int_0^t
     \bigg\langle
@@ -8457,7 +8459,7 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
     \end{align*}
     for some $0 \le s, t \le 1/\theta$.
     As before,
-    \begin{align*}
+    \begin{multline*}
         \frac{
             \theta \int_{\IR^d}
                 ( p_{\epsilon_r^2}(y - w) - p_{\epsilon_r^2}(x - w) )
@@ -8467,9 +8469,10 @@ Condition~\ref{control through gamma} of Lemma~\ref{lem:conditions on r} holds.
             p_{\epsilon_\gamma^2}(x - w)
             p_{\epsilon_\gamma^2}(x - v)
         }
+        \\
         =
         h(x-w, x-v) e^{ k(x-w, x-v) },
-    \end{align*}
+    \end{multline*}
     where $h(z_1, z_2)$ is a polynomial with uniformly bounded coefficients and
     \begin{align*}
         k(z_1, z_2)
@@ -8564,6 +8567,7 @@ see also Theorem~4.13 of \citet{jacod/shiryaev:2013}):
     Let $\{X^{(n)}\}_{n \ge 1}$ and $\{Y^{(n)}\}_{n \ge 1}$ be sequences of jointly defined
     real-valued processes with c\`adl\`ag paths
     satisfying the conditions of Theorem~\ref{thm:aldous_rebolledo}.
+
     Then $\{X^{(n)}Y^{(n)}\}_{n \ge 1}$ and $\{X^{(n)} + Y^{(n)}\}_{n \ge 1}$ also
     satisfy the conditions of Theorem~\ref{thm:aldous_rebolledo}.
 \end{lemma}
@@ -8631,6 +8635,7 @@ probability space, so that the products and sums make sense.
             -
             Y^{(n)}_{\tau_n} 
         \right|
+        \\ &\qquad \qquad \qquad {}
         +
         \sup_{0 \le \theta \le \min(\delta, T-\tau_n)} 
         \left|
