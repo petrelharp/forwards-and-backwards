@@ -98,8 +98,8 @@ Looking forwards and backwards: dynamics and genealogies of locally regulated po
 \AMSSUBJ{60J25 ; 92D10 ; 92D15 ; 92D25 ; 92D40}
 \AMSSUBJSECONDARY{60F05 ; 60G09 ; 60G55 ; 60G57 ; 60H15 ; 60J68}
 
-\SUBMITTED{June 14, 2023} % Edit.
-\ACCEPTED{NA} % Edit.
+\SUBMITTED{June 14, 2023}
+\ACCEPTED{January 3, 2024}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                               %%
@@ -187,8 +187,8 @@ Using a lookdown representation, we are able to retain information about genealo
 \newcommand{\citep}[1]{\cite{#1}}
 
 \newif\ifsubmission
-\submissiontrue
-% \submissionfalse
+% \submissiontrue
+\submissionfalse
 \ifsubmission
     % % stuff for submission
     \usepackage{lineno}
@@ -213,15 +213,18 @@ Using a lookdown representation, we are able to retain information about genealo
         }
 \else
     % for the nice version
+    \newcommand{\llabel}[1]{}
+    \newcommand{\revpoint}[2]{}
+    \newcommand{\includereviews}{}
 \fi
 
-% Responses to reviews
-\input{review-response-commands}
-% set this to show line numbers and include responses to reviews or not
-\newif\ifreviewresponses
-\reviewresponsestrue  % include them
+% % Responses to reviews
+% \input{review-response-commands}
+% % set this to show line numbers and include responses to reviews or not
+% \newif\ifreviewresponses
+% % \reviewresponsestrue  % include them
 % \reviewresponsesfalse  % don't include them
-\newcommand{\responsefile}{review-responses}  % name of the review responses file
+% \newcommand{\responsefile}{review-responses}  % name of the review responses file
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2606,7 +2609,7 @@ this converges to
     \big\rangle .
 \end{align*}
 
-An entirely analogous argument shows that if $G'''$ is bounded, then
+An analogous argument shows that if $G'''$ is bounded, then
 the term $\epsilon_{\theta,N}(f, G, \eta)$ 
 in~(\ref{generator prelimit}) will be $\bigO(\theta/N^2)$. 
 
@@ -3421,9 +3424,10 @@ so that $\kappa = 1$ corresponds to the parent being assigned a new level,
 and our line of descent switching to the offspring.
 Combining these observations, $X_a$, for $\tau_a \le t < \sigma_a$, solves the equation 
 \begin{align*}
-    X_a(t)
-    &=
-    X_a(\tau_a) + 
+    &X_a(t)
+    =
+    X_a(\tau_a) \\
+    &\qquad {} + 
     \int_{[\tau_a, t) \times [0, \infty) \times \IR \times [0, 1]}
     y(X_a(\tau-), z)
     \kappa
@@ -3753,29 +3757,36 @@ assumption~\ref{control through r} of
 Lemma~\ref{lem:conditions on r} is satisfied. \revpoint{1}{28}
 We write
 \begin{align*}
-    r(y,\eta) f(y) - r(x,\eta) f(x)
-&=
+    &r(y,\eta) f(y) - r(x,\eta) f(x)
+    \\
+&\qquad\qquad
+    =
     r(y,\eta) (f(y) - f(x))
     + (r(y,\eta) - r(x,\eta)) f(x) 
-\\ &=
+\\ &\qquad\qquad
+    =
     r(y,\eta) \left(
         \sum_i (y-x)_i \partial_{x_i} f(x)
         + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(z_1)
     \right)
-\\ &\qquad {}
+\\ &\qquad\qquad
+    \qquad {}
     + f(x) \left(
         \sum_i (y-x)_i \partial_{x_i} r(x,\eta)
         + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} r(z_2,\eta)
     \right)
- \\ &=
+ \\ &\qquad\qquad
+    =
     \left( r(x,\eta) + \sum_j (y-x)_j \partial_{x_j} r(z_3,\eta) \right)
     \left(
         \sum_i (y-x)_i \partial_{x_i} f(x)
     \right)
-\\ &\qquad {}
+\\ &\qquad\qquad
+    \qquad {}
     + r(y,\eta) 
         \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} f(z_1)
-\\ &\qquad {}
+\\ &\qquad\qquad
+    \qquad {}
     + f(x) \left(
         \sum_i (y-x)_i \partial_{x_i} r(x,\eta)
         + \sum_{ij} (y-x)_i (y-x)_j \partial_{x_i x_j} r(z_2,\eta)
@@ -4065,10 +4076,10 @@ independent of $N$,
     Now, since $\sqrt{x} \le 1 + x$,
     in the notation of Lemma~\ref{lem:eta_f_bound}, there is a $C'$ such that
     \begin{align*}
-        \IE\left[ M^{N*}_t(1) \right]
-        &\le
+        &\IE\left[ M^{N*}_t(1) \right]
+        \le
         C'\left( 1 + \IE\left[ \left\langle M^N(1) \right\rangle_t \right] \right)
-        \\ &=
+        \\ &\hspace{3em}=
         C'\left( 1 + \frac{\theta}{N} \IE\left[
             \int_0^t
             %\int_{\IR^d} 
@@ -4079,7 +4090,7 @@ independent of $N$,
             \right\}, \eta_s^N(dx)\Big\rangle
             ds
             \right] \right)
-        \\ &=
+        \\ &\hspace{3em}=
         C'\Big( 1 + \IE\Big[
             \int_0^t
             %\int_{\IR^d} 
@@ -4121,6 +4132,8 @@ $\langle 1,\eta_t^N \rangle\geq 0$.
         \IE\left[\sup_{0 \le s \le T} \langle 1, \eta^N_s \rangle \right]
         &\le
         \IE[\langle 1, \eta^N_0 \rangle]
+        + \IE[M^{N*}_t(1)] 
+        \\ & \qquad\qquad {}
         + \IE\left[
             \sup_{0 \le t \le T}
             \int_0^t 
@@ -4130,8 +4143,6 @@ $\langle 1,\eta_t^N \rangle\geq 0$.
                 + F(x, \eta^N_s)
             \right\}, \eta^N_s(dx) \Big\rangle ds
         \right]
-        \\ & \qquad\qquad {}
-        + \IE[M^{N*}_t(1)] 
         \\
         &\le
         \IE[\langle 1, \eta^N_0 \rangle]
@@ -4235,7 +4246,7 @@ Similarly,
     &
  \big|   \langle M^{N}(f) \rangle_{\tau_N + t} 
         - \langle M^{N}(f) \rangle_{\tau_N} \big|
-    \\ & \qquad =
+    \\ & \hspace{0.2em} =
   \Big|  \int_{\tau_N}^{\tau_N + t}
         \frac{\theta}{N}
         \int_{\IR^d}
@@ -4247,7 +4258,7 @@ Similarly,
         \right\}
         \eta^N_s(dx)
     ds \Big|
-    \\ & \qquad =
+    \\ & \hspace{0.2em} =
    \Big| \int_{\tau_N}^{\tau_N + t}
         \frac{\theta}{N}
         \int_{\IR^d}
@@ -4960,8 +4971,8 @@ equation~\eqref{PME1}:
 	+\psi_t(x)\left(1-\psi_t(x)\right).
 \end{equation*}
 
-We work on the time interval $[0,T]$.
-We will require a lower bound on $\int \psi_t^\epsilon(x)\log \psi_t^\epsilon(x) dx$ 
+We work on the time interval $[0,T]$, and
+will require a lower bound on $\int \psi_t^\epsilon\log \psi_t^\epsilon dx$ 
 which we record as a lemma.
 
 \begin{lemma}
@@ -5055,51 +5066,55 @@ $L^1$ norm of the limit
 when we pass to a convergent subsequence.
 
 Now consider
-\begin{eqnarray}
-	\frac{d}{dt}\int \psi_t^\epsilon\log \psi_t^\epsilon dx &=&
+\begin{align}
+& \frac{d}{dt}\int \psi_t^\epsilon\log \psi_t^\epsilon dx 
+\nonumber \\
+&\hspace{3em}=
 	\int (1+\log \psi_t^\epsilon)\left[\Delta \big(\psi_t^\epsilon\,
 	\rho^{\epsilon}*\psi_t^\epsilon\big)
 	+\psi_t^\epsilon\big(1-\rho^{\epsilon}*\psi_t^\epsilon\big)\right]
 dx
 \nonumber
 \\
-&=&
+&\hspace{3em}=
 	\int (1+\log \psi_t^\epsilon)\left[\nabla\Big(\psi_t^\epsilon\,
 	\nabla(\rho^{\epsilon}*\psi_t^\epsilon)+
 	\nabla \psi_t^\epsilon\, \rho^{\epsilon}*\psi_t^\epsilon\Big)
 	+\psi_t^\epsilon\big(1-\rho^{\epsilon}*\psi_t^\epsilon\big)\right]  dx
 \nonumber
 	\\
-&=&
+&\hspace{3em}=
 \int \left[-\frac{\nabla \psi_t^\epsilon}{\psi_t^\epsilon}
 \Big(\psi_t^\epsilon\, \nabla(\rho^{\epsilon}*\psi_t^\epsilon)
 +\nabla \psi_t^\epsilon\, \rho^{\epsilon}*\psi_t^\epsilon\Big)+
 (1+\log \psi_t^\epsilon)\psi_t^\epsilon(1-\rho^{\epsilon}*\psi_t^\epsilon)\right] d x
 \nonumber
 	\\
-&=&
+&\hspace{3em}=
 -\int \left(\nabla (\zeta^{\epsilon}*\psi_t^\epsilon)\right)^2  dx
 -\int (\nabla \psi_t^\epsilon)^2\frac{\rho^{\epsilon}*\psi_t^\epsilon}{\psi_t^\epsilon}  dx
 \nonumber
 	\\
-&&+\int
+&\hspace{3em}
+    +\int
 \left[\psi_t^\epsilon+\psi_t^\epsilon\log \psi_t^\epsilon
 \big(1-\rho^{\epsilon}*\psi_t^\epsilon\big)
 -\psi_t^\epsilon\, \rho^{\epsilon}*\psi_t^\epsilon\right] dx
 \nonumber
 	\\
-&=&
+&\hspace{3em}=
 -\int \left(\nabla (\zeta^{\epsilon}*\psi_t^\epsilon)\right)^2  dx
 -\int (\nabla \psi_t^\epsilon)^2\frac{\rho^{\epsilon}*\psi_t^\epsilon}{\psi_t^\epsilon} dx
 -\int (\zeta^{\epsilon}*\psi_t^\epsilon)^2  dx
 \nonumber
 	\\
-&&+\int
+&\hspace{3em}
+    +\int
 \left[\psi_t^\epsilon+\psi_t^\epsilon\log \psi_t^\epsilon
 \big(1-\rho^{\epsilon}*\psi_t^\epsilon\big)
 \right] dx .
 	\label{change in ulogu}
-\end{eqnarray}
+\end{align}
 The first three terms are negative; and we already
 saw that the $L^1$ norm
 of $\psi_t^\epsilon$ is uniformly bounded.
@@ -5622,8 +5637,8 @@ q_\theta(y,dz),
 \eta_s(dy)\Big\rangle ds\Big|{\cal F}_0\Big]
 \\
 \leq 
-C\IE\Big[\Big\langle\int_0^t\sum_{j=2}^k\frac{\theta}{N\epsilon^d}
-\Big(\frac{1}{(N\epsilon^d)^{j-2}}\Big)
+C\IE\Big[\Big\langle\int_0^t\sum_{j=2}^k
+    \frac{\theta}{N\epsilon^d (N\epsilon^d)^{j-2}}
 	\Big\langle \psi^{\epsilon,x}_{t-s}(y)
 \Big(2+\frac{|F(\rho_\epsilon*\eta_s(y))|}{\theta}\Big),\eta_s(dy)\Big\rangle
 \langle\psi^{\epsilon,x}_{t-s},\eta_s\rangle^{k-j}ds\big|{\cal F}_0\Big]
@@ -5721,10 +5736,10 @@ p_{\epsilon^2/4}*\eta_t\big(\frac{y_1+y_2}{2}\big)\,
 p_{\epsilon^2}(y_1,y_2)dy_1dy_2\Big]
 \\
 &\leq 
-\IE\Big[\int \int\Big\{
+\IE\Big[\int\! \int\Big\{
 \big(p_{\epsilon^2/2}*\eta_t(y_1)\big)^3+ \big(p_{\epsilon^2/2}*\eta_t(y_2)\big)^3+
 \big(p_{\epsilon^2/4}*\eta_t\big(\frac{y_1+y_2}{2}\big)\big)^3
-\Big\}p_{\epsilon^2}(y_1,y_2)dy_1dy_2\Big],
+\Big\}p_{\epsilon^2}(y_1,y_2)dy_1dy_2\Big]
 \end{align*}
 where we have used that for any non-negative real numbers
 $\beta_1$, $\beta_2$, $\beta_3$, 
@@ -5754,18 +5769,19 @@ where
 Writing $p_{\epsilon^2}(x,z_j) = \int p_{\epsilon^2/2}(x,y_j) p_{\epsilon^2/2}(y_j,z_j) dy_j$
 and using the above with $\tau = \epsilon^2/2$,
 this yields
-\begin{multline*}
-\big\langle\big(\rho_\epsilon*\eta_t(x)\big)^k,\eta_t(dx)\big\rangle
-    =\int\cdots\int \prod_{j=2}^k p_{\epsilon^2 j/2(j-1)}(y_j,Y_{j-1})
+\begin{align*}
+&\big\langle\big(\rho_\epsilon*\eta_t(x)\big)^k,\eta_t(dx)\big\rangle
+\\ &\hspace{2em}=
+    \int\cdots\int \prod_{j=2}^k p_{\epsilon^2 j/2(j-1)}(y_j,Y_{j-1})
      \prod_{i=1}^k p_{\epsilon^2/2}*\eta_t(y_i)p_{\epsilon^2/2k}*\eta_t(Y_k)
 dy_1\ldots dy_k
-\\
-\leq
+\\ &\hspace{2em}\leq
 \int\cdots\int 
     \prod_{j=2}^k p_{\epsilon^2 j/2(j-1)}(y_j,Y_{j-1})
+\\ &\hspace{8em} {} \times
     \Big\{\sum_{i=1}^k\big(p_{\epsilon^2/2}*\eta_t(y_i)\big)^{k+1}
     + \big(p_{\epsilon^2/2k}*\eta_t(Y_k)\big)^{k+1}\Big\}dy_1\ldots dy_k,
-\end{multline*}
+\end{align*}
 and once again we can change variables in the integrals and 
 use~(\ref{heat equation at smaller time}) to bound this by a constant 
 multiple of $\int\IE\big[\big(\rho_\epsilon*\eta_t(x)\big)^{k+1}\big]dx$, and
@@ -5776,7 +5792,8 @@ the inductive step is complete.
 \label{lem:density_tightness} 
 Under the assumptions of Theorem~\ref{thm:local_convergence},
 the sequence of measure valued processes $\{ \rho_\epsilon*\eta_t^N(x) dx \}_{t \geq 0}$
-	(taking values in ${\mathcal D}_{[0,T]}(\measures)$) is tight.
+    is tight
+	(as measures on ${\mathcal D}_{[0,T]}(\measures)$).
 \end{corollary}
 \begin{proof}
 
@@ -5880,14 +5897,15 @@ and so using Markov's inequality,
 Now consider
 \begin{multline}
 	\label{square of F-integral}
-\IE\Big[
+    &\IE\Big[
 	\Big(\int_s^t\big\langle\rho_\epsilon*|f|(x) \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
 \eta_u^N(dx)\big\rangle du\Big)^2\Big]
 \\
-=
+    &\hspace{4em}=
 2\IE\Big[
 	\int_s^t\big\langle\rho_\epsilon*|f|(x) \big|F\big(\rho_\epsilon*\eta_u^N(x)\big)\big|,
 \eta_u^N(dx)\big\rangle 
+    \\&\hspace{8em}
 	\int_u^t\big\langle \rho_\epsilon*|f|(x)\big|F\big(\rho_\epsilon*\eta_r^N(x)\big)\big|,
 \eta_r^N(dx)\big\rangle dr
 du\Big].
@@ -8700,294 +8718,335 @@ probability space, so that the products and sums make sense.
 
 
 \bibliographystyle{amsplain}
-\bibliography{refs}
+% \bibliography{refs}
 
 % add below the content of your .bbl file produced by bibtex.
 
-% \providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
-% \providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
-% % \MRhref is called by the amsart/book/proc definition of \MR.
-% \providecommand{\MRhref}[2]{%
-%   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
-% }
-% \providecommand{\href}[2]{#2}
-% \begin{thebibliography}{10}
-% 
-% \bibitem{barlow/jacka/yor:1986}
-% M.~T. Barlow, S.~D. Jacka, and M.~Yor, \emph{Inequalities for a pair of
-%   processes stopped at a random time}, Proceedings of the London Mathematical
-%   Society \textbf{s3-52} (1986), no.~1, 142--172.
-% 
-% \bibitem{barton:1979}
-% N~H Barton, \emph{The dynamics of hybrid zones}, Heredity \textbf{43} (1979),
-%   no.~3, 341--359.
-% 
-% \bibitem{berestycki2009nonlocal}
-% Henri Berestycki, Gregoire Nadin, Benoit Perthame, and Lenya Ryzhik, \emph{The
-%   non-local fisher-kpp equation: travelling waves and steady states},
-%   Nonlinearity \textbf{22} (2009), no.~12, 2813--2844.
-% 
-% \bibitem{birzu/hallatschek/korolev:2017}
-% Gabriel Birzu, Oskar Hallatschek, and Kirill~S. Korolev, \emph{Fluctuations
-%   uncover a distinct class of travelling waves}, Proc. Natl. Acad. Sci. (USA)
-%   \textbf{115} (2018), no.~16, 3645--3654.
-% 
-% \bibitem{birzu/hallatschek/korolev:2021}
-% Gabriel Birzu, Oskar Hallatschek, and Kirill~S Korolev, \emph{Genealogical
-%   structure changes as range expansions transition from pushed to pulled},
-%   Proc. Natl. Acad. Sci. (USA) \textbf{118} (2021), no.~34, e2026746118.
-% 
-% \bibitem{biswas/etheridge/klimek:2018}
-% Niloy Biswas, Alison Etheridge, and Aleksander Klimek, \emph{The spatial
-%   {Lambda}-{Fleming}-{Viot} process with fluctuating selection}, Electron. J.
-%   Probab. \textbf{26} (2021), 1 -- 51.
-% 
-% \bibitem{bolker/pacala:1997}
-% B~M Bolker and S~W Pacala, \emph{Using moment equations to understand
-%   stochastically driven spatial pattern formation in ecological systems},
-%   Theor. Pop. Biol. \textbf{52} (1997), no.~3, 179--197.
-% 
-% \bibitem{bolker/pacala:1999}
-% \bysame, \emph{Spatial moment equations for plant competition: {Understanding}
-%   spatial strategies and the advantages of short dispersal}, American
-%   Naturalist \textbf{153} (1999), no.~6, 575--602.
-% 
-% \bibitem{bramson:1983}
-% M~Bramson, \emph{{Convergence of solutions of the Kolmogorov equation to
-%   travelling waves}}, Mem. Amer. Math. Soc. \textbf{44} (1983), no.~285.
-% 
-% \bibitem{britton1990spatial}
-% N.~F. Britton, \emph{Spatial structures and periodic travelling waves in an
-%   integro-differential reaction-diffusion population model}, SIAM Journal on
-%   Applied Mathematics \textbf{50} (1990), no.~6, 1663--1688.
-% 
-% \bibitem{brunet/derrida/mueller/munier:2006}
-% E~Brunet, B~Derrida, A~H Mueller, and S~Munier, \emph{Noisy travelling waves:
-%   effect of selection on genealogies}, Europhys. Lett. \textbf{76} (2006),
-%   1--7.
-% 
-% \bibitem{cantrell2004spatial}
-% Robert~Stephen Cantrell and Chris Cosner, \emph{Spatial ecology via
-%   reaction-diffusion equations}, John Wiley \& Sons, 2004.
-% 
-% \bibitem{cohen/golding/kozlovsky/benjacob/ron:1999}
-% I~Cohen, I~Golding, Y~Kozlovsky, E~Ben-Jacob, and I~Ron, \emph{Continuous and
-%   discrete models of cooperation in complex bacterial colonies}, Fractals
-%   \textbf{7} (1999), 235--247.
-% 
-% \bibitem{dawson:1993}
-% D~A Dawson, \emph{{Measure-valued Markov processes}}, \'Ecole d'\'et\'e de
-%   probabilit\'es de Saint Flour, vol. 1541, Springer-Verlag, 1993.
-% 
-% \bibitem{demasi/ferrari/lebowitz:1986}
-% A.~De~Masi, P.~A. Ferrari, and J.~L. Lebowitz, \emph{Reaction-diffusion
-%   equations for interacting particle system}, J. Stat. Phys. \textbf{44}
-%   (1986), 589--644.
-% 
-% \bibitem{demasi/presutti:1991}
-% Anna DeMasi and Errico Presutti, \emph{Mathematical methods for hydrodynamic
-%   limits}, Springer, 2006.
-% 
-% \bibitem{donnelly/kurtz:1996}
-% P~J Donnelly and T~G Kurtz, \emph{{A countable representation of the
-%   Fleming-Viot measure-valued diffusion}}, Ann. Probab. \textbf{24} (1996),
-%   698--742.
-% 
-% \bibitem{donnelly/kurtz:1999}
-% \bysame, \emph{{Particle representations for measure-valued population
-%   models}}, Ann. Probab. \textbf{27} (1999), 166--205.
-% 
-% \bibitem{durrett/fan:2016}
-% R~Durrett and W-T Fan, \emph{Genealogies in expanding populations}, Ann. Appl.
-%   Probab. \textbf{26} (2016), 3456--3490.
-% 
-% \bibitem{etheridge/gooding/letter:2022}
-% A~Etheridge, M~Gooding, and I~Letter, \emph{{On the effects of a wide opening
-%   in the domain of the (stochastic) Allen-Cahn equation and the motion of
-%   hyrbid zones}}, Electron. J. Probab. \textbf{27} (2022), 1--52.
-% 
-% \bibitem{etheridge/penington:2022}
-% A.~Etheridge and S.~Penington, \emph{Genealogies in bistable waves}, Electron.
-%   J. Probab. \textbf{27} (2022), no.~121, 1--99.
-% 
-% \bibitem{etheridge:2004}
-% A~M Etheridge, \emph{Survival and extinction in a locally regulated
-%   population}, Ann. Appl. Probab. \textbf{14} (2004), no.~1, 188--214.
-% 
-% \bibitem{etheridge2000introduction}
-% Alison Etheridge, \emph{An introduction to superprocesses}, no.~20, American
-%   Mathematical Society, 2000.
-% 
-% \bibitem{etheridge/kurtz:2019}
-% Alison~M. Etheridge and Thomas~G. Kurtz, \emph{{Genealogical constructions of
-%   population models}}, Ann. Probab. \textbf{47} (2019), no.~4, 1827--1910.
-% 
-% \bibitem{ethier/kurtz:1986}
-% Stewart~N. Ethier and Thomas~G. Kurtz, \emph{Markov processes --
-%   characterization and convergence}, Wiley Series in Probability and
-%   Mathematical Statistics: Probability and Mathematical Statistics, John Wiley
-%   \& Sons Inc., New York, 1986. \MR{MR838085 (88a:60130)}
-% 
-% \bibitem{fife1977approach}
-% Paul~C. Fife and J.~B. McLeod, \emph{The approach of solutions of nonlinear
-%   diffusion equations to travelling front solutions}, Archive for Rational
-%   Mechanics and Analysis \textbf{65} (1977), no.~4, 335--361.
-% 
-% \bibitem{flandoli/huang:2021}
-% Franco Flandoli and Ruojun Huang, \emph{The {KPP} equation as a scaling limit
-%   of locally interacting {Brownian} particles}, J. Differential Equations
-%   \textbf{303} (2021), 608--644.
-% 
-% \bibitem{flandoli/leimbach/olivera:2019}
-% Franco Flandoli, Matti Leimbach, and Christian Olivera, \emph{Uniform
-%   convergence of proliferating particles to the fkpp equation}, Journal of
-%   Mathematical Analysis and Applications \textbf{473} (2019), no.~1, 27--52.
-% 
-% \bibitem{ghosh2022emergent}
-% Olivia~M. Ghosh and Benjamin~H. Good, \emph{Emergent evolutionary forces in
-%   spatial models of microbial growth in the human gut microbiota}, Proc. Natl.
-%   Acad. Sci. (USA) \textbf{119} (2022), no.~28, e2114931119.
-% 
-% \bibitem{gilding/kersner:2005}
-% B~H Gilding and R~Kersner, \emph{A {Fisher}/{KPP}-type equation with density
-%   dependent diffusion and convection: travelling wave solutions}, J. Phys. A:
-%   Math. Gen. \textbf{38} (2005), 337--3379.
-% 
-% \bibitem{gooding:2018}
-% M.~Gooding, \emph{Long term behaviour of spatial population models with
-%   heterozygous or asymmetric homozygous selection}, DPhil thesis, Oxford
-%   University, 2018.
-% 
-% \bibitem{hallatschek/nelson:2008}
-% O~Hallatschek and D~Nelson, \emph{Gene surfing in expanding populations},
-%   Theor. Pop. Biol. \textbf{73} (2008), 158--170.
-% 
-% \bibitem{haller_slim_2019}
-% Benjamin~C. Haller and Philipp~W. Messer, \emph{{SLiM} 3: {Forward} genetic
-%   simulations beyond the {Wright}-{Fisher} model}, Mol. Biol. Evol. \textbf{36}
-%   (2019), no.~3, 632--637.
-% 
-% \bibitem{haller2022evolutionary}
-% \bysame, \emph{{SLiM}: An evolutionary simulation framework}, 2022.
-% 
-% \bibitem{hernandezgarcia2004clustering}
-% Emilio Hern\'andez-Garc\'{\i}a and Crist\'obal L\'opez, \emph{Clustering,
-%   advection, and patterns in a model of population dynamics with
-%   neighborhood-dependent rates}, Phys. Rev. E \textbf{70} (2004), no.~1,
-%   016216.
-% 
-% \bibitem{hernandez/jacka:2022}
-% Ma.~Elena Hern{\'{a}}ndez-Hern{\'{a}}ndez and Saul~D. Jacka, \emph{A
-%   generalisation of the burkholder-davis-gundy inequalities}, Electronic
-%   Communications in Probability \textbf{27} (2022), no.~none.
-% 
-% \bibitem{holmes/lewis/banks/veit:1994}
-% E.~E. Holmes, M.~A. Lewis, J.~E. Banks, and R.~R. Veit, \emph{Partial
-%   differential equations in ecology: Spatial interactions and population
-%   dynamics}, Ecology \textbf{75} (1994), no.~1, 17--29.
-% 
-% \bibitem{jacod/shiryaev:2013}
-% Jean Jacod and Albert Shiryaev, \emph{Limit theorems for stochastic processes},
-%   vol. 288, Springer Science \& Business Media, 2013.
-% 
-% \bibitem{kallenberg1997foundations}
-% Olav Kallenberg, \emph{Foundations of modern probability}, vol.~2, Springer,
-%   1997.
-% 
-% \bibitem{kamin/rosenau:2004}
-% S~Kamin and P~Rosenau, \emph{Emergence of waves in a nonlinear
-%   convection-reaction-diffusion equation}, Adv. Nonlinear Stud. \textbf{4}
-%   (2004), 251--272.
-% 
-% \bibitem{kelleher2019inferring}
-% Jerome Kelleher, Yan Wong, Anthony~W. Wohns, Chaimaa Fadil, Patrick~K. Albers,
-%   and Gil McVean, \emph{Inferring whole-genome histories in large population
-%   datasets}, Nature Genetics \textbf{51} (2019), no.~9, 1330--1338.
-% 
-% \bibitem{kolmogorov/petrovsky/piscounov:1937}
-% A~Kolomogorov, I~Petrovsky, and N~Piscounov, \emph{{\'Etude de l'equation de la
-%   diffusion avec croissance de la quantit\'e de mati\`ere et son application
-%   \`a un probl\`eme biologique}}, Moscow Univ. Math. Bull. \textbf{1} (1937),
-%   1--25.
-% 
-% \bibitem{kurtz/rodrigues:2011}
-% Thomas~G. Kurtz and Eliane~R. Rodrigues, \emph{Poisson representations of
-%   branching {Markov} and measure-valued branching processes}, Ann. Probab.
-%   \textbf{39} (2011), no.~3, 939--984.
-% 
-% \bibitem{kurtz/xiong:1999}
-% Thomas~G. Kurtz and Jie Xiong, \emph{Particle representations for a class of
-%   nonlinear spdes}, Stoch. Proc. Appl. \textbf{83} (1999), no.~1, 103--126.
-% 
-% \bibitem{lam2023introduction}
-% King-Yeung Lam and Yuan Lou, \emph{Introduction to reaction-diffusion
-%   equations: Theory and applications to spatial ecology and evolutionary
-%   biology}, Springer International Publishing AG, 2023.
-% 
-% \bibitem{li/buenzli/simpson:2022}
-% Y~Li, P~Buenzli, and M~Simpson, \emph{Interpreting how nonlinear diffusion
-%   affects the fate of bistable populations using a discrete modelling
-%   framework}, Proc. Roy. Soc. A \textbf{478} (2022).
-% 
-% \bibitem{lions/mas-gallic:2001}
-% P-L Lions and S~Mas-Gallic, \emph{{Une m\'ethode particulaire d\'eterministe
-%   pour des \'equations diffusives non lin\'eaires}}, C. R. Acad. Sci. Paris
-%   \textbf{332, S\'erie I} (2001), 369--376.
-% 
-% \bibitem{neigel1993application}
-% J~E Neigel and J~C Avise, \emph{Application of a random walk model to
-%   geographic distributions of animal mitochondrial {DNA} variation}, Genetics
-%   \textbf{135} (1993), no.~4, 1209--1220.
-% 
-% \bibitem{oelschlaeger:1985}
-% Karl Oelschl{\"a}ger, \emph{A law of large numbers for moderately interacting
-%   diffusion processes}, Z. Wahrsch. verw. Geb. \textbf{69} (1985), no.~2,
-%   279--322.
-% 
-% \bibitem{oelschlaeger:1989}
-% \bysame, \emph{On the derivation of reaction-diffusion equations as limit
-%   dynamics of systems of moderately interacting stochastic processes}, Prob.
-%   Theor. Rel. Fields \textbf{82} (1989), no.~4, 565--586.
-% 
-% \bibitem{penington:2017}
-% S~Penington, \emph{{The spreading speed of solutions of the non-local
-%   Fisher-KPP equation}}, J. Functional Anal. \textbf{275} (2017), no.~12,
-%   3259--3302.
-% 
-% \bibitem{perkins:1992}
-% E~A Perkins, \emph{{Measure-valued branching diffusions with spatial
-%   interactions}}, Prob. Th. Rel. Fields \textbf{94} (1992), 189--245.
-% 
-% \bibitem{potts/borger:2023}
-% Jonathan~R. Potts and Luca Börger, \emph{How to scale up from animal movement
-%   decisions to spatiotemporal patterns: An approach via step selection},
-%   Journal of Animal Ecology \textbf{92} (2023), no.~1, 16--29.
-% 
-% \bibitem{rebolledo:1980}
-% R~Rebolledo, \emph{{Sur l'existence de solutions \'a certains probl\`emes de
-%   semimartingales}}, C. R. Acad. Sci. Paris \textbf{290} (1980).
-% 
-% \bibitem{sasaki1997clumped}
-% Akira Sasaki, \emph{Clumped distribution by neighbourhood competition}, J.
-%   Theor. Biol. \textbf{186} (1997), no.~4, 415--430.
-% 
-% \bibitem{sherratt:2010}
-% J~A Sherratt, \emph{On the form of smooth-front travelling waves in a
-%   reaction-diffusion equation with degenerate nonlinear diffusion}, Math.
-%   Model. Nat. Phenom. \textbf{5} (2010), no.~5, 64--79.
-% 
-% \bibitem{sheu:1991}
-% S~J Sheu, \emph{{Some estimates of the transition density of a nondegenerate
-%   diffusion Markov process}}, Ann. Probab. \textbf{19} (1991), no.~2, 538--561.
-% 
-% \bibitem{young2001reproductive}
-% W.~R. Young, A.~J. Roberts, and G.~Stuhne, \emph{Reproductive pair correlations
-%   and the clustering of organisms}, Nature \textbf{412} (2001), no.~6844,
-%   328--331.
-% 
-% \end{thebibliography}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{10}
 
+\bibitem{adler2018interspecific}
+Peter~B. Adler, Andrew Kleinhesselink, Giles Hooker, Joshua~B. Taylor, Brittany
+  Teller, and Stephen~P. Ellner, \emph{Weak interspecific interactions in a
+  sagebrush steppe? {Conflicting} evidence from observations and experiments},
+  Ecology \textbf{99} (2018), no.~7, 1621--1632.
 
+\bibitem{barlow/jacka/yor:1986}
+M.~T. Barlow, S.~D. Jacka, and M.~Yor, \emph{Inequalities for a pair of
+  processes stopped at a random time}, Proceedings of the London Mathematical
+  Society \textbf{s3-52} (1986), no.~1, 142--172.
+
+\bibitem{barton:1979}
+N~H Barton, \emph{The dynamics of hybrid zones}, Heredity \textbf{43} (1979),
+  no.~3, 341--359.
+
+\bibitem{berestycki2009nonlocal}
+Henri Berestycki, Gregoire Nadin, Benoit Perthame, and Lenya Ryzhik, \emph{The
+  non-local {Fisher}-{KPP} equation: travelling waves and steady states},
+  Nonlinearity \textbf{22} (2009), no.~12, 2813--2844.
+
+\bibitem{birzu/hallatschek/korolev:2017}
+Gabriel Birzu, Oskar Hallatschek, and Kirill~S. Korolev, \emph{Fluctuations
+  uncover a distinct class of traveling waves}, Proc. Natl. Acad. Sci. (USA)
+  \textbf{115} (2018), no.~16, 3645--3654.
+
+\bibitem{birzu/hallatschek/korolev:2021}
+Gabriel Birzu, Oskar Hallatschek, and Kirill~S Korolev, \emph{Genealogical
+  structure changes as range expansions transition from pushed to pulled},
+  Proc. Natl. Acad. Sci. (USA) \textbf{118} (2021), no.~34, e2026746118.
+
+\bibitem{birzu2019genetic}
+Gabriel Birzu, Sakib Matin, Oskar Hallatschek, and Kirill~S. Korolev,
+  \emph{Genetic drift in range expansions is very sensitive to density
+  dependence in dispersal and growth}, Ecology Letters \textbf{22} (2019),
+  no.~11, 1817--1827.
+
+\bibitem{biswas/etheridge/klimek:2018}
+Niloy Biswas, Alison Etheridge, and Aleksander Klimek, \emph{The spatial
+  {Lambda}-{Fleming}-{Viot} process with fluctuating selection}, Electron. J.
+  Probab. \textbf{26} (2021), 1 -- 51.
+
+\bibitem{bolker/pacala:1997}
+B~M Bolker and S~W Pacala, \emph{Using moment equations to understand
+  stochastically driven spatial pattern formation in ecological systems},
+  Theor. Pop. Biol. \textbf{52} (1997), no.~3, 179--197.
+
+\bibitem{bolker/pacala:1999}
+\bysame, \emph{Spatial moment equations for plant competition: {Understanding}
+  spatial strategies and the advantages of short dispersal}, American
+  Naturalist \textbf{153} (1999), no.~6, 575--602.
+
+\bibitem{bramson:1983}
+M~Bramson, \emph{Convergence of solutions of the kolmogorov equation to
+  travelling waves}, Mem. Amer. Math. Soc. \textbf{44} (1983), no.~285, iv+190.
+
+\bibitem{britton1990spatial}
+N.~F. Britton, \emph{Spatial structures and periodic travelling waves in an
+  integro-differential reaction-diffusion population model}, SIAM Journal on
+  Applied Mathematics \textbf{50} (1990), no.~6, 1663--1688.
+
+\bibitem{brunet/derrida/mueller/munier:2006}
+E~Brunet, B~Derrida, A~H Mueller, and S~Munier, \emph{Noisy travelling waves:
+  effect of selection on genealogies}, Europhys. Lett. \textbf{76} (2006),
+  1--7.
+
+\bibitem{cantrell2004spatial}
+Robert~Stephen Cantrell and Chris Cosner, \emph{Spatial ecology via
+  reaction-diffusion equations}, John Wiley \& Sons, 2004.
+
+\bibitem{cohen/golding/kozlovsky/benjacob/ron:1999}
+I~Cohen, I~Golding, Y~Kozlovsky, E~Ben-Jacob, and I~Ron, \emph{Continuous and
+  discrete models of cooperation in complex bacterial colonies}, Fractals
+  \textbf{7} (1999), 235--247.
+
+\bibitem{dawson:1993}
+D~A Dawson, \emph{{Measure-valued Markov processes}}, \'Ecole d'\'et\'e de
+  probabilit\'es de Saint Flour, vol. 1541, Springer-Verlag, 1993.
+
+\bibitem{demasi/ferrari/lebowitz:1986}
+A.~De~Masi, P.~A. Ferrari, and J.~L. Lebowitz, \emph{Reaction-diffusion
+  equations for interacting particle system}, J. Stat. Phys. \textbf{44}
+  (1986), 589--644.
+
+\bibitem{demasi/presutti:1991}
+Anna DeMasi and Errico Presutti, \emph{Mathematical methods for hydrodynamic
+  limits}, Springer, 2006.
+
+\bibitem{donnelly/kurtz:1996}
+P~J Donnelly and T~G Kurtz, \emph{{A countable representation of the
+  Fleming-Viot measure-valued diffusion}}, Ann. Probab. \textbf{24} (1996),
+  698--742.
+
+\bibitem{donnelly/kurtz:1999}
+\bysame, \emph{{Particle representations for measure-valued population
+  models}}, Ann. Probab. \textbf{27} (1999), 166--205.
+
+\bibitem{durrett/fan:2016}
+R~Durrett and W-T Fan, \emph{Genealogies in expanding populations}, Ann. Appl.
+  Probab. \textbf{26} (2016), 3456--3490.
+
+\bibitem{etheridge/gooding/letter:2022}
+A~Etheridge, M~Gooding, and I~Letter, \emph{{On the effects of a wide opening
+  in the domain of the (stochastic) Allen-Cahn equation and the motion of
+  hyrbid zones}}, Electron. J. Probab. \textbf{27} (2022), 1--52.
+
+\bibitem{etheridge/penington:2022}
+A.~Etheridge and S.~Penington, \emph{Genealogies in bistable waves}, Electron.
+  J. Probab. \textbf{27} (2022), no.~121, 1--99.
+
+\bibitem{etheridge:2004}
+A~M Etheridge, \emph{Survival and extinction in a locally regulated
+  population}, Ann. Appl. Probab. \textbf{14} (2004), no.~1, 188--214.
+
+\bibitem{etheridge2000introduction}
+Alison Etheridge, \emph{An introduction to superprocesses}, no.~20, American
+  Mathematical Society, 2000.
+
+\bibitem{etheridge/pennington:2022}
+Alison Etheridge and Sarah Penington, \emph{Genealogies in bistable waves},
+  Electronic Journal of Probability \textbf{27} (2022), no.~none, 1 -- 99.
+
+\bibitem{etheridge/kurtz:2019}
+Alison~M. Etheridge and Thomas~G. Kurtz, \emph{{Genealogical constructions of
+  population models}}, Ann. Probab. \textbf{47} (2019), no.~4, 1827--1910.
+
+\bibitem{ethier/kurtz:1986}
+Stewart~N. Ethier and Thomas~G. Kurtz, \emph{Markov processes --
+  characterization and convergence}, Wiley Series in Probability and
+  Mathematical Statistics: Probability and Mathematical Statistics, John Wiley
+  \& Sons Inc., New York, 1986. \MR{MR838085 (88a:60130)}
+
+\bibitem{ewens:1982}
+W~J Ewens, \emph{{The concept of the effective population size}}, Theor. Pop.
+  Biol. \textbf{21} (1982), 373--378.
+
+\bibitem{fife1977approach}
+Paul~C. Fife and J.~B. McLeod, \emph{The approach of solutions of nonlinear
+  diffusion equations to travelling front solutions}, Archive for Rational
+  Mechanics and Analysis \textbf{65} (1977), no.~4, 335--361.
+
+\bibitem{flandoli/huang:2021}
+Franco Flandoli and Ruojun Huang, \emph{The {KPP} equation as a scaling limit
+  of locally interacting {Brownian} particles}, J. Differential Equations
+  \textbf{303} (2021), 608--644.
+
+\bibitem{flandoli/leimbach/olivera:2019}
+Franco Flandoli, Matti Leimbach, and Christian Olivera, \emph{Uniform
+  convergence of proliferating particles to the {FKPP} equation}, Journal of
+  Mathematical Analysis and Applications \textbf{473} (2019), no.~1, 27--52.
+
+\bibitem{fournier2004microscopic}
+Nicolas Fournier and Sylvie M\'el\'eard, \emph{A microscopic probabilistic
+  description of a locally regulated population and macroscopic
+  approximations}, The Annals of Applied Probability \textbf{14} (2004), no.~4,
+  1880--1919.
+
+\bibitem{ghosh2022emergent}
+Olivia~M. Ghosh and Benjamin~H. Good, \emph{Emergent evolutionary forces in
+  spatial models of microbial growth in the human gut microbiota}, Proc. Natl.
+  Acad. Sci. (USA) \textbf{119} (2022), no.~28, e2114931119.
+
+\bibitem{gilding/kersner:2005}
+B~H Gilding and R~Kersner, \emph{A {Fisher}/{KPP}-type equation with density
+  dependent diffusion and convection: travelling wave solutions}, J. Phys. A:
+  Math. Gen. \textbf{38} (2005), 337--3379.
+
+\bibitem{gooding:2018}
+M.~Gooding, \emph{Long term behaviour of spatial population models with
+  heterozygous or asymmetric homozygous selection}, DPhil thesis, Oxford
+  University, 2018.
+
+\bibitem{hallatschek/nelson:2008}
+O~Hallatschek and D~Nelson, \emph{Gene surfing in expanding populations},
+  Theor. Pop. Biol. \textbf{73} (2008), 158--170.
+
+\bibitem{haller_slim_2019}
+Benjamin~C. Haller and Philipp~W. Messer, \emph{{SLiM} 3: {Forward} genetic
+  simulations beyond the {Wright}-{Fisher} model}, Mol. Biol. Evol. \textbf{36}
+  (2019), no.~3, 632--637.
+
+\bibitem{haller2022evolutionary}
+\bysame, \emph{{SLiM}: An evolutionary simulation framework}, 2022.
+
+\bibitem{hernandezgarcia2004clustering}
+Emilio Hern\'andez-Garc\'{\i}a and Crist\'obal L\'opez, \emph{Clustering,
+  advection, and patterns in a model of population dynamics with
+  neighborhood-dependent rates}, Phys. Rev. E \textbf{70} (2004), no.~1,
+  016216.
+
+\bibitem{hernandez/jacka:2022}
+Ma.~Elena Hern{\'{a}}ndez-Hern{\'{a}}ndez and Saul~D. Jacka, \emph{A
+  generalisation of the {Burkholder}-{Davis}-{Gundy} inequalities}, Electronic
+  Communications in Probability \textbf{27} (2022), no.~none, 1--8.
+
+\bibitem{holmes/lewis/banks/veit:1994}
+E.~E. Holmes, M.~A. Lewis, J.~E. Banks, and R.~R. Veit, \emph{Partial
+  differential equations in ecology: Spatial interactions and population
+  dynamics}, Ecology \textbf{75} (1994), no.~1, 17--29.
+
+\bibitem{jacod/shiryaev:2013}
+Jean Jacod and Albert Shiryaev, \emph{Limit theorems for stochastic processes},
+  vol. 288, Springer Science \& Business Media, 2013.
+
+\bibitem{kallenberg1997foundations}
+Olav Kallenberg, \emph{Foundations of modern probability}, vol.~2, Springer,
+  1997.
+
+\bibitem{kamin/rosenau:2004}
+S~Kamin and P~Rosenau, \emph{Emergence of waves in a nonlinear
+  convection-reaction-diffusion equation}, Adv. Nonlinear Stud. \textbf{4}
+  (2004), 251--272.
+
+\bibitem{kelleher2019inferring}
+Jerome Kelleher, Yan Wong, Anthony~W. Wohns, Chaimaa Fadil, Patrick~K. Albers,
+  and Gil McVean, \emph{Inferring whole-genome histories in large population
+  datasets}, Nature Genetics \textbf{51} (2019), no.~9, 1330--1338.
+
+\bibitem{kolmogorov/petrovsky/piscounov:1937}
+A~Kolomogorov, I~Petrovsky, and N~Piscounov, \emph{{\'Etude de l'equation de la
+  diffusion avec croissance de la quantit\'e de mati\`ere et son application
+  \`a un probl\`eme biologique}}, Moscow Univ. Math. Bull. \textbf{1} (1937),
+  1--25.
+
+\bibitem{kurtz/rodrigues:2011}
+Thomas~G. Kurtz and Eliane~R. Rodrigues, \emph{Poisson representations of
+  branching {Markov} and measure-valued branching processes}, Ann. Probab.
+  \textbf{39} (2011), no.~3, 939--984.
+
+\bibitem{kurtz/xiong:1999}
+Thomas~G. Kurtz and Jie Xiong, \emph{Particle representations for a class of
+  nonlinear {SPDEs}}, Stoch. Proc. Appl. \textbf{83} (1999), no.~1, 103--126.
+
+\bibitem{lam2023introduction}
+King-Yeung Lam and Yuan Lou, \emph{Introduction to reaction-diffusion
+  equations: Theory and applications to spatial ecology and evolutionary
+  biology}, Springer International Publishing AG, 2023.
+
+\bibitem{law/murrell/dieckmann:2003}
+R~Law, D~J Murrell, and U~Dieckmann, \emph{{Population growth in space and
+  time: spatial logistic equations}}, Ecology \textbf{84} (2003), no.~2,
+  252--262.
+
+\bibitem{li/buenzli/simpson:2022}
+Y~Li, P~Buenzli, and M~Simpson, \emph{Interpreting how nonlinear diffusion
+  affects the fate of bistable populations using a discrete modelling
+  framework}, Proc. Roy. Soc. A \textbf{478} (2022), no.~2262, 20220013.
+
+\bibitem{lions/mas-gallic:2001}
+P-L Lions and S~Mas-Gallic, \emph{{Une m\'ethode particulaire d\'eterministe
+  pour des \'equations diffusives non lin\'eaires}}, C. R. Acad. Sci. Paris
+  \textbf{332, S\'erie I} (2001), 369--376.
+
+\bibitem{neigel1993application}
+J~E Neigel and J~C Avise, \emph{Application of a random walk model to
+  geographic distributions of animal mitochondrial {DNA} variation}, Genetics
+  \textbf{135} (1993), no.~4, 1209--1220.
+
+\bibitem{oelschlaeger:1985}
+Karl Oelschl{\"a}ger, \emph{A law of large numbers for moderately interacting
+  diffusion processes}, Z. Wahrsch. verw. Geb. \textbf{69} (1985), no.~2,
+  279--322.
+
+\bibitem{oelschlaeger:1989}
+\bysame, \emph{On the derivation of reaction-diffusion equations as limit
+  dynamics of systems of moderately interacting stochastic processes}, Prob.
+  Theor. Rel. Fields \textbf{82} (1989), no.~4, 565--586.
+
+\bibitem{penington:2017}
+S~Penington, \emph{{The spreading speed of solutions of the non-local
+  Fisher-KPP equation}}, J. Functional Anal. \textbf{275} (2017), no.~12,
+  3259--3302.
+
+\bibitem{perkins:1992}
+E~A Perkins, \emph{{Measure-valued branching diffusions with spatial
+  interactions}}, Prob. Th. Rel. Fields \textbf{94} (1992), 189--245.
+
+\bibitem{potts/borger:2023}
+Jonathan~R. Potts and Luca Börger, \emph{How to scale up from animal movement
+  decisions to spatiotemporal patterns: An approach via step selection},
+  Journal of Animal Ecology \textbf{92} (2023), no.~1, 16--29.
+
+\bibitem{rebolledo:1980}
+R~Rebolledo, \emph{{Sur l'existence de solutions \'a certains probl\`emes de
+  semimartingales}}, C. R. Acad. Sci. Paris \textbf{290} (1980), 843--846.
+
+\bibitem{roques2012allee}
+Lionel Roques, Jimmy Garnier, François Hamel, and Etienne~K. Klein,
+  \emph{Allee effect promotes diversity in traveling waves of colonization},
+  Proceedings of the National Academy of Sciences \textbf{109} (2012), no.~23,
+  8828--8833.
+
+\bibitem{sasaki1997clumped}
+Akira Sasaki, \emph{Clumped distribution by neighbourhood competition}, J.
+  Theor. Biol. \textbf{186} (1997), no.~4, 415--430.
+
+\bibitem{sherratt:2010}
+J~A Sherratt, \emph{On the form of smooth-front travelling waves in a
+  reaction-diffusion equation with degenerate nonlinear diffusion}, Math.
+  Model. Nat. Phenom. \textbf{5} (2010), no.~5, 64--79.
+
+\bibitem{sheu:1991}
+S~J Sheu, \emph{{Some estimates of the transition density of a nondegenerate
+  diffusion Markov process}}, Ann. Probab. \textbf{19} (1991), no.~2, 538--561.
+
+\bibitem{young2001reproductive}
+W.~R. Young, A.~J. Roberts, and G.~Stuhne, \emph{Reproductive pair correlations
+  and the clustering of organisms}, Nature \textbf{412} (2001), no.~6844,
+  328--331.
+
+\bibitem{zhu2023density}
+Jinlei Zhu, Nataša Lukić, Jörn Pagel, and Frank~M. Schurr, \emph{Density
+  dependence of seed dispersal and fecundity profoundly alters the spread
+  dynamics of plant populations}, Journal of Ecology \textbf{111} (2023),
+  no.~8, 1735--1748.
+
+\end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                               %%
 %% You may add acknowledgments (optional).                       %%
